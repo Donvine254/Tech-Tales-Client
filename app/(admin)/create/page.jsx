@@ -4,26 +4,26 @@ export default function page() {
       <form className="bg-gray-200 md:w-2/3 border m-auto p-8 rounded-sm">
         <label
           for="title"
-          className="p-4 mt-2 text-xl md:text-2xl text-center font-bold text-black">
+          className="p-2 mt-2 text-xl md:text-2xl text-center font-bold text-black">
           Blog Title
         </label>
         <input
           className="blog-input-field focus:outline-none"
           type="text"
           name="title"
-          placeholder="write your blog title here"
+          placeholder="Write your blog title here"
         />
         <br></br>
         <label
           for="title"
-          className="p-4 mt-2 text-xl md:text-2xl text-center font-bold text-black">
+          className="p-2 mt-2 text-xl md:text-2xl text-center font-bold text-black">
           Cover Image
         </label>
         <input
           className="blog-input-field focus:outline-none"
           type="text"
           name="title"
-          placeholder="paste the url for the cover image"
+          placeholder="Paste the url for the cover image"
         />
         <br className="mt-8"></br>
         <textarea
