@@ -3,10 +3,14 @@ import Link from "next/link";
 import { FaLock } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { SlLogin } from "react-icons/sl";
+import { useRouter } from 'next/navigation';
 
 export default function page() {
+  const navigate = useRouter()
   function handleLogin(e) {
     e.preventDefault();
+    navigate.push('/home');
+
   }
   return (
     <div className="">
