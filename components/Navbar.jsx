@@ -24,7 +24,7 @@ export default function Navbar() {
             />
           )}
         </div>
-        <Link href="/">
+        <Link href="/home">
           <h1 className="text-xl md:text-3xl font-bold lg:text-4xl m-auto cursor-pointer">
             Tech Tales{" "}
             <span className="text-red-600 text-2xl md:text-5xl">.</span>
@@ -45,13 +45,13 @@ export default function Navbar() {
       </div>
       <div className="max-w-7xl mx-auto md:w-2/3">
         <div className="flex justify-center md:justify-start md:ml-5  md:gap-4 items-center">
-          <Link href="/featured" className="navigation">
+          <Link href="blogs/featured" className="navigation">
             Featured
           </Link>
-          <Link href="/latest" className="navigation">
+          <Link href="blogs/latest" className="navigation">
             Latest
           </Link>
-          <Link href="/blog/user" className="navigation">
+          <Link href="/blogs/user" className="navigation">
             For You
           </Link>
         </div>

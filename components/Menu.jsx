@@ -20,11 +20,11 @@ export const Menu = ({ handleClick, menuOpen }) => {
         <FaEdit />
         Create Blog
       </Link>
-      <Link href="/favorites" className="menu-item">
+      <Link href="blogs/user" className="menu-item">
         <BsBookmarks />
         Library
       </Link>
-      <Link href="/blogs" className="menu-item">
+      <Link href="blogs/favorites" className="menu-item">
         <FaBookOpen />
         Stories
       </Link>
