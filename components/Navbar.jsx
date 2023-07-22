@@ -26,7 +26,7 @@ export default function Navbar() {
         </div>
         <Link href="/home">
           <h1 className="text-xl md:text-3xl font-bold lg:text-4xl m-auto cursor-pointer">
-            Tech Tales{" "}
+            Tech Tales
             <span className="text-red-600 text-2xl md:text-5xl">.</span>
           </h1>
         </Link>
@@ -39,7 +39,7 @@ export default function Navbar() {
           </Link>
           <img
             src="https://d2win24dv6pngl.cloudfront.net/media/generated/profile-photos/profile-1298663/60cc7564d4a37d90.af828114ed82.jpg"
-            className="avatar md:mr-5"
+            className="avatar md:mr-5" alt="user-avatar"
           />
         </div>
       </div>

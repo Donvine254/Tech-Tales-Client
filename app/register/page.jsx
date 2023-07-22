@@ -15,7 +15,7 @@ export default function page () {
        
       </div>
       <div className="login-page">
-        <h1 className="text-xl md:text-2xl font-bold text-center">Welcome Back</h1>
+        <h1 className="text-xl md:text-2xl font-bold text-center">Welcome on Board</h1>
         <form className="p4 m3">
           <div className="relative">
             <label htmlFor="username">Username: </label>

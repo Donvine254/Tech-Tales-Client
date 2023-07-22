@@ -5,7 +5,7 @@ import { MdEmail } from "react-icons/md";
 import { SlLogin } from "react-icons/sl";
 import { useRouter } from 'next/navigation';
 
-export default function page() {
+export default function Login () {
   const navigate = useRouter()
   function handleLogin(e) {
     e.preventDefault();
@@ -61,7 +61,7 @@ export default function page() {
         </form>
         <br></br>
         <div className="shadow-lg border p-2 border-blue-500">
-          Don't have an account ? <br className="hidden lg:block" />
+          Don&#39;t have an account ? <br className="hidden lg:block" />
           <Link href="/register" className="login__link">
             Register Here
           </Link>

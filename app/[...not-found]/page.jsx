@@ -20,7 +20,7 @@ export default function notFound() {
               This page got lost in the conversation
             </h1>
             <p className="my-2 md:text-xl">
-              You must have picked the wrong door because i haven't been able to
+              You must have picked the wrong door because i have not been able to
               lay an eye on the page you are searching for.
             </p>
 
@@ -32,11 +32,11 @@ export default function notFound() {
             </Link>
 
             <div>
-              <img src="https://i.ibb.co/G9DC8S0/404-2.png" />
+              <img src="https://i.ibb.co/G9DC8S0/404-2.png" alt="not-found" />
             </div>
           </div>
           <div>
-            <img src="https://i.ibb.co/ck1SGFJ/Group.png" />
+            <img src="https://i.ibb.co/ck1SGFJ/Group.png"alt="another 404? Jesus!" />
           </div>
         </div>
       </div>
