@@ -45,13 +45,13 @@ export default function Navbar() {
       </div>
       <div className="max-w-7xl mx-auto md:w-2/3">
         <div className="flex justify-center md:justify-start md:ml-5  md:gap-4 items-center">
-          <Link href="blogs/featured" className="navigation">
+          <Link href="/featured" className="navigation">
             Featured
           </Link>
-          <Link href="blogs/latest" className="navigation">
+          <Link href="/latest" className="navigation">
             Latest
           </Link>
-          <Link href="/blogs/user" className="navigation">
+          <Link href="/my-blogs" className="navigation">
             For You
           </Link>
         </div>

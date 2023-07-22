@@ -16,15 +16,24 @@ export const Menu = ({ handleClick, menuOpen }) => {
         Tech Tales <span className="text-red-600 text-5xl">.</span>
       </h1>
 
-      <Link href="/create" className=" menu-item">
+      <Link
+        href="/create"
+        className=" menu-item"
+        onClick={() => handleClick(!menuOpen)}>
         <FaEdit />
         Create Blog
       </Link>
-      <Link href="blogs/user" className="menu-item">
+      <Link
+        href="/my-blogs"
+        className="menu-item"
+        onClick={() => handleClick(!menuOpen)}>
         <BsBookmarks />
         Library
       </Link>
-      <Link href="blogs/favorites" className="menu-item">
+      <Link
+        href="/featured"
+        className="menu-item"
+        onClick={() => handleClick(!menuOpen)}>
         <FaBookOpen />
         Stories
       </Link>
