@@ -25,3 +25,44 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+.avatar{
+  @apply rounded-full w-8 h-8 md:w-10 md:h-10 shadow-md mr-2
+}
+.menu-item{
+  @apply flex items-center gap-2 px-3 py-2 font-bold hover:text-blue-600 
+}
+.btn-primary{
+  @apply rounded-sm p-2 px-4 shadow-md m-3 border border-sky-500 hover:bg-sky-500
+}
+.btn-secondary{
+  @apply rounded-full flex items-center py-2 m-5 px-8 shadow-md border border-sky-500 hover:bg-sky-500 
+}
+.navigation{
+  @apply md:text-xl font-bold cursor-pointer active:underline-offset-8 hover:bg-slate-300 hover:rounded-lg p-2 px-4 md:gap-5
+}
+.navigation__footer{
+  @apply md:text-xl font-bold cursor-pointer active:underline-offset-8 hover:text-blue-400 p-2 px-4
+}
+
+#email-icon,
+#password-icon{
+    @apply absolute bottom-6 left-0 mt-5
+}
+.login-page {
+    @apply w-full md:w-3/4 lg:w-1/2 max-w-lg lg:m-auto min-w-min mx-auto border border-blue-500 rounded-lg md:p-16 p-10 text-xl shadow-md;
+  }
+  
+  .input-field {
+    @apply mb-3 bg-transparent p-2 w-full border-b-2 border-blue-500 text-white outline-none pl-8
+  }
+  
+  label {
+    @apply font-bold;
+  }
+  
+.login__link {
+   @apply underline text-blue-500 cursor-pointer hover:text-blue-800 font-bold
+  }
+.login-button{
+    @apply  rounded-full w-full py-2 mt-2 font-bold px-8 shadow-md border border-blue-500 hover:bg-blue-500 flex items-center justify-center gap-1
+}
