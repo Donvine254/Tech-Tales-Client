@@ -61,7 +61,7 @@ body {
   }
   
 .login__link {
-   @apply underline text-blue-500 cursor-pointer hover:text-blue-800 font-bold
+   @apply underline text-blue-500 cursor-pointer hover:text-green-800 font-bold
   }
 .login-button{
     @apply  rounded-full w-full py-2 mt-2 font-bold px-8 shadow-md border border-blue-500 hover:bg-blue-500 flex items-center justify-center gap-1

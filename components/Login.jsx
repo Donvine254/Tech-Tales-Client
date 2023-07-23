@@ -1,13 +1,13 @@
 "use client";
 import Link from "next/link";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import Swal from "sweetalert2";
 import { FaLock } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { SlLogin } from "react-icons/sl";
 import { useRouter } from "next/navigation";
 
-export default function Login() {
+export default function useLogin() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [loginData, setLoginData] = useState({
@@ -25,7 +25,14 @@ export default function Login() {
 
   function handleLogin(e) {
     e.preventDefault();
-    navigate.push("/home");
+    navigate.replace("/home");
+    Swal.fire({
+      icon:"success",
+      title: "Login Successful!",
+      text:"You will be redirected to the homepage in a few seconds.",
+      showCloseButton: true
+
+    })
   }
   return (
     <div className="">
@@ -83,10 +90,10 @@ export default function Login() {
           </button>
         </form>
         <br></br>
-        <div className="shadow-lg border p-2 border-blue-500">
-          Don&#39;t have an account ? <br className="hidden lg:block" />
+        <div className="shadow-lg border-t-2 p-2 border-t-slate-500">
+          <p className="text-center text-xl font-bold">Or</p>
           <Link href="/register" className="login__link">
-            Register Here
+            <p className="mx-auto text-center">Register Here</p>
           </Link>
         </div>
       </div>

@@ -6,7 +6,7 @@ import { MdEmail } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 
-export default function page() {
+export default function useRegister() {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
