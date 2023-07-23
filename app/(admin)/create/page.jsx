@@ -1,8 +1,8 @@
 "use client";
-import { useState } from "react";
-import Swal from "sweetalert2";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { slugify, createBlog } from "@/lib";
+import Swal from "sweetalert2";
 
 export default function useCreate() {
   const navigate = useRouter();
@@ -20,9 +20,24 @@ export default function useCreate() {
       slug: slugify(blogData.title),
     }));
   };
+  function saveDraft() {
+    localStorage.setItem('draftBlog', JSON.stringify(blogData));
+    Swal.fire({
+      html:"<p>✅ draft saved successfully</p>",
+      showConfirmButton: false,
+      timer: 3000
+    })
+  }
+  useEffect(() => {
+    const draftBlogData = localStorage.getItem('draftBlog');
+    if (draftBlogData) {
+      setBlogData(JSON.parse(draftBlogData));
+    }
+  }, []);
   function handleSubmit(e) {
     e.preventDefault();
-    createBlog(blogData, navigate, setBlogData)
+    createBlog(blogData, navigate, setBlogData);
+    localStorage.removeItem('draftBlog');
   }
 
   return (
@@ -77,6 +92,7 @@ export default function useCreate() {
           </button>
           <button
             type="button"
+            onClick={saveDraft}
             className="bg-transparent text-black hover:bg-slate-300 border hover:text-blue-500 border-blue-500 px-2 p-2 rounded-md">
             Save Draft
           </button>
