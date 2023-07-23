@@ -4,7 +4,7 @@ import { useState } from "react";
 import { FaLock, FaUserAlt, FaEdit } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { useRouter } from "next/navigation";
-import Swal from "sweetalert2";
+import { registerUser } from "@/lib";
 
 export default function useRegister() {
   const [showPassword, setShowPassword] = useState(false);
@@ -23,13 +23,7 @@ export default function useRegister() {
   };
   function handleSubmit(e) {
     e.preventDefault();
-    Swal.fire({
-      icon: 'success',
-      title: "Registration Successful",
-      text: "Thank you for registering! Proceed to log in with your new credentials",
-      showCloseButton: true
-    });
-    navigate.replace('/login');
+    registerUser(formData, navigate)
   }
 
   return (

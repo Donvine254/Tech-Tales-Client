@@ -11,7 +11,6 @@ You can use this api in with the front-end tech-tales available here [see repo](
 * **Javascript ES2015**
 * **Tailwind CSS**
 * **Axios**
-* **Tailwind UI and Headless UI**
 
 ## Getting Started
 Fork and clone this project to your local system and navigate to the project folder, then run the development server:

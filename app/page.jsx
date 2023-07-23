@@ -1,6 +1,6 @@
 import { Login } from "@/components";
 
-export default function page () {
+export default function Page () {
 
   return (
     <>

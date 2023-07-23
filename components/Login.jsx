@@ -1,20 +1,39 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { FaLock } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { SlLogin } from "react-icons/sl";
 import { useRouter } from "next/navigation";
+import { validateLogin } from "@/lib";
+import Axios from "axios";
+import { getCurrentUser } from "@/lib";
+const usersApi = "https://basalt-equatorial-paw.glitch.me/users";
 
 export default function useLogin() {
-
+  const [userData, setUserData] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
   });
   const navigate = useRouter();
+  //fetch all users and check for the user, with the database, we will need to fetch using the userdata:
+  const user = getCurrentUser();
+  console.log(user);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await Axios.get(usersApi);
+        setUserData(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
   const handleChange = (event) => {
     const { name, value } = event.target;
     setLoginData((prevData) => ({
@@ -25,14 +44,24 @@ export default function useLogin() {
 
   function handleLogin(e) {
     e.preventDefault();
-    navigate.replace("/home");
-    Swal.fire({
-      icon:"success",
-      title: "Login Successful!",
-      text:"You will be redirected to the homepage in a few seconds.",
-      showCloseButton: true
-
-    })
+    const loginSuccessful = validateLogin(loginData, userData);
+    if (loginSuccessful) {
+      navigate.replace("/home");
+      Swal.fire({
+        icon: "success",
+        title: "Login Successful!",
+        text: "You will be redirected to the homepage in a few seconds.",
+        showCloseButton: true,
+      });
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Login Failed!",
+        text: "Invalid email or password. Please try again.",
+        showCloseButton: true,
+        showCancelButton: true,
+      });
+    }
   }
   return (
     <div className="">

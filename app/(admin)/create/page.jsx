@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
-import { slugify } from "@/lib";
+import { slugify, createBlog } from "@/lib";
 
 export default function useCreate() {
   const navigate = useRouter();
@@ -22,22 +22,7 @@ export default function useCreate() {
   };
   function handleSubmit(e) {
     e.preventDefault();
-    Swal.fire({
-      icon: "success",
-      title: "Blog submitted successfully",
-      text: "You have successfully submitted your blog for publishing, it will appear on your blogs list shortly",
-      confirmButtonColor: "#007500",
-      showCloseButton: true,
-      timer:3000,
-    });
-    setBlogData({
-      title: "",
-      image: "",
-      body: "",
-      slug: "",
-    });
-    console.log(blogData);
-    navigate.replace("/my-blogs")
+    createBlog(blogData, navigate, setBlogData)
   }
 
   return (
