@@ -31,16 +31,23 @@ export default function Navbar() {
           </h1>
         </Link>
         <div className="flex items-center md:gap-1">
-          <Search/>
+          <Search />
           <Link href="/create">
             <button type="button" className="hidden md:block btn-primary">
               Create Post
             </button>
           </Link>
-          <img
-            src="https://d2win24dv6pngl.cloudfront.net/media/generated/profile-photos/profile-1298663/60cc7564d4a37d90.af828114ed82.jpg"
-            className="avatar md:mr-5" alt="user-avatar"
-          />
+          <picture className="avatar md:mr-8">
+            <source
+              media="(min-width:300px )"
+              srcset="https://d2win24dv6pngl.cloudfront.net/media/generated/profile-photos/profile-1298663/60cc7564d4a37d90.af828114ed82.jpg"
+            />
+            <img
+              src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+              className="avatar md:mr-8 "
+              alt="user-avatar"
+            />
+          </picture>
         </div>
       </div>
       <div className="max-w-7xl mx-auto md:w-2/3">
