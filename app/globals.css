@@ -49,7 +49,7 @@ body {
     @apply absolute bottom-6 left-0 mt-5
 }
 .login-page {
-    @apply w-full md:w-3/4 lg:w-1/2 max-w-lg lg:m-auto min-w-min mx-auto border border-blue-500 rounded-lg md:p-16 p-10 text-xl shadow-md;
+    @apply w-full md:w-3/4 lg:w-1/2 max-w-lg lg:m-auto min-w-min mx-auto border border-blue-500 dark:border-white rounded-lg md:p-16 p-10 text-xl shadow-md;
   }
   
   .input-field {

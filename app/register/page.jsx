@@ -1,33 +1,63 @@
+'use client'
 import Link from "next/link";
-import {FaLock, FaUserAlt, FaEdit} from 'react-icons/fa'
-import {MdEmail} from 'react-icons/md';
+import { useState } from "react";
+import { FaLock, FaUserAlt, FaEdit } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
+import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
 
-
-export default function page () {
+export default function page() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+  const navigate = useRouter();
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+  function handleSubmit(e) {
+    e.preventDefault();
+    Swal.fire({
+      icon: 'success',
+      title: "Registration Successful",
+      text: "Thank you for registering! Proceed to log in with your new credentials",
+      showCloseButton: true
+    });
+    navigate.replace('/login');
+  }
 
   return (
     <div className="">
       <div className="">
-          <h1 className="text-2xl m-5 text-center md:text-left md:text-3xl font-bold lg:text-4xl cursor-pointer">
-            Tech Tales{" "}
-            <span className="text-red-600 text-2xl md:text-5xl">.</span>
-          </h1>
-       
+        <h1 className="text-2xl m-5 text-center md:text-left md:text-3xl font-bold lg:text-4xl cursor-pointer">
+          Tech Tales{" "}
+          <span className="text-red-600 text-2xl md:text-5xl">.</span>
+        </h1>
       </div>
       <div className="login-page">
-        <h1 className="text-xl md:text-2xl font-bold text-center">Welcome on Board</h1>
-        <form className="p4 m3">
+        <h1 className="text-xl md:text-2xl font-bold text-center">
+          Welcome on Board
+        </h1>
+        <form className="p4 m3" onSubmit={handleSubmit}>
           <div className="relative">
             <label htmlFor="username">Username: </label>
             <br></br>
             <input
               type="text"
               name="username"
+              value={formData.username}
+              onChange={handleChange}
               placeholder="Enter your username"
               className="input-field  focus:bg-blue-600"
               required
             />
-            <FaUserAlt id="email-icon"/>
+            <FaUserAlt id="email-icon" />
           </div>
           <div className="relative">
             <label htmlFor="email">Email: </label>
@@ -35,38 +65,49 @@ export default function page () {
             <input
               type="email"
               name="email"
+              value={formData.email}
+              onChange={handleChange}
               placeholder="Enter your email"
               className="input-field  focus:bg-blue-600"
               required
             />
-            <MdEmail id="email-icon"/>
+            <MdEmail id="email-icon" />
           </div>
           <div className="relative">
             <label htmlFor="password">Password :</label>
             <br></br>
             <input
-              type="password"
+              type={!showPassword ? "password" : "text"}
               name="password"
+              value={formData.password}
+              onChange={handleChange}
               placeholder="Enter your password"
               minLength={8}
               required
               className="input-field focus:bg-blue-600"
             />
-            <FaLock id="password-icon"/>
+            <FaLock id="password-icon" />
           </div>
-          <input type="checkbox"/>
-          <span> Show Password</span>
+          <input
+            type="checkbox"
+            value={showPassword}
+            onChange={() => setShowPassword(!showPassword)}
+          />
+          <span> {!showPassword ? "Show" : "Hide"} Password</span>
           <p className="pt-3">
-            By continuing, you agree to the <a className="login__link">Terms and Conditions</a>
+            By continuing, you agree to the{" "}
+            <a className="login__link">Terms and Conditions</a>
           </p>
           <button type="submit" className="login-button">
-           <FaEdit/> Register
+            <FaEdit /> Register
           </button>
         </form>
         <br></br>
-        <div
-          className="shadow-lg border p-2 border-blue-500">
-          Already signed up? <br className="hidden lg:block"/><Link href="/login" className="login__link">Login Here</Link>
+        <div className="shadow-lg border p-2 border-blue-500">
+          Already signed up? <br className="hidden lg:block" />
+          <Link href="/login" className="login__link">
+            Login Here
+          </Link>
         </div>
       </div>
     </div>

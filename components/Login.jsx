@@ -1,16 +1,31 @@
-'use client'
+"use client";
 import Link from "next/link";
+import { useState, useContext } from "react";
+import Swal from "sweetalert2";
 import { FaLock } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { SlLogin } from "react-icons/sl";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
-export default function Login () {
-  const navigate = useRouter()
+export default function Login() {
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
+  });
+  const navigate = useRouter();
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setLoginData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
   function handleLogin(e) {
     e.preventDefault();
-    navigate.push('/home');
-
+    navigate.push("/home");
   }
   return (
     <div className="">
@@ -31,6 +46,8 @@ export default function Login () {
             <input
               type="email"
               name="email"
+              value={loginData.email}
+              onChange={handleChange}
               placeholder="Type your email"
               className="input-field  focus:bg-blue-600"
               required
@@ -41,8 +58,10 @@ export default function Login () {
             <label htmlFor="password">Password :</label>
             <br></br>
             <input
-              type="password"
+              type={!showPassword ? "password" : "text"}
               name="password"
+              value={loginData.password}
+              onChange={handleChange}
               placeholder="Type your password"
               minLength={8}
               required
@@ -50,8 +69,12 @@ export default function Login () {
             />
             <FaLock id="password-icon" />
           </div>
-          <input type="checkbox" />
-          <span> Show Password</span>
+          <input
+            type="checkbox"
+            value={showPassword}
+            onChange={() => setShowPassword(!showPassword)}
+          />
+          <span> {!showPassword ? "Show" : "Hide"} Password</span>
           <p className="pt-3">
             Forgot Password? <a className="login__link"> Click here</a>
           </p>
