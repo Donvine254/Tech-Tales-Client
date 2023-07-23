@@ -2,12 +2,14 @@
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
+import { slugify } from "@/lib";
 
 export default function useCreate() {
   const navigate = useRouter();
   const [blogData, setBlogData] = useState({
     title: "",
     image: "",
+    slug:"",
     body: "",
   });
   const handleChange = (event) => {
@@ -15,6 +17,7 @@ export default function useCreate() {
     setBlogData((prevData) => ({
       ...prevData,
       [name]: value,
+      slug: slugify(blogData.title),
     }));
   };
   function handleSubmit(e) {
@@ -25,12 +28,15 @@ export default function useCreate() {
       text: "You have successfully submitted your blog for publishing, it will appear on your blogs list shortly",
       confirmButtonColor: "#007500",
       showCloseButton: true,
+      timer:3000,
     });
     setBlogData({
       title: "",
       image: "",
       body: "",
+      slug: "",
     });
+    console.log(blogData);
     navigate.replace("/my-blogs")
   }
 
