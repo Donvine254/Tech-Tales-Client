@@ -25,6 +25,7 @@ export default function useCreate() {
     Swal.fire({
       html:"<p>✅ draft saved successfully</p>",
       showConfirmButton: false,
+      showCloseButton: true,
       timer: 3000
     })
   }
