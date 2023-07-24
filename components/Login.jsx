@@ -19,7 +19,6 @@ export default function useLogin() {
   });
   const navigate = useRouter();
   //fetch all users and check for the user, with the database, we will need to fetch using the userdata:
-  console.log(user);
   useEffect(() => {
     const fetchData = async () => {
       try {
