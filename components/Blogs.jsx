@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { GoClock } from "react-icons/go";
 import { MdOutlineBookmarkAdd } from "react-icons/md";
+import Image from "next/image";
 
 export default function BlogsComponent({ blogsUrl }) {
   const [blogs, setBlogs] = useState([]);
@@ -24,17 +25,13 @@ export default function BlogsComponent({ blogsUrl }) {
           <article className="">
             <div className="flex xsm:block gap-5 items-center">
               <div className="flex gap-0 items-center">
-                <picture className="avatar">
-                  <source
-                    media="(min-width:1280px )"
-                    srcSet="https://d2win24dv6pngl.cloudfront.net/media/generated/profile-photos/profile-1298663/60cc7564d4a37d90.af828114ed82.jpg"
-                  />
-                  <img
-                    src="https://d2win24dv6pngl.cloudfront.net/media/generated/profile-photos/profile-1298663/60cc7564d4a37d90.af828114ed82.jpg"
-                    className="avatar md:mr-8 "
-                    alt="user-avatar"
-                  />
-                </picture>
+              <Image
+                src="https://d2win24dv6pngl.cloudfront.net/media/generated/profile-photos/profile-1298663/60cc7564d4a37d90.af828114ed82.jpg"
+                className="avatar"
+                width={32}
+                height={32}
+                alt="user-avatar"
+              />
                 <p className="font-bold xsm:text-base text-xl md:text-2xl">
                   Donvine Mugendi
                 </p>
@@ -45,17 +42,16 @@ export default function BlogsComponent({ blogsUrl }) {
               </p>
             </div>
             <Link
-              href={`/${blog.slug}`}
+              href={`/blogs/${blog.slug}`}
               className="space-y-3 xl:col-span-3">
               <h1 className="font-bold text-xl md:text-2xl dark:text-blue-500 py-4">
                 {blog.title}
               </h1>
             </Link>
-            {/* <p className="text-base leading-8">{trimBlogBody(blog.body, 2)}</p> */}
             <p className="text-base leading-8 line-clamp-2 py-2">{blog.body}</p>
           </article>
           <div className="flex items-center justify-between py-2">
-            <Link href={`/${blog.slug}`}>Read &#8599;</Link>
+            <Link href={`/blogs/${blog.slug}`}>Read &#8599;</Link>
             <p className="text-base flex items-center gap-1 md:gap-2 bg-slate-300 rounded-full text-black px-2">
               <GoClock />
               {calculateReadingTime(blog.body)} min{" "}

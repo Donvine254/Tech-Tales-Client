@@ -1,8 +1,10 @@
 
 import Link from "next/link";
 import React from "react";
+import Image from "next/image";
 
 export default function notFound() {
+
   return (
     <main className="h-screen m-5">
       <Link href="/home">
@@ -33,17 +35,23 @@ export default function notFound() {
             </Link>
 
             <div>
-              <picture>
-                <source media="(min-width:650px)" srcset="https://i.ibb.co/G9DC8S0/404-2.png"/>
-                <img src="https://i.ibb.co/G9DC8S0/404-2.png" alt="not-found" />
-              </picture>
+            <Image
+                src="https://wpklik.com/wp-content/uploads/2019/03/A-404-Page-Best-Practices-and-Design-Inspiration.jpg"
+                className="p-1"
+                width={400}
+                height={400}
+                alt="not found"
+              />
             </div>
           </div>
           <div>
-            <picture>
-              <source media="(min-width:650px )" srcset="https://i.ibb.co/ck1SGFJ/Group.png" />
-              <img src="https://i.ibb.co/ck1SGFJ/Group.png"alt="another 404? Jesus!" />
-            </picture>
+          <Image
+                src="https://i.ibb.co/ck1SGFJ/Group.png"
+                className="p-1"
+                width={400}
+                height={400}
+                alt="another 404? Jesus!"
+              />
           </div>
         </div>
       </div>

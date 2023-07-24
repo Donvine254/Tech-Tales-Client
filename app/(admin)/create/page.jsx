@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { slugify, createBlog } from "@/lib";
 import Swal from "sweetalert2";
+// import { getCurrentUser } from "@/lib";
 
 export default function useCreate() {
   const navigate = useRouter();

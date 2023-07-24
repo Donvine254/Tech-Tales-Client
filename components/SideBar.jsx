@@ -13,7 +13,7 @@ export default function Component (){
           minLength={10}
           className="bg-slate-500 dark:bg-gray-900 py-2 px-2 w-full focus:outline-none dark:text-white"
         />
-        <button className="mt-2 dark:text-gray-300 bg-slate-400 text-base border py-1 shadow-xl dark:bg-slate-800 dark:border-none px-2">
+        <button className="mt-2 dark:text-gray-300 bg-slate-400 hover:bg-slate-300 text-base border py-1 shadow-xl dark:bg-slate-800 hover:text-black dark:border-none px-2">
           Subscribe
         </button>
         <h1 className="font-bold py-2 mt-4">

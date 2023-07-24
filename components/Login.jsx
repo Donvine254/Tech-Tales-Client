@@ -8,7 +8,6 @@ import { SlLogin } from "react-icons/sl";
 import { useRouter } from "next/navigation";
 import { validateLogin } from "@/lib";
 import Axios from "axios";
-import { getCurrentUser } from "@/lib";
 const usersApi = "https://basalt-equatorial-paw.glitch.me/users";
 
 export default function useLogin() {
@@ -20,7 +19,6 @@ export default function useLogin() {
   });
   const navigate = useRouter();
   //fetch all users and check for the user, with the database, we will need to fetch using the userdata:
-  const user = getCurrentUser();
   console.log(user);
   useEffect(() => {
     const fetchData = async () => {

@@ -5,6 +5,7 @@ import { Search } from "./Search";
 import {SearchMD } from "./SearchMD";
 import Link from "next/link";
 import { Menu } from "./Menu";
+import Image from "next/image";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -38,17 +39,13 @@ export default function Navbar() {
               Create Post
             </button>
           </Link>
-          <picture className="avatar md:mr-8">
-            <source
-              media="(min-width:300px )"
-              srcset="https://d2win24dv6pngl.cloudfront.net/media/generated/profile-photos/profile-1298663/60cc7564d4a37d90.af828114ed82.jpg"
-            />
-            <img
-              src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-              className="avatar md:mr-8 "
-              alt="user-avatar"
-            />
-          </picture>
+          <Image
+                src="https://d2win24dv6pngl.cloudfront.net/media/generated/profile-photos/profile-1298663/60cc7564d4a37d90.af828114ed82.jpg"
+                className="avatar md:mr-8"
+                width={32}
+                height={32}
+                alt="user-avatar"
+              />
         </div>
       </div>
       <SearchMD/>
