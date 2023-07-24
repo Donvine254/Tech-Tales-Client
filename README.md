@@ -5,6 +5,9 @@ This project is a simple school blog for software developers students and senior
 You can use this api in with the front-end tech-tales available here [see repo](https://github.com/Donvine254/Tech-Tales-Server)
 
 *You will need to ensure that the backend is up and running before starting the application.*
+
+## Deployed Site
+View the deployed site here [techtales.vercel.app](https://techtales.vercel.app/)
 ## Technologies Used
 * **React**
 * **Next.js**

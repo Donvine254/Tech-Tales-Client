@@ -11,10 +11,9 @@ export const Menu = ({ handleClick, menuOpen }) => {
   const user = getCurrentUser();
   function handleSignout() {
     clearCurrentUser();
-    console.log(user)
   }
   return (
-    <nav className="absolute left-0 top-1 space-y-10 mt-3 md:mt-5 dark:bg-gray-900 shadow-lg bg-slate-100 py-4 rounded-lg md:w-60 w-2/3 z-50 h-screen">
+    <nav className="absolute left-0 top-1 space-y-10 md:mt-5 dark:bg-gray-900 shadow-lg bg-slate-100 py-4 rounded-lg md:w-60 w-2/3 z-50 h-screen">
       <h1
         className="absolute top-0 right-0 text-4xl mr-2 hover:scale-125 ease-in-out cursor-pointer"
         onClick={() => handleClick(!menuOpen)}>
