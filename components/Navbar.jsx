@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { FaBars } from "react-icons/fa";
 import { Search } from "./Search";
+import {SearchMD } from "./SearchMD";
 import Link from "next/link";
 import { Menu } from "./Menu";
 
@@ -9,7 +10,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   return (
     <>
-      <div className="p-2 flex w-full m-2 items-center justify-between relative">
+      <div className="p-2 flex w-full m-2 items-center justify-between sticky top-1 dark:bg-slate-900 z-50 bg-gray-200">
         <div className="w-10">
           {!menuOpen ? (
             <FaBars
@@ -50,6 +51,7 @@ export default function Navbar() {
           </picture>
         </div>
       </div>
+      <SearchMD/>
       <div className="max-w-7xl mx-auto md:w-2/3">
         <div className="flex justify-center md:justify-start md:ml-5  md:gap-4 items-center">
           <Link href="/featured" className="navigation">
