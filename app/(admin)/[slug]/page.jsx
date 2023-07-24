@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { fetchBlogs } from "@/lib";
+import { fetchBlogs, postComment } from "@/lib";
 import { MdOutlineBookmarkAdd } from "react-icons/md";
 import { BiLike } from "react-icons/bi";
 import { FaRegComment } from "react-icons/fa";
@@ -11,6 +11,12 @@ export default function BlogsPage({ params }) {
   const [blogs, setBlogs] = useState([]);
   const [currentBlog, setCurrentBlog] = useState([]);
   const [comment, setComment] = useState([]);
+
+  const commentData= {
+    "author": "Donvine Mugendi",
+    "comment": comment
+  }
+
 
   useEffect(() => {
     fetchBlogs(url)
@@ -25,8 +31,18 @@ export default function BlogsPage({ params }) {
       .catch((error) => {
         console.error("Error fetching blogs:", error);
       });
-  }, [params.slug]);
-  console.log(currentBlog)
+  }, [params.slug, currentBlog]);
+  
+  function handleSubmit(e){
+    e.preventDefault();
+    if(comment===''){
+        return false;
+    }
+    postComment(currentBlog.id, url, commentData, setBlogs);
+    setComment('')
+    console.log(currentBlog.id)
+  }
+
 
   return (
     <div className="w-full mx-auto m-4 px-8 md:w-2/3">
@@ -89,7 +105,7 @@ export default function BlogsPage({ params }) {
       </div>
       <h1 className="text-bold text-xl md:text-2xl py-4 font-bold">Comments</h1>
       <hr className="divide-blue-500" />
-      <form className="mt-4">
+      <form className="mt-4"onSubmit={handleSubmit}>
         <div className="flex gap-1 xsm:gap-0">
           <picture className="avatar xsm:mr-0 xsm:p-0">
             <source
