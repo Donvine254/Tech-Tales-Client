@@ -5,6 +5,8 @@ import { MdOutlineBookmarkAdd } from "react-icons/md";
 import { BiLike } from "react-icons/bi";
 import {AiFillLike} from 'react-icons/ai';
 import { FaRegComment } from "react-icons/fa";
+import {MdEdit} from 'react-icons/md'
+import {GoTrash} from 'react-icons/go'
 import Image from "next/image";
 
 const url = "https://basalt-equatorial-paw.glitch.me/blogs";
@@ -160,6 +162,10 @@ export default function BlogsPage({ params }) {
             <p className="text-base py-2 leading-normal ml-16 xsm:ml-10">
               {comment.comment}
             </p>
+            <div className='py-2 flex items-center gap-4 ml-16 xsm:ml-10'>
+              <p className="flex items center gap-2"> <MdEdit className="text-xl font-bold hover:text-blue-500"/>Edit</p>
+              <p className="flex items center gap-2"><GoTrash className="text-xl font-bold hover:text-red-500"/>Delete</p>
+            </div>
           </div>
         ))
       ) : (

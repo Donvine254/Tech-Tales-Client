@@ -41,10 +41,11 @@ export default function Navbar() {
           </Link>
           <Image
                 src="https://d2win24dv6pngl.cloudfront.net/media/generated/profile-photos/profile-1298663/60cc7564d4a37d90.af828114ed82.jpg"
-                className="avatar md:mr-8"
+                className="avatar md:mr-8 cursor-pointer hover:scale-125 shadow"
                 width={32}
                 height={32}
                 alt="user-avatar"
+                onClick={() => setMenuOpen(true)}
               />
         </div>
       </div>

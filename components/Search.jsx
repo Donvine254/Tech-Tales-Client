@@ -16,7 +16,7 @@ export const Search = () => {
           placeholder="search..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="rounded-full bg-slate-200 dark:bg-gray-800 p-2 pl-10 px-4 w-64 focus:bg-gray-600 text-white focus:outline-none text-xl hidden md:block"
+          className="rounded-full bg-slate-200 dark:bg-gray-800 p-2 pl-10 px-4 w-64 focus:bg-gray-600 dark:hover:bg-gray-600 text-white focus:outline-none text-xl hidden md:block"
         />
         <FaSearch className="h-5 w-5 absolute left-3 text-gray-300 hidden md:block" />
       </form>
