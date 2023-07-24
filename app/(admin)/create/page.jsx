@@ -3,15 +3,19 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { slugify, createBlog } from "@/lib";
 import Swal from "sweetalert2";
-// import { getCurrentUser } from "@/lib";
+import { getCurrentUser } from "@/lib";
 
 export default function useCreate() {
+
+  const user = getCurrentUser();
+  
   const navigate = useRouter();
   const [blogData, setBlogData] = useState({
     title: "",
     image: "",
     slug:"",
     body: "",
+    user_id:"",
   });
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -19,6 +23,7 @@ export default function useCreate() {
       ...prevData,
       [name]: value,
       slug: slugify(blogData.title),
+      user_id:user.id
     }));
   };
   function saveDraft() {

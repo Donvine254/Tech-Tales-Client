@@ -8,29 +8,16 @@ import { SlLogin } from "react-icons/sl";
 import { useRouter } from "next/navigation";
 import { validateLogin } from "@/lib";
 import Axios from "axios";
-const usersApi = "https://basalt-equatorial-paw.glitch.me/users";
+const loginApi = "http://127.0.0.1:9393/login";
 
 export default function useLogin() {
-  const [userData, setUserData] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
   const [loginData, setLoginData] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
   const navigate = useRouter();
-  //fetch all users and check for the user, with the database, we will need to fetch using the userdata:
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await Axios.get(usersApi);
-        setUserData(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
 
-    fetchData();
-  }, []);
   const handleChange = (event) => {
     const { name, value } = event.target;
     setLoginData((prevData) => ({
@@ -39,24 +26,42 @@ export default function useLogin() {
     }));
   };
 
-  function handleLogin(e) {
+  async function handleLogin(e) {
     e.preventDefault();
-    const loginSuccessful = validateLogin(loginData, userData);
-    if (loginSuccessful) {
-      navigate.replace("/home");
+    try {
+      const response = await Axios.post(loginApi, loginData);
+      const data = response.data;
+      if (data.error) {
+        // If the response contains an error message
+        Swal.fire({
+          icon: 'error',
+          title: 'Login Failed!',
+          text: data.error,
+          showCloseButton: true,
+          showCancelButton: true,
+        });
+      } else {
+        // If the response contains user data (login successful)
+        const foundUser = data;
+        console.log(foundUser);
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('loggedInUser', JSON.stringify(foundUser));
+        }
+        navigate.replace('/home');
+        Swal.fire({
+          icon: 'success',
+          title: 'Login Successful!',
+          text: 'You will be redirected to the homepage in a few seconds.',
+          showCloseButton: true,
+        });
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
       Swal.fire({
-        icon: "success",
-        title: "Login Successful!",
-        text: "You will be redirected to the homepage in a few seconds.",
+        icon: 'error',
+        title: 'Login Failed!',
+        text: 'An error occurred during login. Please try again later.',
         showCloseButton: true,
-      });
-    } else {
-      Swal.fire({
-        icon: "error",
-        title: "Login Failed!",
-        text: "Invalid email or password. Please try again.",
-        showCloseButton: true,
-        showCancelButton: true,
       });
     }
   }

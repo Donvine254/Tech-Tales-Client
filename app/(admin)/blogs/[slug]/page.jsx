@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { fetchBlogs, postComment } from "@/lib";
+import { fetchBlogs, postComment ,getCurrentUser } from "@/lib";
 import { MdOutlineBookmarkAdd } from "react-icons/md";
 import { BiLike } from "react-icons/bi";
 import {AiFillLike} from 'react-icons/ai';
@@ -9,7 +9,7 @@ import {MdEdit} from 'react-icons/md'
 import {GoTrash} from 'react-icons/go'
 import Image from "next/image";
 
-const url = "https://basalt-equatorial-paw.glitch.me/blogs";
+const url = "http://127.0.0.1:9393/fullblogs";
 
 export default function BlogsPage({ params }) {
   const [blogs, setBlogs] = useState([]);
@@ -18,7 +18,16 @@ export default function BlogsPage({ params }) {
   const [newComment, setNewComment] = useState("");
   const [likes, setLikes]= useState(0)
   const [liked, setLiked]= useState(false)
+ 
+  
 
+  function getBlogId(blogId){
+    return blogId
+  }
+  const user = getCurrentUser()
+
+  const blogId= getBlogId
+  console.log(user.id, blogId)
   function handleLikeClick(){
     setLiked(!liked);
     if(!liked){
@@ -30,8 +39,9 @@ export default function BlogsPage({ params }) {
   }
 
   const commentData = {
-    author: "Donvine Mugendi",
-    comment: newComment,
+    user_id: user.id,
+    blog_id: blogId,
+    body: 'i hate this things'
   };
 
   useEffect(() => {
@@ -43,19 +53,21 @@ export default function BlogsPage({ params }) {
           (blog) => blog.slug === params.slug
         );
         setCurrentBlog(foundBlog);
+        getBlogId(foundBlog.id);
+        console.log(currentBlog)
         setComments(currentBlog.comments);
       })
       .catch((error) => {
         console.error("Error fetching blogs:", error);
       });
-  }, [params.slug, comments]);
+  }, [params.slug]);
 
   function handleSubmit(e) {
     e.preventDefault();
     if (newComment === "") {
       return false;
     }
-    postComment(currentBlog.id, url, commentData, setBlogs);
+    postComment(commentData, setComments);
     setNewComment("");
     console.log(currentBlog.id);
   }

@@ -33,12 +33,12 @@ export default function BlogsComponent({ blogsUrl }) {
                 alt="user-avatar"
               />
                 <p className="font-bold xsm:text-base text-xl md:text-2xl">
-                  Donvine Mugendi
+                  {blog.user.username}
                 </p>
               </div>
 
               <p className="text-base font-medium xsm:px-14 xsm:mb-0">
-                2022-07-24
+               {new Date(blog.created_at).toISOString().split('T')[0]}
               </p>
             </div>
             <Link

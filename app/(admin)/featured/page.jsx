@@ -1,6 +1,6 @@
 import { BlogsComponent, Component } from "@/components";
 
-const url = "https://basalt-equatorial-paw.glitch.me/blogs";
+const url = "http://127.0.0.1:9393/featured";
 export default function Featured() {
   return (
     <div className="relative">
