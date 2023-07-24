@@ -5,11 +5,6 @@ import { useEffect, useState } from "react";
 import { GoClock } from "react-icons/go";
 import { MdOutlineBookmarkAdd } from "react-icons/md";
 
-// const trimBlogBody = (body, numSentences = 2) => {
-//   const sentences = body.split(".").map((sentence) => sentence.trim());
-//   return sentences.slice(0, numSentences).join(". ") + "...";
-// };
-
 export default function BlogsComponent({ blogsUrl }) {
   const [blogs, setBlogs] = useState([]);
 
@@ -21,7 +16,7 @@ export default function BlogsComponent({ blogsUrl }) {
       .catch((error) => {
         console.error("Error fetching blogs:", error);
       });
-  }, []);
+  }, [blogsUrl]);
   return (
     <div className="w-full mx-auto m-4 px-8 md:w-2/3 relative">
       {blogs.map((blog) => (
