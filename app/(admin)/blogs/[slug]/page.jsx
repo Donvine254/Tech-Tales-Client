@@ -8,10 +8,9 @@ import { FaRegComment } from "react-icons/fa";
 import {Comments} from "@/components"
 import Image from "next/image";
 
-const url = "http://localhost:9292/fullblogs";
 
 export default function BlogsPage({ params }) {
-  const [blogs, setBlogs] = useState([]);
+
   const [currentBlog, setCurrentBlog] = useState([]);
   const [likes, setLikes]= useState(0)
   const [liked, setLiked]= useState(false)
@@ -31,14 +30,9 @@ export default function BlogsPage({ params }) {
   }
 
   useEffect(() => {
-    fetchBlogs(url)
-      .then((fetchedBlogs) => {
-        setBlogs(fetchedBlogs);
-        // Find the blog with the matching slug
-        const foundBlog = fetchedBlogs.find(
-          (blog) => blog.slug === params.slug
-        );
-        setCurrentBlog(foundBlog);
+   fetchBlogs( params.slug)
+      .then((response) => {
+        setCurrentBlog(response);
       })
       .catch((error) => {
         console.error("Error fetching blogs:", error);

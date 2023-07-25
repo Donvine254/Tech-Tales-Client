@@ -11,7 +11,7 @@ const user = getCurrentUser();
 console.log(user.id);
 const url = `http://localhost:9292/blogs/user/${user.id}`;
 
-export default function useMyBlogs() {
+export default function MyBlogsComponent() {
   const [blogs, setBlogs] = useState([]);
 
   useEffect(() => {
