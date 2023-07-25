@@ -11,7 +11,7 @@ import Axios from "axios";
 
 const user = getCurrentUser();
 
-export default function Comments(blogId = 9) {
+export default function Comments({blogId}) {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -27,7 +27,7 @@ export default function Comments(blogId = 9) {
     Axios.get(url)
       .then((response) => setComments(response.data))
       .catch((error) => console.error(error));
-  }, [blogId]);
+  }, [url]);
 
   function handleSubmit(e) {
     postComment(e, commentData, setComments);

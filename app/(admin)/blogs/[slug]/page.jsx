@@ -101,7 +101,7 @@ export default function BlogsPage({ params }) {
       </div>
       <h1 className="text-bold text-xl md:text-2xl py-4 font-bold">Comments</h1>
       <hr className="divide-blue-500" />
-      <Comments/>
+      <Comments blogId={currentBlog.id}/>
     </div>
   );
 }

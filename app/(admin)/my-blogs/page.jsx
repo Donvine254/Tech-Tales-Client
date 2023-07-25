@@ -87,7 +87,7 @@ export default function useMyBlogs() {
       ) : (
         <div className="p-2">
           <p className="text-xl md:text-2xl font-bold">
-            You don't have any blogs yet.
+            You do not have any blogs yet.
           </p>
           <p className="text-lg md:text-xl py-2">
             <Link href="/create" className="text-blue-500 underline">
