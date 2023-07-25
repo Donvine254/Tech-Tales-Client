@@ -15,10 +15,6 @@ export default function BlogsPage({ params }) {
   const [likes, setLikes]= useState(0)
   const [liked, setLiked]= useState(false)
 
- const slug= {
-  "slug":params.slug
- }
-console.log(slug)
   const user = getCurrentUser()
 
   console.log(user.id)
@@ -35,7 +31,9 @@ console.log(slug)
   useEffect(() => {
     (async () => {
       try {
-        const response = await Axios.post("http://localhost:9292/currentblog", slug);
+        const response = await Axios.post("http://localhost:9292/currentblog", {
+          "slug":params.slug
+         });
         setCurrentBlog(response.data);
       } catch (error) {
         console.error("Error fetching blogs:", error);

@@ -1,5 +1,5 @@
 "use client";
-import { fetchBlogs, calculateReadingTime } from "@/lib";
+import {  calculateReadingTime } from "@/lib";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { GoClock, GoTrash, GoGraph } from "react-icons/go";
@@ -13,7 +13,7 @@ if (user){
 }
 
 
-const url = `http://localhost:9292/blogs/user/${user.id}`;
+
 export default function MyBlogsComponent() {
   const [blogs, setBlogs] = useState([]);
 
@@ -31,7 +31,7 @@ export default function MyBlogsComponent() {
 
       fetchBlogs();
     }
-  }, [user]);
+  }, []);
 
   function handleDelete(blogId) {
     deleteBlog(blogId, setBlogs);
