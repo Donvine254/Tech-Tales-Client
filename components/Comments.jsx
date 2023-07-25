@@ -1,5 +1,5 @@
 "use client";
-import { getCurrentUser, postComment } from "@/lib";
+import { getCurrentUser, postComment, deleteComment } from "@/lib";
 import { useState, useEffect } from "react";
 import { MdEdit } from "react-icons/md";
 import { GoTrash } from "react-icons/go";
@@ -98,7 +98,7 @@ export default function Comments(blogId = 9) {
                       Edit
                     </p>
                     <p className="flex items center gap-2">
-                      <GoTrash className="text-xl font-bold hover:text-red-500" />
+                      <GoTrash className="text-xl font-bold hover:text-red-500" onClick={()=>deleteComment(comment.id)} />
                       Delete
                     </p>{" "}
                   </>
