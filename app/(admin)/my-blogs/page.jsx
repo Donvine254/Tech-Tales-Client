@@ -8,21 +8,30 @@ import { getCurrentUser, deleteBlog } from "@/lib";
 
 //check for the current user
 const user = getCurrentUser();
-console.log(user.id);
-const url = `http://localhost:9292/blogs/user/${user.id}`;
+if (user){
+  console.log(user.id);
+}
 
+
+const url = `http://localhost:9292/blogs/user/${user.id}`;
 export default function MyBlogsComponent() {
   const [blogs, setBlogs] = useState([]);
 
   useEffect(() => {
-    fetchBlogs(url)
-      .then((fetchedBlogs) => {
-        setBlogs(fetchedBlogs);
-      })
-      .catch((error) => {
-        console.error("Error fetching blogs:", error);
-      });
-  }, []);
+    if (user) {
+      const fetchBlogs = async () => {
+        try {
+          const url = `http://localhost:9292/blogs/user/${user.id}`;
+          const response = await Axios.get(url);
+          setBlogs(response.data);
+        } catch (error) {
+          console.error("Error fetching blogs:", error);
+        }
+      };
+
+      fetchBlogs();
+    }
+  }, [user]);
 
   function handleDelete(blogId) {
     deleteBlog(blogId, setBlogs);

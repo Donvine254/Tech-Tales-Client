@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { fetchBlogs, postComment ,getCurrentUser } from "@/lib";
+import {getCurrentUser } from "@/lib";
 import { MdOutlineBookmarkAdd } from "react-icons/md";
 import { BiLike } from "react-icons/bi";
 import {AiFillLike} from 'react-icons/ai';
@@ -14,8 +14,11 @@ export default function BlogsPage({ params }) {
   const [currentBlog, setCurrentBlog] = useState([]);
   const [likes, setLikes]= useState(0)
   const [liked, setLiked]= useState(false)
- 
-  
+
+ const slug= {
+  "slug":params.slug
+ }
+console.log(slug)
   const user = getCurrentUser()
 
   console.log(user.id)
@@ -30,13 +33,14 @@ export default function BlogsPage({ params }) {
   }
 
   useEffect(() => {
-   fetchBlogs( params.slug)
-      .then((response) => {
-        setCurrentBlog(response);
-      })
-      .catch((error) => {
+    (async () => {
+      try {
+        const response = await Axios.post("http://localhost:9292/currentblog", slug);
+        setCurrentBlog(response.data);
+      } catch (error) {
         console.error("Error fetching blogs:", error);
-      });
+      }
+    })();
   }, [params.slug]);
 
   console.log(currentBlog)
