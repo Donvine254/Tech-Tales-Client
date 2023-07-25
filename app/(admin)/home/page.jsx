@@ -1,6 +1,6 @@
 import { BlogsComponent, Component } from "@/components";
 
-const url = "http://127.0.0.1:9393/blogs";
+const url = "http://localhost:9292/blogs";
 //fetch the data using the userId
 
 export default function HomePage() {

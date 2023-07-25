@@ -8,7 +8,7 @@ import { SlLogin } from "react-icons/sl";
 import { useRouter } from "next/navigation";
 import { validateLogin } from "@/lib";
 import Axios from "axios";
-const loginApi = "http://127.0.0.1:9393/login";
+const loginApi = "http://localhost:9292/login";
 
 export default function useLogin() {
   const [showPassword, setShowPassword] = useState(false);

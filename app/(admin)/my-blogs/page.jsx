@@ -10,7 +10,7 @@ import { getCurrentUser, deleteBlog } from "@/lib";
 //check for the current user
 const user = getCurrentUser();
 console.log(user.id);
-const url = `http://127.0.0.1:9393/blogs/user/${user.id}`;
+const url = `http://localhost:9292/blogs/user/${user.id}`;
 
 export default function myBlogs() {
   const [blogs, setBlogs] = useState([]);

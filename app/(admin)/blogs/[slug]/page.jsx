@@ -9,7 +9,7 @@ import {MdEdit} from 'react-icons/md'
 import {GoTrash} from 'react-icons/go'
 import Image from "next/image";
 
-const url = "http://127.0.0.1:9393/fullblogs";
+const url = "http://localhost:9292/fullblogs";
 
 export default function BlogsPage({ params }) {
   const [blogs, setBlogs] = useState([]);
