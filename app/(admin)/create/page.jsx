@@ -3,21 +3,20 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { slugify, createBlog } from "@/lib";
 import Swal from "sweetalert2";
-import {BsInfoCircle} from 'react-icons/bs'
-import {AiFillEdit} from 'react-icons/ai'
+import { BsInfoCircle } from "react-icons/bs";
+import { AiFillEdit } from "react-icons/ai";
 import { getCurrentUser } from "@/lib";
 
 export default function useCreate() {
-
   const user = getCurrentUser();
-  
+
   const navigate = useRouter();
   const [blogData, setBlogData] = useState({
     title: "",
     image: "",
-    slug:"",
+    slug: "",
     body: "",
-    user_id:"",
+    user_id: "",
   });
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -25,20 +24,20 @@ export default function useCreate() {
       ...prevData,
       [name]: value,
       slug: slugify(blogData.title),
-      user_id:user.id
+      user_id: user.id,
     }));
   };
   function saveDraft() {
-    localStorage.setItem('draftBlog', JSON.stringify(blogData));
+    localStorage.setItem("draftBlog", JSON.stringify(blogData));
     Swal.fire({
-      html:"<p>✅ draft saved successfully</p>",
+      html: "<p>✅ draft saved successfully</p>",
       showConfirmButton: false,
       showCloseButton: true,
-      timer: 3000
-    })
+      timer: 3000,
+    });
   }
   useEffect(() => {
-    const draftBlogData = localStorage.getItem('draftBlog');
+    const draftBlogData = localStorage.getItem("draftBlog");
     if (draftBlogData) {
       setBlogData(JSON.parse(draftBlogData));
     }
@@ -46,7 +45,7 @@ export default function useCreate() {
   function handleSubmit(e) {
     e.preventDefault();
     createBlog(blogData, navigate, setBlogData);
-    localStorage.removeItem('draftBlog');
+    localStorage.removeItem("draftBlog");
   }
 
   return (
@@ -109,7 +108,7 @@ export default function useCreate() {
       </form>
       <div className="md:w-1/3 ml-5 mr-5 hidden md:block">
         <h1 className="tex-xl md:text-2xl font-bold flex items-center space-1">
-         <BsInfoCircle className="pr-2"/> Writing a Great Post Title{" "}
+          <BsInfoCircle className="pr-2" /> Writing a Great Post Title{" "}
         </h1>
         <p className="space-y-2 leading-relaxed">
           Think of your post title as a super short (but compelling!)
@@ -118,12 +117,25 @@ export default function useCreate() {
           find your post by search.
         </p>
         <h1 className="tex-xl md:text-2xl font-bold py-2 flex items-center space-1">
-         <AiFillEdit className="pr-2"/> Write like a Pro!
+          <AiFillEdit className="pr-2" /> Write like a Pro!
         </h1>
-        <p className="space-y-2 leading-relaxed py-2"> Use html tags to format the body of your blogs, put headings in h1 to h6 tags, separate paragraphs by nesting them in p tags and format lists using ul and li tags</p>
-        <p className="text-base font-bold leading-relaxed py-2">Common html tags include</p>
-        {/* <code> <ul></ul> </code> */}
-        
+        <p className="space-y-2 leading-relaxed py-2">
+          {" "}
+          Use html tags to format the body of your blogs, put headings in h1 to
+          h6 tags, separate paragraphs by nesting them in p tags and format
+          lists using ul and li tags
+        </p>
+        <p className="text-base font-bold leading-relaxed py-2">
+          Common html tags include
+        </p>
+        <ul>
+          <li>&lt;ul&gt; &lt;/ul&gt; followed by &lt;li&gt; for lists</li>
+          <li>&lt;br&gt; &lt;/br&gt; for line breaks</li>
+          <li>&lt;strong&gt; &lt;/strong&gt; for bold text</li>
+          <li>&lt;p&gt; &lt;/p&gt; for paragraphs</li>
+          <li>&lt;h1--h6&gt; &lt;/h1--h6&gt; for headers</li>
+          <li>&lt;img&gt; &lt;/img&gt; for image tags (self closing )</li>
+        </ul>
       </div>
     </div>
   );
