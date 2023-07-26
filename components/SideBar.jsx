@@ -1,6 +1,24 @@
+'use client'
 import Link from "next/link"
+import { useRef } from "react"
+import Swal from 'sweetalert2'
 
 export default function Component (){
+  const inputRef= useRef('')
+
+  function handleSubscribe(e){
+    e.preventDefault();
+    inputRef.current.value = '';
+    Swal.fire({
+      icon:"success",
+      title:"Subscription successful",
+      text:"Your email address has been successfully subscribed to receive our newsletters",
+      showCloseButton: true,
+      showCancelButton: true,
+      footer:'made a mistake, click here to unsubscribe'
+    })
+
+  }
     return (
         <div className="hidden lg:block bg-slate-200 absolute left-0 w-1/6 top-0 p-5 ml-5 dark:bg-slate-900 shadow">
         <h1 className="font-bold py-2 ">Subscribe to our Newsletter</h1>
@@ -9,11 +27,12 @@ export default function Component (){
         </p>
         <input
           type="email"
+          ref={inputRef}
           placeholder="you@domain.com"
           minLength={10}
           className="bg-slate-500 dark:bg-gray-900 py-2 px-2 w-full focus:outline-none dark:text-white"
         />
-        <button className="mt-2 dark:text-gray-300 bg-slate-400 hover:bg-slate-300 text-base border py-1 shadow-xl dark:bg-slate-800 hover:text-black dark:border-none px-2">
+        <button className="mt-2 dark:text-gray-300 bg-slate-400 hover:bg-slate-300 text-base border py-1 shadow-xl dark:bg-slate-800 hover:text-black dark:border-none px-2" onClick={handleSubscribe}>
           Subscribe
         </button>
         <h1 className="font-bold py-2 mt-4">

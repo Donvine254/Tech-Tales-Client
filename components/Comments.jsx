@@ -3,9 +3,10 @@ import { getCurrentUser, deleteComment, patchComment } from "@/lib";
 import { useState, useEffect } from "react";
 import { MdEdit } from "react-icons/md";
 import { GoTrash } from "react-icons/go";
-import { BiLike } from "react-icons/bi";
+import { BiLike, BiSolidLike} from "react-icons/bi";
 import { FaRegComment } from "react-icons/fa";
 import { BsHeart } from "react-icons/bs";
+import {FcLike} from "react-icons/fc";
 import Image from "next/image";
 
 const user = getCurrentUser();
@@ -16,6 +17,8 @@ export default function Comments({ blogId }) {
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [id, setId] = useState(0);
+  const [liked, setLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
 
   
 
@@ -152,7 +155,7 @@ export default function Comments({ blogId }) {
                 />
                 <div className="flex items-center xsm:flex-col gap-2 xsm:gap-0 xsm:items-start">
                 <p className="font-bold xsm:text-base text-xl">
-                  {comment.username.toUpperCase()}
+                  {comment.username}
                 </p>
                 <p className="font-bold xsm:text-base text-xl">
                 {comment.created_at? comment.created_at.split('T')[0] : comment.created_at}
@@ -184,10 +187,12 @@ export default function Comments({ blogId }) {
                     </p>{" "}
                   </>
                 ) : (
-                  <>
-                    <BiLike className="text-xl font-bold hover:text-blue-500" />
-                    <BsHeart className="text-xl font-bold  hover:text-red-700" />
-                    <FaRegComment className="text-xl font-bold" />
+                  <>{isLiked?<BiSolidLike className="text-xl font-bold text-blue-500" onClick={()=>setIsLiked(false)}/>: <BiLike className="text-xl font-bold hover:text-blue-500 "onClick={()=>setIsLiked(true)}  />}
+                   
+                    {
+                    liked? <FcLike className="text-xl font-bold mx-2" onClick={()=>setLiked(false)}/>:<BsHeart className="text-xl font-bold  hover:text-red-700 mx-2" onClick={()=>setLiked(true)} />
+                  }
+                    <FaRegComment className="text-xl font-bold mx-2" />
                   </>
                 )}
               </div>
