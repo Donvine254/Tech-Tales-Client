@@ -5,12 +5,14 @@ import { FaEdit, FaBookOpen } from "react-icons/fa";
 import { BsBookmarks } from "react-icons/bs";
 import { GoSignOut } from "react-icons/go";
 import { clearCurrentUser, getCurrentUser } from "@/lib";
+import { revalidatePath } from 'next/cache'
 
 export const Menu = ({ handleClick, menuOpen }) => {
   
   const user = getCurrentUser();
   function handleSignout() {
     clearCurrentUser();
+    revalidatePath("/my-blogs")
   }
   return (
     <nav className="absolute left-0 top-1 space-y-10 md:mt-5 dark:bg-gray-900 shadow-lg bg-slate-100 py-4 rounded-lg md:w-60 w-2/3 z-50 h-screen">

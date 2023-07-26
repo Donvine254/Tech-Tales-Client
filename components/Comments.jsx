@@ -17,11 +17,7 @@ export default function Comments({ blogId }) {
   const [isEditing, setIsEditing] = useState(false);
   const [id, setId] = useState(0);
 
-  const commentData = {
-    user_id: user.id,
-    blog_id: blogId,
-    body: newComment,
-  };
+  
 
   useEffect(() => {
     if (blogId) {
@@ -45,6 +41,11 @@ export default function Comments({ blogId }) {
 
   function handleSubmit(e) {
     e.preventDefault();
+    const commentData = {
+      user_id: user.id,
+      blog_id: blogId,
+      body: newComment,
+    };
     const url = "http://localhost:9292/comments";
     fetch(url, {
       method: "POST",
