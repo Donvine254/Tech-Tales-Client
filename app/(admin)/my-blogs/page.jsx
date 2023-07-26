@@ -6,7 +6,7 @@ import { GoClock, GoTrash, GoGraph } from "react-icons/go";
 import Image from "next/image";
 import { getCurrentUser, deleteBlog } from "@/lib";
 import Axios from 'axios'
-
+import parse from 'html-react-parser';
 //check for the current user
 const user = getCurrentUser();
 if (user){
@@ -70,7 +70,7 @@ export default function MyBlogsComponent() {
                 </h1>
               </Link>
               <p className="text-base leading-8 line-clamp-2 py-2">
-                {blog.body}
+                {blog.body? parse(blog.body): blog.body}
               </p>
             </article>
             <div className="flex items-center justify-between py-2">

@@ -49,7 +49,7 @@ export default function BlogsComponent({ blogsUrl }) {
                 {blog.title}
               </h1>
             </Link>
-            <p className="text-base leading-8 line-clamp-2 py-2">{parse(blog.body)}</p>
+            <p className="text-base leading-8 line-clamp-2 py-2">{blog? parse(blog.body):blog.body}</p>
           </article>
           <div className="flex items-center justify-between py-2">
             <Link href={`/blogs/${blog.slug}`}>Read &#8599;</Link>
