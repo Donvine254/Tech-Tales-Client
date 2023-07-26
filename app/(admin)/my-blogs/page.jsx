@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { GoClock, GoTrash, GoGraph } from "react-icons/go";
 import Image from "next/image";
 import { getCurrentUser, deleteBlog } from "@/lib";
+import Axios from 'axios'
 
 //check for the current user
 const user = getCurrentUser();
