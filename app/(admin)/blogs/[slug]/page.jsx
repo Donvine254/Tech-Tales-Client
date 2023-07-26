@@ -1,6 +1,7 @@
+
 "use client";
 import { useEffect, useState } from "react";
-import {getCurrentUser } from "@/lib";
+import {fetchBlogs } from "@/lib";
 import { MdOutlineBookmarkAdd } from "react-icons/md";
 import { BiLike } from "react-icons/bi";
 import {AiFillLike} from 'react-icons/ai';
@@ -10,14 +11,13 @@ import Image from "next/image";
 
 
 export default function BlogsPage({ params }) {
-
+  const [blogs, setBlogs] = useState([]);
   const [currentBlog, setCurrentBlog] = useState([]);
   const [likes, setLikes]= useState(0)
   const [liked, setLiked]= useState(false)
 
-  const user = getCurrentUser()
+  const url="http://localhost:9292/fullblogs"
 
-  console.log(user.id)
   function handleLikeClick(){
     setLiked(!liked);
     if(!liked){
@@ -29,23 +29,25 @@ export default function BlogsPage({ params }) {
   }
 
   useEffect(() => {
-    (async () => {
-      try {
-        const response = await Axios.post("http://localhost:9292/currentblog", {
-          "slug":params.slug
-         });
-        setCurrentBlog(response.data);
-      } catch (error) {
+    fetchBlogs(url)
+      .then((fetchedBlogs) => {
+        setBlogs(fetchedBlogs);
+        // Find the blog with the matching slug
+        const foundBlog = fetchedBlogs.find(
+          (blog) => blog.slug === params.slug
+        );
+        setCurrentBlog(foundBlog);
+      })
+      .catch((error) => {
         console.error("Error fetching blogs:", error);
-      }
-    })();
+      });
   }, [params.slug]);
 
-  console.log(currentBlog)
+
   return (
     <div className="w-full mx-auto m-4 px-8 md:w-2/3">
       {currentBlog ? (
-        <div>
+        <div key={currentBlog.id}>
           <h1 className='className="font-extra-bold xsm:text-xl text-2xl md:text-4xl dark:text-blue-500 py-4"'>
             {currentBlog.title}
           </h1>
@@ -59,23 +61,20 @@ export default function BlogsPage({ params }) {
                 alt="user-avatar"
               />
               <p className="font-bold xsm:text-base text-xl md:text-2xl">
-                {currentBlog.user.username}
+                {currentBlog.user? currentBlog.user.username: 'author'}
               </p>
             </div>
 
             <p className="text-base font-medium xsm:px-14 xsm:mb-0">
-            {new Date(currentBlog.created_at).toISOString().split('T')[0]}
+            {/* {new Date (currentBlog.created_at).toISOString().split('T')[0]} */}
+            {currentBlog.created_at? currentBlog.created_at.split('T')[0] : currentBlog.created_at}
             </p>
           </div>
           <Image src={currentBlog.image} width={680} height={680} alt='blog-image' className='h-full w-full'/>
           <p className="text-base md:text-xl leading-8 md:leading-10 ">
             {currentBlog.body}
           </p>
-        </div>
-      ) : (
-        <p>Blog not found</p>
-      )}
-      <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between">
         <p className="blog__icons">
           {!liked? <BiLike className="hover:scale-125" onClick={handleLikeClick} /> :<AiFillLike className="text-blue-500" onClick={handleLikeClick}/>}
           <span className="text-base dark:text-gray-200 xsm:hidden">
@@ -98,6 +97,11 @@ export default function BlogsPage({ params }) {
       <h1 className="text-bold text-xl md:text-2xl py-4 font-bold">Comments</h1>
       <hr className="divide-blue-500" />
       <Comments blogId={currentBlog.id}/>
+        </div>
+      ) : (
+        <p>Blog not found</p>
+      )}
+     
     </div>
   );
 }
