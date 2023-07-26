@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { slugify, createBlog } from "@/lib";
 import Swal from "sweetalert2";
+import {BsInfoCircle} from 'react-icons/bs'
+import {AiFillEdit} from 'react-icons/ai'
 import { getCurrentUser } from "@/lib";
 
 export default function useCreate() {
@@ -106,8 +108,8 @@ export default function useCreate() {
         </div>
       </form>
       <div className="md:w-1/3 ml-5 mr-5 hidden md:block">
-        <h1 className="tex-xl md:text-2xl font-bold">
-          Writing a Great Post Title{" "}
+        <h1 className="tex-xl md:text-2xl font-bold flex items-center space-1">
+         <BsInfoCircle className="pr-2"/> Writing a Great Post Title{" "}
         </h1>
         <p className="space-y-2 leading-relaxed">
           Think of your post title as a super short (but compelling!)
@@ -115,10 +117,13 @@ export default function useCreate() {
           sentence. Use keywords where appropriate to help ensure people can
           find your post by search.
         </p>
-        <h1 className="tex-xl md:text-2xl font-bold py-2">
-          Write like a Pro!
+        <h1 className="tex-xl md:text-2xl font-bold py-2 flex items-center space-1">
+         <AiFillEdit className="pr-2"/> Write like a Pro!
         </h1>
-        <p className="space-y-2 leading-relaxed py-2"> Use html tags to format the body of your blogs, put headings in h1 to h6 tags and format lists using ul and li tags</p>
+        <p className="space-y-2 leading-relaxed py-2"> Use html tags to format the body of your blogs, put headings in h1 to h6 tags, separate paragraphs by nesting them in p tags and format lists using ul and li tags</p>
+        <p className="text-base font-bold leading-relaxed py-2">Common html tags include</p>
+        {/* <code> <ul></ul> </code> */}
+        
       </div>
     </div>
   );
