@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { GoClock } from "react-icons/go";
 import { MdOutlineBookmarkAdd } from "react-icons/md";
 import Image from "next/image";
+import parse from 'html-react-parser';
 
 export default function BlogsComponent({ blogsUrl }) {
   const [blogs, setBlogs] = useState([]);
@@ -48,7 +49,7 @@ export default function BlogsComponent({ blogsUrl }) {
                 {blog.title}
               </h1>
             </Link>
-            <p className="text-base leading-8 line-clamp-2 py-2">{blog.body}</p>
+            <p className="text-base leading-8 line-clamp-2 py-2">{parse(blog.body)}</p>
           </article>
           <div className="flex items-center justify-between py-2">
             <Link href={`/blogs/${blog.slug}`}>Read &#8599;</Link>

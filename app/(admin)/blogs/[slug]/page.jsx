@@ -8,6 +8,7 @@ import {AiFillLike} from 'react-icons/ai';
 import { FaRegComment } from "react-icons/fa";
 import {Comments} from "@/components"
 import Image from "next/image";
+import parse from 'html-react-parser';
 
 
 export default function BlogsPage({ params }) {
@@ -37,6 +38,7 @@ export default function BlogsPage({ params }) {
           (blog) => blog.slug === params.slug
         );
         setCurrentBlog(foundBlog);
+        // console.log(currentBlog.body)
       })
       .catch((error) => {
         console.error("Error fetching blogs:", error);
@@ -72,7 +74,7 @@ export default function BlogsPage({ params }) {
           </div>
           <Image src={currentBlog.image} width={680} height={680} alt='blog-image' className='h-full w-full'/>
           <p className="text-base md:text-xl leading-8 md:leading-10 ">
-            {currentBlog.body}
+            {currentBlog.body? parse(currentBlog.body): currentBlog.body}
           </p>
           <div className="flex items-center justify-between">
         <p className="blog__icons">

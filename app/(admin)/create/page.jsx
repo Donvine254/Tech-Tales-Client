@@ -88,7 +88,7 @@ export default function useCreate() {
           value={blogData.body}
           onChange={handleChange}
           required
-          placeholder="write your blog here"
+          placeholder="Write your blog here. Remember to use html tags"
           className="p-4 w-full border-none shadow-lg text-black focus:outline-none text-xl"
         />
         <div className="flex gap-2 md:gap-8 mt-4">
@@ -115,6 +115,10 @@ export default function useCreate() {
           sentence. Use keywords where appropriate to help ensure people can
           find your post by search.
         </p>
+        <h1 className="tex-xl md:text-2xl font-bold py-2">
+          Write like a Pro!
+        </h1>
+        <p className="space-y-2 leading-relaxed py-2"> Use html tags to format the body of your blogs, put headings in h1 to h6 tags and format lists using ul and li tags</p>
       </div>
     </div>
   );
