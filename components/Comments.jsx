@@ -3,10 +3,10 @@ import { getCurrentUser, deleteComment, patchComment } from "@/lib";
 import { useState, useEffect } from "react";
 import { MdEdit } from "react-icons/md";
 import { GoTrash } from "react-icons/go";
-import { BiLike, BiSolidLike} from "react-icons/bi";
+import { BiLike, BiSolidLike } from "react-icons/bi";
 import { FaRegComment } from "react-icons/fa";
 import { BsHeart } from "react-icons/bs";
-import {FcLike} from "react-icons/fc";
+import { FcLike } from "react-icons/fc";
 import Image from "next/image";
 
 const user = getCurrentUser();
@@ -19,8 +19,6 @@ export default function Comments({ blogId }) {
   const [id, setId] = useState(0);
   const [liked, setLiked] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
-
-  
 
   useEffect(() => {
     if (blogId) {
@@ -74,12 +72,14 @@ export default function Comments({ blogId }) {
     setIsEditing(true);
     setNewComment(commentBody);
     setId(commentId);
-    setComments((prevComments) => prevComments.filter((comment) => comment.id !== commentId));
+    setComments((prevComments) =>
+      prevComments.filter((comment) => comment.id !== commentId)
+    );
   }
   function handleUpdate(e) {
-    e.preventDefault()
+    e.preventDefault();
     patchComment(id, setComments, newComment);
-    setNewComment('');
+    setNewComment("");
     setIsEditing(false);
   }
 
@@ -147,25 +147,31 @@ export default function Comments({ blogId }) {
             <div className="py-2 mt-2" key={comment.id}>
               <div className="flex gap-0 items-center">
                 <Image
-                  src="https://d2win24dv6pngl.cloudfront.net/media/generated/profile-photos/profile-1298663/60cc7564d4a37d90.af828114ed82.jpg"
-                  className="avatar"
+                  src={
+                    comment.user_id === user.id
+                      ? "https://d2win24dv6pngl.cloudfront.net/media/generated/profile-photos/profile-1298663/60cc7564d4a37d90.af828114ed82.jpg"
+                      : "https://media.istockphoto.com/id/1016744004/vector/profile-placeholder-image-gray-silhouette-no-photo.jpg?s=612x612&w=0&k=20&c=mB6A9idhtEtsFXphs1WVwW_iPBt37S2kJp6VpPhFeoA="
+                  }
                   width={32}
                   height={32}
+                  className="avatar"
                   alt="user-avatar"
                 />
                 <div className="flex items-center xsm:flex-col gap-2 xsm:gap-0 xsm:items-start">
-                <p className="font-bold xsm:text-base text-xl">
-                  {comment.username}
-                </p>
-                <p className="font-bold xsm:text-base text-xl">
-                {comment.created_at? comment.created_at.split('T')[0] : comment.created_at}
-                </p>
-              </div>
+                  <p className="font-bold xsm:text-base text-xl">
+                    {comment.username}
+                  </p>
+                  <p className="font-bold xsm:text-base text-xl">
+                    {comment.created_at
+                      ? comment.created_at.split("T")[0]
+                      : comment.created_at}
+                  </p>
+                </div>
               </div>
               <p className="text-base py-2 leading-normal ml-16 xsm:ml-10">
                 {comment.body}
               </p>
-              
+
               <div className="py-2 flex items-center gap-4 ml-16 xsm:ml-10">
                 {comment.user_id === user.id ? (
                   <>
@@ -187,11 +193,30 @@ export default function Comments({ blogId }) {
                     </p>{" "}
                   </>
                 ) : (
-                  <>{isLiked?<BiSolidLike className="text-xl font-bold text-blue-500" onClick={()=>setIsLiked(false)}/>: <BiLike className="text-xl font-bold hover:text-blue-500 "onClick={()=>setIsLiked(true)}  />}
-                   
-                    {
-                    liked? <FcLike className="text-xl font-bold mx-2" onClick={()=>setLiked(false)}/>:<BsHeart className="text-xl font-bold  hover:text-red-700 mx-2" onClick={()=>setLiked(true)} />
-                  }
+                  <>
+                    {isLiked ? (
+                      <BiSolidLike
+                        className="text-xl font-bold text-blue-500"
+                        onClick={() => setIsLiked(false)}
+                      />
+                    ) : (
+                      <BiLike
+                        className="text-xl font-bold hover:text-blue-500 "
+                        onClick={() => setIsLiked(true)}
+                      />
+                    )}
+
+                    {liked ? (
+                      <FcLike
+                        className="text-xl font-bold mx-2"
+                        onClick={() => setLiked(false)}
+                      />
+                    ) : (
+                      <BsHeart
+                        className="text-xl font-bold  hover:text-red-700 mx-2"
+                        onClick={() => setLiked(true)}
+                      />
+                    )}
                     <FaRegComment className="text-xl font-bold mx-2" />
                   </>
                 )}

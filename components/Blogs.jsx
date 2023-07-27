@@ -6,9 +6,12 @@ import { GoClock } from "react-icons/go";
 import { MdOutlineBookmarkAdd } from "react-icons/md";
 import Image from "next/image";
 import parse from 'html-react-parser';
+import { getCurrentUser } from "@/lib";
+import { useRouter } from "next/navigation";
 
 export default function BlogsComponent({ blogsUrl }) {
   const [blogs, setBlogs] = useState([]);
+  const navigate = useRouter();
 
   useEffect(() => {
     fetchBlogs(blogsUrl)
@@ -19,6 +22,14 @@ export default function BlogsComponent({ blogsUrl }) {
         console.error("Error fetching blogs:", error);
       });
   }, [blogsUrl]);
+
+  useEffect(() => {
+    const user = getCurrentUser();
+    if(!user){
+      navigate.replace("/login");
+    }
+  }, [navigate])
+  
   return (
     <div className="w-full mx-auto m-4 px-8 md:w-2/3 relative">
       {blogs.map((blog) => (
