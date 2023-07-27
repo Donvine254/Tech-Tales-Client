@@ -1,12 +1,11 @@
 "use client";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import Swal from "sweetalert2";
 import { FaLock } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { SlLogin } from "react-icons/sl";
 import { useRouter } from "next/navigation";
-import { validateLogin } from "@/lib";
 import Axios from "axios";
 const loginApi = "http://localhost:9292/login";
 
