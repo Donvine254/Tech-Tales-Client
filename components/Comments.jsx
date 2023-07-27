@@ -9,7 +9,7 @@ import { BsHeart } from "react-icons/bs";
 import { FcLike } from "react-icons/fc";
 import Image from "next/image";
 
-const user = getCurrentUser();
+
 
 export default function Comments({ blogId }) {
   const [comments, setComments] = useState([]);
@@ -20,6 +20,8 @@ export default function Comments({ blogId }) {
   const [liked, setLiked] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
 
+  const user = getCurrentUser();
+  
   useEffect(() => {
     if (blogId) {
       const fetchComments = async () => {
@@ -40,7 +42,7 @@ export default function Comments({ blogId }) {
     }
   }, [blogId]);
 
-  function handleSubmit(e) {
+ async function handleSubmit(e) {
     e.preventDefault();
     const commentData = {
       user_id: user.id,
