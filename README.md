@@ -25,7 +25,7 @@ yarn dev
 # or
 pnpm dev
 ```
-Open http://localhost:3000 with your browser to see the result.
+Open http://localhost:3000 with your browser to see the result. Alternatively you can use the deployed site, but ensure the backend is running. 
 
 This project uses next.js static site generation meaning most components are server-side rendered.
 
