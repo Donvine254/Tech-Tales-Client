@@ -94,9 +94,9 @@ export default function BlogsPage({ params }) {
             </p>
           </div>
           <Image src={currentBlog.image} width={680} height={680} alt='blog-image' className='h-full w-full'/>
-          <p className="text-base md:text-xl leading-8 md:leading-10 mt-3 indent-8">
+          <article className="text-base md:text-xl leading-8 md:leading-10 mt-3 indent-8">
             {currentBlog.body? parse(currentBlog.body): currentBlog.body}
-          </p>
+          </article>
           <div className="flex items-center justify-between">
         <p className="blog__icons">
           {!liked? <BiLike className="hover:scale-125" onClick={handleLikeClick} /> :<AiFillLike className="text-blue-500" onClick={handleLikeClick}/>}
