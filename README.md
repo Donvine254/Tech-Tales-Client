@@ -2,7 +2,7 @@
 This project is a simple school blog for software developers students and senior developers who would like to share their solutions to various coding problems or practice blogging as a way of learning. The blog is a collaborative approach where everyone can be an author and thus can create, read, edit or delete blogs, create, read, edit or delete comments and exchange ideas with others.
 
 ## Tech-Tales Backend API
-You can use this api in with the front-end tech-tales available here [see repo](https://github.com/Donvine254/Tech-Tales-Server)
+You can use this api in with the back-end api available here [see repo](https://github.com/Donvine254/Tech-Tales-Server)
 
 *You will need to ensure that the backend is up and running before starting the application.*
 
