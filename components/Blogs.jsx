@@ -32,6 +32,7 @@ export default function BlogsComponent({ blogsUrl }) {
 
   return (
     <div className="w-full mx-auto m-4 px-8 md:w-2/3 relative">
+      <hr></hr>
       {blogs && blogs.length > 0 ? (
         blogs.map((blog) => (
           <div key={blog.id} className="p-2">

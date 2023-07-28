@@ -10,13 +10,13 @@ export default function Footer() {
         social network blog for software developers
       </h1>
       <div className="flex flex-col md:justify-between md:flex-row align-center md:gap-2">
-        <Link href="/" className="navigation__footer">
+        <Link href="" className="navigation__footer">
           Code of Conduct
         </Link>
-        <Link href="/" className="navigation__footer">
+        <Link href="" className="navigation__footer">
           Privacy Policy
         </Link>
-        <Link href="/" className="navigation__footer">
+        <Link href="" className="navigation__footer">
           Terms of Use
         </Link>
       </div>

@@ -10,6 +10,7 @@ import {Comments} from "@/components"
 import Image from "next/image";
 import parse from 'html-react-parser';
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 
 //I will need to fetch all blogs and generate static params for faster load time
@@ -106,7 +107,7 @@ export default function BlogsPage({ params }) {
         <p className="blog__icons">
           <FaRegComment className="hover:scale-125" />
           <span className="text-base dark:text-gray-200 xsm:hidden">
-          {currentBlog.comments? currentBlog.comments.length : null}  Comments
+          {currentBlog.comments? currentBlog.comments.length : null} <Link href="#write-comment">Comments</Link> 
           </span>
         </p>
         <p className="blog__icons">

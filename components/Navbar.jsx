@@ -62,7 +62,7 @@ export default function Navbar() {
                 href={link.href}
                 key={link.name}
                 className={`navigation ${
-                  isActive ? "text-blue-500 font-bold underline" : ""
+                  isActive ? "text-blue-500 font-bold underline bg-slate-300 rounded-lg" : ""
                 }`}>
                 {link.name}
               </Link>

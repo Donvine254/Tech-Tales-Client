@@ -24,6 +24,7 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+    scroll-behavior: smooth;
 }
 .avatar{
   @apply rounded-full w-8 h-8 md:w-10 md:h-10 shadow-md mr-6
@@ -38,7 +39,7 @@ body {
   @apply rounded-full flex items-center py-2 m-5 px-8 shadow-md border border-sky-500 hover:bg-sky-500 
 }
 .navigation{
-  @apply md:text-xl font-bold cursor-pointer active:underline-offset-8 hover:bg-slate-300 hover:rounded-lg p-2 px-4 md:gap-5
+  @apply md:text-xl font-bold cursor-pointer hover:bg-slate-300 hover:rounded-lg p-2 px-4 md:gap-5
 }
 .navigation__footer{
   @apply md:text-xl font-bold cursor-pointer active:underline-offset-8 hover:text-blue-400 p-2 px-4

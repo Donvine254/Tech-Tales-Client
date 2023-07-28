@@ -102,6 +102,7 @@ export default function Comments({ blogId }) {
           <textarea
             placeholder="add to the discussion"
             value={newComment}
+            id="write-comment"
             onClick={() => setIsInputFocused(!isInputFocused)}
             onChange={(e) => setNewComment(e.target.value)}
             className="p-4 xsm:p-2 xsm:ml-2 w-full border-none shadow-lg bg-gray-200  focus:outline-none md:text-xl h-16 focus:h-20 rounded-lg text-black"
