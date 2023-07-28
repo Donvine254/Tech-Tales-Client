@@ -9,11 +9,6 @@ import Axios from 'axios'
 import parse from 'html-react-parser';
 //check for the current user
 const user = getCurrentUser();
-if (user){
-  console.log(user.id);
-}
-
-
 
 export default function MyBlogsComponent() {
   const [blogs, setBlogs] = useState([]);
@@ -40,7 +35,7 @@ export default function MyBlogsComponent() {
 
   return (
     <div className="w-full mx-auto m-4 px-8 md:w-2/3 relative">
-      {blogs.length > 0 ? (
+      {blogs && blogs.length > 0 ? (
         blogs.map((blog) => (
           <div key={blog.id} className="p-2">
             <article className="">

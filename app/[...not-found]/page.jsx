@@ -36,7 +36,7 @@ export default function notFound() {
 
             <div>
             <Image
-                src="https://wpklik.com/wp-content/uploads/2019/03/A-404-Page-Best-Practices-and-Design-Inspiration.jpg"
+                src="https://i.ibb.co/G9DC8S0/404-2.png"
                 className="p-1"
                 width={400}
                 height={400}

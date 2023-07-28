@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect} from "react";
 import { useRouter } from "next/navigation";
 import { slugify, createBlog } from "@/lib";
 import Swal from "sweetalert2";
@@ -42,6 +42,13 @@ export default function useCreate() {
       setBlogData(JSON.parse(draftBlogData));
     }
   }, []);
+  useEffect(() => {
+    const user = getCurrentUser();
+    if (!user) {
+      navigate.replace("/login");
+    }
+  }, [navigate]);
+
   function handleSubmit(e) {
     e.preventDefault();
     createBlog(blogData, navigate, setBlogData);

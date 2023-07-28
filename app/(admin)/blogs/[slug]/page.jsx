@@ -9,15 +9,20 @@ import { FaRegComment } from "react-icons/fa";
 import {Comments} from "@/components"
 import Image from "next/image";
 import parse from 'html-react-parser';
+import { useRouter } from "next/navigation";
 
+
+//I will need to fetch all blogs and generate static params for faster load time
 
 export default function BlogsPage({ params }) {
   const [blogs, setBlogs] = useState([]);
   const [currentBlog, setCurrentBlog] = useState([]);
   const [likes, setLikes]= useState(0)
   const [liked, setLiked]= useState(false)
+  const [error, setError] = useState(false);
 
   const url="http://localhost:9292/fullblogs"
+  const navigate= useRouter();
 
   function handleLikeClick(){
     setLiked(!liked);
@@ -30,20 +35,35 @@ export default function BlogsPage({ params }) {
   }
 
   useEffect(() => {
+    let isMounted = true; 
     fetchBlogs(url)
       .then((fetchedBlogs) => {
-        setBlogs(fetchedBlogs);
-        // Find the blog with the matching slug
-        const foundBlog = fetchedBlogs.find(
-          (blog) => blog.slug === params.slug
-        );
-        setCurrentBlog(foundBlog);
-        // console.log(currentBlog.body)
+        if (isMounted) {
+          setBlogs(fetchedBlogs);
+          const foundBlog = fetchedBlogs.find((blog) => blog.slug === params.slug);
+
+          if (foundBlog) {
+            setCurrentBlog(foundBlog);
+          } else {
+            setError(true);
+          }
+        }
       })
       .catch((error) => {
         console.error("Error fetching blogs:", error);
+        setError(true);
       });
+
+    return () => {
+      isMounted = false;
+    };
   }, [params.slug]);
+
+  useEffect(() => {
+    if (error || !currentBlog) {
+      navigate.replace("/not-found");
+    }
+  }, [error, currentBlog, navigate]);
 
 
   return (
