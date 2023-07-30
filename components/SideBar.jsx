@@ -16,7 +16,7 @@ export default function Component (){
         showCloseButton: true,
         showCancelButton: true,
         timer:3000,
-        footer:'<a href="">made a mistake? click here to unsubscribe </a>'
+        footer:"Made a mistake? <a href='#'> Click here to unsubscribe </a>"
       })
       inputRef.current.value = '';
     }else{
