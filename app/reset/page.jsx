@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import Axios from "axios";
 import Swal from "sweetalert2";
 
-export default function resetPage() {
+export default function ResetPage() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
