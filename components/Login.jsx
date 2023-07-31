@@ -59,7 +59,7 @@ export default function useLogin() {
       Swal.fire({
         icon: 'error',
         title: 'Login Failed!',
-        text: 'An error occurred during login. Please try again later.',
+        text: 'Invalid email or password. Kindly recheck and try again',
         showCloseButton: true,
       });
     }
@@ -113,7 +113,7 @@ export default function useLogin() {
           />
           <span> {!showPassword ? "Show" : "Hide"} Password</span>
           <p className="pt-3">
-            Forgot Password? <a className="login__link"> Click here</a>
+            Forgot Password? <Link href="/reset" className="login__link"> Click here</Link>
           </p>
           <button type="submit" className="login-button">
             <SlLogin /> Login
