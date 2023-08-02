@@ -10,10 +10,13 @@ export default function Avatar({name=user?.username, handleClick=null}){
     const firstLetter = name ? name.charAt(0).toUpperCase() : '';
 
     const generateColor = () => {
-      const charCodeRed = name.charCodeAt(0);
+      if (name){
+        const charCodeRed = name.charCodeAt(0);
       const charCodeGreen = Math.pow(charCodeRed, 4) % 100;
       const charCodeBlue = Math.pow(charCodeRed, 9) % 200;
       return `rgb(${charCodeGreen}, ${charCodeBlue}, ${charCodeGreen})`;
+      }
+      return  'rgb(20, 30, 100)'
     };
     
     const color = generateColor(name);
