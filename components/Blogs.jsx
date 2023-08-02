@@ -35,7 +35,7 @@ export default function BlogsComponent({ blogsUrl }) {
   if (!isAuth) {
     navigate.replace("/login");
     return (
-      <div classNAme="flex items-center w-full mx-auto m-4 px-8 md:w-2/3 p-2">
+      <div classNAme="flex items-center md:mx-40 mx-auto m-4 px-8 md:w-2/3 p-2">
         <AiOutlineLoading3Quarters className="animate-spin text-xl font-bold" />
         <p className="text-xl font-bold">Loading....</p>
       </div>
