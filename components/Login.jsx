@@ -52,6 +52,7 @@ export default function useLogin() {
           title: 'Login Successful!',
           text: 'You will be redirected to the homepage in a few seconds.',
           showCloseButton: true,
+          confirmButtonColor: "#0F73BD",
         });
       }
     } catch (error) {

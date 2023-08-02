@@ -14,6 +14,7 @@ export default function Component (){
         title:"Subscription successful",
         text:`${inputRef.current.value} has been successfully subscribed to receive our newsletters`,
         showCloseButton: true,
+        confirmButtonColor: "#0F73BD",
         showCancelButton: true,
         timer:3000,
         footer:"Made a mistake? <a href='#'> Click here to unsubscribe </a>"
@@ -50,7 +51,7 @@ export default function Component (){
           Time to Change!
         </h1>
         <p className="text-sm dark:text-gray-300 leading-8">
-          You can your feed and see more relevant posts by favoriting blogs and
+          You can customize your feed and see more relevant posts by favoriting blogs and
           leaving comments!
         </p>
         <h1 className="font-bold py-2 mt-4">

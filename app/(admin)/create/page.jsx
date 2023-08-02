@@ -1,13 +1,15 @@
 "use client";
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { slugify, createBlog } from "@/lib";
 import Swal from "sweetalert2";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { BsInfoCircle } from "react-icons/bs";
 import { AiFillEdit } from "react-icons/ai";
 import { getCurrentUser } from "@/lib";
 
 export default function useCreate() {
+  const [isAuth, setIsAuth] = useState(true);
   const user = getCurrentUser();
 
   const navigate = useRouter();
@@ -45,6 +47,7 @@ export default function useCreate() {
   useEffect(() => {
     const user = getCurrentUser();
     if (!user) {
+      setIsAuth(false);
       navigate.replace("/login");
     }
   }, [navigate]);
@@ -53,6 +56,16 @@ export default function useCreate() {
     e.preventDefault();
     createBlog(blogData, navigate, setBlogData);
     localStorage.removeItem("draftBlog");
+  }
+  if (!isAuth) {
+    navigate.replace("/login");
+    return (
+      <div className="flex flex-col items-center gap-2 md:flex-row m-5 md:w-4/5 md:ml-auto">
+        {" "}
+        <AiOutlineLoading3Quarters className="animate-spin" />
+        <p>Loading....</p>
+      </div>
+    );
   }
 
   return (

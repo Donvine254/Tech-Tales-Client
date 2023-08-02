@@ -7,6 +7,7 @@ import Axios from "axios";
 import Swal from "sweetalert2";
 
 export default function ResetPage() {
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -36,7 +37,10 @@ export default function ResetPage() {
       return;
     }
     try {
-      const response = await Axios.patch("http://localhost:9292/users", resetForm);
+      const response = await Axios.patch(
+        "http://localhost:9292/users",
+        resetForm
+      );
       const data = response.data;
       if (data.error) {
         Swal.fire({
@@ -101,7 +105,7 @@ export default function ResetPage() {
             <label htmlFor="password">New Password :</label>
             <br></br>
             <input
-              type="password"
+              type={!showPassword ? "password" : "text"}
               name="password"
               value={formData.password}
               placeholder="Enter your password"
@@ -111,13 +115,13 @@ export default function ResetPage() {
               className="input-field focus:bg-blue-600"
             />
             <FaLock id="reset-icon" />
-            <p>Must be at least 8 characters</p>
+            <p className="text-base">Must be at least 8 characters</p>
           </div>
           <div className="relative">
             <label htmlFor="password">Confirm Password :</label>
             <br></br>
             <input
-              type="password"
+              type={!showPassword ? "password" : "text"}
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
@@ -127,8 +131,14 @@ export default function ResetPage() {
               className="input-field focus:bg-blue-600"
             />
             <FaLock id="reset-icon" />
-            <p>Both Passwords must match</p>
+            <p className="text-base">Both Passwords must match</p>
           </div>
+          <input
+            type="checkbox"
+            value={showPassword}
+            onChange={() => setShowPassword(!showPassword)}
+          />
+          <span> {!showPassword ? "Show" : "Hide"} Password</span>
           <button type="submit" className="login-button">
             <FaEdit /> Reset Password
           </button>

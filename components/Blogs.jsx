@@ -3,14 +3,16 @@ import { fetchBlogs, calculateReadingTime } from "@/lib";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { GoClock } from "react-icons/go";
-import { MdOutlineBookmarkAdd } from "react-icons/md";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Image from "next/image";
 import parse from "html-react-parser";
 import { getCurrentUser } from "@/lib";
 import { useRouter } from "next/navigation";
+import Bookmark from "./Bookmark";
 
 export default function BlogsComponent({ blogsUrl }) {
   const [blogs, setBlogs] = useState([]);
+  const [isAuth, setIsAuth] = useState(true);
   const navigate = useRouter();
 
   useEffect(() => {
@@ -27,8 +29,18 @@ export default function BlogsComponent({ blogsUrl }) {
     const user = getCurrentUser();
     if (!user) {
       navigate.replace("/login");
+      setIsAuth(false);
     }
   }, [navigate]);
+  if (!isAuth) {
+    navigate.replace("/login");
+    return (
+      <div classNAme="flex items-center w-full mx-auto m-4 px-8 md:w-2/3">
+        <AiOutlineLoading3Quarters className="animate-spin" />
+        <p>Loading....</p>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full mx-auto m-4 px-8 md:w-2/3 relative">
@@ -76,20 +88,21 @@ export default function BlogsComponent({ blogsUrl }) {
               <p className="tex-base hidden md:block">
                 Based on your reading history
               </p>
-              <MdOutlineBookmarkAdd className="md:text-xl cursor-pointer hover:scale-125" />
+              <Bookmark blogId={blog.id}/>
             </div>
           </div>
         ))
       ) : (
         <>
-          <p>We are currently experiencing a server downtime</p>
+          {/* <p>We are currently experiencing a server downtime</p>
           <Image
             src="https://i.ibb.co/G9DC8S0/404-2.png"
             alt="404"
             className="p-1"
             width={400}
             height={400}
-          />
+          /> */}
+          <p>Loading....</p>
         </>
       )}
     </div>
