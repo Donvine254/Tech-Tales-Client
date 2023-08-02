@@ -36,8 +36,8 @@ export default function BlogsComponent({ blogsUrl }) {
     navigate.replace("/login");
     return (
       <div classNAme="flex items-center w-full mx-auto m-4 px-8 md:w-2/3">
-        <AiOutlineLoading3Quarters className="animate-spin" />
-        <p>Loading....</p>
+        <AiOutlineLoading3Quarters className="animate-spin text-xl font-bold" />
+        <p className="text-xl font-bold">Loading....</p>
       </div>
     );
   }
