@@ -70,7 +70,7 @@ export default function BlogsComponent({ blogsUrl }) {
               <Link
                 href={`/blogs/${blog.slug}`}
                 className="space-y-3 xl:col-span-3">
-                <h1 className="font-bold text-xl md:text-2xl dark:text-blue-500 py-4">
+                <h1 className="font-bold text-xl md:text-2xl dark:text-blue-500 py-4 balance">
                   {blog.title}
                 </h1>
               </Link>
