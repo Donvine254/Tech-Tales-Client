@@ -232,7 +232,7 @@ export default function Comments({ blogId }) {
                       />
                     )}
 
-                    {comment.disliked ? (
+                    {!comment?.disliked ? (
                       <BiDislike
                         className="text-xl font-bold hover:text-blue-500 mx-2"
                         onClick={() => handleDislike(comment.id)}
