@@ -4,14 +4,15 @@ import React from "react";
 import { FaEdit, FaBookOpen } from "react-icons/fa";
 import { BsBookmarks } from "react-icons/bs";
 import { GoSignOut } from "react-icons/go";
-import { clearCurrentUser, getCurrentUser } from "@/lib";
+import { clearCurrentUser, clearAllCookies } from "@/lib";
 import { revalidatePath } from 'next/cache'
 
 export const Menu = ({ handleClick, menuOpen }) => {
   
-  const user = getCurrentUser();
+  
   function handleSignout() {
     clearCurrentUser();
+    clearAllCookies();
     revalidatePath("/my-blogs")
   }
   return (

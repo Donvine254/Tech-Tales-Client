@@ -88,22 +88,15 @@ export default function BlogsComponent({ blogsUrl }) {
               <p className="tex-base hidden md:block">
                 Based on your reading history
               </p>
-              <Bookmark blogId={blog.id}/>
+              <Bookmark blogId={blog.id} />
             </div>
           </div>
         ))
       ) : (
-        <>
-          {/* <p>We are currently experiencing a server downtime</p>
-          <Image
-            src="https://i.ibb.co/G9DC8S0/404-2.png"
-            alt="404"
-            className="p-1"
-            width={400}
-            height={400}
-          /> */}
+        <div className="flex items-center gap-2 py-2">
+          <AiOutlineLoading3Quarters className="animate-spin" />
           <p>Loading....</p>
-        </>
+        </div>
       )}
     </div>
   );
