@@ -3,13 +3,11 @@ import { getCurrentUser, deleteComment, patchComment } from "@/lib";
 import { useState, useEffect } from "react";
 import { MdEdit } from "react-icons/md";
 import { GoTrash } from "react-icons/go";
-import { BiLike, BiSolidLike } from "react-icons/bi";
+import { BiLike, BiSolidLike, BiDislike, BiSolidDislike } from "react-icons/bi";
 import { FaRegComment } from "react-icons/fa";
 import { BsHeart } from "react-icons/bs";
 import { FcLike } from "react-icons/fc";
 import Image from "next/image";
-
-
 
 export default function Comments({ blogId }) {
   const [comments, setComments] = useState([]);
@@ -17,11 +15,9 @@ export default function Comments({ blogId }) {
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [id, setId] = useState(0);
-  const [liked, setLiked] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
 
   const user = getCurrentUser();
-  
+
   useEffect(() => {
     if (blogId) {
       const fetchComments = async () => {
@@ -32,7 +28,9 @@ export default function Comments({ blogId }) {
             throw new Error("Network response was not ok.");
           }
           const data = await response.json();
-          setComments(data.comments);
+          setComments(
+            data.comments.map((comment) => ({ ...comment, liked: false }))
+          );
         } catch (error) {
           console.error(error);
         }
@@ -42,7 +40,7 @@ export default function Comments({ blogId }) {
     }
   }, [blogId]);
 
- async function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     const commentData = {
       user_id: user.id,
@@ -65,7 +63,10 @@ export default function Comments({ blogId }) {
       })
       .then((data) => {
         setNewComment("");
-        setComments((prevComments) => [...prevComments, data.comment]);
+        setComments((prevComments) => [
+          ...prevComments,
+          { ...data.comment, liked: false, disliked: false },
+        ]);
       })
       .catch((error) => console.error("Error posting comment:", error));
   }
@@ -83,6 +84,28 @@ export default function Comments({ blogId }) {
     patchComment(id, setComments, newComment);
     setNewComment("");
     setIsEditing(false);
+  }
+  function handleLike(commentId) {
+    setComments((prevComments) =>
+      prevComments.map((comment) =>
+        comment.id === commentId
+          ? { ...comment, liked: !comment.liked, disliked: comment.disliked }
+          : comment
+      )
+    );
+  }
+  function handleDislike(commentId) {
+    setComments((prevComments) =>
+      prevComments.map((comment) =>
+        comment.id === commentId
+          ? {
+              ...comment,
+              liked: false,
+              disliked: !comment.disliked,
+            }
+          : comment
+      )
+    );
   }
 
   if (!blogId) {
@@ -197,30 +220,30 @@ export default function Comments({ blogId }) {
                   </>
                 ) : (
                   <>
-                    {isLiked ? (
+                    {comment.liked ? (
                       <BiSolidLike
                         className="text-xl font-bold text-blue-500"
-                        onClick={() => setIsLiked(false)}
+                        onClick={() => handleLike(comment.id)}
                       />
                     ) : (
                       <BiLike
                         className="text-xl font-bold hover:text-blue-500 "
-                        onClick={() => setIsLiked(true)}
+                        onClick={() => handleLike(comment.id)}
                       />
                     )}
 
-                    {liked ? (
-                      <FcLike
-                        className="text-xl font-bold mx-2"
-                        onClick={() => setLiked(false)}
+                    {comment.disliked ? (
+                      <BiDislike
+                        className="text-xl font-bold hover:text-blue-500 mx-2"
+                        onClick={() => handleDislike(comment.id)}
                       />
                     ) : (
-                      <BsHeart
-                        className="text-xl font-bold  hover:text-red-700 mx-2"
-                        onClick={() => setLiked(true)}
+                      <BiSolidDislike
+                        className="text-xl font-bold text-blue-500 mx-2"
+                        onClick={() => handleDislike(comment.id)}
                       />
                     )}
-                    <FaRegComment className="text-xl font-bold mx-2" />
+                    <div className="flex items-center gap-0"><FaRegComment className="text-xl font-bold mx-2 cursor-pointer hover:scale-125" />reply</div>
                   </>
                 )}
               </div>
