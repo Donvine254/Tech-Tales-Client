@@ -4,11 +4,11 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { GoClock } from "react-icons/go";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import Image from "next/image";
 import parse from "html-react-parser";
 import { getCurrentUser } from "@/lib";
 import { useRouter } from "next/navigation";
 import Bookmark from "./Bookmark";
+import Avatar from "./Avatar";
 
 export default function BlogsComponent({ blogsUrl }) {
   const [blogs, setBlogs] = useState([]);
@@ -51,13 +51,7 @@ export default function BlogsComponent({ blogsUrl }) {
             <article className="">
               <div className="flex xsm:block gap-5 items-center">
                 <div className="flex gap-0 items-center">
-                  <Image
-                    src="https://d2win24dv6pngl.cloudfront.net/media/generated/profile-photos/profile-1298663/60cc7564d4a37d90.af828114ed82.jpg"
-                    className="avatar"
-                    width={32}
-                    height={32}
-                    alt="user-avatar"
-                  />
+                  <Avatar name={blog.user.username} />
                   <p className="font-bold xsm:text-base text-xl md:text-2xl">
                     {blog.user.username}
                   </p>

@@ -5,9 +5,8 @@ import { MdEdit } from "react-icons/md";
 import { GoTrash } from "react-icons/go";
 import { BiLike, BiSolidLike, BiDislike, BiSolidDislike } from "react-icons/bi";
 import { FaRegComment } from "react-icons/fa";
-import { BsHeart } from "react-icons/bs";
-import { FcLike } from "react-icons/fc";
 import Image from "next/image";
+import Avatar from "./Avatar";
 
 export default function Comments({ blogId }) {
   const [comments, setComments] = useState([]);
@@ -114,21 +113,15 @@ export default function Comments({ blogId }) {
   return (
     <>
       <form className="mt-4">
-        <div className="flex gap-1 xsm:gap-0">
-          <Image
-            src="https://d2win24dv6pngl.cloudfront.net/media/generated/profile-photos/profile-1298663/60cc7564d4a37d90.af828114ed82.jpg"
-            className="avatar xsm:mr-0 xsm:p-0"
-            width={32}
-            height={32}
-            alt="user-avatar"
-          />
+        <div className="flex gap-1 xsm:gap-0 items-center">
+          <Avatar />
           <textarea
             placeholder="add to the discussion"
             value={newComment}
             id="write-comment"
             onClick={() => setIsInputFocused(!isInputFocused)}
             onChange={(e) => setNewComment(e.target.value)}
-            className="p-4 xsm:p-2 xsm:ml-2 w-full border-none shadow-lg bg-gray-200  focus:outline-none md:text-xl h-16 focus:h-20 rounded-lg text-black"
+            className="p-4 xsm:p-2 xsm:ml-2 w-[90%] border-none shadow-lg bg-gray-200  focus:outline-none md:text-xl h-16 focus:h-20 rounded-lg text-black"
           />
         </div>
         <div className="flex align-center gap-2 py-5 ml-16 xsm:ml-10 lg:gap-4">
@@ -171,18 +164,12 @@ export default function Comments({ blogId }) {
         {comments.length > 0 ? (
           comments.map((comment) => (
             <div className="py-2 mt-2" key={comment.id}>
-              <div className="flex gap-0 items-center">
-                <Image
-                  src={
-                    comment.user_id === user.id
-                      ? "https://d2win24dv6pngl.cloudfront.net/media/generated/profile-photos/profile-1298663/60cc7564d4a37d90.af828114ed82.jpg"
-                      : "https://media.istockphoto.com/id/1016744004/vector/profile-placeholder-image-gray-silhouette-no-photo.jpg?s=612x612&w=0&k=20&c=mB6A9idhtEtsFXphs1WVwW_iPBt37S2kJp6VpPhFeoA="
-                  }
-                  width={32}
-                  height={32}
-                  className="avatar"
-                  alt="user-avatar"
-                />
+              <div className="flex gap-0">
+                {comment.user_id === user.id ? (
+                  <Avatar />
+                ) : (
+                  <Avatar name={comment.username} />
+                )}
                 <div className="flex items-center xsm:flex-col gap-2 xsm:gap-0 xsm:items-start">
                   <p className="font-bold xsm:text-base text-xl">
                     {comment.username}
@@ -243,7 +230,10 @@ export default function Comments({ blogId }) {
                         onClick={() => handleDislike(comment.id)}
                       />
                     )}
-                    <div className="flex items-center gap-0"><FaRegComment className="text-xl font-bold mx-2 cursor-pointer hover:scale-125" />reply</div>
+                    <div className="flex items-center gap-0">
+                      <FaRegComment className="text-xl font-bold mx-2 cursor-pointer hover:scale-125" />
+                      reply
+                    </div>
                   </>
                 )}
               </div>

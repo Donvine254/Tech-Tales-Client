@@ -5,11 +5,12 @@ import {fetchBlogs } from "@/lib";
 import { BiLike } from "react-icons/bi";
 import {AiFillLike} from 'react-icons/ai';
 import { FaRegComment } from "react-icons/fa";
-import {Comments, Bookmark} from "@/components"
+import {Comments, Bookmark, Avatar} from "@/components"
 import Image from "next/image";
 import parse from 'html-react-parser';
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+
 
 
 //I will need to fetch all blogs and generate static params for faster load time
@@ -75,20 +76,13 @@ export default function BlogsPage({ params }) {
           </h1>
           <div className="flex xsm:block gap-5 items-center py-4">
             <div className="flex gap-0 items-center">
-              <Image
-                src="https://d2win24dv6pngl.cloudfront.net/media/generated/profile-photos/profile-1298663/60cc7564d4a37d90.af828114ed82.jpg"
-                className="avatar"
-                width={32}
-                height={32}
-                alt="user-avatar"
+              <Avatar name={currentBlog?.user?.username}
               />
               <p className="font-bold xsm:text-base text-xl md:text-2xl">
                 {currentBlog.user? currentBlog.user.username: 'author'}
               </p>
             </div>
-
             <p className="text-base font-medium xsm:px-14 xsm:mb-0">
-            {/* {new Date (currentBlog.created_at).toISOString().split('T')[0]} */}
             {currentBlog.created_at? currentBlog.created_at.split('T')[0] : currentBlog.created_at}
             </p>
           </div>

@@ -5,13 +5,16 @@ import { Search } from "./Search";
 import { SearchMD } from "./SearchMD";
 import Link from "next/link";
 import { Menu } from "./Menu";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
+import Avatar from './Avatar'
+
+
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const pathname = usePathname();
+ 
   return (
     <>
       <div className="p-2 flex w-full m-2 items-center justify-between sticky top-1 dark:bg-slate-900 z-50 bg-gray-200">
@@ -42,14 +45,7 @@ export default function Navbar() {
               Create Post
             </button>
           </Link>
-          <Image
-            src="https://d2win24dv6pngl.cloudfront.net/media/generated/profile-photos/profile-1298663/60cc7564d4a37d90.af828114ed82.jpg"
-            className="avatar md:mr-8 cursor-pointer hover:scale-125 shadow"
-            width={32}
-            height={32}
-            alt="user-avatar"
-            onClick={() => setMenuOpen(true)}
-          />
+          <Avatar  handleClick={() => setMenuOpen(true)}/>
         </div>
       </div>
       <SearchMD />
