@@ -12,7 +12,6 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 
-
 //I will need to fetch all blogs and generate static params for faster load time
 
 export default function BlogsPage({ params }) {

@@ -11,7 +11,7 @@ export default function Footer() {
       </h1>
       <div className="flex flex-col md:justify-between md:flex-row align-center md:gap-2">
         <Link href="" className="navigation__footer">
-          Code of Conduct
+          Community Conduct
         </Link>
         <Link href="" className="navigation__footer">
           Privacy Policy

@@ -5,7 +5,6 @@ import { MdEdit } from "react-icons/md";
 import { GoTrash } from "react-icons/go";
 import { BiLike, BiSolidLike, BiDislike, BiSolidDislike } from "react-icons/bi";
 import { FaRegComment } from "react-icons/fa";
-import Image from "next/image";
 import Avatar from "./Avatar";
 
 export default function Comments({ blogId }) {
@@ -86,12 +85,16 @@ export default function Comments({ blogId }) {
   }
   function handleLike(commentId) {
     setComments((prevComments) =>
-      prevComments.map((comment) =>
-        comment.id === commentId
-          ? { ...comment, liked: !comment.liked, disliked: comment.disliked }
-          : comment
-      )
-    );
+    prevComments.map((comment) =>
+      comment.id === commentId
+        ? {
+            ...comment,
+            liked: !comment.liked,
+            disliked: false,
+          }
+        : comment
+    )
+  );
   }
   function handleDislike(commentId) {
     setComments((prevComments) =>
