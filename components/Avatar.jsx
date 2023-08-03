@@ -2,11 +2,11 @@
 
 import { getCurrentUser } from "@/lib";
 
-const user = getCurrentUser()
 
 
 
-export default function Avatar({name=user?.username, handleClick=null}){
+export default function Avatar({name, handleClick=null}){
+ 
     const firstLetter = name ? name.charAt(0).toUpperCase() : '';
 
     const generateColor = () => {

@@ -7,13 +7,14 @@ import Link from "next/link";
 import { Menu } from "./Menu";
 import { usePathname } from "next/navigation";
 import Avatar from './Avatar'
-
+import { getCurrentUser } from "@/lib";
 
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const pathname = usePathname();
+  const user= getCurrentUser();
  
   return (
     <>
@@ -45,7 +46,7 @@ export default function Navbar() {
               Create Post
             </button>
           </Link>
-          <Avatar  handleClick={() => setMenuOpen(true)}/>
+          <Avatar name={user.username} handleClick={() => setMenuOpen(true)}/>
         </div>
       </div>
       <SearchMD />

@@ -114,7 +114,7 @@ export default function Comments({ blogId }) {
     <>
       <form className="mt-4">
         <div className="flex gap-1 xsm:gap-0 items-center">
-          <Avatar />
+          <Avatar name={user.username} />
           <textarea
             placeholder="add to the discussion"
             value={newComment}
@@ -166,7 +166,7 @@ export default function Comments({ blogId }) {
             <div className="py-2 mt-2" key={comment.id}>
               <div className="flex gap-0">
                 {comment.user_id === user.id ? (
-                  <Avatar />
+                  <Avatar name={user.username} />
                 ) : (
                   <Avatar name={comment.username} />
                 )}
