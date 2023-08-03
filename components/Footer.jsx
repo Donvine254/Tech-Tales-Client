@@ -10,10 +10,10 @@ export default function Footer() {
         social network blog for software developers
       </h1>
       <div className="flex flex-col md:justify-between md:flex-row align-center md:gap-2">
-        <Link href="https://www.youtube.com/howyoutubeworks/policies/community-guidelines" className="navigation__footer">
+        <Link href="https://www.youtube.com/howyoutubeworks/policies/community-guidelines" className="navigation__footer" target="_blank">
           Community Guidelines
         </Link>
-        <Link href="" className="navigation__footer">
+        <Link href="https://policies.google.com/privacy?hl=en" target="_blank" className="navigation__footer">
           Privacy Policy
         </Link>
         <Link href="" className="navigation__footer">
