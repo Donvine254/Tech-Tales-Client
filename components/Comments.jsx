@@ -20,7 +20,7 @@ export default function Comments({ blogId }) {
     if (blogId) {
       const fetchComments = async () => {
         try {
-          const url = `http://localhost:9292/comments/blogs/${blogId}`;
+          const url = `https://tech-tales-server.up.railway.app/comments/blogs/${blogId}`;
           const response = await fetch(url);
           if (!response.ok) {
             throw new Error("Network response was not ok.");
@@ -45,7 +45,7 @@ export default function Comments({ blogId }) {
       blog_id: blogId,
       body: newComment,
     };
-    const url = "http://localhost:9292/comments";
+    const url = "https://tech-tales-server.up.railway.app/comments";
     fetch(url, {
       method: "POST",
       headers: {
@@ -171,16 +171,14 @@ export default function Comments({ blogId }) {
                 {comment.user_id === user.id ? (
                   <Avatar name={user?.username} />
                 ) : (
-                  <Avatar name={comment.username} />
+                  <Avatar name={comment.author} />
                 )}
                 <div className="flex items-center xsm:flex-col gap-2 xsm:gap-0 xsm:items-start">
                   <p className="font-bold xsm:text-base text-xl">
-                    {comment.username}
+                    {comment.author}
                   </p>
                   <p className="font-bold xsm:text-base text-xl">
-                    {comment.created_at
-                      ? comment.created_at.split("T")[0]
-                      : comment.created_at}
+                    {comment.created_at}
                   </p>
                 </div>
               </div>

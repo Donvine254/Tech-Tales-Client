@@ -17,7 +17,7 @@ export default function MyBlogsComponent() {
     if (user) {
       const fetchBlogs = async () => {
         try {
-          const url = `http://localhost:9292/blogs/user/${user.id}`;
+          const url = `https://tech-tales-server.up.railway.app/blogs/user/${user.id}`;
           const response = await Axios.get(url);
           setBlogs(response.data);
         } catch (error) {
@@ -49,12 +49,12 @@ export default function MyBlogsComponent() {
                     alt="user-avatar"
                   />
                   <p className="font-bold xsm:text-base text-xl md:text-2xl">
-                    {blog.user.username}
+                    {blog.author}
                   </p>
                 </div>
 
                 <p className="text-base font-medium xsm:px-14 xsm:mb-0">
-                  {new Date(blog.created_at).toISOString().split("T")[0]}
+                  {blog.created_at}
                 </p>
               </div>
               <Link

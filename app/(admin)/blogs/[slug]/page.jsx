@@ -21,7 +21,7 @@ export default function BlogsPage({ params }) {
   const [liked, setLiked]= useState(false)
   const [error, setError] = useState(false);
 
-  const url="http://localhost:9292/fullblogs"
+  const url="https://tech-tales-server.up.railway.app/blogs"
   const navigate= useRouter();
 
   function handleLikeClick(){
@@ -75,14 +75,14 @@ export default function BlogsPage({ params }) {
           </h1>
           <div className="flex xsm:block gap-5 items-center py-4">
             <div className="flex gap-0 items-center">
-              <Avatar name={currentBlog?.user?.username}
+              <Avatar name={currentBlog?.author}
               />
               <p className="font-bold xsm:text-base text-xl md:text-2xl">
-                {currentBlog.user? currentBlog.user.username: 'author'}
+                {currentBlog.author? currentBlog.author: 'author'}
               </p>
             </div>
             <p className="text-base font-medium xsm:px-14 xsm:mb-0">
-            {currentBlog.created_at? currentBlog.created_at.split('T')[0] : currentBlog.created_at}
+            {currentBlog.created_at}
             </p>
           </div>
           <Image src={currentBlog.image} width={680} height={680} alt='blog-image' className='h-full w-full'/>

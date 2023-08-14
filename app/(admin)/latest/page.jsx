@@ -1,6 +1,6 @@
 import { BlogsComponent, Component } from "@/components";
 
-const url = "http://localhost:9292/latest";
+const url = "https://tech-tales-server.up.railway.app/latest";
 // fetch the data based on created time
 export default function Latest() {
   return (

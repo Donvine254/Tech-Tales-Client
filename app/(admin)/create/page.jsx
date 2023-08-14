@@ -16,7 +16,6 @@ export default function useCreate() {
   const [blogData, setBlogData] = useState({
     title: "",
     image: "",
-    slug: "",
     body: "",
     user_id: "",
   });
@@ -25,7 +24,6 @@ export default function useCreate() {
     setBlogData((prevData) => ({
       ...prevData,
       [name]: value,
-      slug: slugify(blogData.title),
       user_id: user.id,
     }));
   };

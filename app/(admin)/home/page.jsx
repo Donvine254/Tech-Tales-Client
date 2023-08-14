@@ -1,7 +1,7 @@
 import { BlogsComponent, Component } from "@/components";
 
 
-const url = "http://localhost:9292/blogs";
+const url = "https://tech-tales-server.up.railway.app/blogs";
 
 
 export default function HomePage() {

@@ -1,6 +1,6 @@
 import { BlogsComponent, Component } from "@/components";
 
-const url = "http://localhost:9292/featured";
+const url = "https://tech-tales-server.up.railway.app/featured";
 export default function Featured() {
   return (
     <div className="relative">

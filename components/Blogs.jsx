@@ -51,14 +51,14 @@ export default function BlogsComponent({ blogsUrl }) {
             <article className="">
               <div className="flex xsm:block gap-5 items-center">
                 <div className="flex gap-0 items-center">
-                  <Avatar name={blog.user.username} />
+                  <Avatar name={blog.author} />
                   <p className="font-bold xsm:text-base text-xl md:text-2xl">
-                    {blog.user.username}
+                    {blog.author}
                   </p>
                 </div>
 
                 <p className="text-base font-medium xsm:px-14 xsm:mb-0">
-                  {new Date(blog.created_at).toISOString().split("T")[0]}
+                  {blog.created_at}
                 </p>
               </div>
               <Link

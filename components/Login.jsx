@@ -6,8 +6,8 @@ import { FaLock } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { SlLogin } from "react-icons/sl";
 import { useRouter } from "next/navigation";
-import Axios from "axios";
-const loginApi = "http://localhost:9292/login";
+import axiosInstance from '../axiosConfig';
+const loginApi = "https://tech-tales-server.up.railway.app/login";
 
 export default function useLogin() {
   const [showPassword, setShowPassword] = useState(false);
@@ -28,7 +28,7 @@ export default function useLogin() {
   async function handleLogin(e) {
     e.preventDefault();
     try {
-      const response = await Axios.post(loginApi, loginData);
+      const response = await axiosInstance.post(loginApi, loginData);
       const data = response.data;
       if (data.error) {
         // If the response contains an error message
