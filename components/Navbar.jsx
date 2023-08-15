@@ -46,7 +46,7 @@ export default function Navbar() {
               Create Post
             </button>
           </Link>
-          <Avatar name={user?.username} handleClick={() => setMenuOpen(true)}/>
+          <Avatar name={user?.username.toUpperCase()} handleClick={() => setMenuOpen(true)}/>
         </div>
       </div>
       <SearchMD />

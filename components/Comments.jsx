@@ -25,9 +25,9 @@ export default function Comments({ blogId }) {
           if (!response.ok) {
             throw new Error("Network response was not ok.");
           }
-          const data = await response.json();
+          const comments = await response.json();
           setComments(
-            data.comments.map((comment) => ({ ...comment, liked: false }))
+            comments.map((comment) => ({ ...comment, liked: false }))
           );
         } catch (error) {
           console.error(error);
@@ -63,7 +63,7 @@ export default function Comments({ blogId }) {
         setNewComment("");
         setComments((prevComments) => [
           ...prevComments,
-          { ...data.comment, liked: false, disliked: false },
+          { ...data, liked: false, disliked: false },
         ]);
       })
       .catch((error) => console.error("Error posting comment:", error));

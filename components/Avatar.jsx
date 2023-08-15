@@ -1,13 +1,7 @@
 'use client'
-
-import { getCurrentUser } from "@/lib";
-
-
-
-
 export default function Avatar({name, handleClick=null}){
  
-    const firstLetter = name ? name.charAt(0).toUpperCase() : '';
+    const firstLetter = name ? name.charAt(0) : '';
 
     const generateColor = () => {
       if (name){
