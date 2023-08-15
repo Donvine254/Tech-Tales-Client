@@ -16,7 +16,7 @@ export default function Avatar({name, handleClick=null}){
     const color = generateColor(name);
 
     return (
-        <div className={`flex justify-center items-center w-12 h-12 rounded-full  md:mr-8 cursor-pointer shadow`} onClick={handleClick} style={{ backgroundColor: color }} >
+        <div className={`flex justify-center items-center w-10 h-10 md:w-12 md:h-12 rounded-full  md:mr-8 cursor-pointer shadow`} onClick={handleClick} style={{ backgroundColor: color }} >
          <p className="text-white text-xl font-bold">{firstLetter}</p> 
         </div>
       )

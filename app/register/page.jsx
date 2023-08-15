@@ -47,8 +47,10 @@ export default function useRegister() {
               name="username"
               value={formData.username}
               onChange={handleChange}
+              pattern="^(?!.*@).*"
               placeholder="Enter your username"
               className="input-field  focus:bg-blue-600"
+              title="Email addresses are not allowed as usernames."
               required
             />
             <FaUserAlt id="email-icon" />

@@ -54,7 +54,7 @@ export default function Comments({ blogId }) {
       body: JSON.stringify(commentData),
     })
       .then((response) => {
-        if (!response.ok) {
+        if (!response.status ===201) {
           throw new Error("Network response was not ok.");
         }
         return response.json();
@@ -167,7 +167,7 @@ export default function Comments({ blogId }) {
         {comments.length > 0 ? (
           comments.map((comment) => (
             <div className="py-2 mt-2" key={comment.id}>
-              <div className="flex gap-0">
+              <div className="flex gap-0 xsm:gap-1 xsm:items-center">
                 {comment.user_id === user.id ? (
                   <Avatar name={user?.username} />
                 ) : (

@@ -74,14 +74,14 @@ export default function BlogsPage({ params }) {
             {currentBlog.title}
           </h1>
           <div className="flex xsm:block gap-5 items-center py-4">
-            <div className="flex gap-0 items-center">
+            <div className="flex gap-1 items-center">
               <Avatar name={currentBlog?.author}
               />
               <p className="font-bold xsm:text-base text-xl md:text-2xl">
                 {currentBlog.author? currentBlog.author: 'author'}
               </p>
             </div>
-            <p className="text-base font-medium xsm:px-14 xsm:mb-0">
+            <p className="text-base font-medium xsm:px-10 xsm:mb-0">
             {currentBlog.created_at}
             </p>
           </div>

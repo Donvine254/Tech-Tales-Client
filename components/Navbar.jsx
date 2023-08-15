@@ -39,7 +39,7 @@ export default function Navbar() {
             <span className="text-red-600 text-2xl md:text-5xl">.</span>
           </h1>
         </Link>
-        <div className="flex items-center md:gap-1">
+        <div className="flex items-center md:gap-1 mr-2">
           <Search />
           <Link href="/create">
             <button type="button" className="hidden md:block btn-primary">
