@@ -7,7 +7,8 @@ You can use this Front-end in with the back-end api available here [see repo](ht
 *You will need to ensure that the backend is up and running before starting the application.*
 
 ## Deployed Site
-View the deployed site here [techtales.vercel.app](https://techtales.vercel.app/)
+View the deployed frontend site here [explora-cars.vercel.app](hhttps://explora-cars.vercel.app/)
+View the deployed API here [explora-api.up.railway.app](https://explora-api.up.railway.app)
 ## Technologies Used
 * **React**
 * **Next.js**
