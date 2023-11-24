@@ -1,19 +1,19 @@
 "use client";
 import Link from "next/link";
-import { useState} from "react";
+import { useState } from "react";
 import Swal from "sweetalert2";
 import { FaLock } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { SlLogin } from "react-icons/sl";
 import { useRouter } from "next/navigation";
-import axiosInstance from '../axiosConfig';
-const loginApi = "https://tech-tales.onrender.com/login";
+import axiosInstance from "../axiosConfig";
+const loginApi = "https://tech-tales-donvine.koyeb.app/login";
 
 export default function useLogin() {
   const [showPassword, setShowPassword] = useState(false);
   const [loginData, setLoginData] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
   const navigate = useRouter();
 
@@ -33,8 +33,8 @@ export default function useLogin() {
       if (data.error) {
         // If the response contains an error message
         Swal.fire({
-          icon: 'error',
-          title: 'Login Failed!',
+          icon: "error",
+          title: "Login Failed!",
           text: data.error,
           showCloseButton: true,
           showCancelButton: true,
@@ -43,24 +43,24 @@ export default function useLogin() {
         // If the response contains user data (login successful)
         const foundUser = data;
         console.log(foundUser);
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('loggedInUser', JSON.stringify(foundUser));
+        if (typeof window !== "undefined") {
+          localStorage.setItem("loggedInUser", JSON.stringify(foundUser));
         }
-        navigate.replace('/home');
+        navigate.replace("/home");
         Swal.fire({
-          icon: 'success',
-          title: 'Login Successful!',
-          text: 'You will be redirected to the homepage in a few seconds.',
+          icon: "success",
+          title: "Login Successful!",
+          text: "You will be redirected to the homepage in a few seconds.",
           showCloseButton: true,
           confirmButtonColor: "#0F73BD",
         });
       }
     } catch (error) {
-      console.error('Error during login:', error);
+      console.error("Error during login:", error);
       Swal.fire({
-        icon: 'error',
-        title: 'Login Failed!',
-        text: 'Invalid email or password. Kindly recheck and try again',
+        icon: "error",
+        title: "Login Failed!",
+        text: "Invalid email or password. Kindly recheck and try again",
         showCloseButton: true,
       });
     }
@@ -114,7 +114,11 @@ export default function useLogin() {
           />
           <span> {!showPassword ? "Show" : "Hide"} Password</span>
           <p className="pt-3">
-            Forgot Password? <Link href="/reset" className="login__link"> Click here</Link>
+            Forgot Password?{" "}
+            <Link href="/reset" className="login__link">
+              {" "}
+              Click here
+            </Link>
           </p>
           <button type="submit" className="login-button">
             <SlLogin /> Login

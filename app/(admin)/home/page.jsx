@@ -1,6 +1,6 @@
 import { BlogsComponent, Component } from "@/components";
 
-const url = "https://tech-tales.onrender.com/blogs";
+const url = "https://tech-tales-donvine.koyeb.app/blogs";
 
 export default function HomePage() {
   return (

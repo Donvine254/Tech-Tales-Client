@@ -1,6 +1,6 @@
 import { BlogsComponent, Component } from "@/components";
 
-const url = "https://tech-tales.onrender.com/latest";
+const url = "https://tech-tales-donvine.koyeb.app/blogs/latest";
 // fetch the data based on created time
 export default function Latest() {
   return (

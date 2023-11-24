@@ -20,7 +20,7 @@ export default function Comments({ blogId }) {
     if (blogId) {
       const fetchComments = async () => {
         try {
-          const url = `https://tech-tales.onrender.com/comments/blogs/${blogId}`;
+          const url = `https://tech-tales-donvine.koyeb.app/comments/blogs/${blogId}`;
           const response = await fetch(url);
           if (!response.ok) {
             throw new Error("Network response was not ok.");
@@ -45,7 +45,7 @@ export default function Comments({ blogId }) {
       blog_id: blogId,
       body: newComment,
     };
-    const url = "https://tech-tales.onrender.com/comments";
+    const url = "https://tech-tales-donvine.koyeb.app/comments";
     fetch(url, {
       method: "POST",
       headers: {
@@ -54,7 +54,7 @@ export default function Comments({ blogId }) {
       body: JSON.stringify(commentData),
     })
       .then((response) => {
-        if (!response.status ===201) {
+        if (!response.status === 201) {
           throw new Error("Network response was not ok.");
         }
         return response.json();
@@ -85,16 +85,16 @@ export default function Comments({ blogId }) {
   }
   function handleLike(commentId) {
     setComments((prevComments) =>
-    prevComments.map((comment) =>
-      comment.id === commentId
-        ? {
-            ...comment,
-            liked: !comment.liked,
-            disliked: false,
-          }
-        : comment
-    )
-  );
+      prevComments.map((comment) =>
+        comment.id === commentId
+          ? {
+              ...comment,
+              liked: !comment.liked,
+              disliked: false,
+            }
+          : comment
+      )
+    );
   }
   function handleDislike(commentId) {
     setComments((prevComments) =>
