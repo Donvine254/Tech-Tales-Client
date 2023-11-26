@@ -30,7 +30,8 @@ export default function useCreate() {
   function saveDraft() {
     localStorage.setItem("draftBlog", JSON.stringify(blogData));
     Swal.fire({
-      html: "<p>✅ draft saved successfully</p>",
+      text: "draft saved successfully",
+      icon: "success",
       showConfirmButton: false,
       showCloseButton: true,
       timer: 3000,
@@ -55,16 +56,6 @@ export default function useCreate() {
     createBlog(blogData, navigate, setBlogData);
     localStorage.removeItem("draftBlog");
   }
-  if (!isAuth) {
-    navigate.replace("/login");
-    return (
-      <div className="flex flex-col items-center gap-2 md:flex-row m-5 md:w-4/5 md:ml-auto">
-        {" "}
-        <AiOutlineLoading3Quarters className="animate-spin" />
-        <p>Loading....</p>
-      </div>
-    );
-  }
 
   return (
     <div className="flex flex-col md:flex-row m-5 md:w-4/5 md:ml-auto">
@@ -80,6 +71,7 @@ export default function useCreate() {
           className="blog-input-field focus:outline-none"
           type="text"
           name="title"
+          disabled={!user}
           value={blogData.title}
           onChange={handleChange}
           placeholder="Write your blog title here"
@@ -95,6 +87,7 @@ export default function useCreate() {
           className="blog-input-field focus:outline-none"
           type="text"
           name="image"
+          disabled={!user}
           value={blogData.image}
           onChange={handleChange}
           placeholder="Paste the url for the cover image"
@@ -106,6 +99,7 @@ export default function useCreate() {
           name="body"
           value={blogData.body}
           onChange={handleChange}
+          disabled={!user}
           required
           placeholder="Write your blog here. Remember to use html tags"
           className="p-4 w-full border-none shadow-lg text-black focus:outline-none text-xl"
@@ -152,7 +146,7 @@ export default function useCreate() {
           <li>&lt;strong&gt; &lt;/strong&gt; for bold text</li>
           <li>&lt;p&gt; &lt;/p&gt; for paragraphs</li>
           <li>&lt;h1--h6&gt; &lt;/h1--h6&gt; for headers</li>
-          <li>&lt;img&gt; &lt;/img&gt; for image tags (self closing )</li>
+          <li>&lt;img&gt; &lt;/img&gt; for image tags</li>
         </ul>
       </div>
     </div>
