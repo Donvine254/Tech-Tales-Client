@@ -38,7 +38,7 @@ export default function ResetPage() {
     }
     try {
       const response = await Axios.patch(
-        "https://tech-tales-donvine.koyeb.app/users",
+        "https://techtales.up.railway.app/users",
         resetForm
       );
       const data = response.data;

@@ -20,7 +20,7 @@ export default function Comments({ blogId }) {
     if (blogId) {
       const fetchComments = async () => {
         try {
-          const url = `https://tech-tales-donvine.koyeb.app/comments/blogs/${blogId}`;
+          const url = `https://techtales.up.railway.app/comments/blogs/${blogId}`;
           const response = await fetch(url);
           if (!response.ok) {
             throw new Error("Network response was not ok.");
@@ -45,7 +45,7 @@ export default function Comments({ blogId }) {
       blog_id: blogId,
       body: newComment,
     };
-    const url = "https://tech-tales-donvine.koyeb.app/comments";
+    const url = "https://techtales.up.railway.app/comments";
     fetch(url, {
       method: "POST",
       headers: {

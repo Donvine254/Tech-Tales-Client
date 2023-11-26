@@ -19,7 +19,7 @@ export default function BlogsPage({ params }) {
   const [liked, setLiked] = useState(false);
   const [error, setError] = useState(false);
 
-  const url = "https://tech-tales-donvine.koyeb.app/blogs";
+  const url = "https://techtales.up.railway.app/blogs";
   const navigate = useRouter();
 
   function handleLikeClick() {

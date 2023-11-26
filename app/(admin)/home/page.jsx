@@ -1,6 +1,6 @@
 import { BlogsComponent, Component } from "@/components";
 
-const url = "https://tech-tales-donvine.koyeb.app/blogs";
+const url = "https://techtales.up.railway.app/blogs";
 
 export default function HomePage() {
   return (

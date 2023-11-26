@@ -17,7 +17,7 @@ export default function MyBlogsComponent() {
     if (user) {
       const fetchBlogs = async () => {
         try {
-          const url = `https://tech-tales-donvine.koyeb.app/blogs/user/${user.id}`;
+          const url = `https://techtales.up.railway.app/blogs/user/${user.id}`;
           const response = await Axios.get(url);
           setBlogs(response.data);
         } catch (error) {

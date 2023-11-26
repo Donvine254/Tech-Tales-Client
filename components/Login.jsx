@@ -7,7 +7,7 @@ import { MdEmail } from "react-icons/md";
 import { SlLogin } from "react-icons/sl";
 import { useRouter } from "next/navigation";
 import axiosInstance from "../axiosConfig";
-const loginApi = "https://tech-tales-donvine.koyeb.app/login";
+const loginApi = "https://techtales.up.railway.app/login";
 
 export default function useLogin() {
   const [showPassword, setShowPassword] = useState(false);
