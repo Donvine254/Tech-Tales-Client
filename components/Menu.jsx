@@ -14,11 +14,11 @@ export const Menu = ({ handleClick, menuOpen }) => {
     revalidatePath("/my-blogs");
   }
   return (
-    <nav className="absolute left-0 top-1  md:mt-5 dark:bg-gray-900 shadow-lg bg-slate-100 py-4 rounded-lg md:w-60 w-2/3 z-50 font-poppins">
+    <nav className="absolute right-0 md:right-3 top-10 mt-10  md:mt-5 dark:bg-gray-900 shadow-lg bg-slate-100 py-5 text-end rounded-lg md:w-60 w-2/3 z-50 font-poppins">
       <TfiClose
-        className="absolute top-0 right-0 text-2xl mr-2 hover:scale-125 ease-in-out cursor-pointer"
+        className="absolute top-1 right-1 rounded-full border p-1 text-2xl mr-2  cursor-pointer"
         onClick={() => handleClick(!menuOpen)}
-      /> 
+      />
       <Link
         href="/create"
         className=" menu-item"

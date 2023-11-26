@@ -17,7 +17,7 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="p-2 flex w-full m-2 items-center justify-between sticky top-1 dark:bg-slate-900 z-50 bg-gray-200">
+      <div className="p-2 flex w-full m-2 items-center justify-between sticky top-1 dark:bg-slate-900 z-50 bg-gray-200 relative">
         <Link href="/home">
           <h1 className="text-xl md:text-3xl font-bold lg:text-4xl m-auto cursor-pointer">
             Tech Tales
