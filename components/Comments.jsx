@@ -166,7 +166,7 @@ export default function Comments({ blogId }) {
       <div>
         {comments.length > 0 ? (
           comments.map((comment) => (
-            <div className="py-2 mt-2" key={comment.id}>
+            <div className="py-2 mt-2 font-poppins" key={comment.id}>
               <div className="flex gap-0 xsm:gap-1 xsm:items-center">
                 {comment.user_id === user.id ? (
                   <Avatar name={user?.username} />
@@ -182,7 +182,7 @@ export default function Comments({ blogId }) {
                   </p>
                 </div>
               </div>
-              <p className="text-base py-2 leading-normal ml-16 xsm:ml-10">
+              <p className="text-base md:text-xl py-2 leading-normal ml-16 xsm:ml-10">
                 {comment.body}
               </p>
 

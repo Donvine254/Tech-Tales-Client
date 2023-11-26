@@ -65,7 +65,7 @@ export default function BlogsPage({ params }) {
   }, [error, currentBlog, navigate]);
 
   return (
-    <div className="w-full mx-auto m-4 px-8 md:w-2/3">
+    <div className="w-full mx-auto m-4 px-8 md:w-2/3 font-poppins">
       {currentBlog ? (
         <div key={currentBlog.id}>
           <h1 className='className="font-extra-bold xsm:text-xl text-2xl md:text-4xl dark:text-blue-500 py-4 balance'>

@@ -6,16 +6,15 @@ import { SearchMD } from "./SearchMD";
 import Link from "next/link";
 import { Menu } from "./Menu";
 import { usePathname } from "next/navigation";
-import Avatar from './Avatar'
+import Avatar from "./Avatar";
 import { getCurrentUser } from "@/lib";
-
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const pathname = usePathname();
-  const user= getCurrentUser();
- 
+  const user = getCurrentUser();
+
   return (
     <>
       <div className="p-2 flex w-full m-2 items-center justify-between sticky top-1 dark:bg-slate-900 z-50 bg-gray-200">
@@ -46,12 +45,12 @@ export default function Navbar() {
               Create Post
             </button>
           </Link>
-          <Avatar name={user?.username} handleClick={() => setMenuOpen(true)}/>
+          <Avatar name={user?.username} handleClick={() => setMenuOpen(true)} />
         </div>
       </div>
       <SearchMD />
       <div className="max-w-7xl mx-auto md:w-2/3">
-        <div className="flex justify-center md:justify-start md:ml-5  md:gap-4 items-center">
+        <div className="flex justify-center md:justify-start md:ml-5  md:gap-4 items-center font-crimson">
           {navLinks.map((link) => {
             const isActive = pathname.startsWith(link.href);
             return (
@@ -59,7 +58,9 @@ export default function Navbar() {
                 href={link.href}
                 key={link.name}
                 className={`navigation ${
-                  isActive ? "text-blue-500 font-bold underline bg-slate-300 rounded-lg" : ""
+                  isActive
+                    ? "text-blue-500 font-bold underline bg-slate-300 rounded-lg"
+                    : ""
                 }`}>
                 {link.name}
               </Link>

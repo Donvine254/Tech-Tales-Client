@@ -43,7 +43,7 @@ export default function BlogsComponent({ blogsUrl }) {
   }
 
   return (
-    <div className="w-full mx-auto m-4 px-8 md:w-2/3 relative">
+    <div className="w-full mx-auto m-4 px-8 md:w-2/3 relative font-poppins">
       <hr></hr>
       {blogs && blogs.length > 0 ? (
         blogs.map((blog) => (
@@ -64,11 +64,11 @@ export default function BlogsComponent({ blogsUrl }) {
               <Link
                 href={`/blogs/${blog.slug}`}
                 className="space-y-3 xl:col-span-3">
-                <h1 className="font-bold text-xl md:text-2xl dark:text-blue-500 py-4 balance">
+                <h1 className="font-bold text-xl md:text-3xl dark:text-blue-500 py-4 balance">
                   {blog.title}
                 </h1>
               </Link>
-              <p className="text-base leading-8 line-clamp-2 py-2">
+              <p className="text-xl leading-8 line-clamp-2 py-2">
                 {blog ? parse(blog.body) : blog.body}
               </p>
             </article>
