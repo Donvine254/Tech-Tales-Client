@@ -36,7 +36,7 @@ body {
   @apply flex items-center gap-2 px-3 py-2 font-bold hover:text-blue-600 md:text-2xl;
 }
 .btn-primary {
-  @apply rounded-sm p-2 px-4 shadow-md m-3 border border-sky-500 hover:bg-sky-500;
+  @apply rounded-md p-2 px-4 shadow-md m-3 border border-sky-500 hover:bg-sky-500;
 }
 .btn-secondary {
   @apply rounded-full flex items-center py-2 m-5 px-8 shadow-md border border-sky-500 hover:bg-sky-500;

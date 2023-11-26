@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import { FaBars } from "react-icons/fa";
 import { Search } from "./Search";
 import { SearchMD } from "./SearchMD";
 import Link from "next/link";
@@ -17,22 +16,37 @@ export default function Navbar() {
 
   return (
     <section className="sticky top-1">
-      <div className="p-2 flex w-full m-2 items-center justify-between relative dark:bg-slate-900 z-50 bg-gray-200 ">
-        <Link href="/">
-          <h1 className="text-xl md:text-3xl font-bold lg:text-4xl m-auto cursor-pointer">
-            Tech Tales
-            <span className="text-red-600 text-2xl md:text-5xl">.</span>
-          </h1>
-        </Link>
-        <div className="flex items-center md:gap-1 mr-2">
+      <div className="p-2 flex w-full m-2 items-center justify-between relative dark:bg-slate-900 z-[20] bg-gray-200 ">
+        <div id="logo">
+          <Link href="/">
+            <h1 className="text-xl md:text-3xl font-bold lg:text-4xl m-auto cursor-pointer">
+              Tech Tales
+              <span className="text-red-600 text-2xl md:text-5xl">.</span>
+            </h1>
+          </Link>
+        </div>
+        <div className="w-1/2">
           <Search />
-          <Link href="/create">
-            <button type="button" className="hidden md:block btn-primary">
-              Create Post
+        </div>
+        {user ? (
+          <div className="flex items-center md:gap-1 mr-2">
+            <Link href="/create">
+              <button type="button" className="hidden md:block btn-primary">
+                Create Post
+              </button>
+            </Link>
+            <Avatar
+              name={user?.username}
+              handleClick={() => setMenuOpen(true)}
+            />
+          </div>
+        ) : (
+          <Link href="/login">
+            <button type="button" className="btn-primary text-xl">
+              Login
             </button>
           </Link>
-          <Avatar name={user?.username} handleClick={() => setMenuOpen(true)} />
-        </div>
+        )}
       </div>
       <SearchMD />
       <div className="max-w-7xl mx-auto md:w-2/3">
