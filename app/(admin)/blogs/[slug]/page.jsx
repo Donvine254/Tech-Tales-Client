@@ -68,7 +68,7 @@ export default function BlogsPage({ params }) {
     <div className="w-full mx-auto m-4 px-8 md:w-2/3 font-poppins">
       {currentBlog ? (
         <div key={currentBlog.id}>
-          <h1 className='className="font-extra-bold xsm:text-xl text-2xl md:text-4xl dark:text-blue-500 py-4 balance'>
+          <h1 className="font-bold xsm:text-xl text-2xl md:text-4xl lg:text-5xl dark:text-blue-500 py-4 balance">
             {currentBlog.title}
           </h1>
           <div className="flex xsm:block gap-5 items-center py-4">
@@ -89,7 +89,7 @@ export default function BlogsPage({ params }) {
             alt="blog-image"
             className="h-full w-full"
           />
-          <article className="text-base md:text-xl leading-8 md:leading-10 mt-3 ">
+          <article className="text-base md:text-xl leading-8 md:leading-10 mt-3 subpixel-antialiased indent-10">
             {currentBlog.body ? parse(currentBlog.body) : currentBlog.body}
           </article>
           <div className="flex items-center justify-between">
