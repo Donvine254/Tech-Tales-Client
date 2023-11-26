@@ -7,6 +7,7 @@ import Image from "next/image";
 import { getCurrentUser, deleteBlog } from "@/lib";
 import Axios from "axios";
 import parse from "html-react-parser";
+import { Avatar } from "@/components";
 //check for the current user
 const user = getCurrentUser();
 
@@ -41,13 +42,7 @@ export default function MyBlogsComponent() {
             <article className="">
               <div className="flex xsm:block gap-5 items-center">
                 <div className="flex gap-0 items-center">
-                  <Image
-                    src="https://d2win24dv6pngl.cloudfront.net/media/generated/profile-photos/profile-1298663/60cc7564d4a37d90.af828114ed82.jpg"
-                    className="avatar"
-                    width={32}
-                    height={32}
-                    alt="user-avatar"
-                  />
+                  <Avatar name={blog.author}/>
                   <p className="font-bold xsm:text-base text-xl md:text-2xl">
                     {blog.author}
                   </p>

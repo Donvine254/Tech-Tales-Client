@@ -1,4 +1,4 @@
-import { BlogsComponent, Component } from "@/components";
+import { BlogsComponent} from "@/components";
 
 const url = "https://techtales.up.railway.app/blogs";
 

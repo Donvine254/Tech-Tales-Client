@@ -18,20 +18,6 @@ export default function Navbar() {
   return (
     <>
       <div className="p-2 flex w-full m-2 items-center justify-between sticky top-1 dark:bg-slate-900 z-50 bg-gray-200">
-        <div className="w-10">
-          {!menuOpen ? (
-            <FaBars
-              className="text-xl md:text-3xl z-50 cursor-pointer transition duration-150 ease-out"
-              onClick={() => setMenuOpen(!menuOpen)}
-            />
-          ) : (
-            <Menu
-              onClick={() => setMenuOpen(!menuOpen)}
-              handleClick={setMenuOpen}
-              menuOpen={menuOpen}
-            />
-          )}
-        </div>
         <Link href="/home">
           <h1 className="text-xl md:text-3xl font-bold lg:text-4xl m-auto cursor-pointer">
             Tech Tales
@@ -67,6 +53,13 @@ export default function Navbar() {
             );
           })}
         </div>
+          {menuOpen ? (
+            <Menu
+              onClick={() => setMenuOpen(!menuOpen)}
+              handleClick={setMenuOpen}
+              menuOpen={menuOpen}
+            />
+          ) : null}
       </div>
     </>
   );

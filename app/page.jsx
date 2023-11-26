@@ -1,10 +1,10 @@
-import { Login } from "@/components";
+import { BlogsComponent } from "@/components";
 
-export default function Page () {
-
+const url = "https://techtales.up.railway.app/blogs";
+export default function Page() {
   return (
-    <>
-    <Login/>
-    </>
+    <section className="relative">
+      <BlogsComponent blogsUrl={url} />
+    </section>
   );
 }
