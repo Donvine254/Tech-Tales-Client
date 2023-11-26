@@ -14,12 +14,12 @@ const user = getCurrentUser();
 export default function MyBlogsComponent() {
   const navigate = useRouter();
   const [blogs, setBlogs] = useState([]);
-  if (!user) {
+  
+  useEffect(() => {
+    if (!user) {
     navigate.replace("/login");
   }
-
-  useEffect(() => {
-    if (user) {
+    else if (user) {
       const fetchBlogs = async () => {
         try {
           const url = `https://techtales.up.railway.app/blogs/user/${user.id}`;
