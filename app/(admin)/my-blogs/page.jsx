@@ -32,7 +32,7 @@ export default function MyBlogsComponent() {
 
       fetchBlogs();
     }
-  }, []);
+  }, [user, navigate]);
 
   function handleDelete(blogId) {
     deleteBlog(blogId, setBlogs);
