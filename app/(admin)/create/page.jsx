@@ -28,6 +28,7 @@ export default function useCreate() {
     }));
   };
   function saveDraft() {
+    if(typeof window !== undefined){
     localStorage.setItem("draftBlog", JSON.stringify(blogData));
     Swal.fire({
       text: "draft saved successfully",
@@ -36,6 +37,7 @@ export default function useCreate() {
       showCloseButton: true,
       timer: 3000,
     });
+    }
   }
   useEffect(() => {
     const draftBlogData = localStorage.getItem("draftBlog");
