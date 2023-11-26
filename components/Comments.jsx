@@ -122,6 +122,7 @@ export default function Comments({ blogId }) {
             placeholder="add to the discussion"
             value={newComment}
             id="write-comment"
+            disabled={!user}
             onClick={() => setIsInputFocused(!isInputFocused)}
             onChange={(e) => setNewComment(e.target.value)}
             className="p-4 xsm:p-2 xsm:ml-2 w-[90%] border-none shadow-lg bg-gray-200  focus:outline-none md:text-xl h-16 focus:h-20 rounded-lg text-black"

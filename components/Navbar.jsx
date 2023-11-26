@@ -50,7 +50,7 @@ export default function Navbar() {
       </div>
       <SearchMD />
       <div className="max-w-7xl mx-auto md:w-2/3">
-        <div className="flex justify-center md:justify-start md:ml-5  md:gap-4 items-center font-crimson">
+        <div className="flex justify-center md:justify-start md:ml-5  md:gap-4 md:text-2xl items-center font-crimson">
           {navLinks.map((link) => {
             const isActive = pathname.startsWith(link.href);
             return (
