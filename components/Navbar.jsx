@@ -15,8 +15,8 @@ export default function Navbar() {
   const user = getCurrentUser();
 
   return (
-    <section className="sticky top-1">
-      <div className="p-2 flex w-full m-2 items-center justify-between relative dark:bg-slate-900 z-[20] bg-gray-200 ">
+    <section className="relative">
+      <div className="p-2 flex w-full m-2 items-center justify-between sticky dark:bg-slate-900 z-50 bg-gray-200 ">
         <div id="logo">
           <Link href="/">
             <h1 className="text-xl md:text-3xl font-bold lg:text-4xl m-auto cursor-pointer">
