@@ -46,7 +46,7 @@ export default function useLogin() {
         if (typeof window !== "undefined") {
           localStorage.setItem("loggedInUser", JSON.stringify(foundUser));
         }
-        navigate.replace("/home");
+        navigate.replace("/");
         Swal.fire({
           icon: "success",
           title: "Login Successful!",
@@ -68,10 +68,12 @@ export default function useLogin() {
   return (
     <div className="">
       <div className="">
-        <h1 className="text-2xl m-5 text-center md:text-left md:text-3xl font-bold lg:text-4xl cursor-pointer">
-          Tech Tales{" "}
-          <span className="text-red-600 text-2xl md:text-5xl">.</span>
-        </h1>
+        <Link href="/">
+          <h1 className="text-2xl m-5 text-center md:text-left md:text-3xl font-bold font-poppins lg:text-4xl cursor-pointer">
+            Tech Tales{" "}
+            <span className="text-red-600 text-2xl md:text-5xl">.</span>
+          </h1>
+        </Link>
       </div>
       <div className="login-page">
         <h1 className="text-xl md:text-2xl font-bold text-center">

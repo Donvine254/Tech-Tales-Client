@@ -16,9 +16,9 @@ export default function Navbar() {
   const user = getCurrentUser();
 
   return (
-    <>
-      <div className="p-2 flex w-full m-2 items-center justify-between sticky top-1 dark:bg-slate-900 z-50 bg-gray-200 relative">
-        <Link href="/home">
+    <section className="sticky top-1">
+      <div className="p-2 flex w-full m-2 items-center justify-between relative dark:bg-slate-900 z-50 bg-gray-200 ">
+        <Link href="/">
           <h1 className="text-xl md:text-3xl font-bold lg:text-4xl m-auto cursor-pointer">
             Tech Tales
             <span className="text-red-600 text-2xl md:text-5xl">.</span>
@@ -53,15 +53,15 @@ export default function Navbar() {
             );
           })}
         </div>
-          {menuOpen ? (
-            <Menu
-              onClick={() => setMenuOpen(!menuOpen)}
-              handleClick={setMenuOpen}
-              menuOpen={menuOpen}
-            />
-          ) : null}
+        {menuOpen ? (
+          <Menu
+            onClick={() => setMenuOpen(!menuOpen)}
+            handleClick={setMenuOpen}
+            menuOpen={menuOpen}
+          />
+        ) : null}
       </div>
-    </>
+    </section>
   );
 }
 

@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import Link from "next/link";
 import { useState } from "react";
 import { FaLock, FaUserAlt, FaEdit } from "react-icons/fa";
@@ -23,16 +23,18 @@ export default function useRegister() {
   };
   function handleSubmit(e) {
     e.preventDefault();
-    registerUser(formData, navigate)
+    registerUser(formData, navigate);
   }
 
   return (
     <div className="">
       <div className="">
-        <h1 className="text-2xl m-5 text-center md:text-left md:text-3xl font-bold lg:text-4xl cursor-pointer">
-          Tech Tales{" "}
-          <span className="text-red-600 text-2xl md:text-5xl">.</span>
-        </h1>
+        <Link href="/">
+          <h1 className="text-2xl m-5 text-center md:text-left md:text-3xl font-bold lg:text-4xl cursor-pointer">
+            Tech Tales{" "}
+            <span className="text-red-600 text-2xl md:text-5xl">.</span>
+          </h1>
+        </Link>
       </div>
       <div className="login-page">
         <h1 className="text-xl md:text-2xl font-bold text-center">

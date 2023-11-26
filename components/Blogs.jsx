@@ -6,14 +6,12 @@ import { GoClock } from "react-icons/go";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import parse from "html-react-parser";
 import { getCurrentUser } from "@/lib";
-import { useRouter } from "next/navigation";
 import Bookmark from "./Bookmark";
 import Avatar from "./Avatar";
 
 export default function BlogsComponent({ blogsUrl }) {
   const [blogs, setBlogs] = useState([]);
   const [isAuth, setIsAuth] = useState(true);
-  const navigate = useRouter();
 
   useEffect(() => {
     fetchBlogs(blogsUrl)
@@ -24,23 +22,6 @@ export default function BlogsComponent({ blogsUrl }) {
         console.error("Error fetching blogs:", error);
       });
   }, [blogsUrl]);
-
-  useEffect(() => {
-    const user = getCurrentUser();
-    if (!user) {
-      navigate.replace("/login");
-      setIsAuth(false);
-    }
-  }, [navigate]);
-  if (!isAuth) {
-    navigate.replace("/login");
-    return (
-      <div classNAme="flex items-center md:mx-40 mx-auto m-4 px-8 md:w-2/3 p-2">
-        <AiOutlineLoading3Quarters className="animate-spin text-xl font-bold" />
-        <p className="text-xl font-bold">Loading....</p>
-      </div>
-    );
-  }
 
   return (
     <div className="w-full mx-auto m-4 px-8 md:w-2/3 relative font-poppins">

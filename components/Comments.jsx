@@ -166,28 +166,28 @@ export default function Comments({ blogId }) {
       <div>
         {comments.length > 0 ? (
           comments.map((comment) => (
-            <div className="py-2 mt-2 font-poppins" key={comment.id}>
+            <div className="py-2 mt-2 font-poppins" key={comment?.id}>
               <div className="flex gap-0 xsm:gap-1 xsm:items-center">
-                {comment.user_id === user.id ? (
+                {comment.user_id === user?.id ? (
                   <Avatar name={user?.username} />
                 ) : (
-                  <Avatar name={comment.author} />
+                  <Avatar name={comment?.author} />
                 )}
                 <div className="flex items-center xsm:flex-col gap-2 xsm:gap-0 xsm:items-start">
                   <p className="font-bold xsm:text-base text-xl">
-                    {comment.author}
+                    {comment?.author}
                   </p>
                   <p className="font-bold xsm:text-base text-xl">
-                    {comment.created_at}
+                    {comment?.created_at}
                   </p>
                 </div>
               </div>
               <p className="text-base md:text-xl py-2 leading-normal ml-16 xsm:ml-10">
-                {comment.body}
+                {comment?.body}
               </p>
 
               <div className="py-2 flex items-center gap-4 ml-16 xsm:ml-10">
-                {comment.user_id === user.id ? (
+                {comment?.user_id === user?.id ? (
                   <>
                     {" "}
                     <p className="flex items center gap-2">

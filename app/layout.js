@@ -1,4 +1,6 @@
 import "./globals.css";
+import { Navbar, Footer } from "@/components";
+
 export const metadata = {
   title: "Tech Tales",
   description:
@@ -8,7 +10,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="overflow-x-hidden">{children}</body>
+      <body className="max-w-7xl mx-auto overflow-x-hidden m-5">
+        <Navbar />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }

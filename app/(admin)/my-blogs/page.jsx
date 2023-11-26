@@ -3,7 +3,7 @@ import { calculateReadingTime } from "@/lib";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { GoClock, GoTrash, GoGraph } from "react-icons/go";
-import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { getCurrentUser, deleteBlog } from "@/lib";
 import Axios from "axios";
 import parse from "html-react-parser";
@@ -12,7 +12,11 @@ import { Avatar } from "@/components";
 const user = getCurrentUser();
 
 export default function MyBlogsComponent() {
+  const navigate = useRouter();
   const [blogs, setBlogs] = useState([]);
+  if (!user) {
+    navigate.replace("/login");
+  }
 
   useEffect(() => {
     if (user) {
@@ -42,7 +46,7 @@ export default function MyBlogsComponent() {
             <article className="">
               <div className="flex xsm:block gap-5 items-center">
                 <div className="flex gap-0 items-center">
-                  <Avatar name={blog.author}/>
+                  <Avatar name={blog.author} />
                   <p className="font-bold xsm:text-base text-xl md:text-2xl">
                     {blog.author}
                   </p>
