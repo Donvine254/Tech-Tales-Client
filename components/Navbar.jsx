@@ -15,7 +15,7 @@ export default function Navbar() {
   const user = getCurrentUser();
 
   return (
-    <section className="relative">
+    <section>
       <div className="p-2 flex w-full m-2 items-center justify-between sticky dark:bg-slate-900 z-50 bg-gray-200 ">
         <div id="logo">
           <Link href="/">
