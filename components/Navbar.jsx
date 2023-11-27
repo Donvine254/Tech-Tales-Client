@@ -15,7 +15,7 @@ export default function Navbar() {
   const user = getCurrentUser();
 
   return (
-    <section>
+    <>
       <div className="p-2 flex w-full m-2 items-center justify-between sticky top-0.5 dark:bg-slate-900 z-50 bg-gray-200 ">
         <div id="logo">
           <Link href="/">
@@ -75,7 +75,7 @@ export default function Navbar() {
           />
         ) : null}
       </div>
-    </section>
+    </>
   );
 }
 
