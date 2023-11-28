@@ -3,15 +3,13 @@ import { fetchBlogs, calculateReadingTime } from "@/lib";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { GoClock } from "react-icons/go";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import parse from "html-react-parser";
-import { getCurrentUser } from "@/lib";
+import SkeletonBlog from "./SkeletonBlog";
 import Bookmark from "./Bookmark";
 import Avatar from "./Avatar";
 
 export default function BlogsComponent({ blogsUrl }) {
   const [blogs, setBlogs] = useState([]);
-  const [isAuth, setIsAuth] = useState(true);
 
   useEffect(() => {
     fetchBlogs(blogsUrl)
@@ -60,7 +58,7 @@ export default function BlogsComponent({ blogsUrl }) {
                 {calculateReadingTime(blog.body)} min{" "}
                 <span className="xsm:hidden">read</span>
               </p>
-              <p className="tex-base hidden md:block">
+              <p className="text-base hidden md:block">
                 Based on your reading history
               </p>
               <Bookmark blogId={blog.id} />
@@ -68,9 +66,12 @@ export default function BlogsComponent({ blogsUrl }) {
           </div>
         ))
       ) : (
-        <div className="flex items-center gap-2 py-2">
-          <AiOutlineLoading3Quarters className="animate-spin" />
-          <p>Loading....</p>
+        <div>
+          {Array(5)
+            .fill(0)
+            .map((item, i) => (
+              <SkeletonBlog key={i} />
+            ))}
         </div>
       )}
     </div>

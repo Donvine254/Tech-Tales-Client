@@ -82,3 +82,25 @@ label {
 .balance {
   text-wrap: balance;
 }
+
+/* css for skeleton loaders */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    hsl(200, 30%, 75%),
+    hsl(200, 30%, 90%),
+    hsl(200, 30%, 75%)
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 3s linear infinite alternate;
+}
+
+/* keyframes for the animation */
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
