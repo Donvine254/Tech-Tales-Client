@@ -94,6 +94,18 @@ label {
   background-size: 200% 100%;
   animation: skeleton-loading 3s linear infinite alternate;
 }
+@media (prefers-color-scheme: dark) {
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      hsl(240, 1%, 10%),
+      hsl(240, 1%, 20%),
+      hsl(240, 1%, 10%)
+    );
+    background-size: 200% 100%;
+    animation: skeleton-loading 3s linear infinite alternate;
+  }
+}
 
 /* keyframes for the animation */
 @keyframes skeleton-loading {

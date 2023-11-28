@@ -10,20 +10,30 @@ import Avatar from "./Avatar";
 
 export default function BlogsComponent({ blogsUrl }) {
   const [blogs, setBlogs] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     fetchBlogs(blogsUrl)
       .then((fetchedBlogs) => {
         setBlogs(fetchedBlogs);
+        setIsLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching blogs:", error);
+        setIsLoading(false);
       });
   }, [blogsUrl]);
 
   return (
     <div className="w-full !z-0 mx-auto m-4 px-8 md:w-2/3 relative font-poppins">
-      <hr></hr>
+      {isLoading && (
+        <div>
+          {Array(5)
+            .fill(0)
+            .map((item, i) => (
+              <SkeletonBlog key={i} />
+            ))}
+        </div>
+      )}
       {blogs && blogs.length > 0 ? (
         blogs.map((blog) => (
           <div key={blog.id} className="p-2">
@@ -66,13 +76,7 @@ export default function BlogsComponent({ blogsUrl }) {
           </div>
         ))
       ) : (
-        <div>
-          {Array(5)
-            .fill(0)
-            .map((item, i) => (
-              <SkeletonBlog key={i} />
-            ))}
-        </div>
+        <h1>No Blogs Found</h1>
       )}
     </div>
   );
