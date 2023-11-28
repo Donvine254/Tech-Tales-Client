@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { slugify, createBlog } from "@/lib";
 import Swal from "sweetalert2";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { BsInfoCircle } from "react-icons/bs";
 import { AiFillEdit } from "react-icons/ai";
 import { getCurrentUser } from "@/lib";

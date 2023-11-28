@@ -15,8 +15,8 @@ export default function Navbar() {
   const user = getCurrentUser();
 
   return (
-    <>
-      <div className="p-2 flex w-full m-2 items-center justify-between sticky top-0.5 dark:bg-slate-900 z-50 bg-gray-200 ">
+    <nav>
+      <div className="p-2 flex w-full m-2 items-center justify-between sticky top-0.5  z-50 bg-base-200 dark:bg-slate-900 flex-wrap ">
         <div id="logo">
           <Link href="/">
             <h1 className="text-xl md:text-3xl font-bold lg:text-4xl m-auto cursor-pointer">
@@ -25,7 +25,7 @@ export default function Navbar() {
             </h1>
           </Link>
         </div>
-        <div className="w-1/2">
+        <div className="flex-0.5 max-w-1/2">
           <Search />
         </div>
         {user ? (
@@ -75,7 +75,7 @@ export default function Navbar() {
           />
         ) : null}
       </div>
-    </>
+    </nav>
   );
 }
 
