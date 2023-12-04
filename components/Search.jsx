@@ -1,12 +1,15 @@
 "use client";
 import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
-
+import { useRouter } from "next/navigation";
 export const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
-
+  const router = useRouter();
   function handleSearch() {
-    console.log("what are you searching for?");
+    router.push({
+      pathname: "/blogs", // Replace '/search' with the actual path you want
+      query: { term: searchTerm },
+    });
   }
 
   return (

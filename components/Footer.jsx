@@ -4,7 +4,7 @@ import { FaFacebookF, FaTwitter, FaYoutube, FaGithub } from "react-icons/fa";
 
 export default function Footer() {
   return (
-    <footer className="max-w-7xl w-full mx-auto m-5 p-4 divide-blue-500 font-crimson text-xl">
+    <footer className="max-w-7xl w-full mx-auto m-5 p-4 divide-blue-500 font-poppins text-xl">
       <h1 className="p-2 px-4">
         <span className=" md:text-2xl font-bold">Tech Tales</span> - An
         inclusive social network blog for software developers
