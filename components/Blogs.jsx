@@ -62,7 +62,7 @@ export default function BlogsComponent({ blogsUrl }) {
               </div>
             </article>
             <div className="flex items-center justify-between py-2">
-              <Link href={`/blogs/${blog.slug}`}>Read &#8599;</Link>
+              <Link href={`/blogs/${blog.slug}?id=${blog.id}`}>Read &#8599;</Link>
               <p className="text-base flex items-center gap-1 md:gap-2 bg-slate-300 rounded-full text-black px-2">
                 <GoClock />
                 {calculateReadingTime(blog.body)} min{" "}
