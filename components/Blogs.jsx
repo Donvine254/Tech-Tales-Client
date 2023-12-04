@@ -76,7 +76,7 @@ export default function BlogsComponent({ blogsUrl }) {
           </div>
         ))
       ) : (
-        <h1>No Blogs Found</h1>
+        <div>{!isLoading && <h1>No Blogs Found</h1>}</div>
       )}
     </div>
   );

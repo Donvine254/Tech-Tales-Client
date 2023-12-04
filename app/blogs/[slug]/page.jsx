@@ -82,13 +82,9 @@ export default function BlogsPage({ params }) {
               {currentBlog.created_at}
             </p>
           </div>
-          <Image
-            src={currentBlog.image}
-            width={680}
-            height={680}
-            alt="blog-image"
-            className="h-full w-full"
-          />
+          <div
+            className="h-[500px] w-full bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: `url(${currentBlog.image})` }}></div>
           <article className="text-base md:text-xl leading-8 md:leading-10 mt-3 subpixel-antialiased indent-10">
             {currentBlog.body ? parse(currentBlog.body) : currentBlog.body}
           </article>
