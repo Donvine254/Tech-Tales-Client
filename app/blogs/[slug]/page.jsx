@@ -5,7 +5,6 @@ import { BiLike } from "react-icons/bi";
 import { AiFillLike } from "react-icons/ai";
 import { FaRegComment } from "react-icons/fa";
 import { Comments, Bookmark, Avatar } from "@/components";
-import Image from "next/image";
 import parse from "html-react-parser";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
