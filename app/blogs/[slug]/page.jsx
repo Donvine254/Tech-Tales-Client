@@ -4,7 +4,8 @@ import { fetchBlogs } from "@/lib";
 import { BiLike } from "react-icons/bi";
 import { AiFillLike } from "react-icons/ai";
 import { FaRegComment } from "react-icons/fa";
-import { Comments, Bookmark, Avatar, fullSkeletonBlog } from "@/components";
+import { Comments, Bookmark, Avatar } from "@/components";
+import FullSkeletonBlog from "@/components/fullSkeletonBlog";
 import parse from "html-react-parser";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -67,8 +68,8 @@ export default function BlogsPage({ params }) {
 
   return (
     <div className="w-full mx-auto m-4 px-8 md:w-2/3 font-poppins">
-      {loading && <fullSkeletonBlog />}
-      {currentBlog ? (
+      {loading && <FullSkeletonBlog />}
+      {currentBlog && !loading ? (
         <div key={currentBlog.id}>
           <h1 className="font-bold xsm:text-xl text-2xl md:text-4xl lg:text-5xl dark:text-blue-500 py-4 balance">
             {currentBlog.title}

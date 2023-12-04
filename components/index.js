@@ -6,7 +6,6 @@ import Component from "./SideBar";
 import Comments from "./Comments";
 import Bookmark from "./Bookmark";
 import Avatar from "./Avatar";
-import fullSkeletonBlog from "./fullSkeletonBlog";
 
 export {
   Navbar,
@@ -16,6 +15,5 @@ export {
   Component,
   Comments,
   Bookmark,
-  Avatar,
-  fullSkeletonBlog,
+  Avatar
 };
