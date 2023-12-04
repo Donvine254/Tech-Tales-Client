@@ -39,8 +39,8 @@ export default function BlogsComponent({ blogsUrl }) {
           <div key={blog.id} className="p-2">
             <article className="">
               <div className="flex xsm:block gap-5 items-center">
-                <div className="flex gap-1 items-center">
-                  <Avatar name={blog.author} />
+                <div className="flex gap-2 md:gap-4 items-center">
+                  <Avatar name={blog.author}/>
                   <p className="font-bold xsm:text-base text-xl md:text-2xl">
                     {blog.author}
                   </p>
@@ -57,9 +57,9 @@ export default function BlogsComponent({ blogsUrl }) {
                   {blog.title}
                 </h1>
               </Link>
-              <p className="text-xl leading-8 line-clamp-2 py-2">
+              <div className="text-xl leading-8 line-clamp-2 py-2">
                 {blog ? parse(blog.body) : blog.body}
-              </p>
+              </div>
             </article>
             <div className="flex items-center justify-between py-2">
               <Link href={`/blogs/${blog.slug}`}>Read &#8599;</Link>

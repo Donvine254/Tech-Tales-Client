@@ -71,10 +71,10 @@ export default function BlogsPage({ params }) {
             {currentBlog.title}
           </h1>
           <div className="flex xsm:block gap-5 items-center py-4">
-            <div className="flex gap-1 items-center">
+            <div className="flex gap-2 md:gap-4 items-center">
               <Avatar name={currentBlog?.author} />
               <p className="font-bold xsm:text-base text-xl md:text-2xl">
-                {currentBlog.author ? currentBlog.author : "author"}
+                {currentBlog.author ??  ""}
               </p>
             </div>
             <p className="text-base font-medium xsm:px-10 xsm:mb-0">

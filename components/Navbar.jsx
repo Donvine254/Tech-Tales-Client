@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Menu } from "./Menu";
 import { usePathname } from "next/navigation";
 import Avatar from "./Avatar";
+import { FaSortDown, FaSortUp } from "react-icons/fa6";
 import { getCurrentUser } from "@/lib";
 
 export default function Navbar() {
@@ -16,7 +17,9 @@ export default function Navbar() {
 
   return (
     <nav>
-      <div className="p-2 flex w-full m-2 items-center justify-between sticky top-0.5  z-50 bg-base-200 dark:bg-slate-900 flex-wrap ">
+      <div
+        className="p-2 flex w-full m-2 items-center justify-between sticky top-0.5  z-50 bg-base-200 dark:bg-slate-900 flex-wrap "
+        id="parent div">
         <div id="logo">
           <Link href="/">
             <h1 className="text-xl md:text-3xl font-bold lg:text-4xl m-auto cursor-pointer">
@@ -25,20 +28,27 @@ export default function Navbar() {
             </h1>
           </Link>
         </div>
-        <div className="flex-0.5 max-w-1/2">
+        <div className="flex-0.5 max-w-1/2" id="searchbar">
           <Search />
         </div>
         {user ? (
-          <div className="flex items-center md:gap-1 mr-2">
+          <div className="flex items-center md:gap-1 mr-2" id="user present">
             <Link href="/create">
               <button type="button" className="hidden md:block btn-primary">
                 Create Post
               </button>
             </Link>
-            <Avatar
-              name={user?.username}
-              handleClick={() => setMenuOpen(true)}
-            />
+            <div className="flex items-center gap-1">
+              <Avatar
+                name={user?.username}
+                handleClick={() => setMenuOpen(true)}
+              />
+              {menuOpen ? (
+                <FaSortUp onClick={() => setMenuOpen(!menuOpen)} />
+              ) : (
+                <FaSortDown onClick={() => setMenuOpen(!menuOpen)} />
+              )}
+            </div>
           </div>
         ) : (
           <Link href="/login">
@@ -49,7 +59,7 @@ export default function Navbar() {
         )}
       </div>
       <SearchMD />
-      <div className="max-w-7xl mx-auto md:w-2/3">
+      <div className="max-w-7xl mx-auto md:w-2/3" id="bottom nav">
         <div className="flex justify-center md:justify-start md:ml-5  md:gap-4 md:text-2xl items-center font-crimson">
           {navLinks.map((link) => {
             const isActive = pathname.startsWith(link.href);

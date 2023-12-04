@@ -6,10 +6,11 @@ export const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
   function handleSearch() {
-    router.push({
-      pathname: "/blogs", // Replace '/search' with the actual path you want
-      query: { term: searchTerm },
-    });
+    e.preventDefault();
+    console.log(searchTerm);
+    if (searchTerm.trim() !== "") {
+      router.push(`/?q=${searchTerm.trim()}`);
+    }
   }
 
   return (
