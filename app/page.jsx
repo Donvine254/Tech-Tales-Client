@@ -26,7 +26,6 @@ export default function Page() {
             blog.title.toLowerCase().includes(search.toLowerCase())
           );
           setBlogs(filteredBlogs);
-          location.reload()
         } else {
           setBlogs(response.data);
         }
