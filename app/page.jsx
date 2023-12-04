@@ -36,7 +36,7 @@ export default function Page() {
         setIsLoading(false);
       }
     })();
-  }, []);
+  }, [search]);
   return (
     <section className="relative md:min-h-[350px]">
       <div className="w-full !z-0 mx-auto m-4 px-8 md:w-2/3 relative font-poppins">
