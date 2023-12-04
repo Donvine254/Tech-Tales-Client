@@ -54,7 +54,7 @@ export default function BlogsPage({ params }) {
   }, [params.slug]);
 
   useEffect(() => {
-    if (error || !blog) {
+    if (error || !id) {
       navigate.replace("/not-found");
     }
   }, [error, blog, navigate]);
