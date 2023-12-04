@@ -116,3 +116,7 @@ label {
     background-position: -200% 0;
   }
 }
+/* styling for blog body */
+.blog-body h1 {
+  @apply text-2xl my-2 font-bold !indent-0;
+}

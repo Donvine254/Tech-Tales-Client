@@ -22,8 +22,7 @@ export default function BlogsPage({ params }) {
   const searchParams = useSearchParams();
   const navigate = useRouter();
   const id = searchParams.get("id");
-  console.log(id);
-
+ 
   function handleLikeClick() {
     setLiked(!liked);
     if (!liked) {
@@ -79,9 +78,11 @@ export default function BlogsPage({ params }) {
             </p>
           </div>
           <div
-            className="h-[500px] w-full bg-cover bg-center bg-no-repeat"
+            className="h-[300px] md:h-[400px] w-full bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: `url(${blog.image})` }}></div>
-          <article className="text-base md:text-xl leading-8 md:leading-10 mt-3 subpixel-antialiased indent-10">
+          <article
+            className="text-base md:text-xl leading-8 md:leading-10 mt-3 subpixel-antialiased indent-10 blog-body"
+            id="blog-body">
             {blog.body ? parse(blog?.body) : blog.body}
           </article>
           <div className="flex items-center justify-between">

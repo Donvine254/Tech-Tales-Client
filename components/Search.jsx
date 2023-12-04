@@ -1,16 +1,15 @@
 "use client";
 import { useState } from "react";
 import { FaSearch } from "react-icons/fa";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export const Search = () => {
   const router = useRouter();
-  const pathname = usePathname();
   const [query, setQuery] = useState("");
   function handleSearch(e) {
     e.preventDefault();
     const value = query.trim();
-    router.push(`${pathname}?search=${value}`);
+    router.replace(`/?search=${value}`);
   }
 
   return (
