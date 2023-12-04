@@ -69,7 +69,7 @@ export default function MyBlogsComponent() {
                 </p>
               </div>
               <Link
-                href={`/blogs/${blog.slug}`}
+                href={`/blogs/${blog.slug}?id=${blog.id}`}
                 className="space-y-3 xl:col-span-3">
                 <h1 className="font-bold text-xl md:text-3xl dark:text-blue-500 py-4">
                   {blog.title}

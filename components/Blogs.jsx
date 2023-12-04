@@ -40,7 +40,7 @@ export default function BlogsComponent({ blogsUrl }) {
             <article className="">
               <div className="flex xsm:block gap-5 items-center">
                 <div className="flex gap-2 md:gap-4 items-center">
-                  <Avatar name={blog.author}/>
+                  <Avatar name={blog.author} />
                   <p className="font-bold xsm:text-base text-xl md:text-2xl">
                     {blog.author}
                   </p>
@@ -51,7 +51,7 @@ export default function BlogsComponent({ blogsUrl }) {
                 </p>
               </div>
               <Link
-                href={`/blogs/${blog.slug}`}
+                href={`/blogs/${blog.slug}?id=${blog.id}`}
                 className="space-y-3 xl:col-span-3">
                 <h1 className="font-bold text-xl md:text-3xl dark:text-blue-500 py-4 balance">
                   {blog.title}

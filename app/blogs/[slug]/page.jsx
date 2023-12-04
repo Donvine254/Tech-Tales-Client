@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import { fetchBlogs } from "@/lib";
+import { useSearchParams } from "next/navigation";
+import Axios from "axios";
 import { BiLike } from "react-icons/bi";
 import { AiFillLike } from "react-icons/ai";
 import { FaRegComment } from "react-icons/fa";
@@ -13,14 +14,15 @@ import Link from "next/link";
 //I will need to fetch all blogs and generate static params for faster load time
 
 export default function BlogsPage({ params }) {
-  const [blogs, setBlogs] = useState([]);
-  const [currentBlog, setCurrentBlog] = useState([]);
+  const [blog, setBlog] = useState();
   const [likes, setLikes] = useState(0);
   const [liked, setLiked] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
-  const url = "https://techtales.up.railway.app/blogs";
+  const searchParams = useSearchParams();
   const navigate = useRouter();
+  const id = searchParams.get("id");
+  console.log(id);
 
   function handleLikeClick() {
     setLiked(!liked);
@@ -33,27 +35,18 @@ export default function BlogsPage({ params }) {
 
   useEffect(() => {
     let isMounted = true;
-    fetchBlogs(url)
-      .then((fetchedBlogs) => {
-        if (isMounted) {
-          setBlogs(fetchedBlogs);
-          const foundBlog = fetchedBlogs.find(
-            (blog) => blog.slug === params.slug
-          );
-
-          if (foundBlog) {
-            setCurrentBlog(foundBlog);
-            setLoading(false);
-          } else {
-            setError(true);
-            setLoading(false);
-          }
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching blogs:", error);
+    (async () => {
+      try {
+        const response = await Axios.get(
+          `https://techtales.up.railway.app/blogs/${id}`
+        );
+        setBlog(response.data);
+        setLoading(false);
+      } catch (error) {
         setError(true);
-      });
+        setLoading(false);
+      }
+    })();
 
     return () => {
       isMounted = false;
@@ -61,35 +54,35 @@ export default function BlogsPage({ params }) {
   }, [params.slug]);
 
   useEffect(() => {
-    if (error || !currentBlog) {
+    if (error || !blog) {
       navigate.replace("/not-found");
     }
-  }, [error, currentBlog, navigate]);
+  }, [error, blog, navigate]);
 
   return (
     <div className="w-full mx-auto m-4 px-8 md:w-2/3 font-poppins">
       {loading && <FullSkeletonBlog />}
-      {currentBlog && !loading ? (
-        <div key={currentBlog.id}>
+      {blog && !loading ? (
+        <div key={blog.id}>
           <h1 className="font-bold xsm:text-xl text-2xl md:text-4xl lg:text-5xl dark:text-blue-500 py-4 balance">
-            {currentBlog.title}
+            {blog?.title}
           </h1>
           <div className="flex xsm:block gap-5 items-center py-4">
             <div className="flex gap-2 md:gap-4 items-center">
-              <Avatar name={currentBlog?.author} />
+              <Avatar name={blog?.author} />
               <p className="font-bold xsm:text-base text-xl md:text-2xl">
-                {currentBlog.author ?? ""}
+                {blog.author ?? ""}
               </p>
             </div>
             <p className="text-base font-medium xsm:px-10 xsm:mb-0">
-              {currentBlog.created_at}
+              {blog?.created_at}
             </p>
           </div>
           <div
             className="h-[500px] w-full bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: `url(${currentBlog.image})` }}></div>
+            style={{ backgroundImage: `url(${blog.image})` }}></div>
           <article className="text-base md:text-xl leading-8 md:leading-10 mt-3 subpixel-antialiased indent-10">
-            {currentBlog.body ? parse(currentBlog.body) : currentBlog.body}
+            {blog.body ? parse(blog?.body) : blog.body}
           </article>
           <div className="flex items-center justify-between">
             <p className="blog__icons">
@@ -108,12 +101,12 @@ export default function BlogsPage({ params }) {
             <p className="blog__icons">
               <FaRegComment className="hover:scale-125" />
               <span className="text-base dark:text-gray-200 xsm:hidden">
-                {currentBlog.comments ? currentBlog.comments.length : null}{" "}
+                {blog.comments ? blog?.comments?.length : null}{" "}
                 <Link href="#write-comment">Comments</Link>
               </span>
             </p>
             <Bookmark
-              blogId={currentBlog.id}
+              blogId={blog?.id}
               className="text-xl md:text-2xl font-bold"
             />
           </div>
@@ -121,7 +114,7 @@ export default function BlogsPage({ params }) {
             Comments
           </h1>
           <hr className="divide-blue-500" />
-          <Comments blogId={currentBlog.id} />
+          <Comments blogId={blog?.id} />
         </div>
       ) : null}
     </div>
