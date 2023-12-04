@@ -1,16 +1,16 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaSearch } from "react-icons/fa";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
+
 export const Search = () => {
-  const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
-  function handleSearch() {
+  const pathname = usePathname();
+  const [query, setQuery] = useState("");
+  function handleSearch(e) {
     e.preventDefault();
-    console.log(searchTerm);
-    if (searchTerm.trim() !== "") {
-      router.push(`/?q=${searchTerm.trim()}`);
-    }
+    const value = query.trim();
+    router.push(`${pathname}?search=${value}`);
   }
 
   return (
@@ -18,8 +18,9 @@ export const Search = () => {
       <input
         type="search"
         placeholder="search..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        id="query"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
         className="rounded-full bg-base-200 dark:bg-gray-800 p-2 pl-10 px-4 w-full focus:bg-gray-600 dark:hover:bg-gray-600 text-white focus:outline-none text-xl hidden md:block border-2 dark:border-none"
       />
       <FaSearch className="h-5 w-5 absolute left-3 text-gray-300 hidden md:block" />
