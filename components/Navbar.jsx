@@ -44,9 +44,15 @@ export default function Navbar() {
                 handleClick={() => setMenuOpen(true)}
               />
               {menuOpen ? (
-                <FaSortUp onClick={() => setMenuOpen(!menuOpen)} />
+                <FaSortUp
+                  onClick={() => setMenuOpen(!menuOpen)}
+                  classNAme="text-xl cursor-pointer"
+                />
               ) : (
-                <FaSortDown onClick={() => setMenuOpen(!menuOpen)} />
+                <FaSortDown
+                  onClick={() => setMenuOpen(!menuOpen)}
+                  classNAme="text-xl cursor-pointer"
+                />
               )}
             </div>
           </div>
