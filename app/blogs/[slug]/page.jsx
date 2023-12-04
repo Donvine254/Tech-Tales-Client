@@ -4,7 +4,7 @@ import { fetchBlogs } from "@/lib";
 import { BiLike } from "react-icons/bi";
 import { AiFillLike } from "react-icons/ai";
 import { FaRegComment } from "react-icons/fa";
-import { Comments, Bookmark, Avatar } from "@/components";
+import { Comments, Bookmark, Avatar, fullSkeletonBlog } from "@/components";
 import parse from "html-react-parser";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -17,7 +17,7 @@ export default function BlogsPage({ params }) {
   const [likes, setLikes] = useState(0);
   const [liked, setLiked] = useState(false);
   const [error, setError] = useState(false);
-
+  const [loading, setLoading] = useState(true);
   const url = "https://techtales.up.railway.app/blogs";
   const navigate = useRouter();
 
@@ -42,8 +42,10 @@ export default function BlogsPage({ params }) {
 
           if (foundBlog) {
             setCurrentBlog(foundBlog);
+            setLoading(false);
           } else {
             setError(true);
+            setLoading(false);
           }
         }
       })
@@ -65,6 +67,7 @@ export default function BlogsPage({ params }) {
 
   return (
     <div className="w-full mx-auto m-4 px-8 md:w-2/3 font-poppins">
+      {loading && <fullSkeletonBlog />}
       {currentBlog ? (
         <div key={currentBlog.id}>
           <h1 className="font-bold xsm:text-xl text-2xl md:text-4xl lg:text-5xl dark:text-blue-500 py-4 balance">
@@ -74,7 +77,7 @@ export default function BlogsPage({ params }) {
             <div className="flex gap-2 md:gap-4 items-center">
               <Avatar name={currentBlog?.author} />
               <p className="font-bold xsm:text-base text-xl md:text-2xl">
-                {currentBlog.author ??  ""}
+                {currentBlog.author ?? ""}
               </p>
             </div>
             <p className="text-base font-medium xsm:px-10 xsm:mb-0">
@@ -119,9 +122,7 @@ export default function BlogsPage({ params }) {
           <hr className="divide-blue-500" />
           <Comments blogId={currentBlog.id} />
         </div>
-      ) : (
-        <p>Blog not found</p>
-      )}
+      ) : null}
     </div>
   );
 }

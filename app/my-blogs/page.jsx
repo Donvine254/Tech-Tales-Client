@@ -8,24 +8,27 @@ import { getCurrentUser, deleteBlog } from "@/lib";
 import Axios from "axios";
 import parse from "html-react-parser";
 import { Avatar } from "@/components";
+import SkeletonBlog from "@/components/SkeletonBlog";
 //check for the current user
 const user = getCurrentUser();
 
 export default function MyBlogsComponent() {
   const navigate = useRouter();
   const [blogs, setBlogs] = useState([]);
-  
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     if (!user) {
-    navigate.replace("/login");
-  }
-    else if (user) {
+      navigate.replace("/login");
+    } else if (user) {
       const fetchBlogs = async () => {
         try {
           const url = `https://techtales.up.railway.app/blogs/user/${user.id}`;
           const response = await Axios.get(url);
           setBlogs(response.data);
+          setLoading(false);
         } catch (error) {
+          setLoading(false);
           console.error("Error fetching blogs:", error);
         }
       };
@@ -40,6 +43,15 @@ export default function MyBlogsComponent() {
 
   return (
     <div className="w-full mx-auto m-4 px-8 md:w-2/3 relative font-poppins">
+      {loading && (
+        <div>
+          {Array(2)
+            .fill(0)
+            .map((item, i) => (
+              <SkeletonBlog key={i} />
+            ))}
+        </div>
+      )}
       {blogs && blogs.length > 0 ? (
         blogs.map((blog) => (
           <div key={blog.id} className="p-2">
@@ -90,14 +102,18 @@ export default function MyBlogsComponent() {
         ))
       ) : (
         <div className="p-2">
-          <p className="text-xl md:text-2xl font-bold">
-            You do not have any blogs yet.
-          </p>
-          <p className="text-lg md:text-xl py-2">
-            <Link href="/create" className="text-blue-500 underline">
-              Create your first blog &#8599;
-            </Link>
-          </p>
+          {!loading && (
+            <div>
+              <p className="text-xl md:text-2xl font-bold">
+                You do not have any blogs yet.
+              </p>
+              <p className="text-lg md:text-xl py-2">
+                <Link href="/create" className="text-blue-500 underline">
+                  Create your first blog &#8599;
+                </Link>
+              </p>
+            </div>
+          )}
         </div>
       )}
     </div>

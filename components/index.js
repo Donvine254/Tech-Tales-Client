@@ -1,4 +1,3 @@
-
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import Login from "./Login";
@@ -7,10 +6,16 @@ import Component from "./SideBar";
 import Comments from "./Comments";
 import Bookmark from "./Bookmark";
 import Avatar from "./Avatar";
+import fullSkeletonBlog from "./fullSkeletonBlog";
 
-
-
-
-
-
-export {Navbar, Footer, Login, BlogsComponent, Component, Comments, Bookmark, Avatar}
+export {
+  Navbar,
+  Footer,
+  Login,
+  BlogsComponent,
+  Component,
+  Comments,
+  Bookmark,
+  Avatar,
+  fullSkeletonBlog,
+};
