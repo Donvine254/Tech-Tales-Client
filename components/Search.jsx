@@ -7,7 +7,6 @@ export const Search = () => {
   const router = useRouter();
   const [query, setQuery] = useState("");
   function handleSearch(e) {
-    e.preventDefault();
     const value = query.trim();
     router.replace(`/?search=${value}`);
   }

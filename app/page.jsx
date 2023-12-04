@@ -1,8 +1,15 @@
 "use client";
 import { useState, useEffect } from "react";
-import { BlogsComponent } from "@/components";
+import{calculateReadingTime} from "@/lib"
+import SkeletonBlog from "@/components/SkeletonBlog";
+import { Avatar } from "@/components";
 import { useSearchParams } from "next/navigation";
 import Axios from "axios";
+import { GoClock } from "react-icons/go";
+import parse from "html-react-parser";
+import { Bookmark } from "@/components";
+import Link from "next/link";
+
 export default function Page() {
   const [blogs, setBlogs] = useState("");
   const [isLoading, setIsLoading] = useState(true);
