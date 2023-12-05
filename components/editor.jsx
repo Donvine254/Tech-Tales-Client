@@ -1,4 +1,4 @@
-export default function Editor() {
+export default function Editor({ handleChange, data }) {
   return (
     <div
       className="max-w-[800px] bg-white dark:bg-gray-900 shadow-lg rounded-lg overflow-hidden"
@@ -226,6 +226,8 @@ export default function Editor() {
         </button>
       </div>
       <textarea
+        value={data}
+        onChange={handleChange}
         rows={8}
         className="w-full h-full p-4 text-black focus:outline-none text-xl border-none font-crimson"
         placeholder="Type your text here..."></textarea>

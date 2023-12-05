@@ -96,7 +96,7 @@ export default function useCreate() {
           required
         />
         <br className="mt-8"></br>
-        <Editor />
+        <Editor handleChange={handleChange} data={blogData?.body} />
         {/* <textarea
           rows="10"
           name="body"
