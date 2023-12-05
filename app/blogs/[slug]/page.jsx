@@ -50,13 +50,13 @@ export default function BlogsPage({ params }) {
     return () => {
       isMounted = false;
     };
-  }, [params.slug]);
+  }, [id]);
 
   useEffect(() => {
     if (error || !id) {
       navigate.replace("/not-found");
     }
-  }, [error, blog, navigate]);
+  }, [error, blog, navigate, id]);
 
   return (
     <div className="w-full mx-auto m-4 px-8 md:w-2/3 font-poppins">
