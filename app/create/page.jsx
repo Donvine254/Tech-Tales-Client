@@ -60,9 +60,9 @@ export default function useCreate() {
   }
 
   return (
-    <div className="flex flex-col md:flex-row m-5 md:w-4/5 md:ml-auto">
+    <div className="m-2 font-poppins">
       <form
-        className="bg-gray-200 md:w-2/3 border m-auto p-8 rounded-sm"
+        className="bg-gray-200 border m-auto lg:w-3/4 p-8 rounded-sm"
         onSubmit={handleSubmit}>
         <label
           htmlFor="title"
@@ -121,7 +121,7 @@ export default function useCreate() {
           </button>
         </div>
       </form>
-      <div className="md:w-1/3 ml-5 mr-5 hidden md:block">
+      <div className="md:w-1/3 ml-5 mr-5 hidden">
         <h1 className="tex-xl md:text-2xl font-bold flex items-center space-1">
           <BsInfoCircle className="pr-2" /> Writing a Great Post Title{" "}
         </h1>

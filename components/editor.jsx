@@ -1,8 +1,11 @@
+import Script from "next/script";
+
 export default function Editor({ handleChange, data }) {
   return (
     <div
-      className="max-w-[800px] bg-white dark:bg-gray-900 shadow-lg rounded-lg overflow-hidden"
+      className="min-w-fit bg-white dark:bg-gray-900 shadow-lg rounded-lg overflow-hidden"
       id="editor">
+      <Script src="./editor.js" />
       <div className="flex space-x-2 p-2 border-b border-gray-200 dark:border-gray-800">
         <button
           className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors disabled:pointer-events-none  h-10 px-4 py-2 text-gray-600 dark:text-white editor-button"
@@ -204,6 +207,7 @@ export default function Editor({ handleChange, data }) {
         </button>
         <button
           className="inline-flex items-center justify-center rounded-md text-sm font-medium disabled:pointer-events-none  h-10 px-4 py-2 text-gray-600 dark:text-white"
+          type="button"
           title="emoji"
           data-element="insertEmoji">
           <span className="sr-only">Emoji</span>
@@ -227,10 +231,12 @@ export default function Editor({ handleChange, data }) {
       </div>
       <textarea
         value={data}
-        onChange={handleChange}
-        rows={8}
+        name="body"
+        onChange={(e) => handleChange(e)}
+        rows={10}
+        required
         className="w-full h-full p-4 text-black focus:outline-none text-xl border-none font-crimson"
-        placeholder="Type your text here..."></textarea>
+        placeholder="Write your blog here..."></textarea>
     </div>
   );
 }
