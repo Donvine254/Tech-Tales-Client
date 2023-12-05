@@ -6,7 +6,6 @@ import Swal from "sweetalert2";
 import { BsInfoCircle } from "react-icons/bs";
 import { AiFillEdit } from "react-icons/ai";
 import { getCurrentUser } from "@/lib";
-import { Editor } from "@/components";
 
 export default function useCreate() {
   const [isAuth, setIsAuth] = useState(true);
@@ -96,8 +95,8 @@ export default function useCreate() {
           required
         />
         <br className="mt-8"></br>
-        <Editor handleChange={handleChange} data={blogData?.body} />
-        {/* <textarea
+
+        <textarea
           rows="10"
           name="body"
           value={blogData.body}
@@ -106,7 +105,7 @@ export default function useCreate() {
           required
           placeholder="Write your blog here. Remember to use html tags"
           className="p-4 w-full border-none shadow-lg text-black focus:outline-none text-xl"
-        /> */}
+        />
         <div className="flex gap-2 md:gap-8 mt-4">
           <button
             type="submit"
