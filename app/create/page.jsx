@@ -86,7 +86,7 @@ export default function useCreate() {
           Cover Image
         </label>
         <input
-          className="blog-input-field focus:outline-none"
+          className="blog-input-field border w-full bg-base-100"
           type="file"
           name="image"
           disabled={!user}
@@ -96,7 +96,7 @@ export default function useCreate() {
           required
         />
         <br className="mt-8"></br>
-        <Editor/>
+        <Editor />
         {/* <textarea
           rows="10"
           name="body"
