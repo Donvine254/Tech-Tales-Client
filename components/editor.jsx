@@ -4,7 +4,11 @@ export default function Editor() {
       className="max-w-[800px] bg-white dark:bg-gray-900 shadow-lg rounded-lg overflow-hidden"
       id="editor">
       <div className="flex space-x-2 p-2 border-b border-gray-200 dark:border-gray-800">
-        <button className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 text-gray-600 dark:text-gray-400">
+        <button
+          className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors disabled:pointer-events-none  h-10 px-4 py-2 text-gray-600 dark:text-white editor-button"
+          type="button"
+          title="bold"
+          data-element="bold">
           <span className="sr-only">Bold</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -21,7 +25,11 @@ export default function Editor() {
             <path d="M15 20a4 4 0 0 0 0-8H6v8Z"></path>
           </svg>
         </button>
-        <button className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 text-gray-600 dark:text-gray-400">
+        <button
+          className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors disabled:pointer-events-none  h-10 px-4 py-2 text-gray-600 dark:text-white editor-button"
+          type="button"
+          title="italic"
+          data-element="italic">
           <span className="sr-only">Italic</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -39,7 +47,11 @@ export default function Editor() {
             <line x1="15" x2="9" y1="4" y2="20"></line>
           </svg>
         </button>
-        <button className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 text-gray-600 dark:text-gray-400">
+        <button
+          className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors disabled:pointer-events-none  h-10 px-4 py-2 text-gray-600 dark:text-white editor-button"
+          type="button"
+          title="underline"
+          data-element="underline">
           <span className="sr-only">Underline</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -56,7 +68,11 @@ export default function Editor() {
             <line x1="4" x2="20" y1="20" y2="20"></line>
           </svg>
         </button>
-        <button className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 text-gray-600 dark:text-gray-400">
+        <button
+          className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors disabled:pointer-events-none  h-10 px-4 py-2 text-gray-600 dark:text-white editor-button"
+          type="button"
+          title="left align"
+          data-element="justifyLeft">
           <span className="sr-only">Left Align</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -74,7 +90,11 @@ export default function Editor() {
             <line x1="17" x2="3" y1="18" y2="18"></line>
           </svg>
         </button>
-        <button className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 text-gray-600 dark:text-gray-400">
+        <button
+          className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors disabled:pointer-events-none  h-10 px-4 py-2 text-gray-600 dark:text-white editor-button"
+          type="button"
+          title="center align"
+          data-element="justifyCenter">
           <span className="sr-only">Center Align</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -93,8 +113,10 @@ export default function Editor() {
           </svg>
         </button>
         <button
-          className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 text-gray-600 dark:text-gray-400"
-          title="Right Align">
+          className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 text-gray-600 dark:text-white editor-button"
+          title="Right Align"
+          type="button"
+          data-element="justifyRight">
           <span className="sr-only">Right Align</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -112,7 +134,11 @@ export default function Editor() {
             <line x1="21" x2="7" y1="18" y2="18"></line>
           </svg>
         </button>
-        <button className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 text-gray-600 dark:text-gray-400">
+        <button
+          className="inline-flex items-center justify-center rounded-md text-sm font-medium disabled:pointer-events-none h-10 px-4 py-2 text-gray-600 dark:text-white editor-button"
+          type="button"
+          title="bulleted list"
+          data-element="insertOrderedList">
           <span className="sr-only">Bulleted List</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -133,7 +159,11 @@ export default function Editor() {
             <line x1="3" x2="3.01" y1="18" y2="18"></line>
           </svg>
         </button>
-        <button className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 text-gray-600 dark:text-gray-400">
+        <button
+          className="inline-flex items-center justify-center rounded-md text-sm font-medium disabled:pointer-events-none  h-10 px-4 py-2 text-gray-600 dark:text-white editor-button"
+          type="button"
+          title="link"
+          data-element="createLink">
           <span className="sr-only">Add Link</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -150,7 +180,11 @@ export default function Editor() {
             <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
           </svg>
         </button>
-        <button className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 text-gray-600 dark:text-gray-400">
+        <button
+          className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors disabled:pointer-events-none  h-10 px-4 py-2 text-gray-600 dark:text-white editor-button"
+          type="button"
+          title="insert image"
+          data-element="insertImage">
           <span className="sr-only">Image</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -168,7 +202,10 @@ export default function Editor() {
             <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path>
           </svg>
         </button>
-        <button className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 text-gray-600 dark:text-gray-400">
+        <button
+          className="inline-flex items-center justify-center rounded-md text-sm font-medium disabled:pointer-events-none  h-10 px-4 py-2 text-gray-600 dark:text-white"
+          title="emoji"
+          data-element="insertEmoji">
           <span className="sr-only">Emoji</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -190,7 +227,7 @@ export default function Editor() {
       </div>
       <textarea
         rows={8}
-        className="w-full h-full p-4 text-black focus:outline-none text-xl border-none"
+        className="w-full h-full p-4 text-black focus:outline-none text-xl border-none font-crimson"
         placeholder="Type your text here..."></textarea>
     </div>
   );
