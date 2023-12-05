@@ -50,7 +50,7 @@ export const Menu = ({ handleClick, menuOpen }) => {
       <Link
         onClick={handleSignout}
         href="/"
-        className="menu-item border bg-gray-700 rounded-md hover:bg-red-400">
+        className="menu-item border bg-gray-700 rounded-md hover:bg-red-600 hover:border-none shadow-md">
         <GoSignOut />
         Sign Out
       </Link>

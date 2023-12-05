@@ -1,17 +1,26 @@
 import Script from "next/script";
 
 export default function Editor({ handleChange, data }) {
+  // function handleBold(e) {
+  //   const button=e.target
+  //   const pasteTarget = button.getAttribute("data-for");
+  //   const elementName = button.getAttribute("data-element");
+  // }
   return (
     <div
-      className="min-w-fit bg-white dark:bg-gray-900 shadow-lg rounded-lg overflow-hidden"
+      className="min-w-fit bg-white dark:bg-gray-900 z-50 shadow-lg rounded-lg overflow-hidden"
       id="editor">
       <Script src="./editor.js" />
-      <div className="flex space-x-2 p-2 border-b border-gray-200 dark:border-gray-800">
+      <div
+        className="flex space-x-2 p-2 border-b border-gray-200 dark:border-gray-800"
+        data-for="textarea"
+        id="actions">
         <button
           className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors disabled:pointer-events-none  h-10 px-4 py-2 text-gray-600 dark:text-white editor-button"
           type="button"
           title="bold"
-          data-element="bold">
+          data-element="b"
+          data-for="textarea">
           <span className="sr-only">Bold</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -31,7 +40,7 @@ export default function Editor({ handleChange, data }) {
         <button
           className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors disabled:pointer-events-none  h-10 px-4 py-2 text-gray-600 dark:text-white editor-button"
           type="button"
-          title="italic"
+          title="i"
           data-element="italic">
           <span className="sr-only">Italic</span>
           <svg
@@ -231,6 +240,7 @@ export default function Editor({ handleChange, data }) {
       </div>
       <textarea
         value={data}
+        contentEditable="true"
         name="body"
         onChange={(e) => handleChange(e)}
         rows={10}
