@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import { FaEdit, FaBookOpen } from "react-icons/fa";
+import { FaEdit, FaBookOpen, FaUser } from "react-icons/fa";
 import { BsBookmarks } from "react-icons/bs";
 import { GoSignOut } from "react-icons/go";
 import { TfiClose } from "react-icons/tfi";
@@ -14,7 +14,7 @@ export const Menu = ({ handleClick, menuOpen }) => {
     revalidatePath("/my-blogs");
   }
   return (
-    <nav className="absolute right-0 top-20 md:mt-5 md:right-14 lg:right-20 dark:bg-gray-800 space-y-4 bg-slate-100 shadow-lg z-[999] p-5 rounded-lg w-fit font-poppins flex flex-col items-end">
+    <nav className="absolute right-0 top-20 md:mt-5 md:right-14 lg:right-20 dark:bg-gray-800 space-y-4 bg-slate-100 shadow-lg z-[999] p-5 rounded-lg w-fit font-poppins">
       <TfiClose
         className="absolute top-1 right-1 rounded-full border p-1 text-2xl mr-2  cursor-pointer"
         onClick={() => handleClick(!menuOpen)}
@@ -40,7 +40,17 @@ export const Menu = ({ handleClick, menuOpen }) => {
         <FaBookOpen />
         Stories
       </Link>
-      <Link onClick={handleSignout} href="/" className="menu-item">
+      <Link
+        href="/settings"
+        className="menu-item"
+        onClick={() => handleClick(!menuOpen)}>
+        <FaUser />
+        My Profile
+      </Link>
+      <Link
+        onClick={handleSignout}
+        href="/"
+        className="menu-item border bg-gray-700 rounded-md hover:bg-red-400">
         <GoSignOut />
         Sign Out
       </Link>

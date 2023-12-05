@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import { BsInfoCircle } from "react-icons/bs";
 import { AiFillEdit } from "react-icons/ai";
 import { getCurrentUser } from "@/lib";
+import { Editor } from "@/components";
 
 export default function useCreate() {
   const [isAuth, setIsAuth] = useState(true);
@@ -27,15 +28,15 @@ export default function useCreate() {
     }));
   };
   function saveDraft() {
-    if(typeof window !== undefined){
-    localStorage.setItem("draftBlog", JSON.stringify(blogData));
-    Swal.fire({
-      text: "draft saved successfully",
-      icon: "success",
-      showConfirmButton: false,
-      showCloseButton: true,
-      timer: 3000,
-    });
+    if (typeof window !== undefined) {
+      localStorage.setItem("draftBlog", JSON.stringify(blogData));
+      Swal.fire({
+        text: "draft saved successfully",
+        icon: "success",
+        showConfirmButton: false,
+        showCloseButton: true,
+        timer: 3000,
+      });
     }
   }
   useEffect(() => {
@@ -86,7 +87,7 @@ export default function useCreate() {
         </label>
         <input
           className="blog-input-field focus:outline-none"
-          type="text"
+          type="file"
           name="image"
           disabled={!user}
           value={blogData.image}
@@ -95,7 +96,8 @@ export default function useCreate() {
           required
         />
         <br className="mt-8"></br>
-        <textarea
+        <Editor/>
+        {/* <textarea
           rows="10"
           name="body"
           value={blogData.body}
@@ -104,7 +106,7 @@ export default function useCreate() {
           required
           placeholder="Write your blog here. Remember to use html tags"
           className="p-4 w-full border-none shadow-lg text-black focus:outline-none text-xl"
-        />
+        /> */}
         <div className="flex gap-2 md:gap-8 mt-4">
           <button
             type="submit"
