@@ -16,7 +16,7 @@ export const Menu = ({ handleClick, menuOpen }) => {
   return (
     <nav className="absolute right-0 top-20 md:mt-5 md:right-14 lg:right-20  space-y-4 bg-slate-100 shadow-lg z-[999] p-5 rounded-lg w-fit font-poppins">
       <TfiClose
-        className="absolute top-1 right-1 rounded-full border p-1 text-2xl mr-2  cursor-pointer"
+        className="absolute top-1 right-1 rounded-full border p-1 text-2xl mr-2  cursor-pointer bg-slate-200"
         onClick={() => handleClick(!menuOpen)}
       />
       <Link
@@ -50,7 +50,7 @@ export const Menu = ({ handleClick, menuOpen }) => {
       <Link
         onClick={handleSignout}
         href="/"
-        className="menu-item border bg-gray-700 rounded-md hover:bg-red-600 hover:border-none shadow-md">
+        className="menu-item border hover:border-none bg-slate-100 rounded-md hover:bg-red-600  shadow-md">
         <GoSignOut />
         Sign Out
       </Link>

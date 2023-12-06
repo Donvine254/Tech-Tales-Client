@@ -34,7 +34,9 @@ export default function Navbar() {
         {user ? (
           <div className="flex items-center md:gap-1 mr-2" id="user present">
             <Link href="/create">
-              <button type="button" className="hidden md:block btn-primary">
+              <button
+                type="button"
+                className="hidden md:block hover:text-white btn-primary">
                 Create Post
               </button>
             </Link>
