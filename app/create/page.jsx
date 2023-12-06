@@ -100,7 +100,7 @@ export default function CreateNewBlog() {
           required
         />
         <br className="mt-8"></br>
-        <DynamicEditor data={blogData.body} />
+        <DynamicEditor data={blogData.body} handleChange={setBlogData} />
         {/* <textarea
           rows="10"
           name="body"
