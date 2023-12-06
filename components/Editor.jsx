@@ -17,12 +17,7 @@ export default function Editor() {
           // Handle editor events here
         },
       });
-
-     // editorContainer.addEventListener("input", () => {
-       // const contentHeight = editorContainer.scrollHeight;
-      //editorContainer.style.height = contentHeight + "px";
-    //  });
-    //}
+    }
   }, []);
 
   return (
