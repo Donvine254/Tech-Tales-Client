@@ -6,13 +6,6 @@ import Swal from "sweetalert2";
 import { BsInfoCircle } from "react-icons/bs";
 import { AiFillEdit } from "react-icons/ai";
 import { getCurrentUser } from "@/lib";
-import dynamic from "next/dynamic";
-
-const DynamicEditor = dynamic(() => import("@/components/Editor"), {
-  loading: () => (
-    <p className="font-bold text-2xl text-black animate-bounce">Loading...</p>
-  ),
-});
 
 export default function CreateNewBlog() {
   const user = getCurrentUser();
@@ -100,8 +93,7 @@ export default function CreateNewBlog() {
           required
         />
         <br className="mt-8"></br>
-        <DynamicEditor />
-        {/* <textarea
+        <textarea
           rows="10"
           name="body"
           value={blogData.body}
@@ -110,7 +102,7 @@ export default function CreateNewBlog() {
           required
           placeholder="Write your blog here. Remember to use html tags"
           className="p-4 w-full border-none shadow-lg text-black focus:outline-none text-xl"
-        /> */}
+        />
         <div className="flex gap-2 md:gap-8 mt-4">
           <button
             type="submit"
