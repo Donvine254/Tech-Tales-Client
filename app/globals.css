@@ -120,3 +120,7 @@ label {
 .blog-body h1 {
   @apply text-2xl my-2 font-bold !indent-0;
 }
+/* styling for editor */
+.cdx-input {
+  background-color: #fff;
+}

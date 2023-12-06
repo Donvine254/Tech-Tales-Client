@@ -6,7 +6,6 @@ import Component from "./SideBar";
 import Comments from "./Comments";
 import Bookmark from "./Bookmark";
 import Avatar from "./Avatar";
-import Editor from "./editor";
 export {
   Navbar,
   Footer,
@@ -16,5 +15,4 @@ export {
   Comments,
   Bookmark,
   Avatar,
-  Editor,
 };
