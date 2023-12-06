@@ -68,7 +68,7 @@ export default function Page() {
                 <Link
                   href={`/blogs/${blog.slug}?id=${blog.id}`}
                   className="space-y-3 xl:col-span-3">
-                  <h1 className="font-bold text-xl md:text-3xl dark:text-blue-500 py-4 balance">
+                  <h1 className="font-bold text-xl md:text-3xl  py-4 balance">
                     {blog.title}
                   </h1>
                 </Link>

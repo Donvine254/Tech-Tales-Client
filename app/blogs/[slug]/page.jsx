@@ -63,7 +63,7 @@ export default function BlogsPage({ params }) {
       {loading && <FullSkeletonBlog />}
       {blog && !loading ? (
         <div key={blog.id}>
-          <h1 className="font-bold xsm:text-xl text-2xl md:text-4xl lg:text-5xl dark:text-blue-500 py-4 balance">
+          <h1 className="font-bold xsm:text-xl text-2xl md:text-4xl lg:text-5xl py-4 balance">
             {blog?.title}
           </h1>
           <div className="flex xsm:block gap-5 items-center py-4">
@@ -95,13 +95,13 @@ export default function BlogsPage({ params }) {
                   onClick={handleLikeClick}
                 />
               )}
-              <span className="text-base dark:text-gray-200 xsm:hidden">
+              <span className="text-base  xsm:hidden">
                 {likes ? likes : null} {!liked ? "Add Reaction" : "likes"}
               </span>
             </p>
             <p className="blog__icons">
               <FaRegComment className="hover:scale-125" />
-              <span className="text-base dark:text-gray-200 xsm:hidden">
+              <span className="text-base  xsm:hidden">
                 {blog.comments ? blog?.comments?.length : null}{" "}
                 <Link href="#write-comment">Comments</Link>
               </span>

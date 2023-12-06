@@ -30,8 +30,8 @@ export default function Footer() {
       <div className="flex justify-between align-center mt-2">
         <h1 className="text-xl">&copy; 2023 Tech Tales</h1>
         <div className="flex gap-2">
-          <FaFacebookF className="md:text-xl text-blue-950 dark:text-white" />
-          <FaTwitter className="md:text-xl  text-blue-950 dark:text-white" />
+          <FaFacebookF className="md:text-xl text-blue-950 " />
+          <FaTwitter className="md:text-xl  text-blue-950 " />
           <FaGithub className="md:text-xl" />
           <FaYoutube className="md:text-xl text-red-600" />
         </div>

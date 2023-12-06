@@ -16,9 +16,9 @@ export default function Navbar() {
   const user = getCurrentUser();
 
   return (
-    <nav>
+    <nav className="w-full">
       <div
-        className="p-2 flex w-full m-2 items-center justify-between sticky top-0.5  z-50 bg-base-200 dark:bg-slate-900 flex-wrap "
+        className="p-4 md:p-5 bg-slate-100 flex w-full items-center justify-between relative top-0 z-50 bg-base-200 flex-wrap border"
         id="parent div">
         <div id="logo">
           <Link href="/">
@@ -65,7 +65,7 @@ export default function Navbar() {
         )}
       </div>
       <SearchMD />
-      <div className="max-w-7xl mx-auto md:w-2/3" id="bottom nav">
+      <div className="flex justify-center items-center" id="bottom nav">
         <div className="flex justify-center md:justify-start md:ml-5  md:gap-4 md:text-2xl items-center font-crimson">
           {navLinks.map((link) => {
             const isActive = pathname.startsWith(link.href);

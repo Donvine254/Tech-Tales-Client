@@ -11,14 +11,6 @@
   --background-end-rgb: 255, 255, 255;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
@@ -28,6 +20,7 @@ body {
     )
     rgb(var(--background-start-rgb));
   scroll-behavior: smooth;
+  box-sizing: border-box;
 }
 .avatar {
   @apply rounded-full w-8 h-8 md:w-10 md:h-10 shadow-md mr-6;
@@ -56,7 +49,7 @@ body {
   @apply absolute bottom-10 left-0 mb-4;
 }
 .login-page {
-  @apply w-full md:w-3/4 lg:w-1/2 max-w-lg lg:m-auto min-w-min mx-auto border border-blue-500 dark:border-white rounded-lg md:p-16 p-10 text-xl shadow-md;
+  @apply w-full md:w-3/4 lg:w-1/2 max-w-lg lg:m-auto min-w-min mx-auto border border-blue-500  rounded-lg md:p-16 p-10 text-xl shadow-md;
 }
 
 .input-field {
@@ -93,18 +86,6 @@ label {
   );
   background-size: 200% 100%;
   animation: skeleton-loading 3s linear infinite alternate;
-}
-@media (prefers-color-scheme: dark) {
-  .skeleton {
-    background: linear-gradient(
-      90deg,
-      hsl(240, 1%, 10%),
-      hsl(240, 1%, 20%),
-      hsl(240, 1%, 10%)
-    );
-    background-size: 200% 100%;
-    animation: skeleton-loading 3s linear infinite alternate;
-  }
 }
 
 /* keyframes for the animation */
