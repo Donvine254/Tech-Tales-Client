@@ -18,11 +18,11 @@ export default function Editor() {
         },
       });
 
-      editorContainer.addEventListener("input", () => {
-        const contentHeight = editorContainer.scrollHeight;
-        editorContainer.style.height = contentHeight + "px";
-      });
-    }
+     // editorContainer.addEventListener("input", () => {
+       // const contentHeight = editorContainer.scrollHeight;
+      //editorContainer.style.height = contentHeight + "px";
+    //  });
+    //}
   }, []);
 
   return (
