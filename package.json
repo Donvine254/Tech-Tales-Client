@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tinymce/tinymce-react": "^4.3.2",
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
     "editorjs-style": "^3.0.3",
