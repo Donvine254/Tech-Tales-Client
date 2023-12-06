@@ -66,7 +66,7 @@ export default function CreateNewBlog() {
   return (
     <div className="m-2 font-poppins">
       <form
-        className="bg-gray-200 border m-auto lg:w-3/4 p-8 rounded-sm"
+        className="bg-gray-100 border m-auto lg:w-3/4 p-8 rounded-sm"
         onSubmit={handleSubmit}>
         <label
           htmlFor="title"
@@ -100,7 +100,7 @@ export default function CreateNewBlog() {
           required
         />
         <br className="mt-8"></br>
-        <DynamicEditor />
+        <DynamicEditor data={blogData.body} />
         {/* <textarea
           rows="10"
           name="body"
@@ -114,7 +114,7 @@ export default function CreateNewBlog() {
         <div className="flex gap-2 md:gap-8 mt-4">
           <button
             type="submit"
-            className="bg-blue-500 font-bold px-4 py-2 rounded-md hover:bg-blue-800">
+            className="bg-blue-500 font-bold px-4 py-2 text-white rounded-md hover:bg-blue-800">
             Publish
           </button>
           <button

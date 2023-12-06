@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 
-export default function App() {
+export default function App({ data }) {
   const editorRef = useRef(null);
   const log = () => {
     if (editorRef.current) {
@@ -13,7 +13,7 @@ export default function App() {
       <Editor
         apiKey="s91bfina8wqeldhbyfzpf16bkodlx2gz2s0nx1zg9dfugp3e"
         onInit={(evt, editor) => (editorRef.current = editor)}
-        initialValue="<p>Write Your Blog Here....</p>"
+        initialValue={data}
         init={{
           height: 500,
           menubar: false,
@@ -47,7 +47,9 @@ export default function App() {
         }}
       />
 
-      <button onClick={log}>Log editor content</button>
+      {/* <button onClick={log} className="btn-primary">
+        Log editor content
+      </button> */}
     </div>
   );
 }
