@@ -128,7 +128,7 @@ export default function Comments({ blogId }) {
             className="p-4 xsm:p-2 xsm:ml-2 w-[90%]  bg-white border-2  focus:outline-none md:text-xl h-16 focus:h-20 rounded-lg text-black"
           />
         </div>
-        <div className="flex align-center gap-2 py-5 ml-14 xsm:ml-10 lg:gap-4">
+        <div className="flex align-center gap-2 py-3 ml-14 xsm:ml-10 lg:gap-4">
           {isInputFocused && (
             <>
               {isEditing ? (
@@ -168,7 +168,7 @@ export default function Comments({ blogId }) {
       <div>
         {comments.length > 0 ? (
           comments.map((comment) => (
-            <div className="py-2 mt-2 font-poppins" key={comment?.id}>
+            <div className="py-2 font-poppins" key={comment?.id}>
               <div className="flex gap-4 xsm:gap-2 xsm:items-center">
                 {comment.user_id === user?.id ? (
                   <Avatar name={user?.username} />
