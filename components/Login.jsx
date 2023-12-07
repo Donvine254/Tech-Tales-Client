@@ -56,7 +56,9 @@ export default function useLogin() {
     }
   }
   return (
-    <div id="login-parent-div" className="font-poppins max-h-screen">
+    <div
+      id="login-parent-div"
+      className="font-poppins px-2 flex-1 lg:max-w-[75%] lg:mx-auto">
       <div id="logo-div" className="">
         <Link href="/">
           <h1 className="text-2xl m-5 text-center md:text-left md:text-3xl font-bold font-poppins lg:text-4xl cursor-pointer">
@@ -65,11 +67,13 @@ export default function useLogin() {
           </h1>
         </Link>
       </div>
-      <div className="login-page">
-        <h1 className="text-xl md:text-2xl font-bold text-center">
-          Welcome Back
-        </h1>
-        <form className="p4 m3" onSubmit={handleLogin}>
+      <div className="w-full flex h-screen flex-col items-center justify-center">
+        <form
+          className="p-4 w-full md:w-3/4 lg:w-1/2 max-w-lg  border text-xl rounded-md min-w-[300px] min-h-[450px] lg:min-h-[500px] bg-[#f4f3f2] shadow-md"
+          onSubmit={handleLogin}>
+          <h1 className="text-xl md:text-2xl font-bold text-center">
+            Welcome Back
+          </h1>
           <div className="relative">
             <label htmlFor="email">Email: </label>
             <br></br>
@@ -115,17 +119,17 @@ export default function useLogin() {
           <button type="submit" className="login-button">
             <SlLogin /> Login
           </button>
+          <div className="py-2">
+            <p className="">
+              Don&apos;t have an account?{" "}
+              <Link
+                href="/register"
+                className="hover:text-blue-500 font-bold underline">
+                signup
+              </Link>
+            </p>
+          </div>
         </form>
-        <div className="py-2">
-          <p className="">
-            Don&apos;t have an account?{" "}
-            <Link
-              href="/register"
-              className="hover:text-blue-500 font-bold underline">
-              signup
-            </Link>
-          </p>
-        </div>
       </div>
     </div>
   );
