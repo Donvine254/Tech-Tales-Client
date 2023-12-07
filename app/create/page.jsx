@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createBlog } from "@/lib";
-import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import { getCurrentUser } from "@/lib";
 import dynamic from "next/dynamic";
@@ -27,7 +26,6 @@ export default function CreateNewBlog() {
     if (typeof window !== undefined) {
       localStorage.setItem("draftBlog", JSON.stringify(blogData));
       toast.success("draft saved successfully");
-      console.log(blogData);
     }
   }
   useEffect(() => {
@@ -54,7 +52,6 @@ export default function CreateNewBlog() {
       ...blogData,
       user_id: user.id,
     };
-    console.log(data);
     createBlog(data, navigate, setBlogData);
     localStorage.removeItem("draftBlog");
   }

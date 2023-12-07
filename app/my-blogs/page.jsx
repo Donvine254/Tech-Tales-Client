@@ -9,6 +9,7 @@ import Axios from "axios";
 import parse from "html-react-parser";
 import { Avatar } from "@/components";
 import SkeletonBlog from "@/components/SkeletonBlog";
+import toast from "react-hot-toast";
 //check for the current user
 const user = getCurrentUser();
 
@@ -19,6 +20,7 @@ export default function MyBlogsComponent() {
 
   useEffect(() => {
     if (!user) {
+      toast.error("kindly login first!");
       navigate.replace("/login");
     } else if (user) {
       const fetchBlogs = async () => {
