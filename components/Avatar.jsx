@@ -1,6 +1,5 @@
-"use client";
 export default function Avatar({ name, handleClick = null }) {
-  const firstLetter = name ? name.charAt(0) : "";
+  const firstLetter = name?.charAt(0) ?? "";
 
   const generateColor = () => {
     if (name) {
@@ -16,10 +15,15 @@ export default function Avatar({ name, handleClick = null }) {
 
   return (
     <div
-      className={`flex justify-center items-center w-10 h-10 md:w-12 md:h-12 rounded-full cursor-pointer shadow`}
+      className={`flex justify-center items-center w-10 h-10 md:w-12 md:h-12 rounded-full cursor-pointer shadow `}
       onClick={handleClick}
       style={{ backgroundColor: color }}>
-      <p className="text-white text-xl font-bold">{firstLetter}</p>
+      <p
+        className={`text-white text-xl font-bold ${
+          firstLetter === "" ? "hidden" : ""
+        }`}>
+        {firstLetter}
+      </p>
     </div>
   );
 }

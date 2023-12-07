@@ -5,7 +5,7 @@ import { MdEmail } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import Axios from "axios";
 import Swal from "sweetalert2";
-
+import toast from "react-hot-toast";
 export default function ResetPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -29,11 +29,7 @@ export default function ResetPage() {
   async function handleSubmit(e) {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
-      Swal.fire({
-        html: "<p>⚠️Passwords must match⚠️</p>",
-        showConfirmButton: false,
-        showCloseButton: true,
-      });
+      toast.error("Passwords do not match");
       return;
     }
     try {
@@ -43,29 +39,14 @@ export default function ResetPage() {
       );
       const data = response.data;
       if (data.error) {
-        Swal.fire({
-          icon: "error",
-          title: "Reset Failed!",
-          text: "Kindly ensure you have a registered account before resetting your password.",
-          showCloseButton: true,
-        });
+        toast.error("No registered users found");
       } else {
-        Swal.fire({
-          icon: "success",
-          title: "Password reset successfully",
-          text: "Proceed to login with your new password",
-          timer: 3000,
-        });
+        toast.success("Password reset successfully");
         push("/login");
       }
     } catch (error) {
       console.error("Error:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Reset Failed!",
-        text: "An error occurred while resetting the password.",
-        showCloseButton: true,
-      });
+      toast.error("Something went wrong");
     }
     setFormData({
       email: "",
@@ -75,7 +56,7 @@ export default function ResetPage() {
   }
 
   return (
-    <div className="">
+    <div className="font-poppins">
       <div className="">
         <h1 className="text-2xl m-5 text-center md:text-left md:text-3xl font-bold lg:text-4xl cursor-pointer">
           Tech Tales{" "}

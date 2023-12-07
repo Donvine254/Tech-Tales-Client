@@ -27,7 +27,7 @@ export default function useRegister() {
   }
 
   return (
-    <div className="">
+    <div className="font poppins">
       <div className="">
         <Link href="/">
           <h1 className="text-2xl m-5 text-center md:text-left md:text-3xl font-bold lg:text-4xl cursor-pointer">

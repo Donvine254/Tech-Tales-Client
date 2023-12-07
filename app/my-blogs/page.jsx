@@ -44,7 +44,7 @@ export default function MyBlogsComponent() {
   }
 
   return (
-    <div className="w-full mx-auto m-4 px-8 md:w-2/3 relative font-poppins">
+    <div className="w-full min-h-[400px] mx-auto m-4 px-8 md:w-2/3 relative font-poppins">
       {loading && (
         <div>
           {Array(2)

@@ -5,9 +5,9 @@ import { SearchMD } from "./SearchMD";
 import Link from "next/link";
 import { Menu } from "./Menu";
 import { usePathname } from "next/navigation";
+import { getCurrentUser } from "@/lib";
 import Avatar from "./Avatar";
 import { FaSortDown, FaSortUp } from "react-icons/fa6";
-import { getCurrentUser } from "@/lib";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -26,42 +26,41 @@ export default function Navbar() {
             <span className="text-red-600 text-2xl md:text-5xl">.</span>
           </h1>
         </Link>
-
         <Search />
-        {user ? (
-          <div className="flex items-center md:gap-1 mr-2" id="user present">
-            <Link href="/create">
-              <button
-                type="button"
-                className="hidden md:block hover:text-white btn-primary">
-                Create Post
-              </button>
-            </Link>
-            <div className="flex items-center gap-1">
-              <Avatar
-                name={user?.username}
-                handleClick={() => setMenuOpen(true)}
-              />
-              {menuOpen ? (
-                <FaSortUp
-                  onClick={() => setMenuOpen(!menuOpen)}
-                  className="text-xl cursor-pointer"
-                />
-              ) : (
-                <FaSortDown
-                  onClick={() => setMenuOpen(!menuOpen)}
-                  className="text-xl cursor-pointer"
-                />
-              )}
-            </div>
-          </div>
-        ) : (
-          <Link href="/login">
-            <button type="button" className="btn-primary text-xl">
-              Login
-            </button>
+        <div
+          className={`flex items-center md:gap-1 mr-2 ${!user ? "hidden" : ""}`}
+          id="user present">
+          <Link
+            href="/create"
+            className="hidden md:block hover:text-white btn-primary cursor-pointer">
+            Create Post
           </Link>
-        )}
+          <div className="flex items-center gap-1">
+            <Avatar
+              name={user?.username}
+              handleClick={() => setMenuOpen(true)}
+            />
+            {menuOpen ? (
+              <FaSortUp
+                onClick={() => setMenuOpen(!menuOpen)}
+                className="text-xl cursor-pointer"
+              />
+            ) : (
+              <FaSortDown
+                onClick={() => setMenuOpen(!menuOpen)}
+                className="text-xl cursor-pointer"
+              />
+            )}
+          </div>
+        </div>
+        {/* only show login button when the user is not logged in */}
+        <Link
+          href="/login"
+          className={`btn-primary text-xl cursor-pointer ${
+            user ? "hidden" : ""
+          }`}>
+          Login
+        </Link>
       </div>
       <SearchMD />
       <div className="flex justify-center items-center" id="bottom nav">

@@ -8,6 +8,7 @@ import { SlLogin } from "react-icons/sl";
 import { useRouter } from "next/navigation";
 import axiosInstance from "../axiosConfig";
 const loginApi = "https://techtales.up.railway.app/login";
+import toast from "react-hot-toast";
 
 export default function useLogin() {
   const [showPassword, setShowPassword] = useState(false);
@@ -46,28 +47,17 @@ export default function useLogin() {
         if (typeof window !== "undefined") {
           localStorage.setItem("loggedInUser", JSON.stringify(foundUser));
         }
+        toast.success("Logged in successfully!");
         navigate.replace("/");
-        Swal.fire({
-          icon: "success",
-          title: "Login Successful!",
-          text: "You will be redirected to the homepage in a few seconds.",
-          showCloseButton: true,
-          confirmButtonColor: "#0F73BD",
-        });
       }
     } catch (error) {
       console.error("Error during login:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Login Failed!",
-        text: "Invalid email or password. Kindly recheck and try again",
-        showCloseButton: true,
-      });
+      toast.error("Invalid email or password. Kindly recheck and try again");
     }
   }
   return (
-    <div className="">
-      <div className="">
+    <div id="login-parent-div" className="font-poppins max-h-screen">
+      <div id="logo-div" className="">
         <Link href="/">
           <h1 className="text-2xl m-5 text-center md:text-left md:text-3xl font-bold font-poppins lg:text-4xl cursor-pointer">
             Tech Tales{" "}
@@ -89,7 +79,7 @@ export default function useLogin() {
               value={loginData.email}
               onChange={handleChange}
               placeholder="Type your email"
-              className="input-field  focus:bg-blue-600"
+              className="input-field focus:bg-blue-200 focus:border-2 focus:border-blue-500"
               required
             />
             <MdEmail id="email-icon" />
@@ -105,7 +95,7 @@ export default function useLogin() {
               placeholder="Type your password"
               minLength={8}
               required
-              className="input-field focus:bg-blue-600"
+              className="input-field focus:bg-blue-200 focus:border-2 focus:border-blue-500 "
             />
             <FaLock id="password-icon" />
           </div>
@@ -126,12 +116,15 @@ export default function useLogin() {
             <SlLogin /> Login
           </button>
         </form>
-        <br></br>
-        <div className="shadow-lg border-t-2 p-2 border-t-slate-500">
-          <p className="text-center text-xl font-bold">Or</p>
-          <Link href="/register" className="login__link">
-            <p className="mx-auto text-center">Register Here</p>
-          </Link>
+        <div className="py-2">
+          <p className="">
+            Don&apos;t have an account?{" "}
+            <Link
+              href="/register"
+              className="hover:text-blue-500 font-bold underline">
+              signup
+            </Link>
+          </p>
         </div>
       </div>
     </div>
