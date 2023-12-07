@@ -6,7 +6,6 @@ export default function App({ data, handleChange }) {
   const log = () => {
     if (editorRef.current) {
       console.log(editorRef.current.getContent());
-      console.log("data:", data);
     }
   };
   return (

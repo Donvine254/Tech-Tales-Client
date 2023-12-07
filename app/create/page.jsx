@@ -7,6 +7,7 @@ import { BsInfoCircle } from "react-icons/bs";
 import { AiFillEdit } from "react-icons/ai";
 import { getCurrentUser } from "@/lib";
 import dynamic from "next/dynamic";
+import UploadButton from "@/components/uploadButton";
 
 const DynamicEditor = dynamic(() => import("@/components/Editor"), {
   loading: () => (
@@ -84,24 +85,9 @@ export default function CreateNewBlog() {
           placeholder="Write your blog title here"
           required
         />
-        <br></br>
-        <label
-          htmlFor="title"
-          className="p-2 mt-2 text-xl text-center font-bold text-black">
-          Cover Image
-        </label>
-        <input
-          className="w-full mb-3 p-2 min-w-0 flex-auto rounded border border-solid border-blue-600 bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-black transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-blue-600 file:px-3 file:py-[0.32rem] file:text-white  file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem]  focus:border-primary focus:outline-none "
-          type="file"
-          name="image"
-          accept="image/*"
-          disabled={!user}
-          value={blogData.image}
-          onChange={handleChange}
-          placeholder="Paste the url for the cover image"
-          required
-        />
-        <br className="mt-8"></br>
+
+        <UploadButton setBlogData={setBlogData}/>
+
         <DynamicEditor data={blogData.body} handleChange={setBlogData} />
 
         <div className="flex gap-2 xsm:items-center xsm:justify-between md:gap-8 mt-4">

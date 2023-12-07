@@ -20,17 +20,14 @@ export default function Navbar() {
       <div
         className="p-4 md:p-5 bg-slate-100 flex w-full items-center justify-between relative top-0 z-50 bg-base-200 flex-wrap border"
         id="parent div">
-        <div id="logo">
-          <Link href="/">
-            <h1 className="text-xl md:text-3xl font-bold lg:text-4xl m-auto cursor-pointer">
-              Tech Tales
-              <span className="text-red-600 text-2xl md:text-5xl">.</span>
-            </h1>
-          </Link>
-        </div>
-        <div className="flex-0.5 max-w-1/2" id="searchbar">
-          <Search />
-        </div>
+        <Link href="/">
+          <h1 className="text-xl md:text-3xl font-bold lg:text-4xl m-auto cursor-pointer">
+            Tech Tales
+            <span className="text-red-600 text-2xl md:text-5xl">.</span>
+          </h1>
+        </Link>
+
+        <Search />
         {user ? (
           <div className="flex items-center md:gap-1 mr-2" id="user present">
             <Link href="/create">
