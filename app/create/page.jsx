@@ -3,8 +3,6 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createBlog } from "@/lib";
 import Swal from "sweetalert2";
-import { BsInfoCircle } from "react-icons/bs";
-import { AiFillEdit } from "react-icons/ai";
 import { getCurrentUser } from "@/lib";
 import dynamic from "next/dynamic";
 import UploadButton from "@/components/uploadButton";
@@ -17,7 +15,7 @@ const DynamicEditor = dynamic(() => import("@/components/Editor"), {
 
 export default function CreateNewBlog() {
   const user = getCurrentUser();
-
+  let count = 0;
   const navigate = useRouter();
   const [blogData, setBlogData] = useState({
     title: "",
@@ -25,14 +23,6 @@ export default function CreateNewBlog() {
     body: "",
     user_id: "",
   });
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setBlogData((prevData) => ({
-      ...prevData,
-      [name]: value,
-      user_id: user.id,
-    }));
-  };
   function saveDraft() {
     if (typeof window !== undefined) {
       localStorage.setItem("draftBlog", JSON.stringify(blogData));
@@ -63,30 +53,84 @@ export default function CreateNewBlog() {
     createBlog(blogData, navigate, setBlogData);
     localStorage.removeItem("draftBlog");
   }
-
+  //function to trigger alert
+  function triggerAlert(command) {
+    const alertElement = document.getElementById("alert");
+    if (count < 1 && command === "show") {
+      alertElement.style.display = "block";
+      count += 1;
+    } else if (command === "hide") {
+      alertElement.style.display = "none";
+    } else {
+      return false;
+    }
+  }
   return (
     <div className="md:m-1 font-poppins">
       <form
-        className="bg-gray-100 border m-auto lg:w-3/4 p-4 md:p-8 rounded-sm"
+        className="bg-gray-100 border m-auto lg:w-3/4 p-4 md:p-8 rounded-sm relative"
         onSubmit={handleSubmit}>
         <label
           htmlFor="title"
           className="p-2 mt-2 text-xl text-center font-bold text-black">
           Blog Title
         </label>
+        {/* div for alert */}
+        <div
+          className="absolute bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md z-50 mr-4 hidden"
+          role="alert"
+          id="alert">
+          <div class="flex">
+            <div className="py-1">
+              <svg
+                class="fill-current h-6 w-6 text-teal-500 mr-4"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20">
+                <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
+              </svg>
+            </div>
+            <div>
+              <p className="font-bold">Writing a Good Blog Title</p>
+              <p className="text-base">
+                Think of your post title as a super short (but compelling!)
+                description — like an overview of the actual post in one short
+                sentence. Use keywords where appropriate to help ensure people
+                can find your post by search.
+              </p>
+            </div>
+          </div>
+          <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
+            <svg
+              className="fill-current h-6 w-6 text-red-500 hover:scale-110 bg-white rounded-full"
+              role="button"
+              onClick={() => triggerAlert("hide")}
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20">
+              <title>Close</title>
+              <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+            </svg>
+          </span>
+        </div>
+        {/* end of alert div */}
         <input
-          className="blog-input-field focus:outline-none"
+          className="blog-input-field focus:outline-none text-xl font-bold"
           type="text"
           name="title"
           id="title"
+          onFocus={() => triggerAlert("show")}
           disabled={!user}
-          value={blogData.title}
-          onChange={handleChange}
+          value={blogData?.title}
+          onChange={(e) =>
+            setBlogData((prev) => ({
+              ...prev,
+              title: e.target.value,
+            }))
+          }
           placeholder="Write your blog title here"
           required
         />
 
-        <UploadButton setBlogData={setBlogData}/>
+        <UploadButton setBlogData={setBlogData} />
 
         <DynamicEditor data={blogData.body} handleChange={setBlogData} />
 
@@ -104,37 +148,6 @@ export default function CreateNewBlog() {
           </button>
         </div>
       </form>
-      <div className="md:w-1/3 ml-5 mr-5 hidden">
-        <h1 className="tex-xl md:text-2xl font-bold flex items-center space-1">
-          <BsInfoCircle className="pr-2" /> Writing a Great Post Title{" "}
-        </h1>
-        <p className="space-y-2 leading-relaxed">
-          Think of your post title as a super short (but compelling!)
-          description — like an overview of the actual post in one short
-          sentence. Use keywords where appropriate to help ensure people can
-          find your post by search.
-        </p>
-        <h1 className="tex-xl md:text-2xl font-bold py-2 flex items-center space-1">
-          <AiFillEdit className="pr-2" /> Write like a Pro!
-        </h1>
-        <p className="space-y-2 leading-relaxed py-2">
-          {" "}
-          Use html tags to format the body of your blogs, put headings in h1 to
-          h6 tags, separate paragraphs by nesting them in p tags and format
-          lists using ul and li tags
-        </p>
-        <p className="text-base font-bold leading-relaxed py-2">
-          Common html tags include
-        </p>
-        <ul>
-          <li>&lt;ul&gt; &lt;/ul&gt; followed by &lt;li&gt; for lists</li>
-          <li>&lt;br&gt; &lt;/br&gt; for line breaks</li>
-          <li>&lt;strong&gt; &lt;/strong&gt; for bold text</li>
-          <li>&lt;p&gt; &lt;/p&gt; for paragraphs</li>
-          <li>&lt;h1--h6&gt; &lt;/h1--h6&gt; for headers</li>
-          <li>&lt;img&gt; &lt;/img&gt; for image tags</li>
-        </ul>
-      </div>
     </div>
   );
 }
