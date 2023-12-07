@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import { FaEdit, FaBookOpen, FaUser } from "react-icons/fa";
-import { BsBookmarks } from "react-icons/bs";
+import { BsBookmarks, BsFillGearFill } from "react-icons/bs";
 import { GoSignOut } from "react-icons/go";
 import { TfiClose } from "react-icons/tfi";
 import { clearCurrentUser, clearAllCookies } from "@/lib";
@@ -14,7 +14,7 @@ export const Menu = ({ handleClick, menuOpen }) => {
     revalidatePath("/my-blogs");
   }
   return (
-    <nav className="absolute right-0 top-20 md:mt-5 md:right-14 lg:right-20  space-y-4 bg-slate-100 shadow-lg z-[999] p-5 rounded-lg w-fit font-poppins">
+    <nav className="absolute right-0 top-20 md:mt-5 md:right-14 lg:right-20  space-y-4 bg-slate-100 shadow-lg z-[999] py-5 px-8 rounded-lg w-fit font-poppins">
       <TfiClose
         className="absolute top-1 right-1 rounded-full border p-1 text-2xl mr-2  cursor-pointer bg-slate-200"
         onClick={() => handleClick(!menuOpen)}
@@ -46,6 +46,13 @@ export const Menu = ({ handleClick, menuOpen }) => {
         onClick={() => handleClick(!menuOpen)}>
         <FaUser />
         My Profile
+      </Link>
+      <Link
+        href="/settings"
+        className="menu-item"
+        onClick={() => handleClick(!menuOpen)}>
+        <BsFillGearFill />
+        Settings
       </Link>
       <Link
         onClick={handleSignout}

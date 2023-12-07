@@ -116,7 +116,7 @@ export default function Comments({ blogId }) {
   return (
     <>
       <form className="mt-4">
-        <div className="flex gap-1 xsm:gap-0 items-center">
+        <div className="flex gap-2 xsm:gap-1 items-center">
           <Avatar name={user?.username} />
           <textarea
             placeholder="add to the discussion"
@@ -125,10 +125,10 @@ export default function Comments({ blogId }) {
             disabled={!user}
             onClick={() => setIsInputFocused(!isInputFocused)}
             onChange={(e) => setNewComment(e.target.value)}
-            className="p-4 xsm:p-2 xsm:ml-2 w-[90%] border-none shadow-lg bg-gray-200  focus:outline-none md:text-xl h-16 focus:h-20 rounded-lg text-black"
+            className="p-4 xsm:p-2 xsm:ml-2 w-[90%]  bg-white border-2  focus:outline-none md:text-xl h-16 focus:h-20 rounded-lg text-black"
           />
         </div>
-        <div className="flex align-center gap-2 py-5 ml-16 xsm:ml-10 lg:gap-4">
+        <div className="flex align-center gap-2 py-5 ml-14 xsm:ml-10 lg:gap-4">
           {isInputFocused && (
             <>
               {isEditing ? (
@@ -149,13 +149,14 @@ export default function Comments({ blogId }) {
                 <>
                   <button
                     type="submit"
-                    className="bg-blue-500 text-white font-bold px-4 py-2 lg:mr-4 rounded-md hover:bg-blue-800"
+                    className="bg-blue-500 text-white font-bold px-4 py-2 lg:mr-3 rounded-md hover:bg-blue-800"
                     onClick={handleSubmit}>
                     Respond
                   </button>
                   <button
                     type="button"
-                    className="bg-transparent hover:bg-slate-300 border text-blue-500 border-blue-500 px-2 p-2 rounded-md">
+                    className="bg-transparent hover:bg-slate-300 border text-blue-500 border-blue-500 px-4 p-2 rounded-md"
+                    onClick={() => setIsInputFocused(false)}>
                     Cancel
                   </button>
                 </>
@@ -168,7 +169,7 @@ export default function Comments({ blogId }) {
         {comments.length > 0 ? (
           comments.map((comment) => (
             <div className="py-2 mt-2 font-poppins" key={comment?.id}>
-              <div className="flex gap-0 xsm:gap-1 xsm:items-center">
+              <div className="flex gap-4 xsm:gap-2 xsm:items-center">
                 {comment.user_id === user?.id ? (
                   <Avatar name={user?.username} />
                 ) : (

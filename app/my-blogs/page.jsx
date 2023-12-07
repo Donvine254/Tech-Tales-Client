@@ -57,7 +57,7 @@ export default function MyBlogsComponent() {
           <div key={blog.id} className="p-2">
             <article className="">
               <div className="flex xsm:block gap-5 items-center">
-                <div className="flex gap-0 items-center">
+                <div className="flex gap-2 md:gap-4 items-center">
                   <Avatar name={blog.author} />
                   <p className="font-bold xsm:text-base text-xl md:text-2xl">
                     {blog.author}
