@@ -5,7 +5,7 @@ export default function notFound() {
     <div className="px-2 flex-1 lg:max-w-[75%] lg:mx-auto">
       <div className="w-full flex h-screen flex-col items-center justify-center">
         <svg
-          class="w-1/2 md:1/3 lg:w-1/4 text-blue-600"
+          className="w-1/2 md:1/3 lg:w-1/4 text-blue-600"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 860.13137 571.14799">
           <path
@@ -126,11 +126,11 @@ export default function notFound() {
             transform="translate(-169.93432 -164.42601)"
             fill="#cacaca"></path>
         </svg>
-        <div class="flex flex-col items-center justify-center">
-          <p class="text-3xl md:text-4xl lg:text-5xl text-gray-800 mt-12">
+        <div className="flex flex-col items-center justify-center">
+          <p className="text-3xl md:text-4xl lg:text-5xl text-gray-800 mt-12">
             Page Not Found
           </p>
-          <p class="md:text-lg lg:text-xl text-gray-600 mt-8">
+          <p className="md:text-lg lg:text-xl text-gray-600 mt-8">
             We know we are out of this world but you seem too far away from
             home!
           </p>

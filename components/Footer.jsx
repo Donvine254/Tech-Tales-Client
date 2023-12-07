@@ -6,8 +6,8 @@ export default function Footer() {
   return (
     <footer className="max-w-7xl w-full mx-auto m-5 p-4 divide-blue-500 font-poppins text-xl">
       <h1 className="p-2 px-4">
-        <span className=" md:text-2xl font-bold">Tech Tales</span> - An
-        inclusive social network blog for software developers
+        <span className=" md:text-xl font-bold">Tech Tales</span> - An inclusive
+        social network blog for software developers
       </h1>
       <div className="flex flex-col md:justify-between md:flex-row align-center md:gap-2">
         <Link
