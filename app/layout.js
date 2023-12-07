@@ -1,6 +1,6 @@
 import "./globals.css";
 import { Navbar, Footer } from "@/components";
-
+import { Toaster } from "react-hot-toast";
 export const metadata = {
   title: "Tech Tales",
   description:
@@ -11,6 +11,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
+        <Toaster />
         <Navbar />
         <main className="max-w-7xl mx-auto overflow-x-hidden m-5">
           {children}

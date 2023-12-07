@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createBlog } from "@/lib";
 import Swal from "sweetalert2";
+import toast from "react-hot-toast";
 import { getCurrentUser } from "@/lib";
 import dynamic from "next/dynamic";
 import UploadButton from "@/components/uploadButton";
@@ -21,18 +22,12 @@ export default function CreateNewBlog() {
     title: "",
     image: "",
     body: "",
-    user_id: "",
   });
   function saveDraft() {
     if (typeof window !== undefined) {
       localStorage.setItem("draftBlog", JSON.stringify(blogData));
-      Swal.fire({
-        text: "draft saved successfully",
-        icon: "success",
-        showConfirmButton: false,
-        showCloseButton: true,
-        timer: 3000,
-      });
+      toast.success("draft saved successfully");
+      console.log(blogData);
     }
   }
   useEffect(() => {
@@ -44,13 +39,23 @@ export default function CreateNewBlog() {
   useEffect(() => {
     const user = getCurrentUser();
     if (!user) {
+      toast.error("Login required to perform this action!");
       navigate.replace("/login");
     }
   }, [navigate]);
 
   function handleSubmit(e) {
     e.preventDefault();
-    createBlog(blogData, navigate, setBlogData);
+    if (blogData.title === "" || blogData.image === "" || blogData.body == "") {
+      toast.error("Please fill out all the required fields");
+      return false;
+    }
+    const data = {
+      ...blogData,
+      user_id: user.id,
+    };
+    console.log(data);
+    createBlog(data, navigate, setBlogData);
     localStorage.removeItem("draftBlog");
   }
   //function to trigger alert
@@ -130,7 +135,7 @@ export default function CreateNewBlog() {
           required
         />
 
-        <UploadButton setBlogData={setBlogData} />
+        <UploadButton setBlog={setBlogData} />
 
         <DynamicEditor data={blogData.body} handleChange={setBlogData} />
 

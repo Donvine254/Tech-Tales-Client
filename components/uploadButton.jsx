@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useRef } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import toast from "react-hot-toast";
 import Axios from "axios";
 
 export default function UploadButton({ setBlog }) {
@@ -39,15 +40,17 @@ export default function UploadButton({ setBlog }) {
           newImage
         );
         const data = await response.data;
-        imageUrl = data?.secure_url;
         setBlog((prev) => ({
           ...prev,
           image: data?.secure_url,
         }));
         setIsLoading(false);
+        toast.success("Uploaded successfully!");
         clearFileInput();
       } catch (error) {
+        console.error("Error uploading image:", error);
         setIsLoading(false);
+        toast.error("upload failed");
         clearFileInput();
       }
     }
@@ -69,7 +72,6 @@ export default function UploadButton({ setBlog }) {
             ref={fileInputRef}
             accept="image/*"
             onChange={handleChange}
-            required
           />
           <span
             className={`absolute top-1/2 right-0 transform -translate-y-1/2 ${
