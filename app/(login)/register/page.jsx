@@ -27,7 +27,7 @@ export default function useRegister() {
   }
 
   return (
-    <div className="font poppins">
+    <div className="font-poppins">
       <div className="">
         <Link href="/">
           <h1 className="text-2xl m-5 text-center md:text-left md:text-3xl font-bold lg:text-4xl cursor-pointer">
@@ -51,7 +51,7 @@ export default function useRegister() {
               onChange={handleChange}
               pattern="^(?!.*@).*"
               placeholder="Enter your username"
-              className="input-field  focus:bg-blue-600"
+              className="input-field  focus:bg-blue-200 focus:border-2 focus:border-blue-500"
               title="Email addresses are not allowed as usernames."
               required
             />
@@ -66,7 +66,7 @@ export default function useRegister() {
               value={formData.email}
               onChange={handleChange}
               placeholder="Enter your email"
-              className="input-field  focus:bg-blue-600"
+              className="input-field  focus:bg-blue-200 focus:border-2 focus:border-blue-500"
               required
             />
             <MdEmail id="email-icon" />
@@ -82,7 +82,7 @@ export default function useRegister() {
               placeholder="Enter your password"
               minLength={8}
               required
-              className="input-field focus:bg-blue-600"
+              className="input-field focus:bg-blue-200 focus:border-2 focus:border-blue-500"
             />
             <FaLock id="password-icon" />
           </div>
@@ -92,20 +92,23 @@ export default function useRegister() {
             onChange={() => setShowPassword(!showPassword)}
           />
           <span> {!showPassword ? "Show" : "Hide"} Password</span>
-          <p className="pt-3">
-            By continuing, you agree to the{" "}
-            <a className="login__link">Terms and Conditions</a>
-          </p>
           <button type="submit" className="login-button">
             <FaEdit /> Register
           </button>
         </form>
-        <br></br>
-        <div className="shadow-lg border p-2 border-blue-500">
-          Already signed up? <br className="hidden lg:block" />
-          <Link href="/login" className="login__link">
-            Login Here
+        <div className="py-2">
+          Already have an account?{" "}
+          <Link
+            href="/login"
+            className="underline hover:text-blue-600 font-bold">
+            Login
           </Link>
+        </div>
+        <div className="p-2 bg-amber-500 rounded-md">
+          <p>
+            By continuing, you agree to the our{" "}
+            <a className="login__link">Terms and Conditions</a>
+          </p>
         </div>
       </div>
     </div>
