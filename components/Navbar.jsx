@@ -18,7 +18,7 @@ export default function Navbar() {
   return (
     <nav className="w-full">
       <div
-        className="p-4 md:p-5 bg-slate-100 flex w-full items-center justify-between relative top-0 z-50 bg-base-200 flex-wrap border"
+        className="p-4 md:p-5 bg-[#f4f3f2] flex w-full items-center justify-between relative top-0 z-50 flex-wrap mb-2"
         id="parent div">
         <Link href="/">
           <h1 className="text-xl md:text-3xl font-bold lg:text-4xl m-auto cursor-pointer">

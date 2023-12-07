@@ -14,17 +14,18 @@ export const Search = () => {
 
   return (
     <form
-      className="relative py-2 flex items-center bg-base-200"
+      className="hidden md:py-2 md:flex md:items-center md:justify-center "
       onSubmit={handleSearch}>
-      <input
-        type="search"
-        placeholder="search..."
-        id="query"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        className="rounded-full bg-base-200  p-2 pl-10 px-4 w-full focus:bg-gray-200  text-black focus:outline-none text-xl hidden md:block border-2 "
-      />
-      <FaSearch className="h-5 w-5 absolute left-3 text-gray-300 hidden md:block" />
+      <div className="relative">
+        <input
+          type="search"
+          placeholder="search..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="rounded-full bg-gray-100 p-2 pl-10 px-4 w-full focus:bg-white text-black focus:outline-none text-xl border-2"
+        />
+        <FaSearch className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+      </div>
     </form>
   );
 };

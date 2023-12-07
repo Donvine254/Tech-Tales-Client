@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 import { FaSearch } from "react-icons/fa";
 
 export const SearchMD = () => {
@@ -14,15 +14,19 @@ export const SearchMD = () => {
   }
 
   return (
-    <form className="relative py-2 flex items-center" onSubmit={handleSearch}>
-      <input
-        type="search"
-        placeholder="search..."
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        className="rounded-xl bg-slate-100 p-2 pl-10 px-4 xsm:w-full xsm:mx-10 w-2/3 m-auto focus:bg-slate-200 text-black focus:outline-none text-xl md:hidden"
-      />
-      <FaSearch className="h-5 w-5 absolute xsm:left-3 text-gray-300 xsm:mx-10 hidden xsm:block" />
+    <form
+      className="py-2 flex items-center justify-center  md:hidden"
+      onSubmit={handleSearch}>
+      <div className="relative xsm:mx-2">
+        <input
+          type="search"
+          placeholder="search..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="rounded-xl bg-slate-100 p-2 pl-10 px-4 xsm:w-full focus:bg-white text-black focus:outline-none text-xl"
+        />
+        <FaSearch className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+      </div>
     </form>
   );
 };
