@@ -43,7 +43,7 @@ body {
 
 #email-icon,
 #password-icon {
-  @apply absolute bottom-6 left-0 mt-5;
+  @apply absolute bottom-6 left-0 top-1/2;
 }
 #reset-icon {
   @apply absolute bottom-10 left-0 mb-4;

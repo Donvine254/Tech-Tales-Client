@@ -1,5 +1,6 @@
 import "./globals.css";
-import { Navbar, Footer } from "@/components";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { Toaster } from "react-hot-toast";
 export const metadata = {
   title: "Tech Tales",
