@@ -40,6 +40,9 @@ export default function Comments({ blogId }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    if(newComment===""){
+      return false
+    }
     const commentData = {
       user_id: user.id,
       blog_id: blogId,
