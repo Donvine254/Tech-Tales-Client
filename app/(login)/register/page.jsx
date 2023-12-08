@@ -1,8 +1,5 @@
 "use client";
-import Link from "next/link";
 import { useState } from "react";
-import { FaLock, FaUserAlt, FaEdit } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import { registerUser } from "@/lib";
 
@@ -27,90 +24,159 @@ export default function useRegister() {
   }
 
   return (
-    <div className="font-poppins">
-      <div className="">
-        <Link href="/">
-          <h1 className="text-2xl m-5 text-center md:text-left md:text-3xl font-bold lg:text-4xl cursor-pointer">
-            Tech Tales{" "}
-            <span className="text-red-600 text-2xl md:text-5xl">.</span>
-          </h1>
-        </Link>
-      </div>
-      <div className="login-page">
-        <h1 className="text-xl md:text-2xl font-bold text-center">
-          Welcome on Board
-        </h1>
-        <form className="p4 m3" onSubmit={handleSubmit}>
-          <div className="relative">
-            <label htmlFor="username">Username: </label>
-            <br></br>
-            <input
-              type="text"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-              pattern="^(?!.*@).*"
-              placeholder="Enter your username"
-              className="input-field  focus:bg-blue-200 focus:border-2 focus:border-blue-500"
-              title="Email addresses are not allowed as usernames."
-              required
-            />
-            <FaUserAlt id="email-icon" />
+    <form className="w-full" onSubmit={handleSubmit}>
+      <div className="flex flex-col items-center justify-center w-full min-h-screen  px-4 font-crimson  backdrop-blur-md">
+        <div
+          className="border text-card-foreground w-full max-w-sm mx-auto rounded-xl shadow-md overflow-hidden bg-white"
+          data-v0-t="card">
+          <div className="flex flex-col space-y-1.5 p-6 font-poppins">
+            <h3 className="font-semibold tracking-tight text-2xl text-center">
+              Sign Up for Your Account
+            </h3>
+            <p className="text-base  text-center">
+              Get started with your personalized settings and content.
+            </p>
           </div>
-          <div className="relative">
-            <label htmlFor="email">Email: </label>
-            <br></br>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Enter your email"
-              className="input-field  focus:bg-blue-200 focus:border-2 focus:border-blue-500"
-              required
-            />
-            <MdEmail id="email-icon" />
+          <div className="px-6 pt-6 space-y-4">
+            <div className="space-y-2">
+              <label
+                className="text-base font-bold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700"
+                htmlFor="username">
+                Username
+              </label>
+              <input
+                className="flex h-10 bg-background text-base ring-offset-background file:border-0  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md"
+                id="username"
+                name="username"
+                placeholder="you@example.com"
+                value={formData.username}
+                onChange={handleChange}
+                required
+                type="text"
+                pattern="^(?!.*@).*"
+                title="Email addresses are not allowed as usernames."
+              />
+            </div>
+            <div className="space-y-2">
+              <label
+                className="text-base font-bold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700"
+                htmlFor="email">
+                Email
+              </label>
+              <input
+                className="flex h-10 bg-background text-base ring-offset-background file:border-0  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md"
+                id="email"
+                name="email"
+                placeholder="you@example.com"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                type="email"
+              />
+            </div>
+            <div className="space-y-2">
+              <label
+                className="text-base font-bold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700"
+                htmlFor="password">
+                Password
+              </label>
+              <input
+                className="flex h-10 bg-background text-base ring-offset-background file:border-0 file:bg-transparent  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md"
+                id="password"
+                name="password"
+                placeholder="*******"
+                value={formData.password}
+                onChange={handleChange}
+                minLength={8}
+                required
+                type={showPassword ? "text" : "password"}
+              />
+            </div>
+            <div className="">
+              <input
+                type="checkbox"
+                value={showPassword}
+                onChange={() => setShowPassword(!showPassword)}
+              />
+              <span> {showPassword ? "Hide" : "Show"} Password</span>
+            </div>
           </div>
-          <div className="relative">
-            <label htmlFor="password">Password :</label>
-            <br></br>
-            <input
-              type={!showPassword ? "password" : "text"}
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Enter your password"
-              minLength={8}
-              required
-              className="input-field focus:bg-blue-200 focus:border-2 focus:border-blue-500"
-            />
-            <FaLock id="password-icon" />
+
+          <div className="items-center p-6 flex flex-col space-y-4">
+            <button
+              className="inline-flex items-center justify-center text-xl font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90 h-10 px-4 py-2 w-full bg-blue-500 text-white rounded-md"
+              type="submit"
+              title="login">
+              Sign Up
+            </button>
+            <button
+              className="rounded-md text-base font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-gray-200 hover:text-accent-foreground h-10 px-4 py-2 w-full flex justify-center items-center space-x-2"
+              type="button"
+              onClick={() =>
+                toast("This feature is not supported yet!", {
+                  icon: "😢",
+                  position: "bottom-center",
+                })
+              }>
+              <svg
+                width="24"
+                height="24"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 48 48">
+                <path
+                  fill="#FFC107"
+                  d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path>
+                <path
+                  fill="#FF3D00"
+                  d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"></path>
+                <path
+                  fill="#4CAF50"
+                  d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"></path>
+                <path
+                  fill="#1976D2"
+                  d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path>
+              </svg>
+              <span>Sign up with Google</span>
+            </button>
+            <button
+              className="rounded-md text-base font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-gray-200 hover:text-accent-foreground h-10 px-4 py-2 w-full flex justify-center items-center space-x-2"
+              type="button"
+              onClick={() =>
+                toast("This feature is not supported yet!", {
+                  icon: "😢",
+                  position: "bottom-center",
+                })
+              }>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="w-4 h-4">
+                <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path>
+                <path d="M9 18c-4.51 2-5-2-7-2"></path>
+              </svg>
+              <span>Sign up with GitHub</span>
+            </button>
+
+            <p>
+              By continuing, you agree to our{" "}
+              <a className="text-bold underline">Terms and Conditions</a>
+            </p>
           </div>
-          <input
-            type="checkbox"
-            value={showPassword}
-            onChange={() => setShowPassword(!showPassword)}
-          />
-          <span> {!showPassword ? "Show" : "Hide"} Password</span>
-          <button type="submit" className="login-button">
-            <FaEdit /> Register
-          </button>
-        </form>
-        <div className="py-2">
-          Already have an account?{" "}
-          <Link
-            href="/login"
-            className="underline hover:text-blue-600 font-bold">
+        </div>
+        <div className="mt-6 text-gray-600 text-xl">
+          Alreay a member?{" "}
+          <a className="text-blue-500 hover:underline" href="/login">
             Login
-          </Link>
-        </div>
-        <div className="p-2 bg-amber-500 rounded-md">
-          <p>
-            By continuing, you agree to the our{" "}
-            <a className="login__link">Terms and Conditions</a>
-          </p>
+          </a>
         </div>
       </div>
-    </div>
+    </form>
   );
 }
