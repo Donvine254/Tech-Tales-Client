@@ -1,10 +1,6 @@
 "use client";
-import Link from "next/link";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { FaLock } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
-import { SlLogin } from "react-icons/sl";
 import { useRouter } from "next/navigation";
 import axiosInstance from "@/axiosConfig";
 const loginApi = "https://techtales.up.railway.app/login";
@@ -80,7 +76,10 @@ export default function Page() {
               <input
                 className="flex h-10 bg-background text-base ring-offset-background file:border-0  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md"
                 id="email"
+                name="email"
                 placeholder="you@example.com"
+                value={loginData.email}
+                onChange={handleChange}
                 required
                 type="email"
               />
@@ -94,10 +93,13 @@ export default function Page() {
               <input
                 className="flex h-10 bg-background text-base ring-offset-background file:border-0 file:bg-transparent  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md"
                 id="password"
+                name="password"
                 placeholder="*******"
+                value={loginData.password}
+                onChange={handleChange}
                 minLength={8}
                 required
-                type="password"
+                type={showPassword ? "text" : "password"}
               />
             </div>
             <div className="">
@@ -111,10 +113,16 @@ export default function Page() {
           </div>
 
           <div className="items-center p-6 flex flex-col space-y-4">
-            <button className="inline-flex items-center justify-center text-xl font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90 h-10 px-4 py-2 w-full bg-blue-500 text-white rounded-md">
+            <button
+              className="inline-flex items-center justify-center text-xl font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90 h-10 px-4 py-2 w-full bg-blue-500 text-white rounded-md"
+              type="submit"
+              title="login">
               Sign in
             </button>
-            <button className="rounded-md text-base font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-gray-200 hover:text-accent-foreground h-10 px-4 py-2 w-full flex justify-center items-center space-x-2">
+            <button
+              className="rounded-md text-base font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-gray-200 hover:text-accent-foreground h-10 px-4 py-2 w-full flex justify-center items-center space-x-2"
+              type="button"
+              onClick={() => toast.error("This feature is not supported yet!")}>
               <svg
                 width="24"
                 height="24"
@@ -135,7 +143,15 @@ export default function Page() {
               </svg>
               <span>Sign in with Google</span>
             </button>
-            <button className="rounded-md text-base font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-gray-200 hover:text-accent-foreground h-10 px-4 py-2 w-full flex justify-center items-center space-x-2">
+            <button
+              className="rounded-md text-base font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-gray-200 hover:text-accent-foreground h-10 px-4 py-2 w-full flex justify-center items-center space-x-2"
+              type="button"
+              onClick={() =>
+                toast("This feature is not supported yet!", {
+                  icon: "ℹ️",
+                  position: "bottom-center",
+                })
+              }>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
