@@ -47,7 +47,7 @@ export default function BlogsComponent({ blogsUrl }) {
                 </div>
 
                 <p className="text-base font-medium xsm:px-10 xsm:mb-0">
-                  {blog.created_at}
+                  {blog.created_at_date}
                 </p>
               </div>
               <Link
