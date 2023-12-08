@@ -53,9 +53,9 @@ export default function Page() {
   }
   return (
     <form className="w-full" onSubmit={handleLogin}>
-      <div className="flex flex-col items-center justify-center w-full min-h-screen  px-4 font-crimson  backdrop-blur-md">
+      <div className="flex flex-col items-center justify-center w-full min-h-screen  px-4 font-crimson">
         <div
-          className="border text-card-foreground w-full max-w-sm mx-auto rounded-xl shadow-md overflow-hidden bg-white"
+          className="border text-card-foreground w-full max-w-sm mx-auto rounded-xl shadow-md overflow-hidden bg-white hover:scale-110 transition ease-in-out"
           data-v0-t="card">
           <div className="flex flex-col space-y-1.5 p-6 font-poppins">
             <h3 className="font-semibold tracking-tight text-2xl text-center">

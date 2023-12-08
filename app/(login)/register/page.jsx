@@ -29,12 +29,12 @@ export default function useRegister() {
         <div
           className="border text-card-foreground w-full max-w-sm mx-auto rounded-xl shadow-md overflow-hidden bg-white"
           data-v0-t="card">
-          <div className="flex flex-col space-y-1.5 p-6 font-poppins">
+          <div className="flex flex-col space-y-1.5 px-6 pt-2 font-poppins">
             <h3 className="font-semibold tracking-tight text-2xl text-center">
-              Sign Up for Your Account
+              Get Started Today!
             </h3>
             <p className="text-base  text-center">
-              Get started with your personalized settings and content.
+              Create a new account to access personalized settings and content.
             </p>
           </div>
           <div className="px-6 pt-6 space-y-4">
@@ -48,7 +48,7 @@ export default function useRegister() {
                 className="flex h-10 bg-background text-base ring-offset-background file:border-0  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md"
                 id="username"
                 name="username"
-                placeholder="you@example.com"
+                placeholder="john doe"
                 value={formData.username}
                 onChange={handleChange}
                 required
