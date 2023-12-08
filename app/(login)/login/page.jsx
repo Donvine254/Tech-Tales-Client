@@ -52,18 +52,17 @@ export default function Page() {
     }
   }
   return (
-    <form className="w-full backdrop-blur-md" onSubmit={handleLogin}>
-      <div className="flex flex-col items-center justify-center w-full min-h-screen bg-gray-100 p-4 font-crimson">
+    <form className="w-full" onSubmit={handleLogin}>
+      <div className="flex flex-col items-center justify-center w-full min-h-screen  px-4 font-crimson  backdrop-blur-md">
         <div
           className="border text-card-foreground w-full max-w-sm mx-auto rounded-xl shadow-md overflow-hidden bg-white"
           data-v0-t="card">
-          <div className="flex flex-col space-y-1.5 p-6">
+          <div className="flex flex-col space-y-1.5 p-6 font-poppins">
             <h3 className="font-semibold tracking-tight text-2xl text-center">
-              Welcome to Tech Tales
-              <span className="text-red-600 text-3xl">.</span>
+              Login to Your Account
             </h3>
             <p className="text-base  text-center">
-              Please sign in to continue.
+              Access your personalized settings and content.
             </p>
           </div>
           <div className="px-6 pt-6 space-y-4">
@@ -122,7 +121,12 @@ export default function Page() {
             <button
               className="rounded-md text-base font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-gray-200 hover:text-accent-foreground h-10 px-4 py-2 w-full flex justify-center items-center space-x-2"
               type="button"
-              onClick={() => toast.error("This feature is not supported yet!")}>
+              onClick={() =>
+                toast("This feature is not supported yet!", {
+                  icon: "😢",
+                  position: "bottom-center",
+                })
+              }>
               <svg
                 width="24"
                 height="24"
@@ -148,7 +152,7 @@ export default function Page() {
               type="button"
               onClick={() =>
                 toast("This feature is not supported yet!", {
-                  icon: "ℹ️",
+                  icon: "😢",
                   position: "bottom-center",
                 })
               }>
