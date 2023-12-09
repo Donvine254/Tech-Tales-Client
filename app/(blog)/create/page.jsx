@@ -5,11 +5,15 @@ import { createBlog } from "@/lib";
 import toast from "react-hot-toast";
 import { getCurrentUser } from "@/lib";
 import dynamic from "next/dynamic";
+import Loader from "@/components/Loader";
 import UploadButton from "@/components/uploadButton";
 
 const DynamicEditor = dynamic(() => import("@/components/Editor"), {
   loading: () => (
-    <p className="font-bold text-2xl text-black animate-bounce">Loading...</p>
+    <div className="flex items-center justify-center gap-2 text-xl my-2">
+      <Loader />
+      Loading Editor...
+    </div>
   ),
 });
 

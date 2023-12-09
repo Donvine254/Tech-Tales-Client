@@ -2,7 +2,7 @@
 import { calculateReadingTime } from "@/lib";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { GoClock, GoTrash, GoGraph } from "react-icons/go";
+import { GoClock, GoGraph } from "react-icons/go";
 import { useRouter } from "next/navigation";
 import { getCurrentUser, deleteBlog } from "@/lib";
 import Axios from "axios";
@@ -42,6 +42,9 @@ export default function MyBlogsComponent() {
 
   function handleDelete(blogId) {
     deleteBlog(blogId, setBlogs);
+  }
+  function handleEdit(id) {
+    navigate.push(`/create/${id}`);
   }
 
   return (
@@ -91,7 +94,10 @@ export default function MyBlogsComponent() {
                 <GoGraph className="md:text-xl cursor-pointer hover:scale-125" />
                 <span className="xsm:hidden">View Blog Statistics</span>
               </p>
-              <ActionsButton onDelete={() => handleDelete(blog.id)} />
+              <ActionsButton
+                onDelete={() => handleDelete(blog.id)}
+                onEdit={() => handleEdit(blog.id)}
+              />
             </div>
             <hr className="my-2 border-1 border-slate-300" />
           </div>
