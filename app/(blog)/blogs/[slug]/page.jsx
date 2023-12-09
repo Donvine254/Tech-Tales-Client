@@ -13,7 +13,7 @@ import Link from "next/link";
 
 //I will need to fetch all blogs and generate static params for faster load time
 
-export default function BlogsPage({ params }) {
+export default function BlogsPage() {
   const [blog, setBlog] = useState();
   const [likes, setLikes] = useState(0);
   const [liked, setLiked] = useState(false);
@@ -63,12 +63,12 @@ export default function BlogsPage({ params }) {
       {loading && <FullSkeletonBlog />}
       {blog && !loading ? (
         <div key={blog.id}>
-          <h1 className="font-bold xsm:text-xl text-2xl md:text-4xl lg:text-5xl py-4 balance">
+          <h1 className="font-bold xsm:text-xl text-2xl md:text-4xl lg:text-5xl py-4">
             {blog?.title}
           </h1>
           <div className="flex xsm:block gap-5 items-center py-4">
             <div className="flex gap-2 md:gap-4 items-center">
-              <Avatar name={blog?.author} />
+              <Avatar picture={user?.picture} />
               <p className="font-bold xsm:text-base text-xl md:text-2xl">
                 {blog.author ?? ""}
               </p>
@@ -114,8 +114,12 @@ export default function BlogsPage({ params }) {
           <h1 className="text-bold text-xl md:text-2xl py-4 font-bold">
             Comments
           </h1>
-          <hr className="divide-blue-500" />
-          <Comments blogId={blog?.id} />
+          <hr className="text-blue-500" />
+          <Comments
+            comments={blog?.comments}
+            setBlog={setBlog}
+            blogId={blog.id}
+          />
         </div>
       ) : null}
     </div>

@@ -7,7 +7,7 @@ import { TfiClose } from "react-icons/tfi";
 import { clearCurrentUser, clearAllCookies } from "@/lib";
 import { revalidatePath } from "next/cache";
 
-export const Menu = ({ handleClick, menuOpen }) => {
+export const Menu = ({ handleClick, menuOpen, currentUser }) => {
   function handleSignout() {
     clearCurrentUser();
     clearAllCookies();
@@ -61,6 +61,7 @@ export const Menu = ({ handleClick, menuOpen }) => {
         <GoSignOut />
         Sign Out
       </Link>
+      <p classNAme="text-gray-600 py-2">{currentUser?.email}</p>
     </div>
   );
 };

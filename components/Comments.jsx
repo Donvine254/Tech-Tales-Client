@@ -1,14 +1,11 @@
 "use client";
 import { getCurrentUser, deleteComment, patchComment } from "@/lib";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { MdEdit } from "react-icons/md";
 import { GoTrash } from "react-icons/go";
-import { BiLike, BiSolidLike, BiDislike, BiSolidDislike } from "react-icons/bi";
-import { FaRegComment } from "react-icons/fa";
 import Avatar from "./Avatar";
 
-export default function Comments({ blogId }) {
-  const [comments, setComments] = useState([]);
+export default function Comments({ comments, setBlog, blogId }) {
   const [newComment, setNewComment] = useState("");
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -16,33 +13,8 @@ export default function Comments({ blogId }) {
 
   const user = getCurrentUser();
 
-  useEffect(() => {
-    if (blogId) {
-      const fetchComments = async () => {
-        try {
-          const url = `https://techtales.up.railway.app/comments/blogs/${blogId}`;
-          const response = await fetch(url);
-          if (!response.ok) {
-            throw new Error("Network response was not ok.");
-          }
-          const comments = await response.json();
-          setComments(
-            comments.map((comment) => ({ ...comment, liked: false }))
-          );
-        } catch (error) {
-          console.error(error);
-        }
-      };
-
-      fetchComments();
-    }
-  }, [blogId]);
-
   async function handleSubmit(e) {
     e.preventDefault();
-    if(newComment===""){
-      return false
-    }
     const commentData = {
       user_id: user.id,
       blog_id: blogId,
@@ -64,10 +36,7 @@ export default function Comments({ blogId }) {
       })
       .then((data) => {
         setNewComment("");
-        setComments((prevComments) => [
-          ...prevComments,
-          { ...data, liked: false, disliked: false },
-        ]);
+        setBlog((prev) => ({ ...prev, comments: [...prev.comments, data] }));
       })
       .catch((error) => console.error("Error posting comment:", error));
   }
@@ -76,45 +45,35 @@ export default function Comments({ blogId }) {
     setIsEditing(true);
     setNewComment(commentBody);
     setId(commentId);
-    setComments((prevComments) =>
-      prevComments.filter((comment) => comment.id !== commentId)
-    );
+    setBlog((prev) => ({
+      ...prev,
+      comments: prev.comments.filter((comment) => comment.id !== commentId),
+    }));
   }
   function handleUpdate(e) {
     e.preventDefault();
-    patchComment(id, setComments, newComment);
+    patchComment(id, setBlog, newComment);
     setNewComment("");
     setIsEditing(false);
   }
-  function handleLike(commentId) {
-    setComments((prevComments) =>
-      prevComments.map((comment) =>
-        comment.id === commentId
-          ? {
-              ...comment,
-              liked: !comment.liked,
-              disliked: false,
-            }
-          : comment
-      )
-    );
-  }
-  function handleDislike(commentId) {
-    setComments((prevComments) =>
-      prevComments.map((comment) =>
-        comment.id === commentId
-          ? {
-              ...comment,
-              liked: false,
-              disliked: !comment.disliked,
-            }
-          : comment
-      )
-    );
-  }
 
-  if (!blogId) {
-    return <div>Loading comments...</div>;
+  if (!comments) {
+    return (
+      <div className="flex items-center gap-2 py-2">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 4335 4335"
+          width="30"
+          className="animate-spin mr-3"
+          height="30">
+          <path
+            fill="#008DD2"
+            d="M3346 1077c41,0 75,34 75,75 0,41 -34,75 -75,75 -41,0 -75,-34 -75,-75 0,-41 34,-75 75,-75zm-1198 -824c193,0 349,156 349,349 0,193 -156,349 -349,349 -193,0 -349,-156 -349,-349 0,-193 156,-349 349,-349zm-1116 546c151,0 274,123 274,274 0,151 -123,274 -274,274 -151,0 -274,-123 -274,-274 0,-151 123,-274 274,-274zm-500 1189c134,0 243,109 243,243 0,134 -109,243 -243,243 -134,0 -243,-109 -243,-243 0,-134 109,-243 243,-243zm500 1223c121,0 218,98 218,218 0,121 -98,218 -218,218 -121,0 -218,-98 -218,-218 0,-121 98,-218 218,-218zm1116 434c110,0 200,89 200,200 0,110 -89,200 -200,200 -110,0 -200,-89 -200,-200 0,-110 89,-200 200,-200zm1145 -434c81,0 147,66 147,147 0,81 -66,147 -147,147 -81,0 -147,-66 -147,-147 0,-81 66,-147 147,-147zm459 -1098c65,0 119,53 119,119 0,65 -53,119 -119,119 -65,0 -119,-53 -119,-119 0,-65 53,-119 119,-119z"
+          />
+        </svg>
+        <p className="text-2xl"> Loading Comments...</p>
+      </div>
+    );
   }
   return (
     <>
@@ -206,47 +165,17 @@ export default function Comments({ blogId }) {
                     <p className="flex items center gap-2">
                       <GoTrash
                         className="text-xl font-bold hover:text-red-500"
-                        onClick={() => deleteComment(comment.id, setComments)}
+                        onClick={() => deleteComment(comment.id, setBlog)}
                       />
                       Delete
                     </p>{" "}
                   </>
-                ) : (
-                  <>
-                    {comment.liked ? (
-                      <BiSolidLike
-                        className="text-xl font-bold text-blue-500"
-                        onClick={() => handleLike(comment.id)}
-                      />
-                    ) : (
-                      <BiLike
-                        className="text-xl font-bold hover:text-blue-500 "
-                        onClick={() => handleLike(comment.id)}
-                      />
-                    )}
-
-                    {!comment?.disliked ? (
-                      <BiDislike
-                        className="text-xl font-bold hover:text-blue-500 mx-2"
-                        onClick={() => handleDislike(comment.id)}
-                      />
-                    ) : (
-                      <BiSolidDislike
-                        className="text-xl font-bold text-blue-500 mx-2"
-                        onClick={() => handleDislike(comment.id)}
-                      />
-                    )}
-                    <div className="flex items-center gap-0">
-                      <FaRegComment className="text-xl font-bold mx-2 cursor-pointer hover:scale-125" />
-                      reply
-                    </div>
-                  </>
-                )}
+                ) : null}
               </div>
             </div>
           ))
         ) : (
-          <p>No comments found.</p>
+          <p className="my-2 text-2xl font-bold">Be the first to comment</p>
         )}
       </div>
     </>
