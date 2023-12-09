@@ -82,7 +82,7 @@ export default function CreateNewBlog() {
           className="absolute bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md z-50 mr-4 hidden"
           role="alert"
           id="alert">
-          <div class="flex">
+          <div className="flex">
             <div className="py-1">
               <svg
                 className="fill-current h-6 w-6 text-teal-500 mr-4"

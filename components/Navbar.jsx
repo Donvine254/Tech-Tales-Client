@@ -39,7 +39,7 @@ export default function Navbar() {
             {user ? (
               <Image
                 className="h-10 w-10 md:h-12 md:w-12 rounded-full cursor-pointer"
-                src={user.picture}
+                src={user?.picture}
                 width={48}
                 height={48}
                 onClick={() => setMenuOpen(true)}
@@ -49,7 +49,7 @@ export default function Navbar() {
             ) : (
               <Image
                 className="h-10 w-10 md:h-12 md:w-12 rounded-full cursor-pointer"
-                src={user.picture}
+                src={user?.picture}
                 width={48}
                 height={48}
                 onClick={() => setMenuOpen(true)}

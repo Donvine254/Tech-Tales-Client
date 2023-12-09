@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import axiosInstance from "@/axiosConfig";
 

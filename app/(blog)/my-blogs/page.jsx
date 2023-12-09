@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { getCurrentUser, deleteBlog } from "@/lib";
 import Axios from "axios";
 import parse from "html-react-parser";
-import { Avatar } from "@/components";
+import { UserImage } from "@/components/Avatar";
 import SkeletonBlog from "@/components/SkeletonBlog";
 import toast from "react-hot-toast";
 //check for the current user
@@ -60,7 +60,7 @@ export default function MyBlogsComponent() {
             <article className="">
               <div className="flex xsm:block gap-5 items-center">
                 <div className="flex gap-2 md:gap-4 items-center">
-                  <Avatar name={blog.author} />
+                  <UserImage url={blog.user_avatar}/>
                   <p className="font-bold xsm:text-base text-xl md:text-2xl">
                     {blog.author}
                   </p>
