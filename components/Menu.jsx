@@ -14,7 +14,7 @@ export const Menu = ({ handleClick, menuOpen }) => {
     revalidatePath("/my-blogs");
   }
   return (
-    <nav className="absolute right-0 top-20 md:mt-5 md:right-14 lg:right-20  space-y-4 bg-slate-100 shadow-lg z-50 py-5 px-8 rounded-lg w-fit font-poppins">
+    <div className="absolute right-0 top-20 md:mt-5 md:right-14 lg:right-20  space-y-4 bg-slate-100 shadow-lg z-50 py-5 px-8 rounded-lg min-w-[200px] w-fit font-poppins">
       <TfiClose
         className="absolute top-1 right-1 rounded-full border p-1 text-2xl mr-2  cursor-pointer bg-slate-200"
         onClick={() => handleClick(!menuOpen)}
@@ -57,11 +57,11 @@ export const Menu = ({ handleClick, menuOpen }) => {
       <Link
         onClick={handleSignout}
         href="/"
-        className="menu-item border hover:border-none bg-slate-100 rounded-md hover:bg-gray-200  shadow-md">
+        className="flex items-center justify-between md:text-2xl gap-2 px-3 py-2 font-bold border  bg-slate-100 rounded-md hover:bg-gray-200  shadow-md">
         <GoSignOut />
         Sign Out
       </Link>
-    </nav>
+    </div>
   );
 };
 
