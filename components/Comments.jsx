@@ -3,7 +3,7 @@ import { getCurrentUser, deleteComment, patchComment } from "@/lib";
 import { useState } from "react";
 import { MdEdit } from "react-icons/md";
 import { GoTrash } from "react-icons/go";
-import Avatar from "./Avatar";
+import { UserImage } from "./Avatar";
 
 export default function Comments({ comments, setBlog, blogId }) {
   const [newComment, setNewComment] = useState("");
@@ -76,10 +76,10 @@ export default function Comments({ comments, setBlog, blogId }) {
     );
   }
   return (
-    <>
+    <section>
       <form className="mt-4">
         <div className="flex gap-2 xsm:gap-1 items-center">
-          <Avatar name={user?.username} />
+          <UserImage url={user?.picture} />
           <textarea
             placeholder="add to the discussion"
             value={newComment}
@@ -132,11 +132,7 @@ export default function Comments({ comments, setBlog, blogId }) {
           comments.map((comment) => (
             <div className="py-2 font-poppins" key={comment?.id}>
               <div className="flex gap-4 xsm:gap-2 xsm:items-center">
-                {comment.user_id === user?.id ? (
-                  <Avatar name={user?.username} />
-                ) : (
-                  <Avatar name={comment?.author} />
-                )}
+                <UserImage url={comment.user_avatar} />
                 <div className="flex items-center xsm:flex-col gap-2 xsm:gap-0 xsm:items-start">
                   <p className="font-bold xsm:text-base text-xl">
                     {comment?.author}
@@ -178,6 +174,6 @@ export default function Comments({ comments, setBlog, blogId }) {
           <p className="my-2 text-2xl font-bold">Be the first to comment</p>
         )}
       </div>
-    </>
+    </section>
   );
 }

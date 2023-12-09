@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { calculateReadingTime } from "@/lib";
 import SkeletonBlog from "@/components/SkeletonBlog";
-import { Avatar } from "@/components";
+import { UserImage } from "@/components/Avatar";
 import { useSearchParams } from "next/navigation";
 import Axios from "axios";
 import { GoClock } from "react-icons/go";
@@ -55,7 +55,7 @@ export default function Page() {
               <article className="">
                 <div className="flex xsm:block gap-5 items-center">
                   <div className="flex gap-2 md:gap-4 items-center">
-                    <Avatar name={blog.author} />
+                    <UserImage url={blog.user_avatar}/>
                     <p className="font-bold xsm:text-base text-xl md:text-2xl">
                       {blog.author}
                     </p>

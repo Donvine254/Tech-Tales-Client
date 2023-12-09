@@ -6,7 +6,7 @@ import { GoClock } from "react-icons/go";
 import parse from "html-react-parser";
 import SkeletonBlog from "./SkeletonBlog";
 import Bookmark from "./Bookmark";
-import Avatar from "./Avatar";
+import { UserImage } from "./Avatar";
 
 export default function BlogsComponent({ blogsUrl }) {
   const [blogs, setBlogs] = useState([]);
@@ -40,7 +40,7 @@ export default function BlogsComponent({ blogsUrl }) {
             <article className="">
               <div className="flex xsm:block gap-5 items-center">
                 <div className="flex gap-2 md:gap-4 items-center">
-                  <Avatar name={blog.author} />
+                  <UserImage url={blog?.user_avatar} />
                   <p className="font-bold xsm:text-base text-xl md:text-2xl">
                     {blog.author}
                   </p>

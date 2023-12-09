@@ -5,7 +5,8 @@ import Axios from "axios";
 import { BiLike } from "react-icons/bi";
 import { AiFillLike } from "react-icons/ai";
 import { FaRegComment } from "react-icons/fa";
-import { Comments, Bookmark, Avatar } from "@/components";
+import { Comments, Bookmark } from "@/components";
+import { UserImage } from "@/components/Avatar";
 import FullSkeletonBlog from "@/components/fullSkeletonBlog";
 import parse from "html-react-parser";
 import { useRouter } from "next/navigation";
@@ -68,7 +69,7 @@ export default function BlogsPage() {
           </h1>
           <div className="flex xsm:block gap-5 items-center py-4">
             <div className="flex gap-2 md:gap-4 items-center">
-              <Avatar picture={user?.picture} />
+              <UserImage url={blog.user_avatar} />
               <p className="font-bold xsm:text-base text-xl md:text-2xl">
                 {blog.author ?? ""}
               </p>

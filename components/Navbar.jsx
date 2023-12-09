@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Menu } from "./Menu";
 import { usePathname } from "next/navigation";
 import { getCurrentUser } from "@/lib";
-import Avatar from "./Avatar";
+import Image from "next/image";
 import { FaSortDown, FaSortUp } from "react-icons/fa6";
 
 export default function Navbar() {
@@ -36,10 +36,27 @@ export default function Navbar() {
             Create Post
           </Link>
           <div className="flex items-center gap-1">
-            <Avatar
-              name={user?.username}
-              handleClick={() => setMenuOpen(true)}
-            />
+            {user ? (
+              <Image
+                className="h-10 w-10 md:h-12 md:w-12 rounded-full cursor-pointer"
+                src={user.picture}
+                width={48}
+                height={48}
+                onClick={() => setMenuOpen(true)}
+                alt="user profile avatar"
+                referrerPolicy="no-referrer"
+              />
+            ) : (
+              <Image
+                className="h-10 w-10 md:h-12 md:w-12 rounded-full cursor-pointer"
+                src={user.picture}
+                width={48}
+                height={48}
+                onClick={() => setMenuOpen(true)}
+                alt="user profile avatar"
+                referrerPolicy="no-referrer"
+              />
+            )}
             {menuOpen ? (
               <FaSortUp
                 onClick={() => setMenuOpen(!menuOpen)}
