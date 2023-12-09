@@ -1,8 +1,8 @@
-'use client'
+"use client";
 import { MdOutlineBookmarkAdd } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import Swal from 'sweetalert2'
+import toast from "react-hot-toast";
 
 export default function Bookmark({ blogId }) {
   const router = useRouter();
@@ -24,7 +24,7 @@ export default function Bookmark({ blogId }) {
   function handleClick(e) {
     e.preventDefault();
 
-    const cookieValue = isBookmarked ? "false" : "true"; 
+    const cookieValue = isBookmarked ? "false" : "true";
     const maxAgeInSeconds = 60 * 60 * 24 * 365; // 1 year
 
     const cookieOptions = {
@@ -35,11 +35,7 @@ export default function Bookmark({ blogId }) {
     const cookieString = `${cookieName}=${cookieValue}; path=${cookieOptions.path}; max-age=${cookieOptions.maxAge}`;
     document.cookie = cookieString;
     setIsBookmarked(!isBookmarked);
-    Swal.fire({
-        title: "Bookmarked ✅",
-        showConfirmButton: false,
-        timer: 500,
-      });
+    toast.success("✔ bookmarked");
     router.refresh();
   }
 
