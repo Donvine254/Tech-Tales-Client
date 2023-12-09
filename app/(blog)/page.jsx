@@ -55,7 +55,7 @@ export default function Page() {
               <article className="">
                 <div className="flex xsm:block gap-5 items-center">
                   <div className="flex gap-2 md:gap-4 items-center">
-                    <UserImage url={blog.user_avatar}/>
+                    <UserImage url={blog.user_avatar} />
                     <p className="font-bold xsm:text-base text-xl md:text-2xl">
                       {blog.author}
                     </p>
@@ -90,6 +90,7 @@ export default function Page() {
                 </p>
                 <Bookmark blogId={blog.id} />
               </div>
+              <hr className="my-2 border-1 border-slate-300" />
             </div>
           ))
         ) : (

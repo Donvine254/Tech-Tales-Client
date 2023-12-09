@@ -10,6 +10,7 @@ import parse from "html-react-parser";
 import { UserImage } from "@/components/Avatar";
 import SkeletonBlog from "@/components/SkeletonBlog";
 import toast from "react-hot-toast";
+import ActionsButton from "@/components/ActionsButton";
 //check for the current user
 const user = getCurrentUser();
 
@@ -60,14 +61,12 @@ export default function MyBlogsComponent() {
             <article className="">
               <div className="flex xsm:block gap-5 items-center">
                 <div className="flex gap-2 md:gap-4 items-center">
-                  <UserImage url={blog.user_avatar}/>
-                  <p className="font-bold xsm:text-base text-xl md:text-2xl">
-                    {blog.author}
-                  </p>
+                  <UserImage url={blog.user_avatar} />
+                  <p className="font-bold text-xl md:text-2xl">{blog.author}</p>
                 </div>
 
                 <p className="text-base font-medium xsm:px-14 xsm:mb-0">
-                  {blog.created_at}
+                  {blog.created_at_date}
                 </p>
               </div>
               <Link
@@ -92,14 +91,9 @@ export default function MyBlogsComponent() {
                 <GoGraph className="md:text-xl cursor-pointer hover:scale-125" />
                 <span className="xsm:hidden">View Blog Statistics</span>
               </p>
-              <p
-                className="flex items center gap-2  hover:text-red-500"
-                onClick={() => handleDelete(blog.id)}>
-                {" "}
-                <GoTrash className="md:text-xl cursor-pointer hover:scale-125" />
-                <span className="xsm:hidden">Delete</span>
-              </p>
+              <ActionsButton onDelete={() => handleDelete(blog.id)} />
             </div>
+            <hr className="my-2 border-1 border-slate-300" />
           </div>
         ))
       ) : (

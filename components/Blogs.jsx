@@ -75,6 +75,7 @@ export default function BlogsComponent({ blogsUrl }) {
               </p>
               <Bookmark blogId={blog.id} />
             </div>
+            <hr className="my-2 border-1 border-slate-300" />
           </div>
         ))
       ) : (
