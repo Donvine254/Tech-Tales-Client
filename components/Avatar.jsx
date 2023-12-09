@@ -1,3 +1,4 @@
+"use client";
 export default function Avatar({ name, handleClick = null }) {
   const firstLetter = name?.charAt(0) ?? "";
 
