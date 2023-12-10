@@ -42,7 +42,7 @@ export default function ActionsButton({ onDelete, onEdit }) {
 
       {isPopupOpen && (
         <div
-          className="absolute right-2 md:left-2  bg-white border shadow-lg rounded-md min-w-[180px] md:min-w-[150px] w-fit h-fit py-4 z-50"
+          className="absolute right-2 md:left-4 bottom-4 bg-white border shadow-lg rounded-md min-w-[180px] md:min-w-[150px] w-fit h-fit py-4 z-50"
           ref={popupRef}>
           <button
             className="flex items-center gap-2 px-4 py-2 text-gray-800 hover:text-blue-600 w-full  hover:font-bold"
