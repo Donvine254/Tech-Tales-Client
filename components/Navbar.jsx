@@ -17,7 +17,7 @@ export default function Navbar() {
   const pathname = usePathname();
 
   return (
-    <nav className="w-full">
+    <nav className="w-full font-crimson">
       <div
         className="p-4 md:p-5 bg-[#f4f3f2] flex w-full items-center justify-between relative top-0 z-50 flex-wrap mb-2"
         id="parent div">
@@ -33,7 +33,7 @@ export default function Navbar() {
           id="user present">
           <Link
             href="/create"
-            className="hidden md:block hover:text-white btn-primary cursor-pointer">
+            className="hidden md:block text-xl hover:text-white btn-primary cursor-pointer">
             Create Post
           </Link>
           <div className="flex items-center gap-1 relative">
@@ -78,25 +78,26 @@ export default function Navbar() {
         </Link>
       </div>
       <SearchMD />
-      <div className="flex justify-center items-center" id="bottom nav">
-        <div className="flex justify-center md:justify-start md:ml-5  md:gap-4 md:text-2xl items-center font-crimson">
-          {navLinks.map((link) => {
-            const isActive = pathname.startsWith(link.href);
-            return (
-              <Link
-                href={link.href}
-                key={link.name}
-                className={`navigation ${
-                  isActive
-                    ? "text-blue-500 font-bold underline bg-slate-300 rounded-lg"
-                    : ""
-                }`}>
-                {link.name}
-              </Link>
-            );
-          })}
+        <div className="flex justify-center items-center" id="bottom nav">
+          <div className="flex justify-center md:justify-start md:ml-5  md:gap-4 md:text-2xl items-center font-crimson">
+            {navLinks.map((link) => {
+              const isActive = pathname.startsWith(link.href);
+              return (
+                <Link
+                  href={link.href}
+                  key={link.name}
+                  className={`navigation ${
+                    isActive
+                      ? "text-blue-500 font-bold underline bg-slate-300 rounded-lg"
+                      : ""
+                  }`}>
+                  {link.name}
+                </Link>
+              );
+            })}
+          </div>
         </div>
-      </div>
+  
     </nav>
   );
 }

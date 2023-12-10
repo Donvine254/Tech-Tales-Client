@@ -48,7 +48,7 @@ export default function MyBlogsComponent() {
   }
 
   return (
-    <div className="w-full min-h-[400px] mx-auto m-4 px-8 md:w-2/3 relative font-poppins">
+    <div className="w-full min-h-[400px] mx-auto px-8 md:w-2/3 relative font-poppins">
       {loading && (
         <div>
           {Array(2)
@@ -65,7 +65,7 @@ export default function MyBlogsComponent() {
               <div className="flex gap-4 xsm:gap-2 xsm:items-center">
                 <UserImage url={blog.user_avatar} />
                 <div className="flex items-center xsm:flex-col gap-2 xsm:gap-0 xsm:items-start">
-                  <p className="font-bold text-base md:text-2xl">
+                  <p className="font-bold text-base md:text-2xl capitalize">
                     {blog.author}
                   </p>
                   <p className="text-base font-medium md:text-xl">

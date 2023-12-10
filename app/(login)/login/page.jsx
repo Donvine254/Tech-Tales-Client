@@ -93,13 +93,22 @@ export default function Page() {
                 type={showPassword ? "text" : "password"}
               />
             </div>
-            <div className="">
-              <input
-                type="checkbox"
-                value={showPassword}
-                onChange={() => setShowPassword(!showPassword)}
-              />
-              <span> {!showPassword ? "Show" : "Hide"} Password</span>
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center justify-start gap-4">
+                <input
+                  type="checkbox"
+                  value={showPassword}
+                  onChange={() => setShowPassword(!showPassword)}
+                />
+                <span> {!showPassword ? "Show" : "Hide"} Password</span>
+              </div>
+              <div>
+                <a
+                  className="hover:text-blue-500 underline cursor-pointer"
+                  href="/reset">
+                  Forgot Password?
+                </a>
+              </div>
             </div>
           </div>
 

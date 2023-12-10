@@ -56,7 +56,7 @@ export default function Page() {
                 <div className="flex gap-4 xsm:gap-2 xsm:items-center">
                   <UserImage url={blog.user_avatar} />
                   <div className="flex items-center xsm:flex-col gap-2 xsm:gap-0 xsm:items-start">
-                    <p className="font-bold text-base md:text-2xl">
+                    <p className="font-bold text-base md:text-2xl capitalize">
                       {blog.author}
                     </p>
                     <p className="text-base font-medium md:text-xl">
