@@ -26,7 +26,7 @@ body {
   @apply rounded-full w-8 h-8 md:w-10 md:h-10 shadow-md mr-6;
 }
 .menu-item {
-  @apply flex items-center gap-4 px-3 py-2 font-bold hover:text-blue-600 text-xl;
+  @apply flex items-center gap-4 px-3 py-2 font-bold hover:text-blue-600 text-xl rounded-md hover:bg-gray-200;
 }
 .btn-primary {
   @apply rounded-md p-2 px-4 shadow-md m-3 border border-sky-500 hover:bg-sky-500;

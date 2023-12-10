@@ -36,7 +36,7 @@ export default function Navbar() {
             className="hidden md:block hover:text-white btn-primary cursor-pointer">
             Create Post
           </Link>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 relative">
             {user ? (
               <Image
                 className="h-10 w-10 md:h-12 md:w-12 rounded-full cursor-pointer"
@@ -55,6 +55,17 @@ export default function Navbar() {
             ) : (
               <SortDown handleClick={() => setMenuOpen(!menuOpen)} />
             )}
+            <div className="absolute top-14 right-0">
+              {" "}
+              {menuOpen ? (
+                <Menu
+                  onClick={() => setMenuOpen(!menuOpen)}
+                  handleClick={setMenuOpen}
+                  menuOpen={menuOpen}
+                  currentUser={user}
+                />
+              ) : null}
+            </div>
           </div>
         </div>
         {/* only show login button when the user is not logged in */}
@@ -85,14 +96,6 @@ export default function Navbar() {
             );
           })}
         </div>
-        {menuOpen ? (
-          <Menu
-            onClick={() => setMenuOpen(!menuOpen)}
-            handleClick={setMenuOpen}
-            menuOpen={menuOpen}
-            currentUser={user}
-          />
-        ) : null}
       </div>
     </nav>
   );

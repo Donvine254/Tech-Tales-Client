@@ -14,7 +14,7 @@ export const Menu = ({ handleClick, menuOpen, currentUser }) => {
     revalidatePath("/my-blogs");
   }
   return (
-    <div className="absolute right-0 top-20 md:mt-5 md:right-14 lg:right-20  space-y-4 bg-slate-100 shadow-lg z-50 py-5 px-8 rounded-lg min-w-[200px] w-fit font-poppins">
+    <div className="space-y-4 bg-slate-100 border-2 shadow-lg z-50 py-5 px-2 md:px-4 rounded-lg min-w-[250px] w-fit font-poppins">
       <Link
         href="/featured"
         className="menu-item"
@@ -146,7 +146,7 @@ export const Menu = ({ handleClick, menuOpen, currentUser }) => {
         </button>
       </Link>
 
-      <p classNAme="text-gray-600 py-2">{currentUser?.email}</p>
+      <p classNAme="text-gray-400 text-center">{currentUser?.email}</p>
     </div>
   );
 };
