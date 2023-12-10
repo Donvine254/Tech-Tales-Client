@@ -1,7 +1,11 @@
 import "../globals.css";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Toaster } from "react-hot-toast";
+import dynamic from "next/dynamic";
+
+const NoSSRNavbar = dynamic(() => import("@/components/Navbar"), {
+  ssr: false,
+});
 export const metadata = {
   title: "Tech Tales",
   description:
@@ -13,7 +17,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <Toaster />
-        <Navbar />
+        <NoSSRNavbar />
         <main className="max-w-7xl mx-auto overflow-x-hidden m-5">
           {children}
         </main>

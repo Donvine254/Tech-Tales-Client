@@ -44,7 +44,7 @@ export default function MyBlogsComponent() {
     deleteBlog(blogId, setBlogs);
   }
   function handleEdit(id) {
-    navigate.push(`/create/${id}`);
+    navigate.push(`/create/${id}?action=edit&&referror=user`);
   }
 
   return (
