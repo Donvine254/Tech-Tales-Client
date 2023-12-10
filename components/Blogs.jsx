@@ -2,7 +2,7 @@
 import { fetchBlogs, calculateReadingTime } from "@/lib";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { GoClock } from "react-icons/go";
+import { Clock } from "@/assets";
 import parse from "html-react-parser";
 import SkeletonBlog from "./SkeletonBlog";
 import Bookmark from "./Bookmark";
@@ -38,17 +38,16 @@ export default function BlogsComponent({ blogsUrl }) {
         blogs.map((blog) => (
           <div key={blog.id} className="">
             <article className="">
-              <div className="flex xsm:block gap-5 items-center">
-                <div className="flex gap-2 md:gap-4 items-center">
-                  <UserImage url={blog?.user_avatar} />
-                  <p className="font-bold xsm:text-base text-xl md:text-2xl">
+              <div className="flex gap-4 xsm:gap-2 xsm:items-center">
+                <UserImage url={blog.user_avatar} />
+                <div className="flex items-center xsm:flex-col gap-2 xsm:gap-0 xsm:items-start">
+                  <p className="font-bold text-base md:text-2xl">
                     {blog.author}
                   </p>
+                  <p className="text-base font-medium md:text-xl">
+                    {blog.created_at_date}
+                  </p>
                 </div>
-
-                <p className="text-base font-medium xsm:px-10 xsm:mb-0">
-                  {blog.created_at_date}
-                </p>
               </div>
               <Link
                 href={`/blogs/${blog.slug}?id=${blog.id}`}
@@ -66,7 +65,7 @@ export default function BlogsComponent({ blogsUrl }) {
                 Read &#8599;
               </Link>
               <p className="text-base flex items-center gap-1 md:gap-2 bg-slate-300 rounded-full text-black px-2">
-                <GoClock />
+                <Clock />
                 {calculateReadingTime(blog.body)} min{" "}
                 <span className="xsm:hidden">read</span>
               </p>
