@@ -104,7 +104,7 @@ export default function Page() {
               </div>
               <div>
                 <a
-                  className="hover:text-blue-500 underline cursor-pointer"
+                  className="hover:text-blue-500 underline underline-offset-2 cursor-pointer"
                   href="/reset">
                   Forgot Password?
                 </a>

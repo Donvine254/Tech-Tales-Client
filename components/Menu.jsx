@@ -1,8 +1,5 @@
 import Link from "next/link";
 import React from "react";
-import { FaBookOpen, FaUser } from "react-icons/fa";
-import { Edit } from "@/assets";
-import { BsBookmarks, BsFillGearFill } from "react-icons/bs";
 import { clearCurrentUser, clearAllCookies } from "@/lib";
 import { revalidatePath } from "next/cache";
 
@@ -10,7 +7,6 @@ export const Menu = ({ handleClick, menuOpen, currentUser }) => {
   function handleSignout() {
     clearCurrentUser();
     clearAllCookies();
-
     revalidatePath("/my-blogs");
   }
   return (
@@ -138,10 +134,8 @@ export const Menu = ({ handleClick, menuOpen, currentUser }) => {
         </svg>
         Settings
       </Link>
-      <Link href="/">
-        <button
-          onClick={handleSignout}
-          className="w-full mt-2 py-2 text-xl gap-2 px-3 font-bold border  bg-slate-100 rounded-md hover:bg-gray-200  shadow-md">
+      <Link href="/" onClick={handleSignout}>
+        <button className="w-full mt-2 py-2 text-xl gap-2 px-3 font-bold border  bg-slate-100 rounded-md hover:bg-gray-200  shadow-md">
           Sign Out
         </button>
       </Link>
