@@ -68,7 +68,7 @@ export default function BlogsPage() {
           <div className="flex xsm:block gap-5 items-center py-4">
             <div className="flex gap-2 md:gap-4 items-center">
               <UserImage url={blog.user_avatar} />
-              <p className="font-bold xsm:text-base text-xl md:text-2xl">
+              <p className="font-bold text-xl md:text-2xl capitalize">
                 {blog.author ?? ""}
               </p>
             </div>
