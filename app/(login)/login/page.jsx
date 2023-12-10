@@ -25,7 +25,7 @@ export default function Page() {
   function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
-    handleLogin(data, setLoading, navigate);
+    handleLogin(loginData, setLoading, navigate);
     
   }
 
