@@ -22,11 +22,10 @@ export default function Page() {
     }));
   };
 
-  function handleSubmit(e) {
+ async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
-    handleLogin(loginData, setLoading, navigate);
-    
+    handleLogin(loginData, setLoading, navigate); 
   }
 
   return (
