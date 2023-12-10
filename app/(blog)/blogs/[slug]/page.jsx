@@ -58,11 +58,11 @@ export default function BlogsPage() {
   }, [error, blog, navigate, id]);
 
   return (
-    <div className="w-full mx-auto m-4 px-8 md:w-2/3 font-poppins">
+    <div className="w-full mx-auto m-2 px-8 md:w-2/3 font-poppins">
       {loading && <FullSkeletonBlog />}
       {blog && !loading ? (
         <div key={blog.id}>
-          <h1 className="font-bold xsm:text-xl text-2xl md:text-4xl lg:text-5xl py-4">
+          <h1 className="font-bold xsm:text-xl text-2xl md:text-4xl">
             {blog?.title}
           </h1>
           <div className="flex xsm:block gap-5 items-center py-4">
@@ -102,16 +102,13 @@ export default function BlogsPage() {
               </span>
             </p>
             <p className="blog__icons">
-              <Comment handleClick={() => navigate("#write-comment")} />
+              <Comment />
               <span className="text-base  xsm:hidden">
                 {blog.comments ? blog?.comments?.length : null}{" "}
                 <Link href="#write-comment">Comments</Link>
               </span>
             </p>
-            <Bookmark
-              blogId={blog?.id}
-              className="text-xl md:text-2xl font-bold"
-            />
+            <Bookmark blogId={blog?.id} className="font-bold" />
           </div>
           <h1 className="text-bold text-xl md:text-2xl py-4 font-bold">
             Comments

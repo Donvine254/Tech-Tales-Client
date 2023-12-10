@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import axiosInstance from "@/axiosConfig";
+import { handleLogin } from "@/lib";
 
 import toast from "react-hot-toast";
 
@@ -22,29 +22,15 @@ export default function Page() {
     }));
   };
 
-  async function handleLogin(e) {
+  function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
-    try {
-      const response = await axiosInstance.post(
-        "https://techtales.up.railway.app/login",
-        loginData
-      );
-      const data = response.data;
-      if (typeof window !== "undefined") {
-        localStorage.setItem("loggedInUser", JSON.stringify(data));
-      }
-      setLoading(false);
-      toast.success("Logged in successfully!");
-      navigate.push("/featured");
-    } catch (error) {
-      setLoading(false);
-      toast.error(error?.response?.data?.errors);
-    }
+    handleLogin(data, setLoading, navigate);
+    
   }
 
   return (
-    <form className="w-full" onSubmit={handleLogin}>
+    <form className="w-full" onSubmit={handleSubmit}>
       <div className="flex flex-col items-center justify-center w-full min-h-screen  px-4 font-crimson">
         <div
           className="border text-card-foreground w-full max-w-sm mx-auto rounded-xl shadow-md overflow-hidden bg-white"
