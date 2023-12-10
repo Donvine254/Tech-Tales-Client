@@ -43,7 +43,7 @@ export default function ResetPage() {
       return;
     }
     try {
-      await Axios.patch("https://techtales.up.railway.app/users", resetForm);
+      await Axios.patch("https://techtales.up.railway.app/reset", resetForm);
       toast.success("Password reset successfully");
       setLoading(false);
       push("/login");
