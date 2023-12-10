@@ -66,14 +66,14 @@ export default function ResetPage() {
           data-v0-t="card">
           <div className="flex flex-col space-y-1.5 p-6 font-poppins">
             <h3 className="font-semibold tracking-tight text-2xl text-center">
-              Rest Your Password
+              Reset Your Password
             </h3>
             <p className="text-base  text-center">
               Unlock your account to access your personalized settings and
               content.
             </p>
           </div>
-          <div className="px-6 pt-6 space-y-4">
+          <div className="px-6 pt-1 space-y-4">
             <div className="space-y-2">
               <label
                 className="text-base font-bold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700"

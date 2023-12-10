@@ -47,7 +47,7 @@ export default function Page() {
     <form className="w-full" onSubmit={handleLogin}>
       <div className="flex flex-col items-center justify-center w-full min-h-screen  px-4 font-crimson">
         <div
-          className="border text-card-foreground w-full max-w-sm mx-auto rounded-xl shadow-md overflow-hidden bg-white hover:scale-110 transition ease-in-out"
+          className="border text-card-foreground w-full max-w-sm mx-auto rounded-xl shadow-md overflow-hidden bg-white"
           data-v0-t="card">
           <div className="flex flex-col space-y-1.5 p-6 font-poppins">
             <h3 className="font-semibold tracking-tight text-2xl text-center">
@@ -57,7 +57,7 @@ export default function Page() {
               Access your personalized settings and content.
             </p>
           </div>
-          <div className="px-6 pt-6 space-y-4">
+          <div className="px-6 pt-2 space-y-4">
             <div className="space-y-2">
               <label
                 className="text-base font-bold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700"

@@ -39,7 +39,7 @@ export default function Register() {
               Create a new account to access personalized settings and content.
             </p>
           </div>
-          <div className="px-6 pt-6 space-y-4">
+          <div className="px-6 pt-1 space-y-4">
             <div className="space-y-2">
               <label
                 className="text-base font-bold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700"
@@ -94,7 +94,7 @@ export default function Register() {
                 type={showPassword ? "text" : "password"}
               />
             </div>
-            <div className="">
+            <div className="flex items-center justify-start gap-4">
               <input
                 type="checkbox"
                 value={showPassword}
@@ -180,11 +180,25 @@ export default function Register() {
               </svg>
               <span>Sign up with GitHub</span>
             </button>
-
-            <p>
-              By continuing, you agree to our{" "}
-              <a className="text-bold underline">Terms and Conditions</a>
-            </p>
+            <div
+              className="bg-orange-100 border border-orange-500 text-orange-600 py-3 rounded relative space-y-2 border-l-4 "
+              role="alert">
+              <div className="flex  px-1 ">
+                <div className="py-1">
+                  <svg
+                    className="fill-current h-6 w-6 text-orange-500 mr-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20">
+                    <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-sm">
+                    By continuing, you agree to our Terms and Conditions.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div className="mt-6 text-gray-600 text-xl">
