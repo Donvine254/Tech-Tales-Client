@@ -1,5 +1,4 @@
 "use client";
-import { MdOutlineBookmarkAdd } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";

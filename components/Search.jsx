@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { FaSearch } from "react-icons/fa";
+import { SearchIcon } from "@/assets";
 import { useRouter } from "next/navigation";
 
 export const Search = () => {
@@ -24,7 +24,7 @@ export const Search = () => {
           onChange={(e) => setQuery(e.target.value)}
           className="rounded-full bg-white-100 p-2 pl-10 px-4 w-full focus:bg-[#e6e6e6] text-black focus:outline-none text-xl border-2 border-gray-200  focus:border-blue-500"
         />
-        <FaSearch className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+        <SearchIcon className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
       </div>
     </form>
   );

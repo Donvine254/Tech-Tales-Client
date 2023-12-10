@@ -136,7 +136,7 @@ export default function notFound() {
           </p>
           <a
             href="/"
-            className="flex items-center btn btn-primary mt-12 rounded transition duration-150"
+            className="flex items-center btn btn-primary mt-12 rounded transition duration-150 hover:text-white"
             title="Return Home">
             <svg
               xmlns="http://www.w3.org/2000/svg"
