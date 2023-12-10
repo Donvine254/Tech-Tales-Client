@@ -91,7 +91,7 @@ export default function MyBlogsComponent() {
                 <span className="xsm:hidden">read</span>
               </p>
               <p className="flex items center gap-2 hover:text-blue-500 cursor-pointer ">
-                <GoGraph className="md:text-xl cursor-pointer hover:scale-125" />
+                <GoGraph className="hidden md:block md:text-xl cursor-pointer hover:scale-125" />
                 <span className="xsm:hidden">View Blog Statistics</span>
               </p>
               <ActionsButton

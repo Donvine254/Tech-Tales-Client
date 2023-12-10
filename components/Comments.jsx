@@ -138,7 +138,7 @@ export default function Comments({ comments, setBlog, blogId }) {
                     {comment?.author}
                   </p>
                   <p className="font-bold xsm:text-base text-xl">
-                    {comment?.created_at}
+                    {comment?.created_at_date}
                   </p>
                 </div>
               </div>
@@ -171,7 +171,9 @@ export default function Comments({ comments, setBlog, blogId }) {
             </div>
           ))
         ) : (
-          <p className="my-2 text-2xl font-bold">Be the first to comment</p>
+          <p className="my-2 text-xl md:text-2xl text-gray-600 font-bold">
+            Be the first to comment
+          </p>
         )}
       </div>
     </section>
