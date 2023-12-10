@@ -1,8 +1,7 @@
 "use client";
 import { getCurrentUser, deleteComment, patchComment } from "@/lib";
 import { useState } from "react";
-import { MdEdit } from "react-icons/md";
-import { GoTrash } from "react-icons/go";
+import { Edit, Trash } from "@/assets";
 import { UserImage } from "./Avatar";
 
 export default function Comments({ comments, setBlog, blogId }) {
@@ -149,22 +148,19 @@ export default function Comments({ comments, setBlog, blogId }) {
               <div className="py-2 flex items-center gap-4 ml-16 xsm:ml-10">
                 {comment?.user_id === user?.id ? (
                   <>
-                    {" "}
-                    <p className="flex items center gap-2">
-                      {" "}
-                      <MdEdit
-                        className="text-xl font-bold hover:text-blue-500"
-                        onClick={() => editComment(comment.id, comment.body)}
-                      />
-                      Edit
-                    </p>
-                    <p className="flex items center gap-2">
-                      <GoTrash
-                        className="text-xl font-bold hover:text-red-500"
-                        onClick={() => deleteComment(comment.id, setBlog)}
-                      />
-                      Delete
-                    </p>{" "}
+                    <button
+                      className="flex items center gap-2 text-xl font-bold hover:text-blue-500"
+                      onClick={() => editComment(comment.id, comment.body)}>
+                      <Edit />
+                      <span>Edit</span>
+                    </button>
+
+                    <button
+                      className="flex items center gap-2 text-xl font-bold hover:text-red-500"
+                      onClick={() => deleteComment(comment.id, setBlog)}>
+                      <Trash />
+                      <span> Delete</span>
+                    </button>
                   </>
                 ) : null}
               </div>

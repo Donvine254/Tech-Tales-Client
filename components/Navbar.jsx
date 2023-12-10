@@ -7,13 +7,14 @@ import { Menu } from "./Menu";
 import { usePathname } from "next/navigation";
 import { getCurrentUser } from "@/lib";
 import Image from "next/image";
-import { FaSortDown, FaSortUp } from "react-icons/fa6";
+import { SortUp, SortDown } from "@/assets";
+
+const user = getCurrentUser();
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const pathname = usePathname();
-  const user = getCurrentUser();
 
   return (
     <nav className="w-full">
@@ -50,15 +51,9 @@ export default function Navbar() {
               <div className="w-10 h-10 bg-blue-600 rounded-full"></div>
             )}
             {menuOpen ? (
-              <FaSortUp
-                onClick={() => setMenuOpen(!menuOpen)}
-                className="text-xl cursor-pointer"
-              />
+              <SortUp handleClick={() => setMenuOpen(!menuOpen)} />
             ) : (
-              <FaSortDown
-                onClick={() => setMenuOpen(!menuOpen)}
-                className="text-xl cursor-pointer"
-              />
+              <SortDown handleClick={() => setMenuOpen(!menuOpen)} />
             )}
           </div>
         </div>
@@ -95,6 +90,7 @@ export default function Navbar() {
             onClick={() => setMenuOpen(!menuOpen)}
             handleClick={setMenuOpen}
             menuOpen={menuOpen}
+            currentUser={user}
           />
         ) : null}
       </div>

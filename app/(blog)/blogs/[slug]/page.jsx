@@ -2,9 +2,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Axios from "axios";
-import { BiLike } from "react-icons/bi";
-import { AiFillLike } from "react-icons/ai";
-import { FaRegComment } from "react-icons/fa";
+import { Like, Comment } from "@/assets";
 import { Comments, Bookmark } from "@/components";
 import { UserImage } from "@/components/Avatar";
 import FullSkeletonBlog from "@/components/fullSkeletonBlog";
@@ -89,11 +87,14 @@ export default function BlogsPage() {
           <div className="flex items-center justify-between">
             <p className="blog__icons">
               {!liked ? (
-                <BiLike className="hover:scale-125" onClick={handleLikeClick} />
+                <Like
+                  handleClick={handleLikeClick}
+                  className="cursor-pointer font-bold"
+                />
               ) : (
-                <AiFillLike
-                  className="text-blue-500"
-                  onClick={handleLikeClick}
+                <Like
+                  handleClick={handleLikeClick}
+                  className="text-red-500 cursor-pointer fill-red-500 font-bold"
                 />
               )}
               <span className="text-base  xsm:hidden">
@@ -101,7 +102,7 @@ export default function BlogsPage() {
               </span>
             </p>
             <p className="blog__icons">
-              <FaRegComment className="hover:scale-125" />
+              <Comment handleClick={() => navigate("#write-comment")} />
               <span className="text-base  xsm:hidden">
                 {blog.comments ? blog?.comments?.length : null}{" "}
                 <Link href="#write-comment">Comments</Link>

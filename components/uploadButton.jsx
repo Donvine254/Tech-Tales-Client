@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useRef } from "react";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import toast from "react-hot-toast";
 import Axios from "axios";
 
