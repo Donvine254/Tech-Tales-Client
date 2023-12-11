@@ -103,9 +103,9 @@ export default function BlogsPage() {
             </p>
             <p className="blog__icons">
               <Comment />
-              <span className="text-base  xsm:hidden">
+              <span className="text-base ">
                 {blog.comments ? blog?.comments?.length : null}{" "}
-                <Link href="#write-comment">Comments</Link>
+                <Link href="#write-comment xsm:hidden">Comments</Link>
               </span>
             </p>
             <Bookmark blogId={blog?.id} className="font-bold" />
