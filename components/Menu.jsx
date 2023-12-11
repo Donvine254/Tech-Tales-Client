@@ -10,7 +10,7 @@ export const Menu = ({ handleClick, menuOpen, currentUser }) => {
     revalidatePath("/my-blogs");
   }
   return (
-    <div className="space-y-4 bg-slate-100 border-2 shadow-lg z-50 py-5 px-2 md:px-4 rounded-lg min-w-[250px] w-fit font-poppins">
+    <div className="space-y-4 bg-slate-100 border-2 shadow-lg z-50 py-5 px-2 md:px-4 rounded-lg min-w-[280px] w-fit font-poppins">
       <Link
         href="/featured"
         className="menu-item"
