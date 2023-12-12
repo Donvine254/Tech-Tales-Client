@@ -9,7 +9,7 @@ export default function App({ data, handleChange }) {
     }
   };
   return (
-    <div>
+    <div spellcheck="true" >
       <Editor
         apiKey="s91bfina8wqeldhbyfzpf16bkodlx2gz2s0nx1zg9dfugp3e"
         onInit={(evt, editor) => (editorRef.current = editor)}
