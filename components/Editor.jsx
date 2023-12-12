@@ -14,7 +14,6 @@ export default function App({ data, handleChange }) {
         apiKey="s91bfina8wqeldhbyfzpf16bkodlx2gz2s0nx1zg9dfugp3e"
         onInit={(evt, editor) => (editorRef.current = editor)}
         initialValue={data}
-        browser_spellcheck: true
         onChange={() =>
           handleChange((prev) => ({
             ...prev,
@@ -26,6 +25,7 @@ export default function App({ data, handleChange }) {
           height: 500,
           toolbar_mode: "wrap",
           menubar: true,
+          browser_spellcheck:true, 
           plugins: [
             "advlist",
             "autolink",
