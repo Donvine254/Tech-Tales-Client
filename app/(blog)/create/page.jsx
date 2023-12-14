@@ -7,7 +7,7 @@ import { getCurrentUser } from "@/lib";
 import dynamic from "next/dynamic";
 import Loader from "@/components/Loader";
 import UploadButton from "@/components/uploadButton";
-
+import Script from "next/script";
 const DynamicEditor = dynamic(() => import("@/components/Editor"), {
   loading: () => (
     <div className="flex items-center justify-center gap-2 text-xl my-2">
@@ -73,6 +73,7 @@ export default function CreateNewBlog() {
   }
   return (
     <div className="md:m-1 font-poppins">
+      <Script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.2/tsparticles.confetti.bundle.min.js"></Script>
       <form
         className="bg-gray-100 border m-auto lg:w-3/4 p-4 md:p-8 rounded-sm relative"
         onSubmit={handleSubmit}>
