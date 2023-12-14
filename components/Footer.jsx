@@ -5,10 +5,12 @@ export default function Footer() {
   return (
     <footer className="max-w-7xl w-full mx-auto m-5 p-4 divide-blue-500 font-poppins text-xl">
       <h1 className="p-2 px-4">
-        <span className=" md:text-xl font-bold">Tech Tales</span> - An inclusive
-        social network blog for software developers
+        <span className=" md:text-xl font-bold">Tech Tales</span>
+        <span className="xsm:text-sm">
+          - An inclusive social network blog for software developers
+        </span>
       </h1>
-      <div className="flex flex-col md:justify-between md:flex-row align-center md:gap-2">
+      <div className="flex flex-wrap md:justify-between md:flex-row align-center md:gap-2">
         <Link
           href="/community-guidelines"
           className="navigation__footer"
@@ -16,17 +18,17 @@ export default function Footer() {
           Community Guidelines
         </Link>
         <Link
-          href="https://policies.google.com/privacy?hl=en"
+          href="/privacy-policy"
           target="_blank"
           className="navigation__footer">
           Privacy Policy
         </Link>
-        <Link href="" className="navigation__footer">
+        <Link href="/terms" className="navigation__footer">
           Terms of Use
         </Link>
       </div>
       <hr className="border-2 shadow" />
-      <div className="flex justify-between align-center mt-2">
+      <div className="flex flex-col md:flex-row justify-between items-center gap-2 mt-2">
         <h1 className="text-xl">&copy; 2023 Tech Tales</h1>
         <div className="flex items-center gap-2">
           <Link

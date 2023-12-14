@@ -22,10 +22,10 @@ export default function Page() {
     }));
   };
 
- async function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
-    handleLogin(loginData, setLoading, navigate); 
+    handleLogin(loginData, setLoading, navigate);
   }
 
   return (
@@ -78,8 +78,8 @@ export default function Page() {
                 type={showPassword ? "text" : "password"}
               />
             </div>
-            <div className="flex items-center justify-between gap-4">
-              <div className="flex items-center justify-start gap-4">
+            <div className="xsm:text-sm flex items-center justify-between gap-1 md:gap-4">
+              <div className="flex items-center justify-start gap-1 md:gap-4">
                 <input
                   type="checkbox"
                   value={showPassword}

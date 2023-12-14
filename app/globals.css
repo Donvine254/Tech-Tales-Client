@@ -38,7 +38,7 @@ body {
   @apply md:text-xl font-bold cursor-pointer hover:bg-slate-300 hover:rounded-lg p-2 px-4 md:gap-5;
 }
 .navigation__footer {
-  @apply md:text-xl font-bold cursor-pointer active:underline-offset-8 hover:text-blue-400 p-2 px-4;
+  @apply text-sm md:text-xl font-bold cursor-pointer active:underline-offset-8 hover:text-blue-400 p-2 px-4;
 }
 
 #email-icon,
