@@ -7,7 +7,7 @@ import { useSearchParams } from "next/navigation";
 import Axios from "axios";
 import { Clock } from "@/assets";
 import parse from "html-react-parser";
-import { Bookmark } from "@/components";
+import { Bookmark, SideNav } from "@/components";
 import Link from "next/link";
 
 export default function Page() {
@@ -40,6 +40,7 @@ export default function Page() {
   return (
     <section className="relative md:min-h-[350px]">
       <div className="w-full !z-0 mx-auto m-4 px-8 md:w-2/3 relative font-poppins">
+      <SideNav />
         {isLoading && (
           <div>
             {Array(5)

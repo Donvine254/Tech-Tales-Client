@@ -11,6 +11,7 @@ import { UserImage } from "@/components/Avatar";
 import SkeletonBlog from "@/components/SkeletonBlog";
 import toast from "react-hot-toast";
 import ActionsButton from "@/components/ActionsButton";
+import { SideNav } from "@/components";
 //check for the current user
 const user = getCurrentUser();
 
@@ -49,6 +50,7 @@ export default function MyBlogsComponent() {
 
   return (
     <div className="w-full min-h-[400px] mx-auto px-8 md:w-2/3 relative font-poppins">
+      <SideNav />
       {loading && (
         <div>
           {Array(2)

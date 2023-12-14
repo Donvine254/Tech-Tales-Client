@@ -7,6 +7,7 @@ import parse from "html-react-parser";
 import SkeletonBlog from "./SkeletonBlog";
 import Bookmark from "./Bookmark";
 import { UserImage } from "./Avatar";
+import  SideNav  from "./SideNav";
 
 export default function BlogsComponent({ blogsUrl }) {
   const [blogs, setBlogs] = useState([]);
@@ -25,6 +26,7 @@ export default function BlogsComponent({ blogsUrl }) {
 
   return (
     <div className="w-full mx-auto px-8 md:w-2/3 relative font-poppins">
+      <SideNav />
       {isLoading && (
         <div>
           {Array(5)

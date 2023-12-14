@@ -10,12 +10,28 @@ export const Menu = ({ handleClick, menuOpen, currentUser }) => {
     revalidatePath("/my-blogs");
   }
   return (
-    <div className="space-y-4 bg-slate-100 border-2 shadow-lg z-50 py-5 px-2 md:px-4 rounded-lg min-w-[280px] w-fit font-poppins">
+    <div className="space-y-4 bg-slate-100 border-2 shadow-lg z-50 py-5 px-2 md:px-4 rounded-lg xsm:min-w-fit min-w-[250px]  font-poppins">
       <Link
         href="/featured"
         className="menu-item"
         onClick={() => handleClick(!menuOpen)}>
-       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7.21 15 2.66 7.14a2 2 0 0 1 .13-2.2L4.4 2.8A2 2 0 0 1 6 2h12a2 2 0 0 1 1.6.8l1.6 2.14a2 2 0 0 1 .14 2.2L16.79 15"/><path d="M11 12 5.12 2.2"/><path d="m13 12 5.88-9.8"/><path d="M8 7h8"/><circle cx="12" cy="17" r="5"/><path d="M12 18v-2h-.5"/></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round">
+          <path d="M7.21 15 2.66 7.14a2 2 0 0 1 .13-2.2L4.4 2.8A2 2 0 0 1 6 2h12a2 2 0 0 1 1.6.8l1.6 2.14a2 2 0 0 1 .14 2.2L16.79 15" />
+          <path d="M11 12 5.12 2.2" />
+          <path d="m13 12 5.88-9.8" />
+          <path d="M8 7h8" />
+          <circle cx="12" cy="17" r="5" />
+          <path d="M12 18v-2h-.5" />
+        </svg>
         Featured Stories
       </Link>
       <Link
@@ -122,12 +138,11 @@ export const Menu = ({ handleClick, menuOpen, currentUser }) => {
         Settings
       </Link>
       <Link href="/" onClick={handleSignout}>
-        <button className="w-full mt-2 py-2 text-xl gap-2 px-3 font-bold border  bg-slate-100 rounded-md hover:bg-gray-200  shadow-md">
-          Sign Out
+        <button className="w-full mt-2 py-2 text-start px-3 border  bg-slate-200 rounded-md hover:bg-gray-200  shadow-md">
+          <span className="font-bold">Sign Out</span>
+          <p classNAme="text-gray-400 text-[8px]">{currentUser?.email}</p>
         </button>
       </Link>
-
-      <p classNAme="text-gray-400 text-center">{currentUser?.email}</p>
     </div>
   );
 };

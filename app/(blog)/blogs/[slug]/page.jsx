@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Axios from "axios";
 import { Like, Comment } from "@/assets";
-import { Comments, Bookmark } from "@/components";
+import { Comments, Bookmark, SideNav } from "@/components";
 import { UserImage } from "@/components/Avatar";
 import FullSkeletonBlog from "@/components/fullSkeletonBlog";
 import parse from "html-react-parser";
@@ -59,6 +59,7 @@ export default function BlogsPage() {
 
   return (
     <div className="w-full mx-auto m-2 px-8 md:w-2/3 font-poppins">
+      <SideNav />
       {loading && <FullSkeletonBlog />}
       {blog && !loading ? (
         <div key={blog.id}>
