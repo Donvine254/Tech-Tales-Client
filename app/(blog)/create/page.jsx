@@ -138,6 +138,18 @@ export default function CreateNewBlog() {
         />
 
         <UploadButton setBlog={setBlogData} />
+        {blogData.image ? (
+          <p className="m-2">
+            {" "}
+            Blog cover Image:{" "}
+            <a
+              href={blogData?.image}
+              target="_blank"
+              className="text-blue-500 hover:underline cursor-pointer">
+              {blogData?.image}
+            </a>
+          </p>
+        ) : null}
 
         <DynamicEditor data={blogData.body} handleChange={setBlogData} />
 
