@@ -108,7 +108,7 @@ export default function BlogsPage() {
                 <Link href="#write-comment xsm:hidden">Comments</Link>
               </span>
             </p>
-            <Bookmark blogId={blog?.id} className="font-bold" />
+            <Bookmark blogId={blog?.id} className="font-bold" size={30} />
           </div>
           <h1 className="text-bold text-xl md:text-2xl py-4 font-bold">
             Comments

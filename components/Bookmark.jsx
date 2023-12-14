@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
-export default function Bookmark({ blogId }) {
+export default function Bookmark({ blogId, size = 24 }) {
   const router = useRouter();
   const cookieName = `bookmarked_blog_${blogId}`;
 
@@ -53,8 +53,8 @@ export default function Bookmark({ blogId }) {
       {isBookmarked ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="30"
-          height="30"
+          width={size}
+          height={size}
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -71,8 +71,8 @@ export default function Bookmark({ blogId }) {
       ) : (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="30"
-          height="30"
+          width={size}
+          height={size}
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
