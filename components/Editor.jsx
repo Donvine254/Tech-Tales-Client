@@ -9,7 +9,7 @@ export default function App({ data, handleChange }) {
     }
   };
   return (
-    <div spellcheck="true" >
+    <div>
       <Editor
         apiKey="s91bfina8wqeldhbyfzpf16bkodlx2gz2s0nx1zg9dfugp3e"
         onInit={(evt, editor) => (editorRef.current = editor)}
@@ -25,7 +25,7 @@ export default function App({ data, handleChange }) {
           height: 500,
           toolbar_mode: "wrap",
           menubar: true,
-          browser_spellcheck:true, 
+          browser_spellcheck: true,
           plugins: [
             "advlist",
             "autolink",
@@ -45,15 +45,15 @@ export default function App({ data, handleChange }) {
             "code",
             "help",
             "wordcount",
-            "tinymcespellchecker", 
+            "tinymcespellchecker",
           ],
           toolbar:
             "undo redo | blocks | " +
             "bold italic forecolor | alignleft aligncenter " +
             "alignright alignjustify | bullist numlist outdent indent | " +
-            "removeformat | help",
+            "spellchecker ",
           content_style:
-            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+            "body { font-family:Helvetica,Arial,sans-serif; font-size:20px }",
           image_advtab: true,
         }}
       />
