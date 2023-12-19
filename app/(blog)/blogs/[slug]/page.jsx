@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import Axios from "axios";
 import { Like, Comment, Share } from "@/assets";
@@ -19,6 +19,7 @@ export default function BlogsPage() {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
   const [isPopupOpen, setPopupOpen] = useState(false);
+  const popupRef = useRef(null);
   const searchParams = useSearchParams();
   const navigate = useRouter();
   const id = searchParams.get("id");
@@ -57,6 +58,22 @@ export default function BlogsPage() {
       navigate.replace("/not-found");
     }
   }, [error, blog, navigate, id]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setPopupOpen(false);
+      }
+    };
+
+    // Add event listener when the component mounts
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Remove event listener when the component unmounts
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [popupRef]);
 
   return (
     <div className="w-full mx-auto m-2 px-8 md:w-2/3 font-poppins">
@@ -119,7 +136,9 @@ export default function BlogsPage() {
                 handleClick={() => setPopupOpen(true)}
               />
               {isPopupOpen && (
-                <div className="absolute right-0 md:left-0  bottom-8 bg-white border shadow-lg rounded-md min-w-[200px] w-fit h-fit py-4 z-50">
+                <div
+                  className="absolute right-0 md:left-0  bottom-8 bg-white border shadow-lg rounded-md min-w-[200px] w-fit h-fit py-4 z-50"
+                  ref={popupRef}>
                   <ShareModal id={blog.id} slug={blog.slug} />
                 </div>
               )}
