@@ -42,7 +42,7 @@ export default function Page() {
       if (result.isConfirmed) {
         clearCurrentUser();
         clearAllCookies();
-        window.location.reload();
+        navigate.reload();
       }
     });
   }
@@ -67,7 +67,7 @@ export default function Page() {
       .then(() => {
         clearCurrentUser();
         clearAllCookies();
-        window.location.reload();
+        navigate.reload();
       });
   }
   //function to show update modal
