@@ -11,7 +11,7 @@ export default function UploadButton({ setBlog }) {
   function handleChange(e) {
     const maxAllowedSize = 5 * 1024 * 1024;
     if (e.target.files[0].size > maxAllowedSize) {
-      alert("Image is too big, max allowed size is 5MB");
+      toast.error("Image is too big, max allowed size is 5MB");
       fileInputRef.current = null;
       return false;
     }

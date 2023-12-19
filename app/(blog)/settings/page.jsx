@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import { clearCurrentUser, clearAllCookies } from "@/lib";
 import Loader from "@/components/Loader";
 import Axios from "axios";
+import UpdateProfileModal from "@/components/UpdateProfileModal";
 
 export default function Page() {
   const user = getCurrentUser();
@@ -15,15 +16,14 @@ export default function Page() {
   useEffect(() => {
     if (!user) {
       toast.error("Login required to perform this action!");
-      navigate.replace("/");
+      navigate.replace("/login");
     }
   }, [user]);
   if (!user) {
+    navigate.replace("/login");
     return (
-      <div className="md:min-h-[400px]">
-        <div className="flex items-center justify-center gap-2 text-xl my-2">
-          <Loader />
-        </div>
+      <div className="flex items-center justify-center text-xl">
+        <Loader size={60} />
       </div>
     );
   }
@@ -70,6 +70,15 @@ export default function Page() {
         window.location.reload();
       });
   }
+  //function to show update modal
+  function showUpdateModal() {
+    const modal = document.getElementById("my_modal_5");
+    if (modal) {
+      modal.showModal();
+    } else {
+      console.error("Element with ID 'my_modal_3' not found.");
+    }
+  }
   return (
     <div className="font-poppins flex items-center justify-center m-auto ">
       <div className="bg-slate-100 shadow border-2 py-2 rounded-md">
@@ -93,9 +102,9 @@ export default function Page() {
           <div className="space-y-2 cursor-pointer flex items-center justify-between gap-4 text-gray-700">
             <div>
               <h3>Profile Information</h3>
-              <p>Edit your photo and username</p>
+              <p onClick={showUpdateModal}>Edit your photo and username</p>
             </div>
-            <div className="">
+            <div onClick={showUpdateModal}>
               <Image
                 src={user.picture}
                 alt="profile-picture"
@@ -118,6 +127,10 @@ export default function Page() {
             Delete Account
           </button>
         </div>
+        <UpdateProfileModal
+          user={user}
+          closeModal={() => setShowModal(false)}
+        />
       </div>
     </div>
   );
