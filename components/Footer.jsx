@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-
+import { Facebook, Twitter } from "@/assets";
 export default function Footer() {
   return (
     <footer className="max-w-7xl w-full mx-auto m-5 p-4 divide-blue-500 font-poppins text-xl">
@@ -35,35 +35,13 @@ export default function Footer() {
             href="https://www.facebook.com"
             className="navigation__footer"
             target="_blank">
-            <svg
-              fill="none"
-              viewBox="0 0 24 24"
-              height="24"
-              width="30"
-              className="md:text-xl text-blue-600 font-bold">
-              <path
-                fill="currentColor"
-                d="M9.198 21.5h4v-8.01h3.604l.396-3.98h-4V7.5a1 1 0 011-1h3v-4h-3a5 5 0 00-5 5v2.01h-2l-.396 3.98h2.396v8.01z"
-              />
-            </svg>
+            <Facebook />
           </Link>
           <Link
             href="https://www.twitter.com"
             className="navigation__footer"
             target="_blank">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="md:text-2xl text-blue-500 fill-blue-500">
-              <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
-            </svg>
+            <Twitter />
           </Link>
           <Link
             href="https://github.com/Donvine254"
