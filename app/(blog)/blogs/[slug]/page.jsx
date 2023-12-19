@@ -103,7 +103,7 @@ export default function BlogsPage() {
             id="blog-body">
             {blog.body ? parse(blog?.body) : blog.body}
           </article>
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mt-2">
             <p className="blog__icons">
               {!liked ? (
                 <Like
