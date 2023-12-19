@@ -7,14 +7,15 @@ import Image from "next/image";
 import Swal from "sweetalert2";
 import { clearCurrentUser, clearAllCookies } from "@/lib";
 import Loader from "@/components/Loader";
+import Axios from "axios";
 
 export default function Page() {
   const user = getCurrentUser();
   const navigate = useRouter();
   useEffect(() => {
     if (!user) {
-      toast.error("kindly login first!");
-      navigate.replace("/login");
+      toast.error("Login required to perform this action!");
+      navigate.replace("/");
     }
   }, [user]);
   if (!user) {
@@ -22,7 +23,6 @@ export default function Page() {
       <div className="md:min-h-[400px]">
         <div className="flex items-center justify-center gap-2 text-xl my-2">
           <Loader />
-          Loading Details...
         </div>
       </div>
     );
@@ -42,13 +42,33 @@ export default function Page() {
       if (result.isConfirmed) {
         clearCurrentUser();
         clearAllCookies();
-        navigate.replace("/");
+        window.location.reload();
       }
     });
   }
   //function to deleteAccount
   function handleDeleteAccount() {
-    toast.error("stop this nonsense!");
+    Swal.fire({
+      icon: "warning",
+      title: "Delete Account",
+      text: "We’re sorry to see you go. Once your account is deleted, all of your content will be permanently gone, including your profile, stories, publications, notes, and responses",
+      showCloseButton: true,
+      confirmButtonColor: "red",
+      confirmButtonText: "Delete Account",
+      showCancelButton: true,
+      cancelButtonColor: "green",
+    })
+      .then((result) => {
+        if (result.isConfirmed) {
+          Axios.delete(`https://techtales.up.railway.app/users/${user.id}`);
+          toast.success("Account deleted successfully");
+        }
+      })
+      .then(() => {
+        clearCurrentUser();
+        clearAllCookies();
+        window.location.reload();
+      });
   }
   return (
     <div className="font-poppins flex items-center justify-center m-auto ">
