@@ -184,7 +184,7 @@ export const Facebook = () => (
     fill="none"
     viewBox="0 0 24 24"
     height="24"
-    width="30"
+    width="24"
     className="md:text-xl text-blue-600 font-bold">
     <path
       fill="currentColor"
@@ -210,7 +210,7 @@ export const Twitter = () => (
 export const Whatsapp = () => (
   <svg
     viewBox="0 0 24 24"
-    fill="green"
+    fill="#25D366"
     height="24"
     width="24"
     className="font-bold md:text-2xl">

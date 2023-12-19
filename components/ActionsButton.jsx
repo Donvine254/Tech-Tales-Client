@@ -1,23 +1,18 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import {
-  Edit,
-  Trash,
-  Facebook,
-  Twitter,
-  Whatsapp,
-  Copy,
-  Share,
-} from "@/assets";
+import { Edit, Trash, Share } from "@/assets";
+import ShareModal from "./ShareModal";
 import toast from "react-hot-toast";
 
-export default function ActionsButton({ onDelete, onEdit }) {
+export default function ActionsButton({ onDelete, onEdit, id, slug }) {
   const [isPopupOpen, setPopupOpen] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
   const popupRef = useRef(null);
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (popupRef.current && !popupRef.current.contains(event.target)) {
         setPopupOpen(false);
+        setShowShareModal(false);
       }
     };
 
@@ -29,6 +24,12 @@ export default function ActionsButton({ onDelete, onEdit }) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [popupRef]);
+
+  //function to handleSharing
+  function handleSharing() {
+    setPopupOpen(false);
+    setShowShareModal(true);
+  }
 
   return (
     <div className="relative">
@@ -61,8 +62,8 @@ export default function ActionsButton({ onDelete, onEdit }) {
           </button>
           <button
             className="flex items-center gap-2 px-4 py-2 text-gray-800 hover:text-blue-600 w-full  hover:font-bold"
-            onClick={() => toast.success("coming soon")}>
-            <Share/>
+            onClick={handleSharing}>
+            <Share />
             <span>Share Blog</span>
           </button>
           <button
@@ -92,6 +93,13 @@ export default function ActionsButton({ onDelete, onEdit }) {
             <Trash />
             <span>Delete Blog</span>
           </button>
+        </div>
+      )}
+      {showShareModal && (
+        <div
+          className="absolute right-2 md:left-4 bottom-4 bg-white border shadow-lg rounded-md min-w-[200px] w-fit h-fit py-4 z-50"
+          ref={popupRef}>
+          <ShareModal id={id} slug={slug} />
         </div>
       )}
     </div>
