@@ -2,14 +2,14 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Axios from "axios";
-import { Like, Comment } from "@/assets";
+import { Like, Comment, Share } from "@/assets";
 import { Comments, Bookmark, SideNav } from "@/components";
 import { UserImage } from "@/components/Avatar";
 import FullSkeletonBlog from "@/components/fullSkeletonBlog";
 import parse from "html-react-parser";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-
+import ShareModal from "@/components/ShareModal";
 //I will need to fetch all blogs and generate static params for faster load time
 
 export default function BlogsPage() {
@@ -18,6 +18,7 @@ export default function BlogsPage() {
   const [liked, setLiked] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [isPopupOpen, setPopupOpen] = useState(false);
   const searchParams = useSearchParams();
   const navigate = useRouter();
   const id = searchParams.get("id");
@@ -106,9 +107,23 @@ export default function BlogsPage() {
               <Comment />
               <span className="text-base ">
                 {blog.comments ? blog?.comments?.length : null}{" "}
-                <Link href="#write-comment" className="xsm:hidden">Comments</Link>
+                <Link href="#write-comment" className="xsm:hidden">
+                  Comments
+                </Link>
               </span>
             </p>
+            <div className="relative">
+              <Share
+                size={30}
+                className="font-bold cursor-pointer"
+                handleClick={() => setPopupOpen(true)}
+              />
+              {isPopupOpen && (
+                <div className="absolute right-0 md:left-0  bottom-8 bg-white border shadow-lg rounded-md min-w-[200px] w-fit h-fit py-4 z-50">
+                  <ShareModal id={blog.id} slug={blog.slug} />
+                </div>
+              )}
+            </div>
             <Bookmark blogId={blog?.id} className="font-bold" size={30} />
           </div>
           <h1 className="text-bold text-xl md:text-2xl py-4 font-bold">

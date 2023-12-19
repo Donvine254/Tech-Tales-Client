@@ -160,7 +160,7 @@ export const SearchIcon = ({ className }) => (
     <path d="m21 21-4.3-4.3" />
   </svg>
 );
-export const Share = ({ className, size = 24 }) => (
+export const Share = ({ className, size = 24, handleClick=null }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}
@@ -171,6 +171,7 @@ export const Share = ({ className, size = 24 }) => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
+    onClick={handleClick}
     className={className}>
     <circle cx="18" cy="5" r="3" />
     <circle cx="6" cy="12" r="3" />
