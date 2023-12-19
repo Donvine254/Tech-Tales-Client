@@ -117,3 +117,7 @@ h4 {
 .blog-body p:last-child {
   margin-bottom: 0;
 }
+/* styling for sweetalert */
+.swal2-popup {
+  font-family: Poppins, serif important;
+}
