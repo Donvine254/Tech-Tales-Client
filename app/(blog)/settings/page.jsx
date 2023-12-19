@@ -18,7 +18,7 @@ export default function Page() {
       toast.error("Login required to perform this action!");
       navigate.replace("/login");
     }
-  }, [user]);
+  }, [user, navigate]);
   if (!user) {
     navigate.replace("/login");
     return (

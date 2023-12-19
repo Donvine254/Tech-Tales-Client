@@ -1,9 +1,11 @@
+"use client";
 import React, { useState, useRef } from "react";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import Axios from "axios";
-
+import { useRouter } from "next/navigation";
 export default function UpdateProfileModal({ user }) {
+  const router = useRouter();
   const fileInputRef = useRef(null);
   const [image, setImage] = useState("");
   const [data, setData] = useState({
@@ -61,7 +63,7 @@ export default function UpdateProfileModal({ user }) {
           localStorage.setItem("loggedInUser", JSON.stringify(response.data));
         }
         toast.success("Details updated successfully!");
-        window.location.reload();
+        router.reload();
       }
     } catch (error) {
       console.error(error);
