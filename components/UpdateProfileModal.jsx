@@ -103,23 +103,40 @@ export default function UpdateProfileModal({ user }) {
               />
             )}
             <div>
-              <label
-                htmlFor="fileInput"
-                className="text-green-500 font-bold cursor-pointer">
-                Update Picture
-              </label>
-              <input
-                type="file"
-                id="fileInput"
-                accept="image/*"
-                className="hidden"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-              />
-              <p className="text-gray-500">
-                Recommended: Square JPG, PNG, or GIF, at least 1,000 pixels per
-                side
-              </p>
+              {image ? (
+                <>
+                  <button
+                    className="text-green-500 font-bold"
+                    type="button"
+                    onClick={handleImageUpload}>
+                    Upload
+                  </button>
+                  <p className="text-gray-500">
+                    Recommended: Square JPG, PNG, or GIF, at least 1,000 pixels
+                    per side
+                  </p>
+                </>
+              ) : (
+                <>
+                  <label
+                    htmlFor="fileInput"
+                    className="text-green-500 font-bold cursor-pointer">
+                    Update Picture
+                  </label>
+                  <input
+                    type="file"
+                    id="fileInput"
+                    accept="image/*"
+                    className="hidden"
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
+                  />
+                  <p className="text-gray-500">
+                    Recommended: Square JPG, PNG, or GIF, at least 1,000 pixels
+                    per side
+                  </p>
+                </>
+              )}
             </div>
           </div>
 

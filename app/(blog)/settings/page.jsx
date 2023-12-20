@@ -42,7 +42,7 @@ export default function Page() {
       if (result.isConfirmed) {
         clearCurrentUser();
         clearAllCookies();
-        navigate.reload();
+        navigate.push("/");
       }
     });
   }
@@ -67,7 +67,7 @@ export default function Page() {
       .then(() => {
         clearCurrentUser();
         clearAllCookies();
-        navigate.reload();
+        navigate.push("/");
       });
   }
   //function to show update modal
@@ -100,7 +100,7 @@ export default function Page() {
             <p>{user.username}</p>
           </div>
           <div className="space-y-2 cursor-pointer flex items-center justify-between gap-4 text-gray-700">
-            <div>
+            <div onClick={showUpdateModal}>
               <h3>Profile Information</h3>
               <p onClick={showUpdateModal}>Edit your photo and username</p>
             </div>
