@@ -88,16 +88,16 @@ export default function UpdateProfileModal({ user }) {
             {image ? (
               <Image
                 src={URL.createObjectURL(image)}
-                width={60}
-                height={60}
+                width={80}
+                height={80}
                 alt="profile-picture"
-                className="rounded-full h-[60px] w-[60px]"
+                className="rounded-full h-[80px] w-[80px]"
               />
             ) : (
               <Image
                 src={user.picture}
-                width={60}
-                height={60}
+                width={80}
+                height={80}
                 alt="profile-picture"
                 className="rounded-full"
               />
@@ -112,8 +112,8 @@ export default function UpdateProfileModal({ user }) {
                     Upload Picture
                   </button>
                   <p className="text-gray-500">
-                    Recommended: Square JPG, PNG, or GIF, at least 1,000 pixels
-                    per side
+                    Recommended: Square JPG, PNG, or JPEG, at least 1,000 pixels
+                    per side and less than 5MB in size.
                   </p>
                 </>
               ) : (
@@ -132,8 +132,8 @@ export default function UpdateProfileModal({ user }) {
                     onChange={handleFileChange}
                   />
                   <p className="text-gray-500">
-                    Recommended: Square JPG, PNG, or GIF, at least 1,000 pixels
-                    per side
+                    Recommended: Square JPG, PNG, or JPEG, at least 1,000 pixels
+                    per side and less than 5MB in size.
                   </p>
                 </>
               )}
@@ -155,7 +155,7 @@ export default function UpdateProfileModal({ user }) {
                 }));
               }}
             />
-            <p className="text-sm">
+            <p className="text-sm text-gray-600">
               Appears on your Profile page, as your author title, and in your
               comments.
             </p>
@@ -171,8 +171,13 @@ export default function UpdateProfileModal({ user }) {
             Cancel
           </button>
           <button
-            className="px-4 py-2 border-2 bg-blue-400 hover:bg-blue-600 text-white rounded-xl "
-            type="submit">
+            className="px-4 py-2 border-2 bg-blue-600 text-white rounded-xl disabled:pointer-events-none disabled:opacity-50 disabled:bg-blue-400"
+            type="submit"
+            disabled={
+              data.username.toLowerCase().trim() ===
+                user.username.toLowerCase().trim() &&
+              data.picture === user.picture
+            }>
             Save Changes
           </button>
         </div>
