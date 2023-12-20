@@ -25,10 +25,7 @@ export default function App({ data, handleChange }) {
           height: 500,
           toolbar_mode: "sliding",
           toolbar_location: "bottom",
-          menubar: true,
-          mobile: {
-            menubar: false,
-          },
+          menubar: false,
           browser_spellcheck: true,
           plugins: [
             "advlist",
@@ -53,7 +50,7 @@ export default function App({ data, handleChange }) {
             "wordcount",
           ],
           toolbar:
-            "undo redo | blocks fontsize | bold italic forecolor | align numlist bullist | link image table media pageembed | backcolor  emoticons codesample removeformat",
+            "undo redo | blocks | bold italic forecolor underline| align numlist bullist | link image table media pageembed | backcolor  emoticons codesample blockquote| preview removeformat",
           content_style:
             "body { font-family:Poppins,Arial,sans-serif; font-size:18px }",
           image_advtab: true,
