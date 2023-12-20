@@ -20,9 +20,10 @@ export default function Profile() {
     } else if (user) {
       const fetchBlogs = async () => {
         try {
-          const url = `https://techtales.up.railway.app/blogs/user/${user.id}`;
-          const response = await fetch(url);
-          const data= await response.json();
+          const response = await fetch(
+            `https://techtales.up.railway.app/blogs/user/${user.id}`
+          );
+          const data = await response.json();
           setBlogs(data);
           setLoading(false);
         } catch (error) {

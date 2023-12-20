@@ -114,7 +114,7 @@ export default function Page() {
           <div className="py-1">
             <h3 className="">Allow Email Notifications </h3>
             <p className="text-sm wrap text-gray-600">
-              You'll still receive administrative emails even if this setting is
+              You&apos;ll still receive administrative emails even if this setting is
               off.
             </p>
           </div>
