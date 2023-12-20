@@ -6,9 +6,9 @@ import toast from "react-hot-toast";
 import Image from "next/image";
 import Link from "next/link";
 import Loader from "@/components/Loader";
-import Axios from "axios";
+import parse from "html-react-parser";
 
-export default function page() {
+export default function Profile() {
   const user = getCurrentUser();
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -21,8 +21,9 @@ export default function page() {
       const fetchBlogs = async () => {
         try {
           const url = `https://techtales.up.railway.app/blogs/user/${user.id}`;
-          const response = await Axios.get(url);
-          setBlogs(response.data);
+          const response = await fetch(url);
+          const data= await response.json();
+          setBlogs(data);
           setLoading(false);
         } catch (error) {
           setLoading(false);
@@ -45,31 +46,26 @@ export default function page() {
       {/* have two cards rendered as flexbox */}
       <div className="flex flex-col gap-2 lg:flex-row lg:justify-between lg:items-start lg:gap-5 ">
         {/* first card */}
-        <div className="p-6 bg-slate-100 border shadow">
+        <div className="p-6 bg-gray-100 border shadow">
           <Image
             src={user.picture}
             height={120}
             width={120}
             alt="User Profile"
-            className="w-[120px] h-[120px] rounded-full m-auto"
+            className="w-[120px] h-[120px] rounded-full m-auto ring-offset-4 ring-2 ring-blue-600 ring-offset-white"
           />
-          <div className="flex items-center justify-between gap-4 text-gray-700">
-            <h3>Email address</h3>
-            <p>{user.email}</p>
-          </div>
-          <div className="flex items-center justify-between gap-4 text-gray-700">
-            <h3 className="hover:text-gray-900 font-semibold">Username</h3>
-            <p>{user.username}</p>
-          </div>
+
+          <p className="text-gray-700 font-semibold my-1">{user.username}</p>
+          <p className="text-gray-700 mb-2">{user.email}</p>
           <Link
             href="/me/settings"
-            className="text-green-500 font-bold cursor-pointer">
+            className="text-green-500 hover:underline my-3 font-bold ">
             Edit Profile
           </Link>
         </div>
         {/* second card */}
-        <div className="p-6 space-y-2 bg-slate-100 border shadow">
-          <h3 className="text-xl font-bold ">My Blogs</h3>
+        <div className="p-6 space-y-2 bg-slate-100 border shadow lg:flex-1">
+          <h1 className="text-2xl font-bold ">My Blogs</h1>
           {loading && (
             <div className="flex items-center justify-center">
               <Loader size={30} />
@@ -83,11 +79,14 @@ export default function page() {
                     <Link
                       href={`/blogs/${blog.slug}?id=${blog.id}`}
                       className="">
-                      <p className="font-semibold  py-1">{blog.title}</p>
-                      <p className=" text-gray-600 py-1 leading-8 line-clamp-1">
-                        {blog.body}
+                      <p className="font-semibold  py-1 text-gray-700 ">
+                        {blog.title}
+                      </p>
+                      <p className=" text-gray-500 leading-8 line-clamp-2">
+                        {blog.body ? parse(blog.body) : blog.body}
                       </p>
                     </Link>
+                    <hr className="my-2 border-1 border-slate-300" />
                   </li>
                 ))}
               </>
@@ -98,7 +97,7 @@ export default function page() {
             )}
           </ul>
 
-          <h3 className="text-xl font-semibold  my-2">Reading List</h3>
+          <h2 className="text-2xl font-semibold  my-2">Reading List</h2>
           <p>Your bookmarked blogs will appear here</p>
         </div>
       </div>

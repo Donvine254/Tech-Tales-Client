@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { Graph, Clock } from "@/assets";
 import { useRouter } from "next/navigation";
 import { getCurrentUser, deleteBlog } from "@/lib";
-import Axios from "axios";
 import parse from "html-react-parser";
 import { UserImage } from "@/components/Avatar";
 import SkeletonBlog from "@/components/SkeletonBlog";
@@ -28,8 +27,9 @@ export default function MyBlogsComponent() {
       const fetchBlogs = async () => {
         try {
           const url = `https://techtales.up.railway.app/blogs/user/${user.id}`;
-          const response = await Axios.get(url);
-          setBlogs(response.data);
+          const response = await fetch(url);
+          const data= await response.json();
+          setBlogs(data);
           setLoading(false);
         } catch (error) {
           setLoading(false);
@@ -105,7 +105,6 @@ export default function MyBlogsComponent() {
               />
             </div>
             <hr className="my-2 border-1 border-slate-300" />
-           
           </div>
         ))
       ) : (
