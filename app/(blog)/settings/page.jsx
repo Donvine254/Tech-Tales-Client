@@ -117,12 +117,12 @@ export default function Page() {
         </div>
         <div className="items-center p-6 flex flex-col space-y-4">
           <button
-            className="inline-flex items-center justify-center text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90 h-10 px-4 py-2 w-full bg-yellow-500 text-white rounded-md"
+            className="inline-flex items-center justify-center  font-medium hover:bg-primary/90 h-10 px-4 py-2 w-full bg-yellow-100 border-2 border-yellow-400  rounded-md hover:bg-yellow-400 hover:text-white"
             onClick={handleDeactivate}>
             Deactivate Account
           </button>
           <button
-            className="inline-flex items-center justify-center text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90 h-10 px-4 py-2 w-full bg-red-500 text-white rounded-md"
+            className="inline-flex items-center justify-center  font-medium border-2 border-red-400 h-10 px-4 py-2 w-full bg-red-100  rounded-md hover:bg-red-400 hover:text-white"
             onClick={handleDeleteAccount}>
             Delete Account
           </button>

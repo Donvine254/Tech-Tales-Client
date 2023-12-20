@@ -2,7 +2,7 @@
 import React, { useState, useRef } from "react";
 import Image from "next/image";
 import toast from "react-hot-toast";
-import Axios from "axios";
+import axiosInstance from "@/axiosConfig";
 import { useRouter } from "next/navigation";
 export default function UpdateProfileModal({ user }) {
   const router = useRouter();
@@ -33,7 +33,7 @@ export default function UpdateProfileModal({ user }) {
       newImage.append("cloud_name", "dipkbpinx");
       newImage.append("upload_preset", "ekomtspw");
       try {
-        const response = await Axios.post(
+        const response = await axiosInstance.post(
           "https://api.cloudinary.com/v1_1/dipkbpinx/image/upload",
           newImage
         );
@@ -52,14 +52,15 @@ export default function UpdateProfileModal({ user }) {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      if (data && user) {
-        const response = await Axios.patch(
+      await handleImageUpload();
+      if (image && data && user) {
+        const response = await axiosInstance.patch(
           `https://techtales.up.railway.app/users/${user.id}`,
           data
         );
         setImage("");
         const userData = response.data;
-        if (userData) {
+        if (userData && typeof window !== undefined) {
           localStorage.setItem("loggedInUser", JSON.stringify(response.data));
         }
         toast.success("Details updated successfully!");
@@ -102,40 +103,23 @@ export default function UpdateProfileModal({ user }) {
               />
             )}
             <div>
-              {image ? (
-                <>
-                  <button
-                    className="text-green-500 font-bold"
-                    type="button"
-                    onClick={handleImageUpload}>
-                    Upload
-                  </button>
-                  <p className="text-gray-500">
-                    Recommended: Square JPG, PNG, or GIF, at least 1,000 pixels
-                    per side
-                  </p>
-                </>
-              ) : (
-                <>
-                  <label
-                    htmlFor="fileInput"
-                    className="text-green-500 font-bold cursor-pointer">
-                    Update Picture
-                  </label>
-                  <input
-                    type="file"
-                    id="fileInput"
-                    accept="image/*"
-                    className="hidden"
-                    ref={fileInputRef}
-                    onChange={handleFileChange}
-                  />
-                  <p className="text-gray-500">
-                    Recommended: Square JPG, PNG, or GIF, at least 1,000 pixels
-                    per side
-                  </p>
-                </>
-              )}
+              <label
+                htmlFor="fileInput"
+                className="text-green-500 font-bold cursor-pointer">
+                Update Picture
+              </label>
+              <input
+                type="file"
+                id="fileInput"
+                accept="image/*"
+                className="hidden"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+              />
+              <p className="text-gray-500">
+                Recommended: Square JPG, PNG, or GIF, at least 1,000 pixels per
+                side
+              </p>
             </div>
           </div>
 
