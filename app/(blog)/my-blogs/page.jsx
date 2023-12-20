@@ -39,7 +39,7 @@ export default function MyBlogsComponent() {
 
       fetchBlogs();
     }
-  }, [navigate]);
+  }, [user, navigate]);
 
   function handleDelete(blogId) {
     deleteBlog(blogId, setBlogs);
