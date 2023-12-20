@@ -7,23 +7,26 @@ import Image from "next/image";
 import Link from "next/link";
 import Loader from "@/components/Loader";
 import parse from "html-react-parser";
+import Axios from "axios";
 
+const user = getCurrentUser();
 export default function Profile() {
-  const user = getCurrentUser();
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useRouter();
+  const router = useRouter();
+
   useEffect(() => {
-    if (!user) {
+    let isMounted = true;
+    if (!user && isMounted) {
       toast.error("kindly login first!");
-      navigate.replace("/login");
-    } else if (user) {
+      router.replace("/login");
+    } else if (user && isMounted) {
       const fetchBlogs = async () => {
         try {
-          const response = await fetch(
+          const response = await Axios.get(
             `https://techtales.up.railway.app/blogs/user/${user.id}`
           );
-          const data = await response.json();
+          const data = await response.data;
           setBlogs(data);
           setLoading(false);
         } catch (error) {
@@ -34,7 +37,11 @@ export default function Profile() {
 
       fetchBlogs();
     }
-  }, [user, navigate]);
+    return () => {
+      isMounted = false;
+    };
+  }, [router]);
+
   if (!user) {
     return (
       <div className="flex items-center justify-center h-[300px] md:h-[600px]">

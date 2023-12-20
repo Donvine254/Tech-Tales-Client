@@ -11,6 +11,7 @@ import SkeletonBlog from "@/components/SkeletonBlog";
 import toast from "react-hot-toast";
 import ActionsButton from "@/components/ActionsButton";
 import { SideNav } from "@/components";
+import Axios from "axios";
 //check for the current user
 const user = getCurrentUser();
 
@@ -26,9 +27,10 @@ export default function MyBlogsComponent() {
     } else if (user) {
       const fetchBlogs = async () => {
         try {
-         
-          const response = await fetch(`https://techtales.up.railway.app/blogs/user/${user.id}`);
-          const data= await response.json();
+          const response = await Axios.get(
+            `https://techtales.up.railway.app/blogs/user/${user.id}`
+          );
+          const data = await response.data;
           setBlogs(data);
           setLoading(false);
         } catch (error) {
@@ -39,7 +41,7 @@ export default function MyBlogsComponent() {
 
       fetchBlogs();
     }
-  }, [user, navigate]);
+  }, [navigate]);
 
   function handleDelete(blogId) {
     deleteBlog(blogId, setBlogs);
