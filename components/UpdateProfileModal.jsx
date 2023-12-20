@@ -64,7 +64,8 @@ export default function UpdateProfileModal({ user }) {
           localStorage.setItem("loggedInUser", JSON.stringify(response.data));
         }
         toast.success("Details updated successfully!");
-        router.reload();
+        document.getElementById("my_modal_5").close();
+        router.refresh();
       }
     } catch (error) {
       console.error(error);
