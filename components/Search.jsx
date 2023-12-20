@@ -19,12 +19,12 @@ export const Search = () => {
       <div className="relative">
         <input
           type="search"
-          placeholder="search..."
+          placeholder="search blogs..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="rounded-full bg-white-100 p-2 pl-10 px-4 w-full focus:bg-[#e6e6e6] text-black focus:outline-none text-xl border-2 border-gray-200  focus:border-blue-500"
+          className="rounded-full bg-gray-50 p-2 pl-10 px-4 w-full focus:bg-[#e6e6e6] text-black focus:outline-none text-xl border-2 border-gray-300  focus:border-blue-500 placeholder-gray-600"
         />
-        <SearchIcon className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+        <SearchIcon className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600" />
       </div>
     </form>
   );
