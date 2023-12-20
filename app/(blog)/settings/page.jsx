@@ -42,7 +42,9 @@ export default function Page() {
       if (result.isConfirmed) {
         clearCurrentUser();
         clearAllCookies();
-        navigate.push("/");
+        if (typeof navigate === "object") {
+          navigate.replace("/");
+        }
       }
     });
   }
@@ -57,18 +59,17 @@ export default function Page() {
       confirmButtonText: "Delete Account",
       showCancelButton: true,
       cancelButtonColor: "green",
-    })
-      .then((result) => {
-        if (result.isConfirmed) {
-          Axios.delete(`https://techtales.up.railway.app/users/${user.id}`);
-          toast.success("Account deleted successfully");
-        }
-      })
-      .then(() => {
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Axios.delete(`https://techtales.up.railway.app/users/${user.id}`);
+        toast.success("Account deleted successfully");
         clearCurrentUser();
         clearAllCookies();
-        navigate.push("/");
-      });
+        if (typeof navigate === "object") {
+          navigate.replace("/");
+        }
+      }
+    });
   }
   //function to show update modal
   function showUpdateModal() {
