@@ -152,7 +152,7 @@ export default function UpdateProfileModal({ user }) {
               onChange={(e) => {
                 setData((prev) => ({
                   ...prev,
-                  userName: e.target.value,
+                  username: e.target.value,
                 }));
               }}
             />
