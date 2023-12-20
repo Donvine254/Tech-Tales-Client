@@ -42,9 +42,7 @@ export default function Page() {
       if (result.isConfirmed) {
         clearCurrentUser();
         clearAllCookies();
-        if (typeof navigate === "object") {
-          navigate.replace("/");
-        }
+        window.location.href = "/";
       }
     });
   }
@@ -65,9 +63,7 @@ export default function Page() {
         toast.success("Account deleted successfully");
         clearCurrentUser();
         clearAllCookies();
-        if (typeof navigate === "object") {
-          navigate.replace("/");
-        }
+        window.location.href = "/";
       }
     });
   }
