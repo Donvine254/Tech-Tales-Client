@@ -52,8 +52,7 @@ export default function UpdateProfileModal({ user }) {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      await handleImageUpload();
-      if (image && data && user) {
+      if (data && user) {
         const response = await axiosInstance.patch(
           `https://techtales.up.railway.app/users/${user.id}`,
           data
@@ -110,7 +109,7 @@ export default function UpdateProfileModal({ user }) {
                     className="text-green-500 font-bold"
                     type="button"
                     onClick={handleImageUpload}>
-                    Upload
+                    Upload Picture
                   </button>
                   <p className="text-gray-500">
                     Recommended: Square JPG, PNG, or GIF, at least 1,000 pixels
