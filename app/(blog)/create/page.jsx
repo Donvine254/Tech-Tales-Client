@@ -11,7 +11,7 @@ import Script from "next/script";
 const DynamicEditor = dynamic(() => import("@/components/Editor"), {
   loading: () => (
     <div className="flex items-center justify-center gap-2 text-xl my-2">
-      <Loader />
+      <Loader size={60} />
       Loading Editor...
     </div>
   ),

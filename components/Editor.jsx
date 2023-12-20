@@ -23,8 +23,12 @@ export default function App({ data, handleChange }) {
         name="body"
         init={{
           height: 500,
-          toolbar_mode: "wrap",
+          toolbar_mode: "sliding",
+          toolbar_location: "bottom",
           menubar: true,
+          mobile: {
+            menubar: false,
+          },
           browser_spellcheck: true,
           plugins: [
             "advlist",
@@ -38,6 +42,8 @@ export default function App({ data, handleChange }) {
             "searchreplace",
             "visualblocks",
             "code",
+            "codesample",
+            "emoticons",
             "fullscreen",
             "insertdatetime",
             "media",
@@ -45,15 +51,11 @@ export default function App({ data, handleChange }) {
             "code",
             "help",
             "wordcount",
-            "tinymcespellchecker",
           ],
           toolbar:
-            "undo redo | blocks | " +
-            "bold italic forecolor | alignleft aligncenter " +
-            "alignright alignjustify | bullist numlist outdent indent | " +
-            "spellchecker ",
+            "undo redo | blocks fontsize | bold italic forecolor | align numlist bullist | link image table media pageembed | backcolor  emoticons codesample removeformat",
           content_style:
-            "body { font-family:Helvetica,Arial,sans-serif; font-size:20px }",
+            "body { font-family:Poppins,Arial,sans-serif; font-size:18px }",
           image_advtab: true,
         }}
       />
