@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import Swal from "sweetalert2";
-import { clearCurrentUser, clearAllCookies } from "@/lib";
+import { clearCurrentUser } from "@/lib";
 import Loader from "@/components/Loader";
 import Axios from "axios";
 import UpdateProfileModal from "@/components/UpdateProfileModal";
@@ -20,7 +20,6 @@ export default function Page() {
     }
   }, [user, navigate]);
   if (!user) {
-    navigate.replace("/login");
     return (
       <div className="flex items-center justify-center text-xl">
         <Loader size={60} />
@@ -41,8 +40,7 @@ export default function Page() {
     }).then((result) => {
       if (result.isConfirmed) {
         clearCurrentUser();
-        clearAllCookies();
-        window.location.href = "/";
+        navigate.replace("/");
       }
     });
   }
@@ -62,8 +60,7 @@ export default function Page() {
         Axios.delete(`https://techtales.up.railway.app/users/${user.id}`);
         toast.success("Account deleted successfully");
         clearCurrentUser();
-        clearAllCookies();
-        window.location.href = "/";
+        navigate.replace("/");
       }
     });
   }
