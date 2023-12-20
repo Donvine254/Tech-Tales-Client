@@ -93,7 +93,7 @@ export const Menu = ({ handleClick, menuOpen, currentUser }) => {
       </Link>
 
       <Link
-        href="/settings"
+        href="/me"
         className="menu-item"
         onClick={() => handleClick(!menuOpen)}>
         <svg
@@ -112,7 +112,7 @@ export const Menu = ({ handleClick, menuOpen, currentUser }) => {
         My Profile
       </Link>
       <Link
-        href="/settings"
+        href="/me/settings"
         className="menu-item"
         onClick={() => handleClick(!menuOpen)}>
         <svg

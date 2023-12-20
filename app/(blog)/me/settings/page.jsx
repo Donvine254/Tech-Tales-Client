@@ -110,6 +110,19 @@ export default function Page() {
             </div>
           </div>
         </div>
+        <div className="px-6 py-2 flex items-center justify-between gap-3">
+          <div className="py-1">
+            <h3 className="">Allow Email Notifications </h3>
+            <p className="text-sm wrap text-gray-600">
+              You'll still receive administrative emails even if this setting is
+              off.
+            </p>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" value="" class="sr-only peer" />
+            <div class="w-11 h-6 bg-gray-400 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-blue-600"></div>
+          </label>
+        </div>
         <div className="items-center p-6 flex flex-col space-y-4">
           <button
             className="inline-flex items-center justify-center  font-medium hover:bg-primary/90 h-10 px-4 py-2 w-full bg-yellow-100 border-2 border-yellow-400  rounded-md hover:bg-yellow-400 hover:text-white"
