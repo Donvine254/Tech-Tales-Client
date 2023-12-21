@@ -54,7 +54,7 @@ export default function Profile() {
       {/* have two cards rendered as flexbox */}
       <div className="flex flex-col gap-2 lg:flex-row lg:justify-between lg:items-start lg:gap-5 ">
         {/* first card */}
-        <div className="p-6 bg-gray-50 border shadow rounded-md hover:bg-gray-100">
+        <div className="md:min-w-[250px] p-6 bg-gray-50 border shadow rounded-md hover:bg-gray-100">
           <Image
             src={user.picture}
             height={120}
@@ -66,7 +66,7 @@ export default function Profile() {
           <p className="text-gray-700 font-semibold my-2">{user.username}</p>
           <p className="text-gray-700 mb-2">{user.email}</p>
           <p className="text-gray-700 font-semibold mb-2">Bio</p>
-          <p className="text-gray-700 text-sm mb-2">
+          <p className="mb-2 tracking-wide">
             {user?.bio ?? "You have have no bio yet"}
           </p>
           <Link
