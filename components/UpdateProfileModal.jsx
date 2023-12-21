@@ -60,6 +60,7 @@ export default function UpdateProfileModal({ user }) {
         );
         setImage("");
         const userData = response.data;
+        console.log(userData);
         if (userData && typeof window !== undefined) {
           localStorage.setItem("loggedInUser", JSON.stringify(response.data));
         }
@@ -143,12 +144,13 @@ export default function UpdateProfileModal({ user }) {
 
           <div className="space-y-2">
             <label className="font-semibold" htmlFor="username">
-              Username *
+              Username
             </label>
             <input
               className="flex h-10 w-full border-b border-green-500 bg-transparent focus:outline-none py-2 "
               id="username"
               value={data.username}
+              maxLength={50}
               onChange={(e) => {
                 setData((prev) => ({
                   ...prev,
@@ -162,12 +164,12 @@ export default function UpdateProfileModal({ user }) {
             </p>
           </div>
           <div className="space-y-2">
-            <label className="font-semibold" htmlFor="username">
+            <label className="font-semibold" htmlFor="Bio">
               Bio
             </label>
             <input
               className="h-8 w-full border-b border-green-500 bg-transparent focus:outline-none py-2 "
-              id="username"
+              id="Bio"
               value={data.bio}
               minLength={5}
               maxLength={100}
