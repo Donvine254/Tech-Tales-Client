@@ -62,6 +62,7 @@ export default function Page() {
         toast.success("Account deleted successfully");
         clearCurrentUser();
         clearAllCookies();
+        navigate.refresh();
       }
     });
   }
@@ -114,8 +115,8 @@ export default function Page() {
           <div className="py-1">
             <h3 className="">Allow Email Notifications </h3>
             <p className="text-sm wrap text-gray-600">
-              You&apos;ll still receive administrative emails even if this setting is
-              off.
+              You&apos;ll still receive administrative emails even if this
+              setting is off.
             </p>
           </div>
           <label class="relative inline-flex items-center cursor-pointer">
