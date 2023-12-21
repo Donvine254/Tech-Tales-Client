@@ -11,6 +11,7 @@ export default function UpdateProfileModal({ user }) {
   const [data, setData] = useState({
     picture: user.picture,
     username: user.username,
+    bio: user.bio ?? "",
   });
   function handleFileChange(e) {
     const maxAllowedSize = 5 * 1024 * 1024;
@@ -160,6 +161,28 @@ export default function UpdateProfileModal({ user }) {
               comments.
             </p>
           </div>
+          <div className="space-y-2">
+            <label className="font-semibold" htmlFor="username">
+              Bio
+            </label>
+            <input
+              className="h-8 w-full border-b border-green-500 bg-transparent focus:outline-none py-2 "
+              id="username"
+              value={data.bio}
+              minLength={5}
+              maxLength={100}
+              onChange={(e) => {
+                setData((prev) => ({
+                  ...prev,
+                  bio: e.target.value,
+                }));
+              }}
+            />
+            <p className="text-sm text-gray-600 flex items-center justify-between gap-4">
+              Appears on your Profile page and next to your articles.
+              <span>{data?.bio?.length ?? 0}/100</span>
+            </p>
+          </div>
         </div>
         <div className="flex items-center justify-end gap-4 p-6">
           <button
@@ -176,7 +199,10 @@ export default function UpdateProfileModal({ user }) {
             disabled={
               data.username.toLowerCase().trim() ===
                 user.username.toLowerCase().trim() &&
-              data.picture === user.picture
+              data.picture === user.picture &&
+              data?.bio?.toLowerCase().trim() ===
+                user?.bio?.toLowerCase().trim() &&
+              data.bio === ""
             }>
             Save Changes
           </button>

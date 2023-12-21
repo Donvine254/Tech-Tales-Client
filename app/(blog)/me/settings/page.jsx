@@ -98,7 +98,9 @@ export default function Page() {
           <div className="space-y-2 cursor-pointer flex items-center justify-between gap-4 text-gray-700">
             <div onClick={showUpdateModal}>
               <h3>Profile Information</h3>
-              <p onClick={showUpdateModal}>Edit your photo and username</p>
+              <p onClick={showUpdateModal}>
+                Edit your profile photo, bio and username
+              </p>
             </div>
             <div onClick={showUpdateModal}>
               <Image

@@ -65,6 +65,10 @@ export default function Profile() {
 
           <p className="text-gray-700 font-semibold my-2">{user.username}</p>
           <p className="text-gray-700 mb-2">{user.email}</p>
+          <p className="text-gray-700 font-semibold mb-2">Bio</p>
+          <p className="text-gray-700 text-sm mb-2">
+            {user?.bio ?? "You have have no bio yet"}
+          </p>
           <Link
             href="/me/settings"
             className="text-green-500 hover:underline my-3 font-bold ">
