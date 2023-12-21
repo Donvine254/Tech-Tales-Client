@@ -57,9 +57,7 @@ export default function App({ data, handleChange }) {
         }}
       />
 
-      {/* <button onClick={log} type="button" className="btn-primary">
-        Log editor content
-      </button> */}
+      
     </div>
   );
 }

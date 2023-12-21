@@ -106,7 +106,9 @@ export default function Profile() {
           </ul>
 
           <h2 className="text-2xl font-semibold  my-2">Reading List</h2>
-          <p>Your bookmarked blogs will appear here</p>
+          <p className="text-gray-500">
+            Your bookmarked blogs will appear here
+          </p>
         </div>
       </div>
     </div>

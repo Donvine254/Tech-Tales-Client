@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { registerUser } from "@/lib";
+import Script from "next/script";
+
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
@@ -27,6 +29,7 @@ export default function Register() {
 
   return (
     <form className="w-full" onSubmit={handleSubmit}>
+      <Script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.2/tsparticles.confetti.bundle.min.js"></Script>
       <div className="flex flex-col items-center justify-center w-full min-h-screen  px-4 font-crimson  backdrop-blur-md">
         <div
           className="border text-card-foreground w-full max-w-sm mx-auto rounded-xl shadow-md overflow-hidden bg-white"
