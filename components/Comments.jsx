@@ -141,7 +141,7 @@ export default function Comments({ comments, setBlog, blogId }) {
                   </p>
                 </div>
               </div>
-              <p className="text-base md:text-xl py-2 leading-normal ml-16 xsm:ml-10">
+              <p className="text-base md:text-xl py-2 leading-normal ml-16 xsm:ml-12 sm:ml-14 md:ml-16">
                 {comment?.body}
               </p>
 
@@ -149,14 +149,14 @@ export default function Comments({ comments, setBlog, blogId }) {
                 {comment?.user_id === user?.id ? (
                   <>
                     <button
-                      className="flex items center gap-2 text-xl font-bold hover:text-blue-500"
+                      className="flex items center gap-2 text-sm md:text-xl font-bold hover:text-blue-500"
                       onClick={() => editComment(comment.id, comment.body)}>
                       <Edit />
                       <span>Edit</span>
                     </button>
 
                     <button
-                      className="flex items center gap-2 text-xl font-bold hover:text-red-500"
+                      className="flex items center gap-2 text-sm md:text-xl font-bold hover:text-red-500"
                       onClick={() => deleteComment(comment.id, setBlog)}>
                       <Trash />
                       <span> Delete</span>
