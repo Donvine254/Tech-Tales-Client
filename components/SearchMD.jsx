@@ -15,7 +15,7 @@ export const SearchMD = () => {
 
   return (
     <form
-      className="py-2 flex items-center justify-center  md:hidden"
+      className="py-1 flex items-center justify-center  md:hidden"
       onSubmit={handleSearch}>
       <div className="relative xsm:mx-2">
         <input

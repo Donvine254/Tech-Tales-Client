@@ -39,8 +39,8 @@ export default function Page() {
   }, [search]);
   return (
     <section className="relative md:min-h-[350px]">
-      <div className="w-full !z-0 mx-auto m-4 px-8 md:w-2/3 relative font-poppins">
-      <SideNav />
+      <div className="w-full !z-0 mx-auto md:my-4 px-8 md:w-2/3 relative font-poppins">
+        <SideNav />
         {isLoading && (
           <div>
             {Array(5)

@@ -99,7 +99,7 @@ export default function BlogsPage() {
             className="h-[300px] md:h-[400px] w-full bg-cover bg-center bg-no-repeat rounded-md"
             style={{ backgroundImage: `url(${blog.image})` }}></div>
           <article
-            className="text-base md:text-xl leading-8 md:leading-10 mt-3 subpixel-antialiased blog-body"
+            className="text-sm md:text-xl leading-8 md:leading-10 mt-3 subpixel-antialiased blog-body"
             id="blog-body">
             {blog.body ? parse(blog?.body) : blog.body}
           </article>

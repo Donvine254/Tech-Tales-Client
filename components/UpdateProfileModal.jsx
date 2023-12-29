@@ -4,10 +4,12 @@ import Image from "next/image";
 import toast from "react-hot-toast";
 import axiosInstance from "@/axiosConfig";
 import { useRouter } from "next/navigation";
+import Loader from "./Loader";
 export default function UpdateProfileModal({ user }) {
   const router = useRouter();
   const fileInputRef = useRef(null);
   const [image, setImage] = useState("");
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState({
     picture: user.picture,
     username: user.username,
@@ -52,6 +54,7 @@ export default function UpdateProfileModal({ user }) {
   }
   async function handleSubmit(e) {
     e.preventDefault();
+    setLoading(true);
     try {
       if (data && user) {
         const response = await axiosInstance.patch(
@@ -65,11 +68,13 @@ export default function UpdateProfileModal({ user }) {
           localStorage.setItem("loggedInUser", JSON.stringify(response.data));
         }
         toast.success("Details updated successfully!");
+        setLoading(false);
         document.getElementById("my_modal_5").close();
         router.refresh();
       }
     } catch (error) {
       console.error(error);
+      setLoading(false);
       toast.error("request failed");
     }
   }
@@ -196,7 +201,7 @@ export default function UpdateProfileModal({ user }) {
             Cancel
           </button>
           <button
-            className="px-4 py-2 border-2 bg-blue-600 text-white rounded-xl disabled:pointer-events-none disabled:opacity-50 disabled:bg-blue-400"
+            className="px-4 py-2 border-2 bg-blue-600 text-white rounded-xl disabled:pointer-events-none disabled:opacity-50 disabled:bg-blue-400 flex items-center justify-center gap-2"
             type="submit"
             disabled={
               data.username.toLowerCase().trim() ===
@@ -206,7 +211,13 @@ export default function UpdateProfileModal({ user }) {
                 user?.bio?.toLowerCase().trim() &&
               data.bio === ""
             }>
-            Save Changes
+            {loading ? (
+              <>
+                <Loader fill="white" size="12" /> Saving...
+              </>
+            ) : (
+              "Save Changes"
+            )}
           </button>
         </div>
       </form>
