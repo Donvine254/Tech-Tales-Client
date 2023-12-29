@@ -54,7 +54,7 @@ export default function Profile() {
       {/* have two cards rendered as flexbox */}
       <div className="flex flex-col gap-2 lg:flex-row lg:justify-between lg:items-start lg:gap-5 ">
         {/* first card */}
-        <div className="md:min-w-[250px] p-6 bg-gray-50 border shadow rounded-md hover:bg-gray-100">
+        <div className="lg:w-1/3 p-6 bg-gray-50 border shadow rounded-md hover:bg-gray-100">
           <Image
             src={user.picture}
             height={120}
@@ -76,7 +76,7 @@ export default function Profile() {
           </Link>
         </div>
         {/* second card */}
-        <div className="p-6 space-y-2 bg-slate-100 border shadow lg:flex-1 rounded-md">
+        <div className="lg:w-2/3 p-6 space-y-2 bg-slate-100 border shadow rounded-md">
           <h1 className="text-2xl font-bold ">My Blogs</h1>
           {loading && (
             <div className="flex items-center justify-center">
