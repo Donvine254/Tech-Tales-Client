@@ -8,6 +8,7 @@ import Link from "next/link";
 import Loader from "@/components/Loader";
 import parse from "html-react-parser";
 import Axios from "axios";
+import { Cat } from "@/assets";
 
 const user = getCurrentUser();
 export default function Profile() {
@@ -110,6 +111,7 @@ export default function Profile() {
           </ul>
 
           <h2 className="text-2xl font-semibold  my-2">Reading List</h2>
+          <Cat />
           <p className="text-gray-500">
             Your bookmarked blogs will appear here
           </p>
