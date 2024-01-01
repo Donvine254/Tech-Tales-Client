@@ -1,57 +1,27 @@
-"use client";
-import { useState, useEffect } from "react";
-import { calculateReadingTime } from "@/lib";
-import SkeletonBlog from "@/components/SkeletonBlog";
 import { UserImage } from "@/components/Avatar";
-import { useSearchParams } from "next/navigation";
-import Axios from "axios";
-import { Clock } from "@/assets";
+
+import { Cat, Clock } from "@/assets";
 import parse from "html-react-parser";
 import { Bookmark, SideNav } from "@/components";
 import Link from "next/link";
 
-export default function Page() {
-  const [blogs, setBlogs] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const searchParams = useSearchParams();
-  const search = searchParams.get("search");
-  useEffect(() => {
-    (async () => {
-      try {
-        const response = await Axios.get(
-          "https://techtales.up.railway.app/blogs"
-        );
-        if (search && search.trim() !== "") {
-          const filteredBlogs = response.data.filter((blog) =>
-            blog.title.toLowerCase().includes(search.toLowerCase())
-          );
-          setBlogs(filteredBlogs);
-        } else {
-          setBlogs(response.data);
-        }
+export default async function HomePage() {
+  const blogs = await fetch("https://techtales.up.railway.app/blogs", {
+    next: { revalidate: 3600 },
+  }).then((response) => response.json());
 
-        setIsLoading(false);
-      } catch (error) {
-        console.error(error);
-        setIsLoading(false);
-      }
-    })();
-  }, [search]);
+  function calculateReadingTime(blog) {
+    const words = blog.trim().split(/\s+/).length;
+    const readingTime = Math.ceil(words / 300);
+    return readingTime;
+  }
+
   return (
     <section className="relative md:min-h-[350px]">
       <div className="w-full !z-0 mx-auto md:my-4 px-8 md:w-2/3 relative font-poppins">
         <SideNav />
-        {isLoading && (
-          <div>
-            {Array(5)
-              .fill(0)
-              .map((item, i) => (
-                <SkeletonBlog key={i} />
-              ))}
-          </div>
-        )}
         {blogs && blogs.length > 0 ? (
-          blogs.map((blog) => (
+          blogs?.map((blog) => (
             <div key={blog.id} className="">
               <article className="">
                 <div className="flex gap-4 xsm:gap-2 xsm:items-center">
@@ -94,7 +64,10 @@ export default function Page() {
             </div>
           ))
         ) : (
-          <div>{!isLoading && <h1>No Blogs Found</h1>}</div>
+          <div className="flex flex-row items-center justify-center gap-1">
+            <Cat />
+            <h1>No Blogs Found</h1>
+          </div>
         )}
       </div>
     </section>
