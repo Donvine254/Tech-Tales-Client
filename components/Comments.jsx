@@ -121,7 +121,7 @@ export default function Comments({ comments, setComments, blogId }) {
       <div>
         {comments.length > 0 ? (
           comments.map((comment) => (
-            <div className="py-2 font-poppins" key={comment?.id}>
+            <div className="py-1 font-poppins" key={comment?.id}>
               <div className="flex gap-4 xsm:gap-2 xsm:items-center">
                 <UserImage url={comment.user_avatar} />
                 <div className="flex items-center xsm:flex-col gap-2 xsm:gap-0 xsm:items-start">
@@ -133,7 +133,7 @@ export default function Comments({ comments, setComments, blogId }) {
                   </p>
                 </div>
               </div>
-              <p className="text-base md:text-xl py-2 leading-normal ml-16 xsm:ml-12 sm:ml-14 md:ml-16">
+              <p className="text-base md:text-xl py-1 leading-normal ml-16 xsm:ml-12 sm:ml-14 md:ml-16">
                 {comment?.body}
               </p>
 

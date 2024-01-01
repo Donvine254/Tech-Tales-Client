@@ -1,14 +1,29 @@
 import { SideNav } from "@/components";
 import Slug from "./slug";
+export const revalidate = 3600;
 
-//I will need to fetch all blogs and generate static params for faster load time
+export async function generateStaticParams() {
+  try {
+    const response = await fetch("https://techtales.up.railway.app/blogs");
+    if (!response.ok) {
+      throw new Error("Network response was not ok.");
+    }
+    const data = await response.json();
+    // Extract blog IDs from the data and return as an array
+    const blogIds = data.map((blog) => blog.id);
+    return blogIds;
+  } catch (error) {
+    console.error("Error fetching blog data:", error);
+    return [];
+  }
+}
 
 export default async function BlogsPage({ params }) {
   let blog = await fetch(
     `https://techtales.up.railway.app/blogs/${params.blogId}`,
     { next: { revalidate: 3600 } }
   ).then((response) => response.json());
-  console.log(blog);
+
   return (
     <div className="w-full mx-auto m-2 min-h-[75%] px-8 md:w-2/3 font-poppins">
       <SideNav />
