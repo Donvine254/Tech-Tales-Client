@@ -4,11 +4,11 @@ import { useState } from "react";
 import { Edit, Trash } from "@/assets";
 import { UserImage } from "./Avatar";
 
-export default function Comments({ comments, setBlog, blogId }) {
+export default function Comments({ comments, setComments, blogId }) {
   const [newComment, setNewComment] = useState("");
+  const [commentToEdit, setCommentToEdit] = useState(null);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [id, setId] = useState(0);
 
   const user = getCurrentUser();
 
@@ -35,25 +35,30 @@ export default function Comments({ comments, setBlog, blogId }) {
       })
       .then((data) => {
         setNewComment("");
-        setBlog((prev) => ({ ...prev, comments: [...prev.comments, data] }));
+        setComments((prev) => ({ ...prev, ...data }));
       })
       .catch((error) => console.error("Error posting comment:", error));
   }
 
-  function editComment(commentId, commentBody) {
+  function editComment(comment) {
+    setCommentToEdit(comment);
     setIsEditing(true);
-    setNewComment(commentBody);
-    setId(commentId);
-    setBlog((prev) => ({
-      ...prev,
-      comments: prev.comments.filter((comment) => comment.id !== commentId),
-    }));
+    setIsInputFocused(true);
+    setNewComment(comment.body);
+    setComments((prev) => prev.filter((comment) => comment.id !== commentToEdit.id));
   }
   function handleUpdate(e) {
     e.preventDefault();
-    patchComment(id, setBlog, newComment);
+    patchComment(commentToEdit.id, setComments, newComment);
     setNewComment("");
     setIsEditing(false);
+  }
+
+  function undoEditing() {
+    setIsEditing(false);
+    setIsInputFocused(false);
+    setComments((prev) => [...prev, ...commentToEdit]);
+    setNewComment("");
   }
 
   if (!comments) {
@@ -82,11 +87,13 @@ export default function Comments({ comments, setBlog, blogId }) {
           <textarea
             placeholder="add to the discussion"
             value={newComment}
+            rows={2}
             id="write-comment"
             disabled={!user}
-            onClick={() => setIsInputFocused(!isInputFocused)}
+            onFocus={() => setIsInputFocused(!isInputFocused)}
+            onBlur={() => setIsInputFocused(false)}
             onChange={(e) => setNewComment(e.target.value)}
-            className="p-4 xsm:p-2 xsm:ml-2 w-[90%]  bg-white border-2  focus:outline-none md:text-xl h-16 focus:h-20 rounded-lg text-black"
+            className="p-4 xsm:p-2 xsm:ml-2 w-[90%]  bg-white border-2  focus:outline-none md:text-xl h-16 focus:h-20 rounded-lg text-black min-h-fit"
           />
         </div>
         <div className="flex align-center gap-2 py-3 ml-14 xsm:ml-10 lg:gap-4">
@@ -102,6 +109,7 @@ export default function Comments({ comments, setBlog, blogId }) {
                   </button>
                   <button
                     type="button"
+                    onClick={undoEditing}
                     className="bg-transparent hover:bg-slate-300 border text-blue-500 border-blue-500 px-2 p-2 rounded-md">
                     Cancel
                   </button>
@@ -150,14 +158,14 @@ export default function Comments({ comments, setBlog, blogId }) {
                   <>
                     <button
                       className="flex items center gap-2 text-sm md:text-xl font-bold hover:text-blue-500"
-                      onClick={() => editComment(comment.id, comment.body)}>
+                      onClick={() => editComment(comment)}>
                       <Edit />
                       <span>Edit</span>
                     </button>
 
                     <button
                       className="flex items center gap-2 text-sm md:text-xl font-bold hover:text-red-500"
-                      onClick={() => deleteComment(comment.id, setBlog)}>
+                      onClick={() => deleteComment(comment.id, setComments)}>
                       <Trash />
                       <span> Delete</span>
                     </button>

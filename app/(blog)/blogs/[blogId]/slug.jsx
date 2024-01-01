@@ -1,28 +1,20 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
-import { useSearchParams } from "next/navigation";
-import Axios from "axios";
 import { Like, Comment, Share } from "@/assets";
-import { Comments, Bookmark, SideNav } from "@/components";
+import { Comments, Bookmark } from "@/components";
 import { UserImage } from "@/components/Avatar";
-import FullSkeletonBlog from "@/components/fullSkeletonBlog";
 import parse from "html-react-parser";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import ShareModal from "@/components/ShareModal";
-//I will need to fetch all blogs and generate static params for faster load time
 
-export default function BlogsPage() {
-  const [blog, setBlog] = useState();
+export default function Slug({ blog }) {
   const [likes, setLikes] = useState(0);
   const [liked, setLiked] = useState(false);
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [comments, setComments] = useState(blog?.comments);
   const [isPopupOpen, setPopupOpen] = useState(false);
   const popupRef = useRef(null);
-  const searchParams = useSearchParams();
   const navigate = useRouter();
-  const id = searchParams.get("id");
 
   function handleLikeClick() {
     setLiked(!liked);
@@ -34,30 +26,10 @@ export default function BlogsPage() {
   }
 
   useEffect(() => {
-    let isMounted = true;
-    (async () => {
-      try {
-        const response = await Axios.get(
-          `https://techtales.up.railway.app/blogs/${id}`
-        );
-        setBlog(response.data);
-        setLoading(false);
-      } catch (error) {
-        setError(true);
-        setLoading(false);
-      }
-    })();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [id]);
-
-  useEffect(() => {
-    if (error || !id) {
+    if (!blog) {
       navigate.replace("/not-found");
     }
-  }, [error, blog, navigate, id]);
+  }, [blog]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -76,10 +48,8 @@ export default function BlogsPage() {
   }, [popupRef]);
 
   return (
-    <div className="w-full mx-auto m-2 px-8 md:w-2/3 font-poppins">
-      <SideNav />
-      {loading && <FullSkeletonBlog />}
-      {blog && !loading ? (
+    <div>
+      {blog ? (
         <div key={blog.id}>
           <h1 className="font-bold xsm:text-xl text-2xl md:text-4xl">
             {blog?.title}
@@ -150,8 +120,8 @@ export default function BlogsPage() {
           </h1>
           <hr className="text-blue-500" />
           <Comments
-            comments={blog?.comments}
-            setBlog={setBlog}
+            comments={comments}
+            setComments={setComments}
             blogId={blog.id}
           />
         </div>
