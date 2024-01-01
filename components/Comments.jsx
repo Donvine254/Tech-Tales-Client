@@ -19,26 +19,25 @@ export default function Comments({ comments, setComments, blogId }) {
       blog_id: blogId,
       body: newComment,
     };
-    console.log(commentData);
-    // const url = "https://techtales.up.railway.app/comments";
-    // fetch(url, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(commentData),
-    // })
-    //   .then((response) => {
-    //     if (!response.status === 201) {
-    //       throw new Error("Network response was not ok.");
-    //     }
-    //     return response.json();
-    //   })
-    //   .then((data) => {
-    //     setNewComment("");
-    //     setComments((prev) => [...prev, data]);
-    //   })
-    //   .catch((error) => console.error("Error posting comment:", error));
+    const url = "https://techtales.up.railway.app/comments";
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(commentData),
+    })
+      .then((response) => {
+        if (!response.status === 201) {
+          throw new Error("Network response was not ok.");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setNewComment("");
+        setComments((prev) => [...prev, data]);
+      })
+      .catch((error) => console.error("Error posting comment:", error));
   }
 
   function editComment(comment) {
@@ -94,12 +93,8 @@ export default function Comments({ comments, setComments, blogId }) {
                   </button>
                   <button
                     type="button"
-                    onClick={() => {
-                      setNewComment("");
-                      setIsInputFocused(false);
-                      setIsEditing(false);
-                    }}
-                    className="border text-blue-500 border-green-500 hover:border-red-500 px-2 p-2 rounded-md">
+                    onClick={undoEditing}
+                    className="border-2  border-green-500 hover:border-red-500 px-2 p-2 rounded-md">
                     Cancel
                   </button>
                 </>
@@ -113,8 +108,12 @@ export default function Comments({ comments, setComments, blogId }) {
                   </button>
                   <button
                     type="button"
-                    className="bg-transparent hover:bg-slate-300 border text-blue-500 border-blue-500 px-4 p-2 rounded-md"
-                    onClick={undoEditing}>
+                    className="border-2  border-green-500 hover:border-red-500 px-2 p-2 rounded-md"
+                    onClick={() => {
+                      setNewComment("");
+                      setIsInputFocused(false);
+                      setIsEditing(false);
+                    }}>
                     Cancel
                   </button>
                 </>
