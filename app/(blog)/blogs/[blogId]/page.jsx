@@ -10,7 +10,12 @@ export async function generateStaticParams() {
     }
     const data = await response.json();
     // Extract blog IDs from the data and return as an array
+    if (!Array.isArray(data)) {
+      throw new Error("Invalid data format: expected an array.");
+    }
+
     const blogIds = data.map((blog) => blog.id);
+    console.log(blogIds)
     return blogIds;
   } catch (error) {
     console.error("Error fetching blog data:", error);
