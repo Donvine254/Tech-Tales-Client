@@ -66,7 +66,7 @@ export default async function BlogsComponent({ blogsUrl }) {
           </div>
         ))
       ) : (
-        <div className="flex items-center justify-center gap-2">
+        <div className="flex flex-col py-1 items-center justify-center gap-2">
           <Cat />
           <h1>No Blogs Found</h1>
         </div>
