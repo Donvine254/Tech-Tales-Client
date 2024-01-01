@@ -29,7 +29,9 @@ export default function Footer() {
       </div>
       <hr className="border-2 shadow" />
       <div className="flex flex-col md:flex-row justify-between items-center gap-2 mt-2">
-        <h1 className="text-xl">&copy; {new Date().getFullYear()}Tech Tales</h1>
+        <h1 className="text-xl">
+          &copy; {new Date().getFullYear()} Tech Tales
+        </h1>
         <div className="flex items-center gap-2">
           <Link
             href="https://www.facebook.com"

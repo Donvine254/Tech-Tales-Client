@@ -78,7 +78,7 @@ export default function MyBlogsComponent() {
                 </div>
               </div>
               <Link
-                href={`/blogs/${blog.slug}?id=${blog.id}`}
+                href={`/blogs/${blog.id}?title=${blog.slug}`}
                 className="space-y-3 xl:col-span-3">
                 <h1 className="font-bold text-xl md:text-3xl  py-4">
                   {blog.title}
@@ -89,7 +89,9 @@ export default function MyBlogsComponent() {
               </p>
             </article>
             <div className="flex items-center justify-between py-2">
-              <Link href={`/blogs/${blog.slug}`}>Read &#8599;</Link>
+              <Link href={`/blogs/${blog.id}?title=${blog.slug}`}>
+                Read &#8599;
+              </Link>
               <p className="text-base flex items-center gap-1 md:gap-2 bg-slate-300 rounded-full text-black px-2">
                 <Clock />
                 {calculateReadingTime(blog.body)} min{" "}

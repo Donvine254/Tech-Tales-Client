@@ -29,7 +29,7 @@ export default function Slug({ blog }) {
     if (!blog) {
       navigate.replace("/not-found");
     }
-  }, [blog]);
+  }, [blog, navigate]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {

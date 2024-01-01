@@ -4,7 +4,9 @@ export const revalidate = 3600;
 
 export async function generateStaticParams() {
   try {
-    const response = await fetch("https://techtales.up.railway.app/blogs");
+    const response = await fetch("https://techtales.up.railway.app/blogs", {
+      next: { tags: ["collection"] },
+    });
     if (!response.ok) {
       throw new Error("Network response was not ok.");
     }
@@ -15,7 +17,6 @@ export async function generateStaticParams() {
     }
 
     const blogIds = data.map((blog) => blog.id);
-    console.log(blogIds)
     return blogIds;
   } catch (error) {
     console.error("Error fetching blog data:", error);

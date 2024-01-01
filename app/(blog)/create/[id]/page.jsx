@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { revalidateTag } from "next/cache";
 import toast from "react-hot-toast";
 import Loader from "@/components/Loader";
 import dynamic from "next/dynamic";
@@ -64,6 +65,7 @@ export default function EditBlog({ params }) {
           origin: { y: 0.5 },
         });
         setLoading("");
+        revalidateTag("collection");
         navigate.replace("/my-blogs");
       } catch (error) {
         toast.error(error?.response?.data?.errors);
