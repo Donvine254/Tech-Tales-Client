@@ -125,7 +125,7 @@ export default function Comments({ comments, setComments, blogId }) {
       <div>
         {comments?.length > 0 ? (
           comments?.map((comment) => (
-            <div className="py-1 font-poppins" key={comment?.id}>
+            <div className="py-1 font-poppins" key={comment.id}>
               <div className="flex gap-4 xsm:gap-2 xsm:items-center">
                 <UserImage url={comment.user_avatar} />
                 <div className="flex items-center xsm:flex-col gap-2 xsm:gap-0 xsm:items-start">
