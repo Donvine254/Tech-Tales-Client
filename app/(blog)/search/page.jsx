@@ -129,7 +129,7 @@ export default function Page() {
               <span className="underline font-bold italic">
                 &quot;{search}&quot;
               </span>
-              . Try using a different search word our check out our{" "}
+              . Try using a different search word or check out our{" "}
               <a
                 className="text-blue-600 font-medium hover:underline"
                 href="/featured">

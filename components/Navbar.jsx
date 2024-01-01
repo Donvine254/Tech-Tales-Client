@@ -27,7 +27,9 @@ export default function Navbar() {
             <span className="text-red-600 text-2xl md:text-5xl">.</span>
           </h1>
         </Link>
+
         <Search />
+
         <div
           className={`flex items-center md:gap-1 mr-2 ${!user ? "hidden" : ""}`}
           id="user present">
@@ -78,9 +80,6 @@ export default function Navbar() {
         </Link>
       </div>
       <SearchMD />
-       
-  
     </nav>
   );
 }
-
