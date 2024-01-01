@@ -72,7 +72,7 @@ export default function Page() {
                     {blog.title}
                   </h1>
                 </Link>
-                <div className="text-sm md:text-xl leading-8 line-clamp-2 py-2 overflow-x-hidden">
+                <div className="text-sm md:text-xl leading-8 line-clamp-2 md:py-1 overflow-hidden">
                   {blog ? parse(blog.body) : blog.body}
                 </div>
               </article>
