@@ -140,7 +140,7 @@ export const Menu = ({ handleClick, menuOpen, currentUser }) => {
       <Link href="/" onClick={handleSignout}>
         <button className="w-full mt-2 py-2 text-start px-3 border  bg-slate-200 rounded-md hover:bg-gray-200  shadow-md">
           <span className="font-bold">Sign Out</span>
-          <p classNAme="text-gray-400 text-[8px]">{currentUser?.email}</p>
+          <p className="text-gray-400 text-[8px]">{currentUser?.email}</p>
         </button>
       </Link>
     </div>

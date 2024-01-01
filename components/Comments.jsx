@@ -19,25 +19,26 @@ export default function Comments({ comments, setComments, blogId }) {
       blog_id: blogId,
       body: newComment,
     };
-    const url = "https://techtales.up.railway.app/comments";
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(commentData),
-    })
-      .then((response) => {
-        if (!response.status === 201) {
-          throw new Error("Network response was not ok.");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setNewComment("");
-        setComments((prev) => [...prev, data]);
-      })
-      .catch((error) => console.error("Error posting comment:", error));
+    console.log(commentData);
+    // const url = "https://techtales.up.railway.app/comments";
+    // fetch(url, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(commentData),
+    // })
+    //   .then((response) => {
+    //     if (!response.status === 201) {
+    //       throw new Error("Network response was not ok.");
+    //     }
+    //     return response.json();
+    //   })
+    //   .then((data) => {
+    //     setNewComment("");
+    //     setComments((prev) => [...prev, data]);
+    //   })
+    //   .catch((error) => console.error("Error posting comment:", error));
   }
 
   function editComment(comment) {
@@ -67,20 +68,20 @@ export default function Comments({ comments, setComments, blogId }) {
     <section>
       <form className="mt-4">
         <div className="flex gap-2 xsm:gap-1 items-center">
-          <UserImage url={user?.picture} />
+          <UserImage url={user?.picture} className="flex-initial" />
           <textarea
             placeholder="add to the discussion"
             value={newComment}
+            spellCheck="true"
             rows={2}
             id="write-comment"
             disabled={!user}
-            onFocus={() => setIsInputFocused(!isInputFocused)}
-            onBlur={() => setIsInputFocused(false)}
+            onFocus={() => setIsInputFocused(true)}
             onChange={(e) => setNewComment(e.target.value)}
-            className="p-4 xsm:p-2 xsm:ml-2 w-[90%]  bg-white border-2  focus:outline-none md:text-xl h-16 focus:h-20 rounded-lg text-black min-h-fit"
+            className="p-4 xsm:p-2 xsm:ml-2 flex-2 flex-grow bg-white border-2  focus:outline-none md:text-xl h-16 focus:h-20 rounded-lg text-black min-h-fit"
           />
         </div>
-        <div className="flex align-center gap-2 py-3 ml-14 xsm:ml-10 lg:gap-4">
+        <div className="flex items-center justify-end gap-2 md:gap-6 py-3">
           {isInputFocused && (
             <>
               {isEditing ? (
@@ -93,8 +94,12 @@ export default function Comments({ comments, setComments, blogId }) {
                   </button>
                   <button
                     type="button"
-                    onClick={undoEditing}
-                    className="bg-transparent hover:bg-slate-300 border text-blue-500 border-blue-500 px-2 p-2 rounded-md">
+                    onClick={() => {
+                      setNewComment("");
+                      setIsInputFocused(false);
+                      setIsEditing(false);
+                    }}
+                    className="border text-blue-500 border-green-500 hover:border-red-500 px-2 p-2 rounded-md">
                     Cancel
                   </button>
                 </>
@@ -109,7 +114,7 @@ export default function Comments({ comments, setComments, blogId }) {
                   <button
                     type="button"
                     className="bg-transparent hover:bg-slate-300 border text-blue-500 border-blue-500 px-4 p-2 rounded-md"
-                    onClick={() => setIsInputFocused(false)}>
+                    onClick={undoEditing}>
                     Cancel
                   </button>
                 </>
