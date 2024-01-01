@@ -1,41 +1,27 @@
-"use client";
-import { fetchBlogs, calculateReadingTime } from "@/lib";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { Cat } from "@/assets";
 import { Clock } from "@/assets";
 import parse from "html-react-parser";
-import SkeletonBlog from "./SkeletonBlog";
 import Bookmark from "./Bookmark";
 import { UserImage } from "./Avatar";
-import  SideNav  from "./SideNav";
+import SideNav from "./SideNav";
 
-export default function BlogsComponent({ blogsUrl }) {
-  const [blogs, setBlogs] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    fetchBlogs(blogsUrl)
-      .then((fetchedBlogs) => {
-        setBlogs(fetchedBlogs);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching blogs:", error);
-        setIsLoading(false);
-      });
-  }, [blogsUrl]);
+export const revalidate = 3600; //revalidate fetch request every hour;
+
+export default async function BlogsComponent({ blogsUrl }) {
+  const blogs = await fetch(blogsUrl, { next: { revalidate: 3600 } }).then(
+    (response) => response.json()
+  );
+
+  function calculateReadingTime(blog) {
+    const words = blog.trim().split(/\s+/).length;
+    const readingTime = Math.ceil(words / 300);
+    return readingTime;
+  }
 
   return (
     <div className="w-full mx-auto px-8 md:w-2/3 relative font-poppins">
       <SideNav />
-      {isLoading && (
-        <div>
-          {Array(5)
-            .fill(0)
-            .map((item, i) => (
-              <SkeletonBlog key={i} />
-            ))}
-        </div>
-      )}
       {blogs && blogs.length > 0 ? (
         blogs.map((blog) => (
           <div key={blog.id} className="">
@@ -80,7 +66,10 @@ export default function BlogsComponent({ blogsUrl }) {
           </div>
         ))
       ) : (
-        <div>{!isLoading && <h1>No Blogs Found</h1>}</div>
+        <div className="flex items-center justify-center gap-2">
+          <Cat />
+          <h1>No Blogs Found</h1>
+        </div>
       )}
     </div>
   );
