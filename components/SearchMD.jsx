@@ -10,7 +10,7 @@ export const SearchMD = () => {
   function handleSearch(e) {
     e.preventDefault();
     const value = query.trim();
-    router.replace(`/?search=${value}`);
+    router.replace(`/search?search=${value}`);
   }
 
   return (
