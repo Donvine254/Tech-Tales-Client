@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { revalidateTag } from "next/cache";
 import toast from "react-hot-toast";
 import Loader from "@/components/Loader";
 import dynamic from "next/dynamic";
@@ -42,7 +41,7 @@ export default function EditBlog({ params }) {
           t.visible ? "animate-enter" : "animate-leave"
         } max-w-md w-fit bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5 font-poppins`}>
         <div className="py-2 flex items-center space-x-2 px-2 text-xl">
-          <span className="animate-spin">⏳</span>
+          <Loader size={20} />
           <span>processing Request....</span>
         </div>
       </div>
@@ -65,10 +64,10 @@ export default function EditBlog({ params }) {
           origin: { y: 0.5 },
         });
         setLoading("");
-        revalidateTag("collection");
         navigate.replace("/my-blogs");
       } catch (error) {
         toast.error(error?.response?.data?.errors);
+        console.error(error);
         setLoading("");
       }
     }
@@ -119,7 +118,7 @@ export default function EditBlog({ params }) {
             className="bg-blue-500 disabled:bg-blue-400  font-bold px-5 py-2 text-white rounded-xl hover:bg-blue-800">
             {loading === "submitting" ? (
               <p className="flex items-center gap-2">
-                <span className="animate-spin">⏳</span>
+                <Loader size={12} fill="white" />
                 <span>updating....</span>
               </p>
             ) : (
