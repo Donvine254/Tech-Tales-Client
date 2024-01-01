@@ -38,6 +38,7 @@ export default function Comments({ comments, setComments, blogId }) {
         setComments((prev) => [...prev, data]);
       })
       .catch((error) => console.error("Error posting comment:", error));
+      setIsInputFocused(false)
   }
 
   function editComment(comment) {
