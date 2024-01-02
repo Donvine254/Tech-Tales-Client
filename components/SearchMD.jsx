@@ -7,6 +7,8 @@ export const SearchMD = () => {
   const [query, setQuery] = useState("");
   const router = useRouter();
   const [isListening, setIsListening] = useState(false);
+  const [category, setCategory] = useState("");
+  const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
     if (isListening) {
@@ -67,6 +69,49 @@ export const SearchMD = () => {
         </svg>
         <SearchIcon className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
       </div>
+      <div
+        className="cursor-pointer border-2 bg-slate-100 hover:bg-sky-500 hover:text-slate-200 rounded-xl p-2 px-3 m-1 border-gray-300 "
+        onClick={() => setShowDropdown(!showDropdown)}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="30"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round">
+          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+          <title>Search by Category</title>
+        </svg>
+      </div>
+      {showDropdown && (
+        <div className="absolute mt-24 w-fit rounded z-10">
+          <select
+            value={category}
+            onChange={(e) => {
+              setCategory(e.target.value);
+              setShowDropdown(false);
+              setTimeout(() => {
+                if (e.target.value !== "") {
+                  router.replace(`/search?search=${e.target.value}`);
+                }
+              }, 100);
+            }}
+            className="rounded-xl bg-sky-500 p-2  focus:outline-none border-2 border-gray-300 text-slate-200">
+            <option value="">All Categories</option>
+            <option value="ai">Artificial Intelligence</option>
+            <option value="react">React</option>
+            <option value="rails">Ruby on Rails</option>
+            <option value="nextjs">Next.js</option>
+            <option value="python">Python</option>
+            <option value="javascript">Javascript</option>
+            <option value="html css">HTML & CSS</option>
+            <option value="host">Hosting</option>
+          </select>
+        </div>
+      )}
     </form>
   );
 };
