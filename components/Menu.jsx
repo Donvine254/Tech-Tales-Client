@@ -1,13 +1,25 @@
 import Link from "next/link";
 import React from "react";
 import { clearCurrentUser, clearAllCookies } from "@/lib";
-import { revalidatePath } from "next/cache";
+import { revalidatePage } from "@/lib/actions";
+import Swal from "sweetalert2";
 
 export const Menu = ({ handleClick, menuOpen, currentUser }) => {
   function handleSignout() {
-    clearCurrentUser();
-    clearAllCookies();
-    revalidatePath("/my-blogs");
+    Swal.fire({
+      icon: "warning",
+      text: "Are sure you want to signout?",
+      showCancelButton: true,
+      showCloseButton: true,
+      confirmButtonText: "Sign Out",
+      cancelButtonText: "Abort",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        clearCurrentUser();
+        clearAllCookies();
+        revalidatePage("/my-blogs", "page");
+      }
+    });
   }
   return (
     <div className="space-y-4 bg-slate-100 border-2 shadow-lg z-50 py-5 px-2 md:px-4 rounded-lg xsm:min-w-fit min-w-[250px]  font-poppins">
