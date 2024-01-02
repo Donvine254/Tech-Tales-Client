@@ -104,27 +104,26 @@ export default function Page() {
                 </g>
               </svg>
             </div>
-            <p></p>
-            <h1 className="text-gray-800 font-semibold text-2xl md:text-3xl flex items-center gap-1">
+
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="30"
+              height="30"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M16 16s-1.5-2-4-2-4 2-4 2" />
+              <line x1="9" x2="9.01" y1="9" y2="9" />
+              <line x1="15" x2="15.01" y1="9" y2="9" />
+            </svg>
+            <h1 className="text-gray-800 font-semibold text-2xl xsm:text-xl md:text-3xl ">
               Well, this is awkward{" "}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10" />
-                <path d="M16 16s-1.5-2-4-2-4 2-4 2" />
-                <line x1="9" x2="9.01" y1="9" y2="9" />
-                <line x1="15" x2="15.01" y1="9" y2="9" />
-              </svg>
-              .
             </h1>
-            <p className="text-xl text-center leading-loose">
+            <p className="text-xl sm:text-center leading-loose">
               Nothing is turning up based on your search phrase{" "}
               <span className="underline font-bold italic">
                 &quot;{search}&quot;
