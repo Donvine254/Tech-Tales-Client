@@ -6,10 +6,10 @@ import Bookmark from "./Bookmark";
 import { UserImage } from "./Avatar";
 import SideNav from "./SideNav";
 
-export const revalidate = 3600; //revalidate fetch request every hour;
+export const revalidate = 600; //revalidate fetch request every 10 minutes;
 
 export default async function BlogsComponent({ blogsUrl }) {
-  const blogs = await fetch(blogsUrl, { next: { revalidate: 3600 } }).then(
+  const blogs = await fetch(blogsUrl, { next: { revalidate: 600 } }).then(
     (response) => response.json()
   );
 
