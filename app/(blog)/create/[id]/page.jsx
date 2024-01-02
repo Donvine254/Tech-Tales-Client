@@ -6,8 +6,7 @@ import Loader from "@/components/Loader";
 import dynamic from "next/dynamic";
 import Axios from "axios";
 import Script from "next/script";
-import { revalidateBlogPage } from "../../blogs/[blogId]/page";
-
+import revalidateBlogs from "@/lib/actions";
 const DynamicEditor = dynamic(() => import("@/components/Editor"), {
   loading: () => (
     <div className="flex items-center justify-center gap-2 text-xl my-2">
@@ -65,7 +64,7 @@ export default function EditBlog({ params }) {
           origin: { y: 0.5 },
         });
         setLoading("");
-        revalidateBlogPage(params.id);
+        revalidateBlogs(params.id);
         navigate.replace("/my-blogs");
       } catch (error) {
         toast.error(error?.response?.data?.errors);
@@ -117,11 +116,11 @@ export default function EditBlog({ params }) {
           <button
             type="submit"
             disabled={loading === "submitting"}
-            className="bg-blue-500 disabled:bg-blue-400  font-bold px-5 py-2 text-white rounded-xl hover:bg-blue-800">
+            className="bg-blue-500 disabled:bg-gray-200 disabled:text-black  font-bold px-5 py-2 text-white rounded-xl hover:bg-blue-800">
             {loading === "submitting" ? (
               <p className="flex items-center gap-2">
-                <Loader size={12} fill="white" />
-                <span>updating....</span>
+                <Loader size={20} />
+                <span>Processing</span>
               </p>
             ) : (
               "Update Blog"

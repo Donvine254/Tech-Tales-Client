@@ -19,6 +19,7 @@ const DynamicEditor = dynamic(() => import("@/components/Editor"), {
 });
 
 export default function CreateNewBlog() {
+  const [loading, setLoading] = useState(false);
   const user = getCurrentUser();
   let count = 0;
   const navigate = useRouter();
@@ -49,15 +50,17 @@ export default function CreateNewBlog() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (blogData.title === "" || blogData.image === "" || blogData.body == "") {
+
+    if (blogData.title === "" || blogData.body == "") {
       toast.error("Please fill out all the required fields");
       return false;
     }
+    setLoading(true);
     const data = {
       ...blogData,
       user_id: user.id,
     };
-    createBlog(data, navigate, setBlogData);
+    createBlog(data, navigate, setBlogData, setLoading);
     localStorage.removeItem("draftBlog");
   }
   //function to trigger alert
@@ -157,13 +160,21 @@ export default function CreateNewBlog() {
         <div className="flex gap-2 xsm:items-center xsm:justify-between md:gap-8 mt-4">
           <button
             type="submit"
-            className="bg-blue-500 font-bold px-4 py-2 text-white rounded-md hover:bg-blue-800">
-            Publish
+            disabled={loading}
+            className="bg-blue-500 disabled:bg-gray-200 disabled:text-black  font-bold px-5 py-2 text-white rounded-xl hover:bg-green-500">
+            {loading ? (
+              <p className="flex items-center gap-2">
+                <Loader size={20} />
+                <span>Publishing</span>
+              </p>
+            ) : (
+              "Publish"
+            )}
           </button>
           <button
             type="button"
             onClick={saveDraft}
-            className="bg-transparent text-black hover:bg-slate-300 border hover:text-blue-500 border-blue-500 px-2 p-2 rounded-md">
+            className="bg-transparent text-black hover:bg-sky-400 border hover:text-white border-sky-400 px-2 p-2 rounded-xl">
             Save Draft
           </button>
         </div>
