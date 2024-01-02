@@ -65,9 +65,9 @@ export default function Slug({ blog }) {
               {blog?.created_at_date}
             </p>
           </div>
-          <div
+          {blog.image && <div
             className="h-[300px] md:h-[400px] w-full bg-cover bg-center bg-no-repeat rounded-md"
-            style={{ backgroundImage: `url(${blog.image})` }}></div>
+            style={{ backgroundImage: `url(${blog.image})` }}></div>}
           <article
             className="text-sm md:text-xl leading-8 md:leading-10 mt-3 subpixel-antialiased blog-body"
             id="blog-body">

@@ -83,43 +83,28 @@ export default function Page() {
           <div className="flex flex-col items-center justify-center gap-2 my-2">
             <div>
               <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="240"
-                height="180"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="my-2">
-                <path d="M4 22h14a2 2 0 0 0 2-2V7.5L14.5 2H6a2 2 0 0 0-2 2v3" />
-                <polyline points="14 2 14 8 20 8" />
+                viewBox="0 0 64 64"
+                fill="currentColor"
+                height="240"
+                width="300">
+                <path
+                  fill="none"
+                  stroke="currentColor"
+                  strokeMiterlimit={10}
+                  strokeWidth={2}
+                  d="M1 7h62v50H1zM1 15h62M10 11H6M18 11h-4M26 11h-4"
+                />
                 <g
-                  className="animate-spin 3s text-gray-600 ease-out"
-                  transform="rotate(15 15 45)">
-                  {/* animate the search icon alone */}
-                  <path d="M5 17a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-                  <path d="m9 18-1.5-1.5" />
+                  fill="none"
+                  stroke="currentColor"
+                  strokeMiterlimit={10}
+                  strokeWidth={2}>
+                  <path d="M35 33 A6 6 0 0 1 29 39 A6 6 0 0 1 23 33 A6 6 0 0 1 35 33 z" />
+                  <path d="M33 37l8 8" />
                 </g>
               </svg>
             </div>
 
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="30"
-              height="30"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round">
-              <circle cx="12" cy="12" r="10" />
-              <path d="M16 16s-1.5-2-4-2-4 2-4 2" />
-              <line x1="9" x2="9.01" y1="9" y2="9" />
-              <line x1="15" x2="15.01" y1="9" y2="9" />
-            </svg>
             <h1 className="text-gray-800 font-semibold text-2xl xsm:text-xl md:text-3xl ">
               Well, this is awkward{" "}
             </h1>

@@ -42,7 +42,7 @@ export const Search = () => {
   return (
     <div className="hidden md:flex md:items-center gap-2">
       <form
-        className="md:py-2 md:flex md:items-center md:justify-center"
+        className="md:py-2 md:flex md:items-center md:justify-center "
         onSubmit={handleSearch}>
         <div className="relative">
           <input
@@ -50,28 +50,31 @@ export const Search = () => {
             placeholder="Search blogs..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="rounded-xl bg-gray-50 p-2 pl-10 px-4 w-full focus:bg-[#e6e6e6] text-black focus:outline-none text-xl border-2 border-gray-300   placeholder-gray-600"
+            className="rounded-xl bg-gray-50 p-2 pl-8 pr-6 px-4 w-full focus:bg-[#e6e6e6] text-black focus:outline-none text-xl border-2 border-gray-300   placeholder-gray-600 shadow"
           />
+
           <svg
+            fill="currentColor"
+            viewBox="0 0 16 16"
+            height="1.25rem"
+            width="1.25rem"
             className="w-5 h-5 text-gray-900 absolute right-1 top-1/2 transform -translate-y-1/2 hover:text-blue-600"
             onClick={startVoiceSearch}
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 21 21">
+            aria-hidden="true">
             <title>Search by Voice</title>
             <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+              d="M3.5 6.5A.5.5 0 014 7v1a4 4 0 008 0V7a.5.5 0 011 0v1a5 5 0 01-4.5 4.975V15h3a.5.5 0 010 1h-7a.5.5 0 010-1h3v-2.025A5 5 0 013 8V7a.5.5 0 01.5-.5z"
               strokeWidth="2"
-              d="M15 7v3a5.006 5.006 0 0 1-5 5H6a5.006 5.006 0 0 1-5-5V7m7 9v3m-3 0h6M7 1h2a3 3 0 0 1 3 3v5a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V4a3 3 0 0 1 3-3Z"
+            />
+            <path
+              d="M10 8a2 2 0 11-4 0V3a2 2 0 114 0v5zM8 0a3 3 0 00-3 3v5a3 3 0 006 0V3a3 3 0 00-3-3z"
+              strokeWidth="2"
             />
           </svg>
           <SearchIcon className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600" />
         </div>
         <div
-          className="cursor-pointer border-2 bg-gray-50 hover:bg-sky-500 hover:text-slate-200 rounded-xl p-2 px-3 m-1 border-gray-300 "
+          className="cursor-pointer border-2 bg-gray-50 hover:bg-sky-500 hover:text-slate-200 rounded-xl p-2 px-3 m-1 border-gray-300 hover:border-sky-500 shadow "
           onClick={() => setShowDropdown(!showDropdown)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -80,7 +83,7 @@ export const Search = () => {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            strokeWidth="2"
+            strokeWidth="1"
             strokeLinecap="round"
             strokeLinejoin="round">
             <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />

@@ -59,8 +59,8 @@ export default function UploadButton({ setBlog }) {
     <div>
       <label
         htmlFor="title"
-        className="p-2 mt-2 text-xl text-center font-bold text-black">
-        Cover Image
+        className="p-2 my-2 text-xl text-center font-bold text-black">
+        Cover Image <small className="text-gray-600">(optional)</small>
       </label>
       <div className="flex flex-col md:flex-row md:items-center md:gap-5">
         <div className="relative min-w-0 flex-auto ">
@@ -89,10 +89,14 @@ export default function UploadButton({ setBlog }) {
         </div>
         <button
           type="button"
-          title="button"
+          title={
+            isLoading || image === ""
+              ? "No image selected"
+              : "upload blog cover image"
+          }
           onClick={handleImageUpload}
           disabled={isLoading || image === ""}
-          className="bg-blue-600 mb-2 xsm:w-full min-w-[150px] w-fit py-[0.32rem] rounded border border-solid border-blue-600 bg-clip-padding px-5 text-white flex items-center justify-center">
+          className="bg-blue-600 mb-2 xsm:w-full min-w-[150px] w-fit py-[0.32rem] rounded border  border-blue-600 bg-clip-padding px-5 text-white flex items-center justify-center disabled:bg-gray-100 disabled:text-gray-400">
           {isLoading ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"

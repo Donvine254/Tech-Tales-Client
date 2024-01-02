@@ -84,7 +84,7 @@ export default function CreateNewBlog() {
         <label
           htmlFor="title"
           className="p-2 mt-2 text-xl text-center font-bold text-black">
-          Blog Title
+          Blog Title 
         </label>
         {/* div for alert */}
         <div
