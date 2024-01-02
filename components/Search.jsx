@@ -44,15 +44,15 @@ export const Search = () => {
         value={category}
         onChange={(e) => {
           setCategory(e.target.value);
-          setTimeout(
-            () => router.replace(`/search?search=${e.target.value}`),
-            100
-          );
+          setTimeout(() => {
+            if (e.target.value !== "") {
+              router.replace(`/search?search=${e.target.value}`);
+            }
+          }, 100);
         }}
-        className="rounded-l-full bg-gray-50 p-2  text-black focus:outline-none text-xl border-2 border-gray-300 h-12 w-fit">
-        <option value="" disabled>
-          All Categories
-        </option>
+        className="rounded-l-full bg-sky-500 px-2  focus:outline-none text-xl border-2 border-gray-300 h-12 w-fit text-slate-200"
+        style={{ borderRightWidth: 0 }}>
+        <option value="">All Categories</option>
         <option value="ai">Artificial Intelligence</option>
         <option value="react">React</option>
         <option value="rails">Ruby on Rails</option>
@@ -69,7 +69,7 @@ export const Search = () => {
             placeholder="Search blogs..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="rounded-r-full h-12 bg-gray-50 p-2 pl-10 px-4 w-full focus:bg-[#e6e6e6] text-black focus:outline-none text-xl border-2 border-gray-300  focus:border-blue-500 placeholder-gray-600 border-l-none"
+            className="rounded-r-full h-12 bg-gray-50 p-2 pl-10 px-4 w-full focus:bg-[#e6e6e6] text-black focus:outline-none text-xl border-2 border-gray-300   placeholder-gray-600 border-l-none"
             style={{ borderLeftWidth: 0 }}
           />
           <svg
