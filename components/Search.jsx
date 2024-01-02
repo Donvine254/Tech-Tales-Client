@@ -57,6 +57,9 @@ export const Search = () => {
         <option value="react">React</option>
         <option value="rails">Ruby on Rails</option>
         <option value="nextjs">Next.js</option>
+        <option value="python">Python</option>
+        <option value="javascript">Javascript</option>
+        <option value="html css">HTML & CSS</option>
         <option value="host">Hosting</option>
       </select>
 
