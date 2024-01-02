@@ -1,12 +1,12 @@
 import { SideNav } from "@/components";
 import Slug from "./slug";
 
-export const revalidate = true;
+export const revalidate = 3600;
 
 export async function generateStaticParams() {
   try {
     const response = await fetch("https://techtales.up.railway.app/blogs", {
-      next: { revalidate: 60 },
+      next: { revalidate: 3600 },
     });
     if (!response.ok) {
       throw new Error("Network response was not ok.");
@@ -28,7 +28,7 @@ export async function generateStaticParams() {
 export default async function BlogsPage({ params }) {
   let blog = await fetch(
     `https://techtales.up.railway.app/blogs/${params.blogId}`,
-    { next: { revalidate: 60 } }
+    { next: { revalidate: 3600 } }
   ).then((response) => response.json());
 
   return (

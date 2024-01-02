@@ -6,7 +6,7 @@ import Loader from "@/components/Loader";
 import dynamic from "next/dynamic";
 import Axios from "axios";
 import Script from "next/script";
-import revalidateBlogs from "@/lib/actions";
+import { revalidateBlogs } from "@/lib/actions";
 const DynamicEditor = dynamic(() => import("@/components/Editor"), {
   loading: () => (
     <div className="flex items-center justify-center gap-2 text-xl my-2">
