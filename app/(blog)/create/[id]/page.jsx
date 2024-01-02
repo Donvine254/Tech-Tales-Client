@@ -6,6 +6,7 @@ import Loader from "@/components/Loader";
 import dynamic from "next/dynamic";
 import Axios from "axios";
 import Script from "next/script";
+import { revalidateBlogPage } from "../../blogs/[blogId]/page";
 
 const DynamicEditor = dynamic(() => import("@/components/Editor"), {
   loading: () => (
@@ -64,6 +65,7 @@ export default function EditBlog({ params }) {
           origin: { y: 0.5 },
         });
         setLoading("");
+        revalidateBlogPage(params.id);
         navigate.replace("/my-blogs");
       } catch (error) {
         toast.error(error?.response?.data?.errors);

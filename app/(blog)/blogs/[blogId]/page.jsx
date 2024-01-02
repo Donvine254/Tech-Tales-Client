@@ -1,6 +1,16 @@
 import { SideNav } from "@/components";
 import Slug from "./slug";
+import { revalidatePath } from "next/cache";
+
 export const revalidate = 3600;
+
+export function revalidateBlogPage(blogId) {
+  if (blogId) {
+    revalidatePath(`/blogs/${blogId}`, "page");
+  } else {
+    revalidatePath(`/blogs/[blogId]`, "layout");
+  }
+}
 
 export async function generateStaticParams() {
   try {
