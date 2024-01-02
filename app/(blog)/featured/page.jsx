@@ -1,10 +1,13 @@
-import { BlogsComponent, Component } from "@/components";
+import { BlogsComponent } from "@/components";
+export const revalidate = true;
+export default async function Featured() {
+  let blogs = await fetch("https://techtales.up.railway.app/featured", {
+    next: { revalidate: 600 },
+  }).then((response) => response.json());
 
-const url = "https://techtales.up.railway.app/featured";
-export default function Featured() {
   return (
     <div className="relative md:min-h-[320px]">
-      <BlogsComponent blogsUrl={url} />
+      <BlogsComponent blogs={blogs} />
     </div>
   );
 }

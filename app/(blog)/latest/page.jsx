@@ -1,11 +1,15 @@
 import { BlogsComponent } from "@/components";
 
-const url = "https://techtales.up.railway.app/latest";
+export const revalidate = true;
 // fetch the data based on created time
-export default function Latest() {
+export default async function Latest() {
+  let blogs = await fetch("https://techtales.up.railway.app/latest", {
+    next: { revalidate: 600 },
+  }).then((response) => response.json());
+
   return (
     <div className="relative md:min-h-[320px]">
-      <BlogsComponent blogsUrl={url} />
+      <BlogsComponent blogs={blogs} />
     </div>
   );
 }

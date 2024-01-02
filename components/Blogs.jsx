@@ -6,13 +6,7 @@ import Bookmark from "./Bookmark";
 import { UserImage } from "./Avatar";
 import SideNav from "./SideNav";
 
-export const revalidate = 600; //revalidate fetch request every 10 minutes;
-
-export default async function BlogsComponent({ blogsUrl }) {
-  const blogs = await fetch(blogsUrl, { next: { revalidate: 600 } }).then(
-    (response) => response.json()
-  );
-
+export default async function BlogsComponent({ blogs }) {
   function calculateReadingTime(blog) {
     const words = blog.trim().split(/\s+/).length;
     const readingTime = Math.ceil(words / 300);
@@ -40,7 +34,7 @@ export default async function BlogsComponent({ blogsUrl }) {
               <Link
                 href={`/blogs/${blog.id}?title=${blog.slug}`}
                 className="space-y-3 xl:col-span-3">
-                <h1 className="font-bold text-xl md:text-2xl py-4 ">
+                <h1 className="font-bold text-xl md:text-2xl xsm:py-2 py-4 ">
                   {blog.title}
                 </h1>
               </Link>
