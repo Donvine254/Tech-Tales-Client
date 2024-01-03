@@ -6,6 +6,7 @@ import { UserImage } from "@/components/Avatar";
 import parse from "html-react-parser";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import ShareModal from "@/components/ShareModal";
 
 export default function Slug({ blog }) {
@@ -13,6 +14,8 @@ export default function Slug({ blog }) {
   const [liked, setLiked] = useState(false);
   const [comments, setComments] = useState(blog?.comments);
   const [isPopupOpen, setPopupOpen] = useState(false);
+  const [isCardVisible, setIsCardVisible] = useState(false);
+
   const popupRef = useRef(null);
   const navigate = useRouter();
 
@@ -46,7 +49,15 @@ export default function Slug({ blog }) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [popupRef]);
+  //function to pop-up user card
 
+  function handleMouseEnter() {
+    setIsCardVisible(true);
+  }
+
+  function handleMouseLeave() {
+    setIsCardVisible(false);
+  }
   return (
     <div>
       {blog ? (
@@ -56,7 +67,22 @@ export default function Slug({ blog }) {
           </h1>
           <div className="flex xsm:block gap-5 items-center py-4">
             <div className="flex gap-2 md:gap-4 items-center">
-              <UserImage url={blog.user_avatar} />
+              <div
+                className="relative"
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}>
+                <UserImage url={blog.user_avatar} />
+                {isCardVisible && (
+                  <UserCard
+                    avatar={blog.user_avatar}
+                    name={blog.author}
+                    bio={blog.user_bio}
+                    userId={blog.user_id}
+                    title={blog.title}
+                  />
+                )}
+              </div>
+
               <p className="font-bold text-xl md:text-2xl capitalize">
                 {blog.author ?? ""}
               </p>
@@ -65,9 +91,11 @@ export default function Slug({ blog }) {
               {blog?.created_at_date}
             </p>
           </div>
-          {blog.image && <div
-            className="h-[300px] md:h-[400px] w-full bg-cover bg-center bg-no-repeat rounded-md"
-            style={{ backgroundImage: `url(${blog.image})` }}></div>}
+          {blog.image && (
+            <div
+              className="h-[300px] md:h-[400px] w-full bg-cover bg-center bg-no-repeat rounded-md"
+              style={{ backgroundImage: `url(${blog.image})` }}></div>
+          )}
           <article
             className="text-sm md:text-xl leading-8 md:leading-10 mt-3 subpixel-antialiased blog-body"
             id="blog-body">
@@ -126,6 +154,32 @@ export default function Slug({ blog }) {
           />
         </div>
       ) : null}
+    </div>
+  );
+}
+
+function UserCard({ avatar, name, userId, bio, title }) {
+  return (
+    <div className=" bg-slate-100 absolute border shadow w-fit px-4 py-2 rounded-sm min-w-[250px] z-50">
+      <div className="flex items-center gap-2">
+        <Image
+          src={avatar}
+          width={48}
+          height={48}
+          alt={name}
+          className="h-10 w-10 md:h-12 md:w-12 rounded-full cursor-pointer"
+        />
+        <p className="capitalize font-bold text-xl">{name}</p>
+      </div>
+      <p className="text-base font-medium text-gray-600 my-1">
+        {bio ?? "This author has not updated their bio yet"}
+      </p>
+      <hr className="border border-gray-200" />
+      <a
+        href={`/explore/${userId}?reffeer=${title}`}
+        className="text-sm text-sky-400 hover:text-sky-600 cursor-pointer my-2">
+        View more posts from this author &#8599;
+      </a>
     </div>
   );
 }

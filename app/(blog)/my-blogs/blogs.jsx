@@ -15,20 +15,26 @@ import Axios from "axios";
 //check for the current user
 const user = getCurrentUser();
 
-export default function MyBlogsComponent() {
+export default function MyBlogsComponent({ id }) {
   const navigate = useRouter();
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!user) {
+    if (!user && !id) {
       toast.error("kindly login first!");
       navigate.replace("/login");
-    } else if (user) {
+    } else if (user || id) {
       const fetchBlogs = async () => {
         try {
+          let fetchId;
+          if (id) {
+            fetchId = id;
+          } else {
+            fetchId = user.id;
+          }
           const response = await Axios.get(
-            `https://techtales.up.railway.app/blogs/user/${user.id}`
+            `https://techtales.up.railway.app/blogs/user/${fetchId}`
           );
           const data = await response.data;
           setBlogs(data);
@@ -113,7 +119,7 @@ export default function MyBlogsComponent() {
         ))
       ) : (
         <div className="p-2">
-          {!loading && (
+          {!loading && user && (
             <div>
               <p className="text-xl md:text-2xl font-bold">
                 You do not have any blogs yet.
