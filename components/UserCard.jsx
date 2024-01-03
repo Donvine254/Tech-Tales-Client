@@ -47,7 +47,7 @@ export default function UserCard({ avatar, name, userId, bio, title }) {
       </div>
       <hr className="border border-gray-200" />
       <a
-        href={`/explore/${userId}?reffeer=${title}`}
+        href={`/explore/${userId}?referrer=${title}`}
         className="text-sm text-sky-400 hover:text-sky-600 cursor-pointer my-2">
         View more posts from this author &#8599;
       </a>
