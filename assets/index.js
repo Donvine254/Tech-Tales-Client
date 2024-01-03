@@ -189,7 +189,8 @@ export const Facebook = () => (
     viewBox="0 0 24 24"
     height="24"
     width="24"
-    className="md:text-xl text-blue-600 font-bold">
+    className="md:text-xl text-blue-600 font-bold cursor-pointer">
+    <title>Facebook</title>
     <path
       fill="currentColor"
       d="M9.198 21.5h4v-8.01h3.604l.396-3.98h-4V7.5a1 1 0 011-1h3v-4h-3a5 5 0 00-5 5v2.01h-2l-.396 3.98h2.396v8.01z"
@@ -207,7 +208,8 @@ export const Twitter = () => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="md:text-2xl text-blue-500">
+    className="md:text-2xl text-blue-500 cursor-pointer">
+    <title>Twitter</title>
     <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
   </svg>
 );

@@ -1,12 +1,12 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import { Like, Comment, Share } from "@/assets";
-import { Comments, Bookmark } from "@/components";
+import { Comments, Bookmark, UserCard } from "@/components";
 import { UserImage } from "@/components/Avatar";
 import parse from "html-react-parser";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
+
 import ShareModal from "@/components/ShareModal";
 
 export default function Slug({ blog }) {
@@ -154,32 +154,6 @@ export default function Slug({ blog }) {
           />
         </div>
       ) : null}
-    </div>
-  );
-}
-
-function UserCard({ avatar, name, userId, bio, title }) {
-  return (
-    <div className=" bg-slate-100 absolute border shadow w-fit px-4 py-2 rounded-sm min-w-[250px] z-50">
-      <div className="flex items-center gap-2">
-        <Image
-          src={avatar}
-          width={48}
-          height={48}
-          alt={name}
-          className="h-10 w-10 md:h-12 md:w-12 rounded-full cursor-pointer"
-        />
-        <p className="capitalize font-bold text-xl">{name}</p>
-      </div>
-      <p className="text-base font-medium text-gray-600 my-1">
-        {bio ?? "This author has not updated their bio yet"}
-      </p>
-      <hr className="border border-gray-200" />
-      <a
-        href={`/explore/${userId}?reffeer=${title}`}
-        className="text-sm text-sky-400 hover:text-sky-600 cursor-pointer my-2">
-        View more posts from this author &#8599;
-      </a>
     </div>
   );
 }
