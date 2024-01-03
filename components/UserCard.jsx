@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function UserCard({ avatar, name, userId, bio, title }) {
   return (
-    <div className=" bg-slate-100 absolute border shadow w-fit px-4 py-2 rounded-md min-w-[250px] z-50">
+    <div className=" bg-slate-50 absolute border shadow w-fit px-4 py-2 rounded-md min-w-[250px] z-50">
       <div className="flex items-center gap-2">
         <Image
           src={avatar}
@@ -21,14 +21,14 @@ export default function UserCard({ avatar, name, userId, bio, title }) {
       <div className="flex items-center gap-2">
         <p>Follow Author on: </p>
         <div className="flex items-center my-2 justify-end gap-2">
-          <a href={`https://www.facebook.com/${name}`}>
+          <a href={`https://www.facebook.com/${name}`} target="_blank">
             {" "}
             <Facebook />
           </a>
-          <a href={`https://www.twitter.com/${name}`}>
+          <a href={`https://www.twitter.com/${name}`} target="_blank">
             <Twitter />
           </a>
-          <a href={`https://www.github.com/${name}`}>
+          <a href={`https://www.github.com/${name}`} target="_blank">
             {" "}
             <svg
               xmlns="http://www.w3.org/2000/svg"
