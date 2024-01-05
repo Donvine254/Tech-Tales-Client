@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function UserCard({ avatar, name, userId, bio, title }) {
   return (
-    <div className=" bg-slate-50 absolute border shadow w-fit px-4 py-2 rounded-md min-w-[250px] z-50">
+    <div className=" bg-slate-50 absolute border shadow w-fit px-4 py-2 rounded-md xsm:w-full min-w-[250px] z-50">
       <div className="flex items-center gap-2">
         <Image
           src={avatar}

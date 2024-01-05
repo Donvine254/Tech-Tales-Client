@@ -10,7 +10,7 @@ import { UserImage } from "@/components/Avatar";
 import SkeletonBlog from "@/components/SkeletonBlog";
 import toast from "react-hot-toast";
 import ActionsButton from "@/components/ActionsButton";
-import { SideNav } from "@/components";
+import { Bookmark, SideNav } from "@/components";
 import Axios from "axios";
 //check for the current user
 const user = getCurrentUser();
@@ -107,12 +107,16 @@ export default function MyBlogsComponent({ id }) {
                 <Graph />
                 <span>View Blog Statistics</span>
               </p>
-              <ActionsButton
-                onDelete={() => handleDelete(blog.id)}
-                onEdit={() => handleEdit(blog.id)}
-                id={blog.id}
-                slug={blog.slug}
-              />
+              {blog.user_id === user.id ? (
+                <ActionsButton
+                  onDelete={() => handleDelete(blog.id)}
+                  onEdit={() => handleEdit(blog.id)}
+                  id={blog.id}
+                  slug={blog.slug}
+                />
+              ) : (
+                <Bookmark blogId={blog.id} />
+              )}
             </div>
             <hr className="my-2 border-1 border-slate-300" />
           </div>
