@@ -34,7 +34,7 @@ export default async function BlogsComponent({ blogs }) {
               <Link
                 href={`/blogs/${blog.id}?title=${blog.slug}`}
                 className="space-y-3 xl:col-span-3">
-                <h1 className="font-bold text-xl md:text-2xl xsm:py-2 py-2 ">
+                <h1 className="font-bold text-xl md:text-2xl  py-2 ">
                   {blog.title}
                 </h1>
               </Link>
