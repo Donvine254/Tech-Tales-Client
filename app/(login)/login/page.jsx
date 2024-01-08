@@ -2,12 +2,14 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { handleLogin } from "@/lib";
-
+import { ErrorList } from "@/components/ErrorList";
 import toast from "react-hot-toast";
 
 export default function Page() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState(null);
+  const [success, setSuccess] = useState(false);
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -25,7 +27,7 @@ export default function Page() {
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
-    handleLogin(loginData, setLoading, navigate);
+    handleLogin(loginData, setLoading, setErrors, setSuccess, navigate);
   }
 
   return (
@@ -95,6 +97,20 @@ export default function Page() {
                 </a>
               </div>
             </div>
+            {errors && <ErrorList errors={errors} />}
+            {success && (
+              <div className="flex items-center justify-center gap-2 bg-green-100 border-2 border-green-300 p-2 rounded-md">
+                <svg fill="white" viewBox="0 0 15 15" height="24" width="24">
+                  <path
+                    fill="green"
+                    fillRule="evenodd"
+                    d="M0 7.5a7.5 7.5 0 1115 0 7.5 7.5 0 01-15 0zm7.072 3.21l4.318-5.398-.78-.624-3.682 4.601L4.32 7.116l-.64.768 3.392 2.827z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <p>Logged in Successfully</p>
+              </div>
+            )}
           </div>
 
           <div className="items-center p-6 flex flex-col space-y-4">
