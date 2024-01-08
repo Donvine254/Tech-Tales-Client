@@ -105,7 +105,11 @@ export default function MyBlogsComponent({ id }) {
                 {calculateReadingTime(blog.body)} min{" "}
                 <span className="xsm:hidden">read</span>
               </p>
-              <p className="flex items center gap-2 hover:text-blue-500 cursor-pointer xsm:hidden">
+              <p
+                className="flex items center gap-2 hover:text-blue-500 cursor-pointer xsm:hidden"
+                onClick={() =>
+                  toast.error("This feature is not supported yet")
+                }>
                 <Graph />
                 <span>View Blog Statistics</span>
               </p>
