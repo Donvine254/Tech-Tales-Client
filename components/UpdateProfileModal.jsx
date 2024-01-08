@@ -71,7 +71,6 @@ export default function UpdateProfileModal({ user }) {
         const userData = response.data;
         console.log(userData);
         if (userData && typeof window !== undefined) {
-          secureLocalStorage.removeItem("react_auth_token");
           secureLocalStorage.setItem(
             "react_auth_token__",
             JSON.stringify(response.data)
