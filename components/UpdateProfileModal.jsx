@@ -10,6 +10,7 @@ export default function UpdateProfileModal({ user }) {
   const fileInputRef = useRef(null);
   const [image, setImage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [data, setData] = useState({
     picture: user.picture,
     username: user.username,
@@ -31,6 +32,7 @@ export default function UpdateProfileModal({ user }) {
       image.type === "image/jpg" ||
       image.type === "image/jpeg"
     ) {
+      setUploading(true);
       const newImage = new FormData();
       newImage.append("file", image);
       newImage.append("cloud_name", "dipkbpinx");
@@ -45,9 +47,11 @@ export default function UpdateProfileModal({ user }) {
           ...prev,
           picture: responseData.secure_url,
         }));
+        setUploading(false);
         toast.success("Uploaded successfully!");
       } catch (error) {
         console.error("Error uploading image:", error);
+        setUploading(false);
         toast.error("upload failed");
       }
     }
@@ -116,7 +120,7 @@ export default function UpdateProfileModal({ user }) {
                     className="text-green-500 font-bold"
                     type="button"
                     onClick={handleImageUpload}>
-                    Upload Picture
+                    {uploading ? "Uploading..." : "Upload Picture"}
                   </button>
                   <p className="text-gray-500">
                     Recommended: Square JPG, PNG, or JPEG, at least 1,000 pixels

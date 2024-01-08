@@ -67,7 +67,7 @@ export default function Profile() {
           <p className="text-gray-700 font-semibold my-2">{user.username}</p>
           <p className="text-gray-700 mb-2">{user.email}</p>
           <p className="text-gray-700 font-semibold mb-2">Bio</p>
-          <p className="mb-2 tracking-wide">
+          <p className="mb-2 tracking-wide text-sm">
             {user?.bio ?? "You have have no bio yet"}
           </p>
           <Link
@@ -77,7 +77,7 @@ export default function Profile() {
           </Link>
         </div>
         {/* second card */}
-        <div className="lg:w-2/3 p-6 space-y-2 bg-slate-100 border shadow rounded-md">
+        <div className="lg:w-2/3 p-6 space-y-2 bg-gray-50 border shadow rounded-md">
           <h1 className="text-2xl font-bold ">My Blogs</h1>
           {loading && (
             <div className="flex items-center justify-center">

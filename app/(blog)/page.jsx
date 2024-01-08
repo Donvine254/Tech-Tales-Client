@@ -44,11 +44,11 @@ export default async function HomePage() {
                 <Link
                   href={`/blogs/${blog.id}?title=${blog.slug}`}
                   className="space-y-3 xl:col-span-3">
-                  <h1 className="font-bold text-xl md:text-3xl  py-4">
+                  <h1 className="font-bold text-xl md:text-2xl  py-2">
                     {blog.title}
                   </h1>
                 </Link>
-                <div className="text-sm md:text-xl leading-8 line-clamp-2 md:py-1 overflow-hidden">
+                <div className="text-sm md:text-xl leading-8 line-clamp-2 md:pb-1 overflow-hidden">
                   {blog ? parse(blog.body) : blog.body}
                 </div>
               </article>

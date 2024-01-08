@@ -34,11 +34,13 @@ export default async function BlogsComponent({ blogs }) {
               <Link
                 href={`/blogs/${blog.id}?title=${blog.slug}`}
                 className="space-y-3 xl:col-span-3">
-                <h1 className="font-bold text-xl md:text-2xl xsm:py-2 py-4 ">
+                <h1 className="font-bold text-xl md:text-2xl xsm:py-2 py-2 ">
                   {blog.title}
                 </h1>
               </Link>
-              <div className="text-sm md:text-xl leading-8 line-clamp-2 md:py-1 overflow-hidden">
+              <div
+                id="blog-body"
+                className="text-sm md:text-xl leading-8 md:pb-1 line-clamp-2  overflow-hidden">
                 {blog ? parse(blog.body) : blog.body}
               </div>
             </article>

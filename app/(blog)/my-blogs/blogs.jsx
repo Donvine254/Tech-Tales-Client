@@ -86,11 +86,11 @@ export default function MyBlogsComponent({ id }) {
               <Link
                 href={`/blogs/${blog.id}?title=${blog.slug}`}
                 className="space-y-3 xl:col-span-3">
-                <h1 className="font-bold text-xl md:text-3xl  py-4">
+                <h1 className="font-bold text-xl md:text-2xl  py-2">
                   {blog.title}
                 </h1>
               </Link>
-              <p className="text-xl leading-8 line-clamp-2 py-2">
+              <p className="text-xl leading-8 line-clamp-2 md:pb-1">
                 {blog.body ? parse(blog.body) : blog.body}
               </p>
             </article>
