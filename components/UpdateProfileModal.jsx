@@ -5,6 +5,8 @@ import toast from "react-hot-toast";
 import axiosInstance from "@/axiosConfig";
 import { useRouter } from "next/navigation";
 import Loader from "./Loader";
+import secureLocalStorage from "react-secure-storage";
+
 export default function UpdateProfileModal({ user }) {
   const router = useRouter();
   const fileInputRef = useRef(null);
@@ -69,7 +71,11 @@ export default function UpdateProfileModal({ user }) {
         const userData = response.data;
         console.log(userData);
         if (userData && typeof window !== undefined) {
-          localStorage.setItem("loggedInUser", JSON.stringify(response.data));
+          secureLocalStorage.removeItem("react_auth_token");
+          secureLocalStorage.setItem(
+            "react_auth_token__",
+            JSON.stringify(response.data)
+          );
         }
         toast.success("Details updated successfully!");
         setLoading(false);
@@ -102,7 +108,7 @@ export default function UpdateProfileModal({ user }) {
                 width={80}
                 height={80}
                 alt="profile-picture"
-                className="rounded-full h-[80px] w-[80px]"
+                className="rounded-full"
               />
             ) : (
               <Image
@@ -116,12 +122,23 @@ export default function UpdateProfileModal({ user }) {
             <div>
               {image ? (
                 <>
-                  <button
-                    className="text-green-500 font-bold"
-                    type="button"
-                    onClick={handleImageUpload}>
-                    {uploading ? "Uploading..." : "Upload Picture"}
-                  </button>
+                  <div className="flex items-center gap-4">
+                    <button
+                      className="text-green-500 font-bold"
+                      type="button"
+                      onClick={handleImageUpload}>
+                      {uploading ? "Uploading..." : "Upload Picture"}
+                    </button>
+                    <button
+                      type="reset"
+                      className="text-blue-500 font-bold hover:text-red-400  cursor-pointer"
+                      onClick={() => {
+                        setImage(null);
+                      }}>
+                      Reset
+                    </button>
+                  </div>
+
                   <p className="text-gray-500">
                     Recommended: Square JPG, PNG, or JPEG, at least 1,000 pixels
                     per side and less than 5MB in size.
@@ -129,19 +146,22 @@ export default function UpdateProfileModal({ user }) {
                 </>
               ) : (
                 <>
-                  <label
-                    htmlFor="fileInput"
-                    className="text-green-500 font-bold cursor-pointer">
-                    Update Picture
-                  </label>
-                  <input
-                    type="file"
-                    id="fileInput"
-                    accept="image/*"
-                    className="hidden"
-                    ref={fileInputRef}
-                    onChange={handleFileChange}
-                  />
+                  <div>
+                    <label
+                      htmlFor="fileInput"
+                      className="text-green-500 font-bold cursor-pointer">
+                      Update Picture
+                    </label>
+                    <input
+                      type="file"
+                      id="fileInput"
+                      accept="image/*"
+                      className="hidden"
+                      ref={fileInputRef}
+                      onChange={handleFileChange}
+                    />
+                  </div>
+
                   <p className="text-gray-500">
                     Recommended: Square JPG, PNG, or JPEG, at least 1,000 pixels
                     per side and less than 5MB in size.
@@ -197,8 +217,8 @@ export default function UpdateProfileModal({ user }) {
         </div>
         <div className="flex items-center justify-end gap-4 p-6">
           <button
+            type="reset"
             className="px-4 py-2 border-2 border-green-400 hover:border-orange-500 rounded-xl bg-transparent"
-            type="button"
             onClick={() => {
               document.getElementById("my_modal_5").close();
             }}>
@@ -212,8 +232,7 @@ export default function UpdateProfileModal({ user }) {
                 user.username.toLowerCase().trim() &&
               data.picture === user.picture &&
               data?.bio?.toLowerCase().trim() ===
-                user?.bio?.toLowerCase().trim() &&
-              data.bio === ""
+                user?.bio?.toLowerCase().trim()
             }>
             {loading ? (
               <>
