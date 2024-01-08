@@ -90,7 +90,9 @@ export default function MyBlogsComponent({ id }) {
                   {blog.title}
                 </h1>
               </Link>
-              <p className="text-xl leading-8 line-clamp-2 md:pb-1">
+              <p
+                id="blog-body"
+                className="text-xl leading-8 line-clamp-2 md:pb-1">
                 {blog.body ? parse(blog.body) : blog.body}
               </p>
             </article>
