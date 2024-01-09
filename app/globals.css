@@ -72,6 +72,9 @@ label {
 .blog__icons {
   @apply py-2 text-xl md:text-2xl font-bold cursor-pointer hover:text-blue-500 flex items-center gap-2;
 }
+.trimmed-blog-body img {
+  display: none;
+}
 
 /* css for skeleton loaders */
 .skeleton {

@@ -38,9 +38,7 @@ export default async function BlogsComponent({ blogs }) {
                   {blog.title}
                 </h1>
               </Link>
-              <div
-                id="blog-body"
-                className="text-sm md:text-xl leading-8 md:pb-1 line-clamp-2  overflow-hidden">
+              <div className="text-sm md:text-xl leading-8 md:pb-1 line-clamp-2  overflow-hidden trimmed-blog-body ">
                 {blog ? parse(blog.body) : blog.body}
               </div>
             </article>

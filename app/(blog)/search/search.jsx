@@ -65,7 +65,7 @@ export default function SearchPage() {
                       {blog.title}
                     </h1>
                   </Link>
-                  <div className="text-sm md:text-xl leading-8 line-clamp-2 md:py-1 overflow-hidden">
+                  <div className="text-sm md:text-xl leading-8 line-clamp-2 md:py-1 overflow-hidden trimmed-blog-body ">
                     {blog ? parse(blog.body) : blog.body}
                   </div>
                 </article>
