@@ -42,7 +42,7 @@ export default function EditBlog({ params }) {
         } max-w-md w-fit bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5 font-poppins`}>
         <div className="py-2 flex items-center space-x-2 px-2 text-xl">
           <Loader size={20} />
-          <span>processing Request....</span>
+          <span>Processing Request....</span>
         </div>
       </div>
     ));
@@ -120,7 +120,7 @@ export default function EditBlog({ params }) {
             {loading === "submitting" ? (
               <p className="flex items-center gap-2">
                 <Loader size={20} />
-                <span>Processing</span>
+                <span>Updating..</span>
               </p>
             ) : (
               "Update Blog"
