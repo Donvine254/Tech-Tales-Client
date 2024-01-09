@@ -4,13 +4,13 @@ import { useState } from "react";
 import { Edit, Trash } from "@/assets";
 import { UserImage } from "./Avatar";
 
+const user = getCurrentUser();
+
 export default function Comments({ comments, setComments, blogId }) {
   const [newComment, setNewComment] = useState("");
   const [commentToEdit, setCommentToEdit] = useState(null);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-
-  const user = getCurrentUser();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -38,7 +38,7 @@ export default function Comments({ comments, setComments, blogId }) {
         setComments((prev) => [...prev, data]);
       })
       .catch((error) => console.error("Error posting comment:", error));
-      setIsInputFocused(false)
+    setIsInputFocused(false);
   }
 
   function editComment(comment) {
@@ -47,7 +47,7 @@ export default function Comments({ comments, setComments, blogId }) {
     setIsInputFocused(true);
     setNewComment(comment.body);
     setComments((prev) =>
-      prev.filter((prevcomment) => prevcomment.id !== comment.id)
+      prev.filter((prevComment) => prevComment.id !== comment.id)
     );
   }
   function handleUpdate(e) {
