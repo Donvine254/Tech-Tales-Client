@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { getCurrentUser } from "@/lib";
+import secureLocalStorage from "react-secure-storage";
 export default function Bookmark({ blogId, size = 24 }) {
   const user = getCurrentUser();
   const router = useRouter();
@@ -12,7 +13,7 @@ export default function Bookmark({ blogId, size = 24 }) {
 
   // Check if the blog is already bookmarked when the component mounts
   useEffect(() => {
-    const localStorageData = localStorage.getItem(localStorageKey);
+    const localStorageData = secureLocalStorage.getItem(localStorageKey);
     const bookmarkedBlogs = localStorageData
       ? JSON.parse(localStorageData)
       : {};
@@ -21,12 +22,12 @@ export default function Bookmark({ blogId, size = 24 }) {
 
   // Function to update local storage with the bookmarked blogs
   const updateLocalStorage = (blogId, value) => {
-    const localStorageData = localStorage.getItem(localStorageKey);
+    const localStorageData = secureLocalStorage.getItem(localStorageKey);
     const bookmarkedBlogs = localStorageData
       ? JSON.parse(localStorageData)
       : {};
     bookmarkedBlogs[blogId] = value;
-    localStorage.setItem(localStorageKey, JSON.stringify(bookmarkedBlogs));
+    secureLocalStorage.setItem(localStorageKey, JSON.stringify(bookmarkedBlogs));
   };
 
   function handleClick(e) {

@@ -7,15 +7,16 @@ import Image from "next/image";
 import Link from "next/link";
 import Loader from "@/components/Loader";
 import parse from "html-react-parser";
-import Axios from "axios";
 import { Cat } from "@/assets";
+import secureLocalStorage from "react-secure-storage";
 
-const user = getCurrentUser();
 export default function Profile() {
+  const user = getCurrentUser();
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-
+  const [readingList, setReadingList] = useState({});
+  const [allBlogs, setAllBlogs] = useState([]);
   useEffect(() => {
     let isMounted = true;
     if (!user && isMounted) {
@@ -24,10 +25,10 @@ export default function Profile() {
     } else if (user && isMounted) {
       const fetchBlogs = async () => {
         try {
-          const response = await Axios.get(
+          const response = await fetch(
             `https://techtales.up.railway.app/blogs/user/${user.id}`
           );
-          const data = await response.data;
+          const data = await response.json();
           setBlogs(data);
           setLoading(false);
         } catch (error) {
@@ -42,6 +43,26 @@ export default function Profile() {
       isMounted = false;
     };
   }, [router]);
+  //useEffect to get user reading list
+  useEffect(() => {
+    const localStorageData = secureLocalStorage.getItem("bookmarked_blogs");
+    const bookmarkedBlogs = localStorageData
+      ? JSON.parse(localStorageData)
+      : {};
+    setReadingList(bookmarkedBlogs);
+    (async () => {
+      try {
+        const response = await fetch(`https://techtales.up.railway.app/blogs`, {
+          next: { revalidate: 600 },
+        });
+        const data = await response.json();
+        setAllBlogs(data);
+      } catch (error) {
+        console.error("Error fetching blogs:", error);
+      }
+    })();
+  }, []);
+  const filteredBlogs = allBlogs.filter((blog) => readingList[blog.id]);
 
   if (!user) {
     return (
@@ -50,6 +71,7 @@ export default function Profile() {
       </div>
     );
   }
+
   return (
     <div className="font-poppins w-full min-h-[400px] mx-auto px-8 md:w-2/3">
       {/* have two cards rendered as flexbox */}
@@ -90,7 +112,7 @@ export default function Profile() {
                 {blogs.map((blog) => (
                   <li key={blog.id} className="mb-2">
                     <Link
-                      href={`/blogs/${blog.slug}?id=${blog.id}`}
+                      href={`/blogs/${blog.id}?title=${blog.slug}`}
                       className="">
                       <p className="font-semibold  py-1 text-gray-700 ">
                         {blog.title}
@@ -111,10 +133,36 @@ export default function Profile() {
           </ul>
 
           <h2 className="text-2xl font-semibold  my-2">Reading List</h2>
-          <Cat />
-          <p className="text-gray-500">
-            Your bookmarked blogs will appear here
-          </p>
+          {loading ? (
+            <div className="flex items-center justify-center">
+              <Loader size={30} />
+            </div>
+          ) : (
+            <ul>
+              {filteredBlogs.length > 0 ? (
+                filteredBlogs.map((blog) => (
+                  <li key={blog.id} className="mb-2">
+                    <Link href={`/blogs/${blog.id}?title=${blog.slug}`}>
+                      <p className="font-semibold py-1 text-gray-700">
+                        {blog.title}
+                      </p>
+                    </Link>
+                    <p className=" text-gray-500 leading-8 line-clamp-2">
+                      {blog.body ? parse(blog.body) : blog.body}
+                    </p>
+                    <hr className="my-2 border-1 border-slate-300" />
+                  </li>
+                ))
+              ) : (
+                <>
+                  <Cat />
+                  <p className="text-gray-500">
+                    Your bookmarked blogs will appear here
+                  </p>
+                </>
+              )}
+            </ul>
+          )}
         </div>
       </div>
     </div>
