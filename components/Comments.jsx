@@ -4,14 +4,12 @@ import { useState } from "react";
 import { Edit, Trash } from "@/assets";
 import { UserImage } from "./Avatar";
 
-const user = getCurrentUser();
-
 export default function Comments({ comments, setComments, blogId }) {
   const [newComment, setNewComment] = useState("");
   const [commentToEdit, setCommentToEdit] = useState(null);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-
+  const user = getCurrentUser();
   async function handleSubmit(e) {
     e.preventDefault();
     const commentData = {
