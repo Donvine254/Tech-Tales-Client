@@ -2,48 +2,47 @@
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-
+import { getCurrentUser } from "@/lib";
 export default function Bookmark({ blogId, size = 24 }) {
+  const user = getCurrentUser();
   const router = useRouter();
-  const cookieName = `bookmarked_blog_${blogId}`;
+  const localStorageKey = `bookmarked_blogs`;
 
   const [isBookmarked, setIsBookmarked] = useState(false);
 
   // Check if the blog is already bookmarked when the component mounts
   useEffect(() => {
-    const cookies = document.cookie.split("; ").reduce((acc, cookie) => {
-      const [name, value] = cookie.split("=");
-      acc[name] = value;
-      return acc;
-    }, {});
+    const localStorageData = localStorage.getItem(localStorageKey);
+    const bookmarkedBlogs = localStorageData
+      ? JSON.parse(localStorageData)
+      : {};
+    setIsBookmarked(!!bookmarkedBlogs[blogId]);
+  }, [blogId, localStorageKey]);
 
-    setIsBookmarked(cookies[cookieName] === "true");
-  }, [cookieName]);
-  //function to remove the blog from bookmarks
-  function clearCookie(cookieName) {
-    document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-  }
+  // Function to update local storage with the bookmarked blogs
+  const updateLocalStorage = (blogId, value) => {
+    const localStorageData = localStorage.getItem(localStorageKey);
+    const bookmarkedBlogs = localStorageData
+      ? JSON.parse(localStorageData)
+      : {};
+    bookmarkedBlogs[blogId] = value;
+    localStorage.setItem(localStorageKey, JSON.stringify(bookmarkedBlogs));
+  };
 
   function handleClick(e) {
     e.preventDefault();
-
-    const cookieValue = isBookmarked ? "false" : "true";
-    const maxAgeInSeconds = 60 * 60 * 24 * 365; // 1 year
-
-    const cookieOptions = {
-      path: "/",
-      maxAge: maxAgeInSeconds,
-    };
-
-    const cookieString = `${cookieName}=${cookieValue}; path=${cookieOptions.path}; max-age=${cookieOptions.maxAge}`;
-    document.cookie = cookieString;
-    setIsBookmarked(!isBookmarked);
-    // If unbookmarking, clear the cookie
-    if (!isBookmarked) {
-      clearCookie(cookieName);
+    if (!user) {
+      toast.error("Login required");
+      router.push("/login");
+      return false;
     }
+    const updatedValue = !isBookmarked;
+    setIsBookmarked(updatedValue);
 
-    toast.success(isBookmarked ? "bookmark removed" : "bookmarked");
+    // Update local storage with the bookmarked blogs
+    updateLocalStorage(blogId, updatedValue);
+
+    toast.success(updatedValue ? "bookmarked" : "bookmark removed");
 
     router.refresh();
   }

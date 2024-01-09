@@ -1,12 +1,11 @@
 import Link from "next/link";
 import React from "react";
-import { clearCurrentUser, clearAllCookies } from "@/lib";
+import secureLocalStorage from "react-secure-storage";
 import { revalidatePath } from "next/cache";
 
 export const Menu = ({ handleClick, menuOpen, currentUser }) => {
   function handleSignout() {
-    clearCurrentUser();
-    clearAllCookies();
+    secureLocalStorage.clear();
     revalidatePath("/my-blogs");
   }
   return (
