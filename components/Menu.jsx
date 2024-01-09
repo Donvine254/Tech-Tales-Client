@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 
 export const Menu = ({ handleClick, menuOpen, currentUser }) => {
   function handleSignout() {
-    secureLocalStorage.clear();
+    secureLocalStorage.removeItem("react_auth_token__");
     revalidatePath("/my-blogs");
   }
   return (

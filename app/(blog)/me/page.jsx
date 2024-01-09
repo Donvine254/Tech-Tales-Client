@@ -10,6 +10,8 @@ import parse from "html-react-parser";
 import { Cat } from "@/assets";
 import secureLocalStorage from "react-secure-storage";
 
+export const dynamic = "auto";
+
 export default function Profile() {
   const user = getCurrentUser();
   const [blogs, setBlogs] = useState([]);
