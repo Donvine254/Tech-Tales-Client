@@ -2,7 +2,7 @@
 import { calculateReadingTime } from "@/lib";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Graph, Clock } from "@/assets";
+import { Graph, Clock, Clipboard } from "@/assets";
 import { useRouter } from "next/navigation";
 import { getCurrentUser, deleteBlog } from "@/lib";
 import parse from "html-react-parser";
@@ -129,13 +129,17 @@ export default function MyBlogsComponent({ id }) {
         <div className="p-2">
           {!loading && user && (
             <div>
-              <p className="text-xl md:text-2xl font-bold">
-                You do not have any blogs yet.
-              </p>
-              <p className="text-lg md:text-xl py-2">
-                <Link href="/create" className="text-blue-500 underline">
-                  Create your first blog &#8599;
-                </Link>
+              <div className="flex items-center justify-center py-1">
+                <Clipboard />
+              </div>
+              <p className="text-xl font-medium md:text-center leading-loose tracking-wide ">
+                Looks like you have not authored any blogs yet, Let&apos;s fix
+                that!
+                <span>
+                  <Link href="/create" className="text-sky-500 hover:underline">
+                    &nbsp; Create your first blog&#8599;
+                  </Link>
+                </span>
               </p>
             </div>
           )}
