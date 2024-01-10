@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Loader from "@/components/Loader";
 import parse from "html-react-parser";
-import { Cat } from "@/assets";
+import { Clipboard } from "@/assets";
 import secureLocalStorage from "react-secure-storage";
 
 export const dynamic = "auto";
@@ -128,9 +128,16 @@ export default function Profile() {
                 ))}
               </>
             ) : (
-              <p className="text-gray-500">
-                Your published articles will appear here
-              </p>
+              <div>
+                <div className="flex items-center justify-center py-1">
+                  <Clipboard />
+                </div>
+
+                <p className="text-gray-600">
+                  Looks like you have not written any blogs yet! Your published
+                  blogs will appear here.
+                </p>
+              </div>
             )}
           </ul>
 
@@ -146,7 +153,8 @@ export default function Profile() {
                   <li key={blog.id} className="mb-2">
                     <Link href={`/blogs/${blog.id}?title=${blog.slug}`}>
                       <p className="font-semibold py-1 text-gray-700">
-                        {blog.title}
+                        {blog.title}{" "}
+                        <span className="font-medium ">by {blog.author}</span>
                       </p>
                     </Link>
                     <p className=" text-gray-500 leading-8 line-clamp-2">
@@ -156,12 +164,15 @@ export default function Profile() {
                   </li>
                 ))
               ) : (
-                <>
-                  <Cat />
-                  <p className="text-gray-500">
-                    Your bookmarked blogs will appear here
+                <div>
+                  <div className="flex items-center justify-center py-1">
+                    <Clipboard />
+                  </div>
+
+                  <p className="text-gray-600 text-center">
+                    All clear. Your bookmarked blogs will appear here
                   </p>
-                </>
+                </div>
               )}
             </ul>
           )}
