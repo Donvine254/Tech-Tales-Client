@@ -59,8 +59,10 @@ export default function Profile() {
         });
         const data = await response.json();
         setAllBlogs(data);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching blogs:", error);
+        setLoading(false);
       }
     })();
   }, []);
@@ -169,7 +171,6 @@ export default function Profile() {
                       <div className="flex items-center justify-center py-1">
                         <Clipboard />
                       </div>
-
                       <p className="text-gray-600 text-center">
                         All clear. Your bookmarked blogs will appear here
                       </p>
