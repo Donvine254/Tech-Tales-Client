@@ -1,5 +1,6 @@
 import "../globals.css";
 import { Toaster } from "react-hot-toast";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 export const metadata = {
   title: "Tech Tales",
   description:
@@ -11,7 +12,10 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <Toaster />
+        <GoogleOAuthProvider
+          clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
           {children}
+        </GoogleOAuthProvider>
       </body>
     </html>
   );

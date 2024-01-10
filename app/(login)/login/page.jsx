@@ -4,7 +4,8 @@ import { useRouter } from "next/navigation";
 import { handleLogin } from "@/lib";
 import { ErrorList } from "@/components/ErrorList";
 import toast from "react-hot-toast";
-
+import { GoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
 export default function Page() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -29,6 +30,9 @@ export default function Page() {
     setLoading(true);
     handleLogin(loginData, setLoading, setErrors, setSuccess, navigate);
   }
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: (tokenResponse) => console.log(tokenResponse),
+  });
 
   return (
     <form className="w-full" onSubmit={handleSubmit}>
@@ -135,15 +139,11 @@ export default function Page() {
                 "Sign in"
               )}
             </button>
+            {/* beginning of social logins */}
             <button
               className="rounded-md text-base font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-gray-200 hover:text-accent-foreground h-10 px-4 py-2 w-full flex justify-center items-center space-x-2"
               type="button"
-              onClick={() =>
-                toast("This feature is not supported yet!", {
-                  icon: "😢",
-                  position: "bottom-center",
-                })
-              }>
+              onClick={handleGoogleLogin}>
               <svg
                 width="24"
                 height="24"
