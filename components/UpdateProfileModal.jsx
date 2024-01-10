@@ -69,7 +69,6 @@ export default function UpdateProfileModal({ user }) {
         );
         setImage("");
         const userData = response.data;
-        console.log(userData);
         if (userData && typeof window !== undefined) {
           secureLocalStorage.setItem(
             "react_auth_token__",

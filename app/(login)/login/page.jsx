@@ -1,13 +1,14 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { handleLogin } from "@/lib";
+import { getUserData, handleLogin, saveUserData } from "@/lib";
 import { ErrorList } from "@/components/ErrorList";
 import toast from "react-hot-toast";
 import { useGoogleLogin } from "@react-oauth/google";
-import secureLocalStorage from "react-secure-storage";
 import Loader from "@/components/Loader";
 import { GithubIcon, GoogleIcon } from "@/assets";
+import secureLocalStorage from "react-secure-storage";
+
 export default function Page() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -32,37 +33,48 @@ export default function Page() {
     setLoading(true);
     handleLogin(loginData, setLoading, setErrors, setSuccess, router);
   }
+
+  //functions to handle Login with google
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: (tokenResponse) => {
-      getUserInfo(tokenResponse.access_token);
+      loginGoogleUsers(tokenResponse.access_token);
     },
     onFailure: (error) => {
       console.error(error);
+      setErrors(error);
     },
   });
-  const getUserInfo = async (accessToken) => {
-    const response = await fetch(
-      "https://www.googleapis.com/oauth2/v3/userinfo",
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+
+  async function loginGoogleUsers(access_token) {
+    const user = await getUserData(access_token);
+    if (user) {
+      try {
+        const response = await fetch(
+          `https://techtales.up.railway.app/users?email=${user.email}`
+        );
+        const data = await response.json();
+        if (!data) {
+          secureLocalStorage.setItem("unauthorized_user", user);
+          toast.error("No user with a matching email was found!");
+          router.replace(
+            "/login/account_not_found?referrer=https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount"
+          );
+        } else {
+          saveUserData(data);
+          toast.success("Logged in successfully!");
+          router.push("/featured");
+        }
+      } catch (error) {
+        console.error(error);
+        setErrors(error?.response?.data?.errors);
+        toast.error(
+          "No account with your email address was found. Register instead"
+        );
+        router.push("register");
       }
-    );
-    const userInfo = await response.json();
-    const user = {
-      username: userInfo.name,
-      email: userInfo.email,
-      picture: userInfo.picture,
-    };
-    const expiresAt = new Date().getTime() + 8 * 60 * 60 * 1000; //8hrs
-    secureLocalStorage.setItem("react_auth_token__", JSON.stringify(user));
-    secureLocalStorage.setItem(
-      "session_expiry_time__",
-      JSON.stringify(expiresAt)
-    );
-    router.push("/featured");
-  };
+    }
+  }
+
   return (
     <form className="w-full" onSubmit={handleSubmit}>
       <div className="flex flex-col items-center justify-center w-full min-h-screen  px-4 font-crimson">

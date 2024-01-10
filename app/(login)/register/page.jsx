@@ -1,10 +1,9 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { registerUser } from "@/lib";
+import { getUserData, registerUser, saveUserData } from "@/lib";
 import Script from "next/script";
 import { useGoogleLogin } from "@react-oauth/google";
-import secureLocalStorage from "react-secure-storage";
 import { GithubIcon, GoogleIcon } from "@/assets";
 import Axios from "axios";
 import toast from "react-hot-toast";
@@ -33,51 +32,35 @@ export default function Register() {
   //function to register users with google
   const handleGoogleSignup = useGoogleLogin({
     onSuccess: (tokenResponse) => {
-      getUserInfo(tokenResponse.access_token);
+      registerGoogleUsers(tokenResponse.access_token);
     },
     onFailure: (error) => {
       console.error(error);
     },
   });
-  const getUserInfo = async (accessToken) => {
-    const response = await fetch(
-      "https://www.googleapis.com/oauth2/v3/userinfo",
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
-    const userInfo = await response.json();
-    const user = {
-      username: userInfo.name,
-      email: userInfo.email,
-      picture: userInfo.picture,
-    };
-    console.log(user);
-    try {
-      const response = await Axios.post(
-        "https://techtales.up.railway.app/users",
-        user
-      );
-      const data = response.data;
-      console.log(data);
-      const expiresAt = new Date().getTime() + 8 * 60 * 60 * 1000; //8hrs
-      if (typeof window !== "undefined") {
-        secureLocalStorage.setItem("react_auth_token__", JSON.stringify(data));
-        secureLocalStorage.setItem(
-          "session_expiry_time__",
-          JSON.stringify(expiresAt)
+
+  //function to register google users
+  async function registerGoogleUsers(access_token) {
+    const user = await getUserData(access_token);
+    if (user) {
+      try {
+        const response = await Axios.post(
+          "https://techtales.up.railway.app/users",
+          user
         );
+        const data = response.data;
+        saveUserData(data);
+        setLoading(false);
+        toast.success("registration successful");
+        navigate.replace("/featured");
+      } catch (error) {
+        setLoading(false);
+        console.log(error);
+        toast.error("Registration Failed!");
+        toast.error(error?.response?.data?.errors);
       }
-      setLoading(false);
-      toast.success("registration successful");
-      navigate.replace("/featured");
-    } catch (error) {
-      setLoading(false);
-      console.log(error);
     }
-  };
+  }
 
   return (
     <form className="w-full my-4" onSubmit={handleSubmit}>
