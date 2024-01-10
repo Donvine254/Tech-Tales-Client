@@ -128,16 +128,17 @@ export default function Profile() {
                 ))}
               </>
             ) : (
-              <div>
-                <div className="flex items-center justify-center py-1">
-                  <Clipboard />
+              !loading && (
+                <div>
+                  <div className="flex items-center justify-center py-1">
+                    <Clipboard />
+                  </div>
+                  <p className="text-gray-600">
+                    Looks like you have not written any blogs yet! Your
+                    published blogs will appear here.
+                  </p>
                 </div>
-
-                <p className="text-gray-600">
-                  Looks like you have not written any blogs yet! Your published
-                  blogs will appear here.
-                </p>
-              </div>
+              )
             )}
           </ul>
 
@@ -148,32 +149,32 @@ export default function Profile() {
             </div>
           ) : (
             <ul>
-              {filteredBlogs.length > 0 ? (
-                filteredBlogs.map((blog) => (
-                  <li key={blog.id} className="mb-2">
-                    <Link href={`/blogs/${blog.id}?title=${blog.slug}`}>
-                      <p className="font-semibold py-1 text-gray-700">
-                        {blog.title}{" "}
-                        <span className="font-medium ">by {blog.author}</span>
+              {filteredBlogs.length > 0
+                ? filteredBlogs.map((blog) => (
+                    <li key={blog.id} className="mb-2">
+                      <Link href={`/blogs/${blog.id}?title=${blog.slug}`}>
+                        <p className="font-semibold py-1 text-gray-700">
+                          {blog.title}{" "}
+                          <span className="font-medium ">by {blog.author}</span>
+                        </p>
+                      </Link>
+                      <p className=" text-gray-500 leading-8 line-clamp-2">
+                        {blog.body ? parse(blog.body) : blog.body}
                       </p>
-                    </Link>
-                    <p className=" text-gray-500 leading-8 line-clamp-2">
-                      {blog.body ? parse(blog.body) : blog.body}
-                    </p>
-                    <hr className="my-2 border-1 border-slate-300" />
-                  </li>
-                ))
-              ) : (
-                <div>
-                  <div className="flex items-center justify-center py-1">
-                    <Clipboard />
-                  </div>
+                      <hr className="my-2 border-1 border-slate-300" />
+                    </li>
+                  ))
+                : !loading && (
+                    <div>
+                      <div className="flex items-center justify-center py-1">
+                        <Clipboard />
+                      </div>
 
-                  <p className="text-gray-600 text-center">
-                    All clear. Your bookmarked blogs will appear here
-                  </p>
-                </div>
-              )}
+                      <p className="text-gray-600 text-center">
+                        All clear. Your bookmarked blogs will appear here
+                      </p>
+                    </div>
+                  )}
             </ul>
           )}
         </div>
