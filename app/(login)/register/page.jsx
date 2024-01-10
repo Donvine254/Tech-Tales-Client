@@ -6,7 +6,8 @@ import Script from "next/script";
 import { useGoogleLogin } from "@react-oauth/google";
 import secureLocalStorage from "react-secure-storage";
 import { GithubIcon, GoogleIcon } from "@/assets";
-import axiosInstance from "@/axiosConfig";
+import Axios from "axios";
+import toast from "react-hot-toast";
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
@@ -29,6 +30,7 @@ export default function Register() {
     setLoading(true);
     registerUser(formData, setLoading, navigate);
   }
+  //function to register users with google
   const handleGoogleSignup = useGoogleLogin({
     onSuccess: (tokenResponse) => {
       getUserInfo(tokenResponse.access_token);
@@ -51,16 +53,15 @@ export default function Register() {
       username: userInfo.name,
       email: userInfo.email,
       picture: userInfo.picture,
-      password: accessToken,
     };
+    console.log(user);
     try {
-      const response = await axiosInstance.post(
-        "https://techtales.up.railway.app/login",
+      const response = await Axios.post(
+        "https://techtales.up.railway.app/users",
         user
       );
       const data = response.data;
-      setSuccess(true);
-      setErrors(null);
+      console.log(data);
       const expiresAt = new Date().getTime() + 8 * 60 * 60 * 1000; //8hrs
       if (typeof window !== "undefined") {
         secureLocalStorage.setItem("react_auth_token__", JSON.stringify(data));
@@ -70,16 +71,16 @@ export default function Register() {
         );
       }
       setLoading(false);
+      toast.success("registration successful");
       navigate.replace("/featured");
     } catch (error) {
       setLoading(false);
-      setErrors(error?.response?.data?.errors);
-      setSuccess(false);
+      console.log(error);
     }
   };
 
   return (
-    <form className="w-full" onSubmit={handleSubmit}>
+    <form className="w-full my-4" onSubmit={handleSubmit}>
       <Script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.2/tsparticles.confetti.bundle.min.js"></Script>
       <div className="flex flex-col items-center justify-center w-full min-h-screen  px-4 font-crimson  backdrop-blur-md">
         <div

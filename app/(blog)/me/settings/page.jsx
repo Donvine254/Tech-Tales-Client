@@ -5,11 +5,10 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import Swal from "sweetalert2";
-import { clearCurrentUser, clearAllCookies } from "@/lib";
 import Loader from "@/components/Loader";
 import Axios from "axios";
 import UpdateProfileModal from "@/components/UpdateProfileModal";
-
+import secureLocalStorage from "react-secure-storage";
 export default function Page() {
   const user = getCurrentUser();
   const navigate = useRouter();
@@ -39,8 +38,8 @@ export default function Page() {
       cancelButtonColor: "green",
     }).then((result) => {
       if (result.isConfirmed) {
-        clearCurrentUser();
-        clearAllCookies();
+        secureLocalStorage.removeItem("react_auth_token__");
+        secureLocalStorage.removeItem("session_expiry_time__");
         navigate.refresh();
       }
     });
@@ -60,8 +59,8 @@ export default function Page() {
       if (result.isConfirmed) {
         Axios.delete(`https://techtales.up.railway.app/users/${user.id}`);
         toast.success("Account deleted successfully");
-        clearCurrentUser();
-        clearAllCookies();
+        secureLocalStorage.removeItem("react_auth_token__");
+        secureLocalStorage.removeItem("session_expiry_time__");
         navigate.refresh();
       }
     });
