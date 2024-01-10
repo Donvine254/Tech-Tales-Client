@@ -3,7 +3,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { registerUser } from "@/lib";
 import Script from "next/script";
-
+import { useGoogleLogin } from "@react-oauth/google";
+import secureLocalStorage from "react-secure-storage";
+import { GithubIcon, GoogleIcon } from "@/assets";
+import axiosInstance from "@/axiosConfig";
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
@@ -26,6 +29,54 @@ export default function Register() {
     setLoading(true);
     registerUser(formData, setLoading, navigate);
   }
+  const handleGoogleSignup = useGoogleLogin({
+    onSuccess: (tokenResponse) => {
+      getUserInfo(tokenResponse.access_token);
+    },
+    onFailure: (error) => {
+      console.error(error);
+    },
+  });
+  const getUserInfo = async (accessToken) => {
+    const response = await fetch(
+      "https://www.googleapis.com/oauth2/v3/userinfo",
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    const userInfo = await response.json();
+    const user = {
+      username: userInfo.name,
+      email: userInfo.email,
+      picture: userInfo.picture,
+      password: accessToken,
+    };
+    try {
+      const response = await axiosInstance.post(
+        "https://techtales.up.railway.app/login",
+        user
+      );
+      const data = response.data;
+      setSuccess(true);
+      setErrors(null);
+      const expiresAt = new Date().getTime() + 8 * 60 * 60 * 1000; //8hrs
+      if (typeof window !== "undefined") {
+        secureLocalStorage.setItem("react_auth_token__", JSON.stringify(data));
+        secureLocalStorage.setItem(
+          "session_expiry_time__",
+          JSON.stringify(expiresAt)
+        );
+      }
+      setLoading(false);
+      navigate.replace("/featured");
+    } catch (error) {
+      setLoading(false);
+      setErrors(error?.response?.data?.errors);
+      setSuccess(false);
+    }
+  };
 
   return (
     <form className="w-full" onSubmit={handleSubmit}>
@@ -130,36 +181,14 @@ export default function Register() {
               )}
             </button>
             <button
-              className="rounded-md text-base font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-gray-200 hover:text-accent-foreground h-10 px-4 py-2 w-full flex justify-center items-center space-x-2"
+              className="rounded-md text-base font-medium  border   hover:bg-gray-200 h-10 px-4 py-2 w-full flex justify-center items-center space-x-2"
               type="button"
-              onClick={() =>
-                toast("This feature is not supported yet!", {
-                  icon: "😢",
-                  position: "bottom-center",
-                })
-              }>
-              <svg
-                width="24"
-                height="24"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 48 48">
-                <path
-                  fill="#FFC107"
-                  d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path>
-                <path
-                  fill="#FF3D00"
-                  d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"></path>
-                <path
-                  fill="#4CAF50"
-                  d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"></path>
-                <path
-                  fill="#1976D2"
-                  d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path>
-              </svg>
+              onClick={handleGoogleSignup}>
+              <GoogleIcon />
               <span>Sign up with Google</span>
             </button>
             <button
-              className="rounded-md text-base font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-gray-200 hover:text-accent-foreground h-10 px-4 py-2 w-full flex justify-center items-center space-x-2"
+              className="rounded-md text-base font-medium  border   hover:bg-gray-200 h-10 px-4 py-2 w-full flex justify-center items-center space-x-2"
               type="button"
               onClick={() =>
                 toast("This feature is not supported yet!", {
@@ -167,20 +196,7 @@ export default function Register() {
                   position: "bottom-center",
                 })
               }>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="w-4 h-4">
-                <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path>
-                <path d="M9 18c-4.51 2-5-2-7-2"></path>
-              </svg>
+              <GithubIcon />
               <span>Sign up with GitHub</span>
             </button>
             <div
