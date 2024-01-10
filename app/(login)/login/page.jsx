@@ -5,8 +5,7 @@ import { handleLogin } from "@/lib";
 import { ErrorList } from "@/components/ErrorList";
 import toast from "react-hot-toast";
 import { useGoogleLogin } from "@react-oauth/google";
-import { jwtDecode } from "jwt-decode";
-
+import secureLocalStorage from "react-secure-storage";
 export default function Page() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -33,16 +32,35 @@ export default function Page() {
   }
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: (tokenResponse) => {
-      console.log(tokenResponse);
-      router.push("/featured");
-      const decodedToken = jwtDecode(tokenResponse.access_token);
-      console.log(decodedToken);
+      getUserInfo(tokenResponse.access_token);
     },
     onFailure: (error) => {
       console.error(error);
     },
   });
-
+  const getUserInfo = async (accessToken) => {
+    const response = await fetch(
+      "https://www.googleapis.com/oauth2/v3/userinfo",
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    const userInfo = await response.json();
+    const user = {
+      username: userInfo.name,
+      email: userInfo.email,
+      picture: userInfo.picture,
+    };
+    const expiresAt = new Date().getTime() + 8 * 60 * 60 * 1000; //8hrs
+    secureLocalStorage.setItem("react_auth_token__", JSON.stringify(user));
+    secureLocalStorage.setItem(
+      "session_expiry_time__",
+      JSON.stringify(expiresAt)
+    );
+    router.push("/featured");
+  };
   return (
     <form className="w-full" onSubmit={handleSubmit}>
       <div className="flex flex-col items-center justify-center w-full min-h-screen  px-4 font-crimson">
