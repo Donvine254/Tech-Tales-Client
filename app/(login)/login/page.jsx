@@ -4,8 +4,9 @@ import { useRouter } from "next/navigation";
 import { handleLogin } from "@/lib";
 import { ErrorList } from "@/components/ErrorList";
 import toast from "react-hot-toast";
-import { GoogleLogin } from "@react-oauth/google";
 import { useGoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
+
 export default function Page() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -15,7 +16,7 @@ export default function Page() {
     email: "",
     password: "",
   });
-  const navigate = useRouter();
+  const router = useRouter();
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -28,10 +29,18 @@ export default function Page() {
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
-    handleLogin(loginData, setLoading, setErrors, setSuccess, navigate);
+    handleLogin(loginData, setLoading, setErrors, setSuccess, router);
   }
   const handleGoogleLogin = useGoogleLogin({
-    onSuccess: (tokenResponse) => console.log(tokenResponse),
+    onSuccess: (tokenResponse) => {
+      console.log(tokenResponse);
+      router.push("/featured");
+      const decodedToken = jwtDecode(tokenResponse.access_token);
+      console.log(decodedToken);
+    },
+    onFailure: (error) => {
+      console.error(error);
+    },
   });
 
   return (
