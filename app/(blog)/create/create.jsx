@@ -129,7 +129,7 @@ export default function CreateNewBlog() {
           name="title"
           id="title"
           onFocus={() => triggerAlert("show")}
-          disabled={!user}
+          disabled={loading}
           value={blogData?.title}
           onChange={(e) =>
             setBlogData((prev) => ({
