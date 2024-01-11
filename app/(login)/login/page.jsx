@@ -13,6 +13,7 @@ export default function Page() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
+
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -79,6 +80,12 @@ export default function Page() {
     }
   }
   //function to handle GitHub Login
+  function handleGithubLogin() {
+    router.push(
+      "https://github.com/login/oauth/authorize?client_id=2384921712f034fd32cf"
+    );
+    toast.success("processing request");
+  }
 
   return (
     <form className="w-full" onSubmit={handleSubmit}>
@@ -171,11 +178,7 @@ export default function Page() {
             <button
               className="rounded-md text-base font-medium  border  hover:bg-gray-200  h-10 px-4 py-2 w-full flex justify-center items-center space-x-2"
               type="button"
-              onClick={() =>
-                router.push(
-                  "https://github.com/login/oauth/authorize?client_id=2384921712f034fd32cf"
-                )
-              }>
+              onClick={handleGithubLogin}>
               <GithubIcon />
               <span>Sign in with GitHub</span>
             </button>
