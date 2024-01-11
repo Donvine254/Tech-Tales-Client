@@ -1,7 +1,12 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { getUserData, handleLogin, saveUserData } from "@/lib";
+import {
+  authenticateUser,
+  getUserData,
+  handleLogin,
+  saveUserData,
+} from "@/lib";
 import { ErrorList } from "@/components/ErrorList";
 import toast from "react-hot-toast";
 import { useGoogleLogin } from "@react-oauth/google";
@@ -48,35 +53,7 @@ export default function Page() {
   async function loginGoogleUsers(access_token) {
     const user = await getUserData(access_token);
     if (user) {
-      try {
-        const response = await fetch(
-          `https://techtales.up.railway.app/users?email=${user.email}`
-        );
-        const data = await response.json();
-        if (!data) {
-          secureLocalStorage.setItem("unauthorized_user", user);
-          toast.error("No user with a matching email was found!", {
-            icon: "⚠️",
-          });
-          router.replace(
-            "/login/account_not_found?referrer=https://accounts.google.com/o/oauth2/v2/auth"
-          );
-        } else {
-          saveUserData(data);
-          toast.success("Logged in successfully!");
-          router.push("/featured");
-        }
-      } catch (error) {
-        console.error(error);
-        setErrors(error?.response?.data?.errors);
-        toast.error(
-          "No account with your email address was found. Register instead",
-          {
-            icon: "⚠️",
-          }
-        );
-        router.push("register");
-      }
+      authenticateUser(user, router, "accounts.google.com");
     }
   }
   //function to handle GitHub Login
