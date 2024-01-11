@@ -20,7 +20,7 @@ export default function AuthPage() {
             ...data,
             password: githubCode,
           };
-          //   authenticateUser(user, router, "accounts.github.com");
+          authenticateUser(user, router, "accounts.github.com");
         } catch (error) {
           console.error("Error fetching user data:", error);
         }
