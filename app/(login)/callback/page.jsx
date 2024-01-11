@@ -34,8 +34,19 @@ export default function AuthPage() {
           width={200}
           priority
         />
-        <Loader size={60} />
-        <p className="text-center font-bold">Awaiting Github.com....</p>
+        <p className="text-center font-medium text-gray-600 my-2">
+          Github is validating your identity.
+        </p>
+
+        <Loader size={60} fill="grey" />
+        <p className="text-base font-medium my-2 text-gray-600">
+          This taking too long? &nbsp;
+          <a
+            href="/login"
+            className="text-blue-600 font-bold border py-0.5 px-1 hover:bg-blue-600 hover:text-white rounded-md">
+            sign in another way
+          </a>
+        </p>
       </div>
     </div>
   );

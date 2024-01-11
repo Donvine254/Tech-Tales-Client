@@ -11,7 +11,7 @@ import Loader from "@/components/Loader";
 export default function Page() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const referrer = searchParams.get("referrer").split(".")[1];
+  const referrer = searchParams.get("referrer")?.split(".")[1];
 
   const [loading, setLoading] = useState(false);
   async function handleRegistration() {
@@ -83,7 +83,9 @@ export default function Page() {
 
         <p className="text-center text-base">
           or{" "}
-          <Link className="text-blue-600 font-bold" href="/login">
+          <Link
+            className="text-blue-600 font-bold border py-0.5 px-1 hover:bg-blue-600 hover:text-white rounded-md"
+            href="/login">
             sign in another way
           </Link>
         </p>
