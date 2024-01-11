@@ -4,12 +4,15 @@ import secureLocalStorage from "react-secure-storage";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import Axios from "axios";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { saveUserData } from "@/lib";
 import Loader from "@/components/Loader";
 
 export default function Page() {
+  const searchParams = useSearchParams();
   const router = useRouter();
+  const referrer = searchParams.get("referrer").split(".")[1];
+
   const [loading, setLoading] = useState(false);
   async function handleRegistration() {
     let user;
@@ -48,7 +51,9 @@ export default function Page() {
           We cannot find any account linked to your email address
         </h2>
         <p className="text-base my-2">
-          Do you want to create a new one with your Google Account?
+          Do you want to create a new one with your{" "}
+          <span className="capitalize">{referrer} </span>
+          Account?
         </p>
         <div
           className="bg-green-100 border border-green-500 text-green-600 font-bold py-3 rounded relative space-y-2 border-l-4 my-1"

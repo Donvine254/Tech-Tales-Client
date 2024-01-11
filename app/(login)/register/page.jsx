@@ -62,7 +62,13 @@ export default function Register() {
       }
     }
   }
-
+  //function to register users with Github
+  function handleGithubRegistration() {
+    router.push(
+      "https://github.com/login/oauth/authorize?client_id=2384921712f034fd32cf"
+    );
+    toast.success("processing request");
+  }
   return (
     <form className="w-full my-4" onSubmit={handleSubmit}>
       <Script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.2/tsparticles.confetti.bundle.min.js"></Script>
@@ -166,12 +172,7 @@ export default function Register() {
               className="rounded-md text-base font-medium  border   hover:bg-gray-200 h-10 px-4 py-2 w-full flex justify-center items-center space-x-2 disabled:pointer-events-none disabled:opacity-50"
               type="button"
               disabled={loading}
-              onClick={() =>
-                toast("This feature is not supported yet!", {
-                  icon: "😢",
-                  position: "bottom-center",
-                })
-              }>
+              onClick={handleGithubRegistration}>
               <GithubIcon />
               <span>Sign up with GitHub</span>
             </button>
