@@ -16,7 +16,7 @@ export default function AuthPage() {
         try {
           const response = await Axios.post("/api", { code: githubCode });
           const data = await response.data;
-          authenticateUser(user, router, "accounts.github.com");
+          authenticateUser(data, router, "accounts.github.com");
         } catch (error) {
           console.error("Error fetching user data:", error);
         }
