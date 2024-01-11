@@ -21,7 +21,7 @@ export default function AuthPage() {
         }
       }
     })();
-  }, [githubCode]);
+  }, [githubCode, router]);
 
   return (
     <div className="flex items-center justify-center min-h-screen">

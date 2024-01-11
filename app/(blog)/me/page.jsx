@@ -44,7 +44,7 @@ export default function Profile() {
     return () => {
       isMounted = false;
     };
-  }, [router]);
+  }, [user, router]);
   //useEffect to get user reading list
   useEffect(() => {
     const localStorageData = secureLocalStorage.getItem("bookmarked_blogs");

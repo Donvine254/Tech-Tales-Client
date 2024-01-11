@@ -47,7 +47,7 @@ export default function MyBlogsComponent({ id }) {
 
       fetchBlogs();
     }
-  }, [navigate]);
+  }, [id, navigate]);
 
   function handleDelete(blogId) {
     deleteBlog(blogId, setBlogs);
