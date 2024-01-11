@@ -31,7 +31,7 @@ export default function Page() {
       } catch (error) {
         setLoading(false);
         console.log(error);
-        toast.error("An error occured, please try again");
+        toast.error("An error occurred, please try again");
         router.replace("/login");
         secureLocalStorage.removeItem("unauthorized_user");
       }
@@ -44,18 +44,12 @@ export default function Page() {
   return (
     <div className="flex flex-col items-center justify-center w-full min-h-screen  px-4 font-poppins">
       <div className="border w-full max-w-sm mx-auto rounded-xl shadow-md overflow-hidden bg-white p-5">
-        <h2 className="font-bold text-xl space-y-2 tracking-wide my-2">
+        <h2 className="font-bold text-base space-y-2 my-2">
           We cannot find any account linked to your email address
         </h2>
         <p className="text-base my-2">
           Do you want to create a new one with your Google Account?
         </p>
-        <button
-          className="py-2 px-4 bg-blue-700 text-white hover:bg-blue-900 my-3 rounded-md text-xl w-full disabled:bg-gray-100 disabled:text-black flex items-center justify-center disabled:py-1 disabled:px-2 "
-          disabled={loading}
-          onClick={handleRegistration}>
-          {loading ? <Loader size={30} /> : "Create Account"}
-        </button>
         <div
           className="bg-green-100 border border-green-500 text-green-600 font-bold py-3 rounded relative space-y-2 border-l-4 my-1"
           role="alert">
@@ -70,11 +64,18 @@ export default function Page() {
             </div>
             <div>
               <p className="text-sm">
-                By continuing, you agree to our Tech Tales Terms and Conditions.
+                By continuing, you agree to Tech Tales Terms and Conditions.
               </p>
             </div>
           </div>
         </div>
+        <button
+          className="py-2 px-4 bg-blue-700 text-white hover:shadow my-3 rounded-md text-xl w-full disabled:bg-gray-100 disabled:text-black flex items-center justify-center disabled:py-1 disabled:px-2 "
+          disabled={loading}
+          onClick={handleRegistration}>
+          {loading ? <Loader size={30} /> : "Create Account"}
+        </button>
+
         <p className="text-center text-base">
           or{" "}
           <Link className="text-blue-600 font-bold" href="/login">

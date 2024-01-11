@@ -13,7 +13,6 @@ export default function Page() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
-  const [success, setSuccess] = useState(false);
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -31,7 +30,7 @@ export default function Page() {
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
-    handleLogin(loginData, setLoading, setErrors, setSuccess, router);
+    handleLogin(loginData, setLoading, setErrors, router);
   }
 
   //functions to handle Login with google
@@ -55,9 +54,11 @@ export default function Page() {
         const data = await response.json();
         if (!data) {
           secureLocalStorage.setItem("unauthorized_user", user);
-          toast.error("No user with a matching email was found!");
+          toast.error("No user with a matching email was found!", {
+            icon: "⚠️",
+          });
           router.replace(
-            "/login/account_not_found?referrer=https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount"
+            "/login/account_not_found?referrer=https://accounts.google.com/o/oauth2/v2/auth"
           );
         } else {
           saveUserData(data);
@@ -68,7 +69,10 @@ export default function Page() {
         console.error(error);
         setErrors(error?.response?.data?.errors);
         toast.error(
-          "No account with your email address was found. Register instead"
+          "No account with your email address was found. Register instead",
+          {
+            icon: "⚠️",
+          }
         );
         router.push("register");
       }
@@ -77,11 +81,11 @@ export default function Page() {
 
   return (
     <form className="w-full" onSubmit={handleSubmit}>
-      <div className="flex flex-col items-center justify-center w-full min-h-screen  px-4 font-crimson">
+      <div className="flex flex-col items-center justify-center w-full min-h-screen px-4 font-poppins">
         <div
           className="border text-card-foreground w-full max-w-sm mx-auto rounded-xl shadow-md overflow-hidden bg-white"
           data-v0-t="card">
-          <div className="flex flex-col space-y-1.5 p-6 font-poppins">
+          <div className="flex flex-col space-y-1.5 px-6 py-4 font-poppins relative">
             <h3 className="font-semibold tracking-tight text-2xl text-center">
               Login to Your Account
             </h3>
@@ -89,22 +93,23 @@ export default function Page() {
               Access your personalized settings and content.
             </p>
           </div>
-          <div className="px-6 pt-2 space-y-4">
-            <div className="space-y-2">
+          <div className="px-6 space-y-2">
+            <div className="space-y-2 group">
               <label
                 className="text-base font-bold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700"
                 htmlFor="email">
                 Email
               </label>
               <input
-                className="flex h-10 bg-background text-base ring-offset-background file:border-0  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md"
+                className="flex h-10 bg-background text-base  disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md"
                 id="email"
                 name="email"
+                type="email"
                 placeholder="you@example.com"
                 value={loginData.email}
                 onChange={handleChange}
                 required
-                type="email"
+                disabled={loading}
               />
             </div>
             <div className="space-y-2">
@@ -114,13 +119,14 @@ export default function Page() {
                 Password
               </label>
               <input
-                className="flex h-10 bg-background text-base ring-offset-background file:border-0 file:bg-transparent  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md"
+                className="flex h-10 bg-background text-base disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md"
                 id="password"
                 name="password"
                 placeholder="*******"
                 value={loginData.password}
                 onChange={handleChange}
                 minLength={8}
+                disabled={loading}
                 required
                 type={showPassword ? "text" : "password"}
               />
@@ -143,24 +149,11 @@ export default function Page() {
               </div>
             </div>
             {errors && <ErrorList errors={errors} />}
-            {success && (
-              <div className="flex items-center justify-center gap-2 bg-green-100 border-2 border-green-300 p-2 rounded-md">
-                <svg fill="white" viewBox="0 0 15 15" height="24" width="24">
-                  <path
-                    fill="green"
-                    fillRule="evenodd"
-                    d="M0 7.5a7.5 7.5 0 1115 0 7.5 7.5 0 01-15 0zm7.072 3.21l4.318-5.398-.78-.624-3.682 4.601L4.32 7.116l-.64.768 3.392 2.827z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                <p>Logged in Successfully</p>
-              </div>
-            )}
           </div>
 
           <div className="items-center p-6 flex flex-col space-y-4">
             <button
-              className="inline-flex items-center justify-center text-xl font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90 h-10 px-4 py-2 w-full bg-blue-500 text-white rounded-md"
+              className="inline-flex items-center justify-center text-xl font-medium border disabled:pointer-events-none disabled:bg-gray-100 disabled:text-black  h-10 px-4 py-2 w-full bg-blue-500 text-white rounded-md"
               type="submit"
               disabled={loading}
               title="login">
@@ -188,10 +181,10 @@ export default function Page() {
             </button>
           </div>
         </div>
-        <div className="mt-6 text-gray-600 text-xl">
+        <div className="mt-6 text-gray-600">
           Not a member?{" "}
           <a className="text-blue-500 hover:underline" href="register">
-            Register
+            Register Here
           </a>
         </div>
       </div>

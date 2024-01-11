@@ -7,6 +7,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import { GithubIcon, GoogleIcon } from "@/assets";
 import Axios from "axios";
 import toast from "react-hot-toast";
+import Loader from "@/components/Loader";
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
@@ -16,7 +17,7 @@ export default function Register() {
     email: "",
     password: "",
   });
-  const navigate = useRouter();
+  const router = useRouter();
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({
@@ -27,7 +28,7 @@ export default function Register() {
   function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
-    registerUser(formData, setLoading, navigate);
+    registerUser(formData, setLoading, router);
   }
   //function to register users with google
   const handleGoogleSignup = useGoogleLogin({
@@ -52,7 +53,7 @@ export default function Register() {
         saveUserData(data);
         setLoading(false);
         toast.success("registration successful");
-        navigate.replace("/featured");
+        router.replace("/featured");
       } catch (error) {
         setLoading(false);
         console.log(error);
@@ -77,7 +78,7 @@ export default function Register() {
               Create a new account to access personalized settings and content.
             </p>
           </div>
-          <div className="px-6 pt-1 space-y-4">
+          <div className="px-6 pt-1 space-y-4 group">
             <div className="space-y-2">
               <label
                 className="text-base font-bold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700"
@@ -85,12 +86,13 @@ export default function Register() {
                 Username
               </label>
               <input
-                className="flex h-10 bg-background text-base ring-offset-background file:border-0  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md"
+                className="flex h-10 bg-background text-base disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md"
                 id="username"
                 name="username"
                 placeholder="john doe"
                 value={formData.username}
                 onChange={handleChange}
+                disabled={loading}
                 required
                 type="text"
                 pattern="^(?!.*@).*"
@@ -104,12 +106,13 @@ export default function Register() {
                 Email
               </label>
               <input
-                className="flex h-10 bg-background text-base ring-offset-background file:border-0  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md"
+                className="flex h-10 bg-background text-base  disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md"
                 id="email"
                 name="email"
                 placeholder="you@example.com"
                 value={formData.email}
                 onChange={handleChange}
+                disabled={loading}
                 required
                 type="email"
               />
@@ -121,13 +124,14 @@ export default function Register() {
                 Password
               </label>
               <input
-                className="flex h-10 bg-background text-base ring-offset-background file:border-0 file:bg-transparent  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md"
+                className="flex h-10 bg-background text-base  disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md"
                 id="password"
                 name="password"
                 placeholder="*******"
                 value={formData.password}
                 onChange={handleChange}
                 minLength={8}
+                disabled={loading}
                 required
                 type={showPassword ? "text" : "password"}
               />
@@ -144,36 +148,24 @@ export default function Register() {
 
           <div className="items-center p-6 flex flex-col space-y-4">
             <button
-              className="inline-flex items-center justify-center text-xl font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90 h-10 px-4 py-2 w-full bg-blue-500 text-white rounded-md"
+              className="inline-flex items-center justify-center text-xl font-medium disabled:pointer-events-none hover:bg-primary/90 h-10 px-4 py-2 w-full bg-blue-500 text-white rounded-md disabled:bg-gray-100 disabled:text-black border"
               type="submit"
               disabled={loading}
               title="register">
-              {loading ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 4335 4335"
-                  width="30"
-                  className="animate-spin mr-3"
-                  height="30">
-                  <path
-                    fill="#ffffff"
-                    d="M3346 1077c41,0 75,34 75,75 0,41 -34,75 -75,75 -41,0 -75,-34 -75,-75 0,-41 34,-75 75,-75zm-1198 -824c193,0 349,156 349,349 0,193 -156,349 -349,349 -193,0 -349,-156 -349,-349 0,-193 156,-349 349,-349zm-1116 546c151,0 274,123 274,274 0,151 -123,274 -274,274 -151,0 -274,-123 -274,-274 0,-151 123,-274 274,-274zm-500 1189c134,0 243,109 243,243 0,134 -109,243 -243,243 -134,0 -243,-109 -243,-243 0,-134 109,-243 243,-243zm500 1223c121,0 218,98 218,218 0,121 -98,218 -218,218 -121,0 -218,-98 -218,-218 0,-121 98,-218 218,-218zm1116 434c110,0 200,89 200,200 0,110 -89,200 -200,200 -110,0 -200,-89 -200,-200 0,-110 89,-200 200,-200zm1145 -434c81,0 147,66 147,147 0,81 -66,147 -147,147 -81,0 -147,-66 -147,-147 0,-81 66,-147 147,-147zm459 -1098c65,0 119,53 119,119 0,65 -53,119 -119,119 -65,0 -119,-53 -119,-119 0,-65 53,-119 119,-119z"
-                  />
-                </svg>
-              ) : (
-                "Sign up"
-              )}
+              {loading ? <Loader /> : "Sign up"}
             </button>
             <button
-              className="rounded-md text-base font-medium  border   hover:bg-gray-200 h-10 px-4 py-2 w-full flex justify-center items-center space-x-2"
+              className="rounded-md text-base font-medium  border   hover:bg-gray-200 h-10 px-4 py-2 w-full flex justify-center items-center space-x-2 disabled:pointer-events-none disabled:opacity-50 "
+              disabled={loading}
               type="button"
               onClick={handleGoogleSignup}>
               <GoogleIcon />
               <span>Sign up with Google</span>
             </button>
             <button
-              className="rounded-md text-base font-medium  border   hover:bg-gray-200 h-10 px-4 py-2 w-full flex justify-center items-center space-x-2"
+              className="rounded-md text-base font-medium  border   hover:bg-gray-200 h-10 px-4 py-2 w-full flex justify-center items-center space-x-2 disabled:pointer-events-none disabled:opacity-50"
               type="button"
+              disabled={loading}
               onClick={() =>
                 toast("This feature is not supported yet!", {
                   icon: "😢",
@@ -204,10 +196,10 @@ export default function Register() {
             </div>
           </div>
         </div>
-        <div className="mt-6 text-gray-600 text-xl">
-          Alreay a member?{" "}
+        <div className="mt-6 text-gray-600">
+          Already a member?{" "}
           <a className="text-blue-500 hover:underline" href="/login">
-            Login
+            Login Here
           </a>
         </div>
       </div>
