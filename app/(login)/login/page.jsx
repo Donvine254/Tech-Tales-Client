@@ -78,6 +78,7 @@ export default function Page() {
       }
     }
   }
+  //function to handle GitHub Login
 
   return (
     <form className="w-full" onSubmit={handleSubmit}>
@@ -171,10 +172,9 @@ export default function Page() {
               className="rounded-md text-base font-medium  border  hover:bg-gray-200  h-10 px-4 py-2 w-full flex justify-center items-center space-x-2"
               type="button"
               onClick={() =>
-                toast("This feature is not supported yet!", {
-                  icon: "😢",
-                  position: "bottom-center",
-                })
+                router.push(
+                  "https://github.com/login/oauth/authorize?client_id=2384921712f034fd32cf"
+                )
               }>
               <GithubIcon />
               <span>Sign in with GitHub</span>
