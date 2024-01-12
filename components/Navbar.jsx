@@ -19,9 +19,9 @@ export default function Navbar() {
         className="p-4 md:p-5 bg-[#f4f3f2] flex w-full items-center justify-between relative top-0 z-50 flex-wrap mb-2"
         id="parent div">
         <Link href="/">
-          <h1 className="text-xl md:text-3xl font-bold lg:text-4xl m-auto cursor-pointer">
+          <h1 className="text-2xl md:text-3xl font-bold lg:text-4xl m-auto cursor-pointer">
             Tech Tales
-            <span className="text-red-600 text-2xl md:text-5xl">.</span>
+            <span className="text-red-600 text-3xl md:text-5xl">.</span>
           </h1>
         </Link>
 
