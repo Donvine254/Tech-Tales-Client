@@ -70,7 +70,7 @@ export default function Navbar() {
         {/* only show login button when the user is not logged in */}
         <Link
           href="/login"
-          className={`btn-primary text-xl cursor-pointer hover:text-white ${
+          className={` py-0.5 px-4 border-2 border-sky-500 hover:bg-sky-500 rounded-md text-xl cursor-pointer hover:text-white ${
             user ? "hidden" : ""
           }`}>
           Login

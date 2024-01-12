@@ -32,28 +32,13 @@ body {
   @apply rounded-md p-2 px-4 shadow-md m-3 border border-sky-500 hover:bg-sky-500;
 }
 .btn-secondary {
-  @apply rounded-full flex items-center py-2 m-5 px-8 shadow-md border border-sky-500 hover:bg-sky-500;
+  @apply rounded-full flex items-center py-1 m-5 px-4 shadow-xl border border-sky-500 hover:bg-sky-500;
 }
 .navigation {
   @apply md:text-xl font-bold cursor-pointer hover:bg-slate-300 hover:rounded-lg p-2 px-4 md:gap-5;
 }
 .navigation__footer {
   @apply text-sm md:text-xl font-bold cursor-pointer active:underline-offset-8 hover:text-blue-400 p-2 px-4;
-}
-
-#email-icon,
-#password-icon {
-  @apply absolute bottom-6 left-0 top-1/2;
-}
-#reset-icon {
-  @apply absolute bottom-10 left-0 mb-4;
-}
-.login-page {
-  @apply w-full md:w-3/4 lg:w-1/2 max-w-lg lg:m-auto min-w-min mx-auto border border-blue-500  rounded-lg md:p-16 p-10 text-xl shadow-md;
-}
-
-.input-field {
-  @apply mb-3 bg-transparent p-2 w-full border-b-2 border-blue-500 outline-none pl-8;
 }
 
 label {
