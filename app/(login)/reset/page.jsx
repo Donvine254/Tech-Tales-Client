@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Axios from "axios";
 import toast from "react-hot-toast";
+import Loader from "@/components/Loader";
 
 export default function ResetPage() {
   const [error, setError] = useState(false);
@@ -64,7 +65,7 @@ export default function ResetPage() {
         <div
           className="border text-card-foreground w-full max-w-sm mx-auto rounded-xl shadow-md overflow-hidden bg-white "
           data-v0-t="card">
-          <div className="flex flex-col space-y-1.5 p-6 font-poppins">
+          <div className="flex flex-col space-y-1.5 px-6 py-4 font-poppins">
             <h3 className="font-semibold tracking-tight text-2xl text-center">
               Reset Your Password
             </h3>
@@ -73,7 +74,7 @@ export default function ResetPage() {
               content.
             </p>
           </div>
-          <div className="px-6 pt-1 space-y-4">
+          <div className="px-6 space-y-3">
             <div className="space-y-2">
               <label
                 className="text-base font-bold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700"
@@ -81,12 +82,13 @@ export default function ResetPage() {
                 Email
               </label>
               <input
-                className="flex h-10 bg-background text-base ring-offset-background file:border-0  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md"
+                className="flex h-10 bg-background text-base disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md"
                 id="email"
                 name="email"
                 placeholder="you@example.com"
                 value={FormData.email}
                 onChange={handleChange}
+                disabled={loading}
                 required
                 type="email"
               />
@@ -98,8 +100,8 @@ export default function ResetPage() {
                 Password
               </label>
               <input
-                className={`flex h-10 bg-background text-base ring-offset-background file:border-0 file:bg-transparent  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md ${
-                  error ? "border-red-500" : ""
+                className={`flex h-10 bg-background text-base disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md ${
+                  error ? "border-red-500 bg-red-100" : ""
                 }`}
                 id="password"
                 name="password"
@@ -107,6 +109,7 @@ export default function ResetPage() {
                 value={FormData.password}
                 onChange={handleChange}
                 minLength={8}
+                disabled={loading}
                 required
                 type="password"
               />
@@ -118,8 +121,8 @@ export default function ResetPage() {
                 Confirm Password
               </label>
               <input
-                className={`flex h-10 bg-background text-base ring-offset-background file:border-0 file:bg-transparent  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md ${
-                  error ? "border-red-500" : ""
+                className={`flex h-10 bg-background text-base disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md ${
+                  error ? "border-red-500 bg-red-100" : ""
                 }`}
                 id="password"
                 name="confirmPassword"
@@ -127,12 +130,13 @@ export default function ResetPage() {
                 value={FormData.confirmPassword}
                 onChange={handleChange}
                 minLength={8}
+                disabled={loading}
                 required
                 type="password"
               />
             </div>
           </div>
-          <p className="text-orange-600 flex items-center gap-2 text-base px-6 py-1">
+          <p className="text-orange-600 flex items-center gap-2 text-base px-6  ">
             {error && (
               <>
                 <svg
@@ -155,25 +159,11 @@ export default function ResetPage() {
           </p>
           <div className="items-center px-6 py-4 flex flex-col space-y-4">
             <button
-              className="inline-flex items-center justify-center text-xl font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90 h-10 px-4 py-2 w-full bg-blue-500 text-white rounded-md"
+              className="inline-flex items-center justify-center text-xl font-medium disabled:pointer-events-none disabled:bg-gray-100 disabled:text-black hover:bg-primary/90 h-10 px-4 py-2 w-full bg-blue-500 text-white rounded-md"
               type="submit"
-              disabled={loading}
+              disabled={loading || error}
               title="reset">
-              {loading ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 4335 4335"
-                  width="30"
-                  className="animate-spin mr-3"
-                  height="30">
-                  <path
-                    fill="blue"
-                    d="M3346 1077c41,0 75,34 75,75 0,41 -34,75 -75,75 -41,0 -75,-34 -75,-75 0,-41 34,-75 75,-75zm-1198 -824c193,0 349,156 349,349 0,193 -156,349 -349,349 -193,0 -349,-156 -349,-349 0,-193 156,-349 349,-349zm-1116 546c151,0 274,123 274,274 0,151 -123,274 -274,274 -151,0 -274,-123 -274,-274 0,-151 123,-274 274,-274zm-500 1189c134,0 243,109 243,243 0,134 -109,243 -243,243 -134,0 -243,-109 -243,-243 0,-134 109,-243 243,-243zm500 1223c121,0 218,98 218,218 0,121 -98,218 -218,218 -121,0 -218,-98 -218,-218 0,-121 98,-218 218,-218zm1116 434c110,0 200,89 200,200 0,110 -89,200 -200,200 -110,0 -200,-89 -200,-200 0,-110 89,-200 200,-200zm1145 -434c81,0 147,66 147,147 0,81 -66,147 -147,147 -81,0 -147,-66 -147,-147 0,-81 66,-147 147,-147zm459 -1098c65,0 119,53 119,119 0,65 -53,119 -119,119 -65,0 -119,-53 -119,-119 0,-65 53,-119 119,-119z"
-                  />
-                </svg>
-              ) : (
-                "Reset Password"
-              )}
+              {loading ? <Loader size={30} /> : "Reset Password"}
             </button>
             <div
               className="bg-teal-100 border border-teal-500 text-teal-600 py-3 rounded relative space-y-2 border-l-4 "
@@ -197,10 +187,10 @@ export default function ResetPage() {
             </div>
           </div>
         </div>
-        <div className="mt-6 text-gray-600 text-xl">
+        <div className="mt-2 text-gray-600 text-base">
           Remember Password?{" "}
           <a className="text-blue-500 hover:underline" href="login">
-            Login
+            Login Here
           </a>
         </div>
       </div>
