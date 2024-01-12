@@ -4,7 +4,6 @@ import { Search } from "./Search";
 import { SearchMD } from "./SearchMD";
 import Link from "next/link";
 import { Menu } from "./Menu";
-import { usePathname } from "next/navigation";
 import { getCurrentUser } from "@/lib";
 import Image from "next/image";
 import { SortUp, SortDown } from "@/assets";
@@ -13,8 +12,6 @@ const user = getCurrentUser();
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-
-  const pathname = usePathname();
 
   return (
     <nav className="w-full font-crimson">
