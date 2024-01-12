@@ -32,7 +32,7 @@ export default function Navbar() {
           id="user present">
           <Link
             href="/create"
-            className="hidden md:block text-xl hover:text-white btn-primary cursor-pointer">
+            className="hidden md:block py-2 mx-1 px-4 border border-blue-500 hover:bg-blue-500 rounded-md text-xl cursor-pointer hover:text-white shadow-md ">
             Create Post
           </Link>
           <div className="flex items-center gap-1 relative">
@@ -70,10 +70,10 @@ export default function Navbar() {
         {/* only show login button when the user is not logged in */}
         <Link
           href="/login"
-          className={` py-0.5 px-4 border-2 border-sky-500 hover:bg-sky-500 rounded-md text-xl cursor-pointer hover:text-white ${
+          className={` py-0.5 px-4 border-2 border-blue-500 hover:bg-blue-500 rounded-md text-xl cursor-pointer hover:text-white ${
             user ? "hidden" : ""
           }`}>
-          Login
+          Sign In
         </Link>
       </div>
       <SearchMD />

@@ -157,7 +157,7 @@ export default function Page() {
               type="button"
               onClick={handleGithubLogin}>
               <GithubIcon />
-              <span>Sign in with GitHub</span>
+              <span>Sign in with Github</span>
             </button>
           </div>
         </div>

@@ -72,7 +72,7 @@ export const SearchMD = () => {
         <SearchIcon className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
       </div>
       <div
-        className="cursor-pointer border-2 bg-slate-100 hover:bg-sky-500 hover:text-slate-200 rounded-xl p-2 px-3 m-1 border-gray-300 "
+        className="cursor-pointer border-2 bg-slate-100 hover:bg-blue-500 hover:text-slate-200 rounded-xl p-2 px-3 m-1 border-gray-300 "
         onClick={() => setShowDropdown(!showDropdown)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
