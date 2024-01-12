@@ -49,7 +49,7 @@ export const SearchMD = () => {
           placeholder="Search..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="rounded-xl bg-slate-100 p-2 pl-10 px-4 xsm:w-full focus:bg-white text-black focus:outline-none text-xl"
+          className="rounded-xl bg-slate-100 p-2 pl-8 pr-6 px-4  xsm:w-full focus:bg-white text-black focus:outline-none text-xl"
         />
         <svg
           fill="currentColor"
