@@ -5,9 +5,8 @@ import { getUserData, authenticateUser } from "@/lib";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-export default function Popup() {
+export default function Popup({ isOpen, setIsOpen }) {
   const [progress, setProgress] = useState(100);
-  const [isOpen, setIsOpen] = useState(true);
   const router = useRouter();
   useEffect(() => {
     const closeAfterDelay = setTimeout(() => {
@@ -50,9 +49,7 @@ export default function Popup() {
 
   return (
     <div
-      className={`fixed top-24 xsm:top-20 right-4 xsm:right-0 h-fit w-fit min-w-[150px]  z-10 mx-2 rounded-md bg-white shadow-lg overflow-hidden  ${
-        !isOpen ? "hidden" : ""
-      }`}
+      className="fixed top-24 xsm:top-20 right-4 xsm:right-0 h-fit w-fit max-w-[300px]  z-10 mx-2 rounded-md bg-white shadow-lg overflow-hidden "
       id="login_popup">
       <div className="p-4 max-w-md">
         <div className="flex justify-between items-center mb-4 ">

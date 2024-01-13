@@ -13,7 +13,7 @@ const user = getCurrentUser();
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-
+  const [isOpen, setIsOpen] = useState(true);
   return (
     <nav className="w-full font-crimson">
       <div
@@ -72,12 +72,17 @@ export default function Navbar() {
 
         <Link
           href="/login"
-          className={` py-0.5 px-4 border border-blue-500 hover:bg-blue-500 rounded-md text-xl cursor-pointer hover:text-white ${
+          className={` py-2 xsm:py-0.5 px-4 border border-blue-500 hover:bg-blue-500 rounded-md text-xl cursor-pointer hover:text-white ${
             user ? "hidden" : ""
-          }`}>
+          }`}
+          onMouseOver={() => {
+            if (!isOpen) {
+              setIsOpen(true);
+            }
+          }}>
           Sign In
         </Link>
-        {!user && <Popup />}
+        {!user && isOpen && <Popup isOpen={isOpen} setIsOpen={setIsOpen} />}
       </div>
       <SearchMD />
     </nav>
