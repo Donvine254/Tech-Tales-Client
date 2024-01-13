@@ -76,7 +76,7 @@ export default function Popup({ setIsOpen }) {
             Sign In with Google
           </button>
           <Link
-            href="https://github.com/Sign In/oauth/authorize?client_id=2384921712f034fd32cf"
+            href="https://github.com/login/oauth/authorize?client_id=2384921712f034fd32cf"
             className="flex items-center justify-center gap-2 px-4 py-2 rounded-md border text-black hover:bg-black hover:text-white focus:outline-none"
             title="github login">
             <GithubIcon className="h-6 w-6 mr-2" />
