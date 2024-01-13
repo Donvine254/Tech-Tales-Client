@@ -1,11 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import {
-  authenticateUser,
-  getUserData,
-  handleLogin,
-} from "@/lib";
+import { authenticateUser, getUserData, handleLogin } from "@/lib";
 import { ErrorList } from "@/components/ErrorList";
 import toast from "react-hot-toast";
 import { useGoogleLogin } from "@react-oauth/google";
@@ -126,7 +122,7 @@ export default function Page() {
               <div>
                 <a
                   className="hover:text-blue-500 underline underline-offset-2 cursor-pointer"
-                  href="/reset">
+                  href="/reset?action=unsafe&not-recommended">
                   Forgot Password?
                 </a>
               </div>
