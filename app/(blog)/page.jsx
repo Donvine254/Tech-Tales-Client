@@ -24,8 +24,8 @@ export default async function HomePage() {
 
   return (
     <section className="relative md:min-h-[350px]">
+      <SideNav />
       <div className="w-full !z-0 mx-auto md:my-4 px-8 md:w-2/3 relative font-poppins">
-        <SideNav />
         {blogs && blogs.length > 0 ? (
           blogs?.map((blog) => (
             <div key={blog.id} className="">

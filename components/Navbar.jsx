@@ -17,7 +17,7 @@ export default function Navbar() {
   return (
     <nav className="w-full font-crimson h-20">
       <div
-        className="p-4 md:p-5 bg-[#f4f3f2] flex w-full items-center justify-between fixed top-0 z-20 flex-wrap mb-2"
+        className="p-4 md:p-5 bg-[#f4f3f2] flex w-full items-center justify-between fixed top-0 z-20 flex-wrap mb-2 border-b-2"
         id="parent div">
         <Link href="/">
           <h1 className="text-2xl md:text-3xl font-bold lg:text-4xl m-auto cursor-pointer">
