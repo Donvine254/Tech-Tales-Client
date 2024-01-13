@@ -82,7 +82,7 @@ export default function Navbar() {
           }}>
           Sign In
         </Link>
-        {!user && isOpen && <Popup isOpen={isOpen} setIsOpen={setIsOpen} />}
+        {!user && isOpen && <Popup setIsOpen={setIsOpen} />}
       </div>
       <SearchMD />
     </nav>

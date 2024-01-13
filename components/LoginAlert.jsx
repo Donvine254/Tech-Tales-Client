@@ -5,7 +5,7 @@ import { getUserData, authenticateUser } from "@/lib";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-export default function Popup({ isOpen, setIsOpen }) {
+export default function Popup({ setIsOpen }) {
   const [progress, setProgress] = useState(100);
   const router = useRouter();
   useEffect(() => {
@@ -36,14 +36,13 @@ export default function Popup({ isOpen, setIsOpen }) {
     },
     onFailure: (error) => {
       console.error(error);
-      setErrors(error);
     },
   });
 
   async function loginGoogleUsers(access_token) {
     const user = await getUserData(access_token);
     if (user) {
-      authenticateUser(user, router, "accounts.google.com");
+      authenticateUser(user, router, "accounts.google.com", "home");
     }
   }
 
