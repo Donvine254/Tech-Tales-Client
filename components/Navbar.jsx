@@ -4,6 +4,7 @@ import { Search } from "./Search";
 import { SearchMD } from "./SearchMD";
 import Link from "next/link";
 import { Menu } from "./Menu";
+import Popup from "./LoginAlert";
 import { getCurrentUser } from "@/lib";
 import Image from "next/image";
 import { SortUp, SortDown } from "@/assets";
@@ -68,6 +69,7 @@ export default function Navbar() {
           </div>
         </div>
         {/* only show login button when the user is not logged in */}
+
         <Link
           href="/login"
           className={` py-0.5 px-4 border border-blue-500 hover:bg-blue-500 rounded-md text-xl cursor-pointer hover:text-white ${
@@ -75,6 +77,7 @@ export default function Navbar() {
           }`}>
           Sign In
         </Link>
+        <Popup />
       </div>
       <SearchMD />
     </nav>
