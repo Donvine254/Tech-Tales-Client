@@ -1,5 +1,6 @@
 import "../globals.css";
 import Footer from "@/components/Footer";
+import ScrollIndicator from "@/components/ScrollIndicator";
 import { Toaster } from "react-hot-toast";
 import dynamic from "next/dynamic";
 import { GoogleOAuthProvider } from "@react-oauth/google";
@@ -16,10 +17,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
+        <ScrollIndicator />
         <Toaster />
         <GoogleOAuthProvider clientId="825260144276-9i710fa28s0sngshd16veqppilkhmfjm.apps.googleusercontent.com">
           <NoSSRNavbar />
-          <main className="max-w-7xl mx-auto overflow-x-hidden m-5">
+          <main className="max-w-7xl mx-auto overflow-x-hidden m-5 mt-10">
             {children}
           </main>
           <Footer />
