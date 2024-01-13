@@ -77,7 +77,7 @@ export default function Navbar() {
           }`}>
           Sign In
         </Link>
-        <Popup />
+        {!user && <Popup />}
       </div>
       <SearchMD />
     </nav>

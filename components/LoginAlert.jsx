@@ -1,23 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { GoogleIcon, GithubIcon } from "@/assets";
 import { useGoogleLogin } from "@react-oauth/google";
-import { getUserData } from "@/lib";
+import { getUserData, authenticateUser } from "@/lib";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Popup() {
+  const [progress, setProgress] = useState(100);
   const [isOpen, setIsOpen] = useState(true);
-
+  const router = useRouter();
   useEffect(() => {
     const closeAfterDelay = setTimeout(() => {
       setIsOpen(false);
-    }, 15000); // Close after 15 seconds
+    }, 10000); // Close after 10 seconds
 
     return () => clearTimeout(closeAfterDelay);
+  }, []);
+
+  useEffect(() => {
+    // function to decrease the progress by 10% every second
+    const decreaseProgress = () => {
+      setProgress((prev) => (prev > 0 ? prev - 10 : 0));
+    };
+    const interval = setInterval(decreaseProgress, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   const handleClose = () => {
     setIsOpen(false);
   };
+
   //functions to handle Login with google
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: (tokenResponse) => {
@@ -38,13 +50,13 @@ export default function Popup() {
 
   return (
     <div
-      className={`absolute top-32 xsm:top-20 right-5 xsm:right-0 h-fit flex items-center justify-center w-fit min-w-[150px] bg-opacity-50 z-10 mx-2 rounded-md ${
+      className={`fixed top-24 xsm:top-20 right-4 xsm:right-0 h-fit w-fit min-w-[150px]  z-10 mx-2 rounded-md bg-white shadow-lg overflow-hidden  ${
         !isOpen ? "hidden" : ""
       }`}
       id="login_popup">
-      <div className="bg-white rounded-md shadow-lg p-4 max-w-md">
+      <div className="p-4 max-w-md">
         <div className="flex justify-between items-center mb-4 ">
-          <h2 className="font-medium text-gray-600 my-2">
+          <h2 className="font-medium text-[18px] text-gray-600 my-2">
             Sign in to Tech Tales to access personalized contents and settings
           </h2>
           <button
@@ -62,19 +74,22 @@ export default function Popup() {
         <div className="flex flex-col space-y-2">
           <button
             onClick={handleGoogleLogin}
-            className="flex items-center justify-center gap-2 px-4 py-2 rounded-md border text-black hover:bg-blue-600 hover:text-white focus:outline-none">
+            className="flex items-center justify-center gap-2 px-4 py-2 rounded-md border text-black hover:bg-blue-600 hover:text-white focus:outline-none"
+            title="google login">
             <GoogleIcon />
             Sign In with Google
           </button>
           <Link
             href="https://github.com/Sign In/oauth/authorize?client_id=2384921712f034fd32cf"
-            className="flex items-center justify-center gap-2 px-4 py-2 rounded-md border text-black hover:bg-black hover:text-white focus:outline-none">
+            className="flex items-center justify-center gap-2 px-4 py-2 rounded-md border text-black hover:bg-black hover:text-white focus:outline-none"
+            title="github login">
             <GithubIcon className="h-6 w-6 mr-2" />
             Sign In with Github
           </Link>
           <Link
             href="/Sign In"
-            className="flex items-center justify-center gap-2 px-4 py-2 rounded-md border text-black hover:bg-gray-200  focus:outline-none">
+            className="flex items-center justify-center gap-2 px-4 py-2 rounded-md border text-black hover:bg-gray-200  focus:outline-none"
+            title="email-login">
             <svg
               viewBox="0 0 24 24"
               fill="currentColor"
@@ -87,6 +102,7 @@ export default function Popup() {
           </Link>
         </div>
       </div>
+      <div className="h-2 bg-blue-500 " style={{ width: `${progress}%` }}></div>
     </div>
   );
 }
