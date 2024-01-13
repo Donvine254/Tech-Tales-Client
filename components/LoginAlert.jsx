@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { GoogleIcon, GithubIcon } from "@/assets";
-
+import Link from "next/link";
 export default function Popup() {
   const [showPopup, setShowPopup] = useState(true); // state to show or hide the popup
   const [progress, setProgress] = useState(100); // state to track the progress of the border
@@ -45,15 +45,21 @@ export default function Popup() {
             </button>
           </div>
           <div className="flex flex-col space-y-2">
-            <button className="flex items-center justify-center gap-2 px-4 py-2 rounded-md border text-black hover:bg-blue-600 hover:text-white focus:outline-none">
+            <Link
+              href=""
+              className="flex items-center justify-center gap-2 px-4 py-2 rounded-md border text-black hover:bg-blue-600 hover:text-white focus:outline-none">
               <GoogleIcon />
               Login with Google
-            </button>
-            <button className="flex items-center justify-center gap-2 px-4 py-2 rounded-md border text-black hover:bg-black hover:text-white focus:outline-none">
+            </Link>
+            <Link
+              href=""
+              className="flex items-center justify-center gap-2 px-4 py-2 rounded-md border text-black hover:bg-black hover:text-white focus:outline-none">
               <GithubIcon className="h-6 w-6 mr-2" />
               Login with Github
-            </button>
-            <button className="flex items-center justify-center gap-2 px-4 py-2 rounded-md border text-black hover:bg-gray-200  focus:outline-none">
+            </Link>
+            <Link
+              href="/login"
+              className="flex items-center justify-center gap-2 px-4 py-2 rounded-md border text-black hover:bg-gray-200  focus:outline-none">
               <svg
                 viewBox="0 0 24 24"
                 fill="currentColor"
@@ -63,7 +69,7 @@ export default function Popup() {
                 <path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6m-2 0l-8 5-8-5h16m0 12H4V8l8 5 8-5v10z" />
               </svg>
               Login with Email
-            </button>
+            </Link>
           </div>
           <div
             className="h-2 bg-blue-500"
