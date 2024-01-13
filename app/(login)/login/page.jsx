@@ -5,14 +5,12 @@ import {
   authenticateUser,
   getUserData,
   handleLogin,
-  saveUserData,
 } from "@/lib";
 import { ErrorList } from "@/components/ErrorList";
 import toast from "react-hot-toast";
 import { useGoogleLogin } from "@react-oauth/google";
 import Loader from "@/components/Loader";
 import { GithubIcon, GoogleIcon } from "@/assets";
-import secureLocalStorage from "react-secure-storage";
 
 export default function Page() {
   const [showPassword, setShowPassword] = useState(false);
