@@ -53,7 +53,7 @@ export default function Popup({ setIsOpen }) {
       <div className="p-4 max-w-md">
         <div className="flex justify-between items-center mb-4 ">
           <h2 className="font-semibold text-[18px] text-gray-600 my-2">
-            Sign in to access personalized contents, settings and more!
+            Sign in to access personalized content, settings and more!
           </h2>
           <button
             onClick={handleClose}
