@@ -1,6 +1,14 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
-import { Like, Comment, Share } from "@/assets";
+import {
+  Like,
+  Comment,
+  Share,
+  Twitter,
+  Facebook,
+  Whatsapp,
+  Copy,
+} from "@/assets";
 import { Comments, Bookmark, UserCard } from "@/components";
 import { UserImage } from "@/components/Avatar";
 import parse from "html-react-parser";
@@ -142,6 +150,32 @@ export default function Slug({ blog }) {
               )}
             </div>
             <Bookmark blogId={blog?.id} className="font-bold" size={30} />
+          </div>
+          {/* div for notification */}
+          <div className="bg-blue-100 bg-opacity-40 py-4 px-2 flex xsm:flex-col items-center justify-between rounded-md my-1 ">
+            <h1 className="font-bold text-base md:text-xl">
+              Like what you see? Share with a Friend
+            </h1>
+            <div className="flex items-center gap-4 xsm:my-2">
+              <Link
+                href="/twitter"
+                className="p-2 rounded-full hover:bg-blue-300 bg-blue-200">
+                <Twitter />
+              </Link>
+              <Link
+                href="/twitter"
+                className="p-2 rounded-full hover:bg-blue-300 bg-blue-200">
+                <Facebook />
+              </Link>
+              <Link
+                href="/twitter"
+                className="p-2 rounded-full hover:bg-blue-300 bg-blue-200">
+                <Whatsapp />
+              </Link>
+              <button className="p-2 rounded-full hover:bg-blue-300 bg-blue-200">
+                <Copy />
+              </button>
+            </div>
           </div>
           <h1 className="text-bold text-xl md:text-2xl py-4 font-bold">
             Comments
