@@ -7,8 +7,7 @@ import toast from "react-hot-toast";
 export default function Newsletter() {
   const [showForm, setShowForm] = useState(true);
   const pathname = usePathname();
-  const pattern =
-    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]{2,}(?:\.[a-zA-Z0-9-]+)*$/;
+  const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
   useEffect(() => {
     if (typeof window !== "undefined") {
       // Retrieve the form status from session storage
