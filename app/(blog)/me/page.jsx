@@ -23,7 +23,7 @@ export default function Profile() {
     let isMounted = true;
     if (!user && isMounted) {
       toast.error("kindly login first!");
-      router.replace("/login?redirect=me");
+      router.replace("/login?post_login_redirect_url=me");
     } else if (user && isMounted) {
       const fetchBlogs = async () => {
         try {

@@ -48,7 +48,7 @@ export default function CreateNewBlog() {
     const user = getCurrentUser();
     if (!user) {
       toast.error("Login required to perform this action!");
-      router.replace("/login?redirect=create");
+      router.replace("/login?post_login_redirect_url=create");
     }
   }, [router]);
 

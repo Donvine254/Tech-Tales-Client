@@ -16,7 +16,7 @@ export default function Page() {
   useEffect(() => {
     if (!user) {
       toast.error("Login required to perform this action!");
-      navigate.replace("/login?redirect=settings");
+      navigate.replace("/login?post_login_redirect_url=me/settings");
     }
   }, [user, navigate]);
   if (!user) {

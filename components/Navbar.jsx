@@ -1,12 +1,14 @@
 "use client";
 import React, { useState } from "react";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
 import { Search } from "./Search";
 import { SearchMD } from "./SearchMD";
-import Link from "next/link";
 import { Menu } from "./Menu";
 import Popup from "./LoginAlert";
 import { getCurrentUser } from "@/lib";
-import Image from "next/image";
+
 import { SortUp, SortDown } from "@/assets";
 
 const user = getCurrentUser();
@@ -14,6 +16,7 @@ const user = getCurrentUser();
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(true);
+  const pathname = usePathname().replace(/^\/+/, "") ?? "featured";
   return (
     <nav className="w-full font-crimson h-20">
       <div
@@ -71,7 +74,7 @@ export default function Navbar() {
         {/* only show login button when the user is not logged in */}
 
         <Link
-          href="/login"
+          href={`/login?post_login_redirect_url=${pathname}`}
           className={` py-2 xsm:py-0.5 px-4 border border-blue-500 hover:bg-blue-500 rounded-md text-xl cursor-pointer hover:text-white ${
             user ? "hidden" : ""
           }`}

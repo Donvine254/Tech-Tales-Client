@@ -13,7 +13,7 @@ export default function Page() {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
   const searchParams = useSearchParams();
-  const redirect = searchParams.get("redirect") ?? "featured";
+  const redirect = searchParams.get("post_login_redirect_url") ?? "featured";
 
   const [loginData, setLoginData] = useState({
     email: "",
