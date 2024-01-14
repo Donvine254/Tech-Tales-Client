@@ -7,6 +7,8 @@ import dynamic from "next/dynamic";
 import Axios from "axios";
 import Script from "next/script";
 import { revalidateBlogs } from "@/lib/actions";
+import { getCurrentUser } from "@/lib";
+
 const DynamicEditor = dynamic(() => import("@/components/Editor"), {
   loading: () => (
     <div className="flex items-center justify-center gap-2 text-xl my-2">
@@ -19,7 +21,18 @@ const DynamicEditor = dynamic(() => import("@/components/Editor"), {
 export default function EditBlog({ params }) {
   const [loading, setLoading] = useState("loading");
   const [blogData, setBlogData] = useState();
-  const navigate = useRouter();
+  const router = useRouter();
+
+  //redirect user to login page if they are not logged in
+  useEffect(() => {
+    const user = getCurrentUser();
+    if (!user) {
+      toast.error("Login required to perform this action!");
+      router.replace(`/login?post_login_redirect_url=create/${params.id}`);
+    }
+  }, [router]);
+
+  //function to fetch blog data
   useEffect(() => {
     async function getBlog() {
       const response = await Axios.get(
@@ -65,7 +78,7 @@ export default function EditBlog({ params }) {
         });
         setLoading("");
         revalidateBlogs(params.id);
-        navigate.replace("/my-blogs");
+        router.replace("/my-blogs");
       } catch (error) {
         toast.error(error?.response?.data?.errors);
         console.error(error);

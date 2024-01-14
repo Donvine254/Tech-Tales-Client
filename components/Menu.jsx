@@ -1,12 +1,15 @@
 import Link from "next/link";
 import React from "react";
 import secureLocalStorage from "react-secure-storage";
-import { revalidatePath } from "next/cache";
-
+import { revalidatePage } from "@/lib/actions";
+import { clearLocalStorage } from "@/lib";
 export const Menu = ({ handleClick, menuOpen, currentUser }) => {
   function handleSignout() {
-    secureLocalStorage.removeItem("react_auth_token__");
-    revalidatePath("/my-blogs");
+    clearLocalStorage();
+    revalidatePage("/my-blogs");
+    if (typeof window !== undefined) {
+      window.location.reload();
+    }
   }
   return (
     <div className="space-y-4 bg-slate-100 border-2 shadow-lg z-50 py-5 px-2 md:px-4 rounded-lg xsm:min-w-fit min-w-[250px]  font-poppins">

@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import { getCurrentUser } from "@/lib";
+import { getCurrentUser, clearLocalStorage } from "@/lib";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Image from "next/image";
@@ -8,17 +8,17 @@ import Swal from "sweetalert2";
 import Loader from "@/components/Loader";
 import Axios from "axios";
 import UpdateProfileModal from "@/components/UpdateProfileModal";
-import secureLocalStorage from "react-secure-storage";
+
 
 export default function Page() {
   const user = getCurrentUser();
-  const navigate = useRouter();
+  const router = useRouter();
   useEffect(() => {
     if (!user) {
       toast.error("Login required to perform this action!");
-      navigate.replace("/login?post_login_redirect_url=me/settings");
+      router.replace("/login?post_login_redirect_url=me/settings");
     }
-  }, [user, navigate]);
+  }, [user, router]);
   if (!user) {
     return (
       <div className="flex items-center justify-center h-[300px] md:h-[600px]">
@@ -39,9 +39,8 @@ export default function Page() {
       cancelButtonColor: "green",
     }).then((result) => {
       if (result.isConfirmed) {
-        secureLocalStorage.removeItem("react_auth_token__");
-        secureLocalStorage.removeItem("session_expiry_time__");
-        navigate.refresh();
+        clearLocalStorage;
+        router.refresh();
       }
     });
   }
@@ -60,9 +59,8 @@ export default function Page() {
       if (result.isConfirmed) {
         Axios.delete(`https://techtales.up.railway.app/users/${user.id}`);
         toast.success("Account deleted successfully");
-        secureLocalStorage.removeItem("react_auth_token__");
-        secureLocalStorage.removeItem("session_expiry_time__");
-        navigate.refresh();
+        clearLocalStorage();
+        router.refresh();
       }
     });
   }
