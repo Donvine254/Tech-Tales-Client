@@ -134,7 +134,7 @@ export default function Page() {
 
           <div className="items-center p-6 flex flex-col space-y-4">
             <button
-              className="inline-flex items-center justify-center text-xl font-medium border disabled:pointer-events-none disabled:bg-gray-100 disabled:text-black  h-10 px-4 py-2 w-full bg-blue-500 text-white rounded-md"
+              className="inline-flex items-center justify-center text-xl font-medium border disabled:pointer-events-none disabled:bg-gray-100 disabled:text-black  h-10 px-4 py-2 w-full bg-blue-500 hover:bg-blue-600 text-white rounded-md"
               type="submit"
               disabled={loading}
               title="login">
@@ -142,14 +142,14 @@ export default function Page() {
             </button>
             {/* beginning of social logins */}
             <button
-              className="rounded-md text-base font-medium  border  hover:bg-gray-200  h-10 px-4 py-2 w-full flex justify-center items-center space-x-2"
+              className="rounded-md text-base font-medium  border  hover:bg-black hover:text-white  h-10 px-4 py-2 w-full flex justify-center items-center space-x-2"
               type="button"
               onClick={handleGoogleLogin}>
               <GoogleIcon />
               <span>Sign in with Google</span>
             </button>
             <button
-              className="rounded-md text-base font-medium  border  hover:bg-gray-200  h-10 px-4 py-2 w-full flex justify-center items-center space-x-2"
+              className="rounded-md text-base font-medium  border  hover:bg-black hover:text-white  h-10 px-4 py-2 w-full flex justify-center items-center space-x-2"
               type="button"
               onClick={handleGithubLogin}>
               <GithubIcon />
@@ -157,9 +157,11 @@ export default function Page() {
             </button>
           </div>
         </div>
-        <div className="mt-6 text-gray-600">
+        <div className="mt-2 text-gray-600">
           Not a member?{" "}
-          <a className="text-blue-500 hover:underline" href="register">
+          <a
+            className="text-blue-500 hover:underline border px-2 py-0.5"
+            href="register">
             Register Here
           </a>
         </div>

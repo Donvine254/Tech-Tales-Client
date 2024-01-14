@@ -65,7 +65,7 @@ export default function ResetPage() {
         <div
           className="border text-card-foreground w-full max-w-sm mx-auto rounded-xl shadow-md overflow-hidden bg-white "
           data-v0-t="card">
-          <div className="flex flex-col space-y-1.5 px-6 py-4 font-poppins">
+          <div className="flex flex-col space-y-1.5 px-6 py-2 font-poppins">
             <h3 className="font-semibold tracking-tight text-2xl text-center">
               Reset Your Password
             </h3>
@@ -74,7 +74,7 @@ export default function ResetPage() {
               content.
             </p>
           </div>
-          <div className="px-6 space-y-3">
+          <div className="px-6 space-y-1.5">
             <div className="space-y-2">
               <label
                 className="text-base font-bold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700"
@@ -189,7 +189,9 @@ export default function ResetPage() {
         </div>
         <div className="mt-2 text-gray-600 text-base">
           Remember Password?{" "}
-          <a className="text-blue-500 hover:underline" href="login">
+          <a
+            className="text-blue-500 hover:underline border px-2 py-0.5"
+            href="login">
             Login Here
           </a>
         </div>

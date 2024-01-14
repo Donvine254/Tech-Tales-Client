@@ -84,7 +84,7 @@ export default function Register() {
               Create a new account to access personalized settings and content.
             </p>
           </div>
-          <div className="px-6 pt-1 space-y-4 group">
+          <div className="px-6 pt-1 space-y-1.5 group">
             <div className="space-y-2">
               <label
                 className="text-base font-bold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700"
@@ -152,16 +152,16 @@ export default function Register() {
             </div>
           </div>
 
-          <div className="items-center p-6 flex flex-col space-y-4">
+          <div className="items-center px-6 py-2 pb-4 flex flex-col space-y-4">
             <button
-              className="inline-flex items-center justify-center text-xl font-medium disabled:pointer-events-none hover:bg-primary/90 h-10 px-4 py-2 w-full bg-blue-500 text-white rounded-md disabled:bg-gray-100 disabled:text-black border"
+              className="inline-flex items-center justify-center text-xl font-medium disabled:pointer-events-none hover:bg-primary/90 h-10 px-4 py-2 w-full bg-blue-500 hover:bg-blue-600 text-white rounded-md disabled:bg-gray-100 disabled:text-black border"
               type="submit"
               disabled={loading}
               title="register">
               {loading ? <Loader /> : "Sign up"}
             </button>
             <button
-              className="rounded-md text-base font-medium  border   hover:bg-gray-200 h-10 px-4 py-2 w-full flex justify-center items-center space-x-2 disabled:pointer-events-none disabled:opacity-50 "
+              className="rounded-md text-base font-medium  border hover:bg-black hover:text-white h-10 px-4 py-2 w-full flex justify-center items-center space-x-2 disabled:pointer-events-none disabled:opacity-50 "
               disabled={loading}
               type="button"
               onClick={handleGoogleSignup}>
@@ -169,14 +169,14 @@ export default function Register() {
               <span>Sign up with Google</span>
             </button>
             <button
-              className="rounded-md text-base font-medium  border   hover:bg-gray-200 h-10 px-4 py-2 w-full flex justify-center items-center space-x-2 disabled:pointer-events-none disabled:opacity-50"
+              className="rounded-md text-base font-medium  border    h-10 px-4 py-2 w-full flex justify-center items-center space-x-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-black hover:text-white"
               type="button"
               disabled={loading}
               onClick={handleGithubRegistration}>
               <GithubIcon />
               <span>Sign up with GitHub</span>
             </button>
-            <div
+            {/* <div
               className="bg-orange-100 border border-orange-500 text-orange-600 py-3 rounded relative space-y-2 border-l-4 "
               role="alert">
               <div className="flex  px-1 ">
@@ -194,12 +194,14 @@ export default function Register() {
                   </p>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
-        <div className="mt-6 text-gray-600">
-          Already a member?{" "}
-          <a className="text-blue-500 hover:underline" href="/login">
+        <div className="mt-2 text-gray-600">
+          Already a Member?{" "}
+          <a
+            className="text-blue-500 hover:underline border px-2 py-0.5"
+            href="/login">
             Login Here
           </a>
         </div>
