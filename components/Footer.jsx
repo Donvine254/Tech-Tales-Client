@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { Facebook, GithubIcon, Twitter } from "@/assets";
+import { GithubIcon, NewTwitterIcon } from "@/assets";
 export default function Footer() {
   return (
     <footer className="max-w-7xl w-full mx-auto m-2 p-4 divide-blue-500 font-poppins text-xl">
@@ -38,13 +38,21 @@ export default function Footer() {
             href="https://www.facebook.com"
             className="navigation__footer"
             target="_blank">
-            <Facebook />
+            <svg
+              fill="currentColor"
+              viewBox="0 0 448 512"
+              height="28"
+              width="28"
+              className="md:text-xl text-blue-600 font-bold cursor-pointer">
+              <title>Facebook</title>
+              <path d="M400 32H48A48 48 0 000 80v352a48 48 0 0048 48h137.25V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.27c-30.81 0-40.42 19.12-40.42 38.73V256h68.78l-11 71.69h-57.78V480H400a48 48 0 0048-48V80a48 48 0 00-48-48z" />
+            </svg>
           </Link>
           <Link
             href="https://www.twitter.com"
             className="navigation__footer"
             target="_blank">
-            <Twitter />
+            <NewTwitterIcon />
           </Link>
           <Link
             href="https://github.com/Donvine254"

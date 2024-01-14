@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Cat } from "@/assets";
+import { Clipboard } from "@/assets";
 import { Clock } from "@/assets";
 import parse from "html-react-parser";
 import Bookmark from "./Bookmark";
@@ -61,7 +61,7 @@ export default async function BlogsComponent({ blogs }) {
         ))
       ) : (
         <div className="flex flex-col py-1 items-center justify-center gap-2">
-          <Cat />
+          <Clipboard />
           <h1>No Blogs Found</h1>
         </div>
       )}

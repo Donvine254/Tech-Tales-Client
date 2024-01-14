@@ -1,6 +1,6 @@
 import { UserImage } from "@/components/Avatar";
 
-import { Cat, Clock } from "@/assets";
+import { Clipboard, Clock } from "@/assets";
 import parse from "html-react-parser";
 import { Bookmark, SideNav } from "@/components";
 import Link from "next/link";
@@ -71,7 +71,7 @@ export default async function HomePage() {
           ))
         ) : (
           <div className="flex flex-row items-center justify-center gap-1">
-            <Cat />
+            <Clipboard />
             <h1>No Blogs Found</h1>
           </div>
         )}

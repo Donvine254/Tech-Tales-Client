@@ -1,10 +1,9 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import {
   Like,
   Comment,
-  Share,
-  Twitter,
+  NewTwitterIcon,
   Facebook,
   Whatsapp,
   Copy,
@@ -99,13 +98,13 @@ export default function Slug({ blog }) {
               <Link
                 href={`https://twitter.com/share?url=https://techtales.vercel.app/blogs/${blog.id}&text=${blog.title}`}
                 target="_blank"
-                className="p-2 rounded-full border hover:bg-blue-300 bg-blue-200">
-                <Twitter />
+                className="h-10 w-10 flex items-center justify-center p-1 border rounded-full hover:bg-blue-300 bg-blue-200">
+                <NewTwitterIcon />
               </Link>
               <Link
                 href={`https://facebook.com/sharer.php?u=https://techtales.vercel.app/blogs/${blog.id}`}
                 target="_blank"
-                className="p-2 rounded-full border hover:bg-blue-300 bg-blue-200">
+                className="h-10 w-10 flex items-center justify-center p-1 rounded-full border hover:bg-blue-300 bg-blue-200">
                 <Facebook />
               </Link>
               <button
@@ -115,7 +114,7 @@ export default function Slug({ blog }) {
                   )}`;
                   window.open(whatsappUrl);
                 }}
-                className="p-2 rounded-full border hover:bg-green-300 bg-green-200">
+                className="h-10 w-10 flex items-center justify-center p-1 rounded-full border hover:bg-green-300 bg-blue-200">
                 <Whatsapp />
               </button>
               <button
@@ -130,7 +129,7 @@ export default function Slug({ blog }) {
                     toast.error("Failed to copy link to clipboard");
                   }
                 }}
-                className="p-2 border rounded-full hover:bg-blue-300 bg-blue-200">
+                className="h-10 w-10 flex items-center justify-center p-1 border rounded-full hover:bg-blue-300 bg-blue-200">
                 <Copy />
               </button>
             </div>
