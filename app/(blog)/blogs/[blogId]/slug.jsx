@@ -16,17 +16,13 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import toast from "react-hot-toast";
 
-import ShareModal from "@/components/ShareModal";
-
 export default function Slug({ blog }) {
   const [likes, setLikes] = useState(0);
   const [liked, setLiked] = useState(false);
   const [comments, setComments] = useState(blog?.comments);
-  const [isPopupOpen, setPopupOpen] = useState(false);
   const [isCardVisible, setIsCardVisible] = useState(false);
 
-  const popupRef = useRef(null);
-  const navigate = useRouter();
+  const router = useRouter();
 
   function handleLikeClick() {
     setLiked(!liked);
@@ -39,27 +35,11 @@ export default function Slug({ blog }) {
 
   useEffect(() => {
     if (!blog) {
-      navigate.replace("/not-found");
+      router.replace("/not-found?referrer=blogs/blogId");
     }
-  }, [blog, navigate]);
+  }, [blog, router]);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (popupRef.current && !popupRef.current.contains(event.target)) {
-        setPopupOpen(false);
-      }
-    };
-
-    // Add event listener when the component mounts
-    document.addEventListener("mousedown", handleClickOutside);
-
-    // Remove event listener when the component unmounts
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [popupRef]);
   //function to pop-up user card
-
   function handleMouseEnter() {
     setIsCardVisible(true);
   }
@@ -110,6 +90,52 @@ export default function Slug({ blog }) {
             id="blog-body">
             {blog.body ? parse(blog?.body) : blog.body}
           </article>
+          {/* div for sharing */}
+          <div className="bg-blue-100 bg-opacity-40 py-4 px-2 flex xsm:flex-col items-center justify-between rounded-md my-2 ">
+            <h1 className="font-bold text-bas text-gray-600 md:text-xl">
+              Like what you see? Share with a Friend
+            </h1>
+            <div className="flex items-center gap-4 xsm:my-2">
+              <Link
+                href={`https://twitter.com/share?url=https://techtales.vercel.app/blogs/${blog.id}&text=${blog.title}`}
+                target="_blank"
+                className="p-2 rounded-full border hover:bg-blue-300 bg-blue-200">
+                <Twitter />
+              </Link>
+              <Link
+                href={`https://facebook.com/sharer.php?u=https://techtales.vercel.app/blogs/${blog.id}`}
+                target="_blank"
+                className="p-2 rounded-full border hover:bg-blue-300 bg-blue-200">
+                <Facebook />
+              </Link>
+              <button
+                onClick={() => {
+                  const whatsappUrl = `whatsapp://send?text=${encodeURIComponent(
+                    `https://techtales.vercel.app/blogs/${blog.id}: ${blog.title}`
+                  )}`;
+                  window.open(whatsappUrl);
+                }}
+                className="p-2 rounded-full border hover:bg-green-300 bg-green-200">
+                <Whatsapp />
+              </button>
+              <button
+                onClick={async () => {
+                  try {
+                    await navigator.clipboard.writeText(
+                      `https://techtales.vercel.app/blogs/${blog.id}`
+                    );
+                    toast.success("Link copied to clipboard");
+                  } catch (err) {
+                    console.error("Copy to clipboard failed:", err);
+                    toast.error("Failed to copy link to clipboard");
+                  }
+                }}
+                className="p-2 border rounded-full hover:bg-blue-300 bg-blue-200">
+                <Copy />
+              </button>
+            </div>
+          </div>
+          {/* div for actions buttons */}
           <div className="flex items-center justify-between mt-2">
             <p className="blog__icons">
               {!liked ? (
@@ -152,60 +178,18 @@ export default function Slug({ blog }) {
             </div> */}
             <Bookmark blogId={blog?.id} className="font-bold" size={30} />
           </div>
-          {/* div for sharing */}
-          <div className="bg-blue-100 bg-opacity-40 py-4 px-2 flex xsm:flex-col items-center justify-between rounded-md my-2 ">
-            <h1 className="font-bold text-bas text-gray-600 md:text-xl">
-              Like what you see? Share with a Friend
+          {/* beginning of comment section */}
+          <section id="comments">
+            <h1 className="text-bold text-xl md:text-2xl py-4 font-bold">
+              Comments
             </h1>
-            <div className="flex items-center gap-4 xsm:my-2">
-              <Link
-                href={`https://twitter.com/share?url=https://techtales.vercel.app/blogs/${blog.id}&text=${blog.title}`}
-                target="_blank"
-                className="p-2 rounded-full hover:bg-blue-300 bg-blue-200">
-                <Twitter />
-              </Link>
-              <Link
-                href={`https://facebook.com/sharer.php?u=https://techtales.vercel.app/blogs/${blog.id}`}
-                target="_blank"
-                className="p-2 rounded-full hover:bg-blue-300 bg-blue-200">
-                <Facebook />
-              </Link>
-              <button
-                onClick={() => {
-                  const whatsappUrl = `whatsapp://send?text=${encodeURIComponent(
-                    `https://techtales.vercel.app/blogs/${blog.id}: ${blog.title}`
-                  )}`;
-                  window.open(whatsappUrl);
-                }}
-                className="p-2 rounded-full hover:bg-blue-300 bg-blue-200">
-                <Whatsapp />
-              </button>
-              <button
-                onClick={async () => {
-                  try {
-                    await navigator.clipboard.writeText(
-                      `https://techtales.vercel.app/blogs/${blog.id}`
-                    );
-                    toast.success("Link copied to clipboard");
-                  } catch (err) {
-                    console.error("Copy to clipboard failed:", err);
-                    toast.error("Failed to copy link to clipboard");
-                  }
-                }}
-                className="p-2 rounded-full hover:bg-blue-300 bg-blue-200">
-                <Copy />
-              </button>
-            </div>
-          </div>
-          <h1 className="text-bold text-xl md:text-2xl py-4 font-bold">
-            Comments
-          </h1>
-          <hr className="text-blue-500" />
-          <Comments
-            comments={comments}
-            setComments={setComments}
-            blogId={blog.id}
-          />
+            <hr className="text-blue-500" />
+            <Comments
+              comments={comments}
+              setComments={setComments}
+              blogId={blog.id}
+            />
+          </section>
         </div>
       ) : null}
     </div>
