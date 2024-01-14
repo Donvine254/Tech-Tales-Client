@@ -9,13 +9,14 @@ import Loader from "@/components/Loader";
 import Axios from "axios";
 import UpdateProfileModal from "@/components/UpdateProfileModal";
 import secureLocalStorage from "react-secure-storage";
+
 export default function Page() {
   const user = getCurrentUser();
   const navigate = useRouter();
   useEffect(() => {
     if (!user) {
       toast.error("Login required to perform this action!");
-      navigate.replace("/login");
+      navigate.replace("/login?redirect=settings");
     }
   }, [user, navigate]);
   if (!user) {

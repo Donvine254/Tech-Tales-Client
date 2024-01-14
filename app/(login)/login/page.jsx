@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { authenticateUser, getUserData, handleLogin } from "@/lib";
 import { ErrorList } from "@/components/ErrorList";
 import toast from "react-hot-toast";
@@ -12,6 +12,8 @@ export default function Page() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect") ?? "featured";
 
   const [loginData, setLoginData] = useState({
     email: "",
@@ -30,7 +32,7 @@ export default function Page() {
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
-    handleLogin(loginData, setLoading, setErrors, router);
+    handleLogin(loginData, setLoading, setErrors, router, redirect);
   }
 
   //functions to handle Login with google

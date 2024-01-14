@@ -8,6 +8,7 @@ import dynamic from "next/dynamic";
 import Loader from "@/components/Loader";
 import UploadButton from "@/components/uploadButton";
 import Script from "next/script";
+import secureLocalStorage from "react-secure-storage";
 
 const DynamicEditor = dynamic(() => import("@/components/Editor"), {
   loading: () => (
@@ -22,31 +23,34 @@ export default function CreateNewBlog() {
   const [loading, setLoading] = useState(false);
   const user = getCurrentUser();
   let count = 0;
-  const navigate = useRouter();
+  const router = useRouter();
   const [blogData, setBlogData] = useState({
     title: "",
     image: "",
     body: "",
   });
   function saveDraft() {
-    if (typeof window !== undefined) {
-      localStorage.setItem("draftBlog", JSON.stringify(blogData));
-      toast.success("draft saved successfully");
-    }
+    if (blogData.title === "" && blogData.body == "") {
+      toast.error("Kindly fill the required fields");
+    } else if (typeof window !== undefined) {
+      secureLocalStorage.setItem("draft_blog_data__", JSON.stringify(blogData));
+      toast.success("Draft saved successfully!");
+    } else return null;
   }
   useEffect(() => {
-    const draftBlogData = localStorage.getItem("draftBlog");
+    const draftBlogData = secureLocalStorage.getItem("draft_blog_data__");
     if (draftBlogData) {
       setBlogData(JSON.parse(draftBlogData));
     }
   }, []);
+
   useEffect(() => {
     const user = getCurrentUser();
     if (!user) {
       toast.error("Login required to perform this action!");
-      navigate.replace("/login");
+      router.replace("/login?redirect=create");
     }
-  }, [navigate]);
+  }, [router]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -60,7 +64,7 @@ export default function CreateNewBlog() {
       ...blogData,
       user_id: user.id,
     };
-    createBlog(data, navigate, setBlogData, setLoading);
+    createBlog(data, router, setBlogData, setLoading);
     localStorage.removeItem("draftBlog");
   }
   //function to trigger alert
@@ -161,7 +165,7 @@ export default function CreateNewBlog() {
           <button
             type="submit"
             disabled={loading}
-            className="bg-blue-500 disabled:bg-gray-200 disabled:text-black  font-bold px-5 py-2 text-white rounded-xl hover:bg-green-500">
+            className="bg-blue-500 bg-opacity-80 disabled:bg-gray-200 disabled:text-black  font-bold px-5 py-2 text-white rounded-md hover:bg-blue-600">
             {loading ? (
               <p className="flex items-center gap-2">
                 <Loader size={20} />
@@ -174,7 +178,7 @@ export default function CreateNewBlog() {
           <button
             type="button"
             onClick={saveDraft}
-            className="bg-transparent text-black hover:bg-sky-400 border hover:text-white border-sky-400 px-2 p-2 rounded-xl">
+            className="bg-transparent text-black hover:bg-blue-500 border hover:text-white border-blue-500 px-2 p-2 rounded-md">
             Save Draft
           </button>
         </div>

@@ -14,7 +14,7 @@ export default function Popup({ setIsOpen }) {
     }, 10000); // Close after 10 seconds
 
     return () => clearTimeout(closeAfterDelay);
-  }, []);
+  }, [setIsOpen]);
 
   useEffect(() => {
     // function to decrease the progress by 10% every second
