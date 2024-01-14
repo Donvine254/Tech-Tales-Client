@@ -5,9 +5,10 @@ import { usePathname } from "next/navigation";
 import toast from "react-hot-toast";
 
 export default function Newsletter() {
-  const [showForm, setShowForm] = useState();
+  const [showForm, setShowForm] = useState(true);
   const pathname = usePathname();
-
+  const pattern =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]{2,}(?:\.[a-zA-Z0-9-]+)*$/;
   useEffect(() => {
     if (typeof window !== "undefined") {
       // Retrieve the form status from session storage
@@ -31,11 +32,15 @@ export default function Newsletter() {
 
   function handleSubmit(e) {
     e.preventDefault();
+    const email = e.target.elements.email.value;
+    if (!email.match(pattern)) {
+      toast.error("Enter a valid email address");
+      return null;
+    }
     toast.success("You are in the inner circle!", {
       position: "bottom-center",
     });
     e.target.reset();
-
     // Update session storage when the form state changes
     sessionStorage.setItem("subscription_form_status", false);
     setShowForm(false);
@@ -72,11 +77,14 @@ export default function Newsletter() {
             <input
               type="email"
               name="email"
+              id="email"
               placeholder="Enter your email address *"
+              maxLength={64}
+              title="Email address must be a valid email address"
               required
-              className="h-14 xsm:h-10  text-xl xsm:text-base  disabled:cursor-not-allowed disabled:opacity-50 flex-1 px-3 xsm:px-1 py-2 border-l border-y border-gray-200 rounded-l-md outline-none"
+              className="h-12 xsm:h-10  text-xl xsm:text-base  disabled:cursor-not-allowed disabled:opacity-50 flex-1 px-3 xsm:px-1 py-2 border-l border-y border-gray-200 rounded-l-md outline-none"
             />
-            <button className="px-4 xsm:px-1 py-2 bg-blue-500 hover:bg-blue-600 text-white border-r border-y  rounded-r-md h-14 xsm:h-10 text-xl xsm:text-base">
+            <button className="px-4 xsm:px-1 py-2 bg-blue-500 hover:bg-blue-600 text-white border-r border-y  rounded-r-md h-12 xsm:h-10 text-xl xsm:text-base">
               Subscribe
             </button>
           </div>
