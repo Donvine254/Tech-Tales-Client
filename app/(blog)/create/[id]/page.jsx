@@ -24,13 +24,12 @@ export default function EditBlog({ params }) {
   const router = useRouter();
 
   //redirect user to login page if they are not logged in
-  useEffect(() => {
-    const user = getCurrentUser();
-    if (!user) {
-      toast.error("Login required to perform this action!");
-      router.replace(`/login?post_login_redirect_url=create/${params.id}`);
-    }
-  }, [router]);
+
+  const user = getCurrentUser();
+  if (!user) {
+    toast.error("Login required to perform this action!");
+    router.replace(`/login?post_login_redirect_url=create/${params.id}`);
+  }
 
   //function to fetch blog data
   useEffect(() => {
@@ -39,6 +38,10 @@ export default function EditBlog({ params }) {
         `https://techtales.up.railway.app/blogs/${params.id}`
       );
       const data = response.data;
+      if (data.user_id !== user.id) {
+        toast.error("This blog belongs to a different author!");
+        router.replace("/my-blogs?action=forbidden");
+      }
       setLoading("");
       setBlogData(data);
     }
