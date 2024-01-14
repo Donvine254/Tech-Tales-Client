@@ -1,6 +1,7 @@
 import "../globals.css";
 import Footer from "@/components/Footer";
 import ScrollIndicator from "@/components/ScrollIndicator";
+import Newsletter from "@/components/Newsletter";
 import { Toaster } from "react-hot-toast";
 import dynamic from "next/dynamic";
 import { GoogleOAuthProvider } from "@react-oauth/google";
@@ -24,6 +25,7 @@ export default function RootLayout({ children }) {
           <main className="max-w-7xl mx-auto overflow-x-hidden m-5 mt-10">
             {children}
           </main>
+          <Newsletter />
           <Footer />
         </GoogleOAuthProvider>
       </body>

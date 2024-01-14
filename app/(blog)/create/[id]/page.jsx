@@ -46,7 +46,7 @@ export default function EditBlog({ params }) {
       setBlogData(data);
     }
     getBlog();
-  }, [params.id]);
+  }, [params.id, router, user.id]);
 
   async function handleSubmit(e) {
     e.preventDefault();
