@@ -23,7 +23,7 @@ export default function MyBlogsComponent({ id }) {
   useEffect(() => {
     if (!user && !id) {
       toast.error("kindly login first!");
-      navigate.replace("/login");
+      navigate.replace("/login?post_login_redirect_url=my-blogs");
     } else if (user || id) {
       const fetchBlogs = async () => {
         try {
@@ -53,7 +53,7 @@ export default function MyBlogsComponent({ id }) {
     deleteBlog(blogId, setBlogs);
   }
   function handleEdit(id) {
-    navigate.push(`/create/${id}?action=edit&&referror=user`);
+    navigate.push(`/create/${id}?action=edit&referrer=${user.id}`);
   }
 
   return (
