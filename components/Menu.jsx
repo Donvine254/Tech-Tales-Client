@@ -1,11 +1,12 @@
 import Link from "next/link";
 import React from "react";
-import secureLocalStorage from "react-secure-storage";
 import { revalidatePage } from "@/lib/actions";
 import { clearLocalStorage } from "@/lib";
+import toast from "react-hot-toast";
 export const Menu = ({ handleClick, menuOpen, currentUser }) => {
   function handleSignout() {
     clearLocalStorage();
+    toast.success("logged out successfully");
     revalidatePage("/my-blogs");
     if (typeof window !== undefined) {
       window.location.reload();
@@ -91,14 +92,14 @@ export const Menu = ({ handleClick, menuOpen, currentUser }) => {
         </svg>
         Settings
       </Link>
-      <Link href="/" onClick={handleSignout}>
-        <button className="w-full mt-2 py-2 text-start px-3 border  rounded-md  hover:border-red-500  shadow-md">
-          <span className="font-bold">Sign Out</span>
-          <p className="text-gray-800 text-[12px] line-clamp-through">
-            {currentUser?.email}
-          </p>
-        </button>
-      </Link>
+      <button
+        onClick={handleSignout}
+        className="w-full mt-2 py-2 text-start px-3 border  rounded-md  hover:border-red-500  shadow-md">
+        <span className="font-bold">Sign Out</span>
+        <p className="text-gray-800 text-[12px] line-clamp-through">
+          {currentUser?.email}
+        </p>
+      </button>
     </div>
   );
 };
