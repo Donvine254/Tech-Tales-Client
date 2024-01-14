@@ -28,12 +28,8 @@ body {
 .menu-item {
   @apply flex items-center gap-4 px-3 py-2 hover:text-blue-600 text-base md:text-xl rounded-md hover:bg-gray-200;
 }
-.btn-primary {
-  @apply rounded-md p-2 px-4 shadow-md m-3 border border-sky-500 hover:bg-sky-500;
-}
-.btn-secondary {
-  @apply rounded-full flex items-center py-1 m-5 px-4 shadow-xl border border-sky-500 hover:bg-sky-500;
-}
+
+
 .navigation {
   @apply md:text-xl font-bold cursor-pointer hover:bg-slate-300 hover:rounded-lg p-2 px-4 md:gap-5;
 }
@@ -45,12 +41,6 @@ label {
   @apply font-bold;
 }
 
-.login__link {
-  @apply underline text-blue-500 cursor-pointer hover:text-green-800 font-bold;
-}
-.login-button {
-  @apply rounded-lg w-full py-2 mt-2 font-bold px-8 shadow-md border-2 border-blue-500 bg-blue-500 flex items-center justify-center gap-1 text-white;
-}
 .blog-input-field {
   @apply mb-3 bg-transparent p-2 w-full border-b-2 border-blue-500 disabled:border-gray-400 text-black;
 }

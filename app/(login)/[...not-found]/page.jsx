@@ -2,7 +2,7 @@ import React from "react";
 
 export default function notFound() {
   return (
-    <div className="px-2 flex-1 lg:max-w-[75%] lg:mx-auto">
+    <div className="px-2 flex-1 lg:max-w-[75%] lg:mx-auto font-poppins">
       <div className="w-full flex h-screen flex-col items-center justify-center">
         <svg
           className="w-1/2 md:1/3 lg:w-1/4 text-blue-600"
@@ -136,7 +136,7 @@ export default function notFound() {
           </p>
           <a
             href="/"
-            className="flex items-center btn btn-primary mt-12 rounded transition duration-150 hover:text-white"
+            className="flex items-center px-4 py-2 border border-blue-600 hover:bg-blue-600 mt-12 rounded-md text-black hover:text-white"
             title="Return Home">
             <svg
               xmlns="http://www.w3.org/2000/svg"

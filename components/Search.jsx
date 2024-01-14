@@ -50,7 +50,7 @@ export const Search = () => {
             placeholder="Search blogs..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="rounded-xl bg-gray-50 p-2 pl-8 pr-6 px-4 w-full focus:bg-[#e6e6e6] text-black focus:outline-none text-xl border-2 border-gray-300   placeholder-gray-600 shadow"
+            className="rounded-xl bg-gray-50 p-2 pl-8 pr-6 px-4 w-full focus:bg-blue-100 focus:bg-opacity-30 text-black focus:outline-none text-xl border-2 border-gray-300   placeholder-gray-600 shadow"
           />
 
           <svg
