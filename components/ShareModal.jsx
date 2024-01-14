@@ -2,7 +2,7 @@
 import { Copy, Facebook, Twitter, Whatsapp } from "@/assets";
 import toast from "react-hot-toast";
 export default function ShareModal({ id, slug }) {
-  const blogUrl = `https://techtales.vercel.app/blogs/${slug}?id=${id}`;
+  const blogUrl = `https://techtales.vercel.app/blogs/${id}`;
   // Function to open the share dialog for Facebook
   const shareOnFacebook = () => {
     const facebookUrl = `https://www.facebook.com/sharer.php?u=${blogUrl}`;
@@ -11,7 +11,7 @@ export default function ShareModal({ id, slug }) {
 
   // Function to open the share dialog for Twitter
   const shareOnTwitter = () => {
-    const twitterUrl = `https://twitter.com/intent/tweet?url=${blogUrl}`;
+    const twitterUrl = `https://twitter.com/intent/tweet?url=${blogUrl}&text=${slug}`;
     window.open(twitterUrl, "_blank", "width=600,height=400");
   };
 

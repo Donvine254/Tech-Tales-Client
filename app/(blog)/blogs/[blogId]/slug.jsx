@@ -14,6 +14,7 @@ import { UserImage } from "@/components/Avatar";
 import parse from "html-react-parser";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import toast from "react-hot-toast";
 
 import ShareModal from "@/components/ShareModal";
 
@@ -135,7 +136,7 @@ export default function Slug({ blog }) {
                 </Link>
               </span>
             </p>
-            <div className="relative">
+            {/* <div className="relative">
               <Share
                 size={30}
                 className="font-bold cursor-pointer"
@@ -148,31 +149,50 @@ export default function Slug({ blog }) {
                   <ShareModal id={blog.id} slug={blog.slug} />
                 </div>
               )}
-            </div>
+            </div> */}
             <Bookmark blogId={blog?.id} className="font-bold" size={30} />
           </div>
-          {/* div for notification */}
-          <div className="bg-blue-100 bg-opacity-40 py-4 px-2 flex xsm:flex-col items-center justify-between rounded-md my-1 ">
-            <h1 className="font-bold text-base md:text-xl">
+          {/* div for sharing */}
+          <div className="bg-blue-100 bg-opacity-40 py-4 px-2 flex xsm:flex-col items-center justify-between rounded-md my-2 ">
+            <h1 className="font-bold text-bas text-gray-600 md:text-xl">
               Like what you see? Share with a Friend
             </h1>
             <div className="flex items-center gap-4 xsm:my-2">
               <Link
-                href="/twitter"
+                href={`https://twitter.com/share?url=https://techtales.vercel.app/blogs/${blog.id}&text=${blog.title}`}
+                target="_blank"
                 className="p-2 rounded-full hover:bg-blue-300 bg-blue-200">
                 <Twitter />
               </Link>
               <Link
-                href="/twitter"
+                href={`https://facebook.com/sharer.php?u=https://techtales.vercel.app/blogs/${blog.id}`}
+                target="_blank"
                 className="p-2 rounded-full hover:bg-blue-300 bg-blue-200">
                 <Facebook />
               </Link>
-              <Link
-                href="/twitter"
+              <button
+                onClick={() => {
+                  const whatsappUrl = `whatsapp://send?text=${encodeURIComponent(
+                    `https://techtales.vercel.app/blogs/${blog.id}: ${blog.title}`
+                  )}`;
+                  window.open(whatsappUrl);
+                }}
                 className="p-2 rounded-full hover:bg-blue-300 bg-blue-200">
                 <Whatsapp />
-              </Link>
-              <button className="p-2 rounded-full hover:bg-blue-300 bg-blue-200">
+              </button>
+              <button
+                onClick={async () => {
+                  try {
+                    await navigator.clipboard.writeText(
+                      `https://techtales.vercel.app/blogs/${blog.id}`
+                    );
+                    toast.success("Link copied to clipboard");
+                  } catch (err) {
+                    console.error("Copy to clipboard failed:", err);
+                    toast.error("Failed to copy link to clipboard");
+                  }
+                }}
+                className="p-2 rounded-full hover:bg-blue-300 bg-blue-200">
                 <Copy />
               </button>
             </div>
