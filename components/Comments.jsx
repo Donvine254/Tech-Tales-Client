@@ -64,6 +64,17 @@ export default function Comments({ comments, setComments, blogId }) {
     setNewComment("");
     setIsEditing(false);
   }
+  //set custom colors for each comment
+  const colorClasses = [
+    "teal",
+    "blue",
+    "green",
+    "pink",
+    "orange",
+    "cyan",
+    "violet",
+    "purple",
+  ];
 
   return (
     <section id="comments">
@@ -156,36 +167,43 @@ export default function Comments({ comments, setComments, blogId }) {
         {comments?.length > 0 ? (
           comments?.map((comment) => (
             <div className="py-1 font-poppins " key={comment.id}>
-              <div class="flex">
+              <div class="flex gap-4">
                 <UserImage url={comment.user_avatar} />
-                <div className="ml-4">
+                <div className="">
                   <p className="text-gray-600">
                     <span className="font-bold">{comment?.author} </span>&nbsp;{" "}
                     {comment?.created_at_date}
                   </p>
-                  <div className="bg-blue-100 bg-opacity-50 border p-3 rounded-r-xl rounded-bl-xl">
+                  <div
+                    className={`bg-${
+                      colorClasses[Math.floor(Math.random() * 5)]
+                    }-100 bg-opacity-50 border p-3 rounded-r-xl rounded-bl-xl`}>
                     <p className="text-gray-800">{comment?.body}</p>
                   </div>
-                </div>
-              </div>
-              <div className="py-2 flex items-center gap-4 ml-16 xsm:ml-10">
-                {comment?.user_id === user?.id ? (
-                  <>
-                    <button
-                      className="flex items-center gap-2 text-sm  font-bold hover:text-blue-500"
-                      onClick={() => editComment(comment)}>
-                      <Edit size={14} />
-                      <span>Edit</span>
-                    </button>
+                  <div className="py-1 flex items-center gap-4">
+                    {comment?.user_id === user?.id ? (
+                      <>
+                        <button
+                          className="flex items-center gap-2 text-sm  font-bold hover:text-white border px-1 py-0.5 rounded-md hover:bg-blue-500"
+                          title="edit comment"
+                          onClick={() => editComment(comment)}>
+                          <Edit size={14} />
+                          <span>Edit</span>
+                        </button>
 
-                    <button
-                      className="flex items-center gap-2 text-sm  font-bold hover:text-red-500"
-                      onClick={() => deleteComment(comment.id, setComments)}>
-                      <Trash size={14} />
-                      <span> Delete</span>
-                    </button>
-                  </>
-                ) : null}
+                        <button
+                          className="flex items-center gap-2 text-sm  font-bold hover:text-white border px-1 py-0.5 rounded-md hover:bg-red-500"
+                          title="delete comment"
+                          onClick={() =>
+                            deleteComment(comment.id, setComments)
+                          }>
+                          <Trash size={14} />
+                          <span> Delete</span>
+                        </button>
+                      </>
+                    ) : null}
+                  </div>
+                </div>
               </div>
             </div>
           ))
