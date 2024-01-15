@@ -102,7 +102,7 @@ export default function EditBlog({ params }) {
   return (
     <div className="md:mt-9 font-poppins">
       <Script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.2/tsparticles.confetti.bundle.min.js"></Script>
-      <div className="w-full bg-amber-100 border-y-amber-500  border text-center py-2 text-[18px] mb-2 xsm:text-[16px]">
+      <div className="w-full bg-[#FDFAE9] border-b-amber-500  border text-center py-2 text-[18px] mb-2 xsm:text-[16px]">
         <p className="inline-block md:inline-flex md:items-center md:gap-1">
           <svg
             className="text-amber-600 xsm:text-center xsm:mx-auto"
