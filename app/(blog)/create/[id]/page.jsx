@@ -6,6 +6,7 @@ import Loader from "@/components/Loader";
 import dynamic from "next/dynamic";
 import Axios from "axios";
 import Script from "next/script";
+import Link from "next/link";
 import { revalidateBlogs } from "@/lib/actions";
 import { getCurrentUser } from "@/lib";
 
@@ -99,8 +100,27 @@ export default function EditBlog({ params }) {
   }
 
   return (
-    <div className="md:m-1 font-poppins">
+    <div className="md:mt-9 font-poppins">
       <Script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.2/tsparticles.confetti.bundle.min.js"></Script>
+      <div className="w-full bg-amber-100 border-y-amber-500  border text-center py-2 text-[18px] mb-2 xsm:text-[16px]">
+        <p className="inline-block md:inline-flex md:items-center md:gap-1">
+          <svg
+            className="text-amber-600 xsm:text-center xsm:mx-auto"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            height={20}
+            fill="currentColor"
+            width={20}>
+            <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
+          </svg>
+          Before you write your blog, please read our{" "}
+          <Link
+            href="/community"
+            className="hover:text-blue-500 font-bold underline">
+            community guidelines
+          </Link>
+        </p>
+      </div>
       <form
         className="bg-gray-100 border m-auto lg:w-3/4 p-4 md:p-8 rounded-sm relative"
         onSubmit={handleSubmit}>

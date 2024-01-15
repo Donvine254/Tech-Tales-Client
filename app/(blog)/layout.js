@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
         <Toaster />
         <GoogleOAuthProvider clientId="825260144276-9i710fa28s0sngshd16veqppilkhmfjm.apps.googleusercontent.com">
           <NoSSRNavbar />
-          <main className="max-w-7xl mx-auto overflow-x-hidden m-5 mt-10">
+          <main className="max-w-7xl mx-auto overflow-x-hidden">
             {children}
           </main>
           <Newsletter />
