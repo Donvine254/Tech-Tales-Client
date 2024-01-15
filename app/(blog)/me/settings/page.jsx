@@ -9,7 +9,6 @@ import Loader from "@/components/Loader";
 import Axios from "axios";
 import UpdateProfileModal from "@/components/UpdateProfileModal";
 
-
 export default function Page() {
   const user = getCurrentUser();
   const router = useRouter();
@@ -74,7 +73,7 @@ export default function Page() {
     }
   }
   return (
-    <div className="font-poppins flex items-center justify-center m-auto ">
+    <div className="font-poppins flex items-center justify-center m-auto md:mt-10 ">
       <div className="bg-slate-100 shadow border-2 py-2 rounded-md">
         <div className="flex flex-col space-y-1.5 p-6">
           <h3 className="tracking-tight text-2xl text-center font-bold md:text-3xl">

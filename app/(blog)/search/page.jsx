@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function Page() {
   return (
-    <section>
+    <section className="md:mt-10">
       <SearchPage />
     </section>
   );

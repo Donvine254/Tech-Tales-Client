@@ -37,7 +37,7 @@ export default async function BlogsPage({ params }) {
   ).then((response) => response.json());
 
   return (
-    <div className="w-full mx-auto m-2 min-h-[75%] px-8 md:w-2/3 font-poppins">
+    <div className="w-full mx-auto m-2 min-h-[75%] px-8 md:w-2/3 md:mt-10 font-poppins">
       <SideNav />
       <Slug blog={blog} />
     </div>

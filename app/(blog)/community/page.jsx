@@ -5,7 +5,7 @@ export const metadata = {
 };
 export default async function CommunityPage() {
   return (
-    <section className="font-poppins">
+    <section className="font-poppins md:mt-8">
       <div className="p-2 md:p-6 bg-[url('https://res.cloudinary.com/dipkbpinx/image/upload/v1705348745/wlqqvrc1iqcbnfipageb.png')] bg-cover bg-no-repeat text-white ">
         <h1 className="font-bold md:leading-loose text-center text-xl md:text-3xl tracking-wide my-1">
           Tech Tales Community Guidelines

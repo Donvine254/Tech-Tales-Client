@@ -77,7 +77,7 @@ export default function Profile() {
   }
 
   return (
-    <div className="font-poppins w-full min-h-[400px] mx-auto px-8 md:w-2/3">
+    <div className="font-poppins w-full min-h-[400px] mx-auto px-8 md:w-2/3 md:mt-10">
       {/* have two cards rendered as flexbox */}
       <div className="flex flex-col gap-2 lg:flex-row lg:justify-between lg:items-start lg:gap-5 ">
         {/* first card */}

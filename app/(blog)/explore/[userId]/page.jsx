@@ -35,7 +35,7 @@ export default async function page({ params }) {
     }
   ).then((response) => response.json());
   return (
-    <section>
+    <section className="md:mt-10">
       <BlogsComponent blogs={blogs} />
     </section>
   );

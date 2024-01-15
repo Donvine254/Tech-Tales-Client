@@ -13,7 +13,7 @@ export default async function Featured() {
   }).then((response) => response.json());
 
   return (
-    <div className="relative md:min-h-[320px]">
+    <div className="relative md:min-h-[320px] md:mt-10">
       <BlogsComponent blogs={blogs} />
     </div>
   );

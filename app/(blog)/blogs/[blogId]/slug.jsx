@@ -50,7 +50,7 @@ export default function Slug({ blog }) {
     <div>
       {blog ? (
         <div key={blog.id}>
-          <h1 className="font-bold xsm:text-xl text-2xl md:text-4xl">
+          <h1 className="font-bold xsm:text-xl text-2xl md:text-3xl">
             {blog?.title}
           </h1>
           <div className="flex xsm:block gap-5 items-center py-4">

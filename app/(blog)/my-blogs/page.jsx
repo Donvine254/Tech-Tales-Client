@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function page() {
   return (
-    <section>
+    <section className="md:mt-10">
       <MyBlogsComponent />
     </section>
   );
