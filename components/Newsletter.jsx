@@ -53,7 +53,7 @@ export default function Newsletter() {
       {showForm && (
         <form
           onSubmit={handleSubmit}
-          className="bg-blue-200 bg-opacity-10 p-6 xsm:p-2 border-t border-b font-poppins transition-all ease-in-out relative">
+          className="bg-blue-100 bg-opacity-20 p-6 xsm:p-2 border-y font-poppins transition-all ease-in-out relative">
           <button
             onClick={handleClose}
             className="p-1 rounded-full hover:bg-gray-200 focus:outline-none absolute top-0 right-0 ">
@@ -70,7 +70,7 @@ export default function Newsletter() {
           </h1>
           <p className="text-base md:text-[18px] text-gray-500 md:text-center leading-loose">
             Subscribe to our email newsletters and be notified about our latest
-            blog posts
+            blog posts and new features!
           </p>
           <div className="flex items-center w-full overflow-hidden md:w-2/3 lg:w-1/2 lg:mx-auto">
             <input
@@ -81,16 +81,18 @@ export default function Newsletter() {
               maxLength={64}
               title="Email address must be a valid email address"
               required
-              className="h-12 xsm:h-10  text-xl xsm:text-base  disabled:cursor-not-allowed disabled:opacity-50 flex-1 px-3 xsm:px-1 py-2 border-l border-y border-gray-100 focus:border-y-2 focus:border-l-2 rounded-l-md outline-none"
+              className="h-12 xsm:h-10 bg-white  text-xl xsm:text-base  disabled:cursor-not-allowed disabled:opacity-50 flex-1 px-3 xsm:px-1 py-2 border-l border-y focus:bg-opacity-100 bg-opacity-75  rounded-l-md outline-none"
             />
             <button className="px-4 xsm:px-1 py-2 bg-blue-500 hover:bg-blue-600 text-white border-r border-y  rounded-r-md h-12 xsm:h-10 text-xl xsm:text-base">
               Subscribe
             </button>
           </div>
-          <p className="text-base font-medium md:text-center my-2 leading-loose text-gray-600">
+          <p className="text-sm font-medium md:text-center my-2 leading-loose text-gray-600">
             Your privacy matters and we will never spam you. You are free to{" "}
             <span className="text-blue-500 hover:underline">unsubscribe </span>
             any time!
+            <br className="xsm:hidden sm:block" />
+            <span>By subscribing you agree to our terms and conditions</span>
           </p>
         </form>
       )}
