@@ -72,19 +72,30 @@ export default function Navbar() {
           </div>
         </div>
         {/* only show login button when the user is not logged in */}
+        {!user && (
+          <div className="flex items-center gap-2">
+            <Link
+              href={`/login?post_login_redirect_url=${pathname}`}
+              className={` py-2 xsm:py-0.5 px-2 xsm:border xsm:border-blue-500 hover:bg-slate-300 xsm:hover:bg-blue-500 rounded-md text-xl cursor-pointer hover:border ${
+                user ? "hidden" : ""
+              }`}
+              onMouseOver={() => {
+                if (!isOpen) {
+                  setIsOpen(true);
+                }
+              }}>
+              Sign In
+            </Link>
+            <Link
+              href="/register?action=register&user=new"
+              className={` py-2 xsm:py-0.5 px-2 border border-blue-500 hover:bg-blue-500 rounded-md text-xl xsm:hidden cursor-pointer hover:text-white ${
+                user ? "hidden" : ""
+              }`}>
+              Sign Up
+            </Link>
+          </div>
+        )}
 
-        <Link
-          href={`/login?post_login_redirect_url=${pathname}`}
-          className={` py-2 xsm:py-0.5 px-4 border border-blue-500 hover:bg-blue-500 rounded-md text-xl cursor-pointer hover:text-white ${
-            user ? "hidden" : ""
-          }`}
-          onMouseOver={() => {
-            if (!isOpen) {
-              setIsOpen(true);
-            }
-          }}>
-          Sign In
-        </Link>
         {!user && isOpen && <Popup setIsOpen={setIsOpen} />}
       </div>
       <SearchMD />
