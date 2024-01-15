@@ -64,17 +64,6 @@ export default function Comments({ comments, setComments, blogId }) {
     setNewComment("");
     setIsEditing(false);
   }
-  //set custom colors for each comment
-  const colorClasses = [
-    "teal",
-    "blue",
-    "green",
-    "pink",
-    "orange",
-    "cyan",
-    "violet",
-    "purple",
-  ];
 
   return (
     <section id="comments">
@@ -167,7 +156,7 @@ export default function Comments({ comments, setComments, blogId }) {
         {comments?.length > 0 ? (
           comments?.map((comment) => (
             <div className="py-1 font-poppins " key={comment.id}>
-              <div class="flex gap-4">
+              <div className="flex gap-4">
                 <UserImage url={comment.user_avatar} />
                 <div className="">
                   <p className="text-gray-600">
@@ -175,9 +164,7 @@ export default function Comments({ comments, setComments, blogId }) {
                     {comment?.created_at_date}
                   </p>
                   <div
-                    className={`bg-${
-                      colorClasses[Math.floor(Math.random() * 5)]
-                    }-100 bg-opacity-50 border p-3 rounded-r-xl rounded-bl-xl`}>
+                    className={`bg-blue-100 bg-opacity-50 border p-3 rounded-r-xl rounded-bl-xl`}>
                     <p className="text-gray-800">{comment?.body}</p>
                   </div>
                   <div className="py-1 flex items-center gap-4">

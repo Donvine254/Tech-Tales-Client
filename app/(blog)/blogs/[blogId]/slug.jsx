@@ -161,20 +161,6 @@ export default function Slug({ blog }) {
                 </Link>
               </span>
             </p>
-            {/* <div className="relative">
-              <Share
-                size={30}
-                className="font-bold cursor-pointer"
-                handleClick={() => setPopupOpen(true)}
-              />
-              {isPopupOpen && (
-                <div
-                  className="absolute right-0 md:left-0  bottom-8 bg-white border shadow-lg rounded-md min-w-[200px] w-fit h-fit py-4 z-50"
-                  ref={popupRef}>
-                  <ShareModal id={blog.id} slug={blog.slug} />
-                </div>
-              )}
-            </div> */}
             <Bookmark blogId={blog?.id} className="font-bold" size={30} />
           </div>
           {/* beginning of comment section */}
