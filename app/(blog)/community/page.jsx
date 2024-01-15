@@ -1,5 +1,3 @@
-import Image from "next/image";
-import React from "react";
 export const metadata = {
   title: "Community Guidelines- Tech Tales",
   description:
