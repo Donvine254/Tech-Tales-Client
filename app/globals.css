@@ -29,12 +29,11 @@ body {
   @apply flex items-center gap-4 px-3 py-2 hover:text-blue-600 text-base md:text-xl rounded-md hover:bg-gray-200;
 }
 
-
 .navigation {
   @apply md:text-xl font-bold cursor-pointer hover:bg-slate-300 hover:rounded-lg p-2 px-4 md:gap-5;
 }
 .navigation__footer {
-  @apply text-sm md:text-xl font-bold cursor-pointer active:underline-offset-8 hover:text-blue-400 p-2 px-4;
+  @apply text-sm md:text-xl font-bold cursor-pointer hover:underline hover:text-blue-600 p-2 px-4;
 }
 
 label {
