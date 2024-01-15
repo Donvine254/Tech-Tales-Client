@@ -90,7 +90,7 @@ export default function Slug({ blog }) {
             {blog.body ? parse(blog?.body) : blog.body}
           </article>
           {/* div for sharing */}
-          <div className="bg-blue-100 bg-opacity-40 py-4 px-2 flex xsm:flex-col items-center justify-between rounded-md my-2 font-sans">
+          <div className="bg-blue-100 bg-opacity-40 border py-5 px-2 flex xsm:flex-col items-center justify-between rounded-md my-2 font-sans">
             <h1 className="font-semibold text-base text-gray-600 md:text-xl">
               Like what you see? Share with a Friend
             </h1>
