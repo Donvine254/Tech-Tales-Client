@@ -81,8 +81,10 @@ export default function Comments({ comments, setComments, blogId }) {
       </div>
       <p className="my-1">
         Before you comment please read our{" "}
-        <Link href="/community" className="text-blue-500 hover:underline">
-          community guidelines.
+        <Link
+          href="/community"
+          className="text-blue-500 p-1 border rounded-md whitespace-nowrap hover:underline py-1">
+          community guidelines
         </Link>
       </p>
       <hr className="text-blue-500" />

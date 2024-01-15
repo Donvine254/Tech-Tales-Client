@@ -5,11 +5,11 @@ export const metadata = {
   description:
     "Tech Tales is a simple blog for tech students and professionals who would like to share their solutions to various coding problems or practice blogging as a way of learning",
 };
-export default function page() {
+export default async function CommunityPage() {
   return (
     <section className="font-poppins">
-      <div className="p-6 bg-[url('https://res.cloudinary.com/dipkbpinx/image/upload/v1705348745/wlqqvrc1iqcbnfipageb.png')] bg-cover bg-no-repeat text-white ">
-        <h1 className="font-bold leading-loose text-center text-xl md:text-3xl tracking-wide my-1">
+      <div className="p-2 md:p-6 bg-[url('https://res.cloudinary.com/dipkbpinx/image/upload/v1705348745/wlqqvrc1iqcbnfipageb.png')] bg-cover bg-no-repeat text-white ">
+        <h1 className="font-bold md:leading-loose text-center text-xl md:text-3xl tracking-wide my-1">
           Tech Tales Community Guidelines
         </h1>
         <p className="leading-loose text-base md:text-center md:w-1/2 md:mx-auto">
@@ -18,7 +18,7 @@ export default function page() {
           treat each other with respect and help each other succeed .
         </p>
       </div>
-      <div className="px-8 w-full mx-auto md:my-4 md:w-2/3">
+      <div className="px-2 md:px-8 w-full mx-auto md:my-4 md:w-2/3">
         <div>
           <h1 className="text-gray-600 font-bold text-xl md:text-2xl">
             Community Engagement Rules
@@ -28,19 +28,19 @@ export default function page() {
           </h2>
           <p className="text-blue-500 my-1">
             Only share the most relevant content on technology. Examples include{" "}
-            <span className="p-0.5 border border-gray-400 rounded-md whitespace-nowrap">
+            <span className="p-0.5 border border-gray-400 rounded-md whitespace-nowrap my-2">
               web development
             </span>
             , &nbsp;
-            <span className="p-0.5 border border-gray-400 rounded-md whitespace-nowrap">
+            <span className="p-0.5 border border-gray-400 rounded-md whitespace-nowrap my-2">
               data analysis
             </span>
             , &nbsp;
-            <span className="p-0.5 border border-gray-400 rounded-md  whitespace-nowrap">
+            <span className="p-0.5 border border-gray-400 rounded-md  whitespace-nowrap my-2">
               cloud computing
             </span>
             , &nbsp;
-            <span className="p-0.5 border border-gray-400 rounded-md whitespace-nowrap">
+            <span className="p-0.5 border border-gray-400 rounded-md whitespace-nowrap my-2">
               machine learning
             </span>
             , &nbsp; e.t.c
