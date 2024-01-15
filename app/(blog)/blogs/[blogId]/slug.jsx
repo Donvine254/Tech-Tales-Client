@@ -99,13 +99,16 @@ export default function Slug({ blog }) {
                 href={`https://twitter.com/share?url=https://techtales.vercel.app/blogs/${blog.id}&text=${blog.title}`}
                 target="_blank"
                 className="h-10 w-10 flex items-center justify-center p-1 border rounded-full hover:bg-blue-300 bg-blue-200">
-                <NewTwitterIcon className="hover:animate-spin" />
+                <NewTwitterIcon
+                  size={20}
+                  className="hover:animate-spin transition ease-in-out duration-300"
+                />
               </Link>
               <Link
                 href={`https://facebook.com/sharer.php?u=https://techtales.vercel.app/blogs/${blog.id}`}
                 target="_blank"
                 className="h-10 w-10 flex items-center justify-center p-1 rounded-full border hover:bg-blue-300 bg-blue-200">
-                <Facebook />
+                <Facebook className="hover:animate-spin transition ease-in-out duration-300" />
               </Link>
               <button
                 onClick={() => {
@@ -115,7 +118,7 @@ export default function Slug({ blog }) {
                   window.open(whatsappUrl);
                 }}
                 className="h-10 w-10 flex items-center justify-center p-1 rounded-full border hover:bg-green-300 bg-blue-200">
-                <Whatsapp />
+                <Whatsapp className="hover:animate-spin transition ease-in-out duration-300" />
               </button>
               <button
                 onClick={async () => {
@@ -129,8 +132,11 @@ export default function Slug({ blog }) {
                     toast.error("Failed to copy link to clipboard");
                   }
                 }}
-                className="h-10 w-10 flex items-center justify-center p-1 border rounded-full hover:bg-blue-300 bg-blue-200">
-                <Copy />
+                className="h-10 w-10 flex items-center justify-center p-1 border rounded-full hover:bg-blue-300 bg-blue-200 group">
+                <Copy
+                  size={20}
+                  className="hover:animate-spin transition ease-in-out duration-300"
+                />
               </button>
             </div>
           </div>
