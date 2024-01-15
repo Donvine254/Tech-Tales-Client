@@ -3,11 +3,14 @@ import { getCurrentUser, deleteComment, patchComment } from "@/lib";
 import { useState } from "react";
 import { Edit, Trash } from "@/assets";
 import { UserImage } from "./Avatar";
+import toast from "react-hot-toast";
+import Link from "next/link";
 
 export default function Comments({ comments, setComments, blogId }) {
   const [newComment, setNewComment] = useState("");
   const [commentToEdit, setCommentToEdit] = useState(null);
   const [isInputFocused, setIsInputFocused] = useState(false);
+  const [inputDisabled, setInputDisabled] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const user = getCurrentUser();
   async function handleSubmit(e) {
@@ -63,7 +66,26 @@ export default function Comments({ comments, setComments, blogId }) {
   }
 
   return (
-    <section>
+    <section id="comments">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h1 className="text-bold text-xl md:text-2xl py-2 font-bold">
+          Comments
+        </h1>
+        {!user && (
+          <Link
+            href={`/login?post_login_redirect_url=blogs/${blogId}`}
+            className="py-0.5 px-2 border text-blue-500 cursor-pointer">
+            Login to Comment ↗️
+          </Link>
+        )}
+      </div>
+      <p className="my-1">
+        Before you comment please read our{" "}
+        <a href="/community" className="text-blue-500 hover:underline">
+          community guidelines.
+        </a>
+      </p>
+      <hr className="text-blue-500" />
       <form className="mt-4">
         <div className="flex gap-2 xsm:gap-1 items-center">
           <UserImage url={user?.picture} className="flex-initial" />
@@ -73,7 +95,16 @@ export default function Comments({ comments, setComments, blogId }) {
             spellCheck="true"
             rows={2}
             id="write-comment"
-            disabled={!user}
+            disabled={inputDisabled}
+            onClick={() => {
+              if (!user) {
+                toast.error("Login Required to join the discussion");
+                setInputDisabled(true);
+                setIsInputFocused(false);
+              } else {
+                setInputDisabled(false);
+              }
+            }}
             onFocus={() => setIsInputFocused(true)}
             onChange={(e) => setNewComment(e.target.value)}
             className="p-4 xsm:p-2 xsm:ml-2 flex-2 flex-grow bg-white border-2  focus:outline-none md:text-xl h-16 focus:h-20 rounded-lg text-black min-h-fit"
