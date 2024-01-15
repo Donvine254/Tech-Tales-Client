@@ -90,8 +90,8 @@ export default function Slug({ blog }) {
             {blog.body ? parse(blog?.body) : blog.body}
           </article>
           {/* div for sharing */}
-          <div className="bg-blue-100 bg-opacity-40 py-4 px-2 flex xsm:flex-col items-center justify-between rounded-md my-2 ">
-            <h1 className="font-bold text-bas text-gray-600 md:text-xl">
+          <div className="bg-blue-100 bg-opacity-40 py-4 px-2 flex xsm:flex-col items-center justify-between rounded-md my-2 font-sans">
+            <h1 className="font-semibold text-base text-gray-600 md:text-xl">
               Like what you see? Share with a Friend
             </h1>
             <div className="flex items-center xsm:justify-between  xsm:w-full xsm:p-3 md:gap-4">
@@ -99,7 +99,7 @@ export default function Slug({ blog }) {
                 href={`https://twitter.com/share?url=https://techtales.vercel.app/blogs/${blog.id}&text=${blog.title}`}
                 target="_blank"
                 className="h-10 w-10 flex items-center justify-center p-1 border rounded-full hover:bg-blue-300 bg-blue-200">
-                <NewTwitterIcon />
+                <NewTwitterIcon className="hover:animate-spin" />
               </Link>
               <Link
                 href={`https://facebook.com/sharer.php?u=https://techtales.vercel.app/blogs/${blog.id}`}
