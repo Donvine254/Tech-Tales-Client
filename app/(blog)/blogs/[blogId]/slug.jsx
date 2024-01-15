@@ -94,7 +94,7 @@ export default function Slug({ blog }) {
             <h1 className="font-bold text-bas text-gray-600 md:text-xl">
               Like what you see? Share with a Friend
             </h1>
-            <div className="flex items-center gap-4 xsm:my-2">
+            <div className="flex items-center xsm:justify-between  xsm:w-full xsm:p-3 md:gap-4">
               <Link
                 href={`https://twitter.com/share?url=https://techtales.vercel.app/blogs/${blog.id}&text=${blog.title}`}
                 target="_blank"
