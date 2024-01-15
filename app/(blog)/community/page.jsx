@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 export const metadata = {
   title: "Community Guidelines- Tech Tales",
@@ -7,7 +8,7 @@ export const metadata = {
 export default function page() {
   return (
     <section className="font-poppins">
-      <div className="p-6 bg-[url('https://images.all-free-download.com/images/graphicwebp/abstract_background_template_elegant_dynamic_3d_waves_6931840.webp')] bg-cover bg-no-repeat text-white ">
+      <div className="p-6 bg-[url('https://res.cloudinary.com/dipkbpinx/image/upload/v1705348745/wlqqvrc1iqcbnfipageb.png')] bg-cover bg-no-repeat text-white ">
         <h1 className="font-bold leading-loose text-center text-xl md:text-3xl tracking-wide my-1">
           Tech Tales Community Guidelines
         </h1>
@@ -17,7 +18,7 @@ export default function page() {
           treat each other with respect and help each other succeed .
         </p>
       </div>
-      <div className="px-8 py-4 w-full mx-auto md:my-4 md:w-2/3">
+      <div className="px-8 w-full mx-auto md:my-4 md:w-2/3">
         <div>
           <h1 className="text-gray-600 font-bold text-xl md:text-2xl">
             Community Engagement Rules
@@ -60,9 +61,9 @@ export default function page() {
           <p className="mb-2 leading-loose tracking-wide">
             Constructive criticisms of Tech Tales upon which we can act or to
             which we can respond are allowed. However repeated duplicate
-            postings (spam) by the same user, as they clutter up discussions for
-            other users. We will also remove comments subject to legal issues
-            (slander, defamation, contempt of court) and any
+            postings (spam) by the same user are not permitted, as they clutter
+            up discussions for other users. We will also remove comments subject
+            to legal issues (slander, defamation, contempt of court) and any
             publicizing/encouraging/endorsing illegal activity.
           </p>
           <h2 className="text-xl font-bold my-2">
@@ -85,7 +86,18 @@ export default function page() {
             will be removed.
           </p>
           <h2 className="text-xl font-bold my-2">Keep it Original</h2>
-          <p className="my-2 leading-loose tracking-wide">
+          <p className="text-green-500 my-1">
+            Copy paste{" "}
+            <span className="p-0.5 border border-gray-400 rounded-md  whitespace-nowrap text-black">
+              CTRL + C
+            </span>{" "}
+            <span className="p-0.5 border border-gray-400 rounded-md  whitespace-nowrap text-black">
+              CTRL + V
+            </span>{" "}
+            is the greatest discovery for mankind but avoid it at all costs.
+          </p>
+          <hr className="border-green-400" />
+          <p className="my-b leading-loose tracking-wide">
             Impersonating brands or other users, or featuring licensed or
             copyright material, is not allowed. Content containing unverified or
             false claims about products will be removed. We also encourage
@@ -95,6 +107,11 @@ export default function page() {
           <h2 className="text-xl font-bold my-2">
             Child Safety and Fighting Hate
           </h2>
+          <p className="text-pink-500">
+            Post content that is tailored to audiences of all ages and avoid
+            spreading hate. You never know who is reading!
+          </p>
+          <hr className="border-pink-400" />
           <p className="my-2 leading-loose tracking-wide">
             Content posted to Tech Tales should be age appropriate and gender
             neutral. Content that is unsuitable for younger audiences or
@@ -107,11 +124,47 @@ export default function page() {
           <h2 className="text-xl font-bold my-2">
             Be Helpful and You will be helped
           </h2>
-          <p className="my-2 leading-loose tracking-wide">
+          <p className="text-blue-500">
+            Helping others will help make you feel like a senior developer!
+          </p>
+          <hr className="border-blue-500" />
+          <p className="my-1 leading-loose tracking-wide">
             Finally, Tech Tales retains the right to remove any content posted
             to Tech Tales or block users from posting for any other reason
             deemed necessary, to create a helpful community.
           </p>
+        </div>
+        {/* alert div */}
+        <div
+          className="bg-blue-100 bg-opacity-40 border border-blue-500 text-blue-600 py-3 rounded relative border-l-4 "
+          role="alert">
+          <div className="flex px-1 gap-2 ">
+            <div className="py-1">
+              <Image
+                height={60}
+                width={60}
+                alt="Messages icon"
+                src="https://media.licdn.com/dms/image/C4D08AQFJqNWRM8CV5g/croft-frontend-shrinkToFit1024/0/1600383533421?e=2147483647&amp;v=beta&amp;t=O9jR8MCWFiMAWDR5bt-kE3IcETIaOkXWwWAOjl21bDQ"
+              />
+            </div>
+            <div>
+              <p className="font-bold text-[18px]">
+                Tell us if you see abusive content!
+              </p>
+              <p className="text-sm leading-loose">
+                If you see something you believe may violate our policies,
+                whether in profiles, posts, messages, comments, or anywhere
+                else, please report it to us. You can report content by emailing
+                us at{" "}
+                <a
+                  target="_blank"
+                  className="font-semibold hover:underline p-1 border rounded-md border-blue-500 whitespace-nowrap"
+                  href="mailto:admin@techtales.vercel.app">
+                  admin@techtales.vercel.app
+                </a>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
