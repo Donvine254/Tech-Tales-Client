@@ -81,9 +81,9 @@ export default function Comments({ comments, setComments, blogId }) {
       </div>
       <p className="my-1">
         Before you comment please read our{" "}
-        <a href="/community" className="text-blue-500 hover:underline">
+        <Link href="/community" className="text-blue-500 hover:underline">
           community guidelines.
-        </a>
+        </Link>
       </p>
       <hr className="text-blue-500" />
       <form className="mt-4">
@@ -155,36 +155,33 @@ export default function Comments({ comments, setComments, blogId }) {
       <div>
         {comments?.length > 0 ? (
           comments?.map((comment) => (
-            <div className="py-1 font-poppins" key={comment.id}>
-              <div className="flex gap-4 xsm:gap-2 xsm:items-center">
+            <div className="py-1 font-poppins " key={comment.id}>
+              <div class="flex">
                 <UserImage url={comment.user_avatar} />
-                <div className="flex items-center xsm:flex-col gap-2 xsm:gap-0 xsm:items-start">
-                  <p className="font-bold xsm:text-base text-xl">
-                    {comment?.author}
-                  </p>
-                  <p className="font-bold xsm:text-base text-xl">
+                <div className="ml-4">
+                  <p className="text-gray-600">
+                    <span className="font-bold">{comment?.author} </span>&nbsp;{" "}
                     {comment?.created_at_date}
                   </p>
+                  <div className="bg-blue-100 bg-opacity-50 border p-3 rounded-r-xl rounded-bl-xl">
+                    <p className="text-gray-800">{comment?.body}</p>
+                  </div>
                 </div>
               </div>
-              <p className="text-base md:text-xl py-1 leading-normal ml-16 xsm:ml-12 sm:ml-14 md:ml-16">
-                {comment?.body}
-              </p>
-
               <div className="py-2 flex items-center gap-4 ml-16 xsm:ml-10">
                 {comment?.user_id === user?.id ? (
                   <>
                     <button
-                      className="flex items center gap-2 text-sm md:text-xl font-bold hover:text-blue-500"
+                      className="flex items-center gap-2 text-sm  font-bold hover:text-blue-500"
                       onClick={() => editComment(comment)}>
-                      <Edit />
+                      <Edit size={14} />
                       <span>Edit</span>
                     </button>
 
                     <button
-                      className="flex items center gap-2 text-sm md:text-xl font-bold hover:text-red-500"
+                      className="flex items-center gap-2 text-sm  font-bold hover:text-red-500"
                       onClick={() => deleteComment(comment.id, setComments)}>
-                      <Trash />
+                      <Trash size={14} />
                       <span> Delete</span>
                     </button>
                   </>

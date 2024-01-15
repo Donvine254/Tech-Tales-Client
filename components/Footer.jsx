@@ -12,10 +12,7 @@ export default function Footer() {
         </span>
       </h1>
       <div className="flex flex-wrap md:justify-between md:flex-row align-center md:gap-2">
-        <Link
-          href="/community-guidelines"
-          className="navigation__footer"
-          target="_blank">
+        <Link href="/community" className="navigation__footer" target="_blank">
           Community Guidelines
         </Link>
         <Link
