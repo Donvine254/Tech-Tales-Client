@@ -140,12 +140,20 @@ export default function page() {
           role="alert">
           <div className="flex px-1 gap-2 ">
             <div className="py-1">
-              <Image
-                height={60}
-                width={60}
-                alt="Messages icon"
-                src="https://media.licdn.com/dms/image/C4D08AQFJqNWRM8CV5g/croft-frontend-shrinkToFit1024/0/1600383533421?e=2147483647&amp;v=beta&amp;t=O9jR8MCWFiMAWDR5bt-kE3IcETIaOkXWwWAOjl21bDQ"
-              />
+              <svg
+                viewBox="0 0 64 64"
+                fill="currentColor"
+                height="48"
+                width="48">
+                <g
+                  fill="none"
+                  stroke="green"
+                  strokeMiterlimit={10}
+                  strokeWidth={2}>
+                  <path d="M24 30a8 8 0 0016 0M18 20h2M46 20h-2" />
+                  <path d="M32 47h31V5H1v42h17v12z" />
+                </g>
+              </svg>
             </div>
             <div>
               <p className="font-bold text-[18px]">
