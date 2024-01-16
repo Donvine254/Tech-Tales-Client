@@ -1,11 +1,11 @@
 "use client";
 import React, { useState, useRef } from "react";
-import Image from "next/image";
 import toast from "react-hot-toast";
 import axiosInstance from "@/axiosConfig";
 import { useRouter } from "next/navigation";
 import Loader from "./Loader";
 import secureLocalStorage from "react-secure-storage";
+import { UserImage } from "./Avatar";
 
 export default function UpdateProfileModal({ user }) {
   const router = useRouter();
@@ -94,28 +94,20 @@ export default function UpdateProfileModal({ user }) {
         method="dialog"
         onSubmit={handleSubmit}>
         <div className="flex flex-col space-y-1.5 p-6">
-          <h3 className="text-2xl font-semibold leading-none tracking-tight">
-            Profile Information
+          <h3 className="text-2xl text-gray-600 font-semibold leading-none tracking-tight">
+            Update Profile Information
           </h3>
         </div>
         <div className="p-6 space-y-4">
           <div className="flex items-center gap-4">
             {image ? (
-              <Image
-                src={URL.createObjectURL(image)}
-                width={80}
-                height={80}
-                alt="profile-picture"
-                className="rounded-full"
+              <UserImage
+                url={URL.createObjectURL(image)}
+                size={80}
+                className="!h-20 !w-20"
               />
             ) : (
-              <Image
-                src={user.picture}
-                width={80}
-                height={80}
-                alt="profile-picture"
-                className="rounded-full"
-              />
+              <UserImage url={user.picture} size={80} className="!h-20 !w-20" />
             )}
             <div>
               {image ? (
@@ -216,25 +208,29 @@ export default function UpdateProfileModal({ user }) {
         <div className="flex items-center justify-end gap-4 p-6">
           <button
             type="reset"
-            className="px-4 py-2 border-2 border-green-400 hover:border-orange-500 rounded-xl bg-transparent"
+            title="reset"
+            className="px-4 h-10 py-1 border-2 border-green-400 hover:border-orange-500 rounded-xl disabled:bg-opacity-30 disabled:border-gray-200 bg-transparent"
+            disabled={loading}
             onClick={() => {
               document.getElementById("my_modal_5").close();
             }}>
             Cancel
           </button>
           <button
-            className="px-4 py-2 border-2 bg-blue-600 text-white rounded-xl disabled:pointer-events-none disabled:opacity-50 disabled:bg-blue-400 flex items-center justify-center gap-2"
+            className="px-4 py-1 h-10 border-2 bg-blue-600 text-white rounded-xl disabled:pointer-events-none disabled:bg-gray-100 disabled:text-black flex items-center justify-center gap-2"
             type="submit"
+            title="submit"
             disabled={
               data.username.toLowerCase().trim() ===
                 user.username.toLowerCase().trim() &&
               data.picture === user.picture &&
               data?.bio?.toLowerCase().trim() ===
-                user?.bio?.toLowerCase().trim()
+                user?.bio?.toLowerCase().trim() &&
+              loading
             }>
             {loading ? (
               <>
-                <Loader fill="white" size="12" /> Saving...
+                <Loader size="12" /> Saving...
               </>
             ) : (
               "Save Changes"
