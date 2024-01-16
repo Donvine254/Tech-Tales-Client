@@ -145,7 +145,7 @@ export default async function CommunityPage() {
                 width="48">
                 <g
                   fill="none"
-                  stroke="green"
+                  stroke="currentColor"
                   strokeMiterlimit={10}
                   strokeWidth={2}>
                   <path d="M24 30a8 8 0 0016 0M18 20h2M46 20h-2" />
