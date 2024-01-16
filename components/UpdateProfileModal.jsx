@@ -93,8 +93,8 @@ export default function UpdateProfileModal({ user }) {
         className="rounded-lg border bg-card text-card-foreground shadow-sm w-full max-w-lg bg-slate-100"
         method="dialog"
         onSubmit={handleSubmit}>
-        <div className="flex flex-col space-y-1.5 p-6">
-          <h3 className="text-2xl text-gray-600 font-semibold leading-none tracking-tight">
+        <div className="flex flex-col space-y-1.5 px-6 pt-2">
+          <h3 className="text-2xl xsm:text-xl text-gray-600 font-semibold leading-none tracking-tight mt-2 text-center">
             Update Profile Information
           </h3>
         </div>
