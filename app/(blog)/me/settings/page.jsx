@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import Loader from "@/components/Loader";
 import Axios from "axios";
 import UpdateProfileModal from "@/components/UpdateProfileModal";
+import { UserImage } from "@/components/Avatar";
 
 export default function Page() {
   const user = getCurrentUser();
@@ -75,7 +76,7 @@ export default function Page() {
   return (
     <div className="font-poppins flex items-center justify-center m-auto md:mt-10 ">
       <div className="bg-slate-100 shadow border-2 py-2 rounded-md">
-        <div className="flex flex-col space-y-1.5 p-6">
+        <div className="flex flex-col space-y-1.5 py-2 px-6">
           <h3 className="tracking-tight text-2xl text-center font-bold md:text-3xl">
             Settings
           </h3>
@@ -83,10 +84,10 @@ export default function Page() {
             Update your details, profile picture, and manage your account.
           </p>
         </div>
-        <div className="p-6 space-y-4">
+        <div className="p-6 space-y-2">
           <div className="space-y-2 flex items-center justify-between gap-4 text-gray-700">
             <h3>Email address</h3>
-            <p>{user.email}</p>
+            <p className="break-words">{user.email}</p>
           </div>
           <div className="space-y-2 flex items-center justify-between gap-4 text-gray-700">
             <h3 className="hover:text-gray-900 font-semibold">Username</h3>
@@ -100,17 +101,11 @@ export default function Page() {
               </p>
             </div>
             <div onClick={showUpdateModal}>
-              <Image
-                src={user.picture}
-                alt="profile-picture"
-                className="rounded-full"
-                height={38}
-                width={38}
-              />
+              <UserImage url={user.picture} />
             </div>
           </div>
         </div>
-        <div className="px-6 py-2 flex items-center justify-between gap-3">
+        <div className="px-6 py-1 flex items-center justify-between gap-3">
           <div className="py-1">
             <h3 className="">Allow Email Notifications </h3>
             <p className="text-sm wrap text-gray-600">
@@ -125,7 +120,7 @@ export default function Page() {
         </div>
         <div className="items-center p-6 flex flex-col space-y-4">
           <button
-            className="inline-flex items-center justify-center  font-medium hover:bg-primary/90 h-10 px-4 py-2 w-full bg-yellow-100 border-2 border-yellow-400  rounded-md hover:bg-yellow-400 hover:text-white"
+            className="inline-flex items-center justify-center  font-medium hover:bg-primary/90 h-10 px-4 py-2 w-full bg-[#FDFAE9] border-2 border-amber-500  rounded-md hover:bg-amber-400 hover:text-white"
             onClick={handleDeactivate}>
             Deactivate Account
           </button>
