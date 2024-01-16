@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import { getCurrentUser, clearLocalStorage } from "@/lib";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import Image from "next/image";
 import Swal from "sweetalert2";
 import Loader from "@/components/Loader";
 import Axios from "axios";

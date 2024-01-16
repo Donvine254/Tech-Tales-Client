@@ -11,7 +11,6 @@
   --background-end-rgb: 255, 255, 255;
 }
 
-
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
@@ -82,8 +81,7 @@ h4 {
   @apply font-bold;
 }
 .blog-body p {
-  margin-bottom: 20px;
-  margin-top: 20px;
+  margin: 14px 0;
 }
 .blog-body p:first-child {
   margin-top: 0;
@@ -94,5 +92,5 @@ h4 {
 }
 /* styling for sweetalert */
 .swal2-popup {
-  font-family: Poppins, serif important;
+  @apply !font-poppins;
 }
