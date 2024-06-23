@@ -38,8 +38,9 @@ export default function Page() {
       cancelButtonColor: "green",
     }).then((result) => {
       if (result.isConfirmed) {
-        clearLocalStorage;
-        router.refresh();
+        clearLocalStorage();
+        // get the current user and ensure the user cannot login again before 5 minutes elapse
+        router.replace("/login");
       }
     });
   }
