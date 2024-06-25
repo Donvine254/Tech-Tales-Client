@@ -148,7 +148,7 @@ export default function CreateNewBlog() {
         </div>
         {/* end of alert div */}
         <input
-          className="blog-input-field focus:outline-none text-xl font-bold"
+          className="blog-input-field focus:outline-none text-lg font-bold"
           type="text"
           name="title"
           id="title"
@@ -185,10 +185,10 @@ export default function CreateNewBlog() {
           <button
             type="submit"
             disabled={loading}
-            className="bg-blue-500 bg-opacity-80 disabled:bg-gray-200 disabled:text-black  font-bold px-5 py-2 text-white rounded-md hover:bg-blue-600">
+            className="bg-blue-500 bg-opacity-80 disabled:bg-gray-200 disabled:text-black  font-bold px-2 py-1.5 text-white rounded-md hover:bg-blue-600">
             {loading ? (
-              <p className="flex items-center gap-2">
-                <Loader size={20} />
+              <p className="flex items-center gap-1">
+                <Loader size={18} />
                 <span>Publishing</span>
               </p>
             ) : (
@@ -198,7 +198,7 @@ export default function CreateNewBlog() {
           <button
             type="button"
             onClick={saveDraft}
-            className="bg-transparent text-black hover:bg-blue-500 border hover:text-white border-blue-500 px-2 p-2 rounded-md">
+            className="bg-transparent text-black hover:bg-blue-500 border hover:text-white border-blue-500 px-2 py-1.5 rounded-md">
             Save Draft
           </button>
         </div>

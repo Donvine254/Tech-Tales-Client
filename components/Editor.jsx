@@ -22,10 +22,11 @@ export default function App({ data, handleChange }) {
         }
         name="body"
         init={{
-          height: 500,
+          height: 400,
           toolbar_mode: "sliding",
           toolbar_location: "bottom",
           menubar: false,
+          placeholder: "Start by writing or pasting (Ctrl + V) text here....",
           browser_spellcheck: true,
           plugins: [
             "advlist",
@@ -51,7 +52,7 @@ export default function App({ data, handleChange }) {
           ],
           toolbar:
             "undo redo | blocks | bold italic forecolor underline| align numlist bullist | link image table media pageembed | backcolor  emoticons codesample blockquote| preview removeformat",
-          content_style: "body { font-size:18px }",
+          content_style: "body { font-size:16px }",
           image_advtab: true,
         }}
       />
