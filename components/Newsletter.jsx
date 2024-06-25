@@ -81,7 +81,7 @@ export default function Newsletter() {
               maxLength={64}
               title="Email address must be a valid email address"
               required
-              className="h-12 xsm:h-10 bg-white  text-xl xsm:text-base  disabled:cursor-not-allowed disabled:opacity-50 flex-1 px-3 xsm:px-1 py-2 border-l border-y focus:bg-opacity-100 bg-opacity-75  rounded-l-md outline-none"
+              className="h-12 xsm:h-10 !bg-white  text-xl xsm:text-base  disabled:cursor-not-allowed disabled:opacity-50 flex-1 px-3 xsm:px-1 py-2 border-l border-y focus:bg-opacity-100 bg-opacity-75  rounded-l-md outline-none"
             />
             <button className="px-4 xsm:px-1 py-2 bg-blue-500 hover:bg-blue-600 text-white border-r border-y  rounded-r-md h-12 xsm:h-10 text-xl xsm:text-base">
               Subscribe
