@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { getCurrentUser } from "@/lib";
+import { getCurrentUser, clearLocalStorage } from "@/lib";
+import { revalidatePage } from "@/lib/actions";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Image from "next/image";
@@ -75,7 +76,15 @@ export default function Profile() {
       </div>
     );
   }
-
+  //function to signout
+  function handleSignout() {
+    clearLocalStorage();
+    toast.success("logged out successfully");
+    revalidatePage("/my-blogs");
+    if (typeof window !== undefined) {
+      window.location.href = "/";
+    }
+  }
   return (
     <div className="font-poppins w-full min-h-[400px] mx-auto px-8 md:w-2/3 md:mt-10">
       {/* have two cards rendered as flexbox */}
@@ -96,11 +105,30 @@ export default function Profile() {
           <p className="mb-2 tracking-wide text-sm">
             {user?.bio ?? "You have have no bio yet"}
           </p>
-          <Link
-            href="/me/settings"
-            className="text-green-500 hover:underline my-3 font-bold ">
-            Edit Profile
-          </Link>
+          <div className="flex flex-col">
+            <Link
+              href="/my-blogs"
+              className=" bg-zinc-200 text-blue-700 p-1  w-full rounded-md my-1 font-bold ">
+              📖 My Blogs
+            </Link>
+
+            <Link
+              href="/me/settings"
+              className="hover:bg-zinc-200 hover:text-blue-700 p-1 w-full rounded-md my-1 font-bold ">
+              ⚙️ Edit Profile
+            </Link>
+            <Link
+              href="/help"
+              className="hover:bg-zinc-200 hover:text-blue-700 p-1 w-2/3 rounded-md my-1 font-bold ">
+              ❔Help Center
+            </Link>
+
+            <p
+              onClick={handleSignout}
+              className="hover:bg-zinc-200 hover:text-red-500 cursor-pointer p-1 w-full rounded-md my-1 font-bold ">
+              ↪️ Log out
+            </p>
+          </div>
         </div>
         {/* second card */}
         <div className="lg:w-2/3 p-6 space-y-2 bg-gray-50 border shadow rounded-md">
