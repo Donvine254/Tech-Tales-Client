@@ -86,7 +86,7 @@ export default function Profile() {
     }
   }
   return (
-    <div className="font-poppins w-full min-h-[400px] mx-auto px-8 md:w-2/3 md:mt-10">
+    <div className="font-poppins w-full min-h-[400px] mx-auto px-8 md:w-4/5 md:mt-10">
       {/* have two cards rendered as flexbox */}
       <div className="flex flex-col gap-2 lg:flex-row lg:justify-between lg:items-start lg:gap-5 ">
         {/* first card */}
@@ -99,8 +99,12 @@ export default function Profile() {
             className="w-[120px] h-[120px] rounded-full m-auto ring-offset-4 ring-2 ring-blue-600 ring-offset-white"
           />
 
-          <p className="text-gray-700 font-semibold my-2">{user.username}</p>
-          <p className="text-gray-700 mb-2 break-words">{user.email}</p>
+          <p className="text-gray-700 font-semibold my-2 text-center">
+            {user.username}
+          </p>
+          <p className="text-gray-700 mb-2 break-words text-sm text-center">
+            {user.email}
+          </p>
           <p className="text-gray-700 font-semibold mb-2">Bio</p>
           <p className="mb-2 tracking-wide text-sm">
             {user?.bio ?? "You have have no bio yet"}
@@ -119,7 +123,7 @@ export default function Profile() {
             </Link>
             <Link
               href="/help"
-              className="hover:bg-zinc-200 hover:text-blue-700 p-1 w-2/3 rounded-md my-1 font-bold ">
+              className="hover:bg-zinc-200 hover:text-blue-700 p-1 w-full rounded-md my-1 font-bold ">
               ❔Help Center
             </Link>
 
