@@ -4,7 +4,6 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Search } from "./Search";
-import { SearchMD } from "./SearchMD";
 import { Menu } from "./Menu";
 import Popup from "./LoginAlert";
 import { getCurrentUser } from "@/lib";
@@ -98,7 +97,6 @@ export default function Navbar() {
 
         {!user && isOpen && <Popup setIsOpen={setIsOpen} />}
       </div>
-      <SearchMD />
     </nav>
   );
 }

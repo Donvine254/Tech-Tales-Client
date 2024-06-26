@@ -2,6 +2,7 @@ import "../globals.css";
 import Footer from "@/components/Footer";
 import ScrollIndicator from "@/components/ScrollIndicator";
 import Newsletter from "@/components/Newsletter";
+import { SearchMD } from "@/components/SearchMD";
 import { Toaster } from "react-hot-toast";
 import dynamic from "next/dynamic";
 import { GoogleOAuthProvider } from "@react-oauth/google";
@@ -22,6 +23,7 @@ export default function RootLayout({ children }) {
         <Toaster />
         <GoogleOAuthProvider clientId="825260144276-9i710fa28s0sngshd16veqppilkhmfjm.apps.googleusercontent.com">
           <NoSSRNavbar />
+          <SearchMD />
           <main className="max-w-7xl mx-auto overflow-x-hidden">
             {children}
           </main>

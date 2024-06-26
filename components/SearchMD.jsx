@@ -41,7 +41,7 @@ export const SearchMD = () => {
   }
   return (
     <form
-      className="py-1 flex items-center justify-center  md:hidden"
+      className="py-1 flex items-center justify-center z-99 md:hidden"
       onSubmit={handleSearch}>
       <div className="relative xsm:mx-2">
         <input
@@ -49,7 +49,7 @@ export const SearchMD = () => {
           placeholder="Search..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="rounded-xl bg-slate-100 p-2 pl-8 pr-6 px-4  xsm:w-full  focus:bg-blue-100 focus:bg-opacity-30 text-black focus:outline-none text-xl"
+          className="rounded-xl bg-white p-2 pl-8 pr-6 px-4  xsm:w-full   focus:outline-blue-400 text-black  text-xl"
         />
         <svg
           fill="currentColor"

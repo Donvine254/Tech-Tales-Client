@@ -13,7 +13,7 @@ export const Menu = ({ handleClick, menuOpen, currentUser }) => {
     }
   }
   return (
-    <div className="space-y-4 bg-slate-100 border-2 shadow-lg z-50 py-5 px-2 md:px-4 rounded-lg xsm:min-w-fit min-w-[250px]  font-poppins">
+    <div className="space-y-4 bg-slate-100 border-2 shadow-lg z-50 py-5 px-2 md:px-4 rounded-lg  min-w-[250px] md:min-w-[300px]  font-poppins">
       <Link
         href="/featured"
         className="menu-item"
