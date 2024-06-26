@@ -12,7 +12,8 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <Toaster />
-        <GoogleOAuthProvider clientId="825260144276-9i710fa28s0sngshd16veqppilkhmfjm.apps.googleusercontent.com">
+        <GoogleOAuthProvider
+          clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
           {children}
         </GoogleOAuthProvider>
       </body>
