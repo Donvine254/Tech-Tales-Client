@@ -247,7 +247,7 @@ export default function Profile() {
               </>
             ) : (
               !loading && (
-                <div id="bookmarks">
+                <div>
                   <div className="flex items-center justify-center py-1">
                     <Clipboard />
                   </div>
@@ -260,7 +260,9 @@ export default function Profile() {
             )}
           </ul>
 
-          <h2 className="text-2xl font-semibold  my-2">Reading List</h2>
+          <h2 className="text-2xl font-semibold  my-2" id="bookmarks">
+            Reading List
+          </h2>
           {loading ? (
             <div className="flex items-center justify-center">
               <Loader size={30} />
