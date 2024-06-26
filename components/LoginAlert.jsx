@@ -17,13 +17,18 @@ export default function Popup({ setIsOpen }) {
   }, [setIsOpen]);
 
   useEffect(() => {
-    // function to decrease the progress by 10% every second
+    // function to decrease the progress by 50% every second
     const decreaseProgress = () => {
-      setProgress((prev) => (prev > 0 ? prev - 10 : 0));
+      setProgress((prev) => (prev > 0 ? prev - 2 : 0));
     };
-    const interval = setInterval(decreaseProgress, 1000);
-    return () => clearInterval(interval);
-  }, []);
+    const interval = setInterval(decreaseProgress, 35);
+    return () => {
+      clearInterval(interval);
+      setTimeout(() => {
+        setIsOpen(false);
+      }, 5000);
+    };
+  }, [setIsOpen]);
 
   const handleClose = () => {
     setIsOpen(false);

@@ -8,7 +8,7 @@ import { Menu } from "./Menu";
 import Popup from "./LoginAlert";
 import { getCurrentUser } from "@/lib";
 
-import { SortUp, SortDown } from "@/assets";
+import { SortUp, SortDown, UserIcon } from "@/assets";
 
 const user = getCurrentUser();
 
@@ -75,7 +75,7 @@ export default function Navbar() {
           <div className="flex items-center gap-2">
             <Link
               href={`/login?post_login_redirect_url=${pathname}`}
-              className={` py-2 xsm:py-0.5 px-2 xsm:border xsm:border-blue-500 hover:bg-slate-300 xsm:hover:bg-blue-500 rounded-md text-xl cursor-pointer hover:border ${
+              className={` py-2 xsm:py-0.5 px-2 bg-[#00308F] text-white rounded-lg flex items-center text-base gap-1 cursor-pointer hover:border ${
                 user ? "hidden" : ""
               }`}
               onMouseOver={() => {
@@ -83,15 +83,32 @@ export default function Navbar() {
                   setIsOpen(true);
                 }
               }}>
-              Sign In
+              <span>
+                Sign In <span className="hidden md:inline-flex">/Sign Up</span>
+              </span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                className="cursor-pointer">
+                <path d="M18 20a6 6 0 0 0-12 0" />
+                <circle cx="12" cy="10" r="4" />
+                <circle cx="12" cy="12" r="10" />
+              </svg>
             </Link>
-            <Link
+            {/* <Link
               href="/register?action=register&user=new"
               className={` py-2 xsm:py-0.5 px-2 border border-blue-500 hover:bg-blue-500 rounded-md text-xl xsm:hidden cursor-pointer hover:text-white ${
                 user ? "hidden" : ""
               }`}>
               Sign Up
-            </Link>
+            </Link> */}
           </div>
         )}
 

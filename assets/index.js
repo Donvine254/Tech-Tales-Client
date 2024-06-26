@@ -482,3 +482,18 @@ export const NewTwitterIcon = ({ className, size = 24 }) => (
       fill="#222222"></path>
   </svg>
 );
+
+export const UserIcon = ({ className, size = 24 }) => {
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="blue"
+    title="login"
+    className={`cursor-pointer ${className}`}>
+    <path d="M18 20a6 6 0 0 0-12 0" />
+    <circle cx="12" cy="10" r="4" />
+    <circle cx="12" cy="12" r="10" />
+  </svg>;
+};
