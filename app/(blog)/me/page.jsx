@@ -142,7 +142,7 @@ export default function Profile() {
               <span>My Blogs</span>
             </Link>
             <Link
-              href="/bookmarks"
+              href="/me#bookmarks"
               className=" hover:bg-zinc-200 hover:text-blue-700 p-1  w-full rounded-md my-1 font-semibold flex items-center gap-2 ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -247,7 +247,7 @@ export default function Profile() {
               </>
             ) : (
               !loading && (
-                <div>
+                <div id="bookmarks">
                   <div className="flex items-center justify-center py-1">
                     <Clipboard />
                   </div>
