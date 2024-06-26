@@ -21,7 +21,8 @@ export default function RootLayout({ children }) {
       <body>
         <ScrollIndicator />
         <Toaster />
-        <GoogleOAuthProvider clientId="825260144276-9i710fa28s0sngshd16veqppilkhmfjm.apps.googleusercontent.com">
+        <GoogleOAuthProvider
+          clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
           <NoSSRNavbar />
           <SearchMD />
           <main className="max-w-7xl mx-auto overflow-x-hidden">
