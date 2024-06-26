@@ -1,4 +1,4 @@
-import { Facebook, Twitter } from "@/assets";
+import { Facebook, NewTwitterIcon, Twitter } from "@/assets";
 import Image from "next/image";
 
 export default function UserCard({ avatar, name, userId, bio, title }) {
@@ -12,7 +12,23 @@ export default function UserCard({ avatar, name, userId, bio, title }) {
           alt={name}
           className="h-10 w-10 md:h-12 md:w-12 rounded-full cursor-pointer"
         />
-        <p className="capitalize font-bold text-xl">{name}</p>
+        <div className="capitalize font-bold text-lg inline-flex items-center">
+          <p className="w-full">{name}</p>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="#09A3E5"
+            stroke="white"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="self-end">
+            <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+            <path d="m9 12 2 2 4-4" />
+          </svg>
+        </div>
       </div>
       <p className="text-base font-medium text-gray-600 my-1">
         {bio ?? "This author has not updated their bio yet"}
@@ -23,10 +39,21 @@ export default function UserCard({ avatar, name, userId, bio, title }) {
         <div className="flex items-center my-2 justify-end gap-2">
           <a href={`https://www.facebook.com/${name}`} target="_blank">
             {" "}
-            <Facebook />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#09A3E5"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+            </svg>
           </a>
           <a href={`https://www.twitter.com/${name}`} target="_blank">
-            <Twitter />
+            <NewTwitterIcon />
           </a>
           <a href={`https://www.github.com/${name}`} target="_blank">
             {" "}

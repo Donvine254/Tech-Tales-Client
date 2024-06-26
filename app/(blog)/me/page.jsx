@@ -99,49 +99,128 @@ export default function Profile() {
             className="w-[120px] h-[120px] rounded-full m-auto ring-offset-4 ring-2 ring-blue-600 ring-offset-white"
           />
 
-          <p className="text-gray-700 font-semibold my-2 text-center">
-            {user.username}
+          <p className="text-gray-700 font-semibold my-2 flex items-center justify-center">
+            <span>{user.username} </span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="#09A3E5"
+              stroke="white"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round">
+              <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+              <path d="m9 12 2 2 4-4" />
+            </svg>
           </p>
           <p className="text-gray-700 mb-2 break-words text-sm text-center">
             {user.email}
           </p>
           <p className="text-gray-700 font-semibold mb-2">Bio</p>
-          <p className="mb-2 tracking-wide text-sm">
+          <p className="mb-2 tracking-wide text-sm bg-blue-100 p-1">
             {user?.bio ?? "You have have no bio yet"}
           </p>
           <div className="flex flex-col">
             <Link
               href="/my-blogs"
-              className=" bg-zinc-200 text-blue-700 p-1  w-full rounded-md my-1 font-bold ">
-              📖 My Blogs
+              className=" bg-zinc-200 text-blue-700 p-1  w-full rounded-md my-1 font-bold flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+              </svg>
+              <span>My Blogs</span>
             </Link>
             <Link
               href="/bookmarks"
-              className=" hover:bg-zinc-200 hover:text-blue-700 p-1  w-full rounded-md my-1 font-bold ">
-              ❤️ My Bookmarks
+              className=" hover:bg-zinc-200 hover:text-blue-700 p-1  w-full rounded-md my-1 font-semibold flex items-center gap-2 ">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round">
+                <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" />
+              </svg>
+              <span>My Bookmarks</span>
             </Link>
 
             <Link
               href="/me/settings"
-              className="hover:bg-zinc-200 hover:text-blue-700 p-1 w-full rounded-md my-1 font-bold ">
-              ⚙️ Edit Profile
+              className="hover:bg-zinc-200 hover:text-blue-700 p-1 w-full rounded-md my-1 font-semibold flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round">
+                <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+              <span>Edit Profile</span>
             </Link>
             <Link
               href="/help"
-              className="hover:bg-zinc-200 hover:text-blue-700 p-1 w-full rounded-md my-1 font-bold ">
-              ❔Help Center
+              className="hover:bg-zinc-200 hover:text-blue-700 p-1 w-full rounded-md my-1 font-semibold flex items-center gap-2 ">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                fill="none"
+                stroke="currentColor">
+                <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+                <line x1="12" x2="12" y1="16" y2="12" />
+                <line x1="12" x2="12.01" y1="8" y2="8" />
+              </svg>
+              <span>Help Center</span>
             </Link>
 
             <p
               onClick={handleSignout}
-              className="hover:bg-zinc-200 hover:text-red-500 cursor-pointer p-1 w-full rounded-md my-1 font-bold ">
-              ↪️ Log out
+              className="hover:bg-zinc-200 hover:text-red-500 cursor-pointer p-1 w-full rounded-md my-1 font-semibold flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" x2="9" y1="12" y2="12" />
+              </svg>
+              <span>Log Out</span>
             </p>
           </div>
         </div>
         {/* second card */}
         <div className="lg:w-2/3 p-6 space-y-2 bg-gray-50 border shadow rounded-md">
-          <h1 className="text-2xl font-bold ">My Blogs</h1>
+          <h1 className="text-2xl font-semibold ">My Blogs</h1>
           {loading && (
             <div className="flex items-center justify-center">
               <Loader size={30} />
