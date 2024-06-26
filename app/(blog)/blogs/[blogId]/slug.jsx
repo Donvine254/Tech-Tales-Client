@@ -50,11 +50,9 @@ export default function Slug({ blog }) {
     <div>
       {blog ? (
         <div key={blog.id}>
-          <h1 className="font-bold xsm:text-xl text-2xl md:text-3xl">
-            {blog?.title}
-          </h1>
+          <h1 className="font-bold xsm:text-xl text-2xl">{blog?.title}</h1>
           <div className="flex xsm:block gap-5 items-center py-4">
-            <div className="flex gap-2 md:gap-4 items-center">
+            <div className="flex gap-1 md:gap-2 items-center">
               <div
                 className="relative"
                 onMouseEnter={handleMouseEnter}
@@ -70,14 +68,15 @@ export default function Slug({ blog }) {
                   />
                 )}
               </div>
-
-              <p className="font-bold text-xl md:text-2xl capitalize">
-                {blog.author ?? ""}
-              </p>
+              <div>
+                <p className="font-bold text-xl md:text-2xl capitalize">
+                  {blog.author ?? ""}
+                </p>
+                <p className="text-base font-medium  xsm:mb-0">
+                  {blog?.created_at_date}
+                </p>
+              </div>
             </div>
-            <p className="text-base font-medium xsm:px-10 xsm:mb-0">
-              {blog?.created_at_date}
-            </p>
           </div>
           {blog.image && (
             <div

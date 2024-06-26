@@ -115,6 +115,11 @@ export default function Profile() {
               className=" bg-zinc-200 text-blue-700 p-1  w-full rounded-md my-1 font-bold ">
               📖 My Blogs
             </Link>
+            <Link
+              href="/bookmarks"
+              className=" hover:bg-zinc-200 hover:text-blue-700 p-1  w-full rounded-md my-1 font-bold ">
+              ❤️ My Bookmarks
+            </Link>
 
             <Link
               href="/me/settings"
