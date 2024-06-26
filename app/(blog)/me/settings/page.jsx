@@ -118,7 +118,32 @@ export default function Page() {
             <div className="w-11 h-6 bg-gray-400 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-blue-600"></div>
           </label>
         </div>
-        <div className="items-center p-6 flex flex-col space-y-4">
+        <div className="px-6 py-1 flex items-center justify-between gap-3">
+          <div className="py-1">
+            <h3 className="">Analytics Report </h3>
+            <p className="text-sm wrap text-gray-600">
+              We will send you analytics reports each month.
+            </p>
+          </div>
+          <label className="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" value="" className="sr-only peer" />
+            <div className="w-11 h-6 bg-gray-400 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-blue-600"></div>
+          </label>
+        </div>
+        <div className="px-6 py-1 flex items-center justify-between gap-3">
+          <div className="py-1">
+            <h3 className="">Enable/Disable Cookies </h3>
+            <p className="text-sm wrap text-gray-600">
+              We use cookies to provide you with the best experience.
+            </p>
+          </div>
+          <label className="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" value="" checked className="sr-only peer" />
+            <div className="w-11 h-6 bg-gray-400 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-blue-600"></div>
+          </label>
+        </div>
+        <h2 className="px-6 font-semibold">Danger Zone</h2>
+        <div className="items-center px-6 py-2 flex flex-col space-y-4">
           <button
             className="inline-flex items-center justify-center  font-medium hover:bg-primary/90 h-10 px-4 py-2 w-full bg-[#FDFAE9] border-2 border-amber-500  rounded-md hover:bg-amber-400 hover:text-white"
             onClick={handleDeactivate}>

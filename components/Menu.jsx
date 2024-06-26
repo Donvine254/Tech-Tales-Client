@@ -96,7 +96,7 @@ export const Menu = ({ handleClick, menuOpen, currentUser }) => {
         onClick={handleSignout}
         className="w-full mt-2 py-2 text-start px-3 border  rounded-md  hover:border-red-500  shadow-md">
         <span className="font-bold">Sign Out</span>
-        <p className="text-gray-800 text-[12px] line-clamp-through">
+        <p className="text-gray-800 text-[12px] md:text-base line-clamp-through">
           {currentUser?.email}
         </p>
       </button>
