@@ -69,11 +69,14 @@ export default function Slug({ blog }) {
                 )}
               </div>
               <div>
-                <p className="font-bold text-xl md:text-2xl capitalize">
-                  {blog.author ?? ""}
+                <p className=" text-base md:text-xl ">
+                  By{" "}
+                  <span className="capitalize font-bold">
+                    {blog.author ?? ""}
+                  </span>
                 </p>
                 <p className="text-base font-medium  xsm:mb-0">
-                  {blog?.created_at_date}
+                  Published on {blog?.created_at_date}
                 </p>
               </div>
             </div>

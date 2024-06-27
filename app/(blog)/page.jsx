@@ -33,11 +33,15 @@ export default async function HomePage() {
                 <div className="flex gap-4 xsm:gap-2 xsm:items-center">
                   <UserImage url={blog.user_avatar} />
                   <div className="flex items-center xsm:flex-col gap-2 xsm:gap-0 xsm:items-start">
-                    <p className="font-bold text-base md:text-2xl capitalize">
-                      {blog.author}
+                    <p className=" text-base md:text-xl ">
+                      By{" "}
+                      <span className="capitalize font-bold">
+                        {blog.author}
+                      </span>
                     </p>
-                    <p className="text-base font-medium md:text-xl">
-                      {blog.created_at_date}
+                    <p className="text-sm font-medium md:text-base ">
+                      <span className="xsm:hidden sm:hidden">&mdash;</span>{" "}
+                      Published on {blog.created_at_date}
                     </p>
                   </div>
                 </div>
