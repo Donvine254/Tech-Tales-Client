@@ -94,7 +94,7 @@ export default function UpdateProfileModal({ user }) {
         method="dialog"
         onSubmit={handleSubmit}>
         <div className="flex flex-col space-y-1.5 px-6 pt-2">
-          <h3 className="text-2xl xsm:text-xl text-gray-600 font-semibold leading-none tracking-tight mt-2 text-center">
+          <h3 className="text-xl text-gray-600 font-semibold leading-none tracking-tight mt-2 text-center">
             Update Profile Information
           </h3>
         </div>
@@ -129,7 +129,7 @@ export default function UpdateProfileModal({ user }) {
                     </button>
                   </div>
 
-                  <p className="text-gray-500">
+                  <p className="text-gray-500 text-[12px]">
                     Recommended: Square JPG, PNG, or JPEG, at least 1,000 pixels
                     per side and less than 5MB in size.
                   </p>
@@ -152,7 +152,7 @@ export default function UpdateProfileModal({ user }) {
                     />
                   </div>
 
-                  <p className="text-gray-500">
+                  <p className="text-gray-500 text-[12px]">
                     Recommended: Square JPG, PNG, or JPEG, at least 1,000 pixels
                     per side and less than 5MB in size.
                   </p>
@@ -177,7 +177,7 @@ export default function UpdateProfileModal({ user }) {
                 }));
               }}
             />
-            <p className="text-sm text-gray-600">
+            <p className="text-[12px] text-gray-600">
               Appears on your Profile page, as your author title, and in your
               comments.
             </p>
