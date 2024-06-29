@@ -65,8 +65,9 @@ export default function Popup({ setIsOpen }) {
               width={20}
               alt="logo"
             />
-            <h2 className="font-medium text-[16px]  xsm:text-sm ">
-              Sign in to Tech Tales with Google
+            <h2 className="font-medium text-[13.5px]  xsm:text-sm ">
+              Sign in to Tech Tales{" "}
+              <span className="xsm:hidden">with Google, Github or Email</span>
             </h2>
           </div>
           <button
