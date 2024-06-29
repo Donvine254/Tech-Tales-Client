@@ -4,6 +4,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import { getUserData, authenticateUser } from "@/lib";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function Popup({ setIsOpen }) {
   const [progress, setProgress] = useState(100);
@@ -53,18 +54,26 @@ export default function Popup({ setIsOpen }) {
 
   return (
     <div
-      className="fixed top-24 xsm:top-20 right-4 xsm:right-0 h-fit w-fit max-w-[300px]  z-10 mx-2 rounded-md bg-white shadow-lg overflow-hidden "
+      className="fixed top-24 xsm:top-20 right-4 xsm:right-0 h-fit w-fit max-w-[350px] md:w-[350px] z-10 mx-2 rounded-md bg-white shadow-xl overflow-hidden "
       id="login_popup">
-      <div className="p-4 max-w-md">
-        <div className="flex justify-between items-center mb-4 ">
-          <h2 className="font-medium text-[18px] xsm:text-base text-gray-500 my-2">
-            Sign in to access personalized content, settings and more!
-          </h2>
+      <div className="max-w-md">
+        <div className="px-4 py-1">
+          <div className="flex gap-1 items-center mt-2 mr-2">
+            <Image
+              src="https://res.cloudinary.com/dipkbpinx/image/upload/v1719694844/tsxkiwwlzkbvxqsyeawn.png"
+              height={20}
+              width={20}
+              alt="logo"
+            />
+            <h2 className="font-medium text-[16px]  xsm:text-sm ">
+              Sign in to Tech Tales with Google
+            </h2>
+          </div>
           <button
             onClick={handleClose}
-            className="p-1 rounded-full hover:bg-gray-200 focus:outline-none absolute top-0 right-0">
+            className="rounded-full  focus:outline-none absolute top-0 right-0">
             <svg
-              className="h-6 w-6 text-gray-600"
+              className="h-6 w-6 text-gray-600 hover:fill-red-500"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20">
               <title>Close</title>
@@ -72,7 +81,8 @@ export default function Popup({ setIsOpen }) {
             </svg>
           </button>
         </div>
-        <div className="flex flex-col space-y-2">
+        <hr className="w-full my-0.5" />
+        <div className="flex flex-col space-y-2 p-4">
           <button
             onClick={handleGoogleLogin}
             className="flex items-center justify-center gap-2 px-4 py-2 rounded-md border text-black hover:bg-black hover:text-white focus:outline-none bg-gray-200 bg-opacity-20"
@@ -84,12 +94,12 @@ export default function Popup({ setIsOpen }) {
             href="https://github.com/login/oauth/authorize?client_id=2384921712f034fd32cf"
             className="flex items-center justify-center gap-2 px-4 py-2 rounded-md border text-black hover:bg-black hover:text-white focus:outline-none bg-gray-200 bg-opacity-20"
             title="github login">
-            <GithubIcon className="h-6 w-6 mr-2" />
+            <GithubIcon className="h-6 w-6" />
             Sign In with Github
           </Link>
           <Link
             href="/login?post_login_redirect_url=featured&referrer=homepage"
-            className="flex items-center justify-center gap-2 px-4 py-2 rounded-md border text-black hover:bg-gray-200 bg-gray-200 bg-opacity-20 focus:outline-none"
+            className="flex items-center justify-center gap-2 px-4 py-2 rounded-md border text-black hover:bg-black hover:text-white bg-gray-200 bg-opacity-20 focus:outline-none"
             title="email-login">
             <svg viewBox="0 0 24 24" fill="currentColor" height="24" width="24">
               <path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6m-2 0l-8 5-8-5h16m0 12H4V8l8 5 8-5v10z" />
@@ -98,7 +108,9 @@ export default function Popup({ setIsOpen }) {
           </Link>
         </div>
       </div>
-      <div className="h-2 bg-blue-500 " style={{ width: `${progress}%` }}></div>
+      <div
+        className="h-1.5 bg-gradient-to-r from-red-600 to-blue-600 "
+        style={{ width: `${progress}%` }}></div>
     </div>
   );
 }
