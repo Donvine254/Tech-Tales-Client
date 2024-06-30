@@ -45,13 +45,13 @@ export default function CreateNewBlog() {
     }
   }, []);
 
-  useEffect(() => {
-    const user = getCurrentUser();
-    if (!user) {
-      toast.error("Login required to perform this action!");
-      router.replace("/login?post_login_redirect_url=create");
-    }
-  }, [router]);
+  // useEffect(() => {
+  //   const user = getCurrentUser();
+  //   if (!user) {
+  //     toast.error("Login required to perform this action!");
+  //     router.replace("/login?post_login_redirect_url=create");
+  //   }
+  // }, [router]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -126,7 +126,7 @@ export default function CreateNewBlog() {
             </div>
             <div>
               <p className="font-bold">Writing a Good Blog Title</p>
-              <p className="text-base">
+              <p className="text-sm">
                 Think of your post title as a super short (but compelling!)
                 description — like an overview of the actual post in one short
                 sentence. Use keywords where appropriate to help ensure people
@@ -148,7 +148,7 @@ export default function CreateNewBlog() {
         </div>
         {/* end of alert div */}
         <input
-          className="blog-input-field focus:outline-none text-lg font-bold"
+          className="blog-input-field focus:outline-none text-lg"
           type="text"
           name="title"
           id="title"
@@ -167,7 +167,7 @@ export default function CreateNewBlog() {
 
         <UploadButton setBlog={setBlogData} />
         {blogData.image ? (
-          <p className="m-2">
+          <p className="m-2 text-sm">
             {" "}
             Blog cover Image:{" "}
             <a
@@ -194,6 +194,25 @@ export default function CreateNewBlog() {
             ) : (
               "Publish"
             )}
+          </button>
+          <button
+            type="button"
+            onClick={() => toast.error("incoming feature")}
+            className="bg-transparent flex items-center gap-1 bg-gradient-to-r from-green-400 to-indigo-500 border hover:bg-gradient-to-r hover:from-blue-500 hover:to-green-200 px-2 py-1.5 rounded-md">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round">
+              <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>{" "}
+            Preview
           </button>
           <button
             type="button"

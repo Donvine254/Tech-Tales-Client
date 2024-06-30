@@ -56,16 +56,16 @@ export default function UploadButton({ setBlog }) {
   }
 
   return (
-    <div>
+    <div className="border-blue-500 p-2 mb-2 bg-zinc-300 border-2 border-dotted">
       <label
         htmlFor="title"
-        className="p-2 my-2 text-xl text-center font-bold text-black">
-        Cover Image <small className="text-gray-600">(optional)</small>
+        className="my-2 text-xl text-center font-bold text-black">
+        Cover Image <small className="text-gray-600 text-sm">(optional)</small>
       </label>
       <div className="flex flex-col md:flex-row md:items-center md:gap-5">
         <div className="relative min-w-0 flex-auto ">
           <input
-            className="mb-2 p-2 rounded border w-full border-solid border-blue-600 bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-black transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-blue-600 file:px-3 file:py-[0.32rem] file:text-white  file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem]  focus:border-primary focus:outline-none "
+            className="mb-2 p-2 rounded border w-full border-solid border-blue-600 bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-black transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-gray-600 file:px-3 file:py-[0.32rem] file:text-white bg-gray-100 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem]  focus:border-primary focus:outline-none "
             type="file"
             name="image"
             ref={fileInputRef}
@@ -73,11 +73,11 @@ export default function UploadButton({ setBlog }) {
             onChange={handleChange}
           />
           <span
-            className={`absolute top-1/2 right-0 transform -translate-y-1/2 ${
+            className={`absolute right-0 transform translate-y-1/2 my-auto ${
               image === "" ? "hidden" : ""
             }`}>
             <svg
-              className="fill-current h-6 w-6 text-gray-600"
+              className="fill-current h-4 w-4 hover:fill-red-500 text-gray-600"
               role="button"
               onClick={clearFileInput}
               xmlns="http://www.w3.org/2000/svg"
