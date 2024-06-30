@@ -10,7 +10,6 @@ import UploadButton from "@/components/uploadButton";
 import Script from "next/script";
 import secureLocalStorage from "react-secure-storage";
 import Link from "next/link";
-import Image from "next/image";
 
 const DynamicEditor = dynamic(() => import("@/components/Editor"), {
   loading: () => (
@@ -30,7 +29,7 @@ export default function CreateNewBlog() {
     title: "",
     image: "",
     body: "",
-    tags: "",
+    tags: [],
   });
   function saveDraft() {
     if (blogData.title === "" && blogData.body == "") {
@@ -47,13 +46,13 @@ export default function CreateNewBlog() {
     }
   }, []);
 
-  useEffect(() => {
-    const user = getCurrentUser();
-    if (!user) {
-      toast.error("Login required to perform this action!");
-      router.replace("/login?post_login_redirect_url=create");
-    }
-  }, [router]);
+  // useEffect(() => {
+  //   const user = getCurrentUser();
+  //   if (!user) {
+  //     toast.error("Login required to perform this action!");
+  //     router.replace("/login?post_login_redirect_url=create");
+  //   }
+  // }, [router]);
 
   function handleSubmit(e) {
     e.preventDefault();
