@@ -169,11 +169,19 @@ export default function CreateNewBlog() {
         />
 
         <UploadButton setBlog={setBlogData} />
-        {blogData.image && (
-          <div
-            className="h-[300px] w-full bg-cover bg-center my-2 bg-no-repeat "
-            style={{ backgroundImage: `url(${blogData.image})` }}></div>
-        )}
+        {blogData.image ? (
+          <p className="m-2 text-sm">
+            {" "}
+            Blog cover image:{" "}
+            <a
+              href={blogData?.image}
+              target="_blank"
+              className="text-blue-500 hover:underline cursor-pointer">
+              {blogData?.image}
+            </a>
+          </p>
+        ) : null}
+
         <DynamicEditor data={blogData.body} handleChange={setBlogData} />
         <input
           id="tags"
