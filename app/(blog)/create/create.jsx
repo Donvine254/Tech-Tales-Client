@@ -47,13 +47,13 @@ export default function CreateNewBlog() {
     }
   }, []);
 
-  // useEffect(() => {
-  //   const user = getCurrentUser();
-  //   if (!user) {
-  //     toast.error("Login required to perform this action!");
-  //     router.replace("/login?post_login_redirect_url=create");
-  //   }
-  // }, [router]);
+  useEffect(() => {
+    const user = getCurrentUser();
+    if (!user) {
+      toast.error("Login required to perform this action!");
+      router.replace("/login?post_login_redirect_url=create");
+    }
+  }, [router]);
 
   function handleSubmit(e) {
     e.preventDefault();
