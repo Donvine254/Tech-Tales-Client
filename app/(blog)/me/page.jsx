@@ -121,7 +121,7 @@ export default function Profile() {
             </p>
           </div>
           <div className="px-6 py-1">
-            <p className="text-gray-700 font-semibold mb-2">Bio</p>
+            <p className="text-gray-700 font-semibold mb-2">About</p>
             <p className="mb-2 tracking-wide text-sm bg-blue-100 p-1">
               {user?.bio ?? "You have have no bio yet"}
             </p>
