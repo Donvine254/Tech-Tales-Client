@@ -56,11 +56,15 @@ export default function UploadButton({ setBlog }) {
   }
 
   return (
-    <div className="border-blue-500 p-2 mb-2 bg-zinc-300 border-2 border-dotted">
+    <div className="border-blue-500 p-2 mb-2 bg-zinc-200 bg-opacity-30 border-2 border-dotted">
       <label
         htmlFor="title"
         className="my-2 text-xl text-center font-bold text-black">
-        Cover Image <small className="text-gray-600 text-sm">(optional)</small>
+        Cover Image &nbsp;
+        <small className="text-gray-600 text-sm">
+          (optional, <span className="text-red-500 italic">*Max size 5MB</span>{" "}
+          )
+        </small>
       </label>
       <div className="flex flex-col md:flex-row md:items-center md:gap-5">
         <div className="relative min-w-0 flex-auto ">
@@ -132,9 +136,6 @@ export default function UploadButton({ setBlog }) {
           )}
         </button>
       </div>
-      <p>
-        <span className="text-red-500 font-bold">*</span>Max size 5MB
-      </p>
     </div>
   );
 }

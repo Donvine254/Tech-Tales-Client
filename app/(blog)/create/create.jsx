@@ -10,6 +10,7 @@ import UploadButton from "@/components/uploadButton";
 import Script from "next/script";
 import secureLocalStorage from "react-secure-storage";
 import Link from "next/link";
+import Image from "next/image";
 
 const DynamicEditor = dynamic(() => import("@/components/Editor"), {
   loading: () => (
@@ -29,6 +30,7 @@ export default function CreateNewBlog() {
     title: "",
     image: "",
     body: "",
+    tags: "",
   });
   function saveDraft() {
     if (blogData.title === "" && blogData.body == "") {
@@ -147,8 +149,9 @@ export default function CreateNewBlog() {
           </span>
         </div>
         {/* end of alert div */}
+
         <input
-          className="blog-input-field focus:outline-none text-lg"
+          className=" blog-input-field focus:outline-none text-lg"
           type="text"
           name="title"
           id="title"
@@ -166,26 +169,32 @@ export default function CreateNewBlog() {
         />
 
         <UploadButton setBlog={setBlogData} />
-        {blogData.image ? (
-          <p className="m-2 text-sm">
-            {" "}
-            Blog cover Image:{" "}
-            <a
-              href={blogData?.image}
-              target="_blank"
-              className="text-blue-500 hover:underline cursor-pointer">
-              {blogData?.image}
-            </a>
-          </p>
-        ) : null}
-
+        {blogData.image && (
+          <div
+            className="h-[300px] w-full bg-cover bg-center my-2 bg-no-repeat "
+            style={{ backgroundImage: `url(${blogData.image})` }}></div>
+        )}
         <DynamicEditor data={blogData.body} handleChange={setBlogData} />
-
+        <input
+          id="tags"
+          name="tags"
+          disabled={loading}
+          value={blogData?.tags}
+          onChange={(e) =>
+            setBlogData((prev) => ({
+              ...prev,
+              tags: e.target.value,
+            }))
+          }
+          placeholder="+ Add Tags"
+          className="p-1 my-2 border-b-2 bg-transparent border-b-blue-500 md:w-1/2 focus:outline-none text-lg"
+          type="text"
+        />
         <div className="flex gap-2 xsm:items-center xsm:justify-between md:gap-8 mt-4">
           <button
             type="submit"
             disabled={loading}
-            className="bg-blue-500 bg-opacity-80 disabled:bg-gray-200 disabled:text-black  font-bold px-2 py-1.5 text-white rounded-md hover:bg-blue-600">
+            className="bg-blue-500 bg-opacity-80 disabled:bg-gray-200 disabled:text-black  font-bold px-2 py-1.5 text-white rounded-md hover:bg-blue-600 w-1/3">
             {loading ? (
               <p className="flex items-center gap-1">
                 <Loader size={18} />
@@ -198,7 +207,7 @@ export default function CreateNewBlog() {
           <button
             type="button"
             onClick={() => toast.error("incoming feature")}
-            className="bg-transparent flex items-center gap-1 bg-gradient-to-r from-green-400 to-indigo-500 border hover:bg-gradient-to-r hover:from-blue-500 hover:to-green-200 px-2 py-1.5 rounded-md">
+            className="bg-transparent flex items-center justify-center gap-1 bg-gradient-to-r from-green-400 to-indigo-500 border hover:bg-gradient-to-r hover:from-blue-500 hover:to-green-200 px-2 py-1.5 rounded-md w-1/3 text-white">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -217,7 +226,7 @@ export default function CreateNewBlog() {
           <button
             type="button"
             onClick={saveDraft}
-            className="bg-transparent text-black hover:bg-blue-500 border hover:text-white border-blue-500 px-2 py-1.5 rounded-md">
+            className="bg-transparent text-black hover:bg-blue-500 border hover:text-white border-blue-500 px-2 py-1.5 rounded-md w-1/3">
             Save Draft
           </button>
         </div>
