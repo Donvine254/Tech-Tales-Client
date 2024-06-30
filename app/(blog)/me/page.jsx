@@ -20,32 +20,32 @@ export default function Profile() {
   const router = useRouter();
   const [readingList, setReadingList] = useState({});
   const [allBlogs, setAllBlogs] = useState([]);
-  // useEffect(() => {
-  //   let isMounted = true;
-  //   if (!user && isMounted) {
-  //     toast.error("kindly login first!");
-  //     router.replace("/login?post_login_redirect_url=me");
-  //   } else if (user && isMounted) {
-  //     const fetchBlogs = async () => {
-  //       try {
-  //         const response = await fetch(
-  //           `https://techtales.up.railway.app/blogs/user/${user.id}`
-  //         );
-  //         const data = await response.json();
-  //         setBlogs(data);
-  //         setLoading(false);
-  //       } catch (error) {
-  //         setLoading(false);
-  //         console.error("Error fetching blogs:", error);
-  //       }
-  //     };
+  useEffect(() => {
+    let isMounted = true;
+    if (!user && isMounted) {
+      toast.error("kindly login first!");
+      router.replace("/login?post_login_redirect_url=me");
+    } else if (user && isMounted) {
+      const fetchBlogs = async () => {
+        try {
+          const response = await fetch(
+            `https://techtales.up.railway.app/blogs/user/${user.id}`
+          );
+          const data = await response.json();
+          setBlogs(data);
+          setLoading(false);
+        } catch (error) {
+          setLoading(false);
+          console.error("Error fetching blogs:", error);
+        }
+      };
 
-  //     fetchBlogs();
-  //   }
-  //   return () => {
-  //     isMounted = false;
-  //   };
-  // }, [user, router]);
+      fetchBlogs();
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, [user, router]);
   //useEffect to get user reading list
   useEffect(() => {
     const localStorageData = secureLocalStorage.getItem("bookmarked_blogs");
@@ -69,13 +69,13 @@ export default function Profile() {
   }, []);
   const filteredBlogs = allBlogs.filter((blog) => readingList[blog.id]);
 
-  // if (!user) {
-  //   return (
-  //     <div className="flex items-center justify-center h-[300px] md:h-[600px]">
-  //       <Loader size={60} />
-  //     </div>
-  //   );
-  // }
+  if (!user) {
+    return (
+      <div className="flex items-center justify-center h-[300px] md:h-[600px]">
+        <Loader size={60} />
+      </div>
+    );
+  }
   //function to signout
   function handleSignout() {
     clearLocalStorage();
@@ -97,10 +97,10 @@ export default function Profile() {
               height={120}
               width={120}
               alt="User Profile"
-              className="w-[120px] h-[120px] rounded-full m-auto ring-offset-4 ring-2 ring-blue-600 bg-pink-500 ring-offset-white"
+              className="w-[120px] h-[120px] rounded-full m-auto ring-offset-4 ring-2 ring-blue-600 italic ring-offset-white"
             />
             <p className="text-gray-700 font-semibold flex items-center justify-center ">
-              <span>{user?.username ?? "John Doe"} </span>
+              <span>{user.username} </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -117,7 +117,7 @@ export default function Profile() {
               </svg>
             </p>
             <p className="text-gray-700 mb-2 break-words text-sm text-center">
-              {user?.email ?? "email here"}
+              {user.email}
             </p>
           </div>
           <div className="px-6 py-1">
@@ -131,9 +131,18 @@ export default function Profile() {
                 {" "}
                 <Facebook />
               </a>
-              <a href={`https://www.twitter.com`} target="_blank">
-                <NewTwitterIcon />
+              <a href={`https://www.linkedin.com`} target="_blank">
+                {" "}
+                <svg
+                  viewBox="0 0 960 1000"
+                  fill="#0284C7"
+                  height="26"
+                  width="26">
+                  <path d="M480 20c133.333 0 246.667 46.667 340 140s140 206.667 140 340c0 132-46.667 245-140 339S613.333 980 480 980c-132 0-245-47-339-141S0 632 0 500c0-133.333 47-246.667 141-340S348 20 480 20M362 698V386h-96v312h96m-48-352c34.667 0 52-16 52-48s-17.333-48-52-48c-14.667 0-27 4.667-37 14s-15 20.667-15 34c0 32 17.333 48 52 48m404 352V514c0-44-10.333-77.667-31-101s-47.667-35-81-35c-44 0-76 16.667-96 50h-2l-6-42h-84c1.333 18.667 2 52 2 100v212h98V518c0-12 1.333-20 4-24 8-25.333 24.667-38 50-38 32 0 48 22.667 48 68v174h98" />
+                  <title>Linkedin</title>
+                </svg>
               </a>
+
               <a href={`https://www.github.com`} target="_blank">
                 {" "}
                 <svg
@@ -149,16 +158,8 @@ export default function Profile() {
                   <path d="M9 18c-4.51 2-5-2-7-2" />
                 </svg>
               </a>
-              <a href={`https://www.linkedin.com`} target="_blank">
-                {" "}
-                <svg
-                  viewBox="0 0 960 1000"
-                  fill="#0284C7"
-                  height="26"
-                  width="26">
-                  <path d="M480 20c133.333 0 246.667 46.667 340 140s140 206.667 140 340c0 132-46.667 245-140 339S613.333 980 480 980c-132 0-245-47-339-141S0 632 0 500c0-133.333 47-246.667 141-340S348 20 480 20M362 698V386h-96v312h96m-48-352c34.667 0 52-16 52-48s-17.333-48-52-48c-14.667 0-27 4.667-37 14s-15 20.667-15 34c0 32 17.333 48 52 48m404 352V514c0-44-10.333-77.667-31-101s-47.667-35-81-35c-44 0-76 16.667-96 50h-2l-6-42h-84c1.333 18.667 2 52 2 100v212h98V518c0-12 1.333-20 4-24 8-25.333 24.667-38 50-38 32 0 48 22.667 48 68v174h98" />
-                  <title>Linkedin</title>
-                </svg>
+              <a href={`https://www.x.com`} target="_blank">
+                <NewTwitterIcon />
               </a>
             </div>
             <div className="flex flex-col">

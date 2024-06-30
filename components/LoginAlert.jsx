@@ -110,7 +110,9 @@ export default function Popup({ setIsOpen }) {
         </div>
       </div>
       <div
-        className="h-1.5 bg-gradient-to-r from-red-600 to-blue-600 "
+        className={`h-1.5 bg-blue-600 ${
+          progress < 50 ? "bg-red-600" : "bg-blue-600"
+        }`}
         style={{ width: `${progress}%` }}></div>
     </div>
   );
