@@ -72,14 +72,14 @@ export default function MyBlogsComponent({ id }) {
         blogs.map((blog) => (
           <div key={blog.id} className="p-2">
             <article className="">
-              <div className="flex gap-4 xsm:gap-2 xsm:items-center">
+              <div className="flex gap-2 xsm:items-center">
                 <UserImage url={blog.user_avatar} />
                 <div className="flex items-center xsm:flex-col gap-2 xsm:gap-0 xsm:items-start">
-                  <p className="font-bold text-base md:text-2xl capitalize">
-                    {blog.author}
+                  <p className=" text-base md:text-xl capitalize">
+                    Written By <span className="font-bold">{blog.author}</span>
                   </p>
-                  <p className="text-base font-medium md:text-xl">
-                    {blog.created_at_date}
+                  <p className="text-sm font-medium md:text-base">
+                    Published on {blog.created_at_date}
                   </p>
                 </div>
               </div>
@@ -90,6 +90,23 @@ export default function MyBlogsComponent({ id }) {
                   {blog.title}
                 </h1>
               </Link>
+              {/* div for blog tags */}
+              <div className="py-1">
+                {blog.tags ? (
+                  <div className="flex gap-1 flex-wrap">
+                    {blog.tags.split(",").map((tag, index) => (
+                      <Link
+                        key={index}
+                        href={`/search?search=${tag.trim()}`}
+                        className="px-2 py-0.5 bg-blue-200  border hover:border-blue-200 hover:bg-gray-100 h-8 rounded-md transition-all cursor-pointer ">
+                        #{tag.trim()}
+                      </Link>
+                    ))}
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </div>
               <p className="text-xl leading-8 line-clamp-2 md:pb-1 trimmed-blog-body ">
                 {blog.body ? parse(blog.body) : blog.body}
               </p>
