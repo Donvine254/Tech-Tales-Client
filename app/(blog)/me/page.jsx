@@ -122,7 +122,7 @@ export default function Profile() {
           </div>
           <div className="px-6 py-1">
             <p className="text-gray-700 font-semibold mb-2">About</p>
-            <p className="mb-2 tracking-wide text-sm bg-blue-100 p-1">
+            <p className="mb-2 tracking-wide text-[12px] md:text-sm bg-gray-200 p-1">
               {user?.bio ?? "You have have no bio yet"}
             </p>
             <div className="flex items-center my-2 gap-2">
@@ -159,13 +159,13 @@ export default function Profile() {
                 </svg>
               </a>
               <a href={`https://www.x.com`} target="_blank">
-                <NewTwitterIcon />
+                <NewTwitterIcon className=" bg-white border-2 border-black p-0.5 rounded-full " />
               </a>
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col text-sm">
               <Link
                 href="/my-blogs"
-                className=" bg-zinc-200 text-blue-700 p-1  w-full rounded-md my-1 font-bold flex items-center gap-2">
+                className=" bg-gray-200 text-blue-600 p-1  w-full rounded-md my-1  flex items-center gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -183,7 +183,7 @@ export default function Profile() {
               </Link>
               <Link
                 href="/me#bookmarks"
-                className=" hover:bg-zinc-200 hover:text-blue-700 p-1  w-full rounded-md my-1 font-semibold flex items-center gap-2 ">
+                className=" hover:bg-gray-200 hover:text-blue-600 p-1  w-full rounded-md my-1  flex items-center gap-2 ">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -201,7 +201,7 @@ export default function Profile() {
 
               <Link
                 href="/me/settings"
-                className="hover:bg-zinc-200 hover:text-blue-700 p-1 w-full rounded-md my-1 font-semibold flex items-center gap-2">
+                className="hover:bg-gray-200 hover:text-blue-600 p-1 w-full rounded-md my-1  flex items-center gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -219,7 +219,7 @@ export default function Profile() {
               </Link>
               <Link
                 href="/help"
-                className="hover:bg-zinc-200 hover:text-blue-700 p-1 w-full rounded-md my-1 font-semibold flex items-center gap-2 ">
+                className="hover:bg-gray-200 hover:text-blue-600 p-1 w-full rounded-md my-1  flex items-center gap-2 ">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -239,7 +239,7 @@ export default function Profile() {
 
               <p
                 onClick={handleSignout}
-                className="hover:bg-zinc-200 hover:text-red-500 cursor-pointer p-1 w-full rounded-md my-1 font-semibold flex items-center gap-2">
+                className="hover:bg-gray-200 hover:text-red-500 cursor-pointer p-1 w-full rounded-md my-1  flex items-center gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
