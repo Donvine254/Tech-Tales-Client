@@ -50,7 +50,12 @@ export default function Slug({ blog }) {
     <div>
       {blog ? (
         <div key={blog.id}>
-          <h1 className="font-bold xsm:text-xl text-2xl">{blog?.title}</h1>
+          {blog.image && (
+            <div
+              className="h-[300px] md:h-[400px] w-full bg-cover bg-center bg-no-repeat rounded-md"
+              style={{ backgroundImage: `url(${blog.image})` }}></div>
+          )}
+
           <div className="flex xsm:block gap-5 items-center py-4">
             <div className="flex gap-1 md:gap-2 items-center">
               <div
@@ -70,7 +75,7 @@ export default function Slug({ blog }) {
               </div>
               <div>
                 <p className=" text-base md:text-xl ">
-                  By{" "}
+                  Written By{" "}
                   <span className="capitalize font-bold">
                     {blog.author ?? ""}
                   </span>
@@ -81,11 +86,28 @@ export default function Slug({ blog }) {
               </div>
             </div>
           </div>
-          {blog.image && (
-            <div
-              className="h-[300px] md:h-[400px] w-full bg-cover bg-center bg-no-repeat rounded-md"
-              style={{ backgroundImage: `url(${blog.image})` }}></div>
-          )}
+          <h1 className="font-bold  xsm:text-xl text-2xl lg:text-3xl">
+            {blog?.title}
+          </h1>
+          {/* div for blog tags */}
+          <div className="py-1">
+            {blog.tags ? (
+              <div className="flex gap-1 flex-wrap">
+                {blog.tags.split(",").map((tag, index) => (
+                  <p
+                    key={index}
+                    onClick={() =>
+                      (window.location.href = `/search?search=${tag.trim()}`)
+                    }
+                    className="py-0.5 px-4 m-1 bg-slate-100 shadow-sm hover:bg-blue-600 hover:text-white cursor-pointer border rounded-xl">
+                    #{tag.trim()}
+                  </p>
+                ))}
+              </div>
+            ) : (
+              <></>
+            )}
+          </div>
           <article
             className="text-sm md:text-xl leading-8 md:leading-10 mt-3 subpixel-antialiased blog-body"
             id="blog-body">

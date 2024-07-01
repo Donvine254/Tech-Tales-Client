@@ -248,22 +248,20 @@ export default function CreateNewBlog() {
           <button
             type="button"
             onClick={saveDraft}
-            className="bg-transparent h-[35px] text-black hover:bg-blue-500 border hover:text-white border-blue-500 px-2 py-1.5 rounded-md w-1/3">
-            <p className="flex items-center gap-1">
-              <svg
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                viewBox="0 0 24 24"
-                height="1em"
-                width="1em">
-                <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z" />
-                <path d="M17 21v-8H7v8M7 3v5h8" />
-              </svg>
-              <span>Save Draft</span>
-            </p>
+            className="bg-transparent h-[35px] text-black hover:bg-blue-500 border hover:text-white border-blue-500 px-2 py-1.5 rounded-md w-1/3 flex items-center justify-center  gap-1">
+            <svg
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              viewBox="0 0 24 24"
+              height="1em"
+              width="1em">
+              <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z" />
+              <path d="M17 21v-8H7v8M7 3v5h8" />
+            </svg>
+            Save Draft
           </button>
         </div>
       </form>
