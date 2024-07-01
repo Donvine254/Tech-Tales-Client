@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createBlog } from "@/lib";
+import TagInput from "@/components/TagInput";
 import toast from "react-hot-toast";
 import { getCurrentUser } from "@/lib";
 import dynamic from "next/dynamic";
@@ -170,7 +171,8 @@ export default function CreateNewBlog() {
           Tags
         </label>
         <br /> */}
-        <input
+        <TagInput setBlogData={setBlogData} />
+        {/* <input
           id="tags"
           type="text"
           name="tags"
@@ -185,7 +187,7 @@ export default function CreateNewBlog() {
           maxLength={100}
           placeholder="Add up to 4 tags.."
           className="p-1 mb-2 border-b bg-transparent focus:outline-none text-lg"
-        />
+        /> */}
 
         <UploadButton setBlog={setBlogData} />
         {blogData.image ? (
