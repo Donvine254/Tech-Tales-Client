@@ -24,7 +24,7 @@ export default async function BlogsComponent({ blogs }) {
                 <UserImage url={blog.user_avatar} />
                 <div className="flex items-center xsm:flex-col gap-2 xsm:gap-0 xsm:items-start">
                   <p className=" text-base md:text-xl ">
-                    By{" "}
+                    Written By{" "}
                     <span className="capitalize font-bold">{blog.author}</span>
                   </p>
                   <p className="text-sm font-medium md:text-base ">
@@ -40,6 +40,23 @@ export default async function BlogsComponent({ blogs }) {
                   {blog.title}
                 </h1>
               </Link>
+              {/* div for blog tags */}
+              <div className="py-1">
+                {blog.tags ? (
+                  <div className="flex gap-1 flex-wrap">
+                    {blog.tags.split(",").map((tag, index) => (
+                      <Link
+                        key={index}
+                        href={`/search?search=${tag.trim()}`}
+                        className="px-2 py-0.5 bg-blue-200  border hover:border-blue-200 hover:bg-gray-100 h-8 rounded-md transition-all cursor-pointer ">
+                        #{tag.trim()}
+                      </Link>
+                    ))}
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </div>
               <div className="text-sm md:text-xl leading-8 md:pb-1 line-clamp-2  overflow-hidden trimmed-blog-body ">
                 {blog ? parse(blog.body) : blog.body}
               </div>
