@@ -64,31 +64,31 @@ export default function EditBlog({ params }) {
       </div>
     ));
 
-    // if (blogData.title === "" || blogData.body == "") {
-    //   toast.error("Please fill out all the required fields");
-    //   setLoading("");
-    //   return false;
-    // } else {
-    //   try {
-    //     await Axios.patch(
-    //       `https://techtales.up.railway.app/blogs/${params.id}`,
-    //       blogData
-    //     );
-    //     toast.success("Blog updated successfully");
-    //     confetti({
-    //       particleCount: 800,
-    //       spread: 50,
-    //       origin: { y: 0.5 },
-    //     });
-    //     setLoading("");
-    //     revalidateBlogs(params.id);
-    //     router.replace("/my-blogs");
-    //   } catch (error) {
-    //     toast.error(error?.response?.data?.errors);
-    //     console.error(error);
-    //     setLoading("");
-    //   }
-    // }
+    if (blogData.title === "" || blogData.body == "") {
+      toast.error("Please fill out all the required fields");
+      setLoading("");
+      return false;
+    } else {
+      try {
+        await Axios.patch(
+          `https://techtales.up.railway.app/blogs/${params.id}`,
+          blogData
+        );
+        toast.success("Blog updated successfully");
+        confetti({
+          particleCount: 800,
+          spread: 50,
+          origin: { y: 0.5 },
+        });
+        setLoading("");
+        revalidateBlogs(params.id);
+        router.replace("/my-blogs");
+      } catch (error) {
+        toast.error(error?.response?.data?.errors);
+        console.error(error);
+        setLoading("");
+      }
+    }
   }
   if (loading === "loading") {
     return (
