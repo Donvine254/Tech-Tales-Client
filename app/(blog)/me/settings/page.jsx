@@ -76,25 +76,25 @@ export default function Page() {
   return (
     <div className="font-poppins flex items-center justify-center m-auto md:mt-10 ">
       <div className="bg-slate-100 shadow border-2 py-2 rounded-md">
-        <div className="flex flex-col space-y-1.5 py-2 px-6">
-          <h3 className="tracking-tight text-2xl text-center font-bold md:text-3xl">
+        <div className="flex flex-col space-y-1.5 py-1 px-6">
+          <h3 className="tracking-tight text-xl text-center font-bold md:text-2xl">
             Settings
           </h3>
-          <p className="text-center">
+          <p className="text-center text-sm md:text-base">
             Update your details, profile picture, and manage your account.
           </p>
         </div>
-        <div className="p-6 space-y-2">
+        <div className="px-6 space-y-1">
           <div className="space-y-2 flex items-center justify-between gap-4 text-gray-700">
-            <h3>Email address</h3>
-            <p className="break-words">{user.email}</p>
+            <h3 className="text-sm md:text-base">Email address</h3>
+            <p className="break-words text-sm md:text-base">{user.email}</p>
           </div>
-          <div className="space-y-2 flex items-center justify-between gap-4 text-gray-700">
+          <div className="space-y-2 flex items-center justify-between gap-4 text-gray-700 text-sm md:text-base">
             <h3 className="hover:text-gray-900 font-semibold">Username</h3>
             <p>{user.username}</p>
           </div>
           <div className="space-y-2 cursor-pointer flex items-center justify-between gap-4 text-gray-700">
-            <div onClick={showUpdateModal}>
+            <div onClick={showUpdateModal} className="text-sm md:text-base">
               <h3>Profile Information</h3>
               <p onClick={showUpdateModal}>
                 Edit your profile photo, bio and username
@@ -105,7 +105,7 @@ export default function Page() {
             </div>
           </div>
         </div>
-        <div className="px-6 py-1 flex items-center justify-between gap-3">
+        <div className="px-6 py-1 flex items-center justify-between gap-3 text-sm md:text-base">
           <div className="py-1">
             <h3 className="">Allow Email Notifications </h3>
             <p className="text-sm wrap text-gray-600">
@@ -118,7 +118,7 @@ export default function Page() {
             <div className="w-11 h-6 bg-gray-400 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-blue-600"></div>
           </label>
         </div>
-        <div className="px-6 py-1 flex items-center justify-between gap-3">
+        <div className="px-6 py-1 flex items-center justify-between gap-3 text-sm md:text-base">
           <div className="py-1">
             <h3 className="">Analytics Report </h3>
             <p className="text-sm wrap text-gray-600">
@@ -130,7 +130,7 @@ export default function Page() {
             <div className="w-11 h-6 bg-gray-400 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-blue-600"></div>
           </label>
         </div>
-        <div className="px-6 py-1 flex items-center justify-between gap-3">
+        <div className="px-6 py-1 flex items-center justify-between gap-3 text-sm md:text-base">
           <div className="py-1">
             <h3 className="">Enable/Disable Cookies </h3>
             <p className="text-sm wrap text-gray-600">
