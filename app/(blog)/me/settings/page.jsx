@@ -84,7 +84,7 @@ export default function Page() {
             Update your details, profile picture, and manage your account.
           </p>
         </div>
-        <div className="px-6 space-y-1">
+        <div className="px-6 py-4 space-y-1">
           <div className="space-y-2 flex items-center justify-between gap-4 text-gray-700">
             <h3 className="text-sm md:text-base">Email address</h3>
             <p className="break-words text-sm md:text-base">{user.email}</p>
@@ -105,7 +105,7 @@ export default function Page() {
             </div>
           </div>
         </div>
-        <div className="px-6 py-1 flex items-center justify-between gap-3 text-sm md:text-base">
+        <div className="px-6 py-2 flex items-center justify-between gap-3 text-sm md:text-base">
           <div className="py-1">
             <h3 className="">Allow Email Notifications </h3>
             <p className="text-sm wrap text-gray-600">
