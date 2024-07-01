@@ -46,13 +46,13 @@ export default function CreateNewBlog() {
     }
   }, []);
 
-  // useEffect(() => {
-  //   const user = getCurrentUser();
-  //   if (!user) {
-  //     toast.error("Login required to perform this action!");
-  //     router.replace("/login?post_login_redirect_url=create");
-  //   }
-  // }, [router]);
+  useEffect(() => {
+    const user = getCurrentUser();
+    if (!user) {
+      toast.error("Login required to perform this action!");
+      router.replace("/login?post_login_redirect_url=create");
+    }
+  }, [router]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -85,7 +85,7 @@ export default function CreateNewBlog() {
     <div className="font-poppins md:mt-9">
       <Script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.2/tsparticles.confetti.bundle.min.js"></Script>
       <div className="w-full bg-[#FDFAE9] border-b-amber-500  border text-center py-2 text-[18px] mb-2 xsm:text-[16px]">
-        <p className="inline-block md:inline-flex  md:items-center md:gap-1">
+        <p className="inline-block md:inline-flex text-sm md:text-base md:items-center md:gap-1">
           <svg
             className="text-amber-600 xsm:text-center xsm:mx-auto"
             xmlns="http://www.w3.org/2000/svg"
@@ -166,6 +166,25 @@ export default function CreateNewBlog() {
           placeholder="Write your blog title here"
           required
         />
+        {/* <label htmlFor="tags" className="p-1 text-xl text-center font-bold ">
+          Tags
+        </label>
+        <br /> */}
+        <input
+          id="tags"
+          type="text"
+          name="tags"
+          disabled={loading}
+          value={blogData?.tags}
+          onChange={(e) =>
+            setBlogData((prev) => ({
+              ...prev,
+              tags: e.target.value,
+            }))
+          }
+          placeholder="Add up to 4 tags"
+          className="p-1 mb-2 border-b bg-transparent focus:outline-none text-lg"
+        />
 
         <UploadButton setBlog={setBlogData} />
         {blogData.image ? (
@@ -182,26 +201,12 @@ export default function CreateNewBlog() {
         ) : null}
 
         <DynamicEditor data={blogData.body} handleChange={setBlogData} />
-        <input
-          id="tags"
-          name="tags"
-          disabled={loading}
-          value={blogData?.tags}
-          onChange={(e) =>
-            setBlogData((prev) => ({
-              ...prev,
-              tags: e.target.value,
-            }))
-          }
-          placeholder="+ Add Tags"
-          className="p-1 my-2 border-b-2 bg-transparent border-b-blue-500 md:w-1/2 focus:outline-none text-lg"
-          type="text"
-        />
+
         <div className="flex gap-2 xsm:items-center xsm:justify-between md:gap-8 mt-4">
           <button
             type="submit"
             disabled={loading}
-            className="bg-blue-500 bg-opacity-80 disabled:bg-gray-200 disabled:text-black  font-bold px-2 py-1.5 text-white rounded-md hover:bg-blue-600 w-1/3">
+            className="bg-blue-500 bg-opacity-80 disabled:bg-gray-200 disabled:text-black  px-2 py-1.5 text-white rounded-md hover:bg-blue-600 w-1/3">
             {loading ? (
               <p className="flex items-center gap-1">
                 <Loader size={18} />
