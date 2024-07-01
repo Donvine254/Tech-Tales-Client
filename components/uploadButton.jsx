@@ -59,7 +59,7 @@ export default function UploadButton({ setBlog }) {
     <div className="border-blue-500 p-2 mb-2 bg-zinc-200 bg-opacity-30 border-2 border-dotted">
       <label
         htmlFor="title"
-        className="my-2 text-xl text-center font-bold text-black">
+        className="my-2 text-base md:text-xl text-center font-bold text-black">
         Cover Image &nbsp;
         <small className="text-gray-600 text-sm">
           (optional, <span className="text-red-500 italic">*Max size 5MB</span>{" "}
@@ -69,7 +69,11 @@ export default function UploadButton({ setBlog }) {
       <div className="flex flex-col md:flex-row md:items-center md:gap-5">
         <div className="relative min-w-0 flex-auto ">
           <input
-            className="mb-2 p-2 rounded border w-full border-solid border-blue-600 bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-black transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-gray-600 file:px-3 file:py-[0.32rem] file:text-white bg-gray-100 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem]  focus:border-primary focus:outline-none "
+            className={`mb-2 p-2 rounded border w-full border-solid border-blue-600 bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-black transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:px-3 file:py-[0.32rem] file:text-white bg-gray-100 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem]  focus:border-primary focus:outline-none ${
+              image === ""
+                ? "file:bg-gray-600 "
+                : "file:bg-blue-500 bg-blue-300 bg-opacity-50"
+            }`}
             type="file"
             name="image"
             ref={fileInputRef}
@@ -100,7 +104,7 @@ export default function UploadButton({ setBlog }) {
           }
           onClick={handleImageUpload}
           disabled={isLoading || image === ""}
-          className="bg-blue-600 mb-2 xsm:w-full min-w-[150px] w-fit py-[0.32rem] rounded border  border-blue-600 bg-clip-padding px-5 text-white flex items-center justify-center disabled:bg-gray-100 disabled:text-gray-400">
+          className="bg-blue-500 mb-2 xsm:w-full min-w-[150px] w-fit py-[0.32rem] rounded border  border-blue-600 bg-clip-padding px-5 text-white flex items-center justify-center disabled:bg-gray-100 disabled:text-gray-400">
           {isLoading ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"

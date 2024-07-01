@@ -54,11 +54,12 @@ const TagInput = ({ setBlogData, blogTags }) => {
       {tags.map((tag, index) => (
         <div
           key={index}
-          className="flex items-center px-2 mb-1  bg-cyan-400 text-white rounded-md">
+          className="flex items-center px-2 mb-1  bg-blue-600 text-white rounded-md">
           {tag}
           <button
             className="ml-2 text-lg font-semibold text-white hover:text-red-500"
-            onClick={() => removeTag(index)}>
+            onClick={() => removeTag(index)}
+            title="remove">
             &times;
           </button>
         </div>

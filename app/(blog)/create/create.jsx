@@ -221,7 +221,7 @@ export default function CreateNewBlog() {
           </button>
           <button
             type="button"
-            onClick={() => console.log(blogData)}
+            onClick={() => toast.success("upcoming feature")}
             className="bg-transparent flex items-center justify-center gap-1 bg-gradient-to-r from-green-400 to-indigo-500 border hover:bg-gradient-to-r hover:from-blue-500 hover:to-green-200 px-2 py-1.5 rounded-md w-1/3 text-white h-[35px]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
