@@ -167,27 +167,18 @@ export default function CreateNewBlog() {
           placeholder="Write your blog title here"
           required
         />
-        {/* <label htmlFor="tags" className="p-1 text-xl text-center font-bold ">
-          Tags
-        </label>
-        <br /> */}
-        <TagInput setBlogData={setBlogData} />
-        {/* <input
-          id="tags"
-          type="text"
-          name="tags"
-          disabled={loading}
-          value={blogData?.tags}
-          onChange={(e) =>
-            setBlogData((prev) => ({
-              ...prev,
-              tags: e.target.value,
-            }))
+
+        <TagInput
+          setBlogData={setBlogData}
+          blogTags={
+            blogData.tags
+              ? blogData.tags
+                  .split(",")
+                  .map((tag) => tag.trim())
+                  .filter((tag) => tag)
+              : []
           }
-          maxLength={100}
-          placeholder="Add up to 4 tags.."
-          className="p-1 mb-2 border-b bg-transparent focus:outline-none text-lg"
-        /> */}
+        />
 
         <UploadButton setBlog={setBlogData} />
         {blogData.image ? (
@@ -230,7 +221,7 @@ export default function CreateNewBlog() {
           </button>
           <button
             type="button"
-            onClick={() => toast.error("incoming feature")}
+            onClick={() => console.log(blogData)}
             className="bg-transparent flex items-center justify-center gap-1 bg-gradient-to-r from-green-400 to-indigo-500 border hover:bg-gradient-to-r hover:from-blue-500 hover:to-green-200 px-2 py-1.5 rounded-md w-1/3 text-white h-[35px]">
             <svg
               xmlns="http://www.w3.org/2000/svg"

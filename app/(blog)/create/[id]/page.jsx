@@ -9,6 +9,7 @@ import Script from "next/script";
 import Link from "next/link";
 import { revalidateBlogs } from "@/lib/actions";
 import { getCurrentUser } from "@/lib";
+import TagInput from "@/components/TagInput";
 
 const DynamicEditor = dynamic(() => import("@/components/Editor"), {
   loading: () => (
@@ -145,21 +146,16 @@ export default function EditBlog({ params }) {
           placeholder="Write your blog title here"
           required
         />
-        <input
-          id="tags"
-          type="text"
-          name="tags"
-          disabled={loading}
-          value={blogData?.tags}
-          onChange={(e) =>
-            setBlogData((prev) => ({
-              ...prev,
-              tags: e.target.value,
-            }))
+        <TagInput
+          setBlogData={setBlogData}
+          blogTags={
+            blogData.tags
+              ? blogData.tags
+                  .split(",")
+                  .map((tag) => tag.trim())
+                  .filter((tag) => tag)
+              : []
           }
-          maxLength={100}
-          placeholder="Add up to 4 tags..."
-          className="p-1 mb-2 border-b bg-transparent focus:outline-none text-lg"
         />
 
         <DynamicEditor data={blogData.body} handleChange={setBlogData} />

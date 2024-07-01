@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-const TagInput = ({ setBlogData }) => {
-  const [tags, setTags] = useState([]);
+const TagInput = ({ setBlogData, blogTags }) => {
+  const [tags, setTags] = useState(blogTags);
   const [inputValue, setInputValue] = useState("");
 
   const handleKeyDown = (e) => {
@@ -50,7 +50,7 @@ const TagInput = ({ setBlogData }) => {
   };
 
   return (
-    <section className="flex flex-wrap items-center gap-2 my-2 border-b border-black ">
+    <section className="flex flex-wrap items-center gap-2 my-2 border-b ">
       {tags.map((tag, index) => (
         <div
           key={index}
@@ -70,7 +70,13 @@ const TagInput = ({ setBlogData }) => {
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
         disabled={tags.length >= 4}
-        placeholder="Add up to 4 tags"
+        placeholder={
+          tags.length >= 4
+            ? ""
+            : tags.length >= 1
+            ? "Add another"
+            : "Add up to 4 tags"
+        }
         className="p-1 mb-1 bg-transparent outline-none text-lg"
       />
     </section>
