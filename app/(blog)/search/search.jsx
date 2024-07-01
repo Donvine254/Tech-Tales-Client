@@ -50,21 +50,39 @@ export default function SearchPage() {
                   <div className="flex gap-4 xsm:gap-2 xsm:items-center">
                     <UserImage url={blog.user_avatar} />
                     <div className="flex items-center xsm:flex-col gap-2 xsm:gap-0 xsm:items-start">
-                      <p className="font-bold text-base md:text-2xl capitalize">
-                        {blog.author}
+                      <p className=" text-base md:text-xl capitalize">
+                        Written By{" "}
+                        <span className="font-bold">{blog.author}</span>
                       </p>
-                      <p className="text-base font-medium md:text-xl">
-                        {blog.created_at_date}
+                      <p className="text-sm font-medium md:text-base">
+                        Published on {blog.created_at_date}
                       </p>
                     </div>
                   </div>
                   <Link
                     href={`/blogs/${blog.id}?title=${blog.slug}`}
                     className="space-y-3 xl:col-span-3">
-                    <h1 className="font-bold text-xl md:text-3xl  py-4">
+                    <h1 className="font-bold text-xl md:text-2xl  py-2">
                       {blog.title}
                     </h1>
                   </Link>
+                  {/* div for blog tags */}
+                  <div className="py-1">
+                    {blog.tags ? (
+                      <div className="flex gap-2 flex-wrap">
+                        {blog.tags.split(",").map((tag, index) => (
+                          <Link
+                            key={index}
+                            href={`/search?search=${tag.trim()}`}
+                            className="px-2 py-0.5bg-transparent hover:bg-blue-600 hover:text-white cursor-pointer border border-blue-600 rounded-xl ">
+                            #{tag.trim()}
+                          </Link>
+                        ))}
+                      </div>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
                   <div className="text-sm md:text-xl leading-8 line-clamp-2 md:py-1 overflow-hidden trimmed-blog-body ">
                     {blog ? parse(blog.body) : blog.body}
                   </div>
