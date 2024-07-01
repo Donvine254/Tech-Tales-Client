@@ -249,7 +249,7 @@ export default function CreateNewBlog() {
             type="button"
             onClick={saveDraft}
             className="bg-transparent h-[35px] text-black hover:bg-blue-500 border hover:text-white border-blue-500 px-2 py-1.5 rounded-md w-1/3">
-            <p className="flex items-center justify-center gap-1">
+            <p className="flex items-center gap-1">
               <svg
                 fill="none"
                 stroke="currentColor"
