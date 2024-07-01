@@ -29,7 +29,7 @@ export default function CreateNewBlog() {
     title: "",
     image: "",
     body: "",
-    tags: [],
+    tags: "",
   });
   function saveDraft() {
     if (blogData.title === "" && blogData.body == "") {
@@ -84,7 +84,7 @@ export default function CreateNewBlog() {
   return (
     <div className="font-poppins md:mt-9">
       <Script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.2/tsparticles.confetti.bundle.min.js"></Script>
-      <div className="w-full bg-[#FDFAE9] border-b-amber-500  border text-center py-2 text-[18px] mb-2 xsm:text-[16px]">
+      <div className="w-full bg-[#FDFAE9] border-b-amber-500  border text-center py-2  mb-2 ">
         <p className="inline-block md:inline-flex text-sm md:text-base md:items-center md:gap-1">
           <svg
             className="text-amber-600 xsm:text-center xsm:mx-auto"
@@ -108,7 +108,7 @@ export default function CreateNewBlog() {
         onSubmit={handleSubmit}>
         <label
           htmlFor="title"
-          className="p-2 mt-2 text-xl text-center font-bold text-black">
+          className="p-2 mt-2 text-xl text-center font-bold ">
           Blog Title
         </label>
         {/* div for alert */}
@@ -182,7 +182,8 @@ export default function CreateNewBlog() {
               tags: e.target.value,
             }))
           }
-          placeholder="Add up to 4 tags"
+          maxLength={100}
+          placeholder="Add up to 4 tags.."
           className="p-1 mb-2 border-b bg-transparent focus:outline-none text-lg"
         />
 
@@ -206,20 +207,29 @@ export default function CreateNewBlog() {
           <button
             type="submit"
             disabled={loading}
-            className="bg-blue-500 bg-opacity-80 disabled:bg-gray-200 disabled:text-black  px-2 py-1.5 text-white rounded-md hover:bg-blue-600 w-1/3">
+            className="bg-blue-500 bg-opacity-80 disabled:bg-gray-200 disabled:text-black  px-2 py-1.5 text-white rounded-md hover:bg-blue-600 w-1/3 flex items-center justify-center gap-1 h-[35px]">
             {loading ? (
               <p className="flex items-center gap-1">
-                <Loader size={18} />
+                <Loader size={16} />
                 <span>Publishing</span>
               </p>
             ) : (
-              "Publish"
+              <p className="flex items-center gap-1">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  height="1em"
+                  width="1em">
+                  <path d="M5 4v2h14V4H5m0 10h4v6h6v-6h4l-7-7-7 7z" />
+                </svg>
+                <span> Publish</span>
+              </p>
             )}
           </button>
           <button
             type="button"
             onClick={() => toast.error("incoming feature")}
-            className="bg-transparent flex items-center justify-center gap-1 bg-gradient-to-r from-green-400 to-indigo-500 border hover:bg-gradient-to-r hover:from-blue-500 hover:to-green-200 px-2 py-1.5 rounded-md w-1/3 text-white">
+            className="bg-transparent flex items-center justify-center gap-1 bg-gradient-to-r from-green-400 to-indigo-500 border hover:bg-gradient-to-r hover:from-blue-500 hover:to-green-200 px-2 py-1.5 rounded-md w-1/3 text-white h-[35px]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -238,8 +248,22 @@ export default function CreateNewBlog() {
           <button
             type="button"
             onClick={saveDraft}
-            className="bg-transparent text-black hover:bg-blue-500 border hover:text-white border-blue-500 px-2 py-1.5 rounded-md w-1/3">
-            Save Draft
+            className="bg-transparent h-[35px] text-black hover:bg-blue-500 border hover:text-white border-blue-500 px-2 py-1.5 rounded-md w-1/3">
+            <p className="flex items-center justify-center gap-1">
+              <svg
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                viewBox="0 0 24 24"
+                height="1em"
+                width="1em">
+                <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z" />
+                <path d="M17 21v-8H7v8M7 3v5h8" />
+              </svg>
+              <span>Save Draft</span>
+            </p>
           </button>
         </div>
       </form>
