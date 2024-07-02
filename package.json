@@ -15,9 +15,12 @@
     "@tinymce/tinymce-react": "^4.3.2",
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "eslint": "8.45.0",
     "eslint-config-next": "^14.2.4",
     "html-react-parser": "^4.2.0",
+    "jsonwebtoken": "^9.0.2",
     "next": "^14.2.4",
     "npm": "^10.2.5",
     "postcss": "8.4.27",
@@ -29,6 +32,8 @@
     "tailwindcss": "3.3.3"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.6",
     "prisma": "^5.16.1"
   }
 }

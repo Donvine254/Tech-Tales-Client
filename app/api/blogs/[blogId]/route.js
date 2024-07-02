@@ -1,7 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/prisma/prisma";
 import { NextResponse } from "next/server";
 
-const prisma = new PrismaClient();
+
 
 // Function to format created_at date for the blog
 const formatDate = (dateString) => {
