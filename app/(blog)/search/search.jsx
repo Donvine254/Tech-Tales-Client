@@ -15,22 +15,16 @@ export default function SearchPage() {
   const [loading, setLoading] = useState(true);
   const searchParams = useSearchParams();
   const search = searchParams.get("search");
+
   useEffect(() => {
     (async () => {
       try {
-        const response = await Axios.get(
-          "https://techtales.up.railway.app/blogs"
+        const response = await Axios.post(
+          `https://techtales.vercel.app/api/search?search=${search.trim()}`,
+          { search: search }
         );
-        if (search && search.trim() !== "") {
-          const filteredBlogs = response.data.filter((blog) =>
-            blog.tags.toLowerCase().includes(search.toLowerCase())
-          );
-          setBlogs(filteredBlogs);
-          setLoading(false);
-        } else {
-          setBlogs(null);
-          setLoading(false);
-        }
+        setBlogs(response.data);
+        setLoading(false);
       } catch (error) {
         console.error(error);
       }

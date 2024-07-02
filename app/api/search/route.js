@@ -11,7 +11,7 @@ const formatDate = (dateString) => {
 
 export async function POST(req, res) {
   const searchTerm = await req.nextUrl.searchParams.get("search");
-  console.log(searchTerm);
+
   try {
     const blogs = await prisma.blogs.findMany({
       where: {
