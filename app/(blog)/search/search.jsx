@@ -23,7 +23,7 @@ export default function SearchPage() {
         );
         if (search && search.trim() !== "") {
           const filteredBlogs = response.data.filter((blog) =>
-            blog.title.toLowerCase().includes(search.toLowerCase())
+            blog.tags.toLowerCase().includes(search.toLowerCase())
           );
           setBlogs(filteredBlogs);
           setLoading(false);
