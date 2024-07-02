@@ -19,6 +19,10 @@ export default function MyBlogsComponent({ id }) {
   const navigate = useRouter();
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const url =
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3000/api/my-blogs"
+      : "https://techtales.vercel.app/api/my-blogs";
 
   useEffect(() => {
     if (!user && !id) {
@@ -33,9 +37,7 @@ export default function MyBlogsComponent({ id }) {
           } else {
             fetchId = user.id;
           }
-          const response = await Axios.get(
-            `https://techtales.up.railway.app/blogs/user/${fetchId}`
-          );
+          const response = await Axios.get(`${url}/${fetchId}`);
           const data = await response.data;
           setBlogs(data);
           setLoading(false);

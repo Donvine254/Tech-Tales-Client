@@ -66,7 +66,7 @@ export default async function HomePage() {
                         <Link
                           key={index}
                           href={`/search?search=${tag.trim()}`}
-                          className="px-2 py-0.5 bg-transparent hover:bg-blue-600 hover:text-white cursor-pointer border border-blue-600 rounded-xlr ">
+                          className="px-2 py-0.5 bg-transparent hover:bg-blue-600 hover:text-white cursor-pointer border border-blue-600 rounded-xl ">
                           #{tag.trim()}
                         </Link>
                       ))}
