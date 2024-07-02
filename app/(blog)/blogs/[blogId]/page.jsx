@@ -31,10 +31,13 @@ export async function generateStaticParams() {
 }
 
 export default async function BlogsPage({ params }) {
-  let blog = await fetch(
-    `https://techtales.up.railway.app/blogs/${params.blogId}`,
-    { next: { revalidate: 600 } }
-  ).then((response) => response.json());
+  const url =
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3000/api/blogs"
+      : "https://techtales.vercel.app/api/blogs";
+  let blog = await fetch(`${url}/${params.blogId}`, {
+    next: { revalidate: 600 },
+  }).then((response) => response.json());
 
   return (
     <div className="w-full mx-auto m-2 min-h-[75%] px-8 md:w-2/3 md:mt-10 font-poppins ">
