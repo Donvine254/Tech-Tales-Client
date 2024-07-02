@@ -42,6 +42,7 @@ export async function GET(req, { params }) {
         body: blog.body,
         tags: blog.tags,
         slug: blog.slug,
+        user_id: blog.user_id,
         user_avatar: user.picture,
         author: user.username,
         created_at_date: formatDate(blog.created_at),
