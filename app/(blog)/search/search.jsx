@@ -39,7 +39,7 @@ export default function SearchPage() {
   return (
     <Suspense
       fallback={
-        <div className="bg-[url('https://cdn.dribbble.com/users/46425/screenshots/1799682/media/f5cb1a59acb2f7ca5782b6ddae1f0a66.gif')] bg-auto bg-center h-[400px] mt-5"></div>
+        <div className="bg-[url('https://cdn.dribbble.com/users/46425/screenshots/1799682/media/f5cb1a59acb2f7ca5782b6ddae1f0a66.gif')] bg-auto bg-center h-[400px] mt-5 m-auto"></div>
       }>
       <section className="relative min-h-[400px] h-fit">
         <div className="w-full !z-0 mx-auto md:my-4 px-8 md:w-2/3 relative font-poppins">
