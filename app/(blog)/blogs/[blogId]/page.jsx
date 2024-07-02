@@ -34,7 +34,7 @@ export default async function BlogsPage({ params }) {
   const url =
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000/api/blogs"
-      : "https://techtales.vercel.app/api/blogs";
+      : "https://techtales.up.railway.app/blogs";
   let blog = await fetch(`${url}/${params.blogId}`, {
     next: { revalidate: 600 },
   }).then((response) => response.json());
