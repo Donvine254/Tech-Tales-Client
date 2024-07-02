@@ -11,7 +11,12 @@ const formatDate = (dateString) => {
 
 export async function GET(req, res) {
   try {
-    const blogs = await prisma.blogs.findMany();
+    const blogs = await prisma.blogs.findMany({
+      orderBy: {
+        created_at: "desc",
+      },
+      take: 5,
+    });
 
     const formattedBlogs = await Promise.all(
       blogs.map(async (blog) => {
