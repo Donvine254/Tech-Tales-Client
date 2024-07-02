@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model ar_internal_metadata {
+  key        String   @id @db.VarChar
+  value      String?  @db.VarChar
+  created_at DateTime @db.Timestamp(6)
+  updated_at DateTime @db.Timestamp(6)
+}
+
+model blogs {
+  id         BigInt   @id @default(autoincrement())
+  title      String?  @db.VarChar
+  image      String?  @db.VarChar
+  body       String?
+  slug       String?  @db.VarChar
+  user_id    BigInt?
+  created_at DateTime @db.Timestamp(6)
+  updated_at DateTime @db.Timestamp(6)
+  tags       String?  @db.VarChar
+
+  @@index([user_id], map: "index_blogs_on_user_id")
+}
+
+model comments {
+  id         BigInt   @id @default(autoincrement())
+  body       String?
+  user_id    BigInt?
+  blog_id    BigInt?
+  created_at DateTime @db.Timestamp(6)
+  updated_at DateTime @db.Timestamp(6)
+
+  @@index([blog_id], map: "index_comments_on_blog_id")
+  @@index([user_id], map: "index_comments_on_user_id")
+}
+
+model schema_migrations {
+  version String @id @db.VarChar
+}
+
+model social_media {
+  id         BigInt   @id @default(autoincrement())
+  platform   String?  @db.VarChar
+  url        String?  @db.VarChar
+  user_id    BigInt?
+  created_at DateTime @db.Timestamp(6)
+  updated_at DateTime @db.Timestamp(6)
+
+  @@index([user_id], map: "index_social_media_on_user_id")
+}
+
+model users {
+  id              BigInt   @id @default(autoincrement())
+  username        String?  @db.VarChar
+  password_digest String   @db.VarChar
+  email           String?  @db.VarChar
+  picture         String?  @db.VarChar
+  created_at      DateTime @db.Timestamp(6)
+  updated_at      DateTime @db.Timestamp(6)
+  bio             String?
+  role            String?  @default("user") @db.VarChar
+}
