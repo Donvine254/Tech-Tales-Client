@@ -16,7 +16,7 @@ export default async function HomePage() {
   const url =
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000/api/blogs"
-      : "https://techtales.vercel.app/api/blogs";
+      : "https://techtales.up.railway.app/blogs";
 
   const blogs = await fetch(url, {
     next: { revalidate: 3600 },
