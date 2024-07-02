@@ -12,7 +12,7 @@ export const metadata = {
 };
 
 export default async function HomePage() {
-  const blogs = await fetch("https://techtales.up.railway.app/blogs", {
+  const blogs = await fetch("http://localhost:3000/api/blogs", {
     next: { revalidate: 3600 },
   }).then((response) => response.json());
 
