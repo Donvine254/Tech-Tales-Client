@@ -4,6 +4,7 @@ import { Clipboard, Clock } from "@/assets";
 import parse from "html-react-parser";
 import { Bookmark, SideNav } from "@/components";
 import Link from "next/link";
+import { env } from "@/next.config";
 
 export const metadata = {
   title: "Home Page - Tech Tales",
@@ -12,7 +13,12 @@ export const metadata = {
 };
 
 export default async function HomePage() {
-  const blogs = await fetch("http://localhost:3000/api/blogs", {
+  const url =
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3000/api/blogs"
+      : "https://techtales.vercel.app/api/blogs";
+
+  const blogs = await fetch(url, {
     next: { revalidate: 3600 },
   }).then((response) => response.json());
 
