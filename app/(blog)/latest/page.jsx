@@ -12,7 +12,7 @@ export default async function Latest() {
   const url =
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000/api/latest"
-      : "https://techtales.up.railway.app/latest";
+      : "https://techtales.vercel.app/api/latest";
   let blogs = await fetch(url, {
     next: { revalidate: 600 },
   }).then((response) => response.json());

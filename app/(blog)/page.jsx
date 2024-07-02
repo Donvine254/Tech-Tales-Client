@@ -16,7 +16,7 @@ export default async function HomePage() {
   const url =
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000/api/blogs"
-      : "https://techtales.up.railway.app/blogs";
+      : "https://techtales.vercel.app/api/blogs";
 
   const blogs = await fetch(url, {
     next: { revalidate: 3600 },
@@ -66,7 +66,7 @@ export default async function HomePage() {
                         <Link
                           key={index}
                           href={`/search?search=${tag.trim()}`}
-                          className="px-2 py-0.5 bg-blue-200  border hover:border-blue-200 hover:bg-gray-100 h-8 rounded-md transition-all cursor-pointer ">
+                          className="px-2 py-0.5 bg-transparent hover:bg-blue-600 hover:text-white cursor-pointer border border-blue-600 rounded-xlr ">
                           #{tag.trim()}
                         </Link>
                       ))}
