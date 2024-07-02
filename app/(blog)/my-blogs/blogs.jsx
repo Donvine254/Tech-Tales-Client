@@ -130,7 +130,7 @@ export default function MyBlogsComponent({ id }) {
                 <Graph />
                 <span>View Blog Statistics</span>
               </p>
-              {blog.user_id === user.id ? (
+              {blog.user_id.toString() === user.id.toString() ? (
                 <ActionsButton
                   onDelete={() => handleDelete(blog.id)}
                   onEdit={() => handleEdit(blog.id)}
