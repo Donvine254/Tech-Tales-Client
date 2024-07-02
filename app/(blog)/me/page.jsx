@@ -20,6 +20,12 @@ export default function Profile() {
   const router = useRouter();
   const [readingList, setReadingList] = useState({});
   const [allBlogs, setAllBlogs] = useState([]);
+
+  const url =
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3000/api/my-blogs"
+      : "https://techtales.vercel.app/api/my-blogs";
+
   useEffect(() => {
     let isMounted = true;
     if (!user && isMounted) {
@@ -28,9 +34,9 @@ export default function Profile() {
     } else if (user && isMounted) {
       const fetchBlogs = async () => {
         try {
-          const response = await fetch(
-            `https://techtales.up.railway.app/blogs/user/${user.id}`
-          );
+          const response = await fetch(`${url}/${user.id}`, {
+            cache: "force-cache",
+          });
           const data = await response.json();
           setBlogs(data);
           setLoading(false);
@@ -45,7 +51,7 @@ export default function Profile() {
     return () => {
       isMounted = false;
     };
-  }, [user, router]);
+  }, [user, router, url]);
   //useEffect to get user reading list
   useEffect(() => {
     const localStorageData = secureLocalStorage.getItem("bookmarked_blogs");

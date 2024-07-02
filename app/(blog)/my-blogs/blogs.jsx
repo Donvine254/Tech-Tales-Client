@@ -37,8 +37,10 @@ export default function MyBlogsComponent({ id }) {
           } else {
             fetchId = user.id;
           }
-          const response = await Axios.get(`${url}/${fetchId}`);
-          const data = await response.data;
+          const response = await fetch(`${url}/${fetchId}`, {
+            cache: "force-cache",
+          });
+          const data = await response.json();
           setBlogs(data);
           setLoading(false);
         } catch (error) {
