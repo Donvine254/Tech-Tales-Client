@@ -43,12 +43,12 @@ export default async function BlogsComponent({ blogs }) {
               {/* div for blog tags */}
               <div className="py-1">
                 {blog.tags ? (
-                  <div className="flex gap-2 flex-wrap">
+                  <div className="flex gap-2 flex-wrap text-sm">
                     {blog.tags.split(",").map((tag, index) => (
                       <Link
                         key={index}
                         href={`/search?search=${tag.trim()}`}
-                        className="px-2 py-0.5 bg-transparent hover:bg-blue-600 hover:text-white cursor-pointer border border-blue-600 rounded-xl ">
+                        className="md:px-2 md:py-0.5 text-blue-600 md:bg-transparent md:hover:bg-blue-600 md:hover:text-white cursor-pointer md:border md:border-blue-600 md:rounded-xl ">
                         #{tag.trim()}
                       </Link>
                     ))}

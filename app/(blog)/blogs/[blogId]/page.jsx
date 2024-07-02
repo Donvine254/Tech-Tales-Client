@@ -1,7 +1,7 @@
 import { SideNav } from "@/components";
 import Slug from "./slug";
 
-export const revalidate = true;
+export const revalidate = 600;
 
 export const metadata = {
   title: "Blog Page - Tech Tales",
@@ -35,9 +35,12 @@ export default async function BlogsPage({ params }) {
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000/api/blogs"
       : "https://techtales.up.railway.app/blogs";
-  let blog = await fetch(`${url}/${params.blogId}`, {
-    next: { revalidate: 600 },
-  }).then((response) => response.json());
+  let blog = await fetch(
+    `https://techtales.up.railway.app/blogs/${params.blogId}`,
+    {
+      next: { revalidate: 600 },
+    }
+  ).then((response) => response.json());
 
   return (
     <div className="w-full mx-auto m-2 min-h-[75%] px-8 md:w-2/3 md:mt-10 font-poppins ">

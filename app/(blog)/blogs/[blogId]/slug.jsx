@@ -13,6 +13,7 @@ import { UserImage } from "@/components/Avatar";
 import parse from "html-react-parser";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import toast from "react-hot-toast";
 
 export default function Slug({ blog }) {
@@ -51,9 +52,13 @@ export default function Slug({ blog }) {
       {blog ? (
         <div key={blog.id}>
           {blog.image && (
-            <div
-              className="h-[300px] md:h-[400px] w-full bg-cover bg-center bg-no-repeat rounded-md"
-              style={{ backgroundImage: `url(${blog.image})` }}></div>
+            <Image
+              src={blog.image}
+              alt="blog-image"
+              height={450}
+              width={900}
+              className="italic h-full w-full"
+            />
           )}
 
           <div className="flex xsm:block gap-5 items-center py-4">
@@ -97,7 +102,7 @@ export default function Slug({ blog }) {
                   <Link
                     key={index}
                     href={`/search?search=${tag.trim()}`}
-                    className="py-0.5 px-4 m-1 bg-transparent hover:bg-blue-600 hover:text-white cursor-pointer border border-blue-600 rounded-xl">
+                    className="md:px-2 md:py-0.5 text-blue-600 md:bg-transparent md:hover:bg-blue-600 md:hover:text-white cursor-pointer md:border md:border-blue-600 md:rounded-xl">
                     #{tag.trim()}
                   </Link>
                 ))}

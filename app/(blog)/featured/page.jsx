@@ -1,5 +1,5 @@
 import { BlogsComponent } from "@/components";
-export const revalidate = true;
+export const revalidate = 600;
 
 export const metadata = {
   title: "Featured Blogs - Tech Tales",

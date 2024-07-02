@@ -1,6 +1,6 @@
 import { BlogsComponent } from "@/components";
 
-export const revalidate = true;
+export const revalidate = 600;
 // fetch the data based on created time
 
 export const metadata = {
