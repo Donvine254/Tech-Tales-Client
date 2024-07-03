@@ -11,12 +11,13 @@ export async function POST(req, res) {
     return res.status(405).json({ message: "Method not allowed" });
   }
   const data = await req.json();
+  const { email, password } = data;
   const oneDay = 24 * 60 * 60 * 1000;
   if (data) {
     try {
       // Check if the user exists
       const user = await prisma.users.findFirst({
-        where: { email: data?.email.toString() },
+        where: { email: email },
       });
 
       if (!user) {
@@ -28,7 +29,7 @@ export async function POST(req, res) {
 
       // Compare the password
       const isPasswordValid = await bcrypt.compare(
-        data.password,
+        password,
         user.password_digest
       );
 
@@ -38,23 +39,21 @@ export async function POST(req, res) {
           { status: 401 }
         );
       }
-
+      const tokenData = {
+        id: user.id.toString(),
+        email: user.email,
+        username: user.username,
+        picture: user.picture,
+        socials: user.socials,
+        bio: user.bio,
+        role: user.role,
+      };
       // Generate a JWT token
-      const token = jwt.sign(
-        { userId: user.id.toString() },
-        process.env.JWT_SECRET,
-        {
-          expiresIn: "8h",
-        }
-      );
-      // set cookies
-      cookies().set({
-        name: "auth_token",
-        value: token,
-        expires: Date.now() - oneDay,
+      const token = jwt.sign(tokenData, process.env.JWT_SECRET, {
+        expiresIn: "8h",
       });
       // Return user details and token
-      return NextResponse.json(
+      const response = NextResponse.json(
         {
           id: user.id.toString(),
           username: user.username,
@@ -66,6 +65,10 @@ export async function POST(req, res) {
         },
         { status: 200 }
       );
+      response.cookies.set("token", token, {
+        httpOnly: true,
+      });
+      return response;
     } catch (error) {
       console.error(error);
       return NextResponse.json(
