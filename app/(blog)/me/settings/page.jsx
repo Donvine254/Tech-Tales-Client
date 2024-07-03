@@ -17,7 +17,7 @@ export default function Page() {
         const response = await fetch(`${baseUrl}/me`);
         const data = await response.json();
         setUser(data);
-        setLoading(false);
+        setLoading(true);
       } catch (error) {
         console.error(error);
         setLoading(false);
@@ -79,8 +79,16 @@ export default function Page() {
     <div className="font-poppins flex items-center justify-center m-auto md:mt-10 ">
       <div className="bg-slate-100 shadow border-2 py-2 rounded-md">
         {loading ? (
-          <div className="flex items-center justify-center m-auto h-[300px] w-[250px] md:w-[600px] md:h-[400px]">
-            <Loader size={50} />
+          <div className="flex flex-col space-y-1.5 py-1 px-6 h-[300px] md:h-[400px]">
+            <h3 className="tracking-tight text-xl text-center font-bold md:text-2xl">
+              Settings
+            </h3>
+            <p className="text-center  text-sm md:text-base">
+              Update your details, profile picture, and manage your account.
+            </p>
+            <div className="flex items-center justify-center py-10 ">
+              <Loader size={50} />
+            </div>
           </div>
         ) : (
           <>
