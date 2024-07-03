@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Search } from "./Search";
 import { Menu } from "./Menu";
 import Popup from "./LoginAlert";
-
+import { baseUrl } from "@/lib";
 import { SortUp, SortDown } from "@/assets";
 
 export default function Navbar() {
@@ -14,14 +14,10 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(true);
   const [user, setUser] = useState(null);
 
-  const url =
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:3000/api/me"
-      : "https://techtales.vercel.app/api/me";
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(url);
+        const response = await fetch(`${baseUrl}/me`, { cache: "force-cache" });
         const data = await response.json();
         setUser(data);
       } catch (error) {
