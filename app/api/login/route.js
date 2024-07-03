@@ -11,7 +11,7 @@ export async function POST(req, res) {
     return res.status(405).json({ message: "Method not allowed" });
   }
   const data = await req.json();
-
+  const oneDay = 24 * 60 * 60 * 1000;
   if (data) {
     try {
       // Check if the user exists
@@ -51,19 +51,18 @@ export async function POST(req, res) {
       cookies().set({
         name: "auth_token",
         value: jwt,
-        httpOnly: true,
+        expires: Date.now() - oneDay,
       });
       // Return user details and token
       return NextResponse.json(
         {
-          user: {
-            id: user.id.toString(),
-            email: user.email,
-            picture: user.picture,
-            socials: user.socials,
-            bio: user.bio,
-            role: user.role,
-          },
+          id: user.id.toString(),
+          username: user.username,
+          email: user.email,
+          picture: user.picture,
+          socials: user.socials,
+          bio: user.bio,
+          role: user.role,
         },
         { status: 200 }
       );
