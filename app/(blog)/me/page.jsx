@@ -57,7 +57,7 @@ export default function Profile() {
     setReadingList(bookmarkedBlogs);
     (async () => {
       try {
-        const response = await fetch(`https://techtales.up.railway.app/blogs`, {
+        const response = await fetch(`${url}/blogs`, {
           next: { revalidate: 600 },
         });
         const data = await response.json();
@@ -68,7 +68,7 @@ export default function Profile() {
         setLoading(false);
       }
     })();
-  }, []);
+  }, [url]);
   const filteredBlogs = allBlogs.filter((blog) => readingList[blog.id]);
 
   if (!user) {
