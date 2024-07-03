@@ -1,5 +1,5 @@
 import { BlogsComponent } from "@/components";
-
+import { baseUrl } from "@/lib";
 export const revalidate = 600;
 // fetch the data based on created time
 
@@ -9,11 +9,7 @@ export const metadata = {
     "Tech Tales is a simple blog for tech students and professionals who would like to share their solutions to various coding problems or practice blogging as a way of learning",
 };
 export default async function Latest() {
-  const url =
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:3000/api/latest"
-      : "https://techtales.vercel.app/api/latest";
-  let blogs = await fetch(url, {
+  let blogs = await fetch(`${baseUrl}/latest`, {
     next: { revalidate: 600 },
   }).then((response) => response.json());
 

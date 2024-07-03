@@ -14,9 +14,9 @@ export default function UpdateProfileModal({ user }) {
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [data, setData] = useState({
-    picture: user.picture,
-    username: user.username,
-    bio: user.bio ?? "",
+    picture: user?.picture,
+    username: user?.username,
+    bio: user?.bio ?? "",
   });
   function handleFileChange(e) {
     const maxAllowedSize = 5 * 1024 * 1024;
@@ -107,7 +107,11 @@ export default function UpdateProfileModal({ user }) {
                 className="!h-20 !w-20"
               />
             ) : (
-              <UserImage url={user.picture} size={80} className="!h-20 !w-20" />
+              <UserImage
+                url={user?.picture}
+                size={80}
+                className="!h-20 !w-20"
+              />
             )}
             <div>
               {image ? (
@@ -221,9 +225,9 @@ export default function UpdateProfileModal({ user }) {
             type="submit"
             title="submit"
             disabled={
-              data.username.toLowerCase().trim() ===
-                user.username.toLowerCase().trim() &&
-              data.picture === user.picture &&
+              data?.username?.toLowerCase().trim() ===
+                user?.username?.toLowerCase().trim() &&
+              data?.picture === user?.picture &&
               data?.bio?.toLowerCase().trim() ===
                 user?.bio?.toLowerCase().trim() &&
               loading

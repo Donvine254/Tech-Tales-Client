@@ -1,8 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { clearLocalStorage } from "@/lib";
+import { clearLocalStorage, baseUrl } from "@/lib";
 import { revalidatePage } from "@/lib/actions";
-import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import Link from "next/link";
@@ -20,20 +19,15 @@ export default function Profile() {
   const [readingList, setReadingList] = useState({});
   const [allBlogs, setAllBlogs] = useState([]);
 
-  const url =
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:3000/api"
-      : "https://techtales.vercel.app/api";
-
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const userData = await fetch(`${url}/me`).then((response) =>
+        const userData = await fetch(`${baseUrl}/me`).then((response) =>
           response.json()
         );
         if (userData) {
           setUser(userData);
-          const response = await fetch(`${url}/my-blogs/${userData?.id}`, {
+          const response = await fetch(`${baseUrl}/my-blogs/${userData?.id}`, {
             cache: "force-cache",
           });
           const data = await response.json();
@@ -47,7 +41,7 @@ export default function Profile() {
     };
 
     fetchBlogs();
-  }, [url]);
+  }, []);
   //useEffect to get user reading list
   useEffect(() => {
     const localStorageData = secureLocalStorage.getItem("bookmarked_blogs");
@@ -68,7 +62,7 @@ export default function Profile() {
         setLoading(false);
       }
     })();
-  }, [url]);
+  }, []);
   const filteredBlogs = allBlogs.filter((blog) => readingList[blog.id]);
 
   if (!user) {
