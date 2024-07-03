@@ -4,8 +4,13 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req, res) {
   try {
     const userData = await getDataFromToken(req);
-    return NextResponse.json(userData, { status: 200 });
+    if (!userData || !userData) {
+      return NextResponse.rewrite(new URL("/login", req.url));
+    } else return NextResponse.json(userData, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error: error }, { status: 400 });
+    return NextResponse.json(
+      { error: "No logged in user found" },
+      { status: 400 }
+    );
   }
 }
