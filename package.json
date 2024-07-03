@@ -34,6 +34,7 @@
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/jsonwebtoken": "^9.0.6",
+    "@types/react": "18.3.3",
     "prisma": "^5.16.1"
   }
 }
