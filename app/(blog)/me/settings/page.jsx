@@ -17,7 +17,7 @@ export default function Page() {
         const response = await fetch(`${baseUrl}/me`);
         const data = await response.json();
         setUser(data);
-        setLoading(true);
+        setLoading(false);
       } catch (error) {
         console.error(error);
         setLoading(false);
