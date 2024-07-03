@@ -1,10 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { createBlog } from "@/lib";
+import { createBlog, baseUrl } from "@/lib";
 import TagInput from "@/components/TagInput";
 import toast from "react-hot-toast";
-import { getCurrentUser } from "@/lib";
 import dynamic from "next/dynamic";
 import Loader from "@/components/Loader";
 import UploadButton from "@/components/uploadButton";
@@ -23,7 +22,7 @@ const DynamicEditor = dynamic(() => import("@/components/Editor"), {
 
 export default function CreateNewBlog() {
   const [loading, setLoading] = useState(false);
-  const user = getCurrentUser();
+  const [user, setUser] = useState();
   let count = 0;
   const router = useRouter();
   const [blogData, setBlogData] = useState({
@@ -48,12 +47,17 @@ export default function CreateNewBlog() {
   }, []);
 
   useEffect(() => {
-    const user = getCurrentUser();
-    if (!user) {
-      toast.error("Login required to perform this action!");
-      router.replace("/login?post_login_redirect_url=create");
+    async function getUser() {
+      try {
+        const response = await fetch(`${baseUrl}/me`);
+        const data = await response.json();
+        setUser(data);
+      } catch (error) {
+        console.error(error);
+      }
     }
-  }, [router]);
+    getUser();
+  }, []);
 
   function handleSubmit(e) {
     e.preventDefault();

@@ -1,8 +1,6 @@
 import prisma from "@/prisma/prisma";
 import { NextResponse } from "next/server";
 
-
-
 // Function to format created_at date for the blog
 const formatDate = (dateString) => {
   const options = { year: "numeric", month: "short", day: "numeric" };
@@ -36,10 +34,11 @@ export async function GET(req, { params }) {
           slug: blog.slug,
           user_avatar: user.picture,
           author: user.username,
+          user_id: blog.user_id.toString(),
           user_bio: user.bio,
           user_socials: user.socials,
           created_at_date: formatDate(blog.created_at),
-          comments: comments,
+          comments: {},
         };
 
         return NextResponse.json(formattedBlogs);

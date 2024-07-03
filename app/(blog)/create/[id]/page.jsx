@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Loader from "@/components/Loader";
 import dynamic from "next/dynamic";
@@ -8,13 +7,14 @@ import Axios from "axios";
 import Script from "next/script";
 import Link from "next/link";
 import { revalidateBlogs } from "@/lib/actions";
-import { getCurrentUser } from "@/lib";
+import { baseUrl } from "@/lib";
 import TagInput from "@/components/TagInput";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const DynamicEditor = dynamic(() => import("@/components/Editor"), {
   loading: () => (
     <div className="flex items-center justify-center gap-2 text-xl my-2">
-      <Loader />
+      <Loader size={60} />
       Loading Editor...
     </div>
   ),
@@ -23,32 +23,31 @@ const DynamicEditor = dynamic(() => import("@/components/Editor"), {
 export default function EditBlog({ params }) {
   const [loading, setLoading] = useState("loading");
   const [blogData, setBlogData] = useState();
+  const searchParams = useSearchParams();
+  const userId = searchParams.get("referrer");
   const router = useRouter();
-
-  //redirect user to login page if they are not logged in
-
-  const user = getCurrentUser();
-  if (!user) {
-    toast.error("Login required to perform this action!");
-    router.replace(`/login?post_login_redirect_url=create/${params.id}`);
-  }
+  useEffect(() => {
+    async function getUser() {
+      try {
+        const response = await fetch(`${baseUrl}/blogs/${params.id}`);
+        const blog = await response.json();
+        setBlogData(blog);
+        setLoading("");
+        // modify this to ensure admins can edit any blog
+        if (userId !== blog.user_id) {
+          console.log("userId:", userId, "blog user_id:", blog.user_id);
+          toast.error("This blog belongs to a different author!");
+          router.replace("/my-blogs?action=forbidden");
+        }
+      } catch (error) {
+        console.error(error);
+        setLoading("");
+      }
+    }
+    getUser();
+  }, [params.id]);
 
   //function to fetch blog data
-  useEffect(() => {
-    async function getBlog() {
-      const response = await Axios.get(
-        `https://techtales.up.railway.app/blogs/${params.id}`
-      );
-      const data = response.data;
-      if (data.user_id !== user.id) {
-        toast.error("This blog belongs to a different author!");
-        router.replace("/my-blogs?action=forbidden");
-      }
-      setLoading("");
-      setBlogData(data);
-    }
-    getBlog();
-  }, [params.id, router, user.id]);
 
   async function handleSubmit(e) {
     e.preventDefault();
