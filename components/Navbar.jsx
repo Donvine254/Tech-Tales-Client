@@ -1,20 +1,38 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Search } from "./Search";
 import { Menu } from "./Menu";
 import Popup from "./LoginAlert";
-import { getCurrentUser } from "@/lib";
 
-import { SortUp, SortDown, UserIcon } from "@/assets";
-
-const user = getCurrentUser();
+import { SortUp, SortDown } from "@/assets";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(true);
+  const [user, setUser] = useState(null);
+
+  const url =
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3000/api/me"
+      : "https://techtales.vercel.app/api/me";
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        setUser(data);
+      } catch (error) {
+        console.error("Failed to fetch user data:", error);
+        setUser(null);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
   const pathname = usePathname().replace(/^\/+/, "") ?? "featured";
   return (
     <nav className="w-full font-crimson h-20">

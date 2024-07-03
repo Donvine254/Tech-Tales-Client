@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { getCurrentUser, clearLocalStorage } from "@/lib";
+import { clearLocalStorage } from "@/lib";
 import { revalidatePage } from "@/lib/actions";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
@@ -14,44 +14,40 @@ import secureLocalStorage from "react-secure-storage";
 export const dynamic = "auto";
 
 export default function Profile() {
-  const user = getCurrentUser();
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
+  const [user, setUser] = useState(null);
   const [readingList, setReadingList] = useState({});
   const [allBlogs, setAllBlogs] = useState([]);
 
   const url =
     process.env.NODE_ENV === "development"
-      ? "http://localhost:3000/api/my-blogs"
-      : "https://techtales.vercel.app/api/my-blogs";
+      ? "http://localhost:3000/api"
+      : "https://techtales.vercel.app/api";
 
   useEffect(() => {
-    let isMounted = true;
-    if (!user && isMounted) {
-      toast.error("kindly login first!");
-      router.replace("/login?post_login_redirect_url=me");
-    } else if (user && isMounted) {
-      const fetchBlogs = async () => {
-        try {
-          const response = await fetch(`${url}/${user.id}`, {
+    const fetchBlogs = async () => {
+      try {
+        const userData = await fetch(`${url}/me`).then((response) =>
+          response.json()
+        );
+        if (userData) {
+          setUser(userData);
+          const response = await fetch(`${url}/my-blogs/${userData?.id}`, {
             cache: "force-cache",
           });
           const data = await response.json();
           setBlogs(data);
           setLoading(false);
-        } catch (error) {
-          setLoading(false);
-          console.error("Error fetching blogs:", error);
         }
-      };
-
-      fetchBlogs();
-    }
-    return () => {
-      isMounted = false;
+      } catch (error) {
+        setLoading(false);
+        console.error("Error fetching blogs:", error);
+      }
     };
-  }, [user, router, url]);
+
+    fetchBlogs();
+  }, [url]);
   //useEffect to get user reading list
   useEffect(() => {
     const localStorageData = secureLocalStorage.getItem("bookmarked_blogs");

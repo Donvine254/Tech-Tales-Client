@@ -4,53 +4,48 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Graph, Clock, Clipboard } from "@/assets";
 import { useRouter } from "next/navigation";
-import { getCurrentUser, deleteBlog } from "@/lib";
+import { deleteBlog } from "@/lib";
 import parse from "html-react-parser";
 import { UserImage } from "@/components/Avatar";
 import SkeletonBlog from "@/components/SkeletonBlog";
 import toast from "react-hot-toast";
 import ActionsButton from "@/components/ActionsButton";
-import { Bookmark, SideNav } from "@/components";
+import { SideNav } from "@/components";
 //check for the current user
-const user = getCurrentUser();
 
-export default function MyBlogsComponent({ id }) {
+export default function MyBlogsComponent() {
   const navigate = useRouter();
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
   const url =
     process.env.NODE_ENV === "development"
-      ? "http://localhost:3000/api/my-blogs"
-      : "https://techtales.vercel.app/api/my-blogs";
+      ? "http://localhost:3000/api/"
+      : "https://techtales.vercel.app/api";
 
   useEffect(() => {
-    if (!user && !id) {
-      toast.error("kindly login first!");
-      navigate.replace("/login?post_login_redirect_url=my-blogs");
-    } else if (user || id) {
-      const fetchBlogs = async () => {
-        try {
-          let fetchId;
-          if (id) {
-            fetchId = id;
-          } else {
-            fetchId = user.id;
-          }
-          const response = await fetch(`${url}/${fetchId}`, {
+    const fetchBlogs = async () => {
+      try {
+        const userData = await fetch(`${url}/me`).then((response) =>
+          response.json()
+        );
+        if (userData) {
+          setUser(userData);
+          const response = await fetch(`${url}/my-blogs/${userData?.id}`, {
             cache: "force-cache",
           });
           const data = await response.json();
           setBlogs(data);
           setLoading(false);
-        } catch (error) {
-          setLoading(false);
-          console.error("Error fetching blogs:", error);
         }
-      };
+      } catch (error) {
+        setLoading(false);
+        console.error("Error fetching blogs:", error);
+      }
+    };
 
-      fetchBlogs();
-    }
-  }, [id, navigate, url]);
+    fetchBlogs();
+  }, [user?.id, navigate, url]);
 
   function handleDelete(blogId) {
     deleteBlog(blogId, setBlogs);

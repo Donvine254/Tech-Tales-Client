@@ -1,17 +1,9 @@
 import Link from "next/link";
 import React from "react";
-import { revalidatePage } from "@/lib/actions";
-import { clearLocalStorage } from "@/lib";
-import toast from "react-hot-toast";
+
+import { handleSignOut } from "@/lib";
+
 export const Menu = ({ handleClick, menuOpen, currentUser }) => {
-  function handleSignout() {
-    clearLocalStorage();
-    toast.success("logged out successfully");
-    revalidatePage("/my-blogs");
-    if (typeof window !== undefined) {
-      window.location.reload();
-    }
-  }
   return (
     <div className="space-y-4 bg-slate-100 border-2 shadow-lg z-50 py-5 px-2 md:px-4 rounded-lg  min-w-[250px] md:min-w-[300px]  font-poppins">
       <Link
@@ -93,7 +85,7 @@ export const Menu = ({ handleClick, menuOpen, currentUser }) => {
         Settings
       </Link>
       <button
-        onClick={handleSignout}
+        onClick={handleSignOut}
         className="w-full mt-2 py-2 text-start px-3 border  rounded-md  hover:border-red-500  shadow-md">
         <span className="font-bold">Sign Out</span>
         <p className="text-gray-800 text-[12px] md:text-base line-clamp-through">
