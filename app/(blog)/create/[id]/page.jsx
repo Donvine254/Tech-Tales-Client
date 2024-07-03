@@ -45,7 +45,7 @@ export default function EditBlog({ params }) {
       }
     }
     getUser();
-  }, [params.id]);
+  }, [params.id, userId, router]);
 
   //function to fetch blog data
 
