@@ -16,13 +16,14 @@ export default function SearchPage() {
   const searchParams = useSearchParams();
   const search = searchParams.get("search");
 
+  const url =
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3000/api/"
+      : "https://techtales.vercel.app/api";
   useEffect(() => {
     (async () => {
       try {
-        const response = await Axios.post(
-          `https://techtales.vercel.app/api/search?search=${search.trim()}`,
-          { search: search }
-        );
+        const response = await Axios.post(`${url}/search`, { search: search });
         setBlogs(response.data);
         setLoading(false);
       } catch (error) {

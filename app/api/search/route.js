@@ -8,13 +8,13 @@ const formatDate = (dateString) => {
 };
 
 export async function POST(req, res) {
-  const searchTerm = await req.nextUrl.searchParams.get("search");
+  const searchTerm = await req.json();
 
   try {
     const blogs = await prisma.blogs.findMany({
       where: {
         tags: {
-          contains: searchTerm.toString(),
+          contains: searchTerm.search.toString(),
           mode: "insensitive",
         },
       },
