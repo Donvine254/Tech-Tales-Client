@@ -50,7 +50,7 @@ export async function POST(req, res) {
       // set cookies
       cookies().set({
         name: "auth_token",
-        value: jwt,
+        value: token,
         expires: Date.now() - oneDay,
       });
       // Return user details and token
