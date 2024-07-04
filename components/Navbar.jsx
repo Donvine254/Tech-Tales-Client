@@ -17,7 +17,7 @@ export default function Navbar() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(`${baseUrl}/me`, { cache: "force-cache" });
+        const response = await fetch(`${baseUrl}/me`);
         if (!response.ok) {
           clearLocalStorage();
         }
