@@ -10,6 +10,7 @@ import UploadButton from "@/components/uploadButton";
 import Script from "next/script";
 import secureLocalStorage from "react-secure-storage";
 import Link from "next/link";
+import PreviewModal from "@/components/PreviewModal";
 
 const DynamicEditor = dynamic(() => import("@/components/Editor"), {
   loading: () => (
@@ -84,6 +85,13 @@ export default function CreateNewBlog() {
       alertElement.style.display = "none";
     } else {
       return false;
+    }
+  }
+  //function to show modal
+  function showPreviewModal() {
+    const modal = document.getElementById("preview-modal");
+    if (modal) {
+      modal.showModal();
     }
   }
   return (
@@ -225,7 +233,7 @@ export default function CreateNewBlog() {
           </button>
           <button
             type="button"
-            onClick={() => toast.success("upcoming feature")}
+            onClick={showPreviewModal}
             className="bg-transparent flex items-center justify-center gap-1 bg-gradient-to-r from-green-400 to-indigo-500 border hover:bg-gradient-to-r hover:from-blue-500 hover:to-green-200 px-2 py-1.5 rounded-md w-1/3 text-white h-[35px]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -245,7 +253,7 @@ export default function CreateNewBlog() {
           <button
             type="button"
             onClick={saveDraft}
-            className="bg-transparent h-[35px] text-black hover:bg-blue-500 border hover:text-white border-blue-500 px-2 py-1.5 rounded-md w-1/3 flex items-center justify-center  gap-1">
+            className="bg-transparent h-[35px] text-black hover:bg-blue-500 border hover:text-white border-blue-500 px-2 py-1.5 rounded-md w-1/3 xsm:w-fit flex items-center md:justify-center   gap-1">
             <svg
               fill="none"
               stroke="currentColor"
@@ -262,6 +270,7 @@ export default function CreateNewBlog() {
           </button>
         </div>
       </form>
+      <PreviewModal blog={blogData} />
     </div>
   );
 }
