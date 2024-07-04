@@ -51,7 +51,7 @@ export default function Profile() {
     setReadingList(bookmarkedBlogs);
     (async () => {
       try {
-        const response = await fetch(`${url}/blogs`, {
+        const response = await fetch(`${baseUrl}/blogs`, {
           next: { revalidate: 600 },
         });
         const data = await response.json();

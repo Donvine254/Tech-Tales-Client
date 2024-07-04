@@ -1,6 +1,7 @@
 import { BlogsComponent } from "@/components";
 import { baseUrl } from "@/lib";
 export const revalidate = 600;
+import { formatDate } from "@/lib/utils";
 // fetch the data based on created time
 
 export const metadata = {

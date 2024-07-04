@@ -4,7 +4,7 @@ import { Clipboard, Clock } from "@/assets";
 import parse from "html-react-parser";
 import { Bookmark, SideNav } from "@/components";
 import Link from "next/link";
-import { baseUrl } from "@/lib";
+import { baseUrl, calculateReadingTime } from "@/lib";
 
 export const metadata = {
   title: "Home Page - Tech Tales",
@@ -16,12 +16,6 @@ export default async function HomePage() {
   const blogs = await fetch(`${baseUrl}/blogs`, {
     next: { revalidate: 3600 },
   }).then((response) => response.json());
-
-  function calculateReadingTime(blog) {
-    const words = blog.trim().split(/\s+/).length;
-    const readingTime = Math.ceil(words / 300);
-    return readingTime;
-  }
 
   return (
     <section className="relative md:min-h-[350px] md:mt-10 font-poppins">
