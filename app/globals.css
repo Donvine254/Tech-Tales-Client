@@ -83,12 +83,27 @@ h4 {
 .blog-body p {
   margin: 14px 0;
 }
+.blog-body p {
+  margin: 14px 0;
+}
+.blog-body a {
+  color: #1e40af;
+  text-decoration: underline;
+}
 .blog-body p:first-child {
   margin-top: 0;
 }
 
 .blog-body p:last-child {
   margin-bottom: 0;
+}
+.blog-body pre {
+  background-color: #f8f8f8;
+  padding: 10px;
+  border: 1px solid #ccc;
+  width: 100%;
+  white-space: pre-wrap;
+  line-height: normal;
 }
 /* styling for sweetalert */
 .swal2-popup {
