@@ -1,4 +1,5 @@
 import MyBlogsComponent from "./blogs";
+import { baseUrl } from "@/lib";
 export const metadata = {
   title: "My Blogs - Tech Tales",
   description:
@@ -6,8 +7,6 @@ export const metadata = {
 };
 
 export default async function Page() {
-  const user = await fetch("/api/me").then((response) => response.json());
-  console.log(user);
   return (
     <section className="md:mt-10">
       <MyBlogsComponent />
