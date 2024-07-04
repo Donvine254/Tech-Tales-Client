@@ -16,16 +16,6 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(true);
 
   useEffect(() => {
-    Swal.fire({
-      title: "Session Expired",
-      icon: "warning",
-      showCloseButton: true,
-      confirmButtonColor: "#09A3E5",
-      confirmButtonText: "Okay",
-      text: "Your session has expired. Kindly login again to continue.",
-      iconColor: "red",
-      footer: '<a href="/login">Click here to login again</a>',
-    });
     const fetchUser = async () => {
       try {
         const response = await fetch(`${baseUrl}/me`);
@@ -33,10 +23,14 @@ export default function Navbar() {
           clearLocalStorage();
           if (user) {
             Swal.fire({
-              title: "session expired",
+              title: "Session Expired",
               icon: "warning",
               showCloseButton: true,
+              confirmButtonColor: "#09A3E5",
+              confirmButtonText: "Okay",
               text: "Your session has expired. Kindly login again to continue.",
+              iconColor: "red",
+              footer: '<a href="/login">Click here to login again</a>',
             });
           }
         }
