@@ -30,10 +30,11 @@ export default function PreviewModal({ blog }) {
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="hover:fill-red-500 bg-gray-100 p-1 rounded-md hover:text-red-500 cursor-pointer z-50"
+            className="hover:fill-red-500 hover:bg-gray-100 p-1 rounded-md hover:text-red-500 cursor-pointer z-50"
             onClick={handleClose}>
             <path d="M18 6 6 18" />
             <path d="m6 6 12 12" />
+            <title>Close</title>
           </svg>
         </div>
         {/* section for blog */}
@@ -74,7 +75,8 @@ export default function PreviewModal({ blog }) {
         </section>
         <div className="flex justify-end p-2">
           <button
-            className="bg-[#0060CE] hover:bg-gray-200 hover:text-red-500 py-0.5 px-2 rounded-md text-white"
+            className="bg-[#0060CE] hover:bg-blue-600  py-0.5 px-2 rounded-md text-white"
+            title="close"
             onClick={handleClose}>
             Close
           </button>
