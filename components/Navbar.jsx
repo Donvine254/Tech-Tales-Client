@@ -8,7 +8,7 @@ import { Menu } from "./Menu";
 import Popup from "./LoginAlert";
 import { baseUrl, clearLocalStorage, getCurrentUser } from "@/lib";
 import { SortUp, SortDown } from "@/assets";
-import toast from "react-hot-toast";
+import Swal from "sweetalert2";
 
 const user = getCurrentUser();
 export default function Navbar() {
@@ -16,12 +16,29 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(true);
 
   useEffect(() => {
+    Swal.fire({
+      title: "Session Expired",
+      icon: "warning",
+      showCloseButton: true,
+      confirmButtonColor: "#09A3E5",
+      confirmButtonText: "Okay",
+      text: "Your session has expired. Kindly login again to continue.",
+      iconColor: "red",
+      footer: '<a href="/login">Click here to login again</a>',
+    });
     const fetchUser = async () => {
       try {
         const response = await fetch(`${baseUrl}/me`);
         if (!response.ok) {
           clearLocalStorage();
-          toast.error("session expired!");
+          if (user) {
+            Swal.fire({
+              title: "session expired",
+              icon: "warning",
+              showCloseButton: true,
+              text: "Your session has expired. Kindly login again to continue.",
+            });
+          }
         }
       } catch (error) {
         console.error("Failed to fetch user data:", error);
