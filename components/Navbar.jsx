@@ -6,23 +6,24 @@ import Image from "next/image";
 import { Search } from "./Search";
 import { Menu } from "./Menu";
 import Popup from "./LoginAlert";
-import { baseUrl } from "@/lib";
+import { baseUrl, clearLocalStorage, getCurrentUser } from "@/lib";
 import { SortUp, SortDown } from "@/assets";
 
+const user = getCurrentUser();
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(true);
-  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const response = await fetch(`${baseUrl}/me`, { cache: "force-cache" });
-        const data = await response.json();
-        setUser(data);
+        if (!response.ok) {
+          clearLocalStorage();
+        }
       } catch (error) {
         console.error("Failed to fetch user data:", error);
-        setUser(null);
+        clearLocalStorage();
       }
     };
 
