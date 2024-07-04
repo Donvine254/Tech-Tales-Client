@@ -234,7 +234,8 @@ export default function CreateNewBlog() {
           <button
             type="button"
             onClick={showPreviewModal}
-            className="bg-transparent flex items-center justify-center gap-1 bg-gradient-to-r from-green-400 to-indigo-500 border hover:bg-gradient-to-r hover:from-blue-500 hover:to-green-200 px-2 py-1.5 rounded-md w-1/3 text-white h-[35px]">
+            className="bg-transparent flex items-center justify-center gap-1 bg-gradient-to-r from-green-400 to-indigo-500 border hover:bg-gradient-to-r hover:from-blue-500 hover:to-green-200 px-2 py-1.5 rounded-md w-1/3 text-white h-[35px]"
+            title="see what your blog will look like after publishing">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"

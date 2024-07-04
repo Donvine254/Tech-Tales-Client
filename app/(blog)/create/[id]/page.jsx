@@ -10,6 +10,7 @@ import { revalidateBlogs } from "@/lib/actions";
 import { baseUrl } from "@/lib";
 import TagInput from "@/components/TagInput";
 import { useRouter, useSearchParams } from "next/navigation";
+import PreviewModal from "@/components/PreviewModal";
 
 const DynamicEditor = dynamic(() => import("@/components/Editor"), {
   loading: () => (
@@ -90,6 +91,13 @@ export default function EditBlog({ params }) {
       }
     }
   }
+  // function to show preview modal
+  function showPreviewModal() {
+    const modal = document.getElementById("preview-modal");
+    if (modal) {
+      modal.showModal();
+    }
+  }
   if (loading === "loading") {
     return (
       <div className="flex items-center justify-center gap-2 text-xl min-h-[500px]">
@@ -162,7 +170,8 @@ export default function EditBlog({ params }) {
         <div className="flex gap-2 xsm:items-center xsm:justify-between justify-end md:gap-8 mt-4">
           <button
             type="button"
-            onClick={() => toast.error("incoming feature")}
+            onClick={showPreviewModal}
+            title="see what your blog will look like after publishing"
             className="bg-transparent flex items-center justify-center gap-1 bg-gradient-to-r from-green-400 to-indigo-500 border hover:bg-gradient-to-r hover:from-blue-500 hover:to-green-200 px-2 py-1.5 rounded-md text-white h-8">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -204,6 +213,7 @@ export default function EditBlog({ params }) {
           </button>
         </div>
       </form>
+      <PreviewModal blog={blogData} />
     </div>
   );
 }
