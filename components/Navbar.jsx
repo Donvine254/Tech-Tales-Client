@@ -8,6 +8,7 @@ import { Menu } from "./Menu";
 import Popup from "./LoginAlert";
 import { baseUrl, clearLocalStorage, getCurrentUser } from "@/lib";
 import { SortUp, SortDown } from "@/assets";
+import toast from "react-hot-toast";
 
 const user = getCurrentUser();
 export default function Navbar() {
@@ -20,6 +21,7 @@ export default function Navbar() {
         const response = await fetch(`${baseUrl}/me`);
         if (!response.ok) {
           clearLocalStorage();
+          toast.error("session expired!");
         }
       } catch (error) {
         console.error("Failed to fetch user data:", error);
