@@ -152,16 +152,21 @@ export default function Register() {
             </div>
           </div>
 
-          <div className="items-center px-6 py-2 pb-4 flex flex-col space-y-4">
+          <div className="items-center px-6 py-2 pb-4 flex flex-col space-y-2">
             <button
-              className="inline-flex items-center justify-center text-xl font-medium disabled:pointer-events-none hover:bg-primary/90 h-10 px-4 py-2 w-full bg-blue-500 hover:bg-blue-600 text-white rounded-md disabled:bg-gray-100 disabled:text-black border"
+              className="inline-flex items-center justify-center disabled:pointer-events-none hover:bg-primary/90 h-10 px-4 py-2 w-full bg-blue-500 hover:bg-blue-600 text-white rounded-md disabled:bg-gray-100 disabled:text-black border"
               type="submit"
               disabled={loading}
               title="register">
               {loading ? <Loader /> : "Sign up"}
             </button>
+            <div className="flex items-center gap-2 w-full ">
+              <hr className="border border-gray-200 w-full" />
+              <div className="text-sm flex-1 w-fit whitespace-nowrap">Or</div>
+              <hr className="border border-gray-200 w-full" />
+            </div>
             <button
-              className="rounded-md text-base font-medium  border hover:bg-black hover:text-white h-10 px-4 py-2 w-full flex justify-center items-center space-x-2 disabled:pointer-events-none disabled:opacity-50 "
+              className="rounded-md   border hover:bg-black hover:text-white h-10 px-4 py-2 w-full flex justify-center items-center space-x-2 disabled:pointer-events-none disabled:opacity-50 "
               disabled={loading}
               type="button"
               onClick={handleGoogleSignup}>
@@ -169,7 +174,7 @@ export default function Register() {
               <span>Sign up with Google</span>
             </button>
             <button
-              className="rounded-md text-base font-medium  border    h-10 px-4 py-2 w-full flex justify-center items-center space-x-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-black hover:text-white"
+              className="rounded-md   border    h-10 px-4 py-2 w-full flex justify-center items-center space-x-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-black hover:text-white"
               type="button"
               disabled={loading}
               onClick={handleGithubRegistration}>
@@ -189,7 +194,7 @@ export default function Register() {
                   </svg>
                 </div>
                 <div>
-                  <p className="text-sm">
+                  <p className="text-xs">
                     By continuing, you agree to our Terms and Conditions.
                   </p>
                 </div>

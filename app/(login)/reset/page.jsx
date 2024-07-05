@@ -159,7 +159,7 @@ export default function ResetPage() {
           </p>
           <div className="items-center px-6 py-4 flex flex-col space-y-4">
             <button
-              className="inline-flex items-center justify-center text-xl font-medium disabled:pointer-events-none disabled:bg-gray-100 disabled:text-black hover:bg-primary/90 h-10 px-4 py-2 w-full bg-blue-500 text-white rounded-md"
+              className="inline-flex items-center justify-center  disabled:pointer-events-none disabled:bg-gray-100 disabled:text-black hover:bg-primary/90 px-4 py-1.5 w-full bg-blue-500 text-white rounded-md"
               type="submit"
               disabled={loading || error}
               title="reset">

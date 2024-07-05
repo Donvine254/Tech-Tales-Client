@@ -52,12 +52,12 @@ export default function Page() {
           <Loader />
         </div>
       }>
-      <div className="flex flex-col items-center justify-center w-full min-h-screen  px-4 font-poppins">
-        <div className="border w-full max-w-sm mx-auto rounded-xl shadow-md overflow-hidden bg-white p-5">
-          <h2 className="font-bold text-base space-y-2 my-2">
+      <div className="flex flex-col items-center justify-center w-full min-h-screen  p-4 font-poppins ">
+        <div className="border w-full max-w-sm mx-auto rounded-xl shadow-md overflow-hidden bg-white space-y-4 p-5">
+          <h2 className="font-bold my-2">
             We cannot find any account linked to your email address
           </h2>
-          <p className="text-base my-2">
+          <p className="my-2">
             Do you want to create a new one with your{" "}
             <span className="capitalize">{referrer} </span>
             Account?
@@ -76,26 +76,36 @@ export default function Page() {
               </div>
               <div>
                 <p className="text-sm">
-                  By continuing, you agree to Tech Tales Terms and Conditions.
+                  By continuing, you agree to Tech Tales{" "}
+                  <a
+                    href="/terms"
+                    className="hover:underline hover:text-blue-600">
+                    Terms and Conditions
+                  </a>
+                  .
                 </p>
               </div>
             </div>
           </div>
           <button
-            className="py-2 px-4 bg-blue-700 text-white hover:shadow my-3 rounded-md text-xl w-full disabled:bg-gray-100 disabled:text-black flex items-center justify-center disabled:py-1 disabled:px-2 "
+            className="py-1 px-4 bg-blue-500 hover:bg-blue-700 text-white hover:shadow my-3 rounded-md  w-full disabled:bg-gray-100 disabled:text-black flex items-center justify-center disabled:py-1 disabled:px-2 "
             disabled={loading}
             onClick={handleRegistration}>
             {loading ? <Loader size={30} /> : "Create Account"}
           </button>
-
-          <p className="text-center text-base">
-            or{" "}
+          <div className="flex items-center gap-2 w-full ">
+            <hr className="border border-gray-200 w-full" />
+            <div className="text-sm flex-1 w-fit whitespace-nowrap">Or</div>
+            <hr className="border border-gray-200 w-full" />
+          </div>
+          <div className="flex items-center justify-center">
+            {" "}
             <Link
-              className="text-blue-600 font-bold border py-0.5 px-1 hover:bg-blue-600 hover:text-white rounded-md"
+              className="text-blue-600 border py-0.5 px-1.5 hover:bg-blue-600 hover:text-white rounded-md "
               href="/login">
               sign in another way
             </Link>
-          </p>
+          </div>
         </div>
       </div>
     </Suspense>

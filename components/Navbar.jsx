@@ -112,7 +112,7 @@ export default function Navbar() {
                 }
               }}>
               <span>
-                Sign In <span className="hidden md:inline-flex">/Sign Up</span>
+               Login <span className="hidden md:inline-flex">/Sign Up</span>
               </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
