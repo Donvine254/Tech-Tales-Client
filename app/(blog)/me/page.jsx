@@ -9,6 +9,7 @@ import Loader from "@/components/Loader";
 import parse from "html-react-parser";
 import { Clipboard, Facebook, NewTwitterIcon } from "@/assets";
 import secureLocalStorage from "react-secure-storage";
+import SocialMediaModal from "@/components/SocialMediaModal";
 
 export const dynamic = "auto";
 
@@ -27,7 +28,7 @@ export default function Profile() {
         );
         if (userData) {
           setUser(userData);
-          console.log(userData.socials);
+
           const response = await fetch(`${baseUrl}/my-blogs/${userData?.id}`, {
             cache: "force-cache",
           });
@@ -92,6 +93,17 @@ export default function Profile() {
   const linkedinUrl = getSocialUrl(user, "linkedin");
   const githubUrl = getSocialUrl(user, "github");
   const twitterUrl = getSocialUrl(user, "twitter");
+
+  //function to show modals
+  const showModal = async (platform) => {
+    const modal = document.getElementById(`${platform}_modal`);
+    if (modal) {
+      modal.showModal();
+    } else {
+      console.log("modal not found");
+    }
+  };
+
   return (
     <div className="font-poppins w-full min-h-[400px] mx-auto px-8 md:w-4/5 md:mt-10">
       {/* have two cards rendered as flexbox */}
@@ -145,7 +157,11 @@ export default function Profile() {
                     Facebook
                   </a>
                 ) : (
-                  <span className="flex items-center justify-center gap-2">
+                  <span
+                    className="flex items-center justify-center gap-2"
+                    onClick={() => {
+                      showModal("facebook");
+                    }}>
                     {" "}
                     <Facebook className="group-hover:fill-white" />
                     Connect Facebook
@@ -171,7 +187,11 @@ export default function Profile() {
                     Linkedin
                   </a>
                 ) : (
-                  <span className="flex items-center justify-center gap-2">
+                  <span
+                    className="flex items-center justify-center gap-2"
+                    onClick={() => {
+                      showModal("linkedin");
+                    }}>
                     <svg
                       viewBox="0 0 960 1000"
                       fill="#0284C7"
@@ -207,7 +227,11 @@ export default function Profile() {
                     Github
                   </a>
                 ) : (
-                  <span className="flex items-center justify-center gap-2">
+                  <span
+                    className="flex items-center justify-center gap-2"
+                    onClick={() => {
+                      showModal("github");
+                    }}>
                     {" "}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -236,7 +260,11 @@ export default function Profile() {
                     Twitter
                   </a>
                 ) : (
-                  <span className="flex items-center justify-center gap-2">
+                  <span
+                    className="flex items-center justify-center gap-2"
+                    onClick={() => {
+                      showModal("twitter");
+                    }}>
                     <NewTwitterIcon className="group-hover:stroke-white " />{" "}
                     Connect Twitter
                   </span>
@@ -285,6 +313,7 @@ export default function Profile() {
               </button>
             </div>
           </div>
+          <SocialMediaModal platform={"github"} />
         </div>
         {/* second card */}
         <div className="lg:w-2/3 p-6 space-y-2 bg-gray-50 border shadow rounded-md">
