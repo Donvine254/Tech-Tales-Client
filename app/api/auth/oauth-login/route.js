@@ -19,13 +19,20 @@ export async function POST(req, res) {
     if (!user) {
       return NextResponse.json({ errors: ["User not found"] }, { status: 404 });
     }
+    const socials = await prisma.social_media.findMany({
+      where: { user_id: user.id },
+      select: {
+        platform: true,
+        url: true,
+      },
+    });
 
     const tokenData = {
       id: user.id.toString(),
       email: user.email,
       username: user.username,
       picture: user.picture,
-      socials: user.socials,
+      socials: socials,
       bio: user.bio,
       role: user.role,
     };
@@ -41,7 +48,7 @@ export async function POST(req, res) {
         username: user.username,
         email: user.email,
         picture: user.picture,
-        socials: user.socials,
+        socials: socials,
         bio: user.bio,
         role: user.role,
       },

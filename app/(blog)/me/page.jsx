@@ -146,14 +146,19 @@ export default function Profile() {
             </p>
             <p className="font-bold">Socials</p>
             <div className="flex flex-col items-center space-y-1 py-2 gap-2">
-              <button className="w-full px-2 py-1 bg-gray-100 rounded-md border hover:bg-[#0284C7]  hover:text-white group">
+              <button
+                className={`w-full px-2 py-1 bg-gray-100 rounded-md border  group ${
+                  facebookUrl
+                    ? "bg-[#0284C7] text-white "
+                    : "hover:bg-[#0284C7]  hover:text-white bg-gray-100"
+                }`}>
                 {facebookUrl ? (
                   <a
                     href={facebookUrl}
                     target="_blank"
                     className="flex items-center justify-center gap-2">
                     {" "}
-                    <Facebook className="group-hover:fill-white" />
+                    <Facebook className="fill-white" />
                     Facebook
                   </a>
                 ) : (
@@ -168,7 +173,12 @@ export default function Profile() {
                   </span>
                 )}
               </button>
-              <button className="w-full px-2 py-1 bg-gray-100 hover:bg-[#0284C7] hover:text-white rounded-md border group">
+              <button
+                className={`w-full px-2 py-1 bg-gray-100 rounded-md border  group ${
+                  linkedinUrl
+                    ? "bg-[#0284C7] text-white "
+                    : "hover:bg-[#0284C7]  hover:text-white bg-gray-100"
+                }`}>
                 {linkedinUrl ? (
                   <a
                     href={linkedinUrl}
@@ -180,7 +190,7 @@ export default function Profile() {
                       fill="#0284C7"
                       height="26"
                       width="26"
-                      className="group-hover:fill-white">
+                      className="fill-white">
                       <path d="M480 20c133.333 0 246.667 46.667 340 140s140 206.667 140 340c0 132-46.667 245-140 339S613.333 980 480 980c-132 0-245-47-339-141S0 632 0 500c0-133.333 47-246.667 141-340S348 20 480 20M362 698V386h-96v312h96m-48-352c34.667 0 52-16 52-48s-17.333-48-52-48c-14.667 0-27 4.667-37 14s-15 20.667-15 34c0 32 17.333 48 52 48m404 352V514c0-44-10.333-77.667-31-101s-47.667-35-81-35c-44 0-76 16.667-96 50h-2l-6-42h-84c1.333 18.667 2 52 2 100v212h98V518c0-12 1.333-20 4-24 8-25.333 24.667-38 50-38 32 0 48 22.667 48 68v174h98" />
                       <title>Linkedin</title>
                     </svg>
@@ -205,7 +215,12 @@ export default function Profile() {
                   </span>
                 )}
               </button>
-              <button className="w-full  px-2 py-1 bg-gray-100 hover:bg-[#0284C7]  hover:text-white rounded-md border group">
+              <button
+                className={`w-full px-2 py-1 bg-gray-100 rounded-md border  group ${
+                  githubUrl
+                    ? "bg-[#0284C7] text-white "
+                    : "hover:bg-[#0284C7]  hover:text-white bg-gray-100"
+                }`}>
                 {githubUrl ? (
                   <a
                     href={githubUrl}
@@ -219,7 +234,7 @@ export default function Profile() {
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
-                      className="group-hover:stroke-white">
+                      className="stroke-white">
                       <title>Github</title>
                       <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
                       <path d="M9 18c-4.51 2-5-2-7-2" />
@@ -249,15 +264,19 @@ export default function Profile() {
                   </span>
                 )}
               </button>
-              <button className="w-full px-2 py-1 bg-gray-100  rounded-md border hover:bg-[#0284C7] hover:text-white group">
+              <button
+                className={`w-full px-2 py-1 bg-gray-100 rounded-md border  group ${
+                  twitterUrl
+                    ? "bg-[#0284C7] text-white "
+                    : "hover:bg-[#0284C7]  hover:text-white bg-gray-100"
+                }`}>
                 {" "}
                 {twitterUrl ? (
                   <a
                     href={twitterUrl}
                     target="_blank"
                     className="flex items-center justify-center gap-2">
-                    <NewTwitterIcon className="group-hover:stroke-white " />{" "}
-                    Twitter
+                    <NewTwitterIcon className="stroke-white " /> Twitter
                   </a>
                 ) : (
                   <span
@@ -313,7 +332,10 @@ export default function Profile() {
               </button>
             </div>
           </div>
-          <SocialMediaModal platform={"github"} />
+          <SocialMediaModal platform={"facebook"} user={user} />
+          <SocialMediaModal platform={"linkedin"} user={user} />
+          <SocialMediaModal platform={"github"} user={user} />
+          <SocialMediaModal platform={"twitter"} user={user} />
         </div>
         {/* second card */}
         <div className="lg:w-2/3 p-6 space-y-2 bg-gray-50 border shadow rounded-md">
