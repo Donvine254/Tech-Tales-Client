@@ -100,27 +100,34 @@ export default function AudioPlayer({ blog }) {
         <div className="relative">
           {volume === 0 ? (
             <svg
-              fill="currentColor"
-              viewBox="0 0 16 16"
-              height="26"
-              width="26"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              viewBox="0 0 24 24"
+              height="24"
+              width="24"
               className="cursor-pointer"
-              onClick={() => setShowVolumeControls(true)}>
-              <path d="M6.717 3.55A.5.5 0 017 4v8a.5.5 0 01-.812.39L3.825 10.5H1.5A.5.5 0 011 10V6a.5.5 0 01.5-.5h2.325l2.363-1.89a.5.5 0 01.529-.06zm7.137 2.096a.5.5 0 010 .708L12.207 8l1.647 1.646a.5.5 0 01-.708.708L11.5 8.707l-1.646 1.647a.5.5 0 01-.708-.708L10.793 8 9.146 6.354a.5.5 0 11.708-.708L11.5 7.293l1.646-1.647a.5.5 0 01.708 0z" />
+              onClick={() => setVolume(1)}
+              onMouseEnter={() => setShowVolumeControls(true)}>
+              <path d="M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6" />
             </svg>
           ) : (
             <svg
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              height="20"
-              width="20"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              viewBox="0 0 24 24"
+              height="24"
+              width="24"
               className="cursor-pointer"
-              onClick={() => setShowVolumeControls(true)}>
-              <path
-                fill="currentColor"
-                d="M11.243 12.993a.75.75 0 01-.53-1.281 5.256 5.256 0 000-7.425.75.75 0 111.061-1.061c1.275 1.275 1.977 2.97 1.977 4.773s-.702 3.498-1.977 4.773a.748.748 0 01-.53.22zm-2.665-1.415a.75.75 0 01-.53-1.281 3.254 3.254 0 000-4.596.75.75 0 111.061-1.061 4.756 4.756 0 010 6.718.748.748 0 01-.53.22zM6.5 15a.504.504 0 01-.354-.146L2.292 11H.499a.5.5 0 01-.5-.5v-5a.5.5 0 01.5-.5h1.793l3.854-3.854A.499.499 0 017 1.5v13a.5.5 0 01-.5.5z"
-              />
-              <title>volume controls</title>
+              onClick={() => setVolume(0)}
+              onMouseEnter={() => setShowVolumeControls(true)}>
+              <path d="M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07" />
+              <title>volume</title>
             </svg>
           )}
           <div
