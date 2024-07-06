@@ -31,6 +31,12 @@ export default function Navbar() {
               text: "Your session has expired. Kindly login again to continue.",
               iconColor: "red",
               footer: '<a href="/login">Click here to login again</a>',
+            }).then((result) => {
+              if (result.isDismissed) {
+                window.location.reload();
+              } else if (result.isConfirmed) {
+                window.location.reload();
+              }
             });
           }
         }
@@ -112,7 +118,7 @@ export default function Navbar() {
                 }
               }}>
               <span>
-               Login <span className="hidden md:inline-flex">/Sign Up</span>
+                Login <span className="hidden md:inline-flex">/Sign Up</span>
               </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
