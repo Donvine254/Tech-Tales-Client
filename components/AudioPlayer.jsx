@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-
+import { calculateReadingTime } from "@/lib";
 export default function AudioPlayer({ blog }) {
   // function to read the blog
   const [isPlaying, setIsPlaying] = useState(false);
@@ -95,7 +95,7 @@ export default function AudioPlayer({ blog }) {
           </svg>
         )}
 
-        <span>0:00 / 0:00</span>
+        <span>0:00 / {calculateReadingTime(blog.body)}:00</span>
         <span className="bg-gray-300 rounded-md flex-1 h-1.5"></span>
         <div className="relative">
           {volume === 0 ? (
