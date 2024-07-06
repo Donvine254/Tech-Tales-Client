@@ -5,14 +5,9 @@ import parse from "html-react-parser";
 import Bookmark from "./Bookmark";
 import { UserImage } from "./Avatar";
 import SideNav from "./SideNav";
+import { calculateReadingTime } from "@/lib";
 
 export default async function BlogsComponent({ blogs }) {
-  function calculateReadingTime(blog) {
-    const words = blog.trim().split(/\s+/).length;
-    const readingTime = Math.ceil(words / 300);
-    return readingTime;
-  }
-
   return (
     <div className="w-full mx-auto px-8 md:w-2/3 relative font-poppins">
       <SideNav />
