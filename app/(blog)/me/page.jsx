@@ -147,7 +147,7 @@ export default function Profile() {
             <p className="font-bold">Socials</p>
             <div className="flex flex-col items-center space-y-1 py-2 gap-2">
               <button
-                className={`w-full px-2 py-1 bg-gray-100 rounded-md border  group ${
+                className={`w-full px-2 py-1 rounded-md border  group ${
                   facebookUrl
                     ? "bg-[#0284C7] text-white "
                     : "hover:bg-[#0284C7]  hover:text-white bg-gray-100"
@@ -173,7 +173,7 @@ export default function Profile() {
                 )}
               </button>
               <button
-                className={`w-full px-2 py-1 bg-gray-100 rounded-md border  group ${
+                className={`w-full px-2 py-1 rounded-md border  group ${
                   linkedinUrl
                     ? "bg-[#0284C7] text-white "
                     : "hover:bg-[#0284C7]  hover:text-white bg-gray-100"
@@ -214,7 +214,7 @@ export default function Profile() {
                 )}
               </button>
               <button
-                className={`w-full px-2 py-1 bg-gray-100 rounded-md border  group ${
+                className={`w-full px-2 py-1 rounded-md border  group ${
                   githubUrl
                     ? "bg-[#0284C7] text-white "
                     : "hover:bg-[#0284C7]  hover:text-white bg-gray-100"
