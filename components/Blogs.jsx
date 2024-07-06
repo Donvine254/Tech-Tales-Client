@@ -17,9 +17,9 @@ export default async function BlogsComponent({ blogs }) {
             <article className="">
               <div className="flex gap-2 xsm:items-center">
                 <UserImage url={blog.user_avatar} />
-                <div className="flex items-center xsm:flex-col gap-2 xsm:gap-0 xsm:items-start">
+                <div className="">
                   <p className=" text-base md:text-xl ">
-                    Written By{" "}
+                    Written by{" "}
                     <span className="capitalize font-bold">{blog.author}</span>
                   </p>
                   <p className="text-sm font-medium md:text-base ">

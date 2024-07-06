@@ -27,7 +27,7 @@ export default async function HomePage() {
               <article className="">
                 <div className="flex gap-2  xsm:items-center">
                   <UserImage url={blog.user_avatar} />
-                  <div className="flex items-center xsm:flex-col gap-2 xsm:gap-0 xsm:items-start">
+                  <div className="">
                     <p className=" text-base md:text-xl ">
                       Written By{" "}
                       <span className="capitalize font-bold">
