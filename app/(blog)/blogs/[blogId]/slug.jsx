@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import toast from "react-hot-toast";
-
+import AudioPlayer from "@/components/AudioPlayer";
 export default function Slug({ blog }) {
   const [likes, setLikes] = useState(0);
   const [liked, setLiked] = useState(false);
@@ -62,7 +62,7 @@ export default function Slug({ blog }) {
             />
           )}
 
-          <div className="flex xsm:block gap-5 items-center py-4">
+          <div className="block gap-5 items-center py-4">
             <div className="flex gap-1 md:gap-2 items-center">
               <div
                 className="relative"
@@ -82,7 +82,6 @@ export default function Slug({ blog }) {
               </div>
               <div>
                 <p className=" text-base md:text-xl ">
-                  Written By{" "}
                   <span className="capitalize font-bold">
                     {blog.author ?? ""}
                   </span>
@@ -113,6 +112,8 @@ export default function Slug({ blog }) {
               <></>
             )}
           </div>
+          {/* div for playing the blog */}
+          <AudioPlayer blog={blog} />
           <article
             className="text-sm md:text-xl leading-8 md:leading-10 mt-3 subpixel-antialiased blog-body"
             id="blog-body">
@@ -169,6 +170,7 @@ export default function Slug({ blog }) {
                 />
               </button>
               <button
+                // modify the function to only print the blog
                 onClick={async () => window.print()}
                 className="h-10 w-10 flex items-center justify-center p-1 border rounded-full hover:bg-blue-300 bg-blue-200 group"
                 title="print">
