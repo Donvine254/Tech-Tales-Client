@@ -1,25 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 export default function AudioPlayer({ blog }) {
   // function to read the blog
-  const [isPlaying, setIsPlaying] = useState(true);
-  const readArticle = () => {
-    if (isPlaying) {
-      const speech = new SpeechSynthesisUtterance();
-      speech.text = blog.body;
-      speech.lang = "en-US";
-      speech.rate = 1.5;
-      speech.pitch = 1;
-      window.speechSynthesis.speak(speech);
-    }
-  };
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentPosition, setCurrentPosition] = useState(0);
+  const speechInstance = useRef(null);
+
+  useEffect(() => {
+    const handlePlayPause = () => {
+      if (isPlaying) {
+        const speech = new SpeechSynthesisUtterance(
+          blog.body.slice(currentPosition)
+        );
+        speech.lang = "en-US";
+        speech.rate = 1.5;
+        speech.pitch = 1;
+        speech.onend = () => {
+          setIsPlaying(false);
+          setCurrentPosition(0);
+        };
+        speech.onboundary = (event) => {
+          if (event.name === "sentence") {
+            setCurrentPosition(currentPosition + event.charIndex);
+          }
+        };
+        speechInstance.current = speech;
+        window.speechSynthesis.speak(speech);
+      } else {
+        if (speechInstance.current) {
+          window.speechSynthesis.cancel();
+        }
+      }
+    };
+
+    handlePlayPause();
+
+    return () => {
+      if (speechInstance.current) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, [isPlaying, blog.body, currentPosition]);
 
   const togglePlayPause = () => {
-    if (isPlaying) {
-      window.speechSynthesis.pause();
-    } else {
-      readArticle();
-    }
     setIsPlaying(!isPlaying);
   };
 
