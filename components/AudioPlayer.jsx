@@ -13,7 +13,7 @@ export default function AudioPlayer({ blog }) {
           blog.body.slice(currentPosition)
         );
         speech.lang = "en-US";
-        speech.rate = 1.5;
+        speech.rate = 1.8;
         speech.pitch = 1;
         speech.onend = () => {
           setIsPlaying(false);
