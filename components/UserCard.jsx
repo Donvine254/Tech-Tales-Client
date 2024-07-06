@@ -1,7 +1,18 @@
 import { Facebook, NewTwitterIcon, Twitter } from "@/assets";
 import Image from "next/image";
 
-export default function UserCard({ avatar, name, userId, bio, title }) {
+export default function UserCard({
+  avatar,
+  name,
+  userId,
+  bio,
+  title,
+  socials,
+}) {
+  // function to get author social media links
+  function getSocialUrl(platform) {
+    return socials?.find((social) => social.platform === platform)?.url || null;
+  }
   return (
     <div className=" bg-slate-50 absolute border shadow w-fit px-4 py-2 rounded-md xsm:w-full min-w-[250px] z-50">
       <div className="flex items-center gap-2">
@@ -39,7 +50,11 @@ export default function UserCard({ avatar, name, userId, bio, title }) {
       <div className="flex items-center gap-2">
         <p>Follow Author on: </p>
         <div className="flex items-center my-2 justify-end gap-2">
-          <a href={`https://www.facebook.com/${name}`} target="_blank">
+          <a
+            href={
+              getSocialUrl("facebook") ?? `https://www.facebook.com/${name}`
+            }
+            target="_blank">
             {" "}
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -54,10 +69,14 @@ export default function UserCard({ avatar, name, userId, bio, title }) {
               <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
             </svg>
           </a>
-          <a href={`https://www.twitter.com/${name}`} target="_blank">
+          <a
+            href={getSocialUrl("twitter") ?? `https://www.twitter.com/${name}`}
+            target="_blank">
             <NewTwitterIcon />
           </a>
-          <a href={`https://www.github.com/${name}`} target="_blank">
+          <a
+            href={getSocialUrl("github") ?? `https://www.github.com/${name}`}
+            target="_blank">
             {" "}
             <svg
               xmlns="http://www.w3.org/2000/svg"

@@ -47,6 +47,7 @@ export default function Slug({ blog }) {
   function handleMouseLeave() {
     setIsCardVisible(false);
   }
+
   return (
     <div>
       {blog ? (
@@ -75,6 +76,7 @@ export default function Slug({ blog }) {
                     bio={blog.user_bio}
                     userId={blog.user_id}
                     title={blog.title}
+                    socials={blog.author_socials}
                   />
                 )}
               </div>
