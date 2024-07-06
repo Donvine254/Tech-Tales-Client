@@ -33,9 +33,9 @@ export default function Navbar() {
               footer: '<a href="/login">Click here to login again</a>',
             }).then((result) => {
               if (result.isDismissed) {
-                window.location.reload();
+                window.location.href = "/login";
               } else if (result.isConfirmed) {
-                window.location.reload();
+                window.location.href = "/login";
               }
             });
           }
