@@ -113,6 +113,21 @@ export default function AudioPlayer({ blog }) {
               onMouseEnter={() => setShowVolumeControls(true)}>
               <path d="M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6" />
             </svg>
+          ) : volume < 0.51 ? (
+            <svg
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              viewBox="0 0 24 24"
+              height="24"
+              width="24"
+              className="cursor-pointer"
+              onClick={() => setVolume(1)}
+              onMouseEnter={() => setShowVolumeControls(true)}>
+              <path d="M11 5L6 9H2v6h4l5 4V5zM15.54 8.46a5 5 0 010 7.07" />
+            </svg>
           ) : (
             <svg
               fill="none"
