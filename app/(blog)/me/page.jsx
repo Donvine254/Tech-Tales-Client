@@ -31,7 +31,7 @@ export default function Profile() {
 
           const response = await fetch(`${baseUrl}/my-blogs/`, {
             cache: "force-cache",
-            revalidate: 600,
+            revalidate: 60,
           });
           const data = await response.json();
           setBlogs(data);

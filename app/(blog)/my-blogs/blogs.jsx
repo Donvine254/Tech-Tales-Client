@@ -23,7 +23,7 @@ export default function MyBlogsComponent() {
       try {
         const res = await fetch(`${baseUrl}/my-blogs`, {
           cache: "force-cache",
-          revalidate: 600,
+          revalidate: 60,
         });
         const data = await res.json();
         setBlogs(data);
