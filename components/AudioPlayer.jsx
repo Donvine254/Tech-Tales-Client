@@ -6,8 +6,11 @@ export default function AudioPlayer({ blog }) {
   const [currentPosition, setCurrentPosition] = useState(0);
   const [volume, setVolume] = useState(1);
   const [showVolumeControls, setShowVolumeControls] = useState(false);
+  const [elapsedTime, setElapsedTime] = useState(0);
+
   const speechInstance = useRef(null);
   const volumeRef = useRef(null);
+  const intervalRef = useRef(null);
 
   const handleVolumeChange = (e) => {
     const newVolume = parseFloat(e.target.value);
@@ -21,12 +24,13 @@ export default function AudioPlayer({ blog }) {
           blog.body.slice(currentPosition)
         );
         speech.lang = "en-US";
-        speech.rate = 1.2;
+        speech.rate = 1;
         speech.pitch = 1;
         speech.volume = volume;
         speech.onend = () => {
           setIsPlaying(false);
           setCurrentPosition(0);
+          stopTimer();
         };
         speech.onboundary = (event) => {
           if (event.name === "sentence") {
@@ -35,9 +39,11 @@ export default function AudioPlayer({ blog }) {
         };
         speechInstance.current = speech;
         window.speechSynthesis.speak(speech);
+        startTimer();
       } else {
         if (speechInstance.current) {
           window.speechSynthesis.cancel();
+          stopTimer();
         }
       }
     };
@@ -47,6 +53,7 @@ export default function AudioPlayer({ blog }) {
     return () => {
       if (speechInstance.current) {
         window.speechSynthesis.cancel();
+        stopTimer();
       }
     };
   }, [isPlaying, blog.body, currentPosition, volume]);
@@ -67,6 +74,24 @@ export default function AudioPlayer({ blog }) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+  // function to countdown the time taken to read
+  const startTimer = () => {
+    intervalRef.current = setInterval(() => {
+      setElapsedTime((prevTime) => prevTime + 1);
+    }, 1000);
+  };
+
+  const stopTimer = () => {
+    clearInterval(intervalRef.current);
+  };
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
+  };
+  const totalReadingTime = calculateReadingTime(blog.body); //convert to seconds
+  const progressPercentage = (elapsedTime / (totalReadingTime * 60)) * 100;
+
   return (
     <div className="">
       <div className="bg-[#2C63AE] my-2 px-4 py-2 rounded-full flex items-center gap-2 text-gray-200 w-fit whitespace-nowrap min-w-[60%] xsm:w-full ">
@@ -95,8 +120,16 @@ export default function AudioPlayer({ blog }) {
           </svg>
         )}
 
-        <span>0:00 / {calculateReadingTime(blog.body)}:00</span>
-        <span className="bg-gray-300 rounded-md flex-1 h-1.5"></span>
+        <span>
+          {formatTime(elapsedTime) ?? "0:00"}/ {totalReadingTime}
+          :00
+        </span>
+        <div className="flex-1 overflow-hidden  bg-white h-1.5 p-0 rounded-md">
+          <div
+            className="bg-green-500 h-1.5 rounded-md"
+            style={{ width: `${progressPercentage}%` }}></div>
+        </div>
+
         <div className="relative">
           {volume === 0 ? (
             <svg

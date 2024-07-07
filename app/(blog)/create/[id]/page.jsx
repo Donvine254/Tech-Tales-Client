@@ -38,7 +38,7 @@ export default function EditBlog({ params }) {
         if (userId !== blog.user_id) {
           console.log("userId:", userId, "blog user_id:", blog.user_id);
           toast.error("This blog belongs to a different author!");
-          router.replace("/my-blogs?action=forbidden");
+          // router.replace("/my-blogs?action=forbidden");
         }
       } catch (error) {
         console.error(error);
