@@ -21,6 +21,8 @@ export default function AuthPage() {
         } catch (error) {
           console.error("Error fetching user data:", error);
         }
+      } else {
+        router.replace("/login");
       }
     })();
   }, [githubCode, router]);

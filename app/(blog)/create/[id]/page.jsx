@@ -9,7 +9,7 @@ import Link from "next/link";
 import { revalidateBlogs } from "@/lib/actions";
 import { baseUrl } from "@/lib";
 import TagInput from "@/components/TagInput";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import PreviewModal from "@/components/PreviewModal";
 
 const DynamicEditor = dynamic(() => import("@/components/Editor"), {
@@ -24,21 +24,23 @@ const DynamicEditor = dynamic(() => import("@/components/Editor"), {
 export default function EditBlog({ params }) {
   const [loading, setLoading] = useState("loading");
   const [blogData, setBlogData] = useState();
-  const searchParams = useSearchParams();
-  const userId = searchParams.get("referrer");
   const router = useRouter();
   useEffect(() => {
     async function getUser() {
       try {
+        const user = await fetch(`${baseUrl}/me`).then((response) =>
+          response.json()
+        );
         const response = await fetch(`${baseUrl}/blogs/${params.id}`);
         const blog = await response.json();
-        setBlogData(blog);
-        setLoading("");
         // modify this to ensure admins can edit any blog
-        if (userId !== blog.user_id) {
-          console.log("userId:", userId, "blog user_id:", blog.user_id);
+        if (user.id !== blog.user_id && user.role !== "admin") {
+          console.log("userId:", user.id, "blog user_id:", blog.user_id);
           toast.error("This blog belongs to a different author!");
-          // router.replace("/my-blogs?action=forbidden");
+          router.replace("/my-blogs?action=forbidden");
+        } else {
+          setBlogData(blog);
+          setLoading("");
         }
       } catch (error) {
         console.error(error);
@@ -46,7 +48,7 @@ export default function EditBlog({ params }) {
       }
     }
     getUser();
-  }, [params.id, userId, router]);
+  }, [params.id, router]);
 
   //function to fetch blog data
 
@@ -156,7 +158,7 @@ export default function EditBlog({ params }) {
         <TagInput
           setBlogData={setBlogData}
           blogTags={
-            blogData.tags
+            blogData?.tags
               ? blogData.tags
                   .split(",")
                   .map((tag) => tag.trim())
@@ -165,7 +167,7 @@ export default function EditBlog({ params }) {
           }
         />
 
-        <DynamicEditor data={blogData.body} handleChange={setBlogData} />
+        <DynamicEditor data={blogData?.body} handleChange={setBlogData} />
 
         <div className="flex gap-2 xsm:items-center xsm:justify-between justify-end md:gap-8 mt-4">
           <button

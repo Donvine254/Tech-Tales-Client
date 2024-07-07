@@ -17,23 +17,17 @@ export default function MyBlogsComponent() {
   const navigate = useRouter();
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const userData = await fetch(`${baseUrl}/me`).then((response) =>
-          response.json()
-        );
-        if (userData) {
-          setUser(userData);
-          const response = await fetch(`${baseUrl}/my-blogs/${userData?.id}`, {
-            cache: "force-cache",
-          });
-          const data = await response.json();
-          setBlogs(data);
-          setLoading(false);
-        }
+        const res = await fetch(`${baseUrl}/my-blogs`, {
+          cache: "force-cache",
+          revalidate: 600,
+        });
+        const data = await res.json();
+        setBlogs(data);
+        setLoading(false);
       } catch (error) {
         setLoading(false);
         console.error("Error fetching blogs:", error);
@@ -47,7 +41,7 @@ export default function MyBlogsComponent() {
     deleteBlog(blogId, setBlogs);
   }
   function handleEdit(id) {
-    navigate.push(`/create/${id}?action=edit&referrer=${user.id}`);
+    navigate.push(`/create/${id}?action=edit`);
   }
 
   return (
@@ -111,7 +105,7 @@ export default function MyBlogsComponent() {
               <Link href={`/blogs/${blog.id}?title=${blog.slug}`}>
                 Read &#8599;
               </Link>
-              <p className="text-base flex items-center gap-1 md:gap-2 bg-grey-300 border rounded-full text-black px-2">
+              <p className="text-base flex items-center gap-1 md:gap-2 bg-gray-300 border rounded-full text-black px-2">
                 <Clock />
                 {calculateReadingTime(blog.body)} min{" "}
                 <span className="xsm:hidden">read</span>
@@ -135,7 +129,7 @@ export default function MyBlogsComponent() {
         ))
       ) : (
         <div className="p-2">
-          {!loading && user && (
+          {!loading && (
             <div>
               <div className="flex items-center justify-center py-1">
                 <Clipboard />

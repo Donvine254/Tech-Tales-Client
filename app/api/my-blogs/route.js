@@ -1,20 +1,21 @@
 import prisma from "@/prisma/prisma";
 import { NextResponse } from "next/server";
-
+import { getDataFromToken } from "@/lib/decodeToken";
 // Function to format created_at date for the blog
 const formatDate = (dateString) => {
   const options = { year: "numeric", month: "short", day: "numeric" };
   return new Date(dateString).toLocaleDateString("en-US", options);
 };
 
-export async function GET(req, { params }) {
-  const { userId } = params;
-  if (!userId) {
-    return NextResponse.json({ error: "User ID is required" }, { status: 400 });
+export async function GET(req, res) {
+  const userData = await getDataFromToken(req);
+
+  if (!userData) {
+    return NextResponse.json({ error: "Forbidden Request" }, { status: 401 });
   }
   const user = await prisma.users.findUnique({
     where: {
-      id: BigInt(userId),
+      id: BigInt(userData.id),
     },
     select: {
       username: true,
@@ -26,7 +27,7 @@ export async function GET(req, { params }) {
       // Fetch blogs associated with the specific user
       const blogs = await prisma.blogs.findMany({
         where: {
-          user_id: BigInt(userId),
+          user_id: BigInt(userData.id),
         },
         orderBy: {
           created_at: "desc",
