@@ -29,10 +29,7 @@ export default function Profile() {
         if (userData) {
           setUser(userData);
 
-          const response = await fetch(`${baseUrl}/my-blogs/`, {
-            cache: "force-cache",
-            revalidate: 60,
-          });
+          const response = await fetch(`${baseUrl}/my-blogs`);
           const data = await response.json();
           setBlogs(data);
           setLoading(false);
@@ -45,15 +42,7 @@ export default function Profile() {
 
     fetchBlogs();
   }, []);
-  //function to fetch blogs
-  // async function fetchBlogs() {
-  //   try {
-  //     const userData = await fetch(`${baseUrl}/me`).then((response) =>
-  //       response.json()
-  //     );
-  //     return userData;
-  //   } catch (error) {}
-  // }
+
   //useEffect to get user reading list
   useEffect(() => {
     const localStorageData = secureLocalStorage.getItem("bookmarked_blogs");

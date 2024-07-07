@@ -21,10 +21,7 @@ export default function MyBlogsComponent() {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await fetch(`${baseUrl}/my-blogs`, {
-          cache: "force-cache",
-          revalidate: 60,
-        });
+        const res = await fetch(`${baseUrl}/my-blogs`);
         const data = await res.json();
         setBlogs(data);
         setLoading(false);
