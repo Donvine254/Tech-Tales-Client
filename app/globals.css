@@ -73,7 +73,7 @@ label {
 }
 /* styling for blog body */
 .blog-body h1 {
-  @apply text-2xl my-2 font-bold;
+  @apply text-xl my-2 font-bold;
 }
 .blog-body h2,
 h3,
@@ -100,7 +100,7 @@ h4 {
 .blog-body pre {
   background-color: #464444;
   color: white;
-  overflow-x: scroll;
+  overflow-x: auto;
   padding: 8px;
   border-radius: 5px;
   width: 100%;

@@ -144,12 +144,12 @@ export default function Comments({ comments, setComments, blogId }) {
           <div className="flex justify-center xsm:flex-col xsm:items-start items-center gap-4 xsm:gap-2 w-full">
             <Link
               href={`/login?post_login_redirect_url=blogs/${blogId}`}
-              className="px-4 py-1 rounded-md border bg-gray-200 hover:bg-black hover:text-white xsm:w-full text-center">
-              Sign In
+              className="px-6 py-1 rounded-md border bg-gray-300 hover:bg-black hover:text-white xsm:w-full text-center">
+              Login
             </Link>
             <Link
               href={`/register?post_login_redirect_url=blogs/${blogId}`}
-              className="px-4 py-1 rounded-md border bg-blue-500 hover:bg-blue-600 text-white xsm:w-full text-center">
+              className="px-6 py-1 rounded-md border bg-blue-500 hover:bg-blue-600 text-white xsm:w-full text-center">
               Sign Up
             </Link>
           </div>
