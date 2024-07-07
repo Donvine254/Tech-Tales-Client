@@ -9,11 +9,13 @@ import { calculateReadingTime } from "@/lib";
 
 export default async function BlogsComponent({ blogs }) {
   return (
-    <div className="w-full mx-auto px-8 md:w-2/3 relative font-poppins">
+    <div className="w-full mx-auto px-4 md:px-8 md:w-2/3 relative font-poppins">
       <SideNav />
       {blogs && blogs.length > 0 ? (
         blogs.map((blog) => (
-          <div key={blog.id} className="">
+          <div
+            key={blog.id}
+            className="bg-gray-100 my-4 p-4 rounded-md border shadow hover:bg-slate-200">
             <article className="">
               <div className="flex gap-2 xsm:items-center">
                 <UserImage url={blog.user_avatar} />
@@ -60,7 +62,7 @@ export default async function BlogsComponent({ blogs }) {
               <Link href={`/blogs/${blog.id}?title=${blog.slug}`}>
                 Read &#8599;
               </Link>
-              <p className="text-base flex items-center gap-1 md:gap-2 bg-slate-300 rounded-full text-black px-2">
+              <p className="text-base flex items-center gap-1 md:gap-2 bg-gray-300 border rounded-full text-black px-2">
                 <Clock />
                 {calculateReadingTime(blog.body)} min{" "}
                 <span className="xsm:hidden">read</span>
@@ -70,7 +72,7 @@ export default async function BlogsComponent({ blogs }) {
               </p>
               <Bookmark blogId={blog.id} />
             </div>
-            <hr className="my-2 border-1 border-slate-300" />
+            {/* <hr className="my-2 border-1 border-slate-300" /> */}
           </div>
         ))
       ) : (

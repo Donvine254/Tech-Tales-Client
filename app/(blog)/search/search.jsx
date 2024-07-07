@@ -31,7 +31,7 @@ export default function SearchPage() {
   }, [search]);
   return (
     <section className="relative min-h-[400px] h-fit">
-      <div className="w-full !z-0 mx-auto md:my-4 px-8 md:w-2/3 relative font-poppins">
+      <div className="w-full !z-0 mx-auto md:my-4 px-4 md:px-8 md:w-2/3 relative font-poppins">
         <SideNav />
 
         {loading && (
@@ -39,7 +39,9 @@ export default function SearchPage() {
         )}
         {!loading && blogs && blogs.length > 0
           ? blogs.map((blog) => (
-              <div key={blog.id} className="">
+              <div
+                key={blog.id}
+                className="bg-gray-100 my-4 p-4 rounded-md border shadow hover:bg-slate-200">
                 <article className="">
                   <div className="flex gap-4 xsm:gap-2 xsm:items-center">
                     <UserImage url={blog.user_avatar} />
@@ -85,7 +87,7 @@ export default function SearchPage() {
                   <Link href={`/blogs/${blog.id}?title=${blog.slug}`}>
                     Read &#8599;
                   </Link>
-                  <p className="text-base flex items-center gap-1 md:gap-2 bg-slate-300 rounded-full text-black px-2">
+                  <p className="text-base flex items-center gap-1 md:gap-2 bg-grey-300 border rounded-full text-black px-2">
                     <Clock />
                     {calculateReadingTime(blog.body)} min{" "}
                     <span className="xsm:hidden">read</span>
@@ -95,7 +97,7 @@ export default function SearchPage() {
                   </p>
                   <Bookmark blogId={blog.id} />
                 </div>
-                <hr className="my-2 border-1 border-slate-300" />
+                {/* <hr className="my-2 border-1 border-slate-300" /> */}
               </div>
             ))
           : !loading && (
