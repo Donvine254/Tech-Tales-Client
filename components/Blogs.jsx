@@ -16,7 +16,7 @@ export default async function BlogsComponent({ blogs }) {
           <div
             key={blog.id}
             className="bg-gray-100 my-4 p-4 rounded-md border shadow hover:bg-slate-200">
-            <article className="">
+            <div className="">
               <div className="flex gap-2 xsm:items-center">
                 <UserImage url={blog.user_avatar} />
                 <div className="">
@@ -54,10 +54,10 @@ export default async function BlogsComponent({ blogs }) {
                   <></>
                 )}
               </div>
-              <div className="text-sm md:text-xl leading-8 md:pb-1 line-clamp-2  overflow-hidden trimmed-blog-body ">
+              <article className="text-sm md:text-xl leading-8 md:pb-1 line-clamp-2  overflow-hidden trimmed-blog-body ">
                 {blog ? parse(blog.body) : blog.body}
-              </div>
-            </article>
+              </article>
+            </div>
             <div className="flex items-center justify-between py-2">
               <Link href={`/blogs/${blog.id}?title=${blog.slug}`}>
                 Read &#8599;

@@ -67,7 +67,7 @@ export default function MyBlogsComponent() {
           <div
             key={blog.id}
             className="bg-gray-100 my-4 p-4 rounded-md border shadow hover:bg-slate-200">
-            <article className="">
+            <div className="">
               <div className="flex gap-2 xsm:items-center">
                 <UserImage url={blog.user_avatar} />
                 <div className="">
@@ -103,10 +103,10 @@ export default function MyBlogsComponent() {
                   <></>
                 )}
               </div>
-              <p className="text-xl leading-8 line-clamp-2 md:pb-1 trimmed-blog-body ">
+              <article className="text-sm md:text-xl leading-8 line-clamp-2 md:pb-1 trimmed-blog-body ">
                 {blog.body ? parse(blog.body) : blog.body}
-              </p>
-            </article>
+              </article>
+            </div>
             <div className="flex items-center justify-between py-2">
               <Link href={`/blogs/${blog.id}?title=${blog.slug}`}>
                 Read &#8599;
