@@ -7,6 +7,9 @@ import { UserImage } from "./Avatar";
 import Link from "next/link";
 
 import { baseUrl } from "@/lib";
+import Axios from "axios";
+
+// use pathname to find current path
 
 export default function Comments({ blogId, slug }) {
   const [newComment, setNewComment] = useState("");
@@ -19,14 +22,22 @@ export default function Comments({ blogId, slug }) {
   useEffect(() => {
     (async () => {
       try {
+        const response = await Axios.post(`${baseUrl}/comments`, {
+          blogId: blogId,
+        });
+        const resData = await response.data;
+        console.log(resData);
+        setComments(resData);
+
         const res = await fetch(`${baseUrl}/me`);
-        const data = await response.json();
+        const data = await res.json();
+        console.log(data);
         setUser(data);
       } catch (error) {
         console.error(error);
       }
     })();
-  }, []);
+  }, [blogId]);
 
   async function handleSubmit(e) {
     e.preventDefault();
