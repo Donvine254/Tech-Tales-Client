@@ -31,7 +31,6 @@ export async function generateStaticParams() {
 }
 
 export default async function BlogsPage({ params }) {
-  console.log(params.slug);
   const url =
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000/api/blogs"
@@ -47,8 +46,10 @@ export default async function BlogsPage({ params }) {
         next: { revalidate: 600 },
       });
       const data = await response.json();
+      return data;
     } catch (error) {
       console.error(error);
+      return null;
     }
   }
 
@@ -57,7 +58,7 @@ export default async function BlogsPage({ params }) {
   return (
     <div className="w-full mx-auto m-2 min-h-[75%] px-8 md:w-4/5 md:mt-10 font-poppins ">
       <SideNav />
-      {/* <Slug blog={blog} /> */}
+      <Slug blog={blog} />
     </div>
   );
 }

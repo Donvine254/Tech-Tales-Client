@@ -25,7 +25,6 @@ const NoSSRComments = dynamic(() => import("@/components/Comments"), {
 export default function Slug({ blog }) {
   const [likes, setLikes] = useState(0);
   const [liked, setLiked] = useState(false);
-  const [comments, setComments] = useState(blog?.comments);
   const [isCardVisible, setIsCardVisible] = useState(false);
 
   const router = useRouter();
@@ -141,7 +140,7 @@ export default function Slug({ blog }) {
             </h1>
             <div className="flex items-center xsm:justify-between  xsm:w-full xsm:p-3 md:gap-4">
               <Link
-                href={`https://twitter.com/share?url=https://techtales.vercel.app/blogs/${blog.id}&text=${blog.title}`}
+                href={`https://twitter.com/share?url=https://techtales.vercel.app/blogs/${blog.slug}&text=${blog.title}`}
                 target="_blank"
                 className="h-10 w-10 flex items-center justify-center p-1 border rounded-full hover:bg-blue-300 bg-blue-200">
                 <NewTwitterIcon
@@ -150,7 +149,7 @@ export default function Slug({ blog }) {
                 />
               </Link>
               <Link
-                href={`https://facebook.com/sharer.php?u=https://techtales.vercel.app/blogs/${blog.id}`}
+                href={`https://facebook.com/sharer.php?u=https://techtales.vercel.app/blogs/${blog.slug}`}
                 target="_blank"
                 className="h-10 w-10 flex items-center justify-center p-1 rounded-full border hover:bg-blue-300 bg-blue-200">
                 <Facebook className="hover:animate-spin transition ease-in-out duration-300" />
@@ -158,7 +157,7 @@ export default function Slug({ blog }) {
               <button
                 onClick={() => {
                   const whatsappUrl = `whatsapp://send?text=${encodeURIComponent(
-                    `https://techtales.vercel.app/blogs/${blog.id}: ${blog.title}`
+                    `https://techtales.vercel.app/blogs/${blog.slug}`
                   )}`;
                   window.open(whatsappUrl);
                 }}
@@ -169,7 +168,7 @@ export default function Slug({ blog }) {
                 onClick={async () => {
                   try {
                     await navigator.clipboard.writeText(
-                      `https://techtales.vercel.app/blogs/${blog.id}`
+                      `https://techtales.vercel.app/blogs/${blog.slug}`
                     );
                     toast.success("Link copied to clipboard");
                   } catch (err) {
@@ -221,7 +220,7 @@ export default function Slug({ blog }) {
             <p className="blog__icons">
               <Comment />
               <span className="text-base ">
-                {blog.comments ? blog?.comments?.length : null}{" "}
+                {blog.comments ?? 0}{" "}
                 <Link href="#write-comment" className="xsm:hidden">
                   Comments
                 </Link>
@@ -231,11 +230,7 @@ export default function Slug({ blog }) {
           </div>
           {/* beginning of comment section */}
 
-          <NoSSRComments
-            comments={comments}
-            setComments={setComments}
-            blogId={blog.id}
-          />
+          <NoSSRComments blogId={blog.id} />
         </div>
       ) : null}
     </div>
