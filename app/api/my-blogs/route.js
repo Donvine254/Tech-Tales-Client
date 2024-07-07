@@ -1,17 +1,36 @@
 import prisma from "@/prisma/prisma";
 import { NextResponse } from "next/server";
-import { getDataFromToken } from "@/lib/decodeToken";
+import jwt from "jsonwebtoken";
 // Function to format created_at date for the blog
 const formatDate = (dateString) => {
   const options = { year: "numeric", month: "short", day: "numeric" };
   return new Date(dateString).toLocaleDateString("en-US", options);
 };
 
+//function to decodeToken
+export const getDataFromToken = async (request) => {
+  try {
+    const token = request.cookies.get("token")?.value || "";
+
+    if (!token) {
+      return null;
+    }
+
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    return decodedToken;
+  } catch (error) {
+    return null;
+  }
+};
+
 export async function GET(req, res) {
   const userData = await getDataFromToken(req);
 
   if (!userData) {
-    return NextResponse.json({ error: "Forbidden Request" }, { status: 401 });
+    return NextResponse.json(
+      { error: "unauthorized request. Token is either missing or expired" },
+      { status: 401 }
+    );
   }
   const user = await prisma.users.findUnique({
     where: {
