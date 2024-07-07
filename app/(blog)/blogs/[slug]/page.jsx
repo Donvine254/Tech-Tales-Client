@@ -31,21 +31,33 @@ export async function generateStaticParams() {
 }
 
 export default async function BlogsPage({ params }) {
+  console.log(params.slug);
   const url =
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000/api/blogs"
-      : "https://techtales.up.railway.app/blogs";
-  let blog = await fetch(
-    `https://techtales.up.railway.app/blogs/${params.blogId}`,
-    {
-      next: { revalidate: 600 },
+      : "https://techtales.vercel.app/api/blogs";
+  async function fetchBlog() {
+    try {
+      const response = await fetch(`${url}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ slug: params.slug }),
+        next: { revalidate: 600 },
+      });
+      const data = await response.json();
+    } catch (error) {
+      console.error(error);
     }
-  ).then((response) => response.json());
+  }
+
+  let blog = await fetchBlog();
 
   return (
     <div className="w-full mx-auto m-2 min-h-[75%] px-8 md:w-4/5 md:mt-10 font-poppins ">
       <SideNav />
-      <Slug blog={blog} />
+      {/* <Slug blog={blog} /> */}
     </div>
   );
 }

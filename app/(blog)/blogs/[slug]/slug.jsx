@@ -41,7 +41,7 @@ export default function Slug({ blog }) {
 
   useEffect(() => {
     if (!blog) {
-      router.replace("/not-found?referrer=blogs/blogId");
+      router.replace("/not-found?referrer=blog-not-found");
     }
   }, [blog, router]);
 

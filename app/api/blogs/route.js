@@ -49,3 +49,12 @@ export async function GET(req, res) {
     await prisma.$disconnect();
   }
 }
+
+export async function POST(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ message: "Method not allowed" });
+  }
+  const { slug } = await req.json();
+  console.log(slug);
+  return NextResponse.json({ slug: slug }, { status: 200 });
+}

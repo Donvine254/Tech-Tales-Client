@@ -324,9 +324,7 @@ export default function Profile() {
               <>
                 {blogs.map((blog) => (
                   <li key={blog.id} className="mb-2">
-                    <Link
-                      href={`/blogs/${blog.id}?title=${blog.slug}`}
-                      className="">
+                    <Link href={`/blogs/${blog.slug}`} className="">
                       <p className="font-semibold  py-1 text-gray-700 ">
                         {blog.title}
                       </p>
