@@ -7,10 +7,13 @@ export default function AudioPlayer({ blog }) {
   const [volume, setVolume] = useState(1);
   const [showVolumeControls, setShowVolumeControls] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
-
+  const [playbackSpeed, setPlaybackSpeed] = useState(1);
+  const [showPlayBack, setShowPlayBack] = useState(false);
+  const [showSelectOptions, setShowSelectOptions] = useState(false);
   const speechInstance = useRef(null);
   const volumeRef = useRef(null);
   const intervalRef = useRef(null);
+  const playbackRef = useRef(null);
 
   const handleVolumeChange = (e) => {
     const newVolume = parseFloat(e.target.value);
@@ -24,7 +27,7 @@ export default function AudioPlayer({ blog }) {
           blog.body.slice(currentPosition)
         );
         speech.lang = "en-US";
-        speech.rate = 1;
+        speech.rate = playbackSpeed;
         speech.pitch = 1;
         speech.volume = volume;
         speech.onend = () => {
@@ -56,7 +59,7 @@ export default function AudioPlayer({ blog }) {
         stopTimer();
       }
     };
-  }, [isPlaying, blog.body, currentPosition, volume]);
+  }, [isPlaying, blog.body, currentPosition, volume, playbackSpeed]);
 
   const togglePlayPause = () => {
     setIsPlaying(!isPlaying);
@@ -74,6 +77,20 @@ export default function AudioPlayer({ blog }) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (playbackRef.current && !playbackRef.current.contains(e.target)) {
+        setShowPlayBack(false);
+        setShowSelectOptions(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showPlayBack, showSelectOptions]);
   // function to countdown the time taken to read
   const startTimer = () => {
     intervalRef.current = setInterval(() => {
@@ -143,7 +160,8 @@ export default function AudioPlayer({ blog }) {
               width="24"
               className="cursor-pointer"
               onClick={() => setVolume(1)}
-              onMouseEnter={() => setShowVolumeControls(true)}>
+              onMouseEnter={() => setShowVolumeControls(true)}
+              onTouchStart={() => setShowVolumeControls(true)}>
               <path d="M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6" />
             </svg>
           ) : volume < 0.51 ? (
@@ -158,7 +176,8 @@ export default function AudioPlayer({ blog }) {
               width="24"
               className="cursor-pointer"
               onClick={() => setVolume(1)}
-              onMouseEnter={() => setShowVolumeControls(true)}>
+              onMouseEnter={() => setShowVolumeControls(true)}
+              onTouchStart={() => setShowVolumeControls(true)}>
               <path d="M11 5L6 9H2v6h4l5 4V5zM15.54 8.46a5 5 0 010 7.07" />
             </svg>
           ) : (
@@ -194,15 +213,72 @@ export default function AudioPlayer({ blog }) {
             />
           </div>
         </div>
-        <svg
-          fill="currentColor"
-          viewBox="0 0 16 16"
-          height="1em"
-          width="1em"
-          className="cursor-pointer">
-          <path d="M9.5 13a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm0-5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm0-5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
-          <title>more actions</title>
-        </svg>
+
+        <div className="relative">
+          <svg
+            fill="currentColor"
+            viewBox="0 0 16 16"
+            height="24"
+            width="24"
+            className="cursor-pointer rounded-full p-1 hover:bg-gray-400"
+            onClick={() => setShowPlayBack(!showPlayBack)}>
+            <path d="M9.5 13a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm0-5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm0-5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
+            <title>more actions</title>
+          </svg>
+          {showPlayBack && (
+            <div
+              className="absolute  p-2 text-black bottom-5 right-0 rounded-md "
+              ref={playbackRef}>
+              <button
+                className={`${
+                  showSelectOptions ? "hidden" : "block"
+                } flex items-center justify-center p-2 rounded-md bg-gray-300 border`}
+                onClick={() => setShowSelectOptions(!showSelectOptions)}>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  height="24"
+                  width="24">
+                  <path d="M10 16.5l6-4.5-6-4.5M22 12c0-5.54-4.46-10-10-10-1.17 0-2.3.19-3.38.56l.7 1.94c.85-.34 1.74-.53 2.68-.53 4.41 0 8.03 3.62 8.03 8.03 0 4.41-3.62 8.03-8.03 8.03-4.41 0-8.03-3.62-8.03-8.03 0-.94.19-1.88.53-2.72l-1.94-.66C2.19 9.7 2 10.83 2 12c0 5.54 4.46 10 10 10s10-4.46 10-10M5.47 3.97c.85 0 1.53.71 1.53 1.5C7 6.32 6.32 7 5.47 7c-.79 0-1.5-.68-1.5-1.53 0-.79.71-1.5 1.5-1.5z" />
+                </svg>
+                <span>Playback Speed</span>
+              </button>
+
+              {showSelectOptions && (
+                <div className="flex flex-col overflow-y-scroll h-[100px]  bg-white rounded-md">
+                  {[0.5, 0.75, 1, 1.25, 1.5, 2].map((speed) => (
+                    <div
+                      key={speed}
+                      className={` py-1  pl-2 cursor-pointer hover:bg-gray-200 w-[150px]  ${
+                        playbackSpeed === speed
+                          ? "text-blue-500 font-semibold "
+                          : ""
+                      }`}
+                      onClick={() => {
+                        setPlaybackSpeed(speed);
+                        setShowPlayBack(false);
+                        setShowSelectOptions(false);
+                      }}>
+                      <p className="flex items-center justify-between gap-2">
+                        <span> {speed === 1 ? "Normal" : speed}</span>
+                        {playbackSpeed === speed && (
+                          <svg
+                            fill="none"
+                            viewBox="0 0 15 15"
+                            height="24"
+                            width="24"
+                            className="ml-12">
+                            <path stroke="currentColor" d="M4 7.5L7 10l4-5" />
+                          </svg>
+                        )}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
