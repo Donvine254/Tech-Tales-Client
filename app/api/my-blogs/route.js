@@ -8,7 +8,7 @@ const formatDate = (dateString) => {
 };
 
 //function to decodeToken
-export const getDataFromToken = async (request) => {
+const getDataFromToken = async (request) => {
   try {
     const token = request.cookies.get("token")?.value || "";
 

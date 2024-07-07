@@ -86,19 +86,14 @@ export default function Slug({ blog }) {
                 )}
               </div>
               <div>
-                <p className=" text-base md:text-xl inline-block pr-6 relative ">
-                  <span className="capitalize font-bold">
+                <div className="flex items-center gap-2 ">
+                  <span className="text-base md:text-xl capitalize font-bold">
                     {blog.author ?? ""}
                   </span>
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="#2C63AE"
-                    height="24"
-                    width="24"
-                    className="absolute top-0 right-0 pb-0.5">
-                    <path d="M8.58 17.25l.92-3.89-3-2.58 3.95-.37L12 6.8l1.55 3.65 3.95.33-3 2.58.92 3.89L12 15.19l-3.42 2.06M12 2a10 10 0 0110 10 10 10 0 01-10 10A10 10 0 012 12 10 10 0 0112 2m0 2a8 8 0 00-8 8 8 8 0 008 8 8 8 0 008-8 8 8 0 00-8-8z" />
-                  </svg>
-                </p>
+                  <button className="bg-cyan-100 text-cyan-500 font-light rounded-md px-1 text-sm pointer-events-none border border-cyan-500">
+                    Author
+                  </button>
+                </div>
                 <p className="text-base xsm:text-sm font-medium  xsm:mb-0">
                   Published on {blog?.created_at_date} &#x2022;{" "}
                   {calculateReadingTime(blog.body)} min read
