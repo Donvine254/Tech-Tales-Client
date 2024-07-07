@@ -10,7 +10,7 @@ export const metadata = {
 };
 export async function generateStaticParams() {
   try {
-    const response = await fetch("https://techtales.up.railway.app/blogs", {
+    const response = await fetch("https://techtales.vercel.app/api/blogs", {
       next: { revalidate: 600 },
     });
     if (!response.ok) {
@@ -22,8 +22,8 @@ export async function generateStaticParams() {
       throw new Error("Invalid data format: expected an array.");
     }
 
-    const blogIds = data.map((blog) => blog.id);
-    return blogIds;
+    const blogSlugs = data.map((blog) => blog.slug);
+    return blogSlugs;
   } catch (error) {
     console.error("Error fetching blog data:", error);
     return [];

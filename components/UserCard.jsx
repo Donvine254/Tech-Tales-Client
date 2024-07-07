@@ -1,4 +1,4 @@
-import { Facebook, NewTwitterIcon, Twitter } from "@/assets";
+import {NewTwitterIcon } from "@/assets";
 import Image from "next/image";
 
 export default function UserCard({
