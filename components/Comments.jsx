@@ -1,17 +1,33 @@
 "use client";
 
-import { getCurrentUser, deleteComment, patchComment } from "@/lib";
-import { useState } from "react";
+import { deleteComment, patchComment } from "@/lib";
+import { useState, useEffect } from "react";
 import { Edit, Trash } from "@/assets";
 import { UserImage } from "./Avatar";
 import Link from "next/link";
 
-export default function Comments({ comments, setComments, blogId }) {
+import { baseUrl } from "@/lib";
+
+export default function Comments({ blogId, slug }) {
   const [newComment, setNewComment] = useState("");
+  const [user, setUser] = useState();
+  const [comments, setComments] = useState();
   const [commentToEdit, setCommentToEdit] = useState(null);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const user = getCurrentUser();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch(`${baseUrl}/me`);
+        const data = await response.json();
+        setUser(data);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, []);
+
   async function handleSubmit(e) {
     e.preventDefault();
     const commentData = {
@@ -65,7 +81,7 @@ export default function Comments({ comments, setComments, blogId }) {
   }
 
   return (
-    <section id="comments">
+    <div>
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h1 className="text-bold text-xl md:text-2xl py-2 font-bold">
           Comments
@@ -81,7 +97,7 @@ export default function Comments({ comments, setComments, blogId }) {
       </p>
       <hr className="text-blue-500" />
       {user ? (
-        <form className="mt-4">
+        <form className="mt-4" id="write-comment">
           <div className="flex gap-2 xsm:gap-1 items-center">
             <UserImage url={user?.picture} className="flex-initial" />
             <textarea
@@ -144,12 +160,12 @@ export default function Comments({ comments, setComments, blogId }) {
           </h1>
           <div className="flex justify-center xsm:flex-col xsm:items-start items-center gap-4 xsm:gap-2 w-full">
             <Link
-              href={`/login?post_login_redirect_url=blogs/${blogId}`}
+              href={`/login?post_login_redirect_url=blogs/${slug}#write-comment`}
               className="px-6 py-1 rounded-md border bg-gray-300 hover:bg-black hover:text-white xsm:w-full text-center">
               Login
             </Link>
             <Link
-              href={`/register?post_login_redirect_url=blogs/${blogId}`}
+              href={`/register?post_login_redirect_url=blogs/${slug}#write-comment`}
               className="px-6 py-1 rounded-md border bg-blue-500 hover:bg-blue-600 text-white xsm:w-full text-center">
               Sign Up
             </Link>
@@ -204,6 +220,6 @@ export default function Comments({ comments, setComments, blogId }) {
           </p>
         )}
       </div>
-    </section>
+    </div>
   );
 }

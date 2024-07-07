@@ -230,7 +230,7 @@ export default function Slug({ blog }) {
           </div>
           {/* beginning of comment section */}
 
-          <NoSSRComments blogId={blog.id} />
+          <NoSSRComments blogId={blog.id} slug={blog.slug} />
         </div>
       ) : null}
     </div>
