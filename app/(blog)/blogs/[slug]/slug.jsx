@@ -8,20 +8,20 @@ import {
   Whatsapp,
   Copy,
 } from "@/assets";
-import { Bookmark, UserCard } from "@/components";
+import {
+  Bookmark,
+  UserCard,
+  Comments,
+  MoreFromAuthor,
+  AudioPlayer,
+} from "@/components";
 import { UserImage } from "@/components/Avatar";
 import parse from "html-react-parser";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import toast from "react-hot-toast";
-import AudioPlayer from "@/components/AudioPlayer";
-import MoreFromAuthor from "@/components/MoreFromAuthor";
 import { calculateReadingTime } from "@/lib";
-import dynamic from "next/dynamic";
-const NoSSRComments = dynamic(() => import("@/components/Comments"), {
-  ssr: false,
-});
 
 export default function Slug({ blog }) {
   const [likes, setLikes] = useState(0);
@@ -237,7 +237,7 @@ export default function Slug({ blog }) {
           </div>
           {/* beginning of comment section */}
 
-          <NoSSRComments blogId={blog.id} slug={blog.slug} />
+          <Comments blogId={blog.id} slug={blog.slug} />
           <div ref={printRef} style={{ display: "none" }}>
             <h1 className="text-xl font-bold">{blog.title}</h1>
             <p className="italic">

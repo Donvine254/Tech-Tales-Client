@@ -57,7 +57,8 @@ export default function SearchPage() {
                   </div>
                   <Link
                     href={`/blogs/${blog.slug}`}
-                    className="space-y-3 xl:col-span-3">
+                    className="space-y-3 xl:col-span-3"
+                    prefetch>
                     <h1 className="font-bold text-xl md:text-2xl  py-2">
                       {blog.title}
                     </h1>
@@ -84,7 +85,9 @@ export default function SearchPage() {
                   </article>
                 </div>
                 <div className="flex items-center justify-between py-2">
-                  <Link href={`/blogs/${blog.slug}`}>Read &#8599;</Link>
+                  <Link href={`/blogs/${blog.slug}`} prefetch>
+                    Read &#8599;
+                  </Link>
                   <p className="text-base flex items-center gap-1 md:gap-2 bg-gray-300 border rounded-full text-black px-2">
                     <Clock />
                     {calculateReadingTime(blog.body)} min{" "}
