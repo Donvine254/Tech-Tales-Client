@@ -245,10 +245,9 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
                   </div>
 
                   <div
-                    className="p-3 rounded-r-xl rounded-bl-xl border-2"
+                    className="p-3 rounded-r-xl rounded-bl-xl border border-[#67e8f9]"
                     style={{
                       backgroundColor: comment.color ?? "#cffafe",
-                      borderColor: comment.color ?? "#67e8f9",
                     }}>
                     <p className="font-extralight">{comment?.body}</p>
                   </div>
@@ -256,7 +255,7 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
                     {comment?.user_id === user?.id ? (
                       <>
                         <button
-                          className="flex items-center gap-2 text-sm  font-bold hover:text-white border px-1 py-0.5 rounded-md hover:bg-blue-500"
+                          className="flex items-center gap-2 text-sm   hover:text-white border px-1 py-0.5 rounded-md hover:bg-blue-500"
                           title="edit comment"
                           onClick={() => editComment(comment)}>
                           <Edit size={14} />
@@ -264,7 +263,7 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
                         </button>
 
                         <button
-                          className="flex items-center gap-2 text-sm  font-bold hover:text-white border px-1 py-0.5 rounded-md hover:bg-red-500"
+                          className="flex items-center gap-2 text-sm  hover:text-white border px-1 py-0.5 rounded-md hover:bg-red-500"
                           title="delete comment"
                           onClick={() =>
                             deleteComment(comment.id, setComments)
