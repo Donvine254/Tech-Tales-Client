@@ -20,7 +20,7 @@ export default async function BlogsComponent({ blogs }) {
               <div className="flex gap-2 xsm:items-center">
                 <UserImage url={blog.user_avatar} />
                 <div className="">
-                  <p className=" text-base md:text-xl ">
+                  <p className="text-sm sm:text-base md:text-xl ">
                     Written by{" "}
                     <span className="capitalize font-bold">{blog.author}</span>
                   </p>
@@ -30,6 +30,7 @@ export default async function BlogsComponent({ blogs }) {
                   </p>
                 </div>
               </div>
+              <hr className="mt-2 h-[2px] bg-gray-200" />
               <Link
                 href={`/blogs/${blog.slug}`}
                 className="space-y-3 xl:col-span-3"

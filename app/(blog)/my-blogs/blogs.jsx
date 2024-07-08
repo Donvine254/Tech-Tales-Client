@@ -70,6 +70,7 @@ export default function MyBlogsComponent() {
                   </p>
                 </div>
               </div>
+              <hr className="mt-2 h-[2px] bg-gray-200" />
               <Link
                 href={`/blogs/${blog.slug}`}
                 className="space-y-3 xl:col-span-3"
