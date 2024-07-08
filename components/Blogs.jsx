@@ -34,9 +34,7 @@ export default async function BlogsComponent({ blogs }) {
                 href={`/blogs/${blog.slug}`}
                 className="space-y-3 xl:col-span-3"
                 prefetch>
-                <h1 className="font-bold text-xl md:text-2xl  py-2 ">
-                  {blog.title}
-                </h1>
+                <h1 className="font-bold md:text-xl  py-2 ">{blog.title}</h1>
               </Link>
               {/* div for blog tags */}
               <div className="py-1">
@@ -55,7 +53,7 @@ export default async function BlogsComponent({ blogs }) {
                   <></>
                 )}
               </div>
-              <article className="text-sm md:text-xl leading-8 md:pb-1 line-clamp-2  overflow-hidden trimmed-blog-body ">
+              <article className="text-sm sm:text-base md:text-xl leading-8 md:pb-1 line-clamp-2  overflow-hidden trimmed-blog-body ">
                 {blog ? parse(blog.body) : blog.body}
               </article>
             </div>
