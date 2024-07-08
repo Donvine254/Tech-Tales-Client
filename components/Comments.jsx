@@ -218,9 +218,9 @@ export default function Comments({ blogId, slug }) {
                   </div>
 
                   <div
-                    className={` p-3 rounded-r-xl rounded-bl-xl !bg-opacity-10`}
+                    className={` p-3 rounded-r-xl rounded-bl-xl`}
                     style={{
-                      backgroundColor: comment.color ?? "blue",
+                      backgroundColor: comment.color ?? "#cffafe",
                       border: `1px solid ${comment.color} ?? #67e8f9`,
                     }}>
                     <p className="font-extralight">{comment?.body}</p>
