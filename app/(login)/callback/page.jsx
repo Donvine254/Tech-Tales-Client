@@ -6,6 +6,9 @@ import Axios from "axios";
 import { authenticateUser } from "@/lib";
 import Image from "next/image";
 import { Suspense } from "react";
+
+export const dynamic = "force-dynamic";
+
 export default function AuthPage() {
   const searchParams = useSearchParams();
   const router = useRouter();

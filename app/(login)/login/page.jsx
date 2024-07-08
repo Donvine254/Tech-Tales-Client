@@ -9,6 +9,8 @@ import Loader from "@/components/Loader";
 import { GithubIcon, GoogleIcon } from "@/assets";
 import { Suspense } from "react";
 
+export const dynamic = "force-dynamic";
+
 export default function Page() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);

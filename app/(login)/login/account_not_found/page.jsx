@@ -9,6 +9,8 @@ import { saveUserData } from "@/lib";
 import Loader from "@/components/Loader";
 import { Suspense } from "react";
 
+export const dynamic = "force-dynamic";
+
 export default function Page() {
   const searchParams = useSearchParams();
   const router = useRouter();
