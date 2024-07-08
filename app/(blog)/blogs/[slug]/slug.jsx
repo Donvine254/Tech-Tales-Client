@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   Like,
   Comment,
@@ -26,7 +26,7 @@ export default function Slug({ blog }) {
   const [likes, setLikes] = useState(0);
   const [liked, setLiked] = useState(false);
   const [isCardVisible, setIsCardVisible] = useState(false);
-
+  const printRef = useRef(null);
   const router = useRouter();
 
   function handleLikeClick() {
@@ -53,6 +53,15 @@ export default function Slug({ blog }) {
     setIsCardVisible(false);
   }
 
+  //function to print contents
+  const handlePrint = async () => {
+    const printContents = printRef.current.innerHTML;
+    const originalContents = document.body.innerHTML;
+
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
+  };
   return (
     <div>
       {blog ? (
@@ -181,7 +190,7 @@ export default function Slug({ blog }) {
               </button>
               <button
                 // modify the function to only print the blog
-                onClick={async () => window.print()}
+                onClick={handlePrint}
                 className="h-10 w-10 flex items-center justify-center p-1 border rounded-full hover:bg-blue-300 bg-blue-200 group"
                 title="print">
                 <svg
@@ -228,6 +237,13 @@ export default function Slug({ blog }) {
           {/* beginning of comment section */}
 
           <NoSSRComments blogId={blog.id} slug={blog.slug} />
+          <div ref={printRef} style={{ display: "none" }}>
+            <h1 className="text-xl font-bold">{blog.title}</h1>
+            <p className="italic">
+              By {blog.author} published on {blog.created_at_date}
+            </p>
+            <div className="blog-body">{parse(blog.body)}</div>
+          </div>
         </div>
       ) : null}
     </div>
