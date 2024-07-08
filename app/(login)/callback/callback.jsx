@@ -17,7 +17,10 @@ export default function Callback() {
     (async () => {
       if (githubCode) {
         try {
-          const response = await Axios.post("/api", { code: githubCode });
+          const response = await Axios.post("api/auth/oauth-login/github", {
+            code: githubCode,
+          });
+
           const data = await response.data;
           authenticateUser(data, router, "accounts.github.com");
         } catch (error) {
