@@ -6,11 +6,11 @@ import { Edit, Trash } from "@/assets";
 import { UserImage } from "./Avatar";
 import Link from "next/link";
 import { getRandomColor } from "@/lib/utils";
-import { baseUrl } from "@/lib";
+import { baseUrl, getCurrentUser } from "@/lib";
 
+const user = getCurrentUser();
 export default function Comments({ blogId, slug }) {
   const [newComment, setNewComment] = useState("");
-  const [user, setUser] = useState();
   const [comments, setComments] = useState();
   const [commentToEdit, setCommentToEdit] = useState(null);
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -42,10 +42,6 @@ export default function Comments({ blogId, slug }) {
         }
 
         setComments(commentsWithColors);
-
-        const res = await fetch(`${baseUrl}/me`);
-        const data = await res.json();
-        setUser(data);
       } catch (error) {
         console.error(error);
       }

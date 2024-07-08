@@ -1,25 +1,38 @@
+"use client";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import parse from "html-react-parser";
 import { UserImage } from "./Avatar";
 
-export default async function MoreFromAuthor({ author, id, blogId }) {
-  const blogs = await fetch(
-    `https://techtales.up.railway.app/blogs/user/${id}`,
-    {
-      next: { cache: "force-cache", revalidate: 600 },
-    }
-  ).then((response) => response.json());
-  const filteredBlogs = blogs.filter(
-    (blog) => blog.id.toString() !== blogId.toString()
-  );
+export default function MoreFromAuthor({ author, id, blogId }) {
+  const [blogs, setBlogs] = useState();
+  useEffect(() => {
+    (async () => {
+      const data = await fetch(
+        `https://techtales.up.railway.app/blogs/user/${id}`,
+        {
+          next: { cache: "force-cache", revalidate: 600 },
+        }
+      ).then((response) => response.json());
+
+      if (data.length > 1) {
+        const filteredBlogs = data.filter(
+          (blog) => blog.id.toString() !== blogId.toString()
+        );
+        setBlogs(filteredBlogs);
+      } else {
+        setBlogs([]);
+      }
+    })();
+  }, [id, blogId]);
 
   return (
     <div>
-      {filteredBlogs.length > 0 && (
+      {blogs && blogs.length > 0 && (
         <>
           <h1 className="font-bold text-xl">View More From {author}</h1>
           <div className="sm:flex sm:gap-2 sm:overflow-x-auto">
-            {filteredBlogs.map((blog) => (
+            {blogs.map((blog) => (
               <div
                 key={blog.id}
                 className="bg-gray-200 my-4 p-4 rounded-md border shadow hover:bg-slate-200 sm:flex-shrink-0 sm:w-1/2">
