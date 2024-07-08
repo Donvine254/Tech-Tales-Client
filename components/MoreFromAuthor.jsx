@@ -35,7 +35,7 @@ export default function MoreFromAuthor({ author, id, blogId }) {
             {blogs.map((blog) => (
               <div
                 key={blog.id}
-                className="bg-gray-200 my-4 p-4 rounded-md border shadow hover:bg-slate-200 sm:flex-shrink-0 sm:w-1/2">
+                className=" my-4 p-4 rounded-md border shadow bg-gray-100 hover:bg-slate-200 sm:flex-shrink-0 sm:w-1/2">
                 <div className="">
                   <div className="flex gap-2 xsm:items-center">
                     <UserImage url={blog.user_avatar} />
@@ -52,6 +52,7 @@ export default function MoreFromAuthor({ author, id, blogId }) {
                       </p>
                     </div>
                   </div>
+                  <hr className="h-2 mt-1" />
                   <Link
                     href={`/blogs/${blog.slug}`}
                     className="space-y-3 xl:col-span-3"

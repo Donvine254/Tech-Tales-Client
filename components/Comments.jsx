@@ -214,7 +214,7 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
               <div className="flex gap-4">
                 <UserImage
                   url={comment.user_avatar}
-                  className={`ring-2 ring-offset-2  ring-${
+                  className={`ring-2 ring-offset-2 ring-${
                     comment.color ?? "cyan-400"
                   } italic `}
                 />
