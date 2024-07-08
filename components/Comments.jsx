@@ -31,12 +31,15 @@ export default function Comments({ blogId, slug }) {
           { cache: "force-cache", revalidate: 600 }
         );
         const resData = await response.json();
-        const commentsWithColors = resData.map((comment) => {
-          if (!commentsRef.current[comment.id]) {
-            commentsRef.current[comment.id] = getRandomColor();
-          }
-          return { ...comment, color: commentsRef.current[comment.id] };
-        });
+        let commentsWithColors = resData;
+        if (resData.length > 0) {
+          commentsWithColors = resData.map((comment) => {
+            if (!commentsRef.current[comment.id]) {
+              commentsRef.current[comment.id] = getRandomColor();
+            }
+            return { ...comment, color: commentsRef.current[comment.id] };
+          });
+        }
 
         setComments(commentsWithColors);
 

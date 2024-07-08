@@ -1,3 +1,4 @@
+"use server";
 import Link from "next/link";
 import parse from "html-react-parser";
 import { UserImage } from "./Avatar";
