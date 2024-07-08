@@ -42,12 +42,12 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
         }
 
         setComments(commentsWithColors);
-        setCommentsCount((prev) => prev + 1);
+        setCommentsCount(comments.length);
       } catch (error) {
         console.error(error);
       }
     })();
-  }, [blogId, setCommentsCount]);
+  }, [blogId, setCommentsCount, comments.length]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -81,6 +81,7 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
             ? [...prev, newCommentWithColor]
             : [newCommentWithColor]
         );
+        setCommentsCount((prev) => prev + 1);
       })
       .catch((error) => console.error("Error posting comment:", error));
     setIsInputFocused(false);
