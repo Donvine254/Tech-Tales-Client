@@ -59,15 +59,14 @@ export default function Popup({ setIsOpen }) {
       <div className="max-w-md">
         <div className="px-4 py-1 bg-gradient-to-r from-green-400 via-cyan-500 to-indigo-400 text-white">
           <div className="flex gap-1 md:gap-4 items-center mt-2 mr-2">
-            <div className="p-1 rounded-full bg-[url('https://res.cloudinary.com/dipkbpinx/image/upload/v1719694844/tsxkiwwlzkbvxqsyeawn.png')] h-[24px] w-[24px]">
-              <Image
-                src="https://res.cloudinary.com/dipkbpinx/image/upload/v1719694844/tsxkiwwlzkbvxqsyeawn.png"
-                height={24}
-                width={24}
-                className="italic"
-                alt="logo"
-              />
-            </div>
+            <Image
+              src="https://res.cloudinary.com/dipkbpinx/image/upload/v1719694844/tsxkiwwlzkbvxqsyeawn.png"
+              height={30}
+              width={30}
+              className="italic"
+              alt="logo"
+            />
+
             <h2 className="font-medium text-sm md:text-base ">
               <span>Easily</span> Login to Tech Tales{" "}
             </h2>
