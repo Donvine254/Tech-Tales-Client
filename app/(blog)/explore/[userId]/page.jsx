@@ -1,5 +1,5 @@
 import React from "react";
-import BlogsComponent from "./blogs";
+import Explore from "./blogs";
 export const revalidate = 600;
 export const metadata = {
   title: "Explore Author Blogs - Tech Tales",
@@ -36,7 +36,7 @@ export default async function page({ params }) {
   ).then((response) => response.json());
   return (
     <section className="md:mt-10">
-      <BlogsComponent blogs={blogs} />
+      <Explore blogs={blogs} />
     </section>
   );
 }
