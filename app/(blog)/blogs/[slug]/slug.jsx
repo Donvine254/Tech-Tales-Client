@@ -95,7 +95,8 @@ export default function Slug({ blog }) {
                   </button>
                 </div>
                 <p className="text-base xsm:text-sm font-medium  xsm:mb-0">
-                  Published on {blog?.created_at_date} &#x2022;{" "}
+                  <span className="xsm:hidden">Published on</span>{" "}
+                  {blog?.created_at_date} &#x2022;{" "}
                   {calculateReadingTime(blog.body)} min read
                 </p>
               </div>

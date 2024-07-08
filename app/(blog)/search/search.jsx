@@ -85,7 +85,7 @@ export default function SearchPage() {
                 </div>
                 <div className="flex items-center justify-between py-2">
                   <Link href={`/blogs/${blog.slug}`}>Read &#8599;</Link>
-                  <p className="text-base flex items-center gap-1 md:gap-2 bg-grey-300 border rounded-full text-black px-2">
+                  <p className="text-base flex items-center gap-1 md:gap-2 bg-gray-300 border rounded-full text-black px-2">
                     <Clock />
                     {calculateReadingTime(blog.body)} min{" "}
                     <span className="xsm:hidden">read</span>

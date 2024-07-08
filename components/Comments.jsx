@@ -22,16 +22,23 @@ export default function Comments({ blogId, slug }) {
   useEffect(() => {
     (async () => {
       try {
-        const response = await Axios.post(`${baseUrl}/comments`, {
-          blogId: blogId,
-        });
-        const resData = await response.data;
-        console.log(resData);
+        const response = await fetch(
+          `${baseUrl}/comments`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ blogId: blogId }),
+          },
+          { cache: "force-cache", revalidate: 600 }
+        );
+        const resData = await response.json();
+
         setComments(resData);
 
         const res = await fetch(`${baseUrl}/me`);
         const data = await res.json();
-        console.log(data);
         setUser(data);
       } catch (error) {
         console.error(error);
@@ -129,14 +136,14 @@ export default function Comments({ blogId, slug }) {
                   <>
                     <button
                       type="submit"
-                      className="bg-blue-500 text-white font-bold px-4 py-2 lg:mr-4 rounded-md hover:bg-blue-800"
+                      className="bg-blue-500 border-2 border-blue-500 text-white  px-6 py-0.5 lg:mr-4 rounded-md hover:bg-blue-600"
                       onClick={handleUpdate}>
                       Update
                     </button>
                     <button
                       type="button"
                       onClick={undoEditing}
-                      className="border-2  border-green-500 hover:border-red-500 px-2 p-2 rounded-md">
+                      className="border-2  border-green-500 hover:border-red-500 px-6 py-0.5 rounded-md">
                       Cancel
                     </button>
                   </>
@@ -144,13 +151,13 @@ export default function Comments({ blogId, slug }) {
                   <>
                     <button
                       type="submit"
-                      className="bg-blue-500 text-white font-bold px-4 py-2 lg:mr-3 rounded-md hover:bg-blue-800"
+                      className="bg-blue-500 text-white border-2 border-blue-500 px-6 py-0.5 lg:mr-3 rounded-md hover:bg-blue-600"
                       onClick={handleSubmit}>
                       Respond
                     </button>
                     <button
                       type="button"
-                      className="border-2  border-green-500 hover:border-red-500 px-2 p-2 rounded-md"
+                      className="border-2  border-green-500 hover:border-red-500 px-6 py-0.5 rounded-md"
                       onClick={() => {
                         setIsInputFocused(false);
                         setNewComment("");
@@ -166,10 +173,10 @@ export default function Comments({ blogId, slug }) {
         </form>
       ) : (
         <div className="flex flex-col items-center justify-center  gap-2 xsm:gap-1 border rounded-md h-fit min-h-10 px-2 py-4 my-2 bg-blue-100 bg-opacity-50 ">
-          <h1 className="font-semibold md:text-xl text-gray-600">
+          <h1 className="font-semibold md:text-xl ">
             Please Login or Register to comment
           </h1>
-          <div className="flex justify-center xsm:flex-col xsm:items-start items-center gap-4 xsm:gap-2 w-full">
+          <div className="flex justify-center xsm:flex-col xsm:items-start items-center gap-6 xsm:gap-2 w-full">
             <Link
               href={`/login?post_login_redirect_url=blogs/${slug}#write-comment`}
               className="px-6 py-1 rounded-md border bg-gray-300 hover:bg-black hover:text-white xsm:w-full text-center">
@@ -190,13 +197,26 @@ export default function Comments({ blogId, slug }) {
               <div className="flex gap-4">
                 <UserImage url={comment.user_avatar} />
                 <div className="">
-                  <p className="text-gray-600">
-                    <span className="font-bold">{comment?.author} </span>&nbsp;{" "}
-                    {comment?.created_at_date}
-                  </p>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <p className="font-semibold">{comment?.author}</p>
+                      {comment?.user_id === user?.id && (
+                        <button className="bg-cyan-100 text-cyan-500 font-light rounded-md px-1 text-sm pointer-events-none border border-cyan-500">
+                          Author
+                        </button>
+                      )}
+                    </div>
+                    <p>
+                      <span className="font-light xsm:hidden">
+                        Published on
+                      </span>{" "}
+                      {comment?.created_at_date}
+                    </p>
+                  </div>
+
                   <div
-                    className={`bg-blue-100 bg-opacity-50 border p-3 rounded-r-xl rounded-bl-xl`}>
-                    <p className="text-gray-800">{comment?.body}</p>
+                    className={`bg-blue-100 border-blue-500  border p-3 rounded-r-xl rounded-bl-xl`}>
+                    <p className="font-extralight">{comment?.body}</p>
                   </div>
                   <div className="py-1 flex items-center gap-4">
                     {comment?.user_id === user?.id ? (
@@ -226,9 +246,7 @@ export default function Comments({ blogId, slug }) {
             </div>
           ))
         ) : (
-          <p className="my-2 text-xl md:text-2xl text-gray-600 font-bold">
-            Be the first to comment
-          </p>
+          <p className="my-2 text-xl font-semibold">Be the first to comment</p>
         )}
       </div>
     </div>

@@ -112,30 +112,32 @@ export default function AudioPlayer({ blog }) {
   return (
     <div className="">
       <div className="bg-[#2C63AE] my-2 px-4 py-2 rounded-full flex items-center gap-2 text-gray-200 w-fit whitespace-nowrap min-w-[60%] xsm:w-full ">
-        {isPlaying ? (
-          <svg
-            viewBox="0 0 1024 1024"
-            fill="currentColor"
-            onClick={togglePlayPause}
-            height="30"
-            width="30"
-            className="cursor-pointer">
-            <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372zm-88-532h-48c-4.4 0-8 3.6-8 8v304c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V360c0-4.4-3.6-8-8-8zm224 0h-48c-4.4 0-8 3.6-8 8v304c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V360c0-4.4-3.6-8-8-8z" />
-          </svg>
-        ) : (
-          <svg
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            height="30"
-            width="30"
-            className="bg-transparent cursor-pointer"
-            onClick={togglePlayPause}>
-            <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z" />
+        <div>
+          {isPlaying ? (
+            <svg
+              viewBox="0 0 1024 1024"
+              fill="currentColor"
+              onClick={togglePlayPause}
+              height="30"
+              width="30"
+              className="cursor-pointer">
+              <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372zm-88-532h-48c-4.4 0-8 3.6-8 8v304c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V360c0-4.4-3.6-8-8-8zm224 0h-48c-4.4 0-8 3.6-8 8v304c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V360c0-4.4-3.6-8-8-8z" />
+            </svg>
+          ) : (
+            <svg
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              height="30"
+              width="30"
+              className="bg-transparent cursor-pointer"
+              onClick={togglePlayPause}>
+              <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z" />
 
-            <path d="M9 17l8-5-8-5z" />
-            <title>Listen to this blog</title>
-          </svg>
-        )}
+              <path d="M9 17l8-5-8-5z" />
+              <title>Listen to this blog</title>
+            </svg>
+          )}
+        </div>
 
         <span>
           {formatTime(elapsedTime) ?? "0:00"}/ {totalReadingTime}
