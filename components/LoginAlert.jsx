@@ -57,32 +57,43 @@ export default function Popup({ setIsOpen }) {
       className="fixed top-24 xsm:top-20 right-4 xsm:right-0 h-fit w-fit max-w-[350px] md:w-[350px] z-10 mx-2 rounded-md bg-white shadow-xl overflow-hidden "
       id="login_popup">
       <div className="max-w-md">
-        <div className="px-4 py-1">
-          <div className="flex gap-1 items-center mt-2 mr-2">
-            <Image
-              src="https://res.cloudinary.com/dipkbpinx/image/upload/v1719694844/tsxkiwwlzkbvxqsyeawn.png"
-              height={20}
-              width={20}
-              alt="logo"
-            />
-            <h2 className="font-medium text-[13.5px]  xsm:text-sm ">
-              Login to Tech Tales{" "}
-              <span className="xsm:hidden">with Google, Github or Email</span>
+        <div className="px-4 py-1 bg-gradient-to-r from-green-400 via-cyan-500 to-indigo-400 text-white">
+          <div className="flex gap-1 md:gap-4 items-center mt-2 mr-2">
+            <div className="p-1 rounded-full bg-[url('https://res.cloudinary.com/dipkbpinx/image/upload/v1719694844/tsxkiwwlzkbvxqsyeawn.png')] h-[24px] w-[24px]">
+              <Image
+                src="https://res.cloudinary.com/dipkbpinx/image/upload/v1719694844/tsxkiwwlzkbvxqsyeawn.png"
+                height={24}
+                width={24}
+                className="italic"
+                alt="logo"
+              />
+            </div>
+            <h2 className="font-medium text-sm md:text-base ">
+              <span>Easily</span> Login to Tech Tales{" "}
             </h2>
           </div>
+          {/* <hr className="w-full my-0.5" /> */}
           <button
             onClick={handleClose}
             className="rounded-full  focus:outline-none absolute top-0 right-0">
             <svg
-              className="h-6 w-6 text-gray-600 hover:fill-red-500"
+              className="h-6 w-6  text-white hover:text-red-500 "
               xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20">
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round">
               <title>Close</title>
-              <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
             </svg>
           </button>
         </div>
-        <hr className="w-full my-0.5" />
+
         <div className="flex flex-col space-y-2 p-4">
           <button
             onClick={handleGoogleLogin}
