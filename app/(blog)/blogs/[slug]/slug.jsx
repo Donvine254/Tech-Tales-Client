@@ -16,6 +16,7 @@ import Link from "next/link";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import AudioPlayer from "@/components/AudioPlayer";
+import MoreFromAuthor from "@/components/MoreFromAuthor";
 import { calculateReadingTime } from "@/lib";
 import dynamic from "next/dynamic";
 const NoSSRComments = dynamic(() => import("@/components/Comments"), {
@@ -248,9 +249,12 @@ export default function Slug({ blog }) {
       ) : null}
       <div className="my-2">
         <hr className="my-2" />
-        <Link href={`/explore/${blog.user_id}`} className="text-xl font-bold">
-          More from {blog.author}
-        </Link>
+
+        <MoreFromAuthor
+          author={blog.author}
+          id={blog.user_id}
+          blogId={blog.id}
+        />
       </div>
     </div>
   );
