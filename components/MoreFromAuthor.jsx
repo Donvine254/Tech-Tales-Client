@@ -1,9 +1,7 @@
 import Link from "next/link";
-import { Clock } from "@/assets";
 import parse from "html-react-parser";
-import Bookmark from "./Bookmark";
 import { UserImage } from "./Avatar";
-import { calculateReadingTime } from "@/lib";
+
 
 export default async function MoreFromAuthor({ author, id, blogId }) {
   const blogs = await fetch(
@@ -18,8 +16,8 @@ export default async function MoreFromAuthor({ author, id, blogId }) {
       <h1 className="text-xl font-bold">More from {author}</h1>
       <div>
         <div className="sm:flex sm:gap-2 sm:overflow-x-auto">
-          {filteredBlogs && blogs.length > 0
-            ? blogs.map((blog) => (
+          {blogs && filteredBlogs.length > 0
+            ? filteredBlogs.map((blog) => (
                 <div
                   key={blog.id}
                   className="bg-gray-200 my-4 p-4 rounded-md border shadow hover:bg-slate-200 sm:flex-shrink-0 sm:w-1/2">
