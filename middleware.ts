@@ -6,7 +6,8 @@ export function middleware(request: NextRequest) {
   const isProtectedPath =
     path.startsWith("/me") ||
     path.startsWith("/my-blogs") ||
-    path.startsWith("/create");
+    path.startsWith("/create") ||
+    path.startsWith("/api");
 
   const isPublicPath =
     path.startsWith("/login") ||
@@ -31,6 +32,10 @@ export const config = {
     "/login",
     "/signup",
     "/create",
+    "/register",
+    "/callback",
+    "/api",
+    "/api/:path",
     "/me",
     "/me/:path*",
     "/my-blogs",
