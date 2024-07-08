@@ -246,6 +246,12 @@ export default function Slug({ blog }) {
           </div>
         </div>
       ) : null}
+      <div className="my-2">
+        <hr className="my-2" />
+        <Link href={`/explore/${blog.user_id}`} className="text-xl font-bold">
+          More from {blog.author}
+        </Link>
+      </div>
     </div>
   );
 }
