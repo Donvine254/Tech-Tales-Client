@@ -1,15 +1,12 @@
 "use client";
 
 import { deleteComment, patchComment } from "@/lib";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Edit, Trash } from "@/assets";
 import { UserImage } from "./Avatar";
 import Link from "next/link";
-
+import { getRandomColor } from "@/lib/utils";
 import { baseUrl } from "@/lib";
-import Axios from "axios";
-
-// use pathname to find current path
 
 export default function Comments({ blogId, slug }) {
   const [newComment, setNewComment] = useState("");
@@ -18,7 +15,7 @@ export default function Comments({ blogId, slug }) {
   const [commentToEdit, setCommentToEdit] = useState(null);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-
+  const commentsRef = useRef({});
   useEffect(() => {
     (async () => {
       try {
@@ -34,8 +31,14 @@ export default function Comments({ blogId, slug }) {
           { cache: "force-cache", revalidate: 600 }
         );
         const resData = await response.json();
+        const commentsWithColors = resData.map((comment) => {
+          if (!commentsRef.current[comment.id]) {
+            commentsRef.current[comment.id] = getRandomColor();
+          }
+          return { ...comment, color: commentsRef.current[comment.id] };
+        });
 
-        setComments(resData);
+        setComments(commentsWithColors);
 
         const res = await fetch(`${baseUrl}/me`);
         const data = await res.json();
@@ -215,7 +218,11 @@ export default function Comments({ blogId, slug }) {
                   </div>
 
                   <div
-                    className={`bg-blue-100 border-blue-500  border p-3 rounded-r-xl rounded-bl-xl`}>
+                    className={` p-3 rounded-r-xl rounded-bl-xl !bg-opacity-10`}
+                    style={{
+                      backgroundColor: comment.color ?? "blue",
+                      border: `1px solid ${comment.color} ?? #67e8f9`,
+                    }}>
                     <p className="font-extralight">{comment?.body}</p>
                   </div>
                   <div className="py-1 flex items-center gap-4">
