@@ -106,7 +106,7 @@ export default function Profile() {
   return (
     <div className="font-poppins w-full min-h-[400px] mx-auto px-8 md:w-4/5 md:mt-10">
       {/* have two cards rendered as flexbox */}
-      <div className="flex flex-col gap-2 lg:flex-row lg:justify-between lg:items-start lg:gap-5 ">
+      <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-start md:gap-5 ">
         {/* first card */}
         <div className="lg:w-1/3  bg-gray-50 border shadow rounded-md ">
           <div className="bg-gradient-to-t px-6 pt-2 from-gray-50 via-gray-100 to-cyan-400 w-full">
@@ -140,7 +140,7 @@ export default function Profile() {
           </div>
           <div className="px-6 py-1">
             <p className="text-gray-700 font-semibold mb-2">About</p>
-            <p className="mb-2 tracking-wide text-[12px] md:text-sm bg-gray-200 p-1">
+            <p className="mb-2 tracking-wide text-[12px] sm:text-base md:text-sm bg-gray-200 p-1">
               {user?.bio ?? "You have have no bio yet"}
             </p>
             <p className="font-bold">Socials</p>
@@ -323,17 +323,20 @@ export default function Profile() {
             {blogs && blogs.length > 1 ? (
               <>
                 {blogs.map((blog) => (
-                  <li key={blog.id} className="mb-2">
-                    <Link href={`/blogs/${blog.slug}`} className="">
-                      <p className="font-semibold  py-1 text-gray-700 ">
+                  <div key={blog.id} className="mb-2">
+                    <Link
+                      href={`/blogs/${blog.slug}`}
+                      className="hover:underline ">
+                      <span className="font-semibold  py-1 text-gray-700 hover:text-blue-500 ">
                         {blog.title}
-                      </p>
-                      <p className=" text-gray-500 leading-8 line-clamp-2">
-                        {blog.body ? parse(blog.body) : blog.body}
-                      </p>
+                      </span>
                     </Link>
+                    <article className=" text-gray-500 leading-8 line-clamp-2">
+                      {blog.body ? parse(blog.body) : blog.body}
+                    </article>
+
                     <hr className="my-2 border-1 border-slate-300" />
-                  </li>
+                  </div>
                 ))}
               </>
             ) : (
@@ -362,18 +365,20 @@ export default function Profile() {
             <ul>
               {filteredBlogs.length > 0
                 ? filteredBlogs.map((blog) => (
-                    <li key={blog.id} className="mb-2">
-                      <Link href={`/blogs/${blog.id}?title=${blog.slug}`}>
-                        <p className="font-semibold py-1 text-gray-700">
+                    <div key={blog.id} className="mb-2">
+                      <Link
+                        href={`/blogs/${blog.id}?title=${blog.slug}`}
+                        className="hover:underline ">
+                        <p className="font-semibold py-1 text-gray-700 hover:text-blue-500">
                           {blog.title}{" "}
                           <span className="font-medium ">by {blog.author}</span>
                         </p>
                       </Link>
-                      <p className=" text-gray-500 leading-8 line-clamp-2">
+                      <article className=" text-gray-500 leading-8 line-clamp-2">
                         {blog.body ? parse(blog.body) : blog.body}
-                      </p>
+                      </article>
                       <hr className="my-2 border-1 border-slate-300" />
-                    </li>
+                    </div>
                   ))
                 : !loading && (
                     <div>

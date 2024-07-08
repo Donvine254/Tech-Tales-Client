@@ -112,7 +112,7 @@ export default function AudioPlayer({ blog }) {
 
   return (
     <div className="">
-      <div className="bg-[#2C63AE] my-2 px-4 py-2 rounded-full flex items-center gap-2 text-gray-200 w-fit whitespace-nowrap min-w-[60%] xsm:w-full ">
+      <div className="bg-[#2C63AE] my-2 px-4 py-2 rounded-full flex items-center gap-2 text-gray-200 w-fit whitespace-nowrap min-w-[60%] xsm:w-full sm:w-[80%] md:w-[60%] ">
         <div>
           {isPlaying ? (
             <svg

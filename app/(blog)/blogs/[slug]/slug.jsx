@@ -27,6 +27,7 @@ export default function Slug({ blog }) {
   const [likes, setLikes] = useState(0);
   const [liked, setLiked] = useState(false);
   const [isCardVisible, setIsCardVisible] = useState(false);
+  const [commentsCount, setCommentsCount] = useState(blog.comments ?? 0);
   const printRef = useRef(null);
   const router = useRouter();
 
@@ -171,10 +172,11 @@ export default function Slug({ blog }) {
                 className="h-10 w-10 flex items-center justify-center p-1 rounded-full border hover:bg-green-300 bg-blue-200">
                 <Whatsapp className="hover:animate-spin transition ease-in-out duration-300" />
               </button>
+
               <button
-                onClick={async () => {
+                onClick={() => {
                   try {
-                    await navigator.clipboard.writeText(
+                    navigator.clipboard.writeText(
                       `https://techtales.vercel.app/blogs/${blog.slug}`
                     );
                     toast.success("Link copied to clipboard");
@@ -228,7 +230,7 @@ export default function Slug({ blog }) {
             <p className="blog__icons">
               <Comment />
               <span className="text-base ">
-                {blog.comments ?? 0}{" "}
+                {commentsCount ?? 0}{" "}
                 <Link href="#write-comment" className="xsm:hidden">
                   Comments
                 </Link>
@@ -238,7 +240,12 @@ export default function Slug({ blog }) {
           </div>
           {/* beginning of comment section */}
 
-          <NoSSRComments blogId={blog.id} slug={blog.slug} />
+          <NoSSRComments
+            blogId={blog.id}
+            slug={blog.slug}
+            author={blog.user_id}
+            setCommentsCount={setCommentsCount}
+          />
           <div ref={printRef} style={{ display: "none" }}>
             <h1 className="text-xl font-bold">{blog.title}</h1>
             <p className="italic">

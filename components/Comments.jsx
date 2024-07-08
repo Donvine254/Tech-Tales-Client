@@ -9,9 +9,9 @@ import { getRandomColor } from "@/lib/utils";
 import { baseUrl, getCurrentUser } from "@/lib";
 
 const user = getCurrentUser();
-export default function Comments({ blogId, slug }) {
+export default function Comments({ blogId, slug, setCommentsCount, author }) {
   const [newComment, setNewComment] = useState("");
-  const [comments, setComments] = useState();
+  const [comments, setComments] = useState([]);
   const [commentToEdit, setCommentToEdit] = useState(null);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -42,6 +42,7 @@ export default function Comments({ blogId, slug }) {
         }
 
         setComments(commentsWithColors);
+        setCommentsCount((prev) => prev + 1);
       } catch (error) {
         console.error(error);
       }
@@ -71,7 +72,15 @@ export default function Comments({ blogId, slug }) {
       })
       .then((data) => {
         setNewComment("");
-        setComments((prev) => [...prev, data]);
+        const newCommentWithColor = {
+          ...data,
+          color: getRandomColor(),
+        };
+        setComments((prev) =>
+          Array.isArray(prev)
+            ? [...prev, newCommentWithColor]
+            : [newCommentWithColor]
+        );
       })
       .catch((error) => console.error("Error posting comment:", error));
     setIsInputFocused(false);
@@ -202,7 +211,7 @@ export default function Comments({ blogId, slug }) {
                   <div>
                     <div className="flex items-center gap-2">
                       <p className="font-semibold">{comment?.author}</p>
-                      {comment?.user_id === user?.id && (
+                      {comment?.user_id === author && (
                         <button className="bg-cyan-100 text-cyan-500 font-light rounded-md px-1 text-sm pointer-events-none border border-cyan-500">
                           Author
                         </button>
@@ -217,9 +226,10 @@ export default function Comments({ blogId, slug }) {
                   </div>
 
                   <div
-                    className={` p-3 rounded-r-xl rounded-bl-xl border-[#67e8f9]`}
+                    className="p-3 rounded-r-xl rounded-bl-xl border-2"
                     style={{
                       backgroundColor: comment.color ?? "#cffafe",
+                      borderColor: comment.color ?? "#67e8f9",
                     }}>
                     <p className="font-extralight">{comment?.body}</p>
                   </div>
