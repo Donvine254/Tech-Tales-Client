@@ -27,7 +27,10 @@ export default function Bookmark({ blogId, size = 24 }) {
       ? JSON.parse(localStorageData)
       : {};
     bookmarkedBlogs[blogId] = value;
-    secureLocalStorage.setItem(localStorageKey, JSON.stringify(bookmarkedBlogs));
+    secureLocalStorage.setItem(
+      localStorageKey,
+      JSON.stringify(bookmarkedBlogs)
+    );
   };
 
   function handleClick(e) {
@@ -58,7 +61,7 @@ export default function Bookmark({ blogId, size = 24 }) {
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          strokeWidth="2"
+          strokeWidth="1"
           strokeLinecap="round"
           strokeLinejoin="round"
           title="bookmark"
@@ -76,7 +79,7 @@ export default function Bookmark({ blogId, size = 24 }) {
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          strokeWidth="2"
+          strokeWidth="1"
           strokeLinecap="round"
           strokeLinejoin="round"
           title="bookmark"
