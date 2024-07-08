@@ -75,7 +75,7 @@ export default function Slug({ blog }) {
               height={450}
               width={900}
               priority
-              className="italic h-full w-full"
+              className="italic h-full w-full "
             />
           )}
 
@@ -85,7 +85,10 @@ export default function Slug({ blog }) {
                 className="relative"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}>
-                <UserImage url={blog.user_avatar} />
+                <UserImage
+                  url={blog.user_avatar}
+                  className="ring-2 ring-offset-2  ring-cyan-500 italic "
+                />
                 {isCardVisible && (
                   <UserCard
                     avatar={blog.user_avatar}

@@ -129,7 +129,10 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
       {user ? (
         <form className="mt-4" id="write-comment">
           <div className="flex gap-2 xsm:gap-1 items-center">
-            <UserImage url={user?.picture} className="flex-initial" />
+            <UserImage
+              url={user?.picture}
+              className="flex-initial ring-2 ring-offset-2  ring-blue-600 italic "
+            />
             <textarea
               placeholder="add to the discussion"
               value={newComment}
@@ -191,11 +194,13 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
           <div className="flex justify-center xsm:flex-col xsm:items-start items-center gap-6 xsm:gap-2 w-full">
             <Link
               href={`/login?post_login_redirect_url=blogs/${slug}#write-comment`}
+              scroll
               className="px-6 py-1 rounded-md border bg-gray-300 hover:bg-black hover:text-white xsm:w-full text-center">
               Login
             </Link>
             <Link
               href={`/register?post_login_redirect_url=blogs/${slug}#write-comment`}
+              scroll
               className="px-6 py-1 rounded-md border bg-blue-500 hover:bg-blue-600 text-white xsm:w-full text-center">
               Sign Up
             </Link>
@@ -207,7 +212,12 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
           comments?.map((comment) => (
             <div className="py-1 font-poppins " key={comment.id}>
               <div className="flex gap-4">
-                <UserImage url={comment.user_avatar} />
+                <UserImage
+                  url={comment.user_avatar}
+                  className={`ring-2 ring-offset-2  ring-${
+                    comment.color ?? "cyan-400"
+                  } italic `}
+                />
                 <div className="">
                   <div>
                     <div className="flex items-center gap-2">
@@ -216,6 +226,14 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
                         <button className="bg-cyan-100 text-cyan-500 font-light rounded-md px-1 text-sm pointer-events-none border border-cyan-500">
                           Author
                         </button>
+                      )}
+                      {comment.user_id === user.id && (
+                        <div>
+                          <div className="online-indicator">
+                            <span className="blink"></span>
+                          </div>
+                          <span className="text-green-500">online</span>
+                        </div>
                       )}
                     </div>
                     <p>
