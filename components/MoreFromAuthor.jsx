@@ -54,7 +54,8 @@ export default function MoreFromAuthor({ author, id, blogId }) {
                   </div>
                   <Link
                     href={`/blogs/${blog.slug}`}
-                    className="space-y-3 xl:col-span-3">
+                    className="space-y-3 xl:col-span-3"
+                    prefetch>
                     <h1 className="font-bold  py-2 ">{blog.title}</h1>
                   </Link>
                   {/* div for blog tags */}
