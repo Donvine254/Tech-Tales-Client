@@ -320,13 +320,14 @@ export default function Profile() {
             </div>
           )}
           <ul>
-            {blogs && blogs.length > 1 ? (
+            {blogs && blogs.length >= 1 ? (
               <>
                 {blogs.map((blog) => (
                   <div key={blog.id} className="mb-2">
                     <Link
                       href={`/blogs/${blog.slug}`}
-                      className="hover:underline ">
+                      className="hover:underline "
+                      prefetch>
                       <span className="font-semibold  py-1 text-gray-700 hover:text-blue-500 ">
                         {blog.title}
                       </span>
@@ -367,8 +368,9 @@ export default function Profile() {
                 ? filteredBlogs.map((blog) => (
                     <div key={blog.id} className="mb-2">
                       <Link
-                        href={`/blogs/${blog.id}?title=${blog.slug}`}
-                        className="hover:underline ">
+                        href={`/blogs/${blog.slug}`}
+                        className="hover:underline "
+                        prefetch>
                         <p className="font-semibold py-1 text-gray-700 hover:text-blue-500">
                           {blog.title}{" "}
                           <span className="font-medium ">by {blog.author}</span>
