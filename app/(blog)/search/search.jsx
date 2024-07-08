@@ -55,6 +55,8 @@ export default function SearchPage() {
                       </p>
                     </div>
                   </div>
+                  <hr className="mt-2 h-[2px] bg-gray-200" />
+
                   <Link
                     href={`/blogs/${blog.slug}`}
                     className="space-y-3 xl:col-span-3"
@@ -84,7 +86,6 @@ export default function SearchPage() {
                     {blog ? parse(blog.body) : blog.body}
                   </article>
                 </div>
-                <hr className="mt-2 h-[2px] bg-gray-200" />
                 <div className="flex items-center justify-between py-2">
                   <Link href={`/blogs/${blog.slug}`} prefetch>
                     Read &#8599;
