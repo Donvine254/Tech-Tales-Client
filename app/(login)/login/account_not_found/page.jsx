@@ -5,9 +5,9 @@ export default function Page() {
   return (
     <Suspense
       fallback={
-        (className =
-          "flex flex-col items-center justify-center w-full min-h-screen  p-4 font-poppins " >
-          <Loader />)
+        <div className="flex flex-col items-center justify-center w-full min-h-screen mx-auto p-4 font-poppins ">
+          <Loader />
+        </div>
       }>
       <AccountNotFound />
     </Suspense>
