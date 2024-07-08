@@ -227,7 +227,7 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
                           Author
                         </button>
                       )}
-                      {comment.user_id === user.id && (
+                      {user && comment.user_id === user?.id && (
                         <div>
                           <div className="online-indicator">
                             <span className="blink"></span>
@@ -252,7 +252,7 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
                     <p className="font-extralight">{comment?.body}</p>
                   </div>
                   <div className="py-1 flex items-center gap-4">
-                    {comment?.user_id === user?.id ? (
+                    {user && comment?.user_id === user?.id ? (
                       <>
                         <button
                           className="flex items-center gap-2 text-sm   hover:text-white border px-1 py-0.5 rounded-md hover:bg-blue-500"
