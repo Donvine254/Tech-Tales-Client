@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect, useRef } from "react";
 import { calculateReadingTime } from "@/lib";
 export default function AudioPlayer({ blog }) {
