@@ -47,7 +47,7 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
         console.error(error);
       }
     })();
-  }, [blogId]);
+  }, [blogId, setCommentsCount]);
 
   async function handleSubmit(e) {
     e.preventDefault();
