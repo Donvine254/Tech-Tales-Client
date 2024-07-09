@@ -33,7 +33,10 @@ export default function SearchPage() {
     <section className="relative min-h-[400px] h-fit">
       <div className="w-full !z-0 mx-auto md:my-4 px-4 md:px-8 md:w-2/3 relative font-poppins">
         <SideNav />
-
+        <h1 className="font-bold font-crimson text-xl md:text-2xl">
+          Search Results
+        </h1>
+        <hr className="my-2  border border-blue-500" />
         {loading && (
           <div className="bg-[url('https://cdn.dribbble.com/users/46425/screenshots/1799682/media/f5cb1a59acb2f7ca5782b6ddae1f0a66.gif')] bg-auto bg-center h-[400px] mt-5"></div>
         )}

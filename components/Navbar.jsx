@@ -109,7 +109,7 @@ export default function Navbar() {
           <div className="flex items-center gap-2">
             <Link
               href={`/login?post_login_redirect_url=${pathname}`}
-              className={` py-2 xsm:py-0.5 px-2 bg-gradient-to-r from-green-400 to-indigo-400 text-white rounded-lg flex items-center text-base gap-1 cursor-pointer hover:border ${
+              className={` py-2 xsm:py-1 px-2 bg-gradient-to-r from-green-400 to-indigo-400 text-white rounded-lg flex items-center text-base gap-1 cursor-pointer hover:border ${
                 user ? "hidden" : ""
               }`}
               onMouseOver={() => {

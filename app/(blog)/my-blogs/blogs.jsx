@@ -44,6 +44,10 @@ export default function MyBlogsComponent() {
   return (
     <div className="w-full min-h-[400px] mx-auto px-4 md:px-8 md:w-2/3 relative font-poppins">
       <SideNav />
+      <h1 className="font-bold font-crimson text-xl md:text-2xl">
+        Your Published Blogs
+      </h1>
+      <hr className="my-2  border border-blue-500" />
       {loading && (
         <div>
           {Array(2)
