@@ -77,7 +77,7 @@ export default function Profile() {
   function handleSignout() {
     clearLocalStorage();
     toast.success("logged out successfully");
-    revalidatePage("/my-blogs");
+    revalidatePage("/me/blogs");
     if (typeof window !== undefined) {
       window.location.href = "/";
     }

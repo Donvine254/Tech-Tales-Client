@@ -34,7 +34,7 @@ export const Menu = ({ handleClick, menuOpen, currentUser }) => {
         Create Blog
       </Link>
       <Link
-        href="/my-blogs"
+        href="/me/blogs?status=published"
         className="menu-item"
         onClick={() => handleClick(!menuOpen)}>
         <svg

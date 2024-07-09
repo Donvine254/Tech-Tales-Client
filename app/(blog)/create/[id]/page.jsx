@@ -37,7 +37,7 @@ export default function EditBlog({ params }) {
         if (user.id !== blog.user_id && user.role !== "admin") {
           console.log("userId:", user.id, "blog user_id:", blog.user_id);
           toast.error("This blog belongs to a different author!");
-          router.replace("/my-blogs?action=forbidden");
+          router.replace("/me/blogs?action=forbidden");
         } else {
           setBlogData(blog);
           setLoading("");
@@ -85,7 +85,7 @@ export default function EditBlog({ params }) {
         });
         setLoading("");
         revalidateBlogs(params.id);
-        router.replace("/my-blogs");
+        router.replace("/me/blogs");
       } catch (error) {
         toast.error(error?.response?.data?.errors);
         console.error(error);

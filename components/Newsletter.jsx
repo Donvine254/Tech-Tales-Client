@@ -23,7 +23,7 @@ export default function Newsletter() {
       pathname !== "/" &&
       pathname !== "/relevant" &&
       pathname !== "/latest" &&
-      pathname !== "/my-blogs" &&
+      pathname !== "/me/blogs" &&
       pathname !== "/top"
     ) {
       setShowForm(false);

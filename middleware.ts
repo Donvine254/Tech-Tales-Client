@@ -39,7 +39,5 @@ export const config = {
     "/api/my-blogs",
     "/me",
     "/me/:path*",
-    "/my-blogs",
-    "/my-blogs/:path*",
   ],
 };
