@@ -1,7 +1,8 @@
 "use client";
-import { useState, useEffect } from "react";
-import { SearchIcon } from "@/assets";
+import { useState, useEffect, useRef } from "react";
+import { SearchIcon, SortDown } from "@/assets";
 import { useRouter } from "next/navigation";
+import { categories } from "@/constants";
 
 export const Search = () => {
   const router = useRouter();
@@ -9,6 +10,8 @@ export const Search = () => {
   const [isListening, setIsListening] = useState(false);
   const [category, setCategory] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showDropdownOptions, setShowDropdownOptions] = useState(false);
+  const dropdownRef = useRef(null);
   useEffect(() => {
     if (isListening) {
       const recognition =
@@ -29,6 +32,19 @@ export const Search = () => {
       recognition.start();
     }
   }, [isListening, router]);
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setShowDropdown(false);
+        setShowDropdownOptions(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   function handleSearch(e) {
     e.preventDefault();
@@ -92,28 +108,48 @@ export const Search = () => {
         </div>
         {showDropdown && (
           <div className="absolute top-full mt-1 border border-gray-300 rounded w-fit z-10">
-            <select
-              value={category}
-              onChange={(e) => {
-                setCategory(e.target.value);
-                setShowDropdown(false);
-                setTimeout(() => {
-                  if (e.target.value !== "") {
-                    router.replace(`/search?search=${e.target.value}`);
-                  }
-                }, 100);
-              }}
-              className="rounded-xl  py-2 px-10  focus:outline-none border border-blue-500 ">
-              <option value="">All Categories</option>
-              <option value="ai">Artificial Intelligence</option>
-              <option value="react">React</option>
-              <option value="rails">Ruby on Rails</option>
-              <option value="nextjs">Next.js</option>
-              <option value="python">Python</option>
-              <option value="javascript">Javascript</option>
-              <option value="html css">HTML & CSS</option>
-              <option value="host">Hosting</option>
-            </select>
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setShowDropdownOptions(!showDropdownOptions)}
+                className="rounded-xl flex items-center gap-4 py-2 bg-white p-2 w-64 focus:outline-none justify-between border border-blue-500">
+                {category === ""
+                  ? "All Categories"
+                  : categories.find((cat) => cat.value === category).label}
+                <SortDown />
+              </button>
+              {showDropdownOptions && (
+                <div className="absolute mt-2 w-full rounded-md px-2 py-1 bg-white shadow h-56 overflow-auto">
+                  {categories.map((cat) => (
+                    <div
+                      key={cat.value}
+                      onClick={() => {
+                        setCategory(cat.value);
+                        setShowDropdown(false);
+                        setTimeout(() => {
+                          if (cat.value !== "") {
+                            router.replace(`/search?search=${cat.value}`);
+                          }
+                        }, 100);
+                      }}
+                      className={`flex items-center justify-between p-1 hover:bg-gray-200 rounded-md hover:text-blue-500 cursor-pointer ${
+                        category === cat.value ? "text-blue-500" : ""
+                      }`}>
+                      <span>{cat.label}</span>
+                      {category === cat.value && (
+                        <svg
+                          fill="none"
+                          viewBox="0 0 15 15"
+                          height="24"
+                          width="24"
+                          className="ml-12">
+                          <path stroke="currentColor" d="M4 7.5L7 10l4-5" />
+                        </svg>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         )}
       </form>
