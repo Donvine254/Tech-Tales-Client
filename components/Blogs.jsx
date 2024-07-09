@@ -25,7 +25,6 @@ export default async function BlogsComponent({ blogs }) {
                     <span className="capitalize font-bold">{blog.author}</span>
                   </p>
                   <p className="text-sm font-medium md:text-base ">
-                    <span className="xsm:hidden sm:hidden">&mdash;</span>{" "}
                     Published on {blog.created_at_date}
                   </p>
                 </div>

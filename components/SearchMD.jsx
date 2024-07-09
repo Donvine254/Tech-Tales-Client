@@ -46,6 +46,9 @@ export const SearchMD = () => {
       <div className="relative xsm:mx-2">
         <input
           type="search"
+          id="search"
+          name="search"
+          autoCorrect="true"
           placeholder="Search..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
