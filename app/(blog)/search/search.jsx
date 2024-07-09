@@ -33,7 +33,7 @@ export default function SearchPage() {
     <section className="relative min-h-[400px] h-fit">
       <div className="w-full !z-0 mx-auto md:my-4 px-4 md:px-8 md:w-2/3 relative font-poppins">
         <SideNav />
-        <h1 className="font-bold font-crimson text-xl md:text-2xl">
+        <h1 className="font-bold font-crimson sm:text-xl md:text-2xl">
           Search results for {search}
         </h1>
         <hr className="my-2  border border-blue-500" />
@@ -132,10 +132,10 @@ export default function SearchPage() {
                   </svg>
                 </div>
 
-                <h1 className="text-gray-800 font-semibold text-2xl xsm:text-xl md:text-3xl ">
+                <h1 className="text-gray-800 font-semibold sm:text-xl md:text-2xl ">
                   Well, this is awkward{" "}
                 </h1>
-                <p className="text-xl sm:text-center leading-loose">
+                <p className=" xsm:text-sm sm:text-xl sm:text-center leading-loose">
                   Nothing is turning up based on your search phrase{" "}
                   <span className="underline font-bold italic">
                     &quot;{search}&quot;
