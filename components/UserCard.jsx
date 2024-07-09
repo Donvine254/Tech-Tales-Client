@@ -1,6 +1,6 @@
-import {NewTwitterIcon } from "@/assets";
+import { NewTwitterIcon } from "@/assets";
 import Image from "next/image";
-
+import Link from "next/link";
 export default function UserCard({
   avatar,
   name,
@@ -94,11 +94,12 @@ export default function UserCard({
         </div>
       </div>
       <hr className="border border-gray-200" />
-      <a
+      <Link
         href={`/explore/${userId}?referrer=${title}`}
+        prefetch
         className="text-sm text-sky-400 hover:text-sky-600 cursor-pointer my-2">
         View more posts from this author &#8599;
-      </a>
+      </Link>
     </div>
   );
 }
