@@ -21,9 +21,10 @@ export default function Newsletter() {
 
     if (
       pathname !== "/" &&
-      pathname !== "/featured" &&
+      pathname !== "/relevant" &&
       pathname !== "/latest" &&
-      pathname !== "/my-blogs"
+      pathname !== "/my-blogs" &&
+      pathname !== "/top"
     ) {
       setShowForm(false);
     }

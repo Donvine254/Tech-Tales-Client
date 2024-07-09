@@ -7,7 +7,7 @@ export const Menu = ({ handleClick, menuOpen, currentUser }) => {
   return (
     <div className="space-y-4 bg-slate-100 border-2 shadow-lg z-50 py-5 px-2 md:px-4 rounded-lg  min-w-[250px] md:min-w-[300px]  font-poppins">
       <Link
-        href="/featured"
+        href="/relevant"
         className="menu-item"
         onClick={() => handleClick(!menuOpen)}>
         <svg viewBox="0 0 384 512" fill="currentColor" height="24" width="24">
@@ -16,7 +16,7 @@ export const Menu = ({ handleClick, menuOpen, currentUser }) => {
         Featured Stories
       </Link>
       <Link
-        href="/latest"
+        href="/top"
         className="menu-item"
         onClick={() => handleClick(!menuOpen)}>
         <svg viewBox="0 0 448 512" fill="currentColor" height="24" width="24">

@@ -140,7 +140,7 @@ export default function SearchPage() {
                   . Try using a different search word or check out our{" "}
                   <a
                     className="text-blue-600 font-medium hover:underline"
-                    href="/featured">
+                    href="/relevant">
                     blogs
                   </a>
                 </p>

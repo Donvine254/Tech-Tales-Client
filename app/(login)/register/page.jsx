@@ -53,7 +53,7 @@ export default function Register() {
         saveUserData(data);
         setLoading(false);
         toast.success("registration successful");
-        router.replace("/featured");
+        router.replace("/relevant");
       } catch (error) {
         setLoading(false);
         console.log(error);

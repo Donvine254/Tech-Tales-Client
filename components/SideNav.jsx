@@ -7,8 +7,8 @@ import Link from "next/link";
 export default function SideNav() {
   const pathname = usePathname();
   return (
-    <div className="hidden md:flex justify-center items-center">
-      <div className="flex justify-center md:justify-start md:ml-5  md:gap-4 md:text-2xl items-center font-crimson">
+    <div className="flex justify-center items-center">
+      <div className="flex justify-start xsm:text-sm md:ml-5  md:gap-4 md:text-xl items-center lg:justify-center  font-crimson">
         {navLinks.map((link) => {
           const isActive = pathname.startsWith(link.href);
           return (
@@ -30,7 +30,7 @@ export default function SideNav() {
 }
 
 const navLinks = [
-  { name: "Featured", href: "/featured" },
+  { name: "Relevant", href: "/relevant" },
   { name: "Latest", href: "/latest" },
-  { name: "For You", href: "/my-blogs" },
+  { name: "Top", href: "/top" },
 ];

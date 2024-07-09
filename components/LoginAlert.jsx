@@ -109,7 +109,7 @@ export default function Popup({ setIsOpen }) {
             Login with Github
           </Link>
           <Link
-            href="/login?post_login_redirect_url=featured&referrer=homepage"
+            href="/login?post_login_redirect_url=Relevant&referrer=homepage"
             className="flex items-center justify-center gap-2 px-4 py-2 rounded-md border text-black hover:bg-black hover:text-white bg-gray-200 bg-opacity-20 focus:outline-none"
             title="email-login">
             <svg viewBox="0 0 24 24" fill="currentColor" height="24" width="24">

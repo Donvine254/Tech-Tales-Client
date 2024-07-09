@@ -15,7 +15,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
   const searchParams = useSearchParams();
-  const redirect = searchParams.get("post_login_redirect_url") ?? "featured";
+  const redirect = searchParams.get("post_login_redirect_url") ?? "Relevant";
 
   const [loginData, setLoginData] = useState({
     email: "",

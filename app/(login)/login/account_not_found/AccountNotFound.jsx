@@ -32,7 +32,7 @@ export default function AccountNotFound() {
         secureLocalStorage.removeItem("unauthorized_user");
         setLoading(false);
         toast.success("registration successful");
-        router.replace("/featured");
+        router.replace("/relevant");
       } catch (error) {
         setLoading(false);
         console.log(error);

@@ -49,7 +49,7 @@ export default function Navbar() {
     fetchUser();
   }, []);
 
-  const pathname = usePathname().replace(/^\/+/, "") ?? "featured";
+  const pathname = usePathname().replace(/^\/+/, "") ?? "relevant";
   return (
     <nav className="w-full font-crimson h-20">
       <div
