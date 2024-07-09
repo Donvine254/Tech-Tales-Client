@@ -54,9 +54,9 @@ export default function Popup({ setIsOpen }) {
 
   return (
     <div
-      className="fixed top-24 xsm:top-20 right-4 xsm:right-0 h-fit w-fit max-w-[350px] md:w-[350px] z-10 mx-2 rounded-md bg-white shadow-xl overflow-hidden "
+      className="fixed top-24 xsm:top-[70px] right-4 xsm:right-0 h-fit w-fit max-w-[350px] md:w-[350px]  z-10 mx-2 rounded-md bg-white shadow-xl overflow-hidden "
       id="login_popup">
-      <div className="max-w-md">
+      <div className="max-w-md ">
         <div className="px-4 py-1 bg-gradient-to-r from-green-400 via-cyan-500 to-indigo-400 text-white">
           <div className="flex gap-1 md:gap-4 items-center mt-2 mr-2">
             <Image

@@ -146,7 +146,12 @@ export default function Navbar() {
           </div>
         )}
 
-        {!user && isOpen && <Popup setIsOpen={setIsOpen} />}
+        {!user && isOpen && (
+          <>
+            <Popup setIsOpen={setIsOpen} />
+            <div className="arrow-up absolute  top-[80px] xsm:top-[58px] xsm:right-6 right-10 rotate-180"></div>
+          </>
+        )}
       </div>
     </nav>
   );

@@ -133,7 +133,14 @@ span.blink {
 
   animation: blink 1s linear infinite;
 }
-
+/* styling for arrow down indicator */
+div.arrow-up {
+  width: 0px;
+  height: 0px;
+  border-left: 18px solid transparent;
+  border-right: 18px solid transparent;
+  border-top: 18px solid #789ae4;
+}
 @keyframes blink {
   100% {
     transform: scale(2, 2);
