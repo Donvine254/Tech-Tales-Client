@@ -49,7 +49,7 @@ export const SearchMD = () => {
           placeholder="Search..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="rounded-xl bg-white p-2 pl-8 pr-6 px-4  xsm:w-full   focus:outline-blue-400 text-black  text-xl"
+          className="rounded-xl bg-gray-50 p-2 pl-8 pr-6  xsm:w-full   focus:outline-none border border-gray-300 h-10 focus:border-blue-500 text-black    placeholder-gray-600"
         />
         <svg
           fill="currentColor"
@@ -69,10 +69,11 @@ export const SearchMD = () => {
             strokeWidth="2"
           />
         </svg>
-        <SearchIcon className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+        <SearchIcon className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 " />
       </div>
       <div
-        className="cursor-pointer border-2 bg-slate-100 hover:bg-blue-500 hover:text-slate-200 rounded-xl p-2 px-3 m-1 border-gray-300 "
+        className="cursor-pointer border bg-gray-50 hover:bg-blue-500
+        hover:text-slate-200 rounded-xl p-2 m-1 h-10 border-gray-300 "
         onClick={() => setShowDropdown(!showDropdown)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -101,7 +102,7 @@ export const SearchMD = () => {
                 }
               }, 100);
             }}
-            className="rounded-xl bg-sky-500 p-2  focus:outline-none border-2 border-gray-300 text-slate-200">
+            className="rounded-xl  py-2 px-6 focus:outline-none border-2 border-gray-300 ">
             <option value="">All Categories</option>
             <option value="ai">Artificial Intelligence</option>
             <option value="react">React</option>

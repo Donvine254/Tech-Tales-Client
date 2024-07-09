@@ -103,7 +103,7 @@ export const Search = () => {
                   }
                 }, 100);
               }}
-              className="rounded-xl bg-blue-500 p-2  focus:outline-none border-2 border-gray-300 text-slate-200">
+              className="rounded-xl  py-2 px-10  focus:outline-none border border-blue-500 ">
               <option value="">All Categories</option>
               <option value="ai">Artificial Intelligence</option>
               <option value="react">React</option>
