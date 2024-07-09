@@ -1,5 +1,4 @@
 import { BlogsComponent, SideNav } from "@/components";
-import { baseUrl } from "@/lib";
 export const revalidate = 600;
 import { formatDate } from "@/lib/utils";
 import prisma from "@/prisma/prisma";
@@ -11,6 +10,7 @@ export const metadata = {
     "Tech Tales is a simple blog for tech students and professionals who would like to share their solutions to various coding problems or practice blogging as a way of learning",
 };
 export default async function Latest() {
+  let blogs = {};
   async function getBlogs() {
     try {
       const latestBlogs = await prisma.blogs.findMany({
@@ -53,7 +53,7 @@ export default async function Latest() {
       await prisma.$disconnect();
     }
   }
-  let blogs = await getBlogs();
+  blogs = await getBlogs();
   return (
     <div className="relative md:min-h-[320px] md:mt-10">
       <section className="w-full !z-0 mx-auto md:my-4 px-4 md:px-8 md:w-2/3 relative font-poppins">
