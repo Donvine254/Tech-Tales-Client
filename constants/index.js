@@ -1,5 +1,4 @@
 export const categories = [
-  { value: "", label: "All Categories" },
   { value: "ai", label: "Artificial Intelligence" },
   { value: "react", label: "React" },
   { value: "rails", label: "Ruby on Rails" },

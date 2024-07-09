@@ -34,7 +34,7 @@ export default function SearchPage() {
       <div className="w-full !z-0 mx-auto md:my-4 px-4 md:px-8 md:w-2/3 relative font-poppins">
         <SideNav />
         <h1 className="font-bold font-crimson text-xl md:text-2xl">
-          Search Results
+          Search results for {search}
         </h1>
         <hr className="my-2  border border-blue-500" />
         {loading && (
