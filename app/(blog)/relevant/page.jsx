@@ -1,4 +1,4 @@
-import { BlogsComponent } from "@/components";
+import { BlogsComponent, SideNav } from "@/components";
 import { baseUrl } from "@/lib";
 export const revalidate = 600;
 
@@ -22,7 +22,10 @@ export default async function Relevant() {
   const random = shuffleArray(blogs).slice(0, 5);
   return (
     <div className="relative md:min-h-[320px] md:mt-10">
-      <BlogsComponent blogs={random} />
+      <section className="w-full !z-0 mx-auto md:my-4 px-4 md:px-8 md:w-2/3 relative font-poppins">
+        <SideNav />
+        <BlogsComponent blogs={random} />
+      </section>
     </div>
   );
 }

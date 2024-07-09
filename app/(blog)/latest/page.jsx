@@ -1,4 +1,4 @@
-import { BlogsComponent } from "@/components";
+import { BlogsComponent, SideNav } from "@/components";
 import { baseUrl } from "@/lib";
 export const revalidate = 600;
 import { formatDate } from "@/lib/utils";
@@ -56,7 +56,10 @@ export default async function Latest() {
   let blogs = await getBlogs();
   return (
     <div className="relative md:min-h-[320px] md:mt-10">
-      <BlogsComponent blogs={blogs} />
+      <section className="w-full !z-0 mx-auto md:my-4 px-4 md:px-8 md:w-2/3 relative font-poppins">
+        <SideNav />
+        <BlogsComponent blogs={blogs} />
+      </section>
     </div>
   );
 }

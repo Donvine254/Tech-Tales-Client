@@ -4,13 +4,12 @@ import { Clock } from "@/assets";
 import parse from "html-react-parser";
 import Bookmark from "./Bookmark";
 import { UserImage } from "./Avatar";
-import SideNav from "./SideNav";
+
 import { calculateReadingTime } from "@/lib";
 
 export default async function BlogsComponent({ blogs }) {
   return (
-    <div className="w-full mx-auto px-4 md:px-8 md:w-2/3 relative font-poppins">
-      <SideNav />
+    <div className=" relative ">
       {blogs && blogs.length > 0 ? (
         blogs.map((blog) => (
           <div
