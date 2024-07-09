@@ -1,18 +1,13 @@
 import { NewTwitterIcon } from "@/assets";
 import Image from "next/image";
 import Link from "next/link";
-export default function UserCard({
-  avatar,
-  name,
-  userId,
-  bio,
-  title,
-  socials,
-}) {
+import { encodeId } from "@/lib/utils";
+export default function UserCard({ avatar, name, userId, bio, socials }) {
   // function to get author social media links
   function getSocialUrl(platform) {
     return socials?.find((social) => social.platform === platform)?.url || null;
   }
+  const codedId = encodeId(userId);
   return (
     <div className=" bg-slate-50 absolute border shadow w-fit px-4 py-2 rounded-md xsm:w-full min-w-[250px] z-50">
       <div className="flex items-center gap-2">
@@ -95,7 +90,7 @@ export default function UserCard({
       </div>
       <hr className="border border-gray-200" />
       <Link
-        href={`/explore/${userId}?referrer=${title}`}
+        href={`/explore/${codedId}`}
         prefetch
         className="text-sm text-sky-400 hover:text-sky-600 cursor-pointer my-2">
         View more posts from this author &#8599;

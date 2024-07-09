@@ -95,7 +95,6 @@ export default function Slug({ blog }) {
                     name={blog.author}
                     bio={blog.user_bio}
                     userId={blog.user_id}
-                    title={blog.title}
                     socials={blog.author_socials}
                   />
                 )}
