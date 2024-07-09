@@ -8,7 +8,7 @@ export const metadata = {
 };
 
 export default async function Relevant() {
-  let blogs = await fetch("https://techtales.up.railway.app/Relevant", {
+  let blogs = await fetch("https://techtales.up.railway.app/featured", {
     next: { revalidate: 600 },
   }).then((response) => response.json());
 

@@ -10,12 +10,19 @@ export const metadata = {
 
 export default async function Relevant() {
   const blogs = await fetch(`${baseUrl}/blogs`, {
-    next: { revalidate: 3600 },
+    next: { revalidate: 600 },
   }).then((response) => response.json());
-
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+  const random = shuffleArray(blogs).slice(0, 5);
   return (
     <div className="relative md:min-h-[320px] md:mt-10">
-      <BlogsComponent blogs={blogs} />
+      <BlogsComponent blogs={random} />
     </div>
   );
 }
