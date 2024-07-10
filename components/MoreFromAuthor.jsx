@@ -31,11 +31,11 @@ export default function MoreFromAuthor({ author, id, blogId }) {
       {blogs && blogs.length > 0 && (
         <>
           <h1 className="font-bold text-xl">View More From {author}</h1>
-          <div className="sm:flex sm:gap-2 sm:overflow-x-auto">
+          <div className="sm:flex sm:gap-2 sm:overflow-x-auto snap-x">
             {blogs.map((blog) => (
               <div
                 key={blog.id}
-                className=" my-4 p-4 rounded-md border shadow bg-gray-100 hover:bg-slate-200 sm:flex-shrink-0 sm:w-1/2">
+                className=" my-4 p-4 rounded-md border shadow bg-gray-100 hover:bg-slate-200 sm:flex-shrink-0 sm:w-1/2 snap-normal snap-center">
                 <div className="">
                   <div className="flex gap-2 xsm:items-center">
                     <UserImage url={blog.user_avatar} />
