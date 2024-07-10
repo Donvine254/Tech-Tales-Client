@@ -1,8 +1,8 @@
 "use client";
 import { Copy, NewTwitterIcon, Whatsapp } from "@/assets";
 import toast from "react-hot-toast";
-export default function ShareModal({ id, slug }) {
-  const blogUrl = `https://techtales.vercel.app/blogs/${id}`;
+export default function ShareModal({ slug }) {
+  const blogUrl = `https://techtales.vercel.app/blogs/${slug}`;
   // Function to open the share dialog for Facebook
   const shareOnFacebook = () => {
     const facebookUrl = `https://www.facebook.com/sharer.php?u=${blogUrl}`;
