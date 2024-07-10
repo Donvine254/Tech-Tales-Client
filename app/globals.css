@@ -22,6 +22,18 @@ body {
   scroll-behavior: smooth;
   box-sizing: border-box;
 }
+input:not(:placeholder-shown):invalid {
+  @apply bg-red-100;
+}
+input[type="password"]:not(:placeholder-shown):invalid + .label {
+  @apply text-red-500;
+}
+
+/* Style for valid input fields, only applied when the user has typed something */
+input:not(:placeholder-shown):valid {
+  @apply bg-green-100;
+}
+
 .avatar {
   @apply rounded-full w-8 h-8 md:w-10 md:h-10 shadow-md mr-6;
 }

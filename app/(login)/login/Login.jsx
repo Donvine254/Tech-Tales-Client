@@ -69,10 +69,10 @@ export default function LoginPage() {
           className="border text-card-foreground w-full max-w-sm mx-auto rounded-xl shadow-md overflow-hidden bg-white"
           data-v0-t="card">
           <div className="flex flex-col space-y-1.5 px-6 py-4 font-poppins relative">
-            <h3 className="font-semibold tracking-tight text-2xl text-center">
+            <h3 className="font-semibold tracking-tight text-xl md:text-2xl text-center">
               Login to Your Account
             </h3>
-            <p className="text-base  text-center">
+            <p className="xsm:text-sm text-base  text-center">
               Access your personalized settings and content.
             </p>
           </div>
@@ -131,10 +131,10 @@ export default function LoginPage() {
                 </a>
               </div>
             </div>
-            {errors && <ErrorList errors={errors} />}
           </div>
 
           <div className="items-center p-6 flex flex-col space-y-4">
+            {errors && <ErrorList errors={errors} />}
             <button
               className="inline-flex items-center justify-center  border disabled:pointer-events-none disabled:bg-gray-100 disabled:text-black  h-10 px-4 py-2 w-full bg-blue-500 hover:bg-blue-600 text-white rounded-md"
               type="submit"
