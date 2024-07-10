@@ -63,7 +63,7 @@ export default function LoginPage() {
   }
 
   return (
-    <form className="w-full" onSubmit={handleSubmit}>
+    <form className="w-full login-form" onSubmit={handleSubmit}>
       <div className="flex flex-col items-center justify-center w-full min-h-screen px-4 font-poppins">
         <div
           className="border text-card-foreground w-full max-w-sm mx-auto rounded-xl shadow-md overflow-hidden bg-white"

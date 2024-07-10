@@ -66,10 +66,10 @@ export default function ResetPage() {
           className="border text-card-foreground w-full max-w-sm mx-auto rounded-xl shadow-md overflow-hidden bg-white "
           data-v0-t="card">
           <div className="flex flex-col space-y-1.5 px-6 py-2 font-poppins">
-            <h3 className="font-semibold tracking-tight text-2xl text-center">
+            <h3 className="font-semibold tracking-tight text-xl md:text-2xl text-center">
               Reset Your Password
             </h3>
-            <p className="text-base  text-center">
+            <p className="xsm:text-base text-base  text-center">
               Unlock your account to access your personalized settings and
               content.
             </p>

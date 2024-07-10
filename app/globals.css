@@ -22,15 +22,48 @@ body {
   scroll-behavior: smooth;
   box-sizing: border-box;
 }
-input:not(:placeholder-shown):invalid {
+.login-form,
+.register-form {
+  input:not(:placeholder-shown):invalid {
+    @apply bg-red-100;
+  }
+  input[type="password"]:not(:placeholder-shown):invalid + .label {
+    @apply text-red-500;
+  }
+
+  /* Style for valid input fields, only applied when the user has typed something */
+  input:not(:placeholder-shown):valid {
+    @apply bg-green-100;
+  }
+}
+input[type="search"]:not(:placeholder-shown):invalid {
   @apply bg-red-100;
 }
 input[type="password"]:not(:placeholder-shown):invalid + .label {
   @apply text-red-500;
 }
-
-/* Style for valid input fields, only applied when the user has typed something */
-input:not(:placeholder-shown):valid {
+input[type="password"]:not(:placeholder-shown):invalid {
+  @apply bg-red-100;
+}
+input[type="password"]:not(:placeholder-shown):valid {
+  @apply bg-green-100;
+}
+input[type="email"]:not(:placeholder-shown):invalid + .label {
+  @apply text-red-500;
+}
+input[type="email"]:not(:placeholder-shown):invalid {
+  @apply bg-red-100;
+}
+input[type="email"]:not(:placeholder-shown):valid {
+  @apply bg-green-100;
+}
+input[id="username"]:not(:placeholder-shown):invalid + .label {
+  @apply text-red-500;
+}
+input[id="username"]:not(:placeholder-shown):invalid {
+  @apply bg-red-100;
+}
+input[id="username"]:not(:placeholder-shown):valid {
   @apply bg-green-100;
 }
 
