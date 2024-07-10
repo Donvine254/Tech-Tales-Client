@@ -4,7 +4,7 @@ import { Edit, Trash, Share } from "@/assets";
 import ShareModal from "./ShareModal";
 import toast from "react-hot-toast";
 
-export default function ActionsButton({ onDelete, onEdit, id, slug }) {
+export default function ActionsButton({ onDelete, onEdit, blog }) {
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const popupRef = useRef(null);
@@ -99,7 +99,7 @@ export default function ActionsButton({ onDelete, onEdit, id, slug }) {
         <div
           className="absolute right-2 md:left-4 bottom-4 bg-white border shadow-lg rounded-md min-w-[200px] w-fit h-fit py-4 z-50"
           ref={popupRef}>
-          <ShareModal id={id} slug={slug} />
+          <ShareModal id={blog.id} slug={blog.slug} />
         </div>
       )}
     </div>

@@ -37,8 +37,8 @@ export default function MyBlogsComponent() {
   function handleDelete(blogId) {
     deleteBlog(blogId, setBlogs);
   }
-  function handleEdit(id) {
-    navigate.push(`/create/${id}?action=edit`);
+  function handleEdit(slug) {
+    navigate.push(`/create/${slug}?action=edit`);
   }
 
   return (
@@ -120,9 +120,8 @@ export default function MyBlogsComponent() {
 
               <ActionsButton
                 onDelete={() => handleDelete(blog.id)}
-                onEdit={() => handleEdit(blog.id)}
-                id={blog.id}
-                slug={blog.slug}
+                onEdit={() => handleEdit(blog.slug)}
+                blog={blog}
               />
             </div>
             {/* <hr className="my-2 border-1 border-slate-300" /> */}

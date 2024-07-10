@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import Loader from "@/components/Loader";
 import dynamic from "next/dynamic";
-import Axios from "axios";
+import Axios, { toFormData } from "axios";
 import Script from "next/script";
 import Link from "next/link";
 import { revalidateBlogs } from "@/lib/actions";
@@ -31,8 +31,15 @@ export default function EditBlog({ params }) {
         const user = await fetch(`${baseUrl}/me`).then((response) =>
           response.json()
         );
-        const response = await fetch(`${baseUrl}/blogs/${params.id}`);
+        const response = await fetch(`${baseUrl}/blogs`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ slug: params.slug }),
+        });
         const blog = await response.json();
+
         // modify this to ensure admins can edit any blog
         if (user.id !== blog.user_id && user.role !== "admin") {
           console.log("userId:", user.id, "blog user_id:", blog.user_id);
@@ -48,9 +55,7 @@ export default function EditBlog({ params }) {
       }
     }
     getUser();
-  }, [params.id, router]);
-
-  //function to fetch blog data
+  }, [params.slug, router]);
 
   async function handleSubmit(e) {
     e.preventDefault();
