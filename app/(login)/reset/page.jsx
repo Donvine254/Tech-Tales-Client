@@ -124,7 +124,7 @@ export default function ResetPage() {
                 className={`flex h-10 bg-background text-base disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md ${
                   error ? "border-red-500 bg-red-100" : ""
                 }`}
-                id="password"
+                id="confirmPassword"
                 name="confirmPassword"
                 placeholder="*******"
                 value={FormData.confirmPassword}
@@ -136,30 +136,39 @@ export default function ResetPage() {
               />
             </div>
           </div>
-          <p className="text-orange-600 flex items-center gap-2 text-base px-6  ">
-            {error && (
-              <>
+          <div className="h-5 min-h-5 max-h-5  px-6">
+            {error ? (
+              <p className="text-orange-600 inline-flex place-items-center items-center text-sm w-full gap-1 ">
                 <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
                   viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round">
-                  <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
-                  <path d="M12 9v4" />
-                  <path d="M12 17h.01" />
+                  fill="currentColor"
+                  height="1em"
+                  width="1em">
+                  <path d="M11 7h2v7h-2zm0 8h2v2h-2z" />
+                  <path d="M21.707 7.293l-5-5A.996.996 0 0016 2H8a.996.996 0 00-.707.293l-5 5A.996.996 0 002 8v8c0 .266.105.52.293.707l5 5A.996.996 0 008 22h8c.266 0 .52-.105.707-.293l5-5A.996.996 0 0022 16V8a.996.996 0 00-.293-.707zM20 15.586L15.586 20H8.414L4 15.586V8.414L8.414 4h7.172L20 8.414v7.172z" />
                 </svg>
                 <span>Passwords do not match</span>
-              </>
+              </p>
+            ) : (
+              formData.confirmPassword !== "" &&
+              formData.confirmPassword === formData.password && (
+                <p className="text-green-500 inline-flex place-items-center items-center text-sm w-full gap-1">
+                  <svg fill="none" viewBox="0 0 15 15" height="1em" width="1em">
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="square"
+                      d="M1 7l4.5 4.5L14 3"
+                    />
+                  </svg>
+                  <span>Passwords match</span>
+                </p>
+              )
             )}
-          </p>
-          <div className="items-center px-6 py-4 flex flex-col space-y-4">
+          </div>
+
+          <div className="items-center px-6 pb-4 flex flex-col space-y-4">
             <button
-              className="inline-flex items-center justify-center  disabled:pointer-events-none disabled:bg-gray-100 disabled:text-black hover:bg-primary/90 px-4 py-1.5 w-full bg-blue-500 text-white rounded-md"
+              className="inline-flex items-center justify-center  disabled:pointer-events-none disabled:bg-gray-100 disabled:text-black hover:bg-primary/90 px-4 py-1.5 w-full bg-blue-500 text-white rounded-md h-10"
               type="submit"
               disabled={loading || error}
               title="reset">
