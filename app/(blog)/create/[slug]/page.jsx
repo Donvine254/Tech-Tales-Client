@@ -60,17 +60,17 @@ export default function EditBlog({ params }) {
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading("submitting");
-    toast.custom((t) => (
-      <div
-        className={`${
-          t.visible ? "animate-enter" : "animate-leave"
-        } max-w-md w-fit bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5 font-poppins`}>
-        <div className="py-1 flex items-center space-x-2 px-2 text-base">
-          <Loader size={14} />
-          <span>processing request....</span>
-        </div>
-      </div>
-    ));
+    // toast.custom((t) => (
+    //   <div
+    //     className={`${
+    //       t.visible ? "animate-enter" : "animate-leave"
+    //     } max-w-md w-fit bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5 font-poppins`}>
+    //     <div className="py-1 flex items-center space-x-2 px-2 text-base">
+    //       <Loader size={14} />
+    //       <span>processing request....</span>
+    //     </div>
+    //   </div>
+    // ));
 
     if (blogData.title === "" || blogData.body == "") {
       toast.error("Please fill out all the required fields");
