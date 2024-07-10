@@ -79,7 +79,7 @@ export default function EditBlog({ params }) {
     } else {
       try {
         await Axios.patch(
-          `https://techtales.up.railway.app/blogs/${params.id}`,
+          `https://techtales.up.railway.app/blogs/${blogData.id}`,
           blogData
         );
         toast.success("Blog updated successfully");
@@ -89,7 +89,7 @@ export default function EditBlog({ params }) {
           origin: { y: 0.5 },
         });
         setLoading("");
-        revalidateBlogs(params.id);
+        revalidateBlogs(params.slug);
         router.replace("/me/blogs");
       } catch (error) {
         toast.error(error?.response?.data?.errors);
