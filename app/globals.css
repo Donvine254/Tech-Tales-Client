@@ -140,7 +140,8 @@ h4 {
   line-height: normal;
 }
 
-#blog-body ul {
+#blog-body ul,
+#blog-body ol {
   @apply xsm:!pl-4 !pl-6 md:!pl-8;
 }
 #blog-body ul li {
