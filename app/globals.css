@@ -139,6 +139,20 @@ h4 {
   white-space: pre-wrap;
   line-height: normal;
 }
+
+#blog-body ul {
+  @apply xsm:!pl-4 !pl-6 md:!pl-8;
+}
+#blog-body ul li {
+  list-style: square !important;
+}
+#blog-body table {
+  margin-top: 2px;
+  border-radius: 5px !important;
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
 /* styling for sweetalert */
 .swal2-popup {
   @apply !font-poppins;
