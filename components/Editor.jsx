@@ -52,7 +52,8 @@ export default function App({ data, handleChange }) {
           ],
           toolbar:
             "undo redo | blocks | bold italic forecolor underline| align numlist bullist | link image table media pageembed | backcolor  emoticons codesample blockquote| preview removeformat",
-          content_style: "body { font-size:16px }",
+          content_style:
+            "@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap'); body { font-family: Poppins; }",
           image_advtab: true,
         }}
       />
