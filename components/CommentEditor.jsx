@@ -24,7 +24,6 @@ export default function CommentEditor({ data, handleChange, handleFocus }) {
           toolbar_mode: "sliding",
           menubar: false,
           skin: "borderless",
-          icons: "small",
           statusbar: false,
           placeholder: "Start by writing text here....",
           browser_spellcheck: true,
