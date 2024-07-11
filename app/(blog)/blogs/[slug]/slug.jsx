@@ -80,7 +80,7 @@ export default function Slug({ blog }) {
           )}
 
           <div className="block gap-5 items-center py-4">
-            <div className="flex gap-1 md:gap-2 items-center">
+            <div className="flex gap-2 md:gap-2 lg:gap-3 items-center">
               <div
                 className="relative"
                 onMouseEnter={handleMouseEnter}
