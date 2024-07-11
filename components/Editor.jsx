@@ -11,7 +11,7 @@ export default function App({ data, handleChange }) {
   return (
     <div>
       <Editor
-        apiKey="s91bfina8wqeldhbyfzpf16bkodlx2gz2s0nx1zg9dfugp3e"
+        apiKey={process.env.NEXT_PUBLIC_TINY_API_KEY}
         onInit={(evt, editor) => (editorRef.current = editor)}
         initialValue={data}
         onChange={() =>
@@ -22,7 +22,7 @@ export default function App({ data, handleChange }) {
         }
         name="body"
         init={{
-          height: 400,
+          height: 500,
           toolbar_mode: "sliding",
           toolbar_location: "bottom",
           menubar: false,
@@ -49,7 +49,6 @@ export default function App({ data, handleChange }) {
             "code",
             "help",
             "wordcount",
-            "editimage ",
           ],
           toolbar:
             "undo redo | blocks | bold italic forecolor underline| align numlist bullist | link image table media pageembed | backcolor  emoticons codesample blockquote| preview removeformat",
