@@ -2,13 +2,21 @@
 
 import { deleteComment, patchComment } from "@/lib";
 import { useState, useEffect, useRef } from "react";
+import Loader from "./Loader";
 import { Edit, Trash } from "@/assets";
 import { UserImage } from "./Avatar";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { getRandomColor } from "@/lib/utils";
 import { baseUrl, getCurrentUser } from "@/lib";
-
+import toast from "react-hot-toast";
+import parse from "html-react-parser";
 const user = getCurrentUser();
+
+const DynamicEditor = dynamic(() => import("@/components/CommentEditor"), {
+  loading: () => <Loader size={60} />,
+});
+
 export default function Comments({ blogId, slug, setCommentsCount, author }) {
   const [newComment, setNewComment] = useState("");
   const [comments, setComments] = useState([]);
@@ -82,6 +90,7 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
             : [newCommentWithColor]
         );
         setCommentsCount((prev) => prev + 1);
+        toast.success("Comment posted successfully");
       })
       .catch((error) => console.error("Error posting comment:", error));
     setIsInputFocused(false);
@@ -128,23 +137,18 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
       <hr className="text-blue-500" />
       {user ? (
         <form className="mt-4" id="write-comment">
-          <div className="flex gap-2 xsm:gap-1 items-center">
+          <div className="flex gap-1.5 xsm:gap-1">
             <UserImage
               url={user?.picture}
-              className="flex-initial ring-2 ring-offset-2  ring-blue-600 italic "
+              className="flex-initial ring-2 ring-offset-2 mt-5  ring-blue-600 italic "
             />
-            <textarea
-              placeholder="add to the discussion"
-              value={newComment}
-              spellCheck="true"
-              rows={2}
-              id="write-comment"
-              onFocus={() => setIsInputFocused(true)}
-              onChange={(e) => setNewComment(e.target.value)}
-              className="p-4 xsm:p-2 xsm:ml-2 flex-2 flex-grow bg-white border-2 focus:outline-none md:text-xl h-16  rounded-md"
+            <DynamicEditor
+              data={newComment}
+              handleChange={setNewComment}
+              handleFocus={() => setIsInputFocused(true)}
             />
           </div>
-          <div className="flex items-center justify-end gap-2 md:gap-6 py-3">
+          <div className="flex items-center justify-end gap-2 md:gap-4 pb-1 px-4">
             {isInputFocused && (
               <>
                 {isEditing ? (
@@ -249,7 +253,7 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
                     style={{
                       backgroundColor: comment.color ?? "#cffafe",
                     }}>
-                    <p className="font-extralight">{comment?.body}</p>
+                    {comment.body ? parse(comment?.body) : comment.body}
                   </div>
                   <div className="py-1 flex items-center gap-4">
                     {user && comment?.user_id === user?.id ? (
