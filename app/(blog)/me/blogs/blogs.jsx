@@ -34,8 +34,8 @@ export default function MyBlogsComponent() {
     fetchBlogs();
   }, []);
 
-  function handleDelete(blogId) {
-    deleteBlog(blogId, setBlogs);
+  function handleDelete(blogId, slug) {
+    deleteBlog(blogId, slug, setBlogs);
   }
   function handleEdit(slug) {
     navigate.push(`/create/${slug}?action=edit`);
@@ -119,7 +119,7 @@ export default function MyBlogsComponent() {
               </p>
 
               <ActionsButton
-                onDelete={() => handleDelete(blog.id)}
+                onDelete={() => handleDelete(blog.id, blog.slug)}
                 onEdit={() => handleEdit(blog.slug)}
                 blog={blog}
               />
