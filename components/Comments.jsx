@@ -2,6 +2,7 @@
 
 import { deleteComment, patchComment } from "@/lib";
 import { useState, useEffect, useRef } from "react";
+import Axios from "axios";
 import Loader from "./Loader";
 import { Edit, Trash } from "@/assets";
 import { UserImage } from "./Avatar";
@@ -64,36 +65,29 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
       blog_id: blogId,
       body: newComment,
     };
-    const url = "https://techtales.up.railway.app/comments";
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(commentData),
-    })
-      .then((response) => {
-        if (!response.status === 201) {
-          throw new Error("Network response was not ok.");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setNewComment("");
-        const newCommentWithColor = {
-          ...data,
-          color: getRandomColor(),
-        };
-        setComments((prev) =>
-          Array.isArray(prev)
-            ? [...prev, newCommentWithColor]
-            : [newCommentWithColor]
-        );
-        setCommentsCount((prev) => prev + 1);
-        toast.success("Comment posted successfully");
-      })
-      .catch((error) => console.error("Error posting comment:", error));
-    setIsInputFocused(false);
+    try {
+      const res = await Axios.post(
+        "https://techtales.up.railway.app/comments",
+        commentData
+      );
+      const data = await res.data;
+      setNewComment("");
+      const newCommentWithColor = {
+        ...data,
+        color: getRandomColor(),
+      };
+      setComments((prev) =>
+        Array.isArray(prev)
+          ? [...prev, newCommentWithColor]
+          : [newCommentWithColor]
+      );
+      setCommentsCount((prev) => prev + 1);
+      toast.success("Comment posted successfully");
+    } catch (error) {
+      toast.error(error?.response?.data?.errors);
+    } finally {
+      setIsInputFocused(false);
+    }
   }
 
   function editComment(comment) {
@@ -155,8 +149,8 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
                   <>
                     <button
                       type="submit"
-                      disabled={newComment === ""}
-                      className="bg-blue-500 border-2 border-blue-500 text-white  px-6 py-0.5 lg:mr-4 rounded-md hover:bg-blue-600"
+                      disabled={!commentToEdit}
+                      className="bg-blue-500 border-2 border-blue-500 text-white  px-6 py-0.5 lg:mr-4 rounded-md hover:bg-blue-600  disabled:bg-gray-100 disabled:border-gray-600 disabled:text-gray-600"
                       onClick={handleUpdate}>
                       Update
                     </button>
@@ -171,8 +165,8 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
                   <>
                     <button
                       type="submit"
-                      disabled={newComment === ""}
-                      className="bg-blue-500 text-white border-2 border-blue-500 px-6 py-0.5 lg:mr-3 rounded-md hover:bg-blue-600"
+                      disabled={!newComment}
+                      className="bg-blue-500 text-white border-2 border-blue-500 px-6 py-0.5 lg:mr-3 rounded-md hover:bg-blue-600 disabled:bg-gray-100 disabled:border-gray-600 disabled:text-gray-600 disabled:pointer-events-none"
                       onClick={handleSubmit}>
                       Respond
                     </button>
