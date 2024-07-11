@@ -72,8 +72,8 @@ export default function CreateNewBlog() {
       ...blogData,
       user_id: user.id,
     };
-    createBlog(data, router, setBlogData, setLoading);
     localStorage.removeItem("draftBlog");
+    createBlog(data, router, setBlogData, setLoading);
   }
   //function to trigger alert
   function triggerAlert(command) {
@@ -167,6 +167,9 @@ export default function CreateNewBlog() {
           type="text"
           name="title"
           id="title"
+          autoComplete="on"
+          autoCorrect="on"
+          spellCheck="true"
           onFocus={() => triggerAlert("show")}
           disabled={loading}
           value={blogData?.title}
@@ -208,16 +211,13 @@ export default function CreateNewBlog() {
 
         <DynamicEditor data={blogData.body} handleChange={setBlogData} />
 
-        <div className="flex gap-2 xsm:items-center xsm:justify-between md:gap-8 mt-4">
+        <div className="flex gap-2 xsm:items-center xsm:justify-between mt-4 transition-all">
           <button
             type="submit"
             disabled={loading}
-            className="bg-blue-500 bg-opacity-80 disabled:bg-gray-200 disabled:text-black  px-2 py-1.5 text-white rounded-md hover:bg-blue-600 w-1/3 flex items-center justify-center gap-1 h-[35px]">
+            className="bg-blue-500 bg-opacity-80 disabled:bg-gray-200 disabled:text-black px-2 py-1.5 text-white rounded-md hover:bg-blue-600 w-1/3 flex items-center justify-center gap-1 h-[35px]">
             {loading ? (
-              <p className="flex items-center gap-1">
-                <Loader size={16} />
-                <span>Publishing</span>
-              </p>
+              <Loader />
             ) : (
               <p className="flex items-center gap-1">
                 <svg
@@ -231,44 +231,51 @@ export default function CreateNewBlog() {
               </p>
             )}
           </button>
-          <button
-            type="button"
-            onClick={showPreviewModal}
-            className="bg-transparent flex items-center justify-center gap-1 bg-gradient-to-r from-green-400 to-indigo-500 border hover:bg-gradient-to-r hover:from-blue-500 hover:to-green-200 px-2 py-1.5 rounded-md w-1/3 text-white h-[35px]"
-            title="see what your blog will look like after publishing">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round">
-              <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
-              <circle cx="12" cy="12" r="3" />
-            </svg>{" "}
-            Preview
-          </button>
-          <button
-            type="button"
-            onClick={saveDraft}
-            className="bg-transparent h-[35px] text-black hover:bg-blue-500 border hover:text-white border-blue-500 px-2 py-1.5 rounded-md w-1/3 xsm:w-fit flex items-center md:justify-center   gap-1">
-            <svg
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              viewBox="0 0 24 24"
-              height="1em"
-              width="1em">
-              <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z" />
-              <path d="M17 21v-8H7v8M7 3v5h8" />
-            </svg>
-            Save Draft
-          </button>
+          {!loading && (
+            <>
+              <button
+                type="button"
+                onClick={showPreviewModal}
+                disabled={loading}
+                className="flex items-center justify-center gap-1 bg-gradient-to-r from-green-400 via-cyan-500 to-indigo-400 hover:bg-gradient-to-r hover:from-indigo-400 hover:via-cyan-500 hover:to-green-400 px-2 py-1.5 rounded-md w-1/3 text-white h-[35px]  disabled:pointer-events-none"
+                title="see what your blog will look like after publishing">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round">
+                  <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>{" "}
+                Preview
+              </button>
+              <button
+                type="button"
+                onClick={saveDraft}
+                disabled={loading}
+                className="bg-transparent h-[35px] text-black hover:bg-blue-500 border hover:text-white border-blue-500 px-2 py-1.5 rounded-md w-1/3 xsm:w-fit flex items-center md:justify-center gap-1 disabled:bg-gray-200 disabled:text-black disabled:border-gray-200 disabled:pointer-events-none"
+                title="save draft">
+                <svg
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  viewBox="0 0 24 24"
+                  height="1em"
+                  width="1em">
+                  <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z" />
+                  <path d="M17 21v-8H7v8M7 3v5h8" />
+                </svg>
+                <span>Draft</span>
+              </button>
+            </>
+          )}
         </div>
       </form>
       <PreviewModal blog={blogData} />

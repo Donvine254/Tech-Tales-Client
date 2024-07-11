@@ -69,7 +69,7 @@ export default function Navbar() {
           id="user present">
           <Link
             href="/create"
-            className="hidden md:block py-2 mx-1 px-4 border border-blue-500 hover:bg-blue-500 rounded-md text-xl cursor-pointer hover:text-white shadow-md ">
+            className="hidden md:block py-2 mx-1 px-4 border border-blue-500 hover:bg-gradient-to-r hover:from-indigo-400 hover:via-cyan-500 hover:to-green-400 rounded-md text-xl cursor-pointer hover:text-white shadow-md ">
             Create Post
           </Link>
           <div className="flex items-center gap-1 relative">
