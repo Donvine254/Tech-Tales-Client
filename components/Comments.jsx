@@ -155,6 +155,7 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
                   <>
                     <button
                       type="submit"
+                      disabled={newComment === ""}
                       className="bg-blue-500 border-2 border-blue-500 text-white  px-6 py-0.5 lg:mr-4 rounded-md hover:bg-blue-600"
                       onClick={handleUpdate}>
                       Update
@@ -170,6 +171,7 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
                   <>
                     <button
                       type="submit"
+                      disabled={newComment === ""}
                       className="bg-blue-500 text-white border-2 border-blue-500 px-6 py-0.5 lg:mr-3 rounded-md hover:bg-blue-600"
                       onClick={handleSubmit}>
                       Respond
