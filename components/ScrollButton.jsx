@@ -8,7 +8,7 @@ const ScrollToTopButton = () => {
   const [showButton, setShowButton] = useState(false);
 
   const handleScroll = useCallback(() => {
-    if (window.scrollY > window.innerHeight / 1) {
+    if (window.scrollY > window.innerHeight) {
       setShowButton(true);
     } else {
       setShowButton(false);
