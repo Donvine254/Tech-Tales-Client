@@ -75,7 +75,7 @@ export default function Slug({ blog }) {
               height={450}
               width={900}
               priority
-              className="italic h-full w-full  mt-2  "
+              className="italic h-full w-full  mt-2 border-2 "
             />
           )}
 
@@ -104,14 +104,16 @@ export default function Slug({ blog }) {
                   <span className="text-base md:text-xl capitalize font-bold">
                     {blog.author ?? ""}
                   </span>
-                  <button className="bg-cyan-100 text-cyan-500 font-light rounded-md px-1 text-sm pointer-events-none border border-cyan-500">
+                  <button className="bg-cyan-100 text-cyan-600 font-light rounded-md px-1 text-sm pointer-events-none border border-cyan-500">
                     Author
                   </button>
                 </div>
                 <p className="text-base xsm:text-sm font-medium  xsm:mb-0">
-                  <span className="xsm:hidden">Published on</span>{" "}
-                  {blog?.created_at_date} &#x2022;{" "}
-                  {calculateReadingTime(blog.body)} min read
+                  <span className="xsm:hidden">Published on </span>{" "}
+                  <time datetime={blog?.created_at_date}>
+                    {blog?.created_at_date}{" "}
+                  </time>
+                  &#x2022; &#128337;{calculateReadingTime(blog.body)} min read
                 </p>
               </div>
             </div>
@@ -265,6 +267,23 @@ export default function Slug({ blog }) {
           id={blog.user_id}
           blogId={blog.id}
         />
+      </div>
+      <div className="my-2">
+        <hr className="my-2" />
+        <h1 className="font-bold text-xl">Explore Related Topics</h1>
+
+        {blog.tags && (
+          <div className="flex flex-wrap gap-2 py-2">
+            {blog.tags.split(",").map((tag, index) => (
+              <Link
+                key={index}
+                href={`/search?search=${tag.trim()}`}
+                className="px-6 py-0.5  bg-gray-200 hover:bg-blue-600 hover:text-white cursor-pointer border w-fit rounded-md">
+                {tag.trim()}
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
