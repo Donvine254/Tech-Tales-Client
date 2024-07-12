@@ -1,11 +1,11 @@
 import { UserImage } from "@/components/Avatar";
 
-import { Clipboard, Clock } from "@/assets";
+import { Clock } from "@/assets";
 import parse from "html-react-parser";
 import { Bookmark, SideNav } from "@/components";
 import Link from "next/link";
 import { baseUrl, calculateReadingTime } from "@/lib";
-
+import Image from "next/image";
 export const metadata = {
   title: "Home Page - Tech Tales",
   description:
@@ -88,9 +88,17 @@ export default async function HomePage() {
             </div>
           ))
         ) : (
-          <div className="flex flex-row items-center justify-center gap-1">
-            <Clipboard />
-            <h1>No Blogs Found</h1>
+          <div className="sm:h-[400px] w-full flex flex-col items-center">
+            <Image
+              src="../not-found.svg"
+              alt="not-found"
+              width={600}
+              height={250}
+              className="italic w-fit max-h-[85%]"
+            />
+            <h1 className="font-bold md:text-2xl text-center">
+              No Blogs Found
+            </h1>
           </div>
         )}
       </div>
