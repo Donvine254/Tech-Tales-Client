@@ -60,6 +60,9 @@ input[id="username"]:not(:placeholder-shown):valid {
 .menu-item {
   @apply flex items-center gap-4 px-3 py-2 hover:text-blue-600 text-base md:text-xl rounded-md hover:bg-gray-200;
 }
+.menu-item-active {
+  @apply text-blue-600 bg-gray-200;
+}
 
 .navigation {
   @apply md:text-xl font-bold cursor-pointer hover:bg-slate-300 hover:rounded-lg p-2 px-4 md:gap-5;
