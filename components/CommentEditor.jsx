@@ -9,7 +9,7 @@ export default function CommentEditor({ data, handleChange, handleFocus }) {
     }
   };
   return (
-    <div className="flex-1 p-4 xsm:p-2 xsm:ml-2 flex-grow" id="write-comment">
+    <div className="flex-1  flex-grow" id="write-comment">
       <Editor
         apiKey={process.env.NEXT_PUBLIC_TINY_API_KEY}
         onInit={(evt, editor) => (editorRef.current = editor)}

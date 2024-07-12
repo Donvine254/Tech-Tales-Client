@@ -135,7 +135,7 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
       <hr className="text-blue-500" />
       {user ? (
         <form className="mt-4" id="write-comment">
-          <div className="flex gap-1.5 xsm:gap-1">
+          <div className="flex gap-2 xsm:gap-1.5">
             <UserImage
               url={user?.picture}
               className="flex-initial ring-2 ring-offset-2 mt-5  ring-blue-600 italic "
@@ -146,7 +146,7 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
               handleFocus={() => setIsInputFocused(true)}
             />
           </div>
-          <div className="flex items-center justify-end gap-2 md:gap-4 pb-1 px-4">
+          <div className="flex items-center justify-end gap-2 md:gap-4 py-1 px-4">
             {isInputFocused && (
               <>
                 {isEditing ? (
