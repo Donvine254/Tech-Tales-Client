@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 export const Menu = ({ handleClick, menuOpen, currentUser }) => {
   const pathname = usePathname();
   return (
-    <div className="space-y-4 bg-slate-50 border-2 shadow-lg z-50 py-5 px-2 md:px-4 rounded-lg  min-w-[250px] md:min-w-[300px]  font-poppins">
+    <div className="space-y-3 bg-slate-50 border-2 shadow-lg z-50 py-5 px-2 md:px-4 rounded-lg  min-w-[250px] md:min-w-[300px] ">
       <Link
         href="/relevant"
         title="relevant blogs"
@@ -104,7 +104,7 @@ export const Menu = ({ handleClick, menuOpen, currentUser }) => {
       </Link>
       <button
         onClick={handleSignOut}
-        className="w-full mt-2 py-1 text-start px-3 border border-cyan-500 rounded-md  hover:border-red-500  shadow-md"
+        className="w-full mt-2 py-1 text-start px-3 border border-cyan-500 rounded-md  hover:bg-red-100 hover:border-red-500 shadow-md hover:-translate-y-1 transition-transform duration-300"
         title="logout">
         <span className="font-bold">Sign Out</span>
         <p className="text-gray-800 text-[12px] md:text-base line-clamp-through">
