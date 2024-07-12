@@ -117,10 +117,18 @@ export default function EditBlog({ params }) {
   return (
     <div className="md:mt-9 font-poppins">
       <Script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.2/tsparticles.confetti.bundle.min.js"></Script>
-      <div className="w-full bg-[#FDFAE9] border-b-amber-500  border text-center py-2  mb-2 ">
-        <p className="text-sm md:text-base inline-block md:inline-flex md:items-center md:gap-1">
+      <div className="w-full bg-[#FDFAE9] border-b-amber-500  border text-center p-2 mb-2 ">
+        <p className="text-sm hidden xsm:block">
+          &#x1F6C8; Before you write your blog, please read our{" "}
+          <Link
+            href="/community"
+            className="hover:text-blue-500 font-bold underline">
+            community guidelines
+          </Link>
+        </p>
+        <p className="xsm:hidden text-sm md:text-base inline-flex gap-1 items-center justify-center content-center ">
           <svg
-            className="text-amber-600 xsm:text-center xsm:mx-auto"
+            className="text-green-600 xsm:hidden"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             height={20}
@@ -128,7 +136,8 @@ export default function EditBlog({ params }) {
             width={20}>
             <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
           </svg>
-          Before you write your blog, please read our{" "}
+          <span className="text-green-500 hidden xsm:block"> </span>
+          <span>Before you write your blog, please read our </span>
           <Link
             href="/community"
             className="hover:text-blue-500 font-bold underline">
