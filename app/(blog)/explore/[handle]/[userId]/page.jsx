@@ -1,6 +1,5 @@
 import React from "react";
-import Explore from "./blogs";
-import { decodeId, encodeId } from "@/lib/utils";
+import Explore from "../blogs";
 export const revalidate = 600;
 export const metadata = {
   title: "Explore Author Blogs - Tech Tales",
@@ -20,23 +19,16 @@ export async function generateStaticParams() {
     if (!Array.isArray(data)) {
       throw new Error("Invalid data format: expected an array.");
     }
-    // const userIdsSet = new Set(data.map((blog) => blog.user_id));
-    // return Array.from(userIdsSet);
     const userIdsSet = new Set(data.map((blog) => blog.user_id));
-    const encodedUserIds = Array.from(userIdsSet).map((id) => ({
-      encodedUserId: encodeId(id),
-    }));
-
-    return encodedUserIds;
+    return Array.from(userIdsSet);
   } catch (error) {
     console.error("Error fetching blog data:", error);
     return [];
   }
 }
 export default async function page({ params }) {
-  const id = decodeId(params.userId);
   const blogs = await fetch(
-    `https://techtales.up.railway.app/blogs/user/${id}`,
+    `https://techtales.up.railway.app/blogs/user/${params.userId}`,
     {
       next: { revalidate: 600 },
     }
