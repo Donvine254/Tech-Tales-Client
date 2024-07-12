@@ -147,10 +147,13 @@ h4 {
 #blog-body ul li {
   list-style: square !important;
 }
-#blog-body table {
+#blog-body table,
+#blog-body iframe {
   margin-top: 2px;
   border-radius: 5px !important;
   display: block;
+  width: 100% !important;
+  max-width: 100% !important;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }

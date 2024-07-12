@@ -133,7 +133,7 @@ export default function UpdateProfileModal({ user }) {
                     </button>
                   </div>
 
-                  <p className="text-gray-500 text-[12px]">
+                  <p className="text-gray-500 text-[14px]">
                     Recommended: Square JPG, PNG, or JPEG, at least 1,000 pixels
                     per side and less than 5MB in size.
                   </p>
@@ -156,7 +156,7 @@ export default function UpdateProfileModal({ user }) {
                     />
                   </div>
 
-                  <p className="text-gray-500 text-[12px]">
+                  <p className="text-gray-500 text-[14px]">
                     Recommended: Square JPG, PNG, or JPEG, at least 1,000 pixels
                     per side and less than 5MB in size.
                   </p>
@@ -170,10 +170,14 @@ export default function UpdateProfileModal({ user }) {
               Username
             </label>
             <input
-              className="flex h-10 w-full border-b border-green-500 bg-transparent focus:outline-none py-2 "
-              id="username"
+              className="flex h-10 w-full border-b border-green-500 bg-transparent focus:outline-none py-2 invalid:border-red-500"
+              id="username1"
+              name="username"
               value={data.username}
-              maxLength={50}
+              pattern="^[a-zA-Z\s]*$"
+              title="numbers and special characters are not allowed"
+              maxLength={20}
+              minLength={3}
               onChange={(e) => {
                 setData((prev) => ({
                   ...prev,
@@ -181,7 +185,7 @@ export default function UpdateProfileModal({ user }) {
                 }));
               }}
             />
-            <p className="text-[12px] text-gray-600">
+            <p className="text-[14px] text-gray-600">
               Appears on your Profile page, as your author title, and in your
               comments.
             </p>
@@ -191,11 +195,12 @@ export default function UpdateProfileModal({ user }) {
               Bio
             </label>
             <input
-              className="h-8 w-full border-b border-green-500 bg-transparent focus:outline-none py-2 "
+              className="h-8 w-full border-b border-green-500 bg-transparent focus:outline-none py-2 invalid:border-red-500"
               id="Bio"
               value={data.bio}
               minLength={5}
               maxLength={100}
+              title="numbers and special characters are not allowed"
               onChange={(e) => {
                 setData((prev) => ({
                   ...prev,
@@ -203,7 +208,7 @@ export default function UpdateProfileModal({ user }) {
                 }));
               }}
             />
-            <p className="text-sm text-gray-600 flex items-center justify-between gap-4">
+            <p className="text-[14px] text-gray-600 flex items-center justify-between gap-4">
               Appears on your Profile page and next to your articles.
               <span>{data?.bio?.length ?? 0}/100</span>
             </p>
