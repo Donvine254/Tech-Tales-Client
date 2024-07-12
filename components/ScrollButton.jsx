@@ -112,7 +112,7 @@ const ScrollToTopButton = () => {
       {showButton && (
         <div
           id="scroll-wrapper"
-          className="p-2 h-12 w-12 flex items-center justify-center border border-gray-400 shadow hover:-translate-y-1 transition-transform duration-300"
+          className="p-2 h-12 w-12 flex items-center  justify-center border border-gray-400  hover:-translate-y-1 transition-transform duration-300"
           style={{
             background: `conic-gradient(#1f2937 ${scrollProgress}%, #9ca3af ${scrollProgress}%)`,
             borderRadius: "50%",
