@@ -26,7 +26,7 @@ export async function generateStaticParams() {
     return [];
   }
 }
-export default async function page({ params }) {
+export default async function Page({ params }) {
   const blogs = await fetch(
     `https://techtales.up.railway.app/blogs/user/${params.userId}`,
     {

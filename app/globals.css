@@ -65,7 +65,7 @@ input[id="username"]:not(:placeholder-shown):valid {
 }
 
 .navigation {
-  @apply md:text-xl font-bold cursor-pointer hover:bg-slate-300 hover:rounded-lg p-2 px-4 md:gap-5;
+  @apply md:text-xl font-bold cursor-pointer hover:bg-gray-200 hover:rounded-md hover:text-blue-500 hover:underline py-1 px-4 md:gap-5;
 }
 .navigation__footer {
   @apply text-sm md:text-xl font-bold cursor-pointer hover:underline hover:text-blue-600 p-2 px-4;

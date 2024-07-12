@@ -108,7 +108,7 @@ const ScrollToTopButton = () => {
   }, [handleScroll]);
 
   return (
-    <div id="scroll" className="fixed bottom-5 right-5">
+    <div id="scroll" className="fixed bottom-5 right-2">
       {showButton && (
         <div
           id="scroll-wrapper"
