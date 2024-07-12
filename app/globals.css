@@ -183,6 +183,7 @@ span.blink {
 
   animation: blink 1s linear infinite;
 }
+
 /* styling for arrow down indicator */
 div.arrow-up {
   width: 0px;

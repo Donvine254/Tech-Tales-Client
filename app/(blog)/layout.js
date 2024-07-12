@@ -4,6 +4,7 @@ import ScrollIndicator from "@/components/ScrollIndicator";
 import Newsletter from "@/components/Newsletter";
 import { SearchMD } from "@/components/SearchMD";
 import { Toaster } from "react-hot-toast";
+import ScrollToTopButton from "@/components/ScrollButton";
 import dynamic from "next/dynamic";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 const NoSSRNavbar = dynamic(() => import("@/components/Navbar"), {
@@ -29,6 +30,7 @@ export default function RootLayout({ children }) {
             {children}
           </main>
           <Newsletter />
+          <ScrollToTopButton />
           <Footer />
         </GoogleOAuthProvider>
       </body>

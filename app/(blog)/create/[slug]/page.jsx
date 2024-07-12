@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import Loader from "@/components/Loader";
 import dynamic from "next/dynamic";
-import Axios, { toFormData } from "axios";
+import Axios from "axios";
 import Script from "next/script";
 import Link from "next/link";
 import { revalidateBlogs } from "@/lib/actions";
@@ -115,7 +115,7 @@ export default function EditBlog({ params }) {
   }
 
   return (
-    <div className="md:mt-9 font-poppins">
+    <div className="md:mt-9 font-poppins relative">
       <Script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.2/tsparticles.confetti.bundle.min.js"></Script>
       <div className="w-full bg-[#FDFAE9] border-b-amber-500  border text-center p-2 mb-2 ">
         <p className="text-sm hidden xsm:block">
@@ -230,6 +230,7 @@ export default function EditBlog({ params }) {
         </div>
       </form>
       <PreviewModal blog={blogData} />
+      
     </div>
   );
 }
