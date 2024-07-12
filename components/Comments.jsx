@@ -244,7 +244,7 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
                       )}
                     </div>
                     <p>
-                      <span className="font-light xsm:hidden">
+                      <span className="font-light xsm:text-sm">
                         Published on
                       </span>{" "}
                       <time dateTime={comment?.created_at_date}>
