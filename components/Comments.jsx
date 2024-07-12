@@ -116,6 +116,10 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
     setNewComment("");
     setIsEditing(false);
   }
+  const getPlainTextLength = (htmlString) => {
+    const doc = new DOMParser().parseFromString(htmlString, "text/html");
+    return doc.body.textContent.length;
+  };
 
   return (
     <div>
@@ -243,16 +247,34 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
                       <span className="font-light xsm:hidden">
                         Published on
                       </span>{" "}
-                      {comment?.created_at_date}
+                      <time dateTime={comment?.created_at_date}>
+                        {" "}
+                        {comment?.created_at_date}
+                      </time>
                     </p>
                   </div>
 
                   <div
-                    className="p-3 rounded-r-xl rounded-bl-xl border border-[#67e8f9]"
+                    className="p-3 rounded-r-xl xsm:text-sm rounded-bl-xl border border-[#67e8f9]"
                     style={{
                       backgroundColor: comment.color ?? "#cffafe",
                     }}>
-                    {comment.body ? parse(comment?.body) : comment.body}
+                    {comment.body && getPlainTextLength(comment.body) > 350 ? (
+                      <div>
+                        <p className="text-blue-500 underline">
+                          This comment is too long! Click <mark>show more</mark>{" "}
+                          to read the full comment
+                        </p>
+                        <details>
+                          <summary className="border bg-gray-50 shadow px-1 py-0.5 w-fit rounded-md">
+                            Show Full Comment
+                          </summary>
+                          {parse(comment.body)}
+                        </details>
+                      </div>
+                    ) : (
+                      <>{comment.body ? parse(comment?.body) : comment.body}</>
+                    )}
                   </div>
                   <div className="py-1 flex items-center gap-4">
                     {user && comment?.user_id === user?.id ? (
