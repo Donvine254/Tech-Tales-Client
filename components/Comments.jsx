@@ -279,7 +279,8 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
                     )}
                   </div>
                   <div className="py-1 flex items-center gap-4">
-                    {user && comment?.user_id === user?.id ? (
+                    {(user && comment?.user_id === user?.id) ||
+                    user?.role === "admin" ? (
                       <>
                         <button
                           className="flex items-center gap-2 text-sm   hover:text-white border px-1 py-0.5 rounded-md hover:bg-blue-500"
