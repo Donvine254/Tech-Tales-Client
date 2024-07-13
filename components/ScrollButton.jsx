@@ -121,7 +121,7 @@ const ScrollToTopButton = () => {
             onClick={handleButtonClick}
             id="scroll-to-top"
             title="Go to top"
-            className="rounded-full h-10 w-10 p-1 bg-gray-50 border  text-[#1f2937]">
+            className="rounded-full h-10 w-10 p-1 bg-gray-100  text-red-700">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="30"

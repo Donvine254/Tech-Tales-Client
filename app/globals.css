@@ -164,6 +164,7 @@ h4 {
 .swal2-popup {
   @apply !font-poppins;
 }
+
 div.online-indicator {
   display: inline-block;
   width: 10px;
