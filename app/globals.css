@@ -147,9 +147,15 @@ h4 {
 #blog-body ol {
   @apply xsm:!pl-4 !pl-6 md:!pl-8;
 }
-#blog-body ul li {
+#blog-body ul li,
+#comment-body ul li {
   list-style: square !important;
 }
+
+#comment-body ul {
+  @apply xsm:!pl-4 !pl-6 md:!pl-8;
+}
+
 #blog-body table,
 #blog-body iframe {
   margin-top: 2px;
@@ -198,25 +204,11 @@ div.arrow-up {
 }
 /* animation for border */
 
-.animate-gradient-border {
-  background: linear-gradient(270deg, #ec4899, #3b82f6, #9f7aea);
-  background-size: 600% 600%;
-  animation: gradient-border 4s ease infinite;
-}
+
 @keyframes blink {
   100% {
     transform: scale(2, 2);
     opacity: 0;
   }
 }
-@keyframes gradient-border {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
+

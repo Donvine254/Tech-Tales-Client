@@ -74,17 +74,15 @@ export default function Navbar() {
           </Link>
           <div className="flex items-center gap-1 relative">
             {user && (
-              <div className=" animate-gradient-border h-12 w-12 md:h-14 md:w-14 rounded-full p-1 flex items-center justify-center">
-                <Image
-                  className="h-10 w-10 md:h-12 md:w-12 ring ring-offset-1 rounded-full cursor-pointer italic ring-offset-white"
-                  src={user.picture}
-                  width={48}
-                  height={48}
-                  onClick={() => setMenuOpen(!menuOpen)}
-                  alt="user profile avatar"
-                  referrerPolicy="no-referrer"
-                />
-              </div>
+              <Image
+                className="h-10 w-10 md:h-12 md:w-12  rounded-full cursor-pointer italic ring ring-blue-400 ring-offset-1 ring-offset-white"
+                src={user.picture}
+                width={48}
+                height={48}
+                onClick={() => setMenuOpen(!menuOpen)}
+                alt="user profile avatar"
+                referrerPolicy="no-referrer"
+              />
             )}
             {menuOpen ? (
               <SortUp handleClick={() => setMenuOpen(!menuOpen)} />

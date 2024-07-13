@@ -256,6 +256,7 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
 
                   <div
                     className="p-3 rounded-r-xl xsm:text-sm rounded-bl-xl border border-[#67e8f9]"
+                    id="comment-body"
                     style={{
                       backgroundColor: comment.color ?? "#cffafe",
                     }}>
