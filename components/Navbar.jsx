@@ -73,18 +73,18 @@ export default function Navbar() {
             Create Post
           </Link>
           <div className="flex items-center gap-1 relative">
-            {user ? (
-              <Image
-                className="h-10 w-10 md:h-12 md:w-12 rounded-full cursor-pointer"
-                src={user.picture}
-                width={48}
-                height={48}
-                onClick={() => setMenuOpen(true)}
-                alt="user profile avatar"
-                referrerPolicy="no-referrer"
-              />
-            ) : (
-              <div className="w-10 h-10 bg-blue-600 rounded-full"></div>
+            {user && (
+              <div className=" animate-gradient-border h-12 w-12 md:h-14 md:w-14 rounded-full p-1 flex items-center justify-center">
+                <Image
+                  className="h-10 w-10 md:h-12 md:w-12 ring ring-offset-1 rounded-full cursor-pointer italic ring-offset-white"
+                  src={user.picture}
+                  width={48}
+                  height={48}
+                  onClick={() => setMenuOpen(!menuOpen)}
+                  alt="user profile avatar"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
             )}
             {menuOpen ? (
               <SortUp handleClick={() => setMenuOpen(!menuOpen)} />

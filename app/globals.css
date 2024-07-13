@@ -196,9 +196,27 @@ div.arrow-up {
   border-right: 18px solid transparent;
   border-top: 18px solid #789ae4;
 }
+/* animation for border */
+
+.animate-gradient-border {
+  background: linear-gradient(270deg, #ec4899, #3b82f6, #9f7aea);
+  background-size: 600% 600%;
+  animation: gradient-border 4s ease infinite;
+}
 @keyframes blink {
   100% {
     transform: scale(2, 2);
     opacity: 0;
+  }
+}
+@keyframes gradient-border {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }
