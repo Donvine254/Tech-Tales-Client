@@ -3,7 +3,7 @@ import Link from "next/link";
 import { GithubIcon, NewTwitterIcon } from "@/assets";
 export default function Footer() {
   return (
-    <footer className="max-w-7xl w-full mx-auto m-2 p-4 divide-blue-500 font-poppins text-xl">
+    <footer className="max-w-7xl w-full mx-auto m-2 p-4 divide-blue-500 font-poppins text-xl bg-[#f4f3f2] border shadow">
       <h1 className="p-2 px-4">
         <span className="md:text-xl font-bold">Tech Tales</span>
         <span className="xsm:text-sm">
