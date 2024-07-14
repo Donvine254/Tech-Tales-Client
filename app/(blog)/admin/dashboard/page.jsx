@@ -14,7 +14,7 @@ export async function getTotalCommentsCount() {
     await prisma.$disconnect();
   }
 }
-export async function getTotalUsersCount() {
+ async function getTotalUsersCount() {
   "use server";
   try {
     const users = await prisma.users.findMany();
