@@ -183,9 +183,9 @@ export default function Dashboard({ blogs, totalComments, totalUsers }) {
         Manage Blogs
       </h1>
       <div className="overflow-x-auto py-2">
-        <table className="min-w-full bg-gray-100 border rounded-md xsm:text-sm ">
-          <thead>
-            <tr>
+        <table className="min-w-full border-separate border-spacing-2 border rounded-md  bg-gray-50 xsm:text-sm ">
+          <thead border>
+            <tr className="border-gray-400 border">
               <th className="px-4 py-2 border-b font-bold">ID</th>
               <th className="px-4 py-2 border-b font-bold">Title</th>
               <th className="px-4 py-2 border-b font-bold">Author</th>
@@ -196,7 +196,9 @@ export default function Dashboard({ blogs, totalComments, totalUsers }) {
           <tbody>
             {blogs &&
               blogsData.map((blog) => (
-                <tr key={blog.id} className="hover:bg-gray-200 group">
+                <tr
+                  key={blog.id}
+                  className="hover:bg-gray-200 group border-gray-400 border">
                   <td className="px-4 py-2 border-b ">
                     <span className="bg-gray-200 rounded-full  px-1 border group-hover:bg-gray-50 text-sm ">
                       {" "}
