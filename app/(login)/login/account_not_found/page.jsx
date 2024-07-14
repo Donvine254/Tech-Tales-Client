@@ -5,8 +5,8 @@ export default function Page() {
   return (
     <Suspense
       fallback={
-        <div className="flex flex-col items-center justify-center w-full min-h-screen mx-auto p-4 font-poppins ">
-          <Loader />
+        <div className="w-full mx-auto m-2 min-h-[320px] px-8 md:w-4/5 md:mt-10 font-poppins flex items-center justify-center content-center">
+          <Loader size={60} />
         </div>
       }>
       <AccountNotFound />
