@@ -33,16 +33,21 @@ export default function Page() {
       title: "Deactivate Account",
       text: "Deactivating your account will remove it from TechTales within a few minutes. You can sign back in anytime to reactivate your account and restore its content.",
       showCloseButton: true,
-      confirmButtonColor: "red",
       confirmButtonText: "Deactivate",
       showCancelButton: true,
-      cancelButtonColor: "green",
+      dangerMode: true,
+      customClass: {
+        confirmButton:
+          "px-2 py-1 mx-2 bg-red-500 text-white rounded-md hover:text-white hover:bg-red-500",
+        cancelButton: "px-2 py-1 mx-2 bg-green-500 rounded-md text-white",
+      },
+      buttonsStyling: false,
     }).then((result) => {
       if (result.isConfirmed) {
         fetch(`${baseUrl}/auth/logout`);
         clearLocalStorage();
         // get the current user and ensure the user cannot login again before 5 minutes elapse
-        router.replace("/login");
+        router.replace("/");
       }
     });
   }
@@ -51,18 +56,24 @@ export default function Page() {
     Swal.fire({
       icon: "warning",
       title: "Delete Account",
-      text: "We’re sorry to see you go. Once your account is deleted, all of your content will be permanently gone, including your profile, stories, publications, notes, and responses",
+      text: "We’re sorry to see you go. Once your account is deleted, all of your content will be permanently gone, including your profile, blogs, publications, notes, and responses",
       showCloseButton: true,
-      confirmButtonColor: "red",
+      dangerMode: true,
       confirmButtonText: "Delete Account",
       showCancelButton: true,
-      cancelButtonColor: "green",
+      customClass: {
+        confirmButton:
+          "px-2 py-1 mx-2 bg-red-500 text-white rounded-md hover:text-white hover:bg-red-500",
+        cancelButton: "px-2 py-1 mx-2 bg-green-500 rounded-md text-white",
+      },
+      buttonsStyling: false,
     }).then((result) => {
       if (result.isConfirmed) {
         Axios.delete(`https://techtales.up.railway.app/users/${user.id}`);
         toast.success("Account deleted successfully");
+        fetch(`${baseUrl}/auth/logout`);
         clearLocalStorage();
-        router.refresh();
+        router.replace("/");
       }
     });
   }

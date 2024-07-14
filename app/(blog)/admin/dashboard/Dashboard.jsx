@@ -47,7 +47,7 @@ export default function Dashboard({ blogs, totalComments, totalUsers }) {
     );
   }
   //function to delete blogs
-  function deleteBlog(blog) {
+  async function deleteBlog(blog) {
     Swal.fire({
       icon: "warning",
       text: "Are you sure you want to delete this blog? This cannot action cannot be undone",
@@ -72,7 +72,9 @@ export default function Dashboard({ blogs, totalComments, totalUsers }) {
     });
     revalidateBlogs(blog.slug);
     revalidatePage("latest");
+    revalidatePage("admin");
     revalidatePage("relevant");
+    router.refresh();
   }
 
   return (
