@@ -230,15 +230,16 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
                     <div className="flex items-center gap-2">
                       <p className="font-semibold">{comment?.author}</p>
                       {comment?.user_id === author && (
-                        <button className="bg-cyan-100 text-cyan-500 font-light rounded-md px-1 text-sm pointer-events-none border border-cyan-500">
+                        <button className="bg-cyan-100 text-cyan-500 font-light rounded-md px-1 text-sm xsm:text-[12px] pointer-events-none border border-cyan-500">
                           Author
                         </button>
                       )}
-                      {/* {user && user.role === "admin" && user.id !== author && (
-                        <button className="bg-cyan-100 text-cyan-500 font-light rounded-md px-1 text-sm pointer-events-none border border-cyan-500">
-                          Admin
-                        </button>
-                      )} */}
+                      {comment?.user_role === "admin" &&
+                        comment?.user_id !== author && (
+                          <button className="bg-yellow-100 text-yellow-600 font-light rounded-md px-1 text-sm xsm:text-[12px] pointer-events-none border border-[#FFD700]">
+                            Admin
+                          </button>
+                        )}
                       {user && comment.user_id === user?.id && (
                         <div>
                           <div className="online-indicator">

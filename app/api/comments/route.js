@@ -42,6 +42,7 @@ export async function POST(req, res) {
           select: {
             picture: true,
             username: true,
+            role: true,
           },
         });
 
@@ -53,6 +54,7 @@ export async function POST(req, res) {
           created_at_date: formatDate(comment.created_at),
           user_id: comment.user_id.toString(),
           user_avatar: user.picture,
+          user_role: user.role,
         };
       })
     );

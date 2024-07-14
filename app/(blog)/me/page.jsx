@@ -116,7 +116,7 @@ export default function Profile() {
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
-                fill="#09A3E5"
+                fill={user.role === "admin" ? "#FFD700" : "#09A3E5"}
                 stroke="white"
                 strokeWidth="2"
                 strokeLinecap="round"
