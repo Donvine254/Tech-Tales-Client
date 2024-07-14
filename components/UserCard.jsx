@@ -90,8 +90,7 @@ export default function UserCard({ avatar, name, bio, socials }) {
       </div>
       <hr className="border border-gray-200" />
       <Link
-        href={`/${handle}?status=published&select=all`}
-        target="_blank"
+        href={`/explore/${handle}?status=published&select=all`}
         prefetch
         className="text-sm text-sky-400 hover:text-sky-600 cursor-pointer my-2">
         View more posts from this author &#8599;
