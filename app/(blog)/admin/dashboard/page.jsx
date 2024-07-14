@@ -2,7 +2,7 @@ import Dashboard from "./Dashboard";
 import { baseUrl } from "@/lib";
 import prisma from "@/prisma/prisma";
 
-export async function getTotalCommentsCount() {
+async function getTotalCommentsCount() {
   "use server";
   try {
     const comments = await prisma.comments.findMany();
@@ -14,7 +14,7 @@ export async function getTotalCommentsCount() {
     await prisma.$disconnect();
   }
 }
- async function getTotalUsersCount() {
+async function getTotalUsersCount() {
   "use server";
   try {
     const users = await prisma.users.findMany();
