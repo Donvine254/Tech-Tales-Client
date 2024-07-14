@@ -208,7 +208,6 @@ export async function POST(req, res) {
           url: true,
         },
       });
-      const isAdmin = user.role === "admin";
 
       const tokenData = {
         id: user.id.toString(),
@@ -223,6 +222,10 @@ export async function POST(req, res) {
       const token = jwt.sign(tokenData, process.env.JWT_SECRET, {
         expiresIn: "8h",
       });
+      const isAdmin = jwt.sign({ role: user.role }, process.env.JWT_SECRET, {
+        expiresIn: "8h",
+      });
+
       // Return user details and token
       const response = NextResponse.json(
         {
@@ -239,9 +242,11 @@ export async function POST(req, res) {
       response.cookies.set("token", token, {
         httpOnly: true,
       });
-      response.cookies.set("isAdmin", isAdmin, {
-        httpOnly: true,
-      });
+      if (user.role === "admin") {
+        response.cookies.set("isAdmin", isAdmin, {
+          httpOnly: true,
+        });
+      }
       return response;
     } catch (error) {
       console.error(error);
