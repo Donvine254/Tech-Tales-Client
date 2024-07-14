@@ -43,6 +43,7 @@ export default function Dashboard({ blogs, totalComments, totalUsers }) {
       setTotalBlogs((prevBlogs) => prevBlogs.filter((b) => b.id !== blog.id));
       toast.success("Blog deleted successfully!");
       await Revalidate(blog);
+      // try using window.location.reload()
       router.refresh();
     } catch (error) {
       console.error(error);

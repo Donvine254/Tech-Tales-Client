@@ -130,7 +130,10 @@ export default function Page() {
                   </p>
                 </div>
                 <div onClick={showUpdateModal}>
-                  <UserImage url={user?.picture} />
+                  <UserImage
+                    url={user?.picture}
+                    className="ring ring-blue-500 ring-offset-1 ring-offset-white"
+                  />
                 </div>
               </div>
             </div>

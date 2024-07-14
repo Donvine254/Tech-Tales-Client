@@ -99,18 +99,20 @@ export default function UpdateProfileModal({ user }) {
           </h3>
         </div>
         <div className="p-6 space-y-4">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4  ">
             {image ? (
               <UserImage
                 url={URL.createObjectURL(image)}
                 size={80}
-                className="!h-20 !w-20"
+                onClick={handleImageUpload}
+                className="!h-20 !w-20 ring ring-blue-500 ring-offset-1 ring-offset-white italic"
               />
             ) : (
               <UserImage
                 url={user?.picture}
                 size={80}
-                className="!h-20 !w-20"
+                onClick={handleImageUpload}
+                className="!h-20 !w-20 ring ring-blue-500 ring-offset-1 ring-offset-white italic"
               />
             )}
             <div>
