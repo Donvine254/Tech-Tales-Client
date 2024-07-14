@@ -195,12 +195,17 @@ export default function Dashboard({ blogs, totalComments, totalUsers }) {
           <tbody>
             {blogs &&
               blogsData.map((blog) => (
-                <tr key={blog.id} className="hover:bg-gray-200">
-                  <td className="px-4 py-2 border-b"> {blog.id}</td>
+                <tr key={blog.id} className="hover:bg-gray-200 group">
+                  <td className="px-4 py-2 border-b ">
+                    <span className="bg-gray-200 rounded-full  px-1 border group-hover:bg-gray-50 text-sm ">
+                      {" "}
+                      #00{blog.id}
+                    </span>
+                  </td>
                   <td className="px-4 py-2 border-b">
                     <Link
                       href={`/blogs/${blog.slug}`}
-                      className="font-medium text-blue-500 hover:underline">
+                      className="font-medium hover:text-blue-500 hover:underline">
                       {blog.title}
                     </Link>
                   </td>
@@ -208,7 +213,7 @@ export default function Dashboard({ blogs, totalComments, totalUsers }) {
                     {convertToHandle(blog.author)}
                   </td>
                   <td className="px-4 py-2 border-b">
-                    <span className="inline-block px-2 rounded-full bg-green-500 text-white">
+                    <span className="inline-block px-2 rounded-full bg-green-500 text-white text-sm">
                       Published
                     </span>
                   </td>
@@ -216,13 +221,13 @@ export default function Dashboard({ blogs, totalComments, totalUsers }) {
                     <div className="flex space-x-2">
                       <Link
                         href={`/create/${blog.slug}`}
-                        className="flex items-center gap-1 text-sm   bg-gray-200 border px-1 py-0.5 rounded-md hover:bg-cyan-500 hover:text-white"
+                        className="flex items-center gap-1 text-sm   bg-gray-200 border px-1 py-0.5 rounded-md  group-hover:bg-cyan-100 group-hover:border-cyan-500"
                         title="edit blog">
                         <Edit size={14} />
                       </Link>
 
                       <button
-                        className="flex items-center gap-1 text-sm   bg-gray-200 border px-1 py-0.5 rounded-md hover:bg-red-500 hover:text-white"
+                        className="flex items-center gap-1 text-sm   bg-gray-200 border px-1 py-0.5 rounded-md  group-hover:bg-red-100 group-hover:border-red-500"
                         onClick={() => deleteBlog(blog)}
                         title="delete blog">
                         <Trash size={14} />
