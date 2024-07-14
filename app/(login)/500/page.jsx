@@ -1,4 +1,4 @@
-function Error({ statusCode }) {
+export default function ErrorPage() {
   return (
     <section className="w-full h-full md:min-h-[600px]">
       <div className="w-full py-2 bg-blue-700  text-white text-xl md:text-2xl  font-bold text-center">
@@ -25,17 +25,16 @@ function Error({ statusCode }) {
           Sorry, unexpected error happened
         </p>
         <p className="text-gray-500 md:text-xl md:w-1/2 text-center">
-          We are working on fixing the issue. If the problem persists, kindly
-          report this issue with this status code {statusCode}
+          We are working on fixing the issue. If the problem persists, kindly{" "}
+          <a
+            target="_blank"
+            className="font-semibold hover:underline hover:text-blue-500"
+            href="mailto:admin@techtales.vercel.app">
+            report
+          </a>{" "}
+          this issue with this status code.
         </p>
       </div>
     </section>
   );
 }
-
-Error.getInitialProps = ({ res, err }) => {
-  const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
-  return { statusCode };
-};
-
-export default Error;
