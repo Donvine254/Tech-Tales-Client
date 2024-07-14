@@ -2,6 +2,14 @@ import Dashboard from "./Dashboard";
 import { baseUrl } from "@/lib";
 import prisma from "@/prisma/prisma";
 
+export const revalidate = 600;
+
+export const metadata = {
+  title: "Admin Dashboard - Tech Tales",
+  description:
+    "Tech Tales is a simple blog for tech students and professionals who would like to share their solutions to various coding problems or practice blogging as a way of learning",
+};
+
 async function getTotalCommentsCount() {
   "use server";
   try {
