@@ -10,6 +10,7 @@ const formatDate = (dateString) => {
 export async function GET(req, res) {
   try {
     const blogs = await prisma.blogs.findMany();
+   
 
     const formattedBlogs = await Promise.all(
       blogs.map(async (blog) => {
