@@ -1,8 +1,9 @@
 import Dashboard from "./Dashboard";
 import { baseUrl } from "@/lib";
+import Loader from "@/components/Loader";
 import prisma from "@/prisma/prisma";
-
-export const revalidate = 600;
+import { Suspense } from "react";
+export const revalidate = 60;
 
 export const metadata = {
   title: "Admin Dashboard - Tech Tales",
@@ -41,12 +42,19 @@ export default async function Page() {
   const totalComments = await getTotalCommentsCount();
   const totalUsers = await getTotalUsersCount();
   return (
-    <section className="w-full mx-auto m-2 min-h-[320px] px-8 md:w-5/6 md:mt-10 font-poppins">
-      <Dashboard
-        blogs={blogs}
-        totalComments={totalComments}
-        totalUsers={totalUsers}
-      />
-    </section>
+    <Suspense
+      fallback={
+        <div className="w-full mx-auto m-2 min-h-[320px] px-8 md:w-4/5 md:mt-10 font-poppins flex items-center justify-center content-center">
+          <Loader size={60} />
+        </div>
+      }>
+      <section className="w-full mx-auto m-2 min-h-[320px] px-8 md:w-5/6 md:mt-10 font-poppins">
+        <Dashboard
+          blogs={blogs}
+          totalComments={totalComments}
+          totalUsers={totalUsers}
+        />
+      </section>
+    </Suspense>
   );
 }

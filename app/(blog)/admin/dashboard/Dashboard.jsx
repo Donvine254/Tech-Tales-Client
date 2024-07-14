@@ -1,9 +1,7 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Loader from "@/components/Loader";
-import { baseUrl } from "@/lib";
 import { Edit, Trash } from "@/assets";
 import { convertToHandle } from "@/lib/utils";
 import Swal from "sweetalert2";
@@ -12,40 +10,11 @@ import { revalidateBlogs, revalidatePage } from "@/lib/actions";
 import Axios from "axios";
 
 export default function Dashboard({ blogs, totalComments, totalUsers }) {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
   const router = useRouter();
+
   const blogsData = blogs.sort((a, b) => a.id - b.id);
+  const [totalBlogs, setTotalBlogs] = useState(blogsData);
 
-  //check if user is an admin first
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await fetch(`${baseUrl}/me`);
-        const data = await response.json();
-        setUser(data);
-        if (data.role !== "admin") {
-          router.push("/");
-        }
-      } catch (error) {
-        console.error("Error fetching user:", error);
-        router.push("/");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUser();
-  }, [router]);
-  //effect to count blog authors
-
-  if (loading) {
-    return (
-      <div className="w-full mx-auto m-2 min-h-[320px] px-8 md:w-4/5 md:mt-10 font-poppins flex items-center justify-center content-center">
-        <Loader size={60} />
-      </div>
-    );
-  }
   //function to delete blogs
   async function deleteBlog(blog) {
     Swal.fire({
@@ -61,22 +30,33 @@ export default function Dashboard({ blogs, totalComments, totalUsers }) {
         cancelButton: "px-2 py-1 mx-2 bg-green-500 rounded-md text-white",
       },
       buttonsStyling: false,
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        Axios.delete(`https://techtales.up.railway.app/blogs/${blog.id}`).then(
-          () => {
-            toast.success("Blog deleted successfully!");
-          }
-        );
+        await handleDelete(blog);
       }
     });
-    revalidateBlogs(blog.slug);
-    revalidatePage("latest");
-    revalidatePage("admin");
-    revalidatePage("relevant");
-    router.refresh();
   }
 
+  async function handleDelete(blog) {
+    try {
+      await Axios.delete(`https://techtales.up.railway.app/blogs/${blog.id}`);
+      setTotalBlogs((prevBlogs) => prevBlogs.filter((b) => b.id !== blog.id));
+      toast.success("Blog deleted successfully!");
+      await Revalidate(blog);
+      router.refresh();
+    } catch (error) {
+      console.error(error);
+      toast.error("An error has occurred");
+    }
+  }
+
+  async function Revalidate(blog) {
+    revalidateBlogs();
+    revalidateBlogs(blog.slug);
+    revalidatePage("latest");
+    revalidatePage("admin/dashboard");
+    revalidatePage("relevant");
+  }
   return (
     <section className="w-full min-h-[320px] py-4 md:mt-10">
       <div className="grid grid-cols-1 gap-4  py-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 ">
@@ -181,7 +161,7 @@ export default function Dashboard({ blogs, totalComments, totalUsers }) {
       </h1>
       <div className="overflow-x-auto py-2">
         <table className="min-w-full border-separate border-spacing-2 border rounded-md  bg-gray-50 xsm:text-sm ">
-          <thead border>
+          <thead>
             <tr className="border-gray-400 border">
               <th className="px-4 py-2 border-b font-bold">ID</th>
               <th className="px-4 py-2 border-b font-bold">Title</th>
@@ -192,10 +172,10 @@ export default function Dashboard({ blogs, totalComments, totalUsers }) {
           </thead>
           <tbody>
             {blogs &&
-              blogsData.map((blog) => (
+              totalBlogs.map((blog) => (
                 <tr
                   key={blog.id}
-                  className="hover:bg-gray-200 group border-gray-400 border">
+                  className="hover:bg-gray-200 group border-gray-400 -1">
                   <td className="px-4 py-2 border-b ">
                     <span className="bg-gray-200 rounded-full  px-1 border group-hover:bg-gray-50 text-sm ">
                       {" "}
