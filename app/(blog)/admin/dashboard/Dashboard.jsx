@@ -134,10 +134,7 @@ export default function Dashboard({ blogs, totalComments, totalUsers }) {
           </h1>
           <p className="text-gray-600">Total published blogs.</p>
           <hr />
-          <p className="text-gray-600 ">
-            {" "}
-            Moderate and respond to user comments.
-          </p>
+          <p className="text-gray-600 "> Manage and publish blogs.</p>
         </div>
         {/* second card */}
         <div className=" bg-gray-100 hover:bg-gray-200 p-6 space-y-4  shadow rounded-md hover:-translate-y-1 transition-transform duration-300 text-center">

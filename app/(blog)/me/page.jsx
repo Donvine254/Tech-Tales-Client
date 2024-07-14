@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { handleSignOut, baseUrl } from "@/lib";
 
-import toast from "react-hot-toast";
 import Image from "next/image";
 import Link from "next/link";
 import Loader from "@/components/Loader";
