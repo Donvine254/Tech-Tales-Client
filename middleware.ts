@@ -21,6 +21,9 @@ export function middleware(request: NextRequest) {
   if (path.startsWith("/admin") && !isAdmin) {
     return NextResponse.redirect(new URL("/", request.nextUrl));
   }
+  if (path === "/admin" && isAdmin) {
+    return NextResponse.redirect(new URL("/admin/dashboard", request.nextUrl));
+  }
 
   if (isProtectedPath && !token) {
     const redirectPath = path.slice(1);

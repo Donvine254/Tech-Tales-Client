@@ -131,10 +131,30 @@ export default function Profile() {
             </p>
           </div>
           <div className="px-6 py-1">
-            <p className="text-gray-700 font-semibold mb-2">About</p>
+            <p className="text-gray-700 font-semibold mb-2 ">About</p>
             <p className="mb-2 tracking-wide text-[12px] sm:text-base md:text-sm bg-gray-200 p-1">
               {user?.bio ?? "You have have no bio yet"}
             </p>
+            {user.role === "admin" && (
+              <>
+                <p className="text-gray-700 font-semibold mb-2 ">
+                  Manage Blogs
+                </p>
+                <div className="w-full flex items-center justify-center border bg-gray-100 hover:bg-gray-200 mb-1 px-2 py-1 cursor-pointer hover:text-blue-500 h-8 rounded-md gap-2">
+                  <svg
+                    fill="currentColor"
+                    viewBox="0 0 16 16"
+                    height="24"
+                    width="24">
+                    <path d="M5.338 1.59a61.44 61.44 0 00-2.837.856.481.481 0 00-.328.39c-.554 4.157.726 7.19 2.253 9.188a10.725 10.725 0 002.287 2.233c.346.244.652.42.893.533.12.057.218.095.293.118a.55.55 0 00.101.025.615.615 0 00.1-.025c.076-.023.174-.061.294-.118.24-.113.547-.29.893-.533a10.726 10.726 0 002.287-2.233c1.527-1.997 2.807-5.031 2.253-9.188a.48.48 0 00-.328-.39c-.651-.213-1.75-.56-2.837-.855C9.552 1.29 8.531 1.067 8 1.067c-.53 0-1.552.223-2.662.524zM5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 011.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.775 11.775 0 01-2.517 2.453 7.159 7.159 0 01-1.048.625c-.28.132-.581.24-.829.24s-.548-.108-.829-.24a7.158 7.158 0 01-1.048-.625 11.777 11.777 0 01-2.517-2.453C1.928 10.487.545 7.169 1.141 2.692A1.54 1.54 0 012.185 1.43 62.456 62.456 0 015.072.56z" />
+                    <path d="M9.5 6.5a1.5 1.5 0 01-1 1.415l.385 1.99a.5.5 0 01-.491.595h-.788a.5.5 0 01-.49-.595l.384-1.99a1.5 1.5 0 112-1.415z" />
+                  </svg>
+                  <Link href="/admin/dashboard" className="">
+                    Go to Dashboard
+                  </Link>
+                </div>
+              </>
+            )}
             <p className="font-bold">Socials</p>
             <div className="flex flex-col items-center space-y-1 py-2 gap-2">
               <button
