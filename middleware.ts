@@ -16,6 +16,12 @@ export function middleware(request: NextRequest) {
     path.startsWith("/callback");
 
   const token = request.cookies.get("token");
+  // redirect users to homepage if they are not admin
+  const isAdmin = request.cookies.get("isAdmin");
+  if (path.startsWith("/admin") && !isAdmin) {
+    return NextResponse.redirect(new URL("/", request.nextUrl));
+  }
+
   if (isProtectedPath && !token) {
     const redirectPath = path.slice(1);
     return NextResponse.redirect(
