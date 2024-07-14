@@ -7,6 +7,7 @@ export function middleware(request: NextRequest) {
     path.startsWith("/me") ||
     path.startsWith("/my-blogs") ||
     path.startsWith("/create") ||
+    path.startsWith("/admin") ||
     path.startsWith("/api");
 
   const isPublicPath =
@@ -39,5 +40,7 @@ export const config = {
     "/api/my-blogs",
     "/me",
     "/me/:path*",
+    "/admin",
+    "/admin/:path*",
   ],
 };
