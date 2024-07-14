@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import * as jose from "jose";
 
-export function middleware(request: NextRequest) {
+const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
+
+export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
   const isProtectedPath =
     path.startsWith("/me") ||
@@ -16,8 +19,21 @@ export function middleware(request: NextRequest) {
     path.startsWith("/callback");
 
   const token = request.cookies.get("token");
+
+  let userData = null;
+
+  if (token) {
+    try {
+      const { payload } = await jose.jwtVerify(token.value, JWT_SECRET);
+      userData = payload;
+    } catch (error) {
+      console.error("Invalid token:", error.message);
+    }
+  }
+
+  const isAdmin = userData?.role == "admin";
   // redirect users to homepage if they are not admin
-  const isAdmin = request.cookies.get("isAdmin");
+
   if (path.startsWith("/admin") && !isAdmin) {
     return NextResponse.redirect(new URL("/", request.nextUrl));
   }
@@ -25,12 +41,12 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/admin/dashboard", request.nextUrl));
   }
 
-  if (isProtectedPath && !token) {
+  if (isProtectedPath && !userData) {
     const redirectPath = path.slice(1);
     return NextResponse.redirect(
       new URL(`/login?post_login_redirect_url=${redirectPath}`, request.nextUrl)
     );
-  } else if (token && isPublicPath) {
+  } else if (userData && isPublicPath) {
     //prevent users from visiting login page if they are already logged in
     return NextResponse.redirect(new URL("/", request.nextUrl));
   }
