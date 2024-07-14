@@ -31,7 +31,6 @@ export async function generateStaticParams() {
         userHandlesSet.add(handle);
       }
     }
-    console.log(Array.from(userHandlesSet));
     return Array.from(userHandlesSet);
   } catch (error) {
     console.error("Error fetching blog data:", error);
@@ -81,7 +80,6 @@ async function getUserBlogs(handle) {
 }
 
 export default async function page({ params }) {
-
   const blogs = await getUserBlogs(params.handle);
 
   return (
