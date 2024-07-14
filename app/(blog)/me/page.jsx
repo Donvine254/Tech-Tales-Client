@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { clearLocalStorage, baseUrl } from "@/lib";
-import { revalidatePage } from "@/lib/actions";
+import { handleSignOut, baseUrl } from "@/lib";
+
 import toast from "react-hot-toast";
 import Image from "next/image";
 import Link from "next/link";
@@ -74,14 +74,6 @@ export default function Profile() {
     );
   }
   //function to signout
-  function handleSignout() {
-    clearLocalStorage();
-    toast.success("logged out successfully");
-    revalidatePage("/me/blogs");
-    if (typeof window !== undefined) {
-      window.location.href = "/";
-    }
-  }
   function getSocialUrl(user, platform) {
     return (
       user.socials?.find((social) => social.platform === platform)?.url || null
@@ -286,7 +278,7 @@ export default function Profile() {
               </Link>
 
               <button
-                onClick={handleSignout}
+                onClick={handleSignOut}
                 className="hover:bg-gray-200 hover:text-red-500  p-1 w-full rounded-md h-8  border flex items-center gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

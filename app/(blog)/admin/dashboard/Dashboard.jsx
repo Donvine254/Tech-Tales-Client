@@ -182,7 +182,7 @@ export default function Dashboard({ blogs, totalComments, totalUsers }) {
         Manage Blogs
       </h1>
       <div className="overflow-x-auto py-2">
-        <table className="min-w-full bg-gray-100 border rounded-md">
+        <table className="min-w-full bg-gray-100 border rounded-md xsm:text-sm ">
           <thead>
             <tr>
               <th className="px-4 py-2 border-b font-bold">ID</th>

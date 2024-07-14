@@ -208,6 +208,8 @@ export async function POST(req, res) {
           url: true,
         },
       });
+      const isAdmin = user.role === "admin";
+
       const tokenData = {
         id: user.id.toString(),
         email: user.email,
@@ -235,6 +237,9 @@ export async function POST(req, res) {
         { status: 200 }
       );
       response.cookies.set("token", token, {
+        httpOnly: true,
+      });
+      response.cookies.set("isAdmin", isAdmin, {
         httpOnly: true,
       });
       return response;
