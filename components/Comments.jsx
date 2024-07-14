@@ -234,6 +234,11 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
                           Author
                         </button>
                       )}
+                      {comment?.user_id !== author && user.role === "admin" && (
+                        <button className="bg-cyan-100 text-cyan-500 font-light rounded-md px-1 text-sm pointer-events-none border border-cyan-500">
+                          Admin
+                        </button>
+                      )}
                       {user && comment.user_id === user?.id && (
                         <div>
                           <div className="online-indicator">
