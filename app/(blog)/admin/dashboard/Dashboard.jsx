@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Loader from "@/components/Loader";
@@ -12,8 +12,40 @@ import { revalidateBlogs, revalidatePage } from "@/lib/actions";
 import Axios from "axios";
 
 export default function Dashboard({ blogs, totalComments, totalUsers }) {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
   const blogsData = blogs.sort((a, b) => a.id - b.id);
 
+  //check if user is an admin first
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(`${baseUrl}/me`);
+        const data = await response.json();
+        setUser(data);
+        if (data.role !== "admin") {
+          router.push("/");
+        }
+      } catch (error) {
+        console.error("Error fetching user:", error);
+        router.push("/");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, [router]);
+  //effect to count blog authors
+
+  if (loading) {
+    return (
+      <div className="w-full mx-auto m-2 min-h-[320px] px-8 md:w-4/5 md:mt-10 font-poppins flex items-center justify-center content-center">
+        <Loader size={60} />
+      </div>
+    );
+  }
   //function to delete blogs
   function deleteBlog(blog) {
     Swal.fire({
