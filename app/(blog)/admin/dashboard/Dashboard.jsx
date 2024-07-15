@@ -2,11 +2,12 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Edit, Trash } from "@/assets";
+import { Edit, Trash, SearchIcon } from "@/assets";
 import { convertToHandle } from "@/lib/utils";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import { revalidateBlogs, revalidatePage } from "@/lib/actions";
+import { exportCSV } from "@/lib/utils";
 import Axios from "axios";
 
 export default function Dashboard({ blogs, totalComments, totalUsers }) {
@@ -157,9 +158,70 @@ export default function Dashboard({ blogs, totalComments, totalUsers }) {
           </p>
         </div>
       </div>
-      <h1 className="text-xl text-center font-semibold my-2 md:text-2xl">
-        Manage Blogs
-      </h1>
+      <div className="flex items-center justify-between gap-4 flex-wrap">
+        <h1 className="text-xl  font-semibold my-2 md:text-2xl lg:text-3xl">
+          Blogs
+        </h1>
+        <div className="flex items-center gap-1 ">
+          <Link
+            href="/create?user=admin"
+            className="py-1 px-2 bg-cyan-500  rounded-md border hover:bg-black text-white flex items-center ">
+            <svg viewBox="0 0 24 24" fill="currentColor" height="24" width="24">
+              <path d="M17 11a1 1 0 010 2h-4v4a1 1 0 01-2 0v-4H7a1 1 0 010-2h4V7a1 1 0 012 0v4h4z" />
+            </svg>
+            <span>Add Blog</span>
+          </Link>
+          <button
+            className="py-1 px-2 bg-gray-600 rounded-md border hover:bg-gray-900 text-white flex items-center gap-1"
+            onClick={() => exportCSV(blogs)}>
+            <svg
+              viewBox="0 0 640 512"
+              fill="currentColor"
+              height="24"
+              width="24">
+              <path d="M32 64C32 28.7 60.7 0 96 0h160v128c0 17.7 14.3 32 32 32h128v128H248c-13.3 0-24 10.7-24 24s10.7 24 24 24h168v112c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V64zm384 272v-48h110.1l-39-39c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l80 80c9.4 9.4 9.4 24.6 0 33.9l-80 80c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l39-39H416zm0-208H288V0l128 128z" />
+            </svg>
+            <span>Export CSV</span>
+          </button>
+        </div>
+      </div>
+      <form className="md:py-2 md:flex md:items-center md:justify-center ">
+        <div className="relative">
+          <input
+            type="search"
+            id="search"
+            name="search"
+            minLength={2}
+            placeholder="Search.."
+            autoCorrect="ON"
+            autoComplete="on"
+            onChange={(e) =>
+              setTotalBlogs((prevBlogs) =>
+                prevBlogs.filter((b) => b.title.includes(e.target.value))
+              )
+            }
+            className="rounded-xl bg-gray-50 p-2 pl-8 pr-6 px-4 w-full focus:bg-blue-100 focus:bg-opacity-30 text-black focus:outline-none text-xl border-2 border-gray-300   placeholder-gray-600 shadow"
+          />
+
+          <SearchIcon className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600" />
+        </div>
+        <div className="cursor-pointer border-2 bg-gray-50 hover:bg-blue-500 hover:text-slate-200 rounded-xl p-2 px-3 m-1 border-gray-300 hover:border-blue-500 shadow ">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="30"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1"
+            strokeLinecap="round"
+            strokeLinejoin="round">
+            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+            <title>Search</title>
+          </svg>
+        </div>
+      </form>
+
       <div className="overflow-x-auto py-2">
         <table className="min-w-full border-separate border-spacing-2 border rounded-md  bg-gray-50 xsm:text-sm ">
           <thead>
