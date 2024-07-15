@@ -128,11 +128,11 @@ export default function BlogsTable({ blogs }) {
             id="search"
             name="search"
             minLength={3}
-            placeholder="Search.."
+            placeholder="Search by title.."
             autoCorrect="on"
             autoComplete="on"
             onChange={(e) => handleSearch(e)}
-            className="rounded-xl focus:border-blue-500 bg-gray-50 p-2 pl-10  px-4 w-full  text-black focus:outline-none text-xl border border-gray-300 h-12   placeholder-gray-600 shadow"
+            className="rounded-xl focus:border-blue-500 bg-gray-50 p-2 pl-10  px-4 w-full  text-black focus:outline-none text-xl border border-gray-300 h-12   placeholder-gray-400 shadow"
           />
           <SearchIcon className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600" />
         </div>
@@ -167,12 +167,10 @@ export default function BlogsTable({ blogs }) {
       </div>
       {/* end of search input beginning of table */}
       <div className="overflow-x-auto py-2">
-        <table
-          className="min-w-full border-separate border-spacing-2 border rounded-md  bg-gray-50 xsm:text-sm "
-         >
+        <table className="min-w-full border-separate border-spacing-2 border rounded-md  bg-gray-50 xsm:text-sm ">
           <thead>
             <tr className="border-gray-400 border">
-              <th className="px-4 py-2 border-b font-bold">ID</th>
+              <th className="px-4 py-2 border-b font-bold">#</th>
               <th className="px-4 py-2 border-b font-bold">Title</th>
               <th className="px-4 py-2 border-b font-bold">Author</th>
               <th className="px-4 py-2 border-b font-bold">Status</th>

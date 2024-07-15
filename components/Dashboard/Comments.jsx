@@ -124,7 +124,7 @@ export default function CommentsTable({ comments }) {
         <table className="min-w-full border-separate border-spacing-2 border rounded-md  bg-gray-50 xsm:text-sm ">
           <thead>
             <tr className="border-gray-400 border">
-              <th className="px-4 py-2 border-b font-bold">ID</th>
+              <th className="px-4 py-2 border-b font-bold">#</th>
               <th className="px-4 py-2 border-b font-bold text-start">
                 Author
               </th>
@@ -149,7 +149,7 @@ export default function CommentsTable({ comments }) {
                       {comment.id.toString()}
                     </span>
                   </td>
-                  <td className="px-4 py-2 border-b text-start capitalize flex items-center content-center gap-1 whitespace-nowrap text-sm">
+                  <td className="px-4 py-2 border-b text-start capitalize flex items-center content-center gap-1 whitespace-nowrap xsm:text-sm">
                     <Image
                       src={comment.user_avatar}
                       alt={comment.author}
