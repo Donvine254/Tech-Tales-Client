@@ -11,16 +11,15 @@ export const metadata = {
     "Tech Tales is a simple blog for tech students and professionals who would like to share their solutions to various coding problems or practice blogging as a way of learning",
 };
 
-async function getTotalCommentsCount() {
-  "use server";
+async function getTotalComments() {
   try {
-    const comments = await prisma.comments.findMany();
-    return comments.length;
+    const comments = await fetch(
+      "https://techtales.up.railway.app/comments"
+    ).then((response) => response.json());
+    return comments;
   } catch (error) {
     console.error("Error fetching comments:", error);
     throw error;
-  } finally {
-    await prisma.$disconnect();
   }
 }
 async function getTotalUsers() {
@@ -48,7 +47,7 @@ export default async function Page() {
   const blogs = await fetch(`${baseUrl}/blogs`).then((response) =>
     response.json()
   );
-  const totalComments = await getTotalCommentsCount();
+  const totalComments = await getTotalComments();
   const allUsers = await getTotalUsers();
   return (
     <Suspense

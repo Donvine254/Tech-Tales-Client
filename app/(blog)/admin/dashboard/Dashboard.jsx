@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import BlogsTable from "@/components/Dashboard/Blogs";
 import UsersTable from "@/components/Dashboard/Users";
+import CommentsTable from "@/components/Dashboard/Comments";
 
 export default function Dashboard({ blogs, totalComments, users }) {
   const [activeTab, setActiveTab] = useState("tab-0");
@@ -77,7 +78,9 @@ export default function Dashboard({ blogs, totalComments, users }) {
             </svg>
           </div>
 
-          <h1 className="text-6xl font-sans font-bold">{totalComments}</h1>
+          <h1 className="text-6xl font-sans font-bold">
+            {totalComments.length}
+          </h1>
 
           <p className="text-gray-600 "> Total comments</p>
           <hr />
@@ -141,6 +144,7 @@ export default function Dashboard({ blogs, totalComments, users }) {
       {/* add sections from here based on the tab */}
       {activeTab === "tab-0" && <BlogsTable blogs={blogs} />}
       {activeTab === "tab-1" && <UsersTable users={users} />}
+      {activeTab === "tab-2" && <CommentsTable comments={totalComments} />}
     </section>
   );
 }
