@@ -287,7 +287,8 @@ export default function Dashboard({ blogs, totalComments, totalUsers }) {
                   <td className="px-4 py-2 border-b ">
                     <span className="bg-gray-200 rounded-full  px-1 border group-hover:bg-gray-50 text-sm ">
                       {" "}
-                      #00{blog.id}
+                      {blog.id < 10 ? "#000" : "#00"}
+                      {blog.id}
                     </span>
                   </td>
                   <td className="px-4 py-2 border-b">
@@ -297,7 +298,7 @@ export default function Dashboard({ blogs, totalComments, totalUsers }) {
                       {blog.title}
                     </Link>
                   </td>
-                  <td className="px-4 py-2 border-b text-center">
+                  <td className="px-4 py-2 border-b text-center capitalize">
                     {convertToHandle(blog.author)}
                   </td>
                   <td className="px-4 py-2 border-b">
