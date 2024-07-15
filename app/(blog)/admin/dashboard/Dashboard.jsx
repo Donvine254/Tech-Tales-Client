@@ -70,28 +70,6 @@ export default function Dashboard({ blogs, totalComments, users }) {
         </div>
         {/* second card */}
         <div
-          className=" bg-gray-100 hover:bg-gray-200 p-6 space-y-4  shadow rounded-md hover:-translate-y-1 transition-transform duration-300 text-center"
-          onClick={() => setActiveTab("tab-2")}>
-          <div className=" inline-flex items-center justify-center w-full text-cyan-500">
-            <svg viewBox="0 0 24 24" fill="currentColor" height="48" width="48">
-              <path d="M20 2H4a2 2 0 00-2 2v12a2 2 0 002 2h4v3c0 .55.45 1 1 1h.5c.25 0 .5-.1.7-.29L13.9 18H20c1.11 0 2-.89 2-2V4a2 2 0 00-2-2m-9.53 12L7 10.5l1.4-1.41 2.07 2.08L15.6 6 17 7.41 10.47 14z" />
-            </svg>
-          </div>
-
-          <h1 className="text-6xl font-sans font-bold">
-            {totalComments.length}
-          </h1>
-
-          <p className="text-gray-600 "> Total comments</p>
-          <hr />
-          <p className="text-gray-600 ">
-            {" "}
-            Moderate and respond to user comments.
-          </p>
-        </div>
-
-        {/* third card */}
-        <div
           className=" bg-gray-100 hover:bg-gray-200 p-6 space-y-4 text-center shadow rounded-md hover:-translate-y-1 transition-transform duration-300"
           onClick={() => setActiveTab("tab-1")}>
           <div className=" inline-flex items-center justify-center w-full text-cyan-500">
@@ -113,18 +91,40 @@ export default function Dashboard({ blogs, totalComments, users }) {
             Keep track of your registered authors.
           </p>
         </div>
+        {/* third card */}
+        <div
+          className=" bg-gray-100 hover:bg-gray-200 p-6 space-y-4  shadow rounded-md hover:-translate-y-1 transition-transform duration-300 text-center"
+          onClick={() => setActiveTab("tab-2")}>
+          <div className=" inline-flex items-center justify-center w-full text-cyan-500">
+            <svg viewBox="0 0 24 24" fill="currentColor" height="48" width="48">
+              <path d="M20 2H4a2 2 0 00-2 2v12a2 2 0 002 2h4v3c0 .55.45 1 1 1h.5c.25 0 .5-.1.7-.29L13.9 18H20c1.11 0 2-.89 2-2V4a2 2 0 00-2-2m-9.53 12L7 10.5l1.4-1.41 2.07 2.08L15.6 6 17 7.41 10.47 14z" />
+            </svg>
+          </div>
+
+          <h1 className="text-6xl font-sans font-bold">
+            {totalComments.length}
+          </h1>
+
+          <p className="text-gray-600 "> Total comments</p>
+          <hr />
+          <p className="text-gray-600 ">
+            {" "}
+            Moderate and respond to user comments.
+          </p>
+        </div>
+        {/* end of cards  */}
       </div>
-      <div className="text-xl  my-2  flex items-center gap-2 md:gap-4 lg:gap-6 border-b border-b-gray-500 transition-all duration-300">
+      <div className="text-xl  my-2  flex items-center gap-2 md:gap-4 lg:gap-6 border-b border-b-gray-400 bg-gray-100 rounded-t-md  transition-all duration-300 shadow">
         <p
           onClick={() => setActiveTab("tab-0")}
-          className={`px-4 cursor-pointer hover:text-blue-600 font-medium ${
-            activeTab === "tab-0" ? "border-b-2 border-b-blue-600 text- " : ""
+          className={`px-4 cursor-pointer py-2 hover:text-blue-600 font-medium ${
+            activeTab === "tab-0" ? "border-b-2  border-b-blue-600 text- " : ""
           }`}>
           Blogs
         </p>
         <p
           onClick={() => setActiveTab("tab-1")}
-          className={`px-4 cursor-pointer hover:text-blue-600 font-medium ${
+          className={`px-4 cursor-pointer py-2 hover:text-blue-600 font-medium ${
             activeTab === "tab-1"
               ? "border-b-2 border-b-blue-600 text-blue-500 "
               : ""
@@ -133,7 +133,7 @@ export default function Dashboard({ blogs, totalComments, users }) {
         </p>
         <p
           onClick={() => setActiveTab("tab-2")}
-          className={`px-4 cursor-pointer hover:text-blue-600 font-medium  ${
+          className={`px-4 cursor-pointer py-2 hover:text-blue-600 font-medium  ${
             activeTab === "tab-2"
               ? "border-b-2 border-b-blue-600 text-blue-500 "
               : ""

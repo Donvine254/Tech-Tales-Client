@@ -195,3 +195,4 @@ export default function CommentsTable({ comments }) {
     </section>
   );
 }
+// add pagination

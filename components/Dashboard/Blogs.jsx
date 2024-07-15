@@ -100,6 +100,7 @@ export default function BlogsTable({ blogs }) {
         <div className="flex items-center gap-1 md:gap-2 lg:gap-4 my-1 ">
           <Link
             href="/create?user=admin"
+            target="_blank"
             className="xsm:hidden p-2 bg-cyan-100 text-cyan-600 border-cyan-600  rounded-md border hover:bg-cyan-500 hover:text-white flex items-center shadow ">
             <svg viewBox="0 0 24 24" fill="currentColor" height="24" width="24">
               <path d="M17 11a1 1 0 010 2h-4v4a1 1 0 01-2 0v-4H7a1 1 0 010-2h4V7a1 1 0 012 0v4h4z" />
