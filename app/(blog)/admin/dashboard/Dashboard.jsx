@@ -16,6 +16,23 @@ export default function Dashboard({ blogs, totalComments, totalUsers }) {
   const blogsData = blogs.sort((a, b) => a.id - b.id);
   const [totalBlogs, setTotalBlogs] = useState(blogsData);
 
+  const handleSearch = (e) => {
+    const searchTerm = e.target.value;
+    if (searchTerm === "") {
+      setTotalBlogs(blogsData);
+    }
+    const filteredBlogs = blogsData.filter((blog) =>
+      blog.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setTotalBlogs(filteredBlogs);
+  };
+
+  const handleSort = () => {
+    const sortedBlogs = [...blogsData].sort((a, b) =>
+      a.title.localeCompare(b.title)
+    );
+    setTotalBlogs(sortedBlogs);
+  };
   //function to delete blogs
   async function deleteBlog(blog) {
     Swal.fire({
@@ -165,14 +182,14 @@ export default function Dashboard({ blogs, totalComments, totalUsers }) {
         <div className="flex items-center gap-1 ">
           <Link
             href="/create?user=admin"
-            className="py-1 px-2 bg-cyan-500  rounded-md border hover:bg-black text-white flex items-center ">
+            className="p-2 bg-cyan-500  rounded-md border hover:bg-black text-white flex items-center ">
             <svg viewBox="0 0 24 24" fill="currentColor" height="24" width="24">
               <path d="M17 11a1 1 0 010 2h-4v4a1 1 0 01-2 0v-4H7a1 1 0 010-2h4V7a1 1 0 012 0v4h4z" />
             </svg>
             <span>Add Blog</span>
           </Link>
           <button
-            className="py-1 px-2 bg-gray-600 rounded-md border hover:bg-gray-900 text-white flex items-center gap-1"
+            className="p-2 bg-gray-900 rounded-md border hover:bg-gray-600 text-white flex items-center gap-1"
             onClick={() => exportCSV(blogs)}>
             <svg
               viewBox="0 0 640 512"
@@ -185,43 +202,36 @@ export default function Dashboard({ blogs, totalComments, totalUsers }) {
           </button>
         </div>
       </div>
-      <form className="md:py-2 md:flex md:items-center md:justify-center ">
-        <div className="relative">
+      {/* search input */}
+      <div className="flex items-center w-full ">
+        <div className="relative w-full md:w-[3/4] ">
           <input
             type="search"
             id="search"
             name="search"
             minLength={2}
             placeholder="Search.."
-            autoCorrect="ON"
+            autoCorrect="on"
             autoComplete="on"
-            onChange={(e) =>
-              setTotalBlogs((prevBlogs) =>
-                prevBlogs.filter((b) => b.title.includes(e.target.value))
-              )
-            }
-            className="rounded-xl bg-gray-50 p-2 pl-8 pr-6 px-4 w-full focus:bg-blue-100 focus:bg-opacity-30 text-black focus:outline-none text-xl border-2 border-gray-300   placeholder-gray-600 shadow"
+            onChange={(e) => handleSearch(e)}
+            className="rounded-xl focus:border-blue-500 bg-gray-50 p-2 pl-10  px-4 w-full md:w-[3/4] text-black focus:outline-none text-xl border-2 border-gray-300   placeholder-gray-600 shadow"
           />
-
           <SearchIcon className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600" />
         </div>
-        <div className="cursor-pointer border-2 bg-gray-50 hover:bg-blue-500 hover:text-slate-200 rounded-xl p-2 px-3 m-1 border-gray-300 hover:border-blue-500 shadow ">
+        <div
+          className="cursor-pointer border-2 bg-gray-50 hover:bg-blue-500 hover:text-slate-200 rounded-xl p-2 px-3 m-1 border-gray-300 hover:border-blue-500 shadow "
+          onClick={handleSort}>
           <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="30"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1"
-            strokeLinecap="round"
-            strokeLinejoin="round">
-            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
-            <title>Search</title>
+            viewBox="0 0 1024 1024"
+            fill="currentColor"
+            height="24"
+            width="24">
+            <path d="M839.6 433.8L749 150.5a9.24 9.24 0 00-8.9-6.5h-77.4c-4.1 0-7.6 2.6-8.9 6.5l-91.3 283.3c-.3.9-.5 1.9-.5 2.9 0 5.1 4.2 9.3 9.3 9.3h56.4c4.2 0 7.8-2.8 9-6.8l17.5-61.6h89l17.3 61.5c1.1 4 4.8 6.8 9 6.8h61.2c1 0 1.9-.1 2.8-.4 2.4-.8 4.3-2.4 5.5-4.6 1.1-2.2 1.3-4.7.6-7.1zM663.3 325.5l32.8-116.9h6.3l32.1 116.9h-71.2zm143.5 492.9H677.2v-.4l132.6-188.9c1.1-1.6 1.7-3.4 1.7-5.4v-36.4c0-5.1-4.2-9.3-9.3-9.3h-204c-5.1 0-9.3 4.2-9.3 9.3v43c0 5.1 4.2 9.3 9.3 9.3h122.6v.4L587.7 828.9a9.35 9.35 0 00-1.7 5.4v36.4c0 5.1 4.2 9.3 9.3 9.3h211.4c5.1 0 9.3-4.2 9.3-9.3v-43a9.2 9.2 0 00-9.2-9.3zM416 702h-76V172c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v530h-76c-6.7 0-10.5 7.8-6.3 13l112 141.9a8 8 0 0012.6 0l112-141.9c4.1-5.2.4-13-6.3-13z" />
+            <title>Sort</title>
           </svg>
         </div>
-      </form>
-
+      </div>
+      {/* end of search input beginning of table */}
       <div className="overflow-x-auto py-2">
         <table className="min-w-full border-separate border-spacing-2 border rounded-md  bg-gray-50 xsm:text-sm ">
           <thead>
