@@ -15,6 +15,7 @@ export default function Dashboard({ blogs, totalComments, totalUsers }) {
 
   const blogsData = blogs.sort((a, b) => a.id - b.id);
   const [totalBlogs, setTotalBlogs] = useState(blogsData);
+  const [isSorted, setIsSorted] = useState(false);
 
   const handleSearch = (e) => {
     const searchTerm = e.target.value;
@@ -28,10 +29,18 @@ export default function Dashboard({ blogs, totalComments, totalUsers }) {
   };
 
   const handleSort = () => {
-    const sortedBlogs = [...blogsData].sort((a, b) =>
-      a.title.localeCompare(b.title)
-    );
-    setTotalBlogs(sortedBlogs);
+    if (isSorted) {
+      setTotalBlogs(blogsData);
+    } else {
+      const sortedBlogs = [...blogsData].sort((a, b) =>
+        a.title.localeCompare(b.title)
+      );
+      setTotalBlogs(sortedBlogs);
+    }
+    setIsSorted(!isSorted);
+  };
+  const handleDateSort = () => {
+    toast.success("Incoming feature");
   };
   //function to delete blogs
   async function deleteBlog(blog) {
@@ -227,7 +236,15 @@ export default function Dashboard({ blogs, totalComments, totalUsers }) {
             height="24"
             width="24">
             <path d="M839.6 433.8L749 150.5a9.24 9.24 0 00-8.9-6.5h-77.4c-4.1 0-7.6 2.6-8.9 6.5l-91.3 283.3c-.3.9-.5 1.9-.5 2.9 0 5.1 4.2 9.3 9.3 9.3h56.4c4.2 0 7.8-2.8 9-6.8l17.5-61.6h89l17.3 61.5c1.1 4 4.8 6.8 9 6.8h61.2c1 0 1.9-.1 2.8-.4 2.4-.8 4.3-2.4 5.5-4.6 1.1-2.2 1.3-4.7.6-7.1zM663.3 325.5l32.8-116.9h6.3l32.1 116.9h-71.2zm143.5 492.9H677.2v-.4l132.6-188.9c1.1-1.6 1.7-3.4 1.7-5.4v-36.4c0-5.1-4.2-9.3-9.3-9.3h-204c-5.1 0-9.3 4.2-9.3 9.3v43c0 5.1 4.2 9.3 9.3 9.3h122.6v.4L587.7 828.9a9.35 9.35 0 00-1.7 5.4v36.4c0 5.1 4.2 9.3 9.3 9.3h211.4c5.1 0 9.3-4.2 9.3-9.3v-43a9.2 9.2 0 00-9.2-9.3zM416 702h-76V172c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v530h-76c-6.7 0-10.5 7.8-6.3 13l112 141.9a8 8 0 0012.6 0l112-141.9c4.1-5.2.4-13-6.3-13z" />
-            <title>Sort</title>
+            <title>Sort by title</title>
+          </svg>
+        </div>
+        <div
+          className="cursor-pointer border-2 bg-gray-50 hover:bg-blue-500 hover:text-slate-200 rounded-xl p-2 px-3 m-1 border-gray-300 hover:border-blue-500 shadow "
+          onClick={handleDateSort}>
+          <svg viewBox="0 0 24 24" fill="currentColor" height="24" width="24">
+            <path d="M20 17h3l-4 4-4-4h3V3h2v14M8 5c-3.86 0-7 3.13-7 7s3.13 7 7 7c3.86 0 7-3.13 7-7s-3.13-7-7-7m2.19 9.53L7 12.69V9h1.5v2.82l2.44 1.41-.75 1.3z" />
+            <title>sort by date</title>
           </svg>
         </div>
       </div>
