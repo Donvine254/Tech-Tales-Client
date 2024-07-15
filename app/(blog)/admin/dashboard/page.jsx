@@ -23,11 +23,18 @@ async function getTotalCommentsCount() {
     await prisma.$disconnect();
   }
 }
-async function getTotalUsersCount() {
+async function getTotalUsers() {
   "use server";
   try {
-    const users = await prisma.users.findMany();
-    return users.length;
+    const users = await prisma.users.findMany({
+      select: {
+        id: true,
+        email: true,
+        username: true,
+        role: true,
+      },
+    });
+    return users;
   } catch (error) {
     console.error("Error fetching users:", error);
     throw error;
@@ -40,7 +47,7 @@ export default async function Page() {
     response.json()
   );
   const totalComments = await getTotalCommentsCount();
-  const totalUsers = await getTotalUsersCount();
+  const allUsers = await getTotalUsers();
   return (
     <Suspense
       fallback={
@@ -52,7 +59,7 @@ export default async function Page() {
         <Dashboard
           blogs={blogs}
           totalComments={totalComments}
-          totalUsers={totalUsers}
+          users={allUsers}
         />
       </section>
     </Suspense>

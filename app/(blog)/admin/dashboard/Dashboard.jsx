@@ -1,11 +1,10 @@
 "use client";
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
 import BlogsTable from "@/components/Dashboard/Blogs";
+import UsersTable from "@/components/Dashboard/Users";
 
-export default function Dashboard({ blogs, totalComments, totalUsers }) {
+export default function Dashboard({ blogs, totalComments, users }) {
   const [activeTab, setActiveTab] = useState("tab-0");
-  const router = useRouter();
 
   return (
     <section className="w-full min-h-[320px] py-4 md:mt-10">
@@ -102,7 +101,7 @@ export default function Dashboard({ blogs, totalComments, totalUsers }) {
             </svg>
           </div>
           <h1 className="text-6xl text-center font-bold font-sans">
-            {totalUsers}
+            {users.length ?? 0}
           </h1>
           <p className="text-gray-600"> Total Users.</p>
           <hr />
@@ -140,7 +139,8 @@ export default function Dashboard({ blogs, totalComments, totalUsers }) {
         </p>
       </div>
       {/* add sections from here based on the tab */}
-      <BlogsTable blogs={blogs} router={router} />
+      {activeTab === "tab-0" && <BlogsTable blogs={blogs} />}
+      {activeTab === "tab-1" && <UsersTable users={users} />}
     </section>
   );
 }

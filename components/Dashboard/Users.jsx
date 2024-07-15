@@ -4,57 +4,42 @@ import { Edit, Trash, SearchIcon } from "@/assets";
 import { convertToHandle } from "@/lib/utils";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
-import { revalidateBlogs, revalidatePage } from "@/lib/actions";
-import { exportCSV } from "@/lib/utils";
-import Axios from "axios";
-import { useRouter } from "next/navigation";
 
-export default function BlogsTable({ blogs }) {
-  const blogsData = blogs.sort((a, b) => a.id - b.id);
-  const [totalBlogs, setTotalBlogs] = useState(blogsData);
+import { exportCSV } from "@/lib/utils";
+
+export default function UsersTable({ users }) {
+  const usersData = users.sort((a, b) => a.id.toString() - b.id.toString());
+  const [totalUsers, setTotalUsers] = useState(usersData);
   const [isSorted, setIsSorted] = useState(false);
-  const router = useRouter();
 
   const handleSearch = (e) => {
     const searchTerm = e.target.value;
     if (searchTerm === "") {
-      setTotalBlogs(blogsData);
+      setTotalUsers(usersData);
     }
-    const filteredBlogs = blogsData.filter((blog) =>
-      blog.title.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredUsers = usersData.filter((user) =>
+      user.username.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    setTotalBlogs(filteredBlogs);
+    setTotalUsers(filteredUsers);
   };
 
   const handleSort = () => {
     if (isSorted) {
-      setTotalBlogs(blogsData);
+      setTotalUsers(usersData);
     } else {
-      const sortedBlogs = [...blogsData].sort((a, b) =>
-        a.title.localeCompare(b.title)
+      const sortedUsers = [...usersData].sort((a, b) =>
+        a.username.localeCompare(b.username)
       );
-      setTotalBlogs(sortedBlogs);
+      setTotalUsers(sortedUsers);
     }
     setIsSorted(!isSorted);
   };
 
-  const handleDateSort = () => {
-    if (isSorted) {
-      setTotalBlogs(blogsData);
-    } else {
-      const sortedBlogs = [...blogsData].sort((a, b) => {
-        return b.id - a.id;
-      });
-      setTotalBlogs(sortedBlogs);
-    }
-    setIsSorted(!isSorted);
-  };
-
-  //function to delete blogs
-  async function deleteBlog(blog) {
+  //function to delete users
+  async function deleteUser(user) {
     Swal.fire({
       icon: "warning",
-      text: "Are you sure you want to delete this blog? This cannot action cannot be undone",
+      text: "Are you sure you want to delete this user? This cannot action cannot be undone",
       showCloseButton: true,
       confirmButtonText: "Delete",
       showCancelButton: true,
@@ -67,48 +52,29 @@ export default function BlogsTable({ blogs }) {
       buttonsStyling: false,
     }).then(async (result) => {
       if (result.isConfirmed) {
-        await handleDelete(blog);
+        Axios.delete(`https://techtales.up.railway.app/users/${user.id}`);
+        toast.success("Account deleted successfully");
+        setTotalUsers((prevBlogs) => prevBlogs.filter((b) => b.id !== user.id));
       }
     });
   }
 
-  async function handleDelete(blog) {
-    try {
-      await Axios.delete(`https://techtales.up.railway.app/blogs/${blog.id}`);
-      setTotalBlogs((prevBlogs) => prevBlogs.filter((b) => b.id !== blog.id));
-      toast.success("Blog deleted successfully!");
-      await Revalidate(blog);
-      // try using window.location.reload()
-      router.refresh();
-    } catch (error) {
-      console.error(error);
-      toast.error("An error has occurred");
-    }
-  }
-
-  async function Revalidate(blog) {
-    revalidateBlogs();
-    revalidateBlogs(blog.slug);
-    revalidatePage("latest");
-    revalidatePage("admin/dashboard");
-    revalidatePage("relevant");
-  }
   return (
     <section>
       <div className="flex items-center justify-between gap-4 flex-wrap">
-        <h1 className="md:text-xl  font-semibold my-2 ">Manage Blogs</h1>
+        <h1 className="md:text-xl  font-semibold my-2 ">Manage users</h1>
         <div className="flex items-center gap-1 md:gap-2 lg:gap-4 my-1 ">
           <Link
-            href="/create?user=admin"
+            href="/register"
             className="xsm:hidden p-2 bg-cyan-100 text-cyan-600 border-cyan-600  rounded-md border hover:bg-cyan-500 hover:text-white flex items-center shadow ">
             <svg viewBox="0 0 24 24" fill="currentColor" height="24" width="24">
               <path d="M17 11a1 1 0 010 2h-4v4a1 1 0 01-2 0v-4H7a1 1 0 010-2h4V7a1 1 0 012 0v4h4z" />
             </svg>
-            <span>Add Blog</span>
+            <span>Add user</span>
           </Link>
           <button
             className="p-2  rounded-md border hover:bg-gray-900 hover:text-white  flex items-center gap-1 shadow bg-white"
-            onClick={() => exportCSV(blogs)}>
+            onClick={() => exportCSV(users)}>
             <svg
               viewBox="0 0 640 512"
               fill="currentColor"
@@ -152,18 +118,6 @@ export default function BlogsTable({ blogs }) {
             <title>Sort by A-Z</title>
           </svg>
         </div>
-        <div
-          className={`cursor-pointer border  hover:text-slate-200 rounded-xl p-2 px-3 m-1 content-center shadow h-12 ${
-            isSorted
-              ? "bg-blue-500 text-white"
-              : "bg-gray-50 text-black hover:bg-blue-500   "
-          }`}
-          onClick={handleDateSort}>
-          <svg viewBox="0 0 24 24" fill="currentColor" height="24" width="24">
-            <path d="M20 17h3l-4 4-4-4h3V3h2v14M8 5c-3.86 0-7 3.13-7 7s3.13 7 7 7c3.86 0 7-3.13 7-7s-3.13-7-7-7m2.19 9.53L7 12.69V9h1.5v2.82l2.44 1.41-.75 1.3z" />
-            <title>sort by date</title>
-          </svg>
-        </div>
       </div>
       {/* end of search input beginning of table */}
       <div className="overflow-x-auto py-2">
@@ -171,53 +125,54 @@ export default function BlogsTable({ blogs }) {
           <thead>
             <tr className="border-gray-400 border">
               <th className="px-4 py-2 border-b font-bold">ID</th>
-              <th className="px-4 py-2 border-b font-bold">Title</th>
-              <th className="px-4 py-2 border-b font-bold">Author</th>
+              <th className="px-4 py-2 border-b font-bold text-start">Email</th>
+              <th className="px-4 py-2 border-b font-bold text-start">
+                Username
+              </th>
+              <th className="px-4 py-2 border-b font-bold">Role</th>
               <th className="px-4 py-2 border-b font-bold">Status</th>
               <th className="px-4 py-2 border-b font-bold">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {blogs &&
-              totalBlogs.map((blog) => (
+            {users &&
+              totalUsers.map((user) => (
                 <tr
-                  key={blog.id}
+                  key={user.id}
                   className="hover:bg-gray-200 group border-gray-400 -1">
                   <td className="px-4 py-2 border-b ">
                     <span className="bg-gray-200 rounded-full  px-1 border group-hover:bg-gray-50 text-sm ">
                       {" "}
-                      {blog.id < 10 ? "#000" : "#00"}
-                      {blog.id}
+                      #00
+                      {user.id.toString()}
                     </span>
                   </td>
-                  <td className="px-4 py-2 border-b">
-                    <Link
-                      href={`/blogs/${blog.slug}`}
-                      className="font-medium hover:text-blue-500 hover:underline">
-                      {blog.title}
-                    </Link>
+                  <td className="px-4 py-2 border-b">{user.email}</td>
+                  <td className="px-4 py-2 border-b text-start capitalize">
+                    {convertToHandle(user.username)}
                   </td>
-                  <td className="px-4 py-2 border-b text-center capitalize">
-                    {convertToHandle(blog.author)}
+
+                  <td className="px-4 py-2 border-b text-center">
+                    {user.role}
                   </td>
                   <td className="px-4 py-2 border-b">
                     <span className="inline-block px-2 rounded-full bg-green-500 text-white text-sm">
-                      Published
+                      Active
                     </span>
                   </td>
                   <td className="px-4 py-2 border-b">
                     <div className="flex space-x-2">
                       <Link
-                        href={`/create/${blog.slug}`}
+                        href={`/me/settings`}
                         className="flex items-center gap-1 text-sm   bg-gray-200 border px-1 py-0.5 rounded-md  group-hover:bg-cyan-100 group-hover:border-cyan-500"
-                        title="edit blog">
+                        title="edit user">
                         <Edit size={14} />
                       </Link>
 
                       <button
                         className="flex items-center gap-1 text-sm   bg-gray-200 border px-1 py-0.5 rounded-md  group-hover:bg-red-100 group-hover:border-red-500"
-                        onClick={() => deleteBlog(blog)}
-                        title="delete blog">
+                        onClick={() => deleteUser(user)}
+                        title="delete user">
                         <Trash size={14} />
                       </button>
                     </div>
@@ -227,10 +182,11 @@ export default function BlogsTable({ blogs }) {
           </tbody>
         </table>
         <p>
-          Showing <strong>{totalBlogs.length}</strong> of{" "}
-          <strong>{blogs.length}</strong> blogs
+          Showing <strong>{totalUsers.length}</strong> of{" "}
+          <strong>{users.length}</strong> users
         </p>
       </div>
     </section>
   );
 }
+// actions should include suspend user, make admin, reset password, edit user and delete user
