@@ -39,9 +39,19 @@ export default function Dashboard({ blogs, totalComments, totalUsers }) {
     }
     setIsSorted(!isSorted);
   };
+
   const handleDateSort = () => {
-    toast.success("Incoming feature");
+    if (isSorted) {
+      setTotalBlogs(blogsData);
+    } else {
+      const sortedBlogs = [...blogsData].sort((a, b) => {
+        return b.id - a.id;
+      });
+      setTotalBlogs(sortedBlogs);
+    }
+    setIsSorted(!isSorted);
   };
+
   //function to delete blogs
   async function deleteBlog(blog) {
     Swal.fire({
