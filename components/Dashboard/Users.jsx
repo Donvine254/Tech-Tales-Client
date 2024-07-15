@@ -95,11 +95,11 @@ export default function UsersTable({ users }) {
             id="search"
             name="search"
             minLength={3}
-            placeholder="Search.."
+            placeholder="Search by username.."
             autoCorrect="on"
             autoComplete="on"
             onChange={(e) => handleSearch(e)}
-            className="rounded-xl focus:border-blue-500 bg-gray-50 p-2 pl-10  px-4 w-full  text-black focus:outline-none text-xl border border-gray-300 h-12   placeholder-gray-600 shadow"
+            className="rounded-xl focus:border-blue-500 bg-gray-50 p-2 pl-10  px-4 w-full  text-black focus:outline-none text-xl border border-gray-300 h-12   placeholder-gray-400 shadow"
           />
           <SearchIcon className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600" />
         </div>
@@ -131,9 +131,13 @@ export default function UsersTable({ users }) {
               </th>
               <th className="px-4 py-2 border-b font-bold text-start">Email</th>
 
-              <th className="px-4 py-2 border-b font-bold">Role</th>
-              <th className="px-4 py-2 border-b font-bold">Status</th>
-              <th className="px-4 py-2 border-b font-bold">Actions</th>
+              <th className="px-4 py-2 border-b font-bold text-start">Role</th>
+              <th className="px-4 py-2 border-b font-bold text-start">
+                Status
+              </th>
+              <th className="px-4 py-2 border-b font-bold text-start">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -144,8 +148,7 @@ export default function UsersTable({ users }) {
                   className="hover:bg-gray-200 group border-gray-400 -1">
                   <td className="px-4 py-2 border-b ">
                     <span className="bg-gray-200 rounded-full  px-1 border group-hover:bg-gray-50 text-sm ">
-                      {" "}
-                      #00
+                      {Number(user.id) > 10 ? " #0" : "#00"}
                       {user.id.toString()}
                     </span>
                   </td>
@@ -155,15 +158,13 @@ export default function UsersTable({ users }) {
                       alt={user.username}
                       height={32}
                       width={32}
-                      className="rounded-full italic h-8 w-8"
+                      className="rounded-full border italic h-8 w-8"
                     />{" "}
                     {user.username}
                   </td>
                   <td className="px-4 py-2 border-b">{user.email}</td>
 
-                  <td className="px-4 py-2 border-b text-center">
-                    {user.role}
-                  </td>
+                  <td className="px-4 py-2 border-b text-start">{user.role}</td>
                   <td className="px-4 py-2 border-b">
                     <span className="inline-block px-2 rounded-full bg-green-500 text-white text-sm">
                       Active

@@ -202,8 +202,8 @@ div.arrow-up {
   border-right: 18px solid transparent;
   border-top: 18px solid #789ae4;
 }
-/* animation for border */
 
+/* animation for border */
 
 @keyframes blink {
   100% {
@@ -211,4 +211,5 @@ div.arrow-up {
     opacity: 0;
   }
 }
+
 
