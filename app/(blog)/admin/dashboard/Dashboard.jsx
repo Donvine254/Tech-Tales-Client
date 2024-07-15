@@ -111,7 +111,7 @@ export default function Dashboard({ blogs, totalComments, users }) {
           </p>
         </div>
       </div>
-      <div className="w-full text-xl  my-2  flex items-center gap-2 md:gap-4 lg:gap-6 border-b border-b-gray-500">
+      <div className="text-xl  my-2  flex items-center gap-2 md:gap-4 lg:gap-6 border-b border-b-gray-500 transition-all duration-300">
         <p
           onClick={() => setActiveTab("tab-0")}
           className={`px-4 cursor-pointer hover:text-blue-600 font-medium ${

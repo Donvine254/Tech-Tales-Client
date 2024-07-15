@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import { exportUsersCSV } from "@/lib/utils";
 import Axios from "axios";
+import Image from "next/image";
 
 export default function UsersTable({ users }) {
   const usersData = users.sort((a, b) => a.id.toString() - b.id.toString());
@@ -125,10 +126,11 @@ export default function UsersTable({ users }) {
           <thead>
             <tr className="border-gray-400 border">
               <th className="px-4 py-2 border-b font-bold">ID</th>
-              <th className="px-4 py-2 border-b font-bold text-start">Email</th>
               <th className="px-4 py-2 border-b font-bold text-start">
                 Username
               </th>
+              <th className="px-4 py-2 border-b font-bold text-start">Email</th>
+
               <th className="px-4 py-2 border-b font-bold">Role</th>
               <th className="px-4 py-2 border-b font-bold">Status</th>
               <th className="px-4 py-2 border-b font-bold">Actions</th>
@@ -147,10 +149,17 @@ export default function UsersTable({ users }) {
                       {user.id.toString()}
                     </span>
                   </td>
-                  <td className="px-4 py-2 border-b">{user.email}</td>
-                  <td className="px-4 py-2 border-b text-start capitalize">
-                    {convertToHandle(user.username)}
+                  <td className="px-4 py-2 border-b text-start capitalize flex items-center content-center gap-1">
+                    <Image
+                      src={user.picture}
+                      alt={user.username}
+                      height={32}
+                      width={32}
+                      className="rounded-full italic h-8 w-8"
+                    />{" "}
+                    {user.username}
                   </td>
+                  <td className="px-4 py-2 border-b">{user.email}</td>
 
                   <td className="px-4 py-2 border-b text-center">
                     {user.role}

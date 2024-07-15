@@ -32,6 +32,8 @@ async function getTotalUsers() {
         email: true,
         username: true,
         role: true,
+        picture: true,
+        bio: true,
       },
     });
     return users;
