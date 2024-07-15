@@ -4,8 +4,8 @@ import { Edit, Trash, SearchIcon } from "@/assets";
 import { convertToHandle } from "@/lib/utils";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
-
-import { exportCSV } from "@/lib/utils";
+import { exportUsersCSV } from "@/lib/utils";
+import Axios from "axios";
 
 export default function UsersTable({ users }) {
   const usersData = users.sort((a, b) => a.id.toString() - b.id.toString());
@@ -74,7 +74,7 @@ export default function UsersTable({ users }) {
           </Link>
           <button
             className="p-2  rounded-md border hover:bg-gray-900 hover:text-white  flex items-center gap-1 shadow bg-white"
-            onClick={() => exportCSV(users)}>
+            onClick={() => exportUsersCSV(users)}>
             <svg
               viewBox="0 0 640 512"
               fill="currentColor"
