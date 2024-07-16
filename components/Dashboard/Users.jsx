@@ -126,34 +126,26 @@ export default function UsersTable({ users }) {
         <table className="min-w-full rounded-md  bg-gray-50 xsm:text-sm ">
           <thead>
             <tr className="bg-[#7bede6]">
-              <th className="px-4 py-2 border-b font-bold">#</th>
-              <th className="px-4 py-2 border-b font-bold text-start">
-                Username
-              </th>
-              <th className="px-4 py-2 border-b font-bold text-start">Email</th>
+              <th className="px-4 py-2 font-bold">#</th>
+              <th className="px-4 py-2 font-bold text-start">Username</th>
+              <th className="px-4 py-2 font-bold text-start">Email</th>
 
-              <th className="px-4 py-2 border-b font-bold text-start">Role</th>
-              <th className="px-4 py-2 border-b font-bold text-start">
-                Status
-              </th>
-              <th className="px-4 py-2 border-b font-bold text-start">
-                Actions
-              </th>
+              <th className="px-4 py-2 font-bold text-start">Role</th>
+              <th className="px-4 py-2 font-bold text-start">Status</th>
+              <th className="px-4 py-2 font-bold text-start">Actions</th>
             </tr>
           </thead>
           <tbody>
             {users &&
               totalUsers.map((user) => (
-                <tr
-                  key={user.id}
-                  className="hover:bg-gray-200 group border-gray-400 -1">
-                  <td className="px-4 py-2 border-b ">
+                <tr key={user.id} className="hover:bg-zinc-200 group ">
+                  <td className="px-4 py-2  ">
                     <span className="bg-gray-200 rounded-full  px-1 border group-hover:bg-gray-50 text-sm ">
                       {Number(user.id) > 10 ? " #0" : "#00"}
                       {user.id.toString()}
                     </span>
                   </td>
-                  <td className="px-4 py-2 border-b text-start capitalize flex items-center content-center gap-1 whitespace-nowrap ">
+                  <td className="px-4 py-2  text-start capitalize flex items-center content-center gap-1 whitespace-nowrap ">
                     <Image
                       src={user.picture}
                       alt={user.username}
@@ -163,15 +155,24 @@ export default function UsersTable({ users }) {
                     />{" "}
                     {user.username}
                   </td>
-                  <td className="px-4 py-2 border-b">{user.email}</td>
+                  <td className="px-4 py-2 ">{user.email}</td>
 
-                  <td className="px-4 py-2 border-b text-start">{user.role}</td>
-                  <td className="px-4 py-2 border-b">
-                    <span className="inline-block px-2 rounded-full bg-green-500 text-white text-sm">
+                  <td className="px-4 py-2  text-start">
+                    <span
+                      className={`inline-block px-2 rounded-full  text-sm ${
+                        user.role === "admin"
+                          ? "bg-yellow-100 text-yellow-600 border font-medium border-yellow-200"
+                          : ""
+                      }`}>
+                      {user.role}
+                    </span>
+                  </td>
+                  <td className="px-4 py-2 ">
+                    <span className="inline-block px-2 rounded-full bg-green-100 text-green-500 border-green-200 border text-sm">
                       Active
                     </span>
                   </td>
-                  <td className="px-4 py-2 border-b">
+                  <td className="px-4 py-2 ">
                     <div className="flex space-x-2">
                       <Link
                         href={`/me/settings`}

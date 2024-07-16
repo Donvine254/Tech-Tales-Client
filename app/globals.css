@@ -213,7 +213,11 @@ div.arrow-up {
 }
 
 #dashboard-page table tr:nth-child(even) {
-  background-color: #e4f6fb;
+  background-color: #cffafe;
+  border-bottom: 1px solid #a4e2f3;
+}
+#dashboard-page table tr:nth-child(odd) {
+  border-bottom: 1px solid #a4e2f3;
 }
 #dashboard-page table tr:nth-child(even) {
   @apply hover:bg-[#c4ecf7];

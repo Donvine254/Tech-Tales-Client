@@ -124,32 +124,24 @@ export default function CommentsTable({ comments }) {
         <table className="min-w-full  bg-gray-50 xsm:text-sm ">
           <thead>
             <tr className="bg-[#7bede6]">
-              <th className="px-4 py-2 border-b font-bold">#</th>
-              <th className="px-4 py-2 border-b font-bold text-start">
-                Author
-              </th>
-              <th className="px-4 py-2 border-b font-bold text-start">Blog</th>
-              <th className="px-4 py-2 border-b font-bold text-start">
-                Status
-              </th>
-              <th className="px-4 py-2 border-b font-bold text-start">
-                Actions
-              </th>
+              <th className="px-4 py-2 font-bold">#</th>
+              <th className="px-4 py-2 font-bold text-start">Author</th>
+              <th className="px-4 py-2 font-bold text-start">Blog</th>
+              <th className="px-4 py-2 font-bold text-start">Status</th>
+              <th className="px-4 py-2 font-bold text-start">Actions</th>
             </tr>
           </thead>
           <tbody>
             {comments &&
               totalComments.map((comment) => (
-                <tr
-                  key={comment.id}
-                  className="hover:bg-gray-200 group border-gray-400 -1">
-                  <td className="px-4 py-2 border-b ">
+                <tr key={comment.id} className="hover:bg-zinc-200 group ">
+                  <td className="px-4 py-2 ">
                     <span className="bg-gray-200 rounded-full  px-1 border group-hover:bg-gray-50 text-sm ">
                       {comment.id > 10 ? " #0" : "#00"}
                       {comment.id.toString()}
                     </span>
                   </td>
-                  <td className="px-4 py-2 border-b text-start capitalize flex items-center content-center gap-1 whitespace-nowrap xsm:text-sm">
+                  <td className="px-4 py-2  text-start capitalize flex items-center content-center gap-1 whitespace-nowrap xsm:text-sm">
                     <Image
                       src={comment.user_avatar}
                       alt={comment.author}
@@ -159,14 +151,14 @@ export default function CommentsTable({ comments }) {
                     />{" "}
                     {comment.author}
                   </td>
-                  <td className="px-4 py-2 border-b">{comment.blog}</td>
+                  <td className="px-4 py-2 ">{comment.blog}</td>
 
-                  <td className="px-4 py-2 border-b">
-                    <span className="inline-block px-2 rounded-full bg-green-500 text-white text-sm">
-                      Published
+                  <td className="px-4 py-2 ">
+                    <span className="inline-block px-2 rounded-full bg-green-100 text-green-600 border border-green-200 text-sm">
+                      Visible
                     </span>
                   </td>
-                  <td className="px-4 py-2 border-b">
+                  <td className="px-4 py-2 ">
                     <div className="flex space-x-2">
                       <button
                         onClick={() => toast.success("incoming feature")}

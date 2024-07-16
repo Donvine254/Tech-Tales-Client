@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Edit, Trash, SearchIcon } from "@/assets";
-import { convertToHandle } from "@/lib/utils";
+import Image from "next/image";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import { revalidateBlogs, revalidatePage } from "@/lib/actions";
@@ -171,13 +171,11 @@ export default function BlogsTable({ blogs }) {
         <table className="min-w-full rounded-md  bg-gray-50 xsm:text-sm ">
           <thead>
             <tr className="bg-[#7bede6] rounded-md ">
-              <th className="px-4 py-2 border-b font-bold">#</th>
-              <th className="px-4 py-2 border-b font-bold text-start">Title</th>
-              <th className="px-4 py-2 border-b font-bold text-start">
-                Author
-              </th>
-              <th className="px-4 py-2 border-b font-bold">Status</th>
-              <th className="px-4 py-2 border-b font-bold">Actions</th>
+              <th className="px-4 py-2  font-bold">#</th>
+              <th className="px-4 py-2  font-bold text-start">Author</th>
+              <th className="px-4 py-2  font-bold text-start">Title</th>
+              <th className="px-4 py-2  font-bold">Status</th>
+              <th className="px-4 py-2  font-bold">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -186,29 +184,37 @@ export default function BlogsTable({ blogs }) {
                 <tr
                   key={blog.id}
                   className="hover:bg-gray-200 group border-gray-400">
-                  <td className="px-4 py-2 border-b ">
-                    <span className="bg-gray-200 rounded-full  px-1 border group-hover:bg-gray-50 text-sm ">
+                  <td className="px-4 py-2  ">
+                    <span className="bg-gray-200 rounded-full  px-1 group-hover:bg-gray-50 text-sm ">
                       {" "}
                       {blog.id < 10 ? "#000" : "#00"}
                       {blog.id}
                     </span>
                   </td>
-                  <td className="px-4 py-2 border-b">
+                  <td className="px-4 py-2  text-start capitalize flex items-center content-center gap-1 whitespace-nowrap xsm:text-sm">
+                    <Image
+                      src={blog.user_avatar}
+                      alt={blog.author}
+                      height={32}
+                      width={32}
+                      className="rounded-full  italic h-8 w-8"
+                    />{" "}
+                    {blog.author}
+                  </td>
+                  <td className="px-4 py-2 ">
                     <Link
                       href={`/blogs/${blog.slug}`}
                       className="font-medium hover:text-blue-500 hover:underline">
                       {blog.title}
                     </Link>
                   </td>
-                  <td className="px-4 py-2 border-b  capitalize">
-                    {blog.author}
-                  </td>
-                  <td className="px-4 py-2 border-b">
-                    <span className="inline-block px-2 rounded-full bg-green-500 text-white text-sm">
+
+                  <td className="px-4 py-2 ">
+                    <span className="inline-block px-2 rounded-full bg-green-100 text-green-600 border border-green-200 text-sm">
                       Published
                     </span>
                   </td>
-                  <td className="px-4 py-2 border-b">
+                  <td className="px-4 py-2 ">
                     <div className="flex space-x-2">
                       <Link
                         href={`/create/${blog.slug}`}
