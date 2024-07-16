@@ -8,7 +8,7 @@ export default function Dashboard({ blogs, totalComments, users }) {
   const [activeTab, setActiveTab] = useState("tab-0");
 
   return (
-    <section className="w-full min-h-[320px] py-4 md:mt-10">
+    <section className="w-full min-h-[320px] py-4 md:mt-10" id="dashboard-page">
       <div className="grid grid-cols-1 gap-4  py-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 ">
         {/* first card */}
         <div

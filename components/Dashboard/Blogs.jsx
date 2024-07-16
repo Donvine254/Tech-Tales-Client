@@ -168,12 +168,14 @@ export default function BlogsTable({ blogs }) {
       </div>
       {/* end of search input beginning of table */}
       <div className="overflow-x-auto py-2">
-        <table className="min-w-full border-separate border-spacing-2 border rounded-md  bg-gray-50 xsm:text-sm ">
+        <table className="min-w-full rounded-md  bg-gray-50 xsm:text-sm ">
           <thead>
-            <tr className="border-gray-400 border">
+            <tr className="bg-[#7bede6] rounded-md ">
               <th className="px-4 py-2 border-b font-bold">#</th>
-              <th className="px-4 py-2 border-b font-bold">Title</th>
-              <th className="px-4 py-2 border-b font-bold">Author</th>
+              <th className="px-4 py-2 border-b font-bold text-start">Title</th>
+              <th className="px-4 py-2 border-b font-bold text-start">
+                Author
+              </th>
               <th className="px-4 py-2 border-b font-bold">Status</th>
               <th className="px-4 py-2 border-b font-bold">Actions</th>
             </tr>
@@ -183,7 +185,7 @@ export default function BlogsTable({ blogs }) {
               totalBlogs.map((blog) => (
                 <tr
                   key={blog.id}
-                  className="hover:bg-gray-200 group border-gray-400 -1">
+                  className="hover:bg-gray-200 group border-gray-400">
                   <td className="px-4 py-2 border-b ">
                     <span className="bg-gray-200 rounded-full  px-1 border group-hover:bg-gray-50 text-sm ">
                       {" "}
@@ -198,8 +200,8 @@ export default function BlogsTable({ blogs }) {
                       {blog.title}
                     </Link>
                   </td>
-                  <td className="px-4 py-2 border-b text-center capitalize">
-                    {convertToHandle(blog.author)}
+                  <td className="px-4 py-2 border-b  capitalize">
+                    {blog.author}
                   </td>
                   <td className="px-4 py-2 border-b">
                     <span className="inline-block px-2 rounded-full bg-green-500 text-white text-sm">
