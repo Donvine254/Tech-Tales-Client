@@ -100,7 +100,7 @@ export default function Profile() {
       <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-start md:gap-5 ">
         {/* first card */}
         <div className="lg:w-1/3  bg-gray-50 border shadow rounded-md ">
-          <div className="bg-gradient-to-t px-6 pt-2 from-gray-50 via-gray-100 to-cyan-400 w-full">
+          <div className="bg-gradient-to-t px-6 pt-2 from-gray-50 via-gray-100 to-cyan-400 w-full rounded-t-md">
             <Image
               src={user?.picture}
               height={120}

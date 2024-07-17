@@ -63,7 +63,7 @@ export const Search = () => {
         <div className="relative">
           <input
             type="search"
-            id="search"
+            id="search-lg"
             name="search"
             minLength={2}
             placeholder="Search blogs..."

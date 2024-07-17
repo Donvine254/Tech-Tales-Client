@@ -123,7 +123,7 @@ export default function UsersTable({ users }) {
       </div>
       {/* end of search input beginning of table */}
       <div className="overflow-x-auto py-2">
-        <table className="min-w-full rounded-md  bg-gray-50 xsm:text-sm ">
+        <table className="min-w-full shadow bg-gray-50 xsm:text-sm ">
           <thead>
             <tr className="bg-[#7bede6]">
               <th className="px-4 py-2 font-bold">#</th>
