@@ -42,9 +42,9 @@ export default function Page() {
         cancelButton: "px-2 py-1 mx-2 bg-green-500 rounded-md text-white",
       },
       buttonsStyling: false,
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        fetch(`${baseUrl}/auth/logout`);
+        await fetch(`${baseUrl}/auth/logout`);
         clearLocalStorage();
         // get the current user and ensure the user cannot login again before 5 minutes elapse
         router.replace("/");
@@ -67,9 +67,9 @@ export default function Page() {
         cancelButton: "px-2 py-1 mx-2 bg-green-500 rounded-md text-white",
       },
       buttonsStyling: false,
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        Axios.delete(`https://techtales.up.railway.app/users/${user.id}`);
+        await Axios.delete(`https://techtales.up.railway.app/users/${user.id}`);
         toast.success("Account deleted successfully");
         fetch(`${baseUrl}/auth/logout`);
         clearLocalStorage();
