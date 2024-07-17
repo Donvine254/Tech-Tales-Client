@@ -57,10 +57,24 @@ export default async function BlogsComponent({ blogs }) {
               </article>
             </div>
             <div className="flex items-center justify-between py-2">
-              <Link href={`/blogs/${blog.slug}`} prefetch>
-                Read &#8599;
+              <Link
+                href={`/blogs/${blog.slug}`}
+                prefetch
+                className="inline-flex items-center gap-1 hover:underline hover:text-blue-500">
+                <span>Read</span>
+                <svg
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  viewBox="0 0 24 24"
+                  height="1em"
+                  width="1em">
+                  <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" />
+                </svg>
               </Link>
-              <p className="text-base flex items-center gap-1 md:gap-2 bg-gray-300 border rounded-full text-black px-2">
+              <p className="text-base flex items-center gap-1 md:gap-2 bg-gray-300 border rounded-full text-black px-2 ">
                 <Clock />
                 {calculateReadingTime(blog.body)} min{" "}
                 <span className="xsm:hidden">read</span>
