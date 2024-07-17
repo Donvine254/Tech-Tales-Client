@@ -26,6 +26,7 @@ export default function App({ data, handleChange }) {
           toolbar_mode: "sliding",
           toolbar_location: "bottom",
           menubar: false,
+          autocomplete: true,
           placeholder: "Start by writing or pasting (Ctrl + V) text here....",
           browser_spellcheck: true,
           plugins: [

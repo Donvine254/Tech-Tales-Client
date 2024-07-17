@@ -176,6 +176,7 @@ export default function UpdateProfileModal({ user }) {
               id="username1"
               name="username"
               value={data.username}
+              autoComplete="username"
               pattern="^[a-zA-Z\s]*$"
               title="numbers and special characters are not allowed"
               maxLength={20}
@@ -202,6 +203,9 @@ export default function UpdateProfileModal({ user }) {
               value={data.bio}
               minLength={5}
               maxLength={100}
+              spellCheck={true}
+              autoComplete="on"
+              autoCorrect="on"
               title="numbers and special characters are not allowed"
               onChange={(e) => {
                 setData((prev) => ({
