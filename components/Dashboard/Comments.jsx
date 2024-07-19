@@ -144,7 +144,7 @@ export default function CommentsTable({ comments }) {
                     </span>
                   </td>
                   <td className="px-4 py-2  text-start capitalize  content-center whitespace-nowrap xsm:text-sm">
-                    <div className="flex items-center justify-center gap-1">
+                    <div className="flex items-center  gap-1">
                       <Image
                         src={comment.user_avatar}
                         alt={comment.author}
