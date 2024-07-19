@@ -89,6 +89,7 @@ export default function CommentActionsButton({ onDelete, comment }) {
               {/* first check if it is flagged */}
               Flag Comment
             </button>
+            <hr />
             <button
               className="py-1 text-gray-800 hover:text-red-600 bg-red-100 w-full  hover:bg-red-200 rounded-md"
               onClick={onDelete}>

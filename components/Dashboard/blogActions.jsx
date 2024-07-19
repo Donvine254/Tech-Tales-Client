@@ -87,7 +87,7 @@ export default function BlogActionsButton({ onDelete, blog }) {
               onClick={() => toast.success("incoming feature")}>
               Unpublish Blog
             </button>
-
+            <hr />
             <button
               className="py-1 text-gray-800 hover:text-red-600 bg-red-100 w-full  hover:bg-red-200 rounded-md"
               onClick={onDelete}>

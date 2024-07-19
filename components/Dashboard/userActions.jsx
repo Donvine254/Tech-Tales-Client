@@ -76,7 +76,13 @@ export default function UserActionsButton({ onDelete, user }) {
               View Profile
             </Link>
             <button className="py-1 text-gray-800 hover:text-blue-600 bg-cyan-100 w-full  hover:bg-gray-200 rounded-md">
-              Edit User Details
+              Edit Details
+            </button>
+            {/* <button className="py-1 text-gray-800 hover:text-blue-600 bg-cyan-100 w-full  hover:bg-gray-200 rounded-md">
+              Reset Password
+            </button> */}
+            <button className="py-1 text-gray-800 hover:text-blue-600 bg-cyan-100 w-full  hover:bg-gray-200 rounded-md">
+              {user.role === "admin" ? "Demote User" : "Make Admin"}
             </button>
             <button
               className="py-1 text-gray-800 hover:text-red-600 bg-red-100 w-full  hover:bg-red-200 rounded-md"
