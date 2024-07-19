@@ -5,7 +5,6 @@ import axiosInstance from "@/axiosConfig";
 import { useRouter } from "next/navigation";
 import Loader from "../Loader";
 
-
 export default function AdminUpdateProfileModal({ user }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -27,7 +26,9 @@ export default function AdminUpdateProfileModal({ user }) {
         toast.success("Details updated successfully!");
         setLoading(false);
         document.getElementById("profile_update_modal").close();
-        router.refresh();
+        if (typeof window !== "undefined") {
+          window.location.reload();
+        }
       }
     } catch (error) {
       console.error(error);
