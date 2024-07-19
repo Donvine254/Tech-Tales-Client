@@ -2,11 +2,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
-import Link from "next/link";
 import axiosInstance from "@/axiosConfig";
 import AdminUpdateProfileModal from "./ProfileUpdate";
 
-export default function UserActionsButton({ onDelete, user }) {
+export default function UserActionsButton({ onDelete, user, onEdit }) {
   const [isPopupOpen, setPopupOpen] = useState(false);
   const popupRef = useRef(null);
   useEffect(() => {
@@ -94,11 +93,6 @@ export default function UserActionsButton({ onDelete, user }) {
     }
   }
 
-  //   function to show update modal
-  const showUpdateModal = () => {
-    document.getElementById("profile_update_modal").showModal();
-  };
-
   return (
     <div className="relative">
       <svg
@@ -142,7 +136,7 @@ export default function UserActionsButton({ onDelete, user }) {
           <div className="px-2 py-4 flex flex-col gap-2 bg-white border shadow-lg rounded-md ">
             <button
               className="py-1 text-gray-800 hover:text-blue-600 bg-cyan-100 w-full  hover:bg-gray-200 rounded-md"
-              onClick={showUpdateModal}>
+              onClick={() => onEdit(user.id)}>
               Edit Details
             </button>
             {/* <button className="py-1 text-gray-800 hover:text-blue-600 bg-cyan-100 w-full  hover:bg-gray-200 rounded-md">
@@ -168,7 +162,6 @@ export default function UserActionsButton({ onDelete, user }) {
           </div>
         </div>
       )}
-      <AdminUpdateProfileModal user={user} />
     </div>
   );
 }

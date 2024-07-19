@@ -1,12 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState} from "react";
 import toast from "react-hot-toast";
 import axiosInstance from "@/axiosConfig";
-import { useRouter } from "next/navigation";
+
 import Loader from "../Loader";
 
 export default function AdminUpdateProfileModal({ user }) {
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   const [data, setData] = useState({
@@ -14,6 +13,8 @@ export default function AdminUpdateProfileModal({ user }) {
     bio: user?.bio ?? "",
     role: user?.role ?? "user",
   });
+
+ 
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
@@ -39,7 +40,7 @@ export default function AdminUpdateProfileModal({ user }) {
 
   return (
     <dialog
-      id="profile_update_modal"
+      id={`profile_update_modal_${user.id}`}
       className="modal backdrop-blur-2xl rounded-xl">
       <form
         className="rounded-lg border  shadow-sm w-full max-w-lg bg-slate-100"
@@ -127,7 +128,7 @@ export default function AdminUpdateProfileModal({ user }) {
             className="px-4 h-10 py-1 border-2 border-green-400 hover:border-orange-500 rounded-xl disabled:bg-opacity-30 disabled:border-gray-200 bg-transparent"
             disabled={loading}
             onClick={() => {
-              document.getElementById("profile_update_modal").close();
+              document.getElementById(`profile_update_modal_${user.id}`).close();
             }}>
             Cancel
           </button>

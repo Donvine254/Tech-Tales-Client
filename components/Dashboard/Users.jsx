@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { exportUsersCSV } from "@/lib/utils";
 import Axios from "axios";
 import Image from "next/image";
-
+import AdminUpdateProfileModal from "./ProfileUpdate";
 import AdminRegisterUserModal from "./RegisterUserModal";
 
 export default function UsersTable({ users }) {
@@ -36,6 +36,11 @@ export default function UsersTable({ users }) {
       setTotalUsers(sortedUsers);
     }
     setIsSorted(!isSorted);
+  };
+
+  //   function to show update modal
+  const showUpdateModal = (id) => {
+    document.getElementById(`profile_update_modal_${id}`).showModal();
   };
 
   //function to delete users
@@ -179,7 +184,12 @@ export default function UsersTable({ users }) {
                     </span>
                   </td>
                   <td className="px-4 py-2 flex items-center justify-center ">
-                    <UserActionsButton user={user} onDelete={deleteUser} />
+                    <UserActionsButton
+                      user={user}
+                      onDelete={deleteUser}
+                      onEdit={showUpdateModal}
+                    />
+                    <AdminUpdateProfileModal user={user} />
                   </td>
                 </tr>
               ))}
