@@ -37,11 +37,13 @@ export default function CommentsTable({ comments }) {
   async function deleteComment(comment) {
     Swal.fire({
       icon: "warning",
-      text: "Are you sure you want to delete this comment? This cannot action cannot be undone",
+      text: "Are you sure you want to delete this comment? This cannot action be undone!",
       showCloseButton: true,
       confirmButtonText: "Delete",
       showCancelButton: true,
       cancelButtonText: "Nevermind",
+      footer:
+        "Deleting user comments without a valid reason might affect user experience!",
       customClass: {
         confirmButton:
           "px-2 py-1 mx-2 bg-red-500 text-white rounded-md hover:text-white hover:bg-red-500",
