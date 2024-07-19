@@ -108,15 +108,15 @@ export default function Profile() {
               alt="User Profile"
               className="w-[120px] h-[120px] rounded-full m-auto ring-offset-4 ring-2 ring-blue-600 italic ring-offset-white"
             />
-            <p className="text-gray-700 font-semibold flex items-center justify-center ">
+            <p className="text-gray-600 font-semibold flex items-center justify-center ">
               <span>{user.username} </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
-                fill={user.role === "admin" ? "#FFD700" : "#09A3E5"}
-                stroke="white"
+                fill={user.role === "admin" ? " #4b5563" : "#09A3E5"}
+                stroke="#F7F8F9"
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
