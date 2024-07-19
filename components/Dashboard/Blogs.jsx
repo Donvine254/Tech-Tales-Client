@@ -60,6 +60,8 @@ export default function BlogsTable({ blogs }) {
       confirmButtonText: "Delete",
       showCancelButton: true,
       cancelButtonText: "Nevermind",
+      footer:
+        "Deleting user blogs without a valid reason might discourage them from blogging!",
       customClass: {
         confirmButton:
           "px-2 py-1 mx-2 bg-red-500 text-white rounded-md hover:text-white hover:bg-red-500",
@@ -176,7 +178,7 @@ export default function BlogsTable({ blogs }) {
               <th className="px-4 py-2  font-bold text-start">Author</th>
               <th className="px-4 py-2  font-bold text-start">Title</th>
               <th className="px-4 py-2  font-bold">Status</th>
-              <th className="px-4 py-2  font-bold">Actions</th>
+              <th className="px-4 py-2  font-bold ">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -185,24 +187,26 @@ export default function BlogsTable({ blogs }) {
                 <tr
                   key={blog.id}
                   className="hover:bg-gray-200 group border-gray-400">
-                  <td className="px-4 py-2  ">
+                  <td className="px-4 py-2 content-center ">
                     <span className="bg-gray-200 rounded-full  px-1 group-hover:bg-gray-50 text-sm ">
                       {" "}
                       {blog.id < 10 ? "#000" : "#00"}
                       {blog.id}
                     </span>
                   </td>
-                  <td className="px-4 py-2  text-start capitalize flex items-center content-center gap-1 whitespace-nowrap xsm:text-sm">
-                    <Image
-                      src={blog.user_avatar}
-                      alt={blog.author}
-                      height={32}
-                      width={32}
-                      className="rounded-full  italic h-8 w-8"
-                    />{" "}
-                    {blog.author}
+                  <td className="px-4 py-2 text-start capitalize content-center whitespace-nowrap xsm:text-sm">
+                    <div className="flex items-center gap-1">
+                      <Image
+                        src={blog.user_avatar}
+                        alt={blog.author}
+                        height={32}
+                        width={32}
+                        className="rounded-full  italic h-8 w-8"
+                      />{" "}
+                      <span>{blog.author}</span>
+                    </div>
                   </td>
-                  <td className="px-4 py-2 ">
+                  <td className="px-4 py-2 place-items-center ">
                     <Link
                       href={`/blogs/${blog.slug}`}
                       className="font-medium hover:text-blue-500 hover:underline">
@@ -210,13 +214,18 @@ export default function BlogsTable({ blogs }) {
                     </Link>
                   </td>
 
-                  <td className="px-4 py-2 ">
+                  <td className="px-4 py-2 place-items-center ">
                     <span className="inline-block px-2 rounded-full bg-green-100 text-green-600 border border-green-200 text-sm">
                       Published
                     </span>
                   </td>
-                  <td className="px-4 py-2 flex items-center justify-center">
-                    <BlogActionsButton blog={blog} onDelete={handleDelete} />
+                  <td className="px-4 py-2   place-items-center">
+                    <div className="flex items-center justify-center">
+                      <BlogActionsButton
+                        blog={blog}
+                        onDelete={() => deleteBlog(blog)}
+                      />
+                    </div>
                   </td>
                 </tr>
               ))}

@@ -47,6 +47,8 @@ export default function UsersTable({ users }) {
       confirmButtonText: "Delete",
       showCancelButton: true,
       cancelButtonText: "Nevermind",
+      footer:
+        "Deleting user accounts without a valid reason might affect user experience!",
       customClass: {
         confirmButton:
           "px-2 py-1 mx-2 bg-red-500 text-white rounded-md hover:text-white hover:bg-red-500",
@@ -57,7 +59,7 @@ export default function UsersTable({ users }) {
       if (result.isConfirmed) {
         Axios.delete(`https://techtales.up.railway.app/users/${user.id}`);
         toast.success("Account deleted successfully");
-        setTotalUsers((prevBlogs) => prevBlogs.filter((b) => b.id !== user.id));
+        setTotalUsers((prevUsers) => prevUsers.filter((b) => b.id !== user.id));
       }
     });
   }

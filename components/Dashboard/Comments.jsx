@@ -143,15 +143,17 @@ export default function CommentsTable({ comments }) {
                       {comment.id.toString()}
                     </span>
                   </td>
-                  <td className="px-4 py-2  text-start capitalize flex items-center content-center gap-1 whitespace-nowrap xsm:text-sm">
-                    <Image
-                      src={comment.user_avatar}
-                      alt={comment.author}
-                      height={32}
-                      width={32}
-                      className="rounded-full border italic h-8 w-8"
-                    />{" "}
-                    {comment.author}
+                  <td className="px-4 py-2  text-start capitalize  content-center whitespace-nowrap xsm:text-sm">
+                    <div className="flex items-center justify-center gap-1">
+                      <Image
+                        src={comment.user_avatar}
+                        alt={comment.author}
+                        height={32}
+                        width={32}
+                        className="rounded-full border italic h-8 w-8"
+                      />
+                      <span>{comment.author}</span>
+                    </div>
                   </td>
                   <td className="px-4 py-2 ">{comment.blog}</td>
 
