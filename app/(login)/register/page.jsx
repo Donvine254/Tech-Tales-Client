@@ -84,6 +84,7 @@ export default function Register() {
               Create a new account to access personalized settings and content.
             </p>
           </div>
+          {/* beginning of input div */}
           <div className="px-6 pt-1 space-y-1.5 group">
             <div className="space-y-2">
               <label

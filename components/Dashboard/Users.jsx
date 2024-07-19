@@ -8,6 +8,8 @@ import { exportUsersCSV } from "@/lib/utils";
 import Axios from "axios";
 import Image from "next/image";
 
+import AdminRegisterUserModal from "./RegisterUserModal";
+
 export default function UsersTable({ users }) {
   const usersData = users.sort((a, b) => a.id.toString() - b.id.toString());
   const [totalUsers, setTotalUsers] = useState(usersData);
@@ -59,21 +61,23 @@ export default function UsersTable({ users }) {
       }
     });
   }
-
+  //function to show create modal
+  const createUser = () => {
+    document.getElementById("register_user_modal").showModal();
+  };
   return (
     <section>
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <h1 className="md:text-xl  font-semibold my-2 ">Manage users</h1>
         <div className="flex items-center gap-1 md:gap-2 lg:gap-4 my-1 ">
-          <Link
-            href="/register"
-            target="_blank"
+          <button
+            onClick={createUser}
             className="xsm:hidden p-2 bg-cyan-100 text-cyan-600 border-cyan-600  rounded-md border hover:bg-cyan-500 hover:text-white flex items-center shadow ">
             <svg viewBox="0 0 24 24" fill="currentColor" height="24" width="24">
               <path d="M17 11a1 1 0 010 2h-4v4a1 1 0 01-2 0v-4H7a1 1 0 010-2h4V7a1 1 0 012 0v4h4z" />
             </svg>
             <span>Add user</span>
-          </Link>
+          </button>
           <button
             className="p-2  rounded-md border hover:bg-gray-900 hover:text-white  flex items-center gap-1 shadow bg-white"
             onClick={() => exportUsersCSV(users)}>
@@ -184,7 +188,7 @@ export default function UsersTable({ users }) {
           <strong>{users.length}</strong> users
         </p>
       </div>
+      <AdminRegisterUserModal />
     </section>
   );
 }
-// actions should include suspend user, make admin, reset password, edit user and delete user

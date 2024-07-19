@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import axiosInstance from "@/axiosConfig";
 import { useRouter } from "next/navigation";
 import Loader from "../Loader";
-import { UserImage } from "../Avatar";
+
 
 export default function AdminUpdateProfileModal({ user }) {
   const router = useRouter();
