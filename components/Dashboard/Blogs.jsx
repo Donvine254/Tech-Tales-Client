@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import { Edit, Trash, SearchIcon } from "@/assets";
+import { SearchIcon } from "@/assets";
+import BlogActionsButton from "./blogActions";
 import Image from "next/image";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
@@ -214,22 +215,8 @@ export default function BlogsTable({ blogs }) {
                       Published
                     </span>
                   </td>
-                  <td className="px-4 py-2 ">
-                    <div className="flex space-x-2">
-                      <Link
-                        href={`/create/${blog.slug}`}
-                        className="flex items-center gap-1 text-sm   bg-gray-200 border px-1 py-0.5 rounded-md  group-hover:bg-cyan-100 group-hover:border-cyan-500"
-                        title="edit blog">
-                        <Edit size={14} />
-                      </Link>
-
-                      <button
-                        className="flex items-center gap-1 text-sm   bg-gray-200 border px-1 py-0.5 rounded-md  group-hover:bg-red-100 group-hover:border-red-500"
-                        onClick={() => deleteBlog(blog)}
-                        title="delete blog">
-                        <Trash size={14} />
-                      </button>
-                    </div>
+                  <td className="px-4 py-2 flex items-center justify-center">
+                    <BlogActionsButton blog={blog} onDelete={handleDelete} />
                   </td>
                 </tr>
               ))}
