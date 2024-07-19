@@ -47,7 +47,9 @@ export default function Page() {
         await fetch(`${baseUrl}/auth/logout`);
         clearLocalStorage();
         // get the current user and ensure the user cannot login again before 5 minutes elapse
-        router.replace("/");
+        if (typeof window !== "undefined" && window) {
+          window.location.reload();
+        }
       }
     });
   }
@@ -73,7 +75,9 @@ export default function Page() {
         toast.success("Account deleted successfully");
         fetch(`${baseUrl}/auth/logout`);
         clearLocalStorage();
-        router.replace("/");
+        if (typeof window !== "undefined" && window) {
+          window.location.reload();
+        }
       }
     });
   }
