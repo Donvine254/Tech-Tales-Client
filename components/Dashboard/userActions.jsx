@@ -1,8 +1,9 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-
+import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import Link from "next/link";
+import axiosInstance from "@/axiosConfig";
 
 export default function UserActionsButton({ onDelete, user }) {
   const [isPopupOpen, setPopupOpen] = useState(false);
@@ -23,10 +24,73 @@ export default function UserActionsButton({ onDelete, user }) {
     };
   }, [popupRef]);
 
-  //function to handleSharing
-  function handleSharing() {
-    setPopupOpen(false);
-    setShowShareModal(true);
+  //function to handleRoleUpdate
+  async function handleRoleUpdate(user) {
+    if (user.role === "admin") {
+      Swal.fire({
+        icon: "warning",
+        text: `Do you want to demote ${user.username}? This action cannot be undone.`,
+        confirmButtonText: "Demote",
+        cancelButtonText: "Nevermind",
+        showCancelButton: true,
+        showCloseButton: true,
+        footer: "Changes will reflect after refreshing the page",
+        customClass: {
+          confirmButton:
+            "px-2 py-1 mx-2 bg-red-500 text-white rounded-md hover:text-white hover:bg-red-500",
+          cancelButton: "px-2 py-1 mx-2 bg-green-500 rounded-md text-white",
+        },
+        buttonsStyling: false,
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            const response = await axiosInstance.patch(
+              `https://techtales.up.railway.app/users/${user.id}`,
+              { role: "user" }
+            );
+            toast.success("User role updated successfully.");
+            if (typeof window !== "undefined" && window) {
+              window.location.reload();
+            }
+          } catch (error) {
+            console.error(error);
+            toast.error("Something went wrong");
+          }
+        }
+      });
+    } else if (user.role === "user") {
+      Swal.fire({
+        icon: "warning",
+        text: `Do you want to make ${user.username} an admin? This action cannot be undone.`,
+        confirmButtonText: "Make Admin",
+        cancelButtonText: "Nevermind",
+        showCancelButton: true,
+        showCloseButton: true,
+        footer: "Changes will reflect after refreshing the page",
+        customClass: {
+          confirmButton:
+            "px-2 py-1 mx-2 bg-red-500 text-white rounded-md hover:text-white hover:bg-red-500",
+          cancelButton: "px-2 py-1 mx-2 bg-green-500 rounded-md text-white",
+        },
+        buttonsStyling: false,
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            const response = await axiosInstance.patch(
+              `https://techtales.up.railway.app/users/${user.id}`,
+              { role: "admin" }
+            );
+            toast.success("User role updated successfully");
+            if (typeof window !== "undefined" && window) {
+              window.location.reload();
+            }
+          } catch (error) {
+            console.error(error);
+            toast.error("Something went wrong");
+          }
+        }
+      });
+    }
   }
 
   return (
@@ -81,7 +145,9 @@ export default function UserActionsButton({ onDelete, user }) {
             {/* <button className="py-1 text-gray-800 hover:text-blue-600 bg-cyan-100 w-full  hover:bg-gray-200 rounded-md">
               Reset Password
             </button> */}
-            <button className="py-1 text-gray-800 hover:text-blue-600 bg-cyan-100 w-full  hover:bg-gray-200 rounded-md">
+            <button
+              className="py-1 text-gray-800 hover:text-blue-600 bg-cyan-100 w-full  hover:bg-gray-200 rounded-md"
+              onClick={() => handleRoleUpdate(user)}>
               {user.role === "admin" ? "Demote User" : "Make Admin"}
             </button>
             <button
