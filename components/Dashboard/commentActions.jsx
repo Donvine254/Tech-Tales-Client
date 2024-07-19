@@ -1,18 +1,16 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import ShareModal from "../ShareModal";
 import toast from "react-hot-toast";
-import Link from "next/link";
+import Swal from "sweetalert2";
 
-export default function BlogActionsButton({ onDelete, blog }) {
+export default function CommentActionsButton({ onDelete, comment }) {
   const [isPopupOpen, setPopupOpen] = useState(false);
-  const [showShareModal, setShowShareModal] = useState(false);
+
   const popupRef = useRef(null);
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (popupRef.current && !popupRef.current.contains(event.target)) {
         setPopupOpen(false);
-        setShowShareModal(false);
       }
     };
 
@@ -24,12 +22,6 @@ export default function BlogActionsButton({ onDelete, blog }) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [popupRef]);
-
-  //function to handleSharing
-  function handleSharing() {
-    setPopupOpen(false);
-    setShowShareModal(true);
-  }
 
   return (
     <div className="relative">
@@ -72,35 +64,37 @@ export default function BlogActionsButton({ onDelete, blog }) {
             <title>Close</title>
           </svg>
           <div className="px-2 py-4 flex flex-col gap-2 bg-white border shadow-lg rounded-md ">
-            <Link
-              href={`/create/${blog.slug}?user=admin`}
-              className="py-1 text-gray-800 hover:text-blue-600  w-full  hover:bg-gray-200 rounded-md bg-cyan-100 text-center">
-              Edit Blog
-            </Link>
             <button
               className="py-1 text-gray-800 hover:text-blue-600 bg-cyan-100 w-full  hover:bg-gray-200 rounded-md"
-              onClick={handleSharing}>
-              Share Blog
+              onClick={() => {
+                Swal.fire({
+                  icon: "success",
+                  title: "Here is the comment body:",
+                  html: `<div style="text-align:start;font-style: italic;">${comment.body}</div>`,
+                  showCloseButton: true,
+                  showConfirmButton: true,
+                  confirmButtonText: "Close",
+                  customClass: {
+                    confirmButton:
+                      "px-2 py-0.5 mx-2 rounded-md bg-blue-500 text-white ",
+                  },
+                  buttonsStyling: false,
+                });
+              }}>
+              View Comment
             </button>
             <button
               className="py-1 text-gray-800 hover:text-red-600 bg-red-100 w-full  hover:bg-red-200 rounded-md"
               onClick={() => toast.success("incoming feature")}>
-              Unpublish Blog
+              {/* first check if it is flagged */}
+              Flag Comment
             </button>
-
             <button
               className="py-1 text-gray-800 hover:text-red-600 bg-red-100 w-full  hover:bg-red-200 rounded-md"
               onClick={onDelete}>
-              Delete Blog
+              Delete Comment
             </button>
           </div>
-        </div>
-      )}
-      {showShareModal && (
-        <div
-          className="absolute right-4 top-6 bg-white border shadow-lg rounded-md min-w-[200px] w-fit h-fit py-4 z-50"
-          ref={popupRef}>
-          <ShareModal id={blog.id} slug={blog.slug} />
         </div>
       )}
     </div>

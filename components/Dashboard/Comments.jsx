@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import Link from "next/link";
-import { Edit, Trash, SearchIcon } from "@/assets";
+
+import { SearchIcon } from "@/assets";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
-
+import CommentActionsButton from "./commentActions";
 import Axios from "axios";
 import Image from "next/image";
 
@@ -159,20 +159,11 @@ export default function CommentsTable({ comments }) {
                     </span>
                   </td>
                   <td className="px-4 py-2 ">
-                    <div className="flex space-x-2">
-                      <button
-                        onClick={() => toast.success("incoming feature")}
-                        className="flex items-center gap-1 text-sm   bg-gray-200 border px-1 py-0.5 rounded-md  group-hover:bg-cyan-100 group-hover:border-cyan-500"
-                        title="edit comment">
-                        <Edit size={14} />
-                      </button>
-
-                      <button
-                        className="flex items-center gap-1 text-sm   bg-gray-200 border px-1 py-0.5 rounded-md  group-hover:bg-red-100 group-hover:border-red-500"
-                        onClick={() => deleteComment(comment)}
-                        title="delete comment">
-                        <Trash size={14} />
-                      </button>
+                    <div className="flex items-center justify-center">
+                      <CommentActionsButton
+                        onDelete={deleteComment}
+                        comment={comment}
+                      />
                     </div>
                   </td>
                 </tr>
