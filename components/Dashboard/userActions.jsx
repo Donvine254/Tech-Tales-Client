@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import axiosInstance from "@/axiosConfig";
+import AdminUpdateProfileModal from "./ProfileUpdate";
 
 export default function UserActionsButton({ onDelete, user }) {
   const [isPopupOpen, setPopupOpen] = useState(false);
@@ -34,7 +35,7 @@ export default function UserActionsButton({ onDelete, user }) {
         cancelButtonText: "Nevermind",
         showCancelButton: true,
         showCloseButton: true,
-        footer: "Changes will reflect after refreshing the page",
+        footer: "Changes will reflect after refreshing this page",
         customClass: {
           confirmButton:
             "px-2 py-1 mx-2 bg-red-500 text-white rounded-md hover:text-white hover:bg-red-500",
@@ -93,6 +94,11 @@ export default function UserActionsButton({ onDelete, user }) {
     }
   }
 
+  //   function to show update modal
+  const showUpdateModal = () => {
+    document.getElementById("profile_update_modal").showModal();
+  };
+
   return (
     <div className="relative">
       <svg
@@ -134,12 +140,9 @@ export default function UserActionsButton({ onDelete, user }) {
             <title>Close</title>
           </svg>
           <div className="px-2 py-4 flex flex-col gap-2 bg-white border shadow-lg rounded-md ">
-            <Link
-              href={`/public/profile/${user.id}`}
-              className="py-1 text-gray-800 hover:text-blue-600  w-full  hover:bg-gray-200 rounded-md bg-cyan-100 text-center">
-              View Profile
-            </Link>
-            <button className="py-1 text-gray-800 hover:text-blue-600 bg-cyan-100 w-full  hover:bg-gray-200 rounded-md">
+            <button
+              className="py-1 text-gray-800 hover:text-blue-600 bg-cyan-100 w-full  hover:bg-gray-200 rounded-md"
+              onClick={showUpdateModal}>
               Edit Details
             </button>
             {/* <button className="py-1 text-gray-800 hover:text-blue-600 bg-cyan-100 w-full  hover:bg-gray-200 rounded-md">
@@ -150,12 +153,13 @@ export default function UserActionsButton({ onDelete, user }) {
               onClick={() => handleRoleUpdate(user)}>
               {user.role === "admin" ? "Demote User" : "Make Admin"}
             </button>
+            <hr />
             <button
               className="py-1 text-gray-800 hover:text-red-600 bg-red-100 w-full  hover:bg-red-200 rounded-md"
               onClick={() => toast.success("incoming feature")}>
               Suspend User
             </button>
-            <hr />
+
             <button
               className="py-1 text-gray-800 hover:text-red-600 bg-red-100 w-full  hover:bg-red-200 rounded-md"
               onClick={onDelete}>
@@ -164,6 +168,7 @@ export default function UserActionsButton({ onDelete, user }) {
           </div>
         </div>
       )}
+      <AdminUpdateProfileModal user={user} />
     </div>
   );
 }

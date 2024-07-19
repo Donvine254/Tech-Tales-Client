@@ -145,6 +145,7 @@ export default function Dashboard({ blogs, totalComments, users }) {
       {activeTab === "tab-0" && <BlogsTable blogs={blogs} />}
       {activeTab === "tab-1" && <UsersTable users={users} />}
       {activeTab === "tab-2" && <CommentsTable comments={totalComments} />}
+    
     </section>
   );
 }
