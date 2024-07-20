@@ -47,7 +47,7 @@ export default function UsersTable({ users }) {
   async function deleteUser(user) {
     Swal.fire({
       icon: "warning",
-      text: "Are you sure you want to delete this user? This cannot action cannot be undone",
+      text: "Are you sure you want to delete this user? This action cannot be undone!",
       showCloseButton: true,
       confirmButtonText: "Delete",
       showCancelButton: true,
@@ -172,14 +172,14 @@ export default function UsersTable({ users }) {
                     <span
                       className={`inline-block px-2 rounded-full  text-sm ${
                         user.role === "admin"
-                          ? "bg-yellow-100 text-yellow-600 border font-medium border-yellow-200"
+                          ? "bg-yellow-100 text-yellow-600 border font-medium border-yellow-600"
                           : ""
                       }`}>
                       {user.role}
                     </span>
                   </td>
                   <td className="px-4 py-2 ">
-                    <span className="inline-block px-2 rounded-full bg-green-100 text-green-500 border-green-200 border text-sm">
+                    <span className="inline-block px-2 rounded-full bg-green-100 text-green-600 border-green-300 border text-sm">
                       Active
                     </span>
                   </td>

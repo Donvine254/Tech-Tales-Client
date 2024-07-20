@@ -65,7 +65,9 @@ export default function Navbar() {
         <Search />
 
         <div
-          className={`flex items-center md:gap-1 mr-2 ${!user ? "hidden" : ""}`}
+          className={`flex items-center md:gap-1 lg:gap-2 mr-2 ${
+            !user ? "hidden" : ""
+          }`}
           id="user present">
           <Link
             href="/create"

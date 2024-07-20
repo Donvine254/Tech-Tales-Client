@@ -12,8 +12,31 @@ export default function Dashboard({ blogs, totalComments, users }) {
       <div className="grid grid-cols-1 gap-4  py-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 ">
         {/* first card */}
         <div
-          className=" bg-gray-100 hover:bg-gray-200 p-6 space-y-4 text-center  shadow rounded-md hover:-translate-y-1 transition-transform duration-300"
+          className=" bg-gray-100 hover:bg-gray-200 p-6 space-y-4 text-center shadow rounded-md hover:-translate-y-1 transition-transform duration-300"
           onClick={() => setActiveTab("tab-0")}>
+          <div className=" inline-flex items-center justify-center w-full text-cyan-500">
+            <svg
+              viewBox="0 0 640 512"
+              fill="currentColor"
+              height="48"
+              width="48">
+              <path d="M41 7C31.6-2.3 16.4-2.3 7 7s-9.3 24.6 0 34l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9L41 7zm558 0l-72 72c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l72-72c9.4-9.4 9.4-24.6 0-33.9S608.3-2.4 599 7zM7 505c9.4 9.4 24.6 9.4 33.9 0l72-72c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0L7 471c-9.4 9.4-9.4 24.6 0 33.9zm592 0c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-72-72c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l72 72zM320 256c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm-107.9 80c-2.7 7.5-4.1 15.6-4.1 24 0 13.3 10.7 24 24 24h176c13.3 0 24-10.7 24-24 0-8.4-1.4-16.5-4.1-24-.5-1.4-1-2.7-1.6-4-9.4-22.3-29.8-38.9-54.3-43-3.9-.7-7.9-1-12-1h-80c-4.1 0-8.1.3-12 1-.8.1-1.7.3-2.5.5-24.9 5.1-45.1 23-53.4 46.5zm-36.3-112c26.5 0 48-21.5 48-48s-21.5-48-48-48-48 21.5-48 48 21.5 48 48 48zm-26.5 32c-29.4 0-53.3 23.9-53.3 53.3 0 14.7 11.9 26.7 26.7 26.7h56.1c8-34.1 32.8-61.7 65.2-73.6-7.5-4.1-16.2-6.4-25.3-6.4h-69.4zm368 80c14.7 0 26.7-11.9 26.7-26.7 0-29.5-23.9-53.3-53.3-53.3h-69.4c-9.2 0-17.8 2.3-25.3 6.4 32.4 11.9 57.2 39.5 65.2 73.6h56.1zM464 224c26.5 0 48-21.5 48-48s-21.5-48-48-48-48 21.5-48 48 21.5 48 48 48z" />
+            </svg>
+          </div>
+          <h1 className="text-6xl text-center font-bold font-sans">
+            {users.length ?? 0}
+          </h1>
+          <p className="text-gray-600"> Total Users.</p>
+          <hr />
+          <p className="text-gray-600">
+            {" "}
+            Keep track of your registered authors.
+          </p>
+        </div>
+        {/* second card */}
+        <div
+          className=" bg-gray-100 hover:bg-gray-200 p-6 space-y-4 text-center  shadow rounded-md hover:-translate-y-1 transition-transform duration-300"
+          onClick={() => setActiveTab("tab-1")}>
           <div className=" inline-flex items-center justify-center w-full text-cyan-500">
             <svg
               version="1.1"
@@ -68,29 +91,6 @@ export default function Dashboard({ blogs, totalComments, users }) {
           <hr />
           <p className="text-gray-600 "> Manage and publish blogs.</p>
         </div>
-        {/* second card */}
-        <div
-          className=" bg-gray-100 hover:bg-gray-200 p-6 space-y-4 text-center shadow rounded-md hover:-translate-y-1 transition-transform duration-300"
-          onClick={() => setActiveTab("tab-1")}>
-          <div className=" inline-flex items-center justify-center w-full text-cyan-500">
-            <svg
-              viewBox="0 0 640 512"
-              fill="currentColor"
-              height="48"
-              width="48">
-              <path d="M41 7C31.6-2.3 16.4-2.3 7 7s-9.3 24.6 0 34l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9L41 7zm558 0l-72 72c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l72-72c9.4-9.4 9.4-24.6 0-33.9S608.3-2.4 599 7zM7 505c9.4 9.4 24.6 9.4 33.9 0l72-72c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0L7 471c-9.4 9.4-9.4 24.6 0 33.9zm592 0c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-72-72c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l72 72zM320 256c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm-107.9 80c-2.7 7.5-4.1 15.6-4.1 24 0 13.3 10.7 24 24 24h176c13.3 0 24-10.7 24-24 0-8.4-1.4-16.5-4.1-24-.5-1.4-1-2.7-1.6-4-9.4-22.3-29.8-38.9-54.3-43-3.9-.7-7.9-1-12-1h-80c-4.1 0-8.1.3-12 1-.8.1-1.7.3-2.5.5-24.9 5.1-45.1 23-53.4 46.5zm-36.3-112c26.5 0 48-21.5 48-48s-21.5-48-48-48-48 21.5-48 48 21.5 48 48 48zm-26.5 32c-29.4 0-53.3 23.9-53.3 53.3 0 14.7 11.9 26.7 26.7 26.7h56.1c8-34.1 32.8-61.7 65.2-73.6-7.5-4.1-16.2-6.4-25.3-6.4h-69.4zm368 80c14.7 0 26.7-11.9 26.7-26.7 0-29.5-23.9-53.3-53.3-53.3h-69.4c-9.2 0-17.8 2.3-25.3 6.4 32.4 11.9 57.2 39.5 65.2 73.6h56.1zM464 224c26.5 0 48-21.5 48-48s-21.5-48-48-48-48 21.5-48 48 21.5 48 48 48z" />
-            </svg>
-          </div>
-          <h1 className="text-6xl text-center font-bold font-sans">
-            {users.length ?? 0}
-          </h1>
-          <p className="text-gray-600"> Total Users.</p>
-          <hr />
-          <p className="text-gray-600">
-            {" "}
-            Keep track of your registered authors.
-          </p>
-        </div>
         {/* third card */}
         <div
           className=" bg-gray-100 hover:bg-gray-200 p-6 space-y-4  shadow rounded-md hover:-translate-y-1 transition-transform duration-300 text-center"
@@ -120,7 +120,7 @@ export default function Dashboard({ blogs, totalComments, users }) {
           className={`px-4 cursor-pointer py-2 hover:text-blue-600 font-medium ${
             activeTab === "tab-0" ? "border-b-2  border-b-blue-600 text- " : ""
           }`}>
-          Blogs
+          Users
         </p>
         <p
           onClick={() => setActiveTab("tab-1")}
@@ -129,7 +129,7 @@ export default function Dashboard({ blogs, totalComments, users }) {
               ? "border-b-2 border-b-blue-600 text-blue-500 "
               : ""
           }`}>
-          Users
+          Blogs
         </p>
         <p
           onClick={() => setActiveTab("tab-2")}
@@ -142,10 +142,9 @@ export default function Dashboard({ blogs, totalComments, users }) {
         </p>
       </div>
       {/* add sections from here based on the tab */}
-      {activeTab === "tab-0" && <BlogsTable blogs={blogs} />}
-      {activeTab === "tab-1" && <UsersTable users={users} />}
+      {activeTab === "tab-0" && <UsersTable users={users} />}
+      {activeTab === "tab-1" && <BlogsTable blogs={blogs} />}
       {activeTab === "tab-2" && <CommentsTable comments={totalComments} />}
-    
     </section>
   );
 }
