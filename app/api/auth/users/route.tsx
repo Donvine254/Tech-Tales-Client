@@ -115,6 +115,8 @@ type PatchData = {
 
 export async function PATCH(req: NextRequest, res: NextResponse) {
   // in this route, a user can only patch other users if the user is admin or is authenticated and trying to patch own details. If the user is admin, the admin can patch almost anything include email address and role ("user,admin"). However, users can only patch their username, picture, bio and password
+  const id = req.nextUrl.searchParams.get("id");
+
   const token = req.cookies.get("token");
   if (req.method !== "PATCH") {
     return NextResponse.json(
