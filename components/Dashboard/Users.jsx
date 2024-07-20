@@ -44,7 +44,7 @@ export default function UsersTable({ users }) {
   };
 
   //function to delete users
-  async function deleteUser(user) {
+  async function deleteUser(id) {
     Swal.fire({
       icon: "warning",
       text: "Are you sure you want to delete this user? This action cannot be undone!",
@@ -62,10 +62,9 @@ export default function UsersTable({ users }) {
       buttonsStyling: false,
     }).then(async (result) => {
       if (result.isConfirmed) {
-        console.log(user.id);
-        // Axios.delete(`https://techtales.up.railway.app/users/${user.id}`);
-        // toast.success("Account deleted successfully");
-        // setTotalUsers((prevUsers) => prevUsers.filter((b) => b.id !== user.id));
+        Axios.delete(`https://techtales.up.railway.app/users/${id}`);
+        toast.success("Account deleted successfully");
+        setTotalUsers((prevUsers) => prevUsers.filter((b) => b.id !== id));
       }
     });
   }
@@ -160,7 +159,7 @@ export default function UsersTable({ users }) {
                   <td className="px-4 py-2  text-start capitalize flex items-center content-center gap-1 whitespace-nowrap ">
                     <Image
                       src={user.picture}
-                      alt={user.username}
+                      alt={user.username ?? "user_avatar"}
                       height={32}
                       width={32}
                       className="rounded-full border italic h-8 w-8"

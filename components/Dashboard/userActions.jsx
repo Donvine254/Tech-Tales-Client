@@ -155,7 +155,7 @@ export default function UserActionsButton({ onDelete, user, onEdit }) {
 
             <button
               className="py-1 text-gray-800 hover:text-red-600 bg-red-100 w-full  hover:bg-red-200 rounded-md"
-              onClick={() => onDelete(user.id)}>
+              onClick={() => onDelete(Number(user.id))}>
               Delete User
             </button>
           </div>
