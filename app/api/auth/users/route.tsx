@@ -82,6 +82,11 @@ const createUserAvatar = (username: string) => {
   return `https://ui-avatars.com/api/?background=random&name=${username}`;
 };
 
+const isValidEmail = (email: string) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
 export async function POST(req: NextRequest) {
   if (req.method !== "POST") {
     return NextResponse.json(
@@ -104,6 +109,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         { errors: ["Email or username already exists"] },
         { status: 409 }
+      );
+    }
+    if (!isValidEmail(data.email)) {
+      return NextResponse.json(
+        { errors: ["Invalid email format"] },
+        { status: 400 }
       );
     }
 

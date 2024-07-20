@@ -64,7 +64,9 @@ export default function UsersTable({ users }) {
       if (result.isConfirmed) {
         Axios.delete(`https://techtales.up.railway.app/users/${id}`);
         toast.success("Account deleted successfully");
-        setTotalUsers((prevUsers) => prevUsers.filter((b) => b.id !== id));
+        setTotalUsers((prevUsers) =>
+          prevUsers.filter((b) => b.id.toString() !== id.toString())
+        );
       }
     });
   }

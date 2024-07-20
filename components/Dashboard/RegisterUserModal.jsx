@@ -88,7 +88,7 @@ export default function AdminRegisterUserModal() {
             </label>
             <input
               className="flex h-10 focus:outline-none text-base  disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md"
-              id="email"
+              id="email-1"
               name="email"
               placeholder="you@example.com"
               value={data.email}
