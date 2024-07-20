@@ -1,5 +1,5 @@
 "use client";
-import React, { useState} from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 import axiosInstance from "@/axiosConfig";
 
@@ -9,12 +9,11 @@ export default function AdminUpdateProfileModal({ user }) {
   const [loading, setLoading] = useState(false);
 
   const [data, setData] = useState({
-    username: user?.username,
+    username: user?.username ?? "",
     bio: user?.bio ?? "",
     role: user?.role ?? "user",
   });
 
- 
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
@@ -58,7 +57,7 @@ export default function AdminUpdateProfileModal({ user }) {
             </label>
             <input
               className="flex h-10 w-full border-b border-green-500 bg-transparent focus:outline-none py-2 invalid:border-red-500"
-              id="username1"
+              id={`username${user.id}`}
               name="username"
               value={data.username}
               autoComplete="username"
@@ -83,7 +82,7 @@ export default function AdminUpdateProfileModal({ user }) {
             </label>
             <input
               className="h-8 w-full border-b border-green-500 bg-transparent focus:outline-none py-2 invalid:border-red-500"
-              id="Bio"
+              id={`bio${user.id}`}
               value={data.bio}
               minLength={5}
               maxLength={100}
@@ -128,7 +127,9 @@ export default function AdminUpdateProfileModal({ user }) {
             className="px-4 h-10 py-1 border-2 border-green-400 hover:border-orange-500 rounded-xl disabled:bg-opacity-30 disabled:border-gray-200 bg-transparent"
             disabled={loading}
             onClick={() => {
-              document.getElementById(`profile_update_modal_${user.id}`).close();
+              document
+                .getElementById(`profile_update_modal_${user.id}`)
+                .close();
             }}>
             Cancel
           </button>

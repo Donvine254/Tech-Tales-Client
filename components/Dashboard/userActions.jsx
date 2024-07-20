@@ -3,7 +3,6 @@ import React, { useState, useEffect, useRef } from "react";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import axiosInstance from "@/axiosConfig";
-import AdminUpdateProfileModal from "./ProfileUpdate";
 
 export default function UserActionsButton({ onDelete, user, onEdit }) {
   const [isPopupOpen, setPopupOpen] = useState(false);
@@ -156,7 +155,7 @@ export default function UserActionsButton({ onDelete, user, onEdit }) {
 
             <button
               className="py-1 text-gray-800 hover:text-red-600 bg-red-100 w-full  hover:bg-red-200 rounded-md"
-              onClick={onDelete}>
+              onClick={() => onDelete(user.id)}>
               Delete User
             </button>
           </div>

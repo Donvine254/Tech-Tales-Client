@@ -62,9 +62,10 @@ export default function UsersTable({ users }) {
       buttonsStyling: false,
     }).then(async (result) => {
       if (result.isConfirmed) {
-        Axios.delete(`https://techtales.up.railway.app/users/${user.id}`);
-        toast.success("Account deleted successfully");
-        setTotalUsers((prevUsers) => prevUsers.filter((b) => b.id !== user.id));
+        console.log(user.id);
+        // Axios.delete(`https://techtales.up.railway.app/users/${user.id}`);
+        // toast.success("Account deleted successfully");
+        // setTotalUsers((prevUsers) => prevUsers.filter((b) => b.id !== user.id));
       }
     });
   }
