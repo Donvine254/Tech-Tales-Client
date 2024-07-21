@@ -83,8 +83,12 @@ export default function Comments({
     setIsEditing(false);
   }
   const getPlainTextLength = (htmlString) => {
-    const doc = new DOMParser().parseFromString(htmlString, "text/html");
-    return doc.body.textContent.length;
+    if (typeof window !== "undefined") {
+      const doc = new DOMParser().parseFromString(htmlString, "text/html");
+      return doc.body.textContent.length;
+    } else {
+      return 0;
+    }
   };
 
   return (
