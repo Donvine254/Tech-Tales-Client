@@ -58,7 +58,7 @@ model Comment {
   authorId  Int
   blog      Blog     @relation(fields: [blogId], references: [id])
   blogId    Int
-  status    String
+  status    String ? @default("published")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
