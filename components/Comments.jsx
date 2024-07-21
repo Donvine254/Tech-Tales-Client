@@ -1,7 +1,7 @@
 "use client";
 
-import { deleteComment, patchComment } from "@/lib";
-import { useState, useEffect, useRef } from "react";
+import { baseUrl, deleteComment, patchComment } from "@/lib";
+import { useState } from "react";
 import Axios from "axios";
 import Loader from "./Loader";
 import { Edit, Trash } from "@/assets";
@@ -29,7 +29,6 @@ export default function Comments({
   const [commentToEdit, setCommentToEdit] = useState(null);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const commentsRef = useRef({});
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -43,15 +42,10 @@ export default function Comments({
       body: newComment,
     };
     try {
-      const res = await Axios.post(
-        "https://techtales.up.railway.app/comments",
-        commentData
-      );
+      const res = await Axios.post(`${baseUrl}/comments`, commentData);
       const data = await res.data;
       setNewComment("");
-
       setComments((prev) => [...prev, data]);
-
       toast.success("Comment posted successfully");
     } catch (error) {
       toast.error(error?.response?.data?.errors);
