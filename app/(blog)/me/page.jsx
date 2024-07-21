@@ -72,10 +72,11 @@ export default function Profile() {
       </div>
     );
   }
-  //function to signout
+
   function getSocialUrl(user, platform) {
     return (
-      user.socials?.find((social) => social.platform === platform)?.url || null
+      user.socialMedia?.find((social) => social.platform === platform)
+        ?.handle || null
     );
   }
 

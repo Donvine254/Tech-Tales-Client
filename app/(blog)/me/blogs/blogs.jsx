@@ -2,15 +2,15 @@
 import { calculateReadingTime } from "@/lib";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Graph, Clock, Clipboard } from "@/assets";
+import { Clock, Clipboard, Comment } from "@/assets";
 import { useRouter } from "next/navigation";
 import { deleteBlog, baseUrl } from "@/lib";
 import parse from "html-react-parser";
 import { UserImage } from "@/components/Avatar";
 import SkeletonBlog from "@/components/SkeletonBlog";
-import toast from "react-hot-toast";
 import ActionsButton from "@/components/ActionsButton";
 import { SideNav } from "@/components";
+import { formatDate } from "@/lib/utils";
 //check for the current user
 
 export default function MyBlogsComponent() {
@@ -44,9 +44,7 @@ export default function MyBlogsComponent() {
   return (
     <div className="w-full min-h-[400px] mx-auto px-4 md:px-8 md:w-2/3 relative font-poppins">
       <SideNav />
-      <h1 className="font-bold font-crimson text-xl md:text-2xl">
-        Your Published Blogs
-      </h1>
+      <h1 className="font-bold   md:text-xl">Your Published Blogs</h1>
       <hr className="my-2  border border-blue-500" />
       {loading && (
         <div>
@@ -64,13 +62,14 @@ export default function MyBlogsComponent() {
             className="bg-gray-100 my-4 p-4 rounded-md border shadow hover:bg-slate-200">
             <div className="">
               <div className="flex gap-2 xsm:items-center">
-                <UserImage url={blog.user_avatar} />
+                <UserImage url={blog.author.picture} />
                 <div className="">
                   <p className=" text-base md:text-xl capitalize">
-                    Written By <span className="font-bold">{blog.author}</span>
+                    Written By{" "}
+                    <span className="font-bold">{blog.author.username}</span>
                   </p>
                   <p className="text-sm font-medium md:text-base">
-                    Published on {blog.created_at_date}
+                    Published on {formatDate(blog.createdAt)}
                   </p>
                 </div>
               </div>
@@ -125,11 +124,9 @@ export default function MyBlogsComponent() {
                 {calculateReadingTime(blog.body)} min{" "}
                 <span className="xsm:hidden">read</span>
               </p>
-              <p
-                className="flex items center gap-2 hover:text-blue-500 cursor-pointer xsm:hidden"
-                onClick={() => toast.success("Incoming feature!")}>
-                <Graph />
-                <span>View Blog Statistics</span>
+              <p className="text-base  inline-flex items-center gap-1">
+                <Comment />
+                <span>{blog?._count?.comments}</span>
               </p>
 
               <ActionsButton
@@ -138,7 +135,6 @@ export default function MyBlogsComponent() {
                 blog={blog}
               />
             </div>
-            {/* <hr className="my-2 border-1 border-slate-300" /> */}
           </div>
         ))
       ) : (
@@ -148,7 +144,7 @@ export default function MyBlogsComponent() {
               <div className="flex items-center justify-center py-1">
                 <Clipboard />
               </div>
-              <p className="text-xl font-medium md:text-center leading-loose tracking-wide ">
+              <p className=" font-medium md:text-center leading-loose tracking-wide ">
                 Looks like you have not authored any blogs yet, Let&apos;s fix
                 that!
                 <span>
