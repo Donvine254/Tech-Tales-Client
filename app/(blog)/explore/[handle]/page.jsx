@@ -2,7 +2,6 @@ import React from "react";
 import Explore from "./blogs";
 import prisma from "@/prisma/prisma";
 import { baseUrl } from "@/lib";
-import { Axios } from "axios";
 export const revalidate = 600;
 export const metadata = {
   title: "Explore Author Blogs - Tech Tales",
@@ -34,9 +33,26 @@ export async function generateStaticParams() {
 }
 
 export default async function page({ params }) {
-  const blogs = await Axios.post(`${baseUrl}/blogs/explore`, {
-    handle: params.handle,
-  });
+  async function fetchBlog() {
+    try {
+      const response = await fetch(`${baseUrl}/blogs/explore`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ handle: params.handle }),
+        next: { revalidate: 600 },
+      });
+      const data = await response.json();
+
+      return data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  let blogs = await fetchBlog();
 
   return (
     <section className="md:mt-10">

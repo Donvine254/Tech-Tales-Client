@@ -1,6 +1,6 @@
 import { SideNav } from "@/components";
 import Slug from "./slug";
-
+import { baseUrl } from "@/lib";
 export const revalidate = 600;
 
 export const metadata = {
@@ -32,13 +32,9 @@ export async function generateStaticParams() {
 }
 
 export default async function BlogsPage({ params }) {
-  const url =
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:3000/api/blogs/slug"
-      : "https://techtales.vercel.app/api/blogs/slug";
   async function fetchBlog() {
     try {
-      const response = await fetch(`${url}`, {
+      const response = await fetch(`${baseurl}/blogs/slug`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
