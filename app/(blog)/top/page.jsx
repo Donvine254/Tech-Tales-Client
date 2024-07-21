@@ -1,6 +1,6 @@
 import { BlogsComponent, SideNav } from "@/components";
 export const revalidate = 600;
-
+import { baseUrl } from "@/lib";
 export const metadata = {
   title: "Top Blogs - Tech Tales",
   description:
