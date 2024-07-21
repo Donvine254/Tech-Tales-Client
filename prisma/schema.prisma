@@ -9,8 +9,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("POSTGRES_PRISMA_URL")
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
   directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
@@ -25,7 +25,8 @@ model User {
   email           String        @unique
   password_digest String
   role            Role          @default(user)
-  status          String
+  status          String?
+  picture         String?
   deleted         Boolean       @default(false)
   favorites       Json          @default("[]")
   blogs           Blog[]
@@ -38,10 +39,13 @@ model User {
 model Blog {
   id        Int       @id @default(autoincrement())
   title     String    @unique
-  content   String
+  body      String
+  slug      String
+  image     String?
+  tags      String?
   author    User      @relation(fields: [authorId], references: [id])
   authorId  Int
-  status    String
+  status    String    @default("published")
   comments  Comment[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -49,7 +53,7 @@ model Blog {
 
 model Comment {
   id        Int      @id @default(autoincrement())
-  content   String
+  body      String
   author    User     @relation(fields: [authorId], references: [id])
   authorId  Int
   blog      Blog     @relation(fields: [blogId], references: [id])
