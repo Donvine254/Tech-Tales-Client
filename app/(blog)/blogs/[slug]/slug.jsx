@@ -117,7 +117,7 @@ export default function Slug({ blog }) {
                 <p className="text-base xsm:text-sm font-medium  xsm:mb-0">
                   <span className="xsm:hidden">Published on </span>{" "}
                   <time dateTime={blog?.createdAt}>
-                    {formatDate(blog.createdAt)}
+                    {formatDate(blog.createdAt)} {""}
                   </time>
                   &#x2022; &#128337;{calculateReadingTime(blog.body)} min read
                 </p>
