@@ -34,7 +34,7 @@ export async function generateStaticParams() {
 export default async function BlogsPage({ params }) {
   async function fetchBlog() {
     try {
-      const response = await fetch(`${baseurl}/blogs/slug`, {
+      const response = await fetch(`${baseUrl}/blogs/slug`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

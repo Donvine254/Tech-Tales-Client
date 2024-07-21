@@ -23,11 +23,6 @@ import Image from "next/image";
 import toast from "react-hot-toast";
 import { calculateReadingTime } from "@/lib";
 import { formatDate } from "@/lib/utils";
-import dynamic from "next/dynamic";
-
-// const NoSSRComments = dynamic(() => import("@/components/Comments"), {
-//   ssr: false,
-// });
 
 export default function Slug({ blog }) {
   const [likes, setLikes] = useState(0);
