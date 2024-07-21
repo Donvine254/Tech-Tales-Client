@@ -62,7 +62,7 @@ export const Menu = ({ handleClick, menuOpen, currentUser }) => {
         Create Blog
       </Link>
       <Link
-        href="/me/blogs?status=published"
+        href="/me/blogs"
         className={`menu-item ${
           pathname.startsWith("/me/blogs") ? "menu-item-active" : ""
         }`}

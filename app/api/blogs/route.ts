@@ -160,7 +160,7 @@ export async function DELETE(req: NextRequest, res: NextResponse) {
           id: Number(id),
         },
         data: {
-          status: "UNPUBLISHED",
+          status: "ARCHIVED",
         },
       });
       return NextResponse.json({}, { status: 200 });
