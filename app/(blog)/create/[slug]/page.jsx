@@ -31,7 +31,7 @@ export default function EditBlog({ params }) {
         const user = await fetch(`${baseUrl}/me`).then((response) =>
           response.json()
         );
-        const response = await fetch(`${baseUrl}/blogs`, {
+        const response = await fetch(`${baseUrl}/blogs/slug`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -230,7 +230,6 @@ export default function EditBlog({ params }) {
         </div>
       </form>
       <PreviewModal blog={blogData} />
-      
     </div>
   );
 }

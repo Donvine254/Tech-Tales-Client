@@ -104,7 +104,7 @@ export async function DELETE(req: NextRequest, res: NextResponse) {
   const id = req.nextUrl.searchParams.get("id");
   if (id) {
     try {
-      const deletedComment = await prisma.comment.delete({
+      await prisma.comment.delete({
         where: {
           id: Number(id),
         },

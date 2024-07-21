@@ -76,8 +76,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
       console.error(error);
       if (error instanceof prisma.PrismaClientValidationError) {
         return NextResponse.json(
-          { error: "Invalid blog data." },
-          { status: 400 }
+          { error: "Invalid blog data. Kindly try again" },
+          { status: 409 }
         );
       }
 
@@ -93,5 +93,58 @@ export async function POST(req: NextRequest, res: NextResponse) {
       { error: "Invalid blog data provided" },
       { status: 409 }
     );
+  }
+}
+
+export async function PATCH(req: NextRequest, res: NextResponse) {
+  const id = req.nextUrl.searchParams.get("id");
+  if (!id) {
+    return NextResponse.json(
+      { error: "Record to update not found" },
+      { status: 409 }
+    );
+  }
+
+  let data = await req.json();
+  if (data.title) {
+    data = { ...data, slug: slugify(data.title) };
+  }
+
+  try {
+    const blog = await prisma.blog.update({
+      where: {
+        id: Number(id),
+      },
+      data: data,
+      include: {
+        author: {
+          select: {
+            username: true,
+            picture: true,
+          },
+        },
+        _count: {
+          select: {
+            comments: true,
+          },
+        },
+      },
+    });
+    return NextResponse.json(blog, { status: 201 });
+  } catch (error) {
+    console.error(error);
+    if (error instanceof prisma.PrismaClientValidationError) {
+      return NextResponse.json(
+        { error: "Invalid blog data. Kindly try again" },
+        { status: 409 }
+      );
+    }
+
+    return NextResponse.json(
+      { error: "An error occurred while creating the blog." },
+      { status: 500 }
+    );
+  } finally {
+    await prisma.$disconnect();
   }
 }
