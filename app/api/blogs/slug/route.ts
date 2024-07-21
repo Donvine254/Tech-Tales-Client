@@ -13,12 +13,14 @@ export async function POST(req: NextRequest, res: NextResponse) {
       const blog = await prisma.blog.findUnique({
         where: {
           slug: slug,
+          status: "PUBLISHED",
         },
         include: {
           author: {
             select: {
               username: true,
               picture: true,
+              handle: true,
               bio: true,
               socialMedia: {
                 select: {
@@ -29,6 +31,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
             },
           },
           comments: {
+            where: {
+              status: "VISIBLE",
+            },
             include: {
               author: {
                 select: {

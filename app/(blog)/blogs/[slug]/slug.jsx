@@ -95,15 +95,7 @@ export default function Slug({ blog }) {
                   url={blog.author.picture}
                   className="ring-2 ring-offset-2  ring-cyan-500 italic"
                 />
-                {isCardVisible && (
-                  <UserCard
-                    avatar={blog.author.picture}
-                    name={blog.author.username}
-                    bio={blog.author.bio}
-                    userId={blog.authorId}
-                    socials={blog.author.socialMedia}
-                  />
-                )}
+                {isCardVisible && <UserCard author={blog.author} />}
               </div>
               <div>
                 <div className="flex items-center gap-2 ">
