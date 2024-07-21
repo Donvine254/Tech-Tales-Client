@@ -61,17 +61,9 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
   // Validate and parse the incoming data
   const { body } = await req.json();
   const id = req.nextUrl.searchParams.get("id");
-  try {
-    if (!body) {
-      return NextResponse.json(
-        { error: "Invalid data. Ensure all required fields are present." },
-        { status: 400 }
-      );
-    }
-  } catch (error) {
-    console.error("Error parsing request body:", error);
+  if (!body) {
     return NextResponse.json(
-      { error: "Invalid request body." },
+      { error: "Invalid data. Ensure all required fields are present." },
       { status: 400 }
     );
   }
@@ -97,12 +89,38 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
     // Return the new comment with author details
     return NextResponse.json(newComment, { status: 201 });
   } catch (error) {
-    console.error("Error creating comment:", error);
+    console.error("Error updating comment:", error);
     return NextResponse.json(
-      { error: "An error occurred while creating the comment." },
+      { error: "An error occurred while updating the comment." },
       { status: 500 }
     );
   } finally {
     await prisma.$disconnect();
+  }
+}
+
+//function to delete comment
+export async function DELETE(req: NextRequest, res: NextResponse) {
+  const id = req.nextUrl.searchParams.get("id");
+  if (id) {
+    try {
+      const deletedComment = await prisma.comment.delete({
+        where: {
+          id: Number(id),
+        },
+      });
+      return NextResponse.json({}, { status: 200 });
+    } catch (error) {
+      console.error(error);
+      return NextResponse.json(
+        { error: "Record to delete does not exist." },
+        { status: 404 }
+      );
+    }
+  } else {
+    return NextResponse.json(
+      { error: "Record to delete does not exist." },
+      { status: 404 }
+    );
   }
 }
