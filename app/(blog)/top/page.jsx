@@ -8,7 +8,7 @@ export const metadata = {
 };
 
 export default async function Top() {
-  let blogs = await fetch("https://techtales.up.railway.app/featured", {
+  let blogs = await fetch(`${baseUrl}/blogs/featured`, {
     next: { revalidate: 600 },
   }).then((response) => response.json());
 
