@@ -25,6 +25,7 @@ model User {
   email           String        @unique
   password_digest String
   role            Role          @default(user)
+  bio             String?       @default("This user has no bio")
   status          String?
   picture         String?
   deleted         Boolean       @default(false)
@@ -58,7 +59,7 @@ model Comment {
   authorId  Int
   blog      Blog     @relation(fields: [blogId], references: [id])
   blogId    Int
-  status    String ? @default("published")
+  status    String?  @default("published")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
