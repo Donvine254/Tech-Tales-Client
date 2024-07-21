@@ -8,7 +8,13 @@ import {
   Whatsapp,
   Copy,
 } from "@/assets";
-import { Bookmark, UserCard, MoreFromAuthor, AudioPlayer, Comments } from "@/components";
+import {
+  Bookmark,
+  UserCard,
+  MoreFromAuthor,
+  AudioPlayer,
+  Comments,
+} from "@/components";
 import { UserImage } from "@/components/Avatar";
 import parse from "html-react-parser";
 import { useRouter } from "next/navigation";
@@ -247,7 +253,7 @@ export default function Slug({ blog }) {
           <Comments
             blogId={blog.id}
             slug={blog.slug}
-            author={blog.authorId}
+            blogAuthorId={blog.authorId}
             comments={commentData}
             setComments={setCommentData}
           />
