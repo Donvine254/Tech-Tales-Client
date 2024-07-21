@@ -54,3 +54,55 @@ export async function POST(req: NextRequest, res: NextResponse) {
     await prisma.$disconnect();
   }
 }
+
+//function to patch a comment
+
+export async function PATCH(req: NextRequest, res: NextResponse) {
+  // Validate and parse the incoming data
+  const { body } = await req.json();
+  const id = req.nextUrl.searchParams.get("id");
+  try {
+    if (!body) {
+      return NextResponse.json(
+        { error: "Invalid data. Ensure all required fields are present." },
+        { status: 400 }
+      );
+    }
+  } catch (error) {
+    console.error("Error parsing request body:", error);
+    return NextResponse.json(
+      { error: "Invalid request body." },
+      { status: 400 }
+    );
+  }
+
+  try {
+    // Create the comment
+    const newComment = await prisma.comment.update({
+      where: {
+        id: Number(id),
+      },
+      data: { body: body },
+      include: {
+        author: {
+          select: {
+            username: true,
+            picture: true,
+            role: true,
+          },
+        },
+      },
+    });
+
+    // Return the new comment with author details
+    return NextResponse.json(newComment, { status: 201 });
+  } catch (error) {
+    console.error("Error creating comment:", error);
+    return NextResponse.json(
+      { error: "An error occurred while creating the comment." },
+      { status: 500 }
+    );
+  } finally {
+    await prisma.$disconnect();
+  }
+}
