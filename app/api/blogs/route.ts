@@ -48,10 +48,10 @@ export async function GET(req: NextRequest, res: NextResponse) {
 }
 
 export async function POST(req: NextRequest, res: NextResponse) {
-  const { blogData } = await req.json();
+  const blogData = await req.json();
   const data = {
     ...blogData,
-    slug: slugify(blogData.slug),
+    slug: slugify(blogData.title),
   };
   if (data) {
     try {
