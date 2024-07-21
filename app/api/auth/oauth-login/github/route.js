@@ -5,6 +5,5 @@ export async function POST(req, res) {
   const data = await req.json();
   const token = await getAccessToken(data.code);
   const userData = await fetchUserInfo(token);
-  console.log(userData);
   return NextResponse.json(userData);
 }
