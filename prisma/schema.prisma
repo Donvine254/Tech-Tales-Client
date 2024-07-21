@@ -77,7 +77,7 @@ model Comment {
   body      String
   author    User          @relation(fields: [authorId], references: [id])
   authorId  Int
-  blog      Blog          @relation(fields: [blogId], references: [id])
+  blog      Blog          @relation(fields: [blogId], references: [id], onDelete: Cascade)
   blogId    Int
   status    CommentStatus @default(VISIBLE)
   createdAt DateTime      @default(now())
@@ -88,7 +88,7 @@ model SocialMedia {
   id        Int      @id @default(autoincrement())
   platform  String
   handle    String   @unique
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
