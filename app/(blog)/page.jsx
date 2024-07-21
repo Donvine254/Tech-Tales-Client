@@ -1,11 +1,12 @@
 import { UserImage } from "@/components/Avatar";
 
-import { Clock } from "@/assets";
+import { Clock, Comment } from "@/assets";
 import parse from "html-react-parser";
 import { Bookmark, SideNav } from "@/components";
 import Link from "next/link";
 import { baseUrl, calculateReadingTime } from "@/lib";
 import Image from "next/image";
+import { formatDate } from "@/lib/utils";
 export const metadata = {
   title: "Home Page - Tech Tales",
   description:
@@ -28,17 +29,17 @@ export default async function HomePage() {
               className="bg-gray-100 my-4 p-4 rounded-md border shadow hover:bg-slate-200">
               <div className="">
                 <div className="flex gap-2  xsm:items-center">
-                  <UserImage url={blog.user_avatar} />
+                  <UserImage url={blog.author.picture} />
                   <div className="">
                     <p className=" text-sm sm:text-base md:text-xl ">
                       Written By{" "}
                       <span className="capitalize font-bold">
-                        {blog.author}
+                        {blog.author.username}
                       </span>
                     </p>
                     <p className="text-sm font-medium md:text-base ">
                       <span className="xsm:hidden sm:hidden">&mdash;</span>{" "}
-                      Published on {blog.created_at_date}
+                      Published on {formatDate(blog.createdAt)}
                     </p>
                   </div>
                 </div>
@@ -70,6 +71,7 @@ export default async function HomePage() {
                   {blog ? parse(blog.body) : blog.body}
                 </article>
               </div>
+
               <div className="flex items-center justify-between py-2">
                 <Link
                   href={`/blogs/${blog.slug}`}
@@ -93,12 +95,12 @@ export default async function HomePage() {
                   {calculateReadingTime(blog.body)} min{" "}
                   <span className="xsm:hidden">read</span>
                 </p>
-                <p className="text-base hidden md:block">
-                  Based on your reading history
+                <p className="text-base  inline-flex items-center gap-1">
+                  <Comment />
+                  <span>{blog?._count?.comments}</span>
                 </p>
                 <Bookmark blogId={blog.id} />
               </div>
-              {/* <hr className="my-2 border-1 border-slate-300" /> */}
             </div>
           ))
         ) : (
