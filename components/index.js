@@ -4,6 +4,7 @@ import SideNav from "./SideNav";
 import UserCard from "./UserCard";
 import MoreFromAuthor from "./MoreFromAuthor";
 import AudioPlayer from "./AudioPlayer";
+import Comments from "./Comments";
 export {
   BlogsComponent,
   Bookmark,
@@ -11,4 +12,5 @@ export {
   UserCard,
   MoreFromAuthor,
   AudioPlayer,
+  Comments,
 };

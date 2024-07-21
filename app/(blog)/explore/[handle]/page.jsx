@@ -17,12 +17,12 @@ const formatDate = (dateString) => {
 export async function generateStaticParams() {
   try {
     // Fetch all blogs
-    const blogs = await prisma.blogs.findMany();
+    const blogs = await prisma.blog.findMany();
     const userHandlesSet = new Set();
     for (const blog of blogs) {
-      const user = await prisma.users.findUnique({
+      const user = await prisma.user.findUnique({
         where: {
-          id: blog.user_id,
+          id: blog.userId,
         },
       });
 

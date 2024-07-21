@@ -8,7 +8,7 @@ import {
   Whatsapp,
   Copy,
 } from "@/assets";
-import { Bookmark, UserCard, MoreFromAuthor, AudioPlayer } from "@/components";
+import { Bookmark, UserCard, MoreFromAuthor, AudioPlayer, Comments } from "@/components";
 import { UserImage } from "@/components/Avatar";
 import parse from "html-react-parser";
 import { useRouter } from "next/navigation";
@@ -16,18 +16,18 @@ import Link from "next/link";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import { calculateReadingTime } from "@/lib";
-
+import { formatDate } from "@/lib/utils";
 import dynamic from "next/dynamic";
 
-const NoSSRComments = dynamic(() => import("@/components/Comments"), {
-  ssr: false,
-});
+// const NoSSRComments = dynamic(() => import("@/components/Comments"), {
+//   ssr: false,
+// });
 
 export default function Slug({ blog }) {
   const [likes, setLikes] = useState(0);
   const [liked, setLiked] = useState(false);
   const [isCardVisible, setIsCardVisible] = useState(false);
-  const [commentsCount, setCommentsCount] = useState(blog.comments ?? 0);
+  const [commentData, setCommentData] = useState(blog.comments ?? []);
   const printRef = useRef(null);
   const router = useRouter();
 
@@ -86,23 +86,23 @@ export default function Slug({ blog }) {
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}>
                 <UserImage
-                  url={blog.user_avatar}
+                  url={blog.author.picture}
                   className="ring-2 ring-offset-2  ring-cyan-500 italic"
                 />
                 {isCardVisible && (
                   <UserCard
-                    avatar={blog.user_avatar}
-                    name={blog.author}
-                    bio={blog.user_bio}
-                    userId={blog.user_id}
-                    socials={blog.author_socials}
+                    avatar={blog.author.picture}
+                    name={blog.author.username}
+                    bio={blog.author.bio}
+                    userId={blog.authorId}
+                    socials={blog.author.socialMedia}
                   />
                 )}
               </div>
               <div>
                 <div className="flex items-center gap-2 ">
                   <span className="text-base md:text-xl capitalize font-bold">
-                    {blog.author ?? ""}
+                    {blog.author.username ?? ""}
                   </span>
                   <button className="bg-cyan-100 text-cyan-600 font-light rounded-md px-1 text-sm pointer-events-none border border-cyan-500">
                     Author
@@ -110,8 +110,8 @@ export default function Slug({ blog }) {
                 </div>
                 <p className="text-base xsm:text-sm font-medium  xsm:mb-0">
                   <span className="xsm:hidden">Published on </span>{" "}
-                  <time dateTime={blog?.created_at_date}>
-                    {blog?.created_at_date}{" "}
+                  <time dateTime={blog?.createdAt}>
+                    {formatDate(blog.createdAt)}
                   </time>
                   &#x2022; &#128337;{calculateReadingTime(blog.body)} min read
                 </p>
@@ -234,7 +234,7 @@ export default function Slug({ blog }) {
             <p className="blog__icons">
               <Comment />
               <span className="text-base ">
-                {commentsCount ?? 0}{" "}
+                {blog.comments.length ?? 0}{" "}
                 <Link href="#write-comment" className="xsm:hidden">
                   Comments
                 </Link>
@@ -244,16 +244,18 @@ export default function Slug({ blog }) {
           </div>
           {/* beginning of comment section */}
 
-          <NoSSRComments
+          <Comments
             blogId={blog.id}
             slug={blog.slug}
-            author={blog.user_id}
-            setCommentsCount={setCommentsCount}
+            author={blog.authorId}
+            comments={commentData}
+            setComments={setCommentData}
           />
           <div ref={printRef} style={{ display: "none" }}>
             <h1 className="text-xl font-bold">{blog.title}</h1>
             <p className="italic">
-              By {blog.author} published on {blog.created_at_date}
+              By {blog.author.username} published on{" "}
+              {formatDate(blog.createdAt)}
             </p>
             <div className="blog-body">{parse(blog.body)}</div>
           </div>
@@ -263,8 +265,8 @@ export default function Slug({ blog }) {
         <hr className="my-2" />
 
         <MoreFromAuthor
-          author={blog.author}
-          id={blog.user_id}
+          author={blog.author.username}
+          id={blog.authorId}
           blogId={blog.id}
         />
       </div>

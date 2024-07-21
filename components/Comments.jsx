@@ -18,9 +18,14 @@ const DynamicEditor = dynamic(() => import("@/components/CommentEditor"), {
   loading: () => <Loader size={60} />,
 });
 
-export default function Comments({ blogId, slug, setCommentsCount, author }) {
+export default function Comments({
+  blogId,
+  slug,
+  comments,
+  setComments,
+  author,
+}) {
   const [newComment, setNewComment] = useState("");
-  const [comments, setComments] = useState([]);
   const [commentToEdit, setCommentToEdit] = useState(null);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isEditing, setIsEditing] = useState(false);

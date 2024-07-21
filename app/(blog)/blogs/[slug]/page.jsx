@@ -33,8 +33,8 @@ export async function generateStaticParams() {
 export default async function BlogsPage({ params }) {
   const url =
     process.env.NODE_ENV === "development"
-      ? "http://localhost:3000/api/blogs"
-      : "https://techtales.vercel.app/api/blogs";
+      ? "http://localhost:3000/api/blogs/slug"
+      : "https://techtales.vercel.app/api/blogs/slug";
   async function fetchBlog() {
     try {
       const response = await fetch(`${url}`, {
@@ -46,6 +46,7 @@ export default async function BlogsPage({ params }) {
         next: { revalidate: 600 },
       });
       const data = await response.json();
+
       return data;
     } catch (error) {
       console.error(error);

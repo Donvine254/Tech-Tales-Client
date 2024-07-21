@@ -135,7 +135,7 @@ export async function POST(req, res) {
             },
           },
         },
-        comments: true, // Include comments for counting
+        comments: true, 
       },
     });
 
