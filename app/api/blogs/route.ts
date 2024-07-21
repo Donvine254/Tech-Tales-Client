@@ -150,7 +150,7 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
   }
 }
 
-//function to delete comment
+//function to delete blogs. create an admin route where an admin can delete the record completely
 export async function DELETE(req: NextRequest, res: NextResponse) {
   const id = req.nextUrl.searchParams.get("id");
   if (id) {
