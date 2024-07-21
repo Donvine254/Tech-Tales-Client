@@ -1,4 +1,3 @@
-// pages/api/login.js
 import prisma from "@/prisma/prisma";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -7,12 +6,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 const rateLimitMap = new Map();
 
-export async function POST(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ message: "Method not allowed" });
-  }
-  const data = await req.json();
-  const { email, password } = data;
+export async function POST(req: NextRequest, res: NextResponse) {
+  const { email, password } = await req.json();
   const ip = req.ip || req.headers.get("X-Forwarded-For");
   const limit = 3; // Limiting requests to 3 login attempts per minute per IP
   const windowMs = 60 * 1000; // 1 minute
@@ -53,16 +48,30 @@ export async function POST(req, res) {
 
   ipData.count += 1;
 
-  if (data) {
+  if (email && password) {
     try {
       // Check if the user exists
-      const user = await prisma.users.findFirst({
-        where: { email: email },
+      const user = await prisma.user.findUnique({
+        where: { email: email, deleted: false },
+        include: {
+          socialMedia: {
+            select: {
+              platform: true,
+              handle: true,
+            },
+          },
+        },
       });
 
       if (!user) {
         return NextResponse.json(
           { errors: ["No user with matching email found"] },
+          { status: 404 }
+        );
+      }
+      if (user.status !== "ACTIVE") {
+        return NextResponse.json(
+          { errors: ["This user account has been deactivated"] },
           { status: 404 }
         );
       }
@@ -79,23 +88,8 @@ export async function POST(req, res) {
           { status: 401 }
         );
       }
-      const socials = await prisma.social_media.findMany({
-        where: { user_id: user.id },
-        select: {
-          platform: true,
-          url: true,
-        },
-      });
 
-      const tokenData = {
-        id: user.id.toString(),
-        email: user.email,
-        username: user.username,
-        picture: user.picture,
-        socials: socials,
-        bio: user.bio,
-        role: user.role,
-      };
+      const tokenData = user;
       // Generate a JWT token
       const token = jwt.sign(tokenData, process.env.JWT_SECRET, {
         expiresIn: "8h",
@@ -103,15 +97,8 @@ export async function POST(req, res) {
 
       // Return user details and token
       const response = NextResponse.json(
-        {
-          id: user.id.toString(),
-          username: user.username,
-          email: user.email,
-          picture: user.picture,
-          socials: socials,
-          bio: user.bio,
-          role: user.role,
-        },
+        user,
+
         { status: 200 }
       );
       response.cookies.set("token", token, {
@@ -140,13 +127,3 @@ export async function POST(req, res) {
     );
   }
 }
-
-export async function GET(req, res) {
-  return NextResponse.json(
-    { error: "No login parameters provided" },
-    { status: 201 }
-  );
-}
-
-
-
