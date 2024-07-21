@@ -96,6 +96,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
   }
 }
 
+//function to update blogs
 export async function PATCH(req: NextRequest, res: NextResponse) {
   const id = req.nextUrl.searchParams.get("id");
   if (!id) {
@@ -146,5 +147,34 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
     );
   } finally {
     await prisma.$disconnect();
+  }
+}
+
+//function to delete comment
+export async function DELETE(req: NextRequest, res: NextResponse) {
+  const id = req.nextUrl.searchParams.get("id");
+  if (id) {
+    try {
+      await prisma.blog.update({
+        where: {
+          id: Number(id),
+        },
+        data: {
+          status: "UNPUBLISHED",
+        },
+      });
+      return NextResponse.json({}, { status: 200 });
+    } catch (error) {
+      console.error(error);
+      return NextResponse.json(
+        { error: "Record to delete does not exist." },
+        { status: 404 }
+      );
+    }
+  } else {
+    return NextResponse.json(
+      { error: "Record to delete does not exist." },
+      { status: 404 }
+    );
   }
 }
