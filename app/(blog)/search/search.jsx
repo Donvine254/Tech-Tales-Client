@@ -4,11 +4,12 @@ import { calculateReadingTime, baseUrl } from "@/lib";
 import { UserImage } from "@/components/Avatar";
 import { useSearchParams } from "next/navigation";
 import Axios from "axios";
-import { Clock } from "@/assets";
+import { Clock, Comment } from "@/assets";
 import parse from "html-react-parser";
 import { Bookmark, SideNav } from "@/components";
 
 import Link from "next/link";
+import { formatDate } from "@/lib/utils";
 
 export default function SearchPage() {
   const [blogs, setBlogs] = useState([]);
@@ -26,6 +27,7 @@ export default function SearchPage() {
         setLoading(false);
       } catch (error) {
         console.error(error);
+        setLoading(false);
       }
     })();
   }, [search]);
@@ -33,7 +35,7 @@ export default function SearchPage() {
     <section className="relative min-h-[400px] h-fit">
       <div className="w-full !z-0 mx-auto md:my-4 px-4 md:px-8 md:w-2/3 relative font-poppins">
         <SideNav />
-        <h1 className="font-bold font-crimson sm:text-xl md:text-2xl">
+        <h1 className="font-bold font-crimson  md:text-xl my-1">
           Search results for {search}
         </h1>
         <hr className="my-2  border border-blue-500" />
@@ -47,14 +49,16 @@ export default function SearchPage() {
                 className="bg-gray-100 my-4 p-4 rounded-md border shadow hover:bg-slate-200">
                 <div className="">
                   <div className="flex gap-4 xsm:gap-2 xsm:items-center">
-                    <UserImage url={blog.user_avatar} />
+                    <UserImage url={blog.author.picture} />
                     <div className="">
                       <p className=" text-base md:text-xl capitalize">
                         Written By{" "}
-                        <span className="font-bold">{blog.author}</span>
+                        <span className="font-bold">
+                          {blog.author.username}
+                        </span>
                       </p>
                       <p className="text-sm font-medium md:text-base">
-                        Published on {blog.created_at_date}
+                        Published on {formatDate(blog.createdAt)}
                       </p>
                     </div>
                   </div>
@@ -112,12 +116,12 @@ export default function SearchPage() {
                     {calculateReadingTime(blog.body)} min{" "}
                     <span className="xsm:hidden">read</span>
                   </p>
-                  <p className="text-base hidden md:block">
-                    Based on your reading history
+                  <p className="text-base  inline-flex items-center gap-1">
+                    <Comment />
+                    <span>{blog?._count?.comments}</span>
                   </p>
                   <Bookmark blogId={blog.id} />
                 </div>
-                {/* <hr className="my-2 border-1 border-slate-300" /> */}
               </div>
             ))
           : !loading && (

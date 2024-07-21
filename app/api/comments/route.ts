@@ -13,7 +13,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
   try {
     data = await req.json();
 
-    // Check if all required fields are present
     if (!data.body || !data.authorId || !data.blogId) {
       return NextResponse.json(
         { error: "Invalid data. Ensure all required fields are present." },
@@ -31,11 +30,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
   try {
     // Create the comment
     const newComment = await prisma.comment.create({
-      data: {
-        body: data.body,
-        authorId: data.authorId,
-        blogId: data.blogId,
-      },
+      data: data,
       include: {
         author: {
           select: {
