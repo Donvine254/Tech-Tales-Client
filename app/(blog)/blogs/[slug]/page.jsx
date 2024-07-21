@@ -23,6 +23,7 @@ export async function generateStaticParams() {
     }
 
     const blogSlugs = data.map((blog) => blog.slug);
+
     return blogSlugs;
   } catch (error) {
     console.error("Error fetching blog data:", error);
