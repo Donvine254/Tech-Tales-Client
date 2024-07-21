@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { Clipboard } from "@/assets";
-import { Clock } from "@/assets";
+import { Clock, Comment } from "@/assets";
 import parse from "html-react-parser";
 import Bookmark from "./Bookmark";
 import { UserImage } from "./Avatar";
 import Image from "next/image";
 import { calculateReadingTime } from "@/lib";
+import { formatDate } from "@/lib/utils";
 
 export default async function BlogsComponent({ blogs }) {
   return (
@@ -17,14 +17,16 @@ export default async function BlogsComponent({ blogs }) {
             className="bg-gray-100 my-4 p-4 rounded-md border shadow hover:bg-slate-200">
             <div className="">
               <div className="flex gap-2 xsm:items-center">
-                <UserImage url={blog.user_avatar} />
+                <UserImage url={blog.author.picture} />
                 <div className="">
                   <p className="text-sm sm:text-base md:text-xl ">
                     Written by{" "}
-                    <span className="capitalize font-bold">{blog.author}</span>
+                    <span className="capitalize font-bold">
+                      {blog.author.username}
+                    </span>
                   </p>
                   <p className="text-sm font-medium md:text-base ">
-                    Published on {blog.created_at_date}
+                    Published on {formatDate(blog.createdAt)}
                   </p>
                 </div>
               </div>
@@ -67,7 +69,7 @@ export default async function BlogsComponent({ blogs }) {
                   stroke="currentColor"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth={2}
+                  strokeWidth="2"
                   viewBox="0 0 24 24"
                   height="1em"
                   width="1em">
@@ -79,12 +81,12 @@ export default async function BlogsComponent({ blogs }) {
                 {calculateReadingTime(blog.body)} min{" "}
                 <span className="xsm:hidden">read</span>
               </p>
-              <p className="text-base hidden md:block">
-                Based on your reading history
+              <p className="text-base  inline-flex items-center gap-1">
+                <Comment />
+                <span>{blog?._count?.comments}</span>
               </p>
               <Bookmark blogId={blog.id} />
             </div>
-            {/* <hr className="my-2 border-1 border-slate-300" /> */}
           </div>
         ))
       ) : (

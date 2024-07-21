@@ -238,7 +238,7 @@ export default function Slug({ blog }) {
               </span>
             </p>
             <p className="blog__icons">
-              <Comment />
+              <Comment size={30} />
               <span className="text-base ">
                 {blog.comments.length ?? 0}{" "}
                 <Link href="#write-comment" className="xsm:hidden">
@@ -246,7 +246,7 @@ export default function Slug({ blog }) {
                 </Link>
               </span>
             </p>
-            <Bookmark blogId={blog?.id} className="font-bold" size={30} />
+            <Bookmark blogId={blog?.id} size={30} />
           </div>
           {/* beginning of comment section */}
 

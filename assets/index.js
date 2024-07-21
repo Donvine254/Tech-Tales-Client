@@ -94,12 +94,12 @@ export const Like = ({ handleClick, className }) => (
   </svg>
 );
 
-export const Comment = ({ handleClick }) => (
+export const Comment = ({ handleClick, size = 24 }) => (
   <svg
     viewBox="0 0 640 512"
     fill="currentColor"
-    height="30"
-    width="30"
+    height={size}
+    width={size}
     className="cursor-pointer"
     strokeWidth="1"
     onClick={handleClick}>
