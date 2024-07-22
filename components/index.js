@@ -8,6 +8,7 @@ import Comments from "./Comments";
 import { UserImage } from "./Avatar";
 import SkeletonBlog from "./SkeletonBlog";
 import ActionsButton from "./ActionsButton";
+import Loader from "./Loader";
 export {
   BlogsComponent,
   Bookmark,
@@ -19,4 +20,5 @@ export {
   UserImage,
   SkeletonBlog,
   ActionsButton,
+  Loader,
 };

@@ -13,9 +13,10 @@ import {
   UserCard,
   MoreFromAuthor,
   AudioPlayer,
-  Comments,
+  Loader,
+  UserImage,
 } from "@/components";
-import { UserImage } from "@/components/Avatar";
+
 import parse from "html-react-parser";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -23,7 +24,16 @@ import Image from "next/image";
 import toast from "react-hot-toast";
 import { calculateReadingTime } from "@/lib";
 import { formatDate } from "@/lib/utils";
+import dynamic from "next/dynamic";
 
+const NoSSRComments = dynamic(() => import("@/components/Comments"), {
+  loading: () => (
+    <div className="flex items-center justify-center gap-2 text-xl my-2">
+      <Loader size={60} />
+      Loading Editor...
+    </div>
+  ),
+});
 export default function Slug({ blog }) {
   const [likes, setLikes] = useState(0);
   const [liked, setLiked] = useState(false);
@@ -237,7 +247,7 @@ export default function Slug({ blog }) {
           </div>
           {/* beginning of comment section */}
 
-          <Comments
+          <NoSSRComments
             blogId={blog.id}
             slug={blog.slug}
             blogAuthorId={blog.authorId}
