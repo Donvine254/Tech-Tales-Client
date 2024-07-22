@@ -41,8 +41,7 @@ export default function EditBlog({ params }) {
         const blog = await response.json();
 
         // modify this to ensure admins can edit any blog
-        if (user.id !== blog.user_id && user.role !== "admin") {
-          console.log("userId:", user.id, "blog user_id:", blog.user_id);
+        if (user.id !== blog.authorId && user.role !== "admin") {
           toast.error("This blog belongs to a different author!");
           router.replace("/me/blogs?action=forbidden");
         } else {

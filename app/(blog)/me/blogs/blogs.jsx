@@ -143,7 +143,8 @@ export default function MyBlogsComponent() {
                 <ActionsButton
                   onDelete={() => handleDelete(blog.id, blog.slug)}
                   onEdit={() => handleEdit(blog.slug)}
-                  onUpdate={handleChangeBlogStatus}
+                  onUpdate={handleUpdateStatus}
+                  setBlogs={setBlogs}
                   blog={blog}
                 />
               </div>
@@ -177,7 +178,7 @@ export default function MyBlogsComponent() {
       <hr className="my-2  border border-blue-500" />
       {loading && (
         <div>
-          {Array(2)
+          {Array(1)
             .fill(0)
             .map((item, i) => (
               <SkeletonBlog key={i} />

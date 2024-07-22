@@ -156,7 +156,7 @@ export async function DELETE(req: NextRequest, res: NextResponse) {
   const role = req.nextUrl.searchParams.get("role");
   if (id) {
     try {
-      if (role === "admin") {
+      if (role && role === "admin") {
         await prisma.blog.delete({
           where: {
             id: Number(id),
