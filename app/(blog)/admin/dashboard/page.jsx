@@ -13,9 +13,9 @@ export const metadata = {
 
 async function getTotalComments() {
   try {
-    const comments = await fetch(
-      "https://techtales.up.railway.app/comments"
-    ).then((response) => response.json());
+    const comments = await fetch(`${baseUrl}/comments`, {
+      revalidate: 60,
+    }).then((response) => response.json());
     return comments;
   } catch (error) {
     console.error("Error fetching comments:", error);
@@ -25,12 +25,13 @@ async function getTotalComments() {
 async function getTotalUsers() {
   "use server";
   try {
-    const users = await prisma.users.findMany({
+    const users = await prisma.user.findMany({
       select: {
         id: true,
         email: true,
         username: true,
         role: true,
+        status: true,
         picture: true,
         bio: true,
       },
@@ -43,10 +44,31 @@ async function getTotalUsers() {
     await prisma.$disconnect();
   }
 }
+
+async function getBlogs() {
+  "use server";
+  try {
+    const blogs = await prisma.blog.findMany({
+      include: {
+        author: {
+          select: {
+            username: true,
+            picture: true,
+          },
+        },
+      },
+    });
+    return blogs;
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    throw error;
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
 export default async function Page() {
-  const blogs = await fetch(`${baseUrl}/blogs`).then((response) =>
-    response.json()
-  );
+  const blogs = await getBlogs();
   const totalComments = await getTotalComments();
   const allUsers = await getTotalUsers();
   return (

@@ -178,7 +178,7 @@ export default function Comments({
           </div>
         </div>
       )}
-      <div>
+      <div id="comments">
         {comments?.length > 0 ? (
           comments?.map((comment) => (
             <div className="py-1 font-poppins " key={comment.id}>

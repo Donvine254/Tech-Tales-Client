@@ -197,13 +197,13 @@ export default function BlogsTable({ blogs }) {
                   <td className="px-4 py-2 text-start capitalize content-center whitespace-nowrap xsm:text-sm">
                     <div className="flex items-center gap-1">
                       <Image
-                        src={blog.user_avatar}
-                        alt={blog.author}
+                        src={blog.author.picture}
+                        alt={blog.author.username}
                         height={32}
                         width={32}
                         className="rounded-full  italic h-8 w-8"
                       />{" "}
-                      <span>{blog.author}</span>
+                      <span>{blog.author.username}</span>
                     </div>
                   </td>
                   <td className="px-4 py-2 place-items-center ">
@@ -215,8 +215,15 @@ export default function BlogsTable({ blogs }) {
                   </td>
 
                   <td className="px-4 py-2 place-items-center ">
-                    <span className="inline-block px-2 rounded-full bg-green-100 text-green-600 border border-green-200 text-sm">
-                      Published
+                    <span
+                      className={`inline-block px-2 rounded-full border text-sm ${
+                        blog.status === "PUBLISHED"
+                          ? "bg-green-100 text-green-600  border-green-200"
+                          : blog.status === "UNPUBLISHED"
+                          ? "bg-yellow-100 text-yellow-600  border-yellow-600"
+                          : "bg-gray-200 text-gray-700 border-gray-400"
+                      }`}>
+                      {blog.status.toLowerCase()}
                     </span>
                   </td>
                   <td className="px-4 py-2   place-items-center">

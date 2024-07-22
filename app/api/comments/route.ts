@@ -7,6 +7,34 @@ type Comment = {
   blogId: number;
 };
 
+export async function GET() {
+  try {
+    const comments = await prisma.comment.findMany({
+      include: {
+        author: {
+          select: {
+            username: true,
+            picture: true,
+          },
+        },
+        blog: {
+          select: {
+            slug: true,
+            title: true,
+          },
+        },
+      },
+    });
+    return NextResponse.json(comments, { status: 200 });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { error: "Something went wrong, kindly try again" },
+      { status: 200 }
+    );
+  }
+}
+
 export async function POST(req: NextRequest, res: NextResponse) {
   // Validate and parse the incoming data
   let data: Comment;
