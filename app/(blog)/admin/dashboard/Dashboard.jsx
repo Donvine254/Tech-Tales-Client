@@ -149,6 +149,7 @@ export default function Dashboard({ blogs, totalComments, users }) {
       <div className="text-xl  my-2  flex items-center gap-2 md:gap-4 lg:gap-6 border-b border-b-gray-400 bg-gray-100 rounded-t-md  transition-all duration-300 shadow">
         <Link
           href="/admin/dashboard?tab=0"
+          prefetch
           className={`px-4 cursor-pointer py-2 hover:text-blue-600 font-medium ${
             activeTab === "0" ? "border-b-2  border-b-blue-600 text- " : ""
           }`}>
@@ -156,6 +157,7 @@ export default function Dashboard({ blogs, totalComments, users }) {
         </Link>
         <Link
           href="/admin/dashboard?tab=1"
+          prefetch
           className={`px-4 cursor-pointer py-2 hover:text-blue-600 font-medium ${
             activeTab === "1"
               ? "border-b-2 border-b-blue-600 text-blue-500 "
@@ -165,6 +167,7 @@ export default function Dashboard({ blogs, totalComments, users }) {
         </Link>
         <Link
           href="/admin/dashboard?tab=2"
+          prefetch
           className={`px-4 cursor-pointer py-2 hover:text-blue-600 font-medium  ${
             activeTab === "2"
               ? "border-b-2 border-b-blue-600 text-blue-500 "

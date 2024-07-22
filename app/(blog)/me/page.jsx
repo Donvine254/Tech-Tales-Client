@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { handleSignOut, baseUrl } from "@/lib";
 
 import Image from "next/image";
@@ -29,42 +29,42 @@ export default function Profile() {
   const [allBlogs, setAllBlogs] = useState([]);
 
   // Fetch user data
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const userData = await fetch(`${baseUrl}/me`).then((response) =>
-          response.json()
-        );
-        if (userData) {
-          setUser(userData);
-          setUserLoaded(true);
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
+  const fetchUserData = useCallback(async () => {
+    try {
+      const userData = await fetch(`${baseUrl}/me`).then((response) =>
+        response.json()
+      );
+      if (userData) {
+        setUser(userData);
+        setUserLoaded(true);
       }
-    };
-
-    fetchUserData();
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
   }, []);
 
   // Fetch blogs when user data changes
-  useEffect(() => {
+  const fetchBlogs = useCallback(async () => {
     if (!userLoaded) return;
 
-    const fetchBlogs = async () => {
-      try {
-        const response = await fetch(`${baseUrl}/my-blogs`);
-        const data = await response.json();
-        setBlogs(data);
-        setLoading(false);
-      } catch (error) {
-        setLoading(false);
-        console.error("Error fetching blogs:", error);
-      }
-    };
-
-    fetchBlogs();
+    try {
+      const response = await fetch(`${baseUrl}/my-blogs`);
+      const data = await response.json();
+      setBlogs(data);
+    } catch (error) {
+      console.error("Error fetching blogs:", error);
+    } finally {
+      setLoading(false);
+    }
   }, [userLoaded]);
+
+  useEffect(() => {
+    fetchUserData();
+  }, [fetchUserData]);
+
+  useEffect(() => {
+    fetchBlogs();
+  }, [fetchBlogs]);
   //useEffect to get user reading list
   useEffect(() => {
     const localStorageData = secureLocalStorage.getItem("bookmarked_blogs");
