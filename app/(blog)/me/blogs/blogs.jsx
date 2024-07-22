@@ -3,12 +3,17 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Clock, Clipboard, Comment } from "@/assets";
-import { deleteBlog, baseUrl, calculateReadingTime } from "@/lib";
+import {
+  deleteBlog,
+  baseUrl,
+  calculateReadingTime,
+  handleUpdateStatus,
+} from "@/lib";
 import { SideNav, UserImage, SkeletonBlog, ActionsButton } from "@/components";
 import { formatDate } from "@/lib/utils";
-import toast from "react-hot-toast";
+
 import parse from "html-react-parser";
-import axios from "axios";
+
 //check for the current user
 
 export default function MyBlogsComponent() {
@@ -39,23 +44,6 @@ export default function MyBlogsComponent() {
     navigate.push(`/create/${slug}?action=edit`);
   }
 
-  //function to handleUnpublishing
-  async function handleChangeBlogStatus(status, id) {
-    try {
-      const response = await axios.patch(`${baseUrl}/blogs?id=${id}`, {
-        status,
-      });
-      const data = await response.data;
-      // Update the blogs array with the new updated blog
-      setBlogs((prevBlogs) =>
-        prevBlogs.map((blog) => (blog.id === id ? data : blog))
-      );
-      toast.success("Blog status updated successfully");
-    } catch (error) {
-      console.error(error);
-      toast.error("An error occurred while updating");
-    }
-  }
   //filter between published and unpublished blogs
   const publishedBlogs = blogs.filter((blog) => blog.status === "PUBLISHED");
   const unpublishedBlogs = blogs.filter(
@@ -273,8 +261,9 @@ export default function MyBlogsComponent() {
               <ActionsButton
                 onDelete={() => handleDelete(blog.id, blog.slug)}
                 onEdit={() => handleEdit(blog.slug)}
-                onUpdate={handleChangeBlogStatus}
+                onUpdate={handleUpdateStatus}
                 blog={blog}
+                setBlogs={setBlogs}
               />
             </div>
           </div>

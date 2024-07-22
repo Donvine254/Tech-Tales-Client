@@ -5,6 +5,7 @@ import BlogActionsButton from "./blogActions";
 import Image from "next/image";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
+import { baseUrl, handleUpdateStatus } from "@/lib";
 import { revalidateBlogs, revalidatePage } from "@/lib/actions";
 import { exportCSV } from "@/lib/utils";
 import Axios from "axios";
@@ -77,7 +78,7 @@ export default function BlogsTable({ blogs }) {
 
   async function handleDelete(blog) {
     try {
-      await Axios.delete(`https://techtales.up.railway.app/blogs/${blog.id}`);
+      await Axios.delete(`${baseUrl}/blogs?id=${id}`);
       setTotalBlogs((prevBlogs) => prevBlogs.filter((b) => b.id !== blog.id));
       toast.success("Blog deleted successfully!");
       await Revalidate(blog);
@@ -231,6 +232,8 @@ export default function BlogsTable({ blogs }) {
                       <BlogActionsButton
                         blog={blog}
                         onDelete={() => deleteBlog(blog)}
+                        onUpdate={handleUpdateStatus}
+                        setBlogs={setTotalBlogs}
                       />
                     </div>
                   </td>

@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Edit, Trash, Share } from "@/assets";
 import ShareModal from "./ShareModal";
 
-export default function ActionsButton({ onDelete, onEdit, blog, onUpdate }) {
+export default function ActionsButton({ onDelete, onEdit, blog, onUpdate, setBlogs }) {
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const popupRef = useRef(null);
@@ -69,7 +69,7 @@ export default function ActionsButton({ onDelete, onEdit, blog, onUpdate }) {
           {blog.status === "PUBLISHED" ? (
             <button
               className="flex items-center gap-2  px-4 py-1 text-gray-800 hover:text-blue-600 w-full hover:bg-gray-200 rounded-md "
-              onClick={() => onUpdate("UNPUBLISHED", blog.id)}>
+              onClick={() => onUpdate("UNPUBLISHED", blog.id, setBlogs)}>
               <svg
                 viewBox="0 0 1024 1024"
                 fill="currentColor"
@@ -83,7 +83,7 @@ export default function ActionsButton({ onDelete, onEdit, blog, onUpdate }) {
           ) : (
             <button
               className="flex items-center gap-2  px-4 py-1 text-gray-800 hover:text-blue-600 w-full hover:bg-gray-200 rounded-md "
-              onClick={() => onUpdate("PUBLISHED", blog.id)}>
+              onClick={() => onUpdate("PUBLISHED", blog.id, setBlogs)}>
               <svg
                 viewBox="0 0 1024 1024"
                 fill="currentColor"
