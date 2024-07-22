@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import BlogsTable from "@/components/Dashboard/Blogs";
 import UsersTable from "@/components/Dashboard/Users";
 import CommentsTable from "@/components/Dashboard/Comments";
@@ -8,17 +8,25 @@ import Link from "next/link";
 
 export default function Dashboard({ blogs, totalComments, users }) {
   const searchParams = useSearchParams();
-  let tab = searchParams.get("tab");
+  let tab = searchParams.get("tab") || "0";
   const [activeTab, setActiveTab] = useState(tab ?? "");
   useEffect(() => {
     const tab = searchParams.get("tab");
-    if (!tab) {
-      setActiveTab("0");
-    } else {
-      setActiveTab(tab);
-    }
+    setActiveTab(tab);
   }, [searchParams]);
 
+  //memoize tables
+  const Users = useMemo(() => {
+    return <UsersTable users={users} />;
+  }, [users]);
+
+  const Blogs = useMemo(() => {
+    return <BlogsTable blogs={blogs} />;
+  }, [blogs]);
+
+  const Comments = useMemo(() => {
+    return <CommentsTable comments={totalComments} />;
+  }, [totalComments]);
   return (
     <section className="w-full min-h-[320px] py-4 md:mt-10" id="dashboard-page">
       <div className="grid grid-cols-1 gap-4  py-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 ">
@@ -166,9 +174,13 @@ export default function Dashboard({ blogs, totalComments, users }) {
         </Link>
       </div>
       {/* add sections from here based on the tab */}
-      {activeTab === "0" && <UsersTable users={users} />}
+      {/* {activeTab === "0" && <UsersTable users={users} />}
       {activeTab === "1" && <BlogsTable blogs={blogs} />}
-      {activeTab === "2" && <CommentsTable comments={totalComments} />}
+      {activeTab === "2" && <CommentsTable comments={totalComments} />} */}
+      {/* add memoized values */}
+      {activeTab === "0" && Users}
+      {activeTab === "1" && Blogs}
+      {activeTab === "2" && Comments}
     </section>
   );
 }
