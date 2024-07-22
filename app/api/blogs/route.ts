@@ -153,17 +153,27 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
 //function to delete blogs. create an admin route where an admin can delete the record completely
 export async function DELETE(req: NextRequest, res: NextResponse) {
   const id = req.nextUrl.searchParams.get("id");
+  const role = req.nextUrl.searchParams.get("role");
   if (id) {
     try {
-      await prisma.blog.update({
-        where: {
-          id: Number(id),
-        },
-        data: {
-          status: "ARCHIVED",
-        },
-      });
-      return NextResponse.json({}, { status: 200 });
+      if (role === "admin") {
+        await prisma.blog.delete({
+          where: {
+            id: Number(id),
+          },
+        });
+        return NextResponse.json({}, { status: 200 });
+      } else {
+        await prisma.blog.update({
+          where: {
+            id: Number(id),
+          },
+          data: {
+            status: "ARCHIVED",
+          },
+        });
+        return NextResponse.json({}, { status: 200 });
+      }
     } catch (error) {
       console.error(error);
       return NextResponse.json(
