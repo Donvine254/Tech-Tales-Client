@@ -387,7 +387,7 @@ export default function Profile() {
                         <span className="xsm:hidden">read</span>
                       </p>
                       <p
-                        className={`text-sm flex items-center px-1 rounded-lg border ${
+                        className={`text-sm inline-flex items-center px-1 rounded-lg border ${
                           blog.status === "PUBLISHED"
                             ? "text-green-600"
                             : " text-amber-600 "
