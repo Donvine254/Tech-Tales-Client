@@ -5,6 +5,9 @@ import UserCard from "./UserCard";
 import MoreFromAuthor from "./MoreFromAuthor";
 import AudioPlayer from "./AudioPlayer";
 import Comments from "./Comments";
+import { UserImage } from "./Avatar";
+import SkeletonBlog from "./SkeletonBlog";
+import ActionsButton from "./ActionsButton";
 export {
   BlogsComponent,
   Bookmark,
@@ -13,4 +16,7 @@ export {
   MoreFromAuthor,
   AudioPlayer,
   Comments,
+  UserImage,
+  SkeletonBlog,
+  ActionsButton,
 };

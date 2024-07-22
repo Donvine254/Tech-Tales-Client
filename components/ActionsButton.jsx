@@ -2,9 +2,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Edit, Trash, Share } from "@/assets";
 import ShareModal from "./ShareModal";
-import toast from "react-hot-toast";
 
-export default function ActionsButton({ onDelete, onEdit, blog }) {
+export default function ActionsButton({ onDelete, onEdit, blog, onUpdate }) {
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const popupRef = useRef(null);
@@ -70,7 +69,7 @@ export default function ActionsButton({ onDelete, onEdit, blog }) {
           {blog.status === "PUBLISHED" ? (
             <button
               className="flex items-center gap-2  px-4 py-1 text-gray-800 hover:text-blue-600 w-full hover:bg-gray-200 rounded-md "
-              onClick={() => toast.success("incoming feature")}>
+              onClick={() => onUpdate("UNPUBLISHED", blog.id)}>
               <svg
                 viewBox="0 0 1024 1024"
                 fill="currentColor"
@@ -84,7 +83,7 @@ export default function ActionsButton({ onDelete, onEdit, blog }) {
           ) : (
             <button
               className="flex items-center gap-2  px-4 py-1 text-gray-800 hover:text-blue-600 w-full hover:bg-gray-200 rounded-md "
-              onClick={() => toast.success("incoming feature")}>
+              onClick={() => onUpdate("PUBLISHED", blog.id)}>
               <svg
                 viewBox="0 0 1024 1024"
                 fill="currentColor"

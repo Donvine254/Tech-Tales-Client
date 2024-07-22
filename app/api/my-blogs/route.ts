@@ -46,7 +46,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
     const blogs = await prisma.blog.findMany({
       where: {
         authorId: Number(userData.id),
-        status: "PUBLISHED", // Ensure id is a number
+        status: { not: "ARCHIVED" }, // Ensure id is a number
       },
       include: {
         author: {

@@ -6,7 +6,15 @@ import Image from "next/image";
 import Link from "next/link";
 import Loader from "@/components/Loader";
 import parse from "html-react-parser";
-import { Clipboard, Facebook, GithubIcon, NewTwitterIcon } from "@/assets";
+import {
+  Clipboard,
+  Facebook,
+  GithubIcon,
+  NewTwitterIcon,
+  Clock,
+  Comment,
+} from "@/assets";
+import { calculateReadingTime } from "@/lib";
 import secureLocalStorage from "react-secure-storage";
 import SocialMediaModal from "@/components/SocialMediaModal";
 
@@ -16,23 +24,39 @@ export default function Profile() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const [userLoaded, setUserLoaded] = useState(false);
   const [readingList, setReadingList] = useState({});
   const [allBlogs, setAllBlogs] = useState([]);
 
+  // Fetch user data
   useEffect(() => {
-    const fetchBlogs = async () => {
+    const fetchUserData = async () => {
       try {
         const userData = await fetch(`${baseUrl}/me`).then((response) =>
           response.json()
         );
         if (userData) {
           setUser(userData);
-
-          const response = await fetch(`${baseUrl}/my-blogs`);
-          const data = await response.json();
-          setBlogs(data);
-          setLoading(false);
+          setUserLoaded(true);
         }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  // Fetch blogs when user data changes
+  useEffect(() => {
+    if (!userLoaded) return;
+
+    const fetchBlogs = async () => {
+      try {
+        const response = await fetch(`${baseUrl}/my-blogs`);
+        const data = await response.json();
+        setBlogs(data);
+        setLoading(false);
       } catch (error) {
         setLoading(false);
         console.error("Error fetching blogs:", error);
@@ -40,8 +64,7 @@ export default function Profile() {
     };
 
     fetchBlogs();
-  }, []);
-
+  }, [userLoaded]);
   //useEffect to get user reading list
   useEffect(() => {
     const localStorageData = secureLocalStorage.getItem("bookmarked_blogs");
@@ -340,13 +363,54 @@ export default function Profile() {
                       href={`/blogs/${blog.slug}`}
                       className="hover:underline "
                       prefetch>
-                      <span className="font-semibold  py-1 text-gray-700 hover:text-blue-500 ">
+                      <span className="font-semibold  py-1 text-gray-700 hover:text-blue-500 hover:underline">
                         {blog.title}
                       </span>
                     </Link>
+                    <div className="flex gap-2 flex-wrap text-sm">
+                      {blog.tags.split(",").map((tag, index) => (
+                        <Link
+                          key={index}
+                          href={`/search?search=${tag.trim()}`}
+                          className="md:px-2 md:py-0.5 text-blue-600 md:bg-transparent md:hover:bg-blue-600 md:hover:text-white cursor-pointer md:border md:border-blue-600 md:rounded-xl ">
+                          #{tag.trim()}
+                        </Link>
+                      ))}
+                    </div>
                     <article className=" text-gray-500 leading-8 line-clamp-2">
                       {blog.body ? parse(blog.body) : blog.body}
                     </article>
+                    <div className="flex items-center justify-between gap-1 space-y-1">
+                      <p className="text-sm flex items-center gap-1 md:gap-2  text-black ">
+                        <Clock />
+                        {calculateReadingTime(blog.body)} min{" "}
+                        <span className="xsm:hidden">read</span>
+                      </p>
+                      <p
+                        className={`text-sm flex items-center px-1 rounded-lg border ${
+                          blog.status === "PUBLISHED"
+                            ? "text-green-600"
+                            : " text-amber-600 "
+                        }`}>
+                        <svg
+                          viewBox="0 0 220 1000"
+                          fill="currentColor"
+                          className={`text-sm  ${
+                            blog.status === "PUBLISHED"
+                              ? "text-green-600"
+                              : " text-amber-600 "
+                          }`}
+                          height="20"
+                          width="20">
+                          <path d="M110 390c30.667 0 56.667 10.667 78 32s32 47.333 32 78c0 29.333-10.667 55-32 77s-47.333 33-78 33-56.667-11-78-33-32-47.667-32-77c0-30.667 10.667-56.667 32-78s47.333-32 78-32" />
+                        </svg>
+                        <span>{blog.status.toLowerCase()}</span>
+                      </p>
+                      <p className="text-sm  inline-flex items-center gap-1">
+                        <Comment />
+                        <span>{blog?._count?.comments}</span>
+                      </p>
+                    </div>
 
                     <hr className="my-2 border-1 border-slate-300" />
                   </div>
@@ -383,11 +447,21 @@ export default function Profile() {
                         href={`/blogs/${blog.slug}`}
                         className="hover:underline "
                         prefetch>
-                        <p className="font-semibold py-1 text-gray-700 hover:text-blue-500">
+                        <p className="font-semibold py-1 text-gray-700 hover:text-blue-500 inline-flex items-center justify-start">
                           {blog.title}{" "}
                           <span className="font-medium ">by {blog.author}</span>
                         </p>
                       </Link>
+                      <div className="flex gap-2 flex-wrap text-sm">
+                        {blog.tags.split(",").map((tag, index) => (
+                          <Link
+                            key={index}
+                            href={`/search?search=${tag.trim()}`}
+                            className="md:px-2 md:py-0.5 text-blue-600 md:bg-transparent md:hover:bg-blue-600 md:hover:text-white cursor-pointer md:border md:border-blue-600 md:rounded-xl ">
+                            #{tag.trim()}
+                          </Link>
+                        ))}
+                      </div>
                       <article className=" text-gray-500 leading-8 line-clamp-2">
                         {blog.body ? parse(blog.body) : blog.body}
                       </article>
