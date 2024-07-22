@@ -30,7 +30,7 @@ const NoSSRComments = dynamic(() => import("@/components/Comments"), {
   loading: () => (
     <div className="flex items-center justify-center gap-2 text-xl my-2">
       <Loader size={60} />
-      Loading Editor...
+      <span>Loading Comments...</span>
     </div>
   ),
 });

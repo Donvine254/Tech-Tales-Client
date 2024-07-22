@@ -71,7 +71,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
       }
       if (user.status !== "ACTIVE") {
         return NextResponse.json(
-          { errors: ["This user account has been deactivated"] },
+          {
+            errors: [`This user account has been ${user.status.toLowerCase()}`],
+          },
           { status: 404 }
         );
       }

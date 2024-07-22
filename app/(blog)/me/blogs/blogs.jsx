@@ -55,8 +55,10 @@ export default function MyBlogsComponent() {
       <SideNav />
       {/* section for published blogs */}
       <section>
-        <h1 className="font-bold   md:text-xl">Your Published Blogs</h1>
-        <hr className="my-2  border border-blue-500" />
+        <h1 className="font-bold underline  md:text-xl">
+          Your Published Blogs
+        </h1>
+        {/* <hr className="my-2  border border-blue-500" /> */}
         {loading && (
           <div>
             {Array(2)
@@ -174,8 +176,10 @@ export default function MyBlogsComponent() {
         )}
       </section>
       {/* section for unpublished blogs */}
-      <h1 className="font-bold   md:text-xl">Your Unpublished Blogs</h1>
-      <hr className="my-2  border border-blue-500" />
+      <h1 className="font-bold underline  md:text-xl">
+        Your Unpublished Blogs
+      </h1>
+      {/* <hr className="my-2  border border-blue-500" /> */}
       {loading && (
         <div>
           {Array(1)
