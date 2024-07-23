@@ -23,25 +23,14 @@ async function getTotalComments() {
   }
 }
 async function getTotalUsers() {
-  "use server";
   try {
-    const users = await prisma.user.findMany({
-      select: {
-        id: true,
-        email: true,
-        username: true,
-        role: true,
-        status: true,
-        picture: true,
-        bio: true,
-      },
-    });
+    const users = await fetch(`${baseUrl}/users`, {
+      revalidate: 60,
+    }).then((response) => response.json());
     return users;
   } catch (error) {
     console.error("Error fetching users:", error);
     throw error;
-  } finally {
-    await prisma.$disconnect();
   }
 }
 

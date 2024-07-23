@@ -124,7 +124,7 @@ export default function Page() {
               </div>
               <div className="space-y-2 flex items-center justify-between gap-4 text-gray-700 text-sm md:text-base">
                 <h3 className="hover:text-gray-900 font-semibold">Username</h3>
-                <p>{user?.username}</p>
+                <p className="capitalize">{user?.username}</p>
               </div>
               <div className="space-y-2 cursor-pointer flex items-center justify-between gap-4 text-gray-700">
                 <div onClick={showUpdateModal} className="text-sm md:text-base">

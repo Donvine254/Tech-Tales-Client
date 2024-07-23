@@ -133,7 +133,7 @@ export default function Profile() {
               className="w-[120px] h-[120px] rounded-full m-auto ring-offset-4 ring-2 ring-blue-600 italic ring-offset-white"
             />
             <p className="text-gray-600 font-semibold flex items-center justify-center ">
-              <span>{user.username} </span>
+              <span className="capitalize">{user.username} </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"

@@ -66,7 +66,37 @@ export async function POST(req: NextRequest, res: NextResponse) {
       { status: 422 }
     );
   }
+  const existingUser = await prisma.user.findFirst({
+    where: {
+      OR: [{ email: requestData.email }, { username: requestData.username }],
+    },
+    select: {
+      email: true,
+      username: true,
+    },
+  });
 
+  if (existingUser) {
+    if (
+      existingUser.email === requestData.email &&
+      existingUser.username === requestData.username
+    ) {
+      return NextResponse.json(
+        { error: "Both email and username are already taken" },
+        { status: 422 }
+      );
+    } else if (existingUser.email === requestData.email) {
+      return NextResponse.json(
+        { error: "Email is already taken" },
+        { status: 422 }
+      );
+    } else if (existingUser.username === requestData.username) {
+      return NextResponse.json(
+        { error: "Username is already taken" },
+        { status: 422 }
+      );
+    }
+  }
   const data = {
     ...requestData,
     avatar: createUserAvatar(requestData.username),
