@@ -23,7 +23,7 @@ export default function AccountNotFound() {
     toast.success("Processing Request");
     if (typeof window !== undefined) {
       user = secureLocalStorage.getItem("unauthorized_user");
-
+      console.log(user);
       try {
         const response = await Axios.post(`${baseUrl}/auth/register`, user);
         const data = await response.data;
