@@ -33,7 +33,7 @@ export default function LoginPage() {
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
-    setErrors("");
+    setError("");
     handleLogin(loginData, setLoading, setError, router, redirect);
   }
 

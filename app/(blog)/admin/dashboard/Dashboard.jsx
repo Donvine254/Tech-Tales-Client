@@ -9,10 +9,10 @@ import Link from "next/link";
 export default function Dashboard({ blogs, users, totalComments }) {
   const searchParams = useSearchParams();
   let tab = searchParams.get("tab") || "0";
-  const [activeTab, setActiveTab] = useState(tab ?? "");
+  const [activeTab, setActiveTab] = useState(tab ?? "0");
   useEffect(() => {
     const tab = searchParams.get("tab");
-    setActiveTab(tab);
+    setActiveTab(tab ?? "0");
   }, [searchParams]);
 
   //memoize tables
