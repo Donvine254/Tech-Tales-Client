@@ -87,7 +87,7 @@ export default function Comments({
   };
 
   return (
-    <div>
+    <div className="">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h1 className="text-bold text-xl md:text-2xl py-2 font-bold">
           Comments
@@ -276,9 +276,11 @@ export default function Comments({
             </div>
           ))
         ) : (
-          <div className="flex flex-col items-center place-content-center gap-1">
-            <Image src="/comment.svg" alt="comment" height={200} width={200} />
-            <p className="font-medium">This thread is open of discussion</p>
+          <div className="flex flex-col items-center place-content-center gap-1  p-2 my-2">
+            <Image src="/comment.svg" alt="comment" height={100} width={100} />
+            <p className="font-semibold md:text-lg">
+              This thread is open of discussion
+            </p>
             <p className="font-extralight">Be the first to comment</p>
           </div>
         )}
