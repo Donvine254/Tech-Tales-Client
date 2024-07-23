@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import { handleRoleUpdate } from "@/lib";
-import { updateUserStatus } from "@/lib/actions";
+import { handleRoleUpdate, handleUserStatusUpdate } from "@/lib";
 
 export default function UserActionsButton({ onDelete, user, onEdit }) {
   const [isPopupOpen, setPopupOpen] = useState(false);
@@ -81,11 +80,23 @@ export default function UserActionsButton({ onDelete, user, onEdit }) {
               {user.role === "admin" ? "Demote User" : "Make Admin"}
             </button>
             <hr />
-            <button
-              className="py-1 text-gray-800 hover:text-red-600 bg-red-100 w-full  hover:bg-red-200 rounded-md"
-              onClick={() => updateUserStatus(user.id)}>
-              Suspend User
-            </button>
+            {user.status === "SUSPENDED" ? (
+              <button
+                className="py-1 text-gray-800 hover:text-red-600 bg-red-100 w-full  hover:bg-red-200 rounded-md"
+                onClick={() =>
+                  handleUserStatusUpdate(user.id, user.username, "INACTIVE")
+                }>
+                Unsuspend User
+              </button>
+            ) : (
+              <button
+                className="py-1 text-gray-800 hover:text-red-600 bg-red-100 w-full  hover:bg-red-200 rounded-md"
+                onClick={() =>
+                  handleUserStatusUpdate(user.id, user.username, "SUSPENDED")
+                }>
+                Suspend User
+              </button>
+            )}
 
             <button
               className="py-1 text-gray-800 hover:text-red-600 bg-red-100 w-full  hover:bg-red-200 rounded-md"
