@@ -90,7 +90,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
           { status: 401 }
         );
       }
-
+      //set user status as active
       const tokenData = user;
       // Generate a JWT token
       const token = jwt.sign(tokenData, process.env.JWT_SECRET, {

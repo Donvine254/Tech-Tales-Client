@@ -7,6 +7,7 @@ import Loader from "./Loader";
 import { Edit, Trash } from "@/assets";
 import { UserImage } from "./Avatar";
 import Link from "next/link";
+import Image from "next/image";
 import dynamic from "next/dynamic";
 import { formatDate } from "@/lib/utils";
 import { getCurrentUser } from "@/lib";
@@ -179,8 +180,8 @@ export default function Comments({
         </div>
       )}
       <div id="comments">
-        {comments?.length > 0 ? (
-          comments?.map((comment) => (
+        {comments && comments?.length > 0 ? (
+          comments.map((comment) => (
             <div className="py-1 font-poppins " key={comment.id}>
               <div className="flex gap-4">
                 <UserImage
@@ -275,7 +276,11 @@ export default function Comments({
             </div>
           ))
         ) : (
-          <p className="my-2 text-xl font-semibold">Be the first to comment</p>
+          <div className="flex flex-col items-center place-content-center gap-1">
+            <Image src="/comment.svg" alt="comment" height={200} width={200} />
+            <p className="font-medium">This thread is open of discussion</p>
+            <p className="font-extralight">Be the first to comment</p>
+          </div>
         )}
       </div>
     </div>
