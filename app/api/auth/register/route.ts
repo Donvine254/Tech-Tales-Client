@@ -22,37 +22,6 @@ type RequestData = {
   role?: string;
 };
 
-export async function GET() {
-  try {
-    const users = await prisma.user.findMany({
-      select: {
-        id: true,
-        email: true,
-        username: true,
-        role: true,
-        status: true,
-        picture: true,
-        handle: true,
-        bio: true,
-        _count: {
-          select: {
-            comments: true,
-            blogs: true,
-          },
-        },
-      },
-    });
-    return NextResponse.json(users, { status: 200 });
-  } catch (error) {
-    console.error("Error fetching users:", error);
-    return NextResponse.json({ error }, { status: 500 });
-  } finally {
-    await prisma.$disconnect();
-  }
-}
-
-//function to create new users
-//ensure emails and usernames are saved as lowercase letters. Admin cannot use this route when creating new users
 export async function POST(req: NextRequest, res: NextResponse) {
   const requestData = (await req.json()) as RequestData;
   const isValidEmail = validateEmail(requestData.email);
@@ -105,24 +74,32 @@ export async function POST(req: NextRequest, res: NextResponse) {
   try {
     const user = await prisma.user.create({
       data: data,
-      select: {
-        id: true,
-        email: true,
-        username: true,
-        role: true,
-        status: true,
-        picture: true,
-        handle: true,
-        bio: true,
-        _count: {
+      include: {
+        socialMedia: {
           select: {
-            comments: true,
-            blogs: true,
+            platform: true,
+            handle: true,
           },
         },
       },
     });
-    return NextResponse.json(user, { status: 201 });
+    const tokenData = user;
+    // Generate a JWT token
+    const token = jwt.sign(tokenData, process.env.JWT_SECRET, {
+      expiresIn: "8h",
+    });
+
+    // Return user details and token
+    const response = NextResponse.json(
+      user,
+
+      { status: 201 }
+    );
+    response.cookies.set("token", token, {
+      httpOnly: true,
+    });
+
+    return response;
   } catch (error) {
     console.error("something went wrong", error);
     return NextResponse.json(

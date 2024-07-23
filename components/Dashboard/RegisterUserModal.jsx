@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import axiosInstance from "@/axiosConfig";
 import { useRouter } from "next/navigation";
 import Loader from "../Loader";
+import { baseUrl } from "@/lib";
 
 export default function AdminRegisterUserModal() {
   const router = useRouter();
@@ -27,10 +28,7 @@ export default function AdminRegisterUserModal() {
     setLoading(true);
     try {
       if (data) {
-        await axiosInstance.post(
-          `https://techtales.up.railway.app/users`,
-          data
-        );
+        await axiosInstance.post(`${baseUrl}/users`, data);
         toast.success("User created successfully!");
         setLoading(false);
         document.getElementById("register_user_modal").close();
@@ -43,6 +41,7 @@ export default function AdminRegisterUserModal() {
       toast.error("Request failed. Please try again");
     }
   }
+
 
   return (
     <dialog
