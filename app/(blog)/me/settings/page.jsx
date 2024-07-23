@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import Axios from "axios";
 import UpdateProfileModal from "@/components/UpdateProfileModal";
 import { UserImage } from "@/components/Avatar";
+import { deleteUser, updateUserStatus } from "@/lib/actions";
 
 export default function Page() {
   const [user, setUser] = useState();
@@ -44,11 +45,21 @@ export default function Page() {
       buttonsStyling: false,
     }).then(async (result) => {
       if (result.isConfirmed) {
-        await fetch(`${baseUrl}/auth/logout`);
-        clearLocalStorage();
-        // get the current user and ensure the user cannot login again before 5 minutes elapse
-        if (typeof window !== "undefined" && window) {
-          window.location.reload();
+        try {
+          const toastId = toast.loading("Processing Request...", {
+            position: "bottom-center",
+          });
+          await updateUserStatus(user.id, "DEACTIVATED");
+          toast.success("Account deactivated");
+          clearLocalStorage();
+          await fetch(`${baseUrl}/auth/logout`);
+          if (typeof window !== "undefined" && window) {
+            toast.dismiss();
+            window.location.reload();
+          }
+        } catch (error) {
+          toast.error("Something went wrong");
+          console.error(error);
         }
       }
     });
@@ -71,13 +82,18 @@ export default function Page() {
       buttonsStyling: false,
     }).then(async (result) => {
       if (result.isConfirmed) {
-        await Axios.delete(`https://techtales.up.railway.app/users/${user.id}`);
-        toast.success("Account deleted successfully");
-        fetch(`${baseUrl}/auth/logout`);
-        clearLocalStorage();
-        if (typeof window !== "undefined" && window) {
-          window.location.reload();
-        }
+        try {
+          const toastId = toast.loading("Processing Request...", {
+            position: "bottom-center",
+          });
+          await deleteUser(user.id);
+          toast.success("Account deleted successfully");
+          clearLocalStorage();
+          await fetch(`${baseUrl}/auth/logout`);
+          if (typeof window !== "undefined" && window) {
+            window.location.reload();
+          }
+        } catch (error) {}
       }
     });
   }
