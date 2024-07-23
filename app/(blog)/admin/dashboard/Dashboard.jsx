@@ -6,7 +6,7 @@ import CommentsTable from "@/components/Dashboard/Comments";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
-export default function Dashboard({ blogs, users }) {
+export default function Dashboard({ blogs, users, totalComments }) {
   const searchParams = useSearchParams();
   let tab = searchParams.get("tab") || "0";
   const [activeTab, setActiveTab] = useState(tab ?? "");
