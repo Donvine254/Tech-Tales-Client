@@ -69,7 +69,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
           { status: 404 }
         );
       }
-      if (user.status !== "ACTIVE") {
+      if (user.status === "DEACTIVATED" || user.status === "SUSPENDED") {
         return NextResponse.json(
           {
             error: `This user account has been ${user.status.toLowerCase()}`,
@@ -91,6 +91,15 @@ export async function POST(req: NextRequest, res: NextResponse) {
         );
       }
       //set user status as active
+      await prisma.user.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          status: "ACTIVE",
+        },
+      });
+      //generate tokenData
       const tokenData = user;
       // Generate a JWT token
       const token = jwt.sign(tokenData, process.env.JWT_SECRET, {
