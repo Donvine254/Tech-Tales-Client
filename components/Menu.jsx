@@ -120,7 +120,7 @@ export const Menu = ({ handleClick, menuOpen, currentUser }) => {
         Settings
       </Link>
       <button
-        onClick={handleSignOut}
+        onClick={() => handleSignOut(currentUser.id)}
         className="w-full mt-2 py-1 text-start px-3 border border-cyan-500 rounded-md  hover:bg-red-100 hover:border-red-500 shadow-md hover:-translate-y-1 transition-transform duration-300"
         title="logout">
         <span className="font-bold">Sign Out</span>

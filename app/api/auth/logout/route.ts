@@ -1,6 +1,18 @@
 import { NextResponse, NextRequest } from "next/server";
-
+import prisma from "@/prisma/prisma";
 export async function GET(res: NextRequest) {
+  const id = res.nextUrl.searchParams.get("id");
+  if (id) {
+    //set user status as inactive
+    await prisma.user.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        status: "INACTIVE",
+      },
+    });
+  }
   // set user status as inactive
   try {
     const response = NextResponse.json({

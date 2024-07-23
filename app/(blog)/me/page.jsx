@@ -321,7 +321,7 @@ export default function Profile() {
               </Link>
 
               <button
-                onClick={handleSignOut}
+                onClick={() => handleSignOut(user.id)}
                 className="hover:bg-gray-200 hover:text-red-500  p-1 w-full rounded-md h-8  border flex items-center gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
