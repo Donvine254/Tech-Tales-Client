@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState(null);
+  const [error, setError] = useState(null);
   const searchParams = useSearchParams();
   const redirect = searchParams.get("post_login_redirect_url") ?? "relevant";
 
@@ -34,7 +34,7 @@ export default function LoginPage() {
     e.preventDefault();
     setLoading(true);
     setErrors("");
-    handleLogin(loginData, setLoading, setErrors, router, redirect);
+    handleLogin(loginData, setLoading, setError, router, redirect);
   }
 
   //functions to handle Login with google
@@ -44,7 +44,7 @@ export default function LoginPage() {
     },
     onFailure: (error) => {
       console.error(error);
-      setErrors(error);
+      setError(error);
     },
   });
 
@@ -132,9 +132,9 @@ export default function LoginPage() {
               </div>
             </div>
           </div>
-          {errors && (
+          {error && (
             <div className="px-6">
-              <p className="text-red-500 text-base"> *{errors}</p>
+              <p className="text-red-500 text-base"> *{error}</p>
             </div>
           )}
           <div className="items-center px-6 py-2 pb-4 flex flex-col space-y-2">

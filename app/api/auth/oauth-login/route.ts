@@ -18,7 +18,10 @@ export async function POST(req: NextRequest, res: NextResponse) {
     });
 
     if (!user) {
-      return NextResponse.json({ errors: ["User not found"] }, { status: 404 });
+      return NextResponse.json(
+        { error: "No User With Matching Email Found" },
+        { status: 404 }
+      );
     }
 
     const tokenData = user;

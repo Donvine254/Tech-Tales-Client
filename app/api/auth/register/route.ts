@@ -19,6 +19,7 @@ type RequestData = {
   username: string;
   email: string;
   password: string;
+  picture?: string;
   role?: string;
 };
 
@@ -66,7 +67,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
   }
   const data: UserData = {
     username: requestData.username.toLowerCase(),
-    picture: createUserAvatar(requestData.username),
+    picture: requestData.picture || createUserAvatar(requestData.username),
     email: email,
     handle: handle,
     password_digest: await hashPassword(requestData.password),

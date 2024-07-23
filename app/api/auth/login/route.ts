@@ -27,7 +27,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
   // Check if the IP is currently suspended
   if (ipData.suspendedUntil && Date.now() < ipData.suspendedUntil) {
     return NextResponse.json(
-      { errors: ["Too Many Requests. Try again after 5 minutes"] },
+      { error: "Too Many Requests. Try again after 5 minutes" },
       { status: 429 }
     );
   }
@@ -41,7 +41,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     // Suspend the user for 5 minutes
     ipData.suspendedUntil = Date.now() + suspensionMs;
     return NextResponse.json(
-      { errors: ["Too Many Requests. Try again after 5 minutes"] },
+      { error: "Too Many Requests. Try again after 5 minutes" },
       { status: 429 }
     );
   }
@@ -65,14 +65,14 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
       if (!user) {
         return NextResponse.json(
-          { errors: ["No user with matching email found"] },
+          { error: "No user with matching email found" },
           { status: 404 }
         );
       }
       if (user.status !== "ACTIVE") {
         return NextResponse.json(
           {
-            errors: [`This user account has been ${user.status.toLowerCase()}`],
+            error: `This user account has been ${user.status.toLowerCase()}`,
           },
           { status: 404 }
         );
@@ -86,7 +86,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
       if (!isPasswordValid) {
         return NextResponse.json(
-          { errors: ["Invalid password, please try again!"] },
+          { error: "Invalid password, please try again!" },
           { status: 401 }
         );
       }
@@ -112,7 +112,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
       console.error(error);
       return NextResponse.json(
         {
-          errors: ["Internal server error"],
+          error: "Internal server error",
         },
         { status: 500 }
       );
@@ -123,7 +123,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
   } else {
     return NextResponse.json(
       {
-        errors: ["Internal server error"],
+        error: "Internal server error",
       },
       { status: 500 }
     );
