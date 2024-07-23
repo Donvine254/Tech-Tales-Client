@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { authenticateUser, getUserData, handleLogin } from "@/lib";
-import { ErrorList } from "@/components/ErrorList";
 import toast from "react-hot-toast";
 import { useGoogleLogin } from "@react-oauth/google";
 import Loader from "@/components/Loader";
@@ -133,9 +132,12 @@ export default function LoginPage() {
               </div>
             </div>
           </div>
-
-          <div className="items-center p-6 flex flex-col space-y-4">
-            {errors && <ErrorList errors={errors} />}
+          {errors && (
+            <div className="px-6">
+              <p className="text-red-500 text-base"> *{errors}</p>
+            </div>
+          )}
+          <div className="items-center px-6 py-2 pb-4 flex flex-col space-y-2">
             <button
               className="inline-flex items-center justify-center  border disabled:pointer-events-none disabled:bg-gray-100 disabled:text-black  h-10 px-4 py-2 w-full bg-blue-500 hover:bg-blue-600 text-white rounded-md"
               type="submit"

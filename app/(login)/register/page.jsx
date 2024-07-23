@@ -12,6 +12,7 @@ import Loader from "@/components/Loader";
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -28,7 +29,8 @@ export default function Register() {
   function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
-    registerUser(formData, setLoading, router);
+    setError("");
+    registerUser(formData, setLoading, router, setError);
   }
   //function to register users with google
   const handleGoogleSignup = useGoogleLogin({
@@ -37,6 +39,7 @@ export default function Register() {
     },
     onFailure: (error) => {
       console.error(error);
+      setError(error);
     },
   });
 
@@ -58,7 +61,7 @@ export default function Register() {
         setLoading(false);
         console.log(error);
         toast.error("Registration Failed!");
-        toast.error(error?.response?.data?.errors);
+        setError(error?.response?.data?.errors);
       }
     }
   }
@@ -154,7 +157,11 @@ export default function Register() {
               <span> {showPassword ? "Hide" : "Show"} Password</span>
             </div>
           </div>
-
+          {error && (
+            <div className="my-1 px-6">
+              <p className="text-sm text-red-500">*{error}</p>
+            </div>
+          )}
           <div className="items-center px-6 py-2 pb-4 flex flex-col space-y-2">
             <button
               className="inline-flex items-center justify-center disabled:pointer-events-none hover:bg-primary/90 h-10 px-4 py-2 w-full bg-blue-500 hover:bg-blue-600 text-white rounded-md disabled:bg-gray-100 disabled:text-black border"
