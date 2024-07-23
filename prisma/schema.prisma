@@ -21,6 +21,7 @@ enum Role {
 
 enum UserStatus {
   ACTIVE
+  INACTIVE
   SUSPENDED
   DEACTIVATED
 }
@@ -53,8 +54,11 @@ model User {
   blogs           Blog[]
   comments        Comment[]
   socialMedia     SocialMedia[]
+  deactivatedAt   DateTime?
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
+
+  @@index(fields: [handle, email])
 }
 
 model Blog {
@@ -70,6 +74,8 @@ model Blog {
   comments  Comment[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
+
+  @@index([slug, authorId])
 }
 
 model Comment {
@@ -82,6 +88,8 @@ model Comment {
   status    CommentStatus @default(VISIBLE)
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
+
+  @@index([blogId, authorId])
 }
 
 model SocialMedia {
@@ -94,4 +102,5 @@ model SocialMedia {
   updatedAt DateTime @updatedAt
 
   @@unique([userId, platform])
+  @@index([userId])
 }

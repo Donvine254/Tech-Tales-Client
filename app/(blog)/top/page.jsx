@@ -16,7 +16,7 @@ async function getBlogs() {
     return blogs;
   } catch (error) {
     console.error(error);
-    throw new Error(error);
+    return null;
   }
 }
 

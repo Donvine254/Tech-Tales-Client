@@ -14,7 +14,7 @@
     "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
-    "@prisma/client": "^5.16.1",
+    "@prisma/client": "^5.17.0",
     "@react-oauth/google": "^0.12.1",
     "@tinymce/tinymce-react": "^4.3.2",
     "@types/jsonwebtoken": "^9.0.6",
@@ -45,6 +45,6 @@
     "@types/bcryptjs": "^2.4.6",
     "@types/file-saver": "^2.0.7",
     "@types/react": "18.3.3",
-    "prisma": "^5.16.1"
+    "prisma": "^5.17.0"
   }
 }
