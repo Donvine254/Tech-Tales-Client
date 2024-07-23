@@ -38,7 +38,9 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/", request.nextUrl));
   }
   if (path === "/admin" && isAdmin) {
-    return NextResponse.redirect(new URL("/admin/dashboard", request.nextUrl));
+    return NextResponse.redirect(
+      new URL("/admin/dashboard?tab=0", request.nextUrl)
+    );
   }
 
   if (isProtectedPath && !userData) {
