@@ -24,9 +24,9 @@ export default function Dashboard({ blogs, users }) {
     return <BlogsTable blogs={blogs} />;
   }, [blogs]);
 
-  // const Comments = useMemo(() => {
-  //   return <CommentsTable comments={totalComments} />;
-  // }, [totalComments]);
+  const Comments = useMemo(() => {
+    return <CommentsTable comments={totalComments} />;
+  }, [totalComments]);
   return (
     <section className="w-full min-h-[320px] py-4 md:mt-10" id="dashboard-page">
       <div className="grid grid-cols-1 gap-4  py-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 ">
@@ -183,7 +183,7 @@ export default function Dashboard({ blogs, users }) {
       {/* add memoized values */}
       {activeTab === "0" && Users}
       {activeTab === "1" && Blogs}
-      {/* {activeTab === "2" && Comments} */}
+      {activeTab === "2" && Comments}
     </section>
   );
 }
