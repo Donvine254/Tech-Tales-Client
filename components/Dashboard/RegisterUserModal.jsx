@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import axiosInstance from "@/axiosConfig";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import Loader from "../Loader";
 import { baseUrl } from "@/lib";
@@ -29,7 +29,7 @@ export default function AdminRegisterUserModal() {
     setError("");
     try {
       if (data) {
-        await axiosInstance.post(`${baseUrl}/users`, data);
+        await axios.post(`${baseUrl}/users`, data);
         toast.success("User created successfully!");
         setLoading(false);
         document.getElementById("register_user_modal").close();
