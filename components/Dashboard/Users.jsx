@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import Link from "next/link";
 import { SearchIcon } from "@/assets";
 import UserActionsButton from "./userActions";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
-import { exportUsersCSV } from "@/lib/utils";
+import { exportUsersCSV, deleteUser } from "@/lib/utils";
 import Axios from "axios";
 import Image from "next/image";
 import AdminUpdateProfileModal from "./ProfileUpdate";
@@ -62,11 +61,16 @@ export default function UsersTable({ users }) {
       buttonsStyling: false,
     }).then(async (result) => {
       if (result.isConfirmed) {
-        Axios.delete(`https://techtales.up.railway.app/users/${id}`);
-        toast.success("Account deleted successfully");
-        setTotalUsers((prevUsers) =>
-          prevUsers.filter((b) => b.id.toString() !== id.toString())
-        );
+        try {
+          await deleteUser(id);
+          toast.success("Account deleted successfully");
+          setTotalUsers((prevUsers) =>
+            prevUsers.filter((b) => b.id.toString() !== id.toString())
+          );
+        } catch (error) {
+          toast.error("Something went wrong");
+          console.error(error);
+        }
       }
     });
   }
@@ -143,6 +147,8 @@ export default function UsersTable({ users }) {
               <th className="px-4 py-2 font-bold text-start">Username</th>
               <th className="px-4 py-2 font-bold text-start">Email</th>
 
+              <th className="px-4 py-2 font-bold text-start">Blogs</th>
+              <th className="px-4 py-2 font-bold text-start">Comments</th>
               <th className="px-4 py-2 font-bold text-start">Role</th>
               <th className="px-4 py-2 font-bold text-start">Status</th>
               <th className="px-4 py-2 font-bold text-start">Actions</th>
@@ -169,7 +175,12 @@ export default function UsersTable({ users }) {
                     {user.username}
                   </td>
                   <td className="px-4 py-2 ">{user.email}</td>
-
+                  <td className="px-4 py-2 text-center ">
+                    {user._count?.blogs}
+                  </td>
+                  <td className="px-4 py-2 text-center ">
+                    {user._count?.comments}
+                  </td>
                   <td className="px-4 py-2  text-start">
                     <span
                       className={`inline-block px-2 rounded-full  text-sm ${
