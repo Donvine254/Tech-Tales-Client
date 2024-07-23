@@ -11,17 +11,17 @@ export const metadata = {
     "Tech Tales is a simple blog for tech students and professionals who would like to share their solutions to various coding problems or practice blogging as a way of learning",
 };
 
-async function getTotalComments() {
-  try {
-    const comments = await fetch(`${baseUrl}/comments`, {
-      revalidate: 60,
-    }).then((response) => response.json());
-    return comments;
-  } catch (error) {
-    console.error("Error fetching comments:", error);
-    throw error;
-  }
-}
+// async function getTotalComments() {
+//   try {
+//     const comments = await fetch(`${baseUrl}/comments`, {
+//       revalidate: 60,
+//     }).then((response) => response.json());
+//     return comments;
+//   } catch (error) {
+//     console.error("Error fetching comments:", error);
+//     throw error;
+//   }
+// }
 async function getTotalUsers() {
   "use server";
   try {
@@ -69,7 +69,7 @@ async function getBlogs() {
 
 export default async function Page() {
   const blogs = await getBlogs();
-  const totalComments = await getTotalComments();
+  // const totalComments = await getTotalComments();
   const allUsers = await getTotalUsers();
   return (
     <Suspense
@@ -81,7 +81,6 @@ export default async function Page() {
       <section className="w-full mx-auto m-2 min-h-[320px] px-8 md:w-5/6 md:mt-10 font-poppins">
         <Dashboard
           blogs={blogs}
-          totalComments={totalComments}
           users={allUsers}
         />
       </section>

@@ -6,7 +6,7 @@ import CommentsTable from "@/components/Dashboard/Comments";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
-export default function Dashboard({ blogs, totalComments, users }) {
+export default function Dashboard({ blogs, users }) {
   const searchParams = useSearchParams();
   let tab = searchParams.get("tab") || "0";
   const [activeTab, setActiveTab] = useState(tab ?? "");
@@ -24,9 +24,9 @@ export default function Dashboard({ blogs, totalComments, users }) {
     return <BlogsTable blogs={blogs} />;
   }, [blogs]);
 
-  const Comments = useMemo(() => {
-    return <CommentsTable comments={totalComments} />;
-  }, [totalComments]);
+  // const Comments = useMemo(() => {
+  //   return <CommentsTable comments={totalComments} />;
+  // }, [totalComments]);
   return (
     <section className="w-full min-h-[320px] py-4 md:mt-10" id="dashboard-page">
       <div className="grid grid-cols-1 gap-4  py-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 ">
@@ -134,7 +134,7 @@ export default function Dashboard({ blogs, totalComments, users }) {
           </div>
 
           <h1 className="text-6xl font-sans font-bold">
-            {totalComments.length}
+            {/* {totalComments.length} */}5
           </h1>
 
           <p className="text-gray-600 "> Total comments</p>
@@ -183,7 +183,7 @@ export default function Dashboard({ blogs, totalComments, users }) {
       {/* add memoized values */}
       {activeTab === "0" && Users}
       {activeTab === "1" && Blogs}
-      {activeTab === "2" && Comments}
+      {/* {activeTab === "2" && Comments} */}
     </section>
   );
 }
