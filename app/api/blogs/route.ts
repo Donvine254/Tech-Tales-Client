@@ -77,7 +77,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
       if (error instanceof prisma.PrismaClientValidationError) {
         return NextResponse.json(
           { error: "Invalid blog data. Kindly try again" },
-          { status: 409 }
+          { status: 422 }
         );
       }
 
