@@ -26,7 +26,7 @@ async function getTotalComments() {
 async function getTotalUsers() {
   try {
     const res = await fetch(`${baseUrl}/users`, {
-      revalidate: 60,
+      revalidate: 10,
     });
     const users = await res.json();
     return users;

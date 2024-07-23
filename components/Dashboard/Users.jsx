@@ -3,8 +3,8 @@ import { SearchIcon } from "@/assets";
 import UserActionsButton from "./userActions";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
-import { exportUsersCSV, deleteUser } from "@/lib/utils";
-import Axios from "axios";
+import { exportUsersCSV } from "@/lib/utils";
+import { deleteUser } from "@/lib/actions";
 import Image from "next/image";
 import AdminUpdateProfileModal from "./ProfileUpdate";
 import AdminRegisterUserModal from "./RegisterUserModal";
@@ -43,16 +43,15 @@ export default function UsersTable({ users }) {
   };
 
   //function to delete users
-  async function deleteUser(id) {
+  async function handleDeleteUser(username, id) {
     Swal.fire({
       icon: "warning",
-      text: "Are you sure you want to delete this user? This action cannot be undone!",
+      text: `Are you sure you want to delete ${username}? `,
       showCloseButton: true,
       confirmButtonText: "Delete",
       showCancelButton: true,
       cancelButtonText: "Nevermind",
-      footer:
-        "Deleting user accounts without a valid reason might affect user experience!",
+      footer: "Deleted user accounts are automatically deleted after 3 months",
       customClass: {
         confirmButton:
           "px-2 py-1 mx-2 bg-red-500 text-white rounded-md hover:text-white hover:bg-red-500",
@@ -208,7 +207,7 @@ export default function UsersTable({ users }) {
                   <td className="px-4 py-2 flex items-center justify-center ">
                     <UserActionsButton
                       user={user}
-                      onDelete={deleteUser}
+                      onDelete={() => handleDeleteUser(user.username, user.id)}
                       onEdit={showUpdateModal}
                     />
                     <AdminUpdateProfileModal user={user} />
