@@ -192,7 +192,7 @@ export default function Comments({
                 <div className="">
                   <div>
                     <div className="flex items-center gap-2">
-                      <p className="font-semibold">
+                      <p className="font-semibold capitalize">
                         {comment?.author.username}
                       </p>
                       {comment?.authorId === blogAuthorId && (
@@ -206,7 +206,7 @@ export default function Comments({
                             Admin
                           </button>
                         )}
-                      {user && comment.authorId === user?.id && (
+                      {comment.author.status === "ACTIVE" && (
                         <div>
                           <div className="online-indicator">
                             <span className="blink"></span>
@@ -279,7 +279,7 @@ export default function Comments({
           <div className="flex flex-col items-center place-content-center gap-1  p-2 my-2">
             <Image src="/comment.svg" alt="comment" height={100} width={100} />
             <p className="font-semibold md:text-lg">
-              This thread is open of discussion
+              This thread is open to discussion
             </p>
             <p className="font-extralight">Be the first to comment</p>
           </div>
