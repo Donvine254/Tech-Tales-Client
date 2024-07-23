@@ -13,20 +13,22 @@ export const metadata = {
 
 async function getTotalComments() {
   try {
-    const comments = await fetch(`${baseUrl}/comments`, {
+    const res = await fetch(`${baseUrl}/comments`, {
       revalidate: 60,
-    }).then((response) => response.json());
+    });
+    const comments = await res.json();
     return comments;
   } catch (error) {
     console.error("Error fetching comments:", error);
-    throw error;
+    throw new Error(`Error fetching comments`, error);
   }
 }
 async function getTotalUsers() {
   try {
-    const users = await fetch(`${baseUrl}/users`, {
+    const res = await fetch(`${baseUrl}/users`, {
       revalidate: 60,
-    }).then((response) => response.json());
+    });
+    const users = await res.json();
     return users;
   } catch (error) {
     console.error("Error fetching users:", error);
@@ -57,9 +59,9 @@ async function getBlogs() {
 }
 
 export default async function Page() {
-  const blogs = await getBlogs();
-  const totalComments = await getTotalComments();
-  const allUsers = await getTotalUsers();
+  const blogs = (await getBlogs()) || [];
+  const totalComments = (await getTotalComments()) || [];
+  const allUsers = (await getTotalUsers()) || [];
   return (
     <Suspense
       fallback={

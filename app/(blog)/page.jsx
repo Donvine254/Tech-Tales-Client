@@ -1,8 +1,6 @@
-import { UserImage } from "@/components/Avatar";
-
 import { Clock, Comment } from "@/assets";
 import parse from "html-react-parser";
-import { Bookmark, SideNav } from "@/components";
+import { Bookmark, SideNav, UserImage } from "@/components";
 import Link from "next/link";
 import { baseUrl, calculateReadingTime } from "@/lib";
 import Image from "next/image";
@@ -13,11 +11,21 @@ export const metadata = {
     "Tech Tales is a simple blog for tech students and professionals who would like to share their solutions to various coding problems or practice blogging as a way of learning",
 };
 
-export default async function HomePage() {
-  const blogs = await fetch(`${baseUrl}/blogs`, {
-    next: { revalidate: 3600 },
-  }).then((response) => response.json());
+async function getBlogs() {
+  try {
+    const res = await fetch(`${baseUrl}/blogs`, {
+      next: { revalidate: 3600 },
+    });
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw new Error(`Failed to fetch`, error);
+  }
+}
 
+export default async function HomePage() {
+  const blogs = (await getBlogs()) || [];
   return (
     <section className="relative md:min-h-[350px] md:mt-10 font-poppins">
       <SideNav />
