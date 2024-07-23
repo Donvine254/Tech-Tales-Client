@@ -48,7 +48,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
 }
 
 export async function POST(req: NextRequest, res: NextResponse) {
-  const blogData = await req.json();
+  const blogData = (await req.json()) as Blog;
   const data = {
     ...blogData,
     slug: slugify(blogData.title),

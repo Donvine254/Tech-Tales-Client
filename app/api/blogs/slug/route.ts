@@ -40,6 +40,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
                   username: true,
                   picture: true,
                   role: true,
+                  status: true,
                 },
               },
             },
