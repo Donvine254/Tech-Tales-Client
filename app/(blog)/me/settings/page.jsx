@@ -4,10 +4,9 @@ import { baseUrl, clearLocalStorage } from "@/lib";
 import Loader from "@/components/Loader";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
-import Axios from "axios";
 import UpdateProfileModal from "@/components/UpdateProfileModal";
 import { UserImage } from "@/components/Avatar";
-import { deleteUser, updateUserStatus } from "@/lib/actions";
+import { deactivateUser, deleteUser } from "@/lib/actions";
 
 export default function Page() {
   const [user, setUser] = useState();
@@ -49,7 +48,7 @@ export default function Page() {
           const toastId = toast.loading("Processing Request...", {
             position: "bottom-center",
           });
-          await updateUserStatus(user.id, "DEACTIVATED");
+          await deactivateUser(user.id);
           toast.success("Account deactivated");
           clearLocalStorage();
           await fetch(`${baseUrl}/auth/logout`);
