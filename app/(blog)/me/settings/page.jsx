@@ -59,6 +59,8 @@ export default function Page() {
         } catch (error) {
           toast.error("Something went wrong");
           console.error(error);
+        } finally {
+          toast.dismiss();
         }
       }
     });
@@ -92,7 +94,12 @@ export default function Page() {
           if (typeof window !== "undefined" && window) {
             window.location.reload();
           }
-        } catch (error) {}
+        } catch (error) {
+          console.error(error);
+          toast.success("Oops! Something went wrong");
+        } finally {
+          toast.dismiss();
+        }
       }
     });
   }
