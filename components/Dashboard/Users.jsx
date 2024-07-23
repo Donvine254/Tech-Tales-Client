@@ -181,8 +181,17 @@ export default function UsersTable({ users }) {
                     </span>
                   </td>
                   <td className="px-4 py-2 ">
-                    <span className="inline-block px-2 rounded-full bg-green-100 text-green-600 border-green-300 border text-sm">
-                      Active
+                    <span
+                      className={`inline-block px-2 rounded-full  border text-sm ${
+                        user.status === "ACTIVE"
+                          ? "bg-green-100 text-green-600 border-green-400"
+                          : user.status === "INACTIVE"
+                          ? "bg-gray-200 text-gray-600 border-gray-400"
+                          : user.status === "DEACTIVATED"
+                          ? "bg-amber-100 text-amber-600 border-amber-400"
+                          : "bg-red-100 text-red-600 border-red-400"
+                      }`}>
+                      {user.status?.toLowerCase()}
                     </span>
                   </td>
                   <td className="px-4 py-2 flex items-center justify-center ">
