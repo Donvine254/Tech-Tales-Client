@@ -68,11 +68,25 @@ export async function POST(req: NextRequest, res: NextResponse) {
           { error: "No user with matching email found" },
           { status: 404 }
         );
-      }
-      if (user.status === "DEACTIVATED" || user.status === "SUSPENDED") {
+      } else if (user.status === "DEACTIVATED") {
+        const deactivatedAt = new Date(user.deactivatedAt);
+        const now = new Date();
+        const timeDiff = Number(now) - Number(deactivatedAt);
+        const remainingMinutes = Math.ceil(
+          (suspensionMs - timeDiff) / (60 * 1000)
+        );
+        if (remainingMinutes > 0) {
+          return NextResponse.json(
+            {
+              error: `This user account has been ${user.status.toLowerCase()}. Please try again in ${remainingMinutes} minutes.`,
+            },
+            { status: 404 }
+          );
+        }
+      } else if (user.status === "SUSPENDED") {
         return NextResponse.json(
           {
-            error: `This user account has been ${user.status.toLowerCase()}`,
+            error: `This user account has been suspended. Please contact your administrator`,
           },
           { status: 404 }
         );
