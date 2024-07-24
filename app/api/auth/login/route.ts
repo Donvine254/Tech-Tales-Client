@@ -52,7 +52,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     try {
       // Check if the user exists
       const user = await prisma.user.findUnique({
-        where: { email: email, deleted: false },
+        where: { email: email.toLowerCase(), deleted: false },
         include: {
           socialMedia: {
             select: {
