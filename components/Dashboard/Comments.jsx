@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { SearchIcon } from "@/assets";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
+import { baseUrl } from "@/lib";
 import CommentActionsButton from "./commentActions";
 import { updateCommentStatus } from "@/lib/actions";
 import Axios from "axios";
@@ -34,7 +35,7 @@ export default function CommentsTable({ comments }) {
   };
 
   //function to delete comments
-  async function deleteComment(comment) {
+  async function deleteComment(id) {
     Swal.fire({
       icon: "warning",
       text: "Are you sure you want to delete this comment? This action cannot be undone!",
@@ -52,11 +53,9 @@ export default function CommentsTable({ comments }) {
       buttonsStyling: false,
     }).then(async (result) => {
       if (result.isConfirmed) {
-        Axios.delete(`${baseUrl}/comments?id=${comment.id}`);
+        Axios.delete(`${baseUrl}/comments?id=${id}`);
         toast.success("comment deleted successfully");
-        setTotalComments((prevBlogs) =>
-          prevBlogs.filter((b) => b.id !== comment.id)
-        );
+        setTotalComments((prevBlogs) => prevBlogs.filter((b) => b.id !== id));
       }
     });
   }
@@ -74,6 +73,8 @@ export default function CommentsTable({ comments }) {
     } catch (error) {
       console.error(error);
       toast.error("Oops! Something went wrong");
+    } finally {
+      toast.dismiss();
     }
   }
 

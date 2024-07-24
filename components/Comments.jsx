@@ -43,6 +43,9 @@ export default function Comments({
       body: newComment,
     };
     try {
+      const toastId = toast.loading("Processing Request...", {
+        position: "bottom-center",
+      });
       const res = await Axios.post(`${baseUrl}/comments`, commentData);
       const data = await res.data;
       setNewComment("");
@@ -53,6 +56,7 @@ export default function Comments({
         error?.response?.data?.error ?? "Invalid data, user and blog must exist"
       );
     } finally {
+      toast.dismiss();
       setIsInputFocused(false);
     }
   }
@@ -68,6 +72,7 @@ export default function Comments({
   }
   function handleUpdate(e) {
     e.preventDefault();
+    toast.success("Updating comment..");
     patchComment(commentToEdit?.id, setComments, newComment);
     setNewComment("");
     setIsEditing(false);
@@ -270,6 +275,7 @@ export default function Comments({
                           <Trash size={14} />
                           <span> Delete</span>
                         </button>
+                        {/* add hide and flag comment button */}
                       </>
                     ) : null}
                   </div>

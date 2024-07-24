@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import Link from "next/link";
 import { Trash, FlagIcon, IconEye, IconEdit, IconEyeOffSharp } from "@/assets";
@@ -141,7 +140,7 @@ export default function CommentActionsButton({ onDelete, comment, onUpdate }) {
             <hr />
             <button
               className="py-1 text-gray-800 hover:text-red-600 bg-red-50 w-full  hover:bg-red-200 rounded-md flex items-center gap-5 px-4 "
-              onClick={onDelete}>
+              onClick={() => onDelete(comment.id)}>
               <Trash stroke={2} />
               Delete Comment
             </button>
