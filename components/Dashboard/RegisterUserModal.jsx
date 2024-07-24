@@ -13,7 +13,7 @@ export default function AdminRegisterUserModal() {
   const [data, setData] = useState({
     username: "",
     bio: "",
-    role: "user",
+    email: "",
     password: "password",
   });
   const handleChange = (event) => {
@@ -29,6 +29,9 @@ export default function AdminRegisterUserModal() {
     setError("");
     try {
       if (data) {
+        const toastId = toast.loading("Processing Request...", {
+          position: "bottom-center",
+        });
         await axios.post(`${baseUrl}/users`, data);
         toast.success("User created successfully!");
         setLoading(false);
@@ -40,6 +43,8 @@ export default function AdminRegisterUserModal() {
       setError(error?.response?.data?.error);
       console.error(error);
       setLoading(false);
+    } finally {
+      toast.dismiss();
     }
   }
 
@@ -89,6 +94,7 @@ export default function AdminRegisterUserModal() {
               className="flex h-10 focus:outline-none text-base  disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md"
               id="email-1"
               name="email"
+              title="must be a valid email address"
               placeholder="you@example.com"
               value={data.email}
               onChange={handleChange}
@@ -97,7 +103,7 @@ export default function AdminRegisterUserModal() {
               type="email"
             />
           </div>
-          <div className="space-y-2">
+          {/* <div className="space-y-2">
             <label
               className="text-base font-bold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700"
               htmlFor="role">
@@ -114,7 +120,7 @@ export default function AdminRegisterUserModal() {
               <option value="admin">Admin</option>
               <option value="user">User</option>
             </select>
-          </div>
+          </div> */}
         </div>
         {error && (
           <div className="my-1 px-6">

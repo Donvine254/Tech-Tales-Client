@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import axiosInstance from "@/axiosConfig";
 
 import Loader from "../Loader";
+import { baseUrl } from "@/lib";
 
 export default function AdminUpdateProfileModal({ user }) {
   const [loading, setLoading] = useState(false);
@@ -11,18 +12,17 @@ export default function AdminUpdateProfileModal({ user }) {
   const [data, setData] = useState({
     username: user?.username ?? "",
     bio: user?.bio ?? "",
-    role: user?.role ?? "user",
   });
 
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
     try {
+      const toastId = toast.loading("Processing Request...", {
+        position: "bottom-center",
+      });
       if (data && user) {
-        await axiosInstance.patch(
-          `https://techtales.up.railway.app/users/${user.id}`,
-          data
-        );
+        await axiosInstance.patch(`${baseUrl}/users?id=${user.id}`, data);
         toast.success("Details updated successfully!");
         setLoading(false);
         document.getElementById("profile_update_modal").close();
@@ -34,6 +34,8 @@ export default function AdminUpdateProfileModal({ user }) {
       console.error(error);
       setLoading(false);
       toast.error("request failed");
+    } finally {
+      toast.dismiss();
     }
   }
 
@@ -109,6 +111,8 @@ export default function AdminUpdateProfileModal({ user }) {
             <select
               className="h-8 w-full border-b border-green-500 bg-transparent focus:outline-none py-2 invalid:border-red-500"
               value={data.role}
+              disabled
+              title="Change user roles on the dashboard"
               onChange={(e) => {
                 setData((prev) => ({
                   ...prev,
@@ -118,6 +122,9 @@ export default function AdminUpdateProfileModal({ user }) {
               <option value="admin">Admin</option>
               <option value="user">User</option>
             </select>
+            <span className="text-red-500 text-sm">
+              User roles cannot only be changed from the admin dashboard!
+            </span>
           </div>
         </div>
         <div className="flex items-center justify-end gap-4 px-6 py-2">
