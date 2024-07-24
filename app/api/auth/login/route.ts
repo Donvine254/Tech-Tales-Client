@@ -104,15 +104,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
           { status: 401 }
         );
       }
-      //set user status as active
-      await prisma.user.update({
-        where: {
-          id: user.id,
-        },
-        data: {
-          status: "ACTIVE",
-        },
-      });
+      
       //generate tokenData
       const tokenData = user;
       // Generate a JWT token
