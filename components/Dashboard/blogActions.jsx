@@ -1,7 +1,15 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import ShareModal from "../ShareModal";
-
+import {
+  IconEdit,
+  Trash,
+  ArchiveIcon,
+  EditArchiveIcon,
+  IconEye,
+  IconEyeOffSharp,
+  ShareIcon,
+} from "@/assets";
 import Link from "next/link";
 
 export default function BlogActionsButton({
@@ -62,54 +70,70 @@ export default function BlogActionsButton({
           ref={popupRef}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
+            width="24"
+            height="24"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="hover:fill-red-500  p-1 rounded-full hover:text-red-500 cursor-pointer z-50 absolute right-0"
+            className="hover:fill-red-500  p-1 rounded-full hover:text-red-500 cursor-pointer z-50 absolute right-0 bg-white shadow"
             onClick={() => setPopupOpen(!isPopupOpen)}>
             <path d="M18 6 6 18" />
             <path d="m6 6 12 12" />
             <title>Close</title>
           </svg>
-          <div className="px-2 py-4 flex flex-col gap-2 bg-white border shadow-lg rounded-md ">
+          <div className="px-2 py-4 my-3 flex flex-col gap-2 bg-white border shadow-lg rounded-md ">
             <Link
               href={`/create/${blog.slug}?user=admin`}
-              className="py-1 text-gray-800 hover:text-blue-600  w-full  hover:bg-gray-200 rounded-md bg-cyan-100 text-center">
-              Edit Blog
+              className="py-1 text-gray-800 hover:text-blue-600  w-full  hover:bg-gray-200 rounded-md bg-gray-100 flex items-center gap-5 px-4 ">
+              <IconEdit />
+              <span>Edit Blog</span>
             </Link>
             <button
-              className="py-1 text-gray-800 hover:text-blue-600 bg-cyan-100 w-full  hover:bg-gray-200 rounded-md"
+              className="py-1 text-gray-800 hover:text-blue-600 bg-gray-100 w-full  hover:bg-gray-200 rounded-md flex items-center gap-5 px-4 "
               onClick={handleSharing}>
-              Share Blog
+              <ShareIcon stroke={2} size={20} />
+              <span>Share Blog</span>
             </button>
             {blog.status === "PUBLISHED" ? (
               <button
-                className="flex items-center justify-center bg-cyan-100 gap-2  px-4 py-1 text-gray-800 hover:text-blue-600 w-full hover:bg-gray-200 rounded-md "
+                className=" bg-gray-100  py-1 text-gray-800 hover:text-amber-600 w-full hover:bg-amber-200 rounded-md  flex items-center gap-5 px-4 "
                 onClick={() => onUpdate("UNPUBLISHED", blog.id, setBlogs)}>
+                <IconEyeOffSharp />
                 <span>Unpublish</span>
               </button>
             ) : (
               <button
-                className="flex items-center justify-center bg-cyan-100 gap-2  px-4 py-1 text-gray-800 hover:text-blue-600 w-full hover:bg-gray-200 rounded-md  "
+                className="flex items-center  bg-gray-100  py-1 text-gray-800 hover:text-green-600 w-full hover:bg-green-100 rounded-md  gap-5 px-4  "
                 onClick={() => onUpdate("PUBLISHED", blog.id, setBlogs)}>
+                <IconEye />
                 <p className="whitespace-nowrap">Publish Blog</p>
               </button>
             )}
             <hr />
+            {blog.status === "ARCHIVED" ? (
+              <button
+                className="flex items-center  bg-gray-100  py-1 text-gray-800  w-full hover:bg-green-100 rounded-md hover:text-green-600  gap-5 px-4 "
+                title="This action will set blog status as unpublished"
+                onClick={() => onUpdate("UNPUBLISHED", blog.id, setBlogs)}>
+                <EditArchiveIcon />
+                <span>Unarchive </span>
+              </button>
+            ) : (
+              <button
+                className="flex items-center  bg-amber-100  py-1 text-gray-800  w-full hover:bg-amber-200 rounded-md hover:text-amber-600 gap-5 px-4"
+                onClick={() => onUpdate("ARCHIVED", blog.id, setBlogs)}>
+                <ArchiveIcon />
+                <span>Archive Blog</span>
+              </button>
+            )}
             <button
-              className="flex items-center justify-center bg-red-100 gap-2  px-4 py-1 text-gray-800  w-full hover:bg-red-200 rounded-md hover:text-red-600 "
-              onClick={() => onUpdate("ARCHIVED", blog.id, setBlogs)}>
-              <span>Archive Blog</span>
-            </button>
-            <button
-              className="py-1 text-gray-800 hover:text-red-600 bg-red-100 w-full  hover:bg-red-200 rounded-md"
+              className="py-1 text-gray-800 hover:text-red-600 bg-red-50 w-full  hover:bg-red-100 rounded-md flex items-center gap-5 px-4 "
               onClick={onDelete}>
-              Delete Blog
+              <Trash stroke={2} />
+              <span>Delete Blog</span>
             </button>
           </div>
         </div>

@@ -37,7 +37,7 @@ export const Clock = () => {
   );
 };
 
-export const Trash = ({ size = 20 }) => {
+export const Trash = ({ size = 20, stroke = 1 }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -46,7 +46,7 @@ export const Trash = ({ size = 20 }) => {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1"
+      strokeWidth={stroke}
       strokeLinecap="round"
       strokeLinejoin="round"
       className="cursor-pointer ">
@@ -58,7 +58,7 @@ export const Trash = ({ size = 20 }) => {
     </svg>
   );
 };
-export const Edit = ({ size = 20 }) => {
+export const Edit = ({ size = 20, stroke = 1 }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -67,7 +67,7 @@ export const Edit = ({ size = 20 }) => {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1"
+      strokeWidth={stroke}
       strokeLinecap="round"
       strokeLinejoin="round"
       className="cursor-pointer">
@@ -158,7 +158,12 @@ export const SearchIcon = ({ className }) => (
     />
   </svg>
 );
-export const Share = ({ className, size = 24, handleClick = null }) => (
+export const Share = ({
+  className,
+  size = 24,
+  handleClick = null,
+  stroke = 1,
+}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}
@@ -166,7 +171,7 @@ export const Share = ({ className, size = 24, handleClick = null }) => (
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth="1"
+    strokeWidth={stroke}
     strokeLinecap="round"
     strokeLinejoin="round"
     onClick={handleClick}
@@ -531,3 +536,86 @@ export const BlogIcon = ({ className }) => {
     </g>
   </svg>;
 };
+
+export const EditArchiveIcon = ({ className }) => (
+  <svg
+    fill="none"
+    stroke="currentColor"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    strokeWidth={2}
+    viewBox="0 0 24 24"
+    height="24"
+    width="24"
+    className={className}>
+    <path d="M4 4 H20 A2 2 0 0 1 22 6 V7 A2 2 0 0 1 20 9 H4 A2 2 0 0 1 2 7 V6 A2 2 0 0 1 4 4 z" />
+    <path d="M12 13v7M9 16l3-3 3 3M4 9v9a2 2 0 002 2h2M20 9v9a2 2 0 01-2 2h-2" />
+  </svg>
+);
+
+export const ArchiveIcon = ({ className }) => (
+  <svg
+    fill="currentColor"
+    viewBox="0 0 16 16"
+    height="20"
+    width="20"
+    className={className}>
+    <path d="M12.643 15C13.979 15 15 13.845 15 12.5V5H1v7.5C1 13.845 2.021 15 3.357 15h9.286zM5.5 7h5a.5.5 0 010 1h-5a.5.5 0 010-1zM.8 1a.8.8 0 00-.8.8V3a.8.8 0 00.8.8h14.4A.8.8 0 0016 3V1.8a.8.8 0 00-.8-.8H.8z" />
+  </svg>
+);
+
+export const IconEdit = ({ className }) => (
+  <svg
+    viewBox="0 0 1024 1024"
+    fill="currentColor"
+    height="20"
+    width="20"
+    strokeWidth={2}
+    className={className}>
+    <path d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 000-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 009.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z" />
+  </svg>
+);
+
+export const IconEye = ({ className }) => (
+  <svg
+    viewBox="0 0 576 512"
+    fill="currentColor"
+    height="20"
+    width="20"
+    className={className}>
+    <path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4 142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1 3.3-7.9 3.3-16.7 0-24.6-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zm144 224c0 79.5-64.5 144-144 144s-144-64.5-144-144 64.5-144 144-144 144 64.5 144 144zm-144-64c0 35.3-28.7 64-64 64-11.5 0-22.3-3-31.6-8.4-.2 2.8-.4 5.5-.4 8.4 0 53 43 96 96 96s96-43 96-96-43-96-96-96c-2.8 0-5.6.1-8.4.4 5.3 9.3 8.4 20.1 8.4 31.6z" />
+  </svg>
+);
+
+export const IconEyeOffSharp = ({ className }) => (
+  <svg
+    viewBox="0 0 512 512"
+    fill="currentColor"
+    height="20"
+    width="20"
+    className={className}>
+    <path d="M63.998 86.004l21.998-21.998L448 426.01l-21.998 21.998zM259.34 192.09l60.57 60.57a64.07 64.07 0 00-60.57-60.57zM252.66 319.91l-60.57-60.57a64.07 64.07 0 0060.57 60.57z" />
+    <path d="M256 352a96 96 0 01-92.6-121.34l-69.07-69.08C66.12 187.42 39.24 221.14 16 256c26.42 44 62.56 89.24 100.2 115.18C159.38 400.92 206.33 416 255.76 416A233.47 233.47 0 00335 402.2l-53.61-53.6A95.84 95.84 0 01256 352zM256 160a96 96 0 0192.6 121.34L419.26 352c29.15-26.25 56.07-61.56 76.74-96-26.38-43.43-62.9-88.56-101.18-114.82C351.1 111.2 304.31 96 255.76 96a222.92 222.92 0 00-78.21 14.29l53.11 53.11A95.84 95.84 0 01256 160z" />
+  </svg>
+);
+export const ShareIcon = ({ className }) => (
+  <svg
+    viewBox="0 0 512 512"
+    fill="currentColor"
+    height="20"
+    width="20"
+    className={className}>
+    <path d="M307 34.8c-11.5 5.1-19 16.6-19 29.2v64H176C78.8 128 0 206.8 0 304c0 113.3 81.5 163.9 100.2 174.1 2.5 1.4 5.3 1.9 8.1 1.9 10.9 0 19.7-8.9 19.7-19.7 0-7.5-4.3-14.4-9.8-19.5-9.4-8.9-22.2-26.4-22.2-56.8 0-53 43-96 96-96h96v64c0 12.6 7.4 24.1 19 29.2s25 3 34.4-5.4l160-144c6.7-6.1 10.6-14.7 10.6-23.8s-3.8-17.7-10.6-23.8l-160-144a31.76 31.76 0 00-34.4-5.4z" />
+  </svg>
+);
+
+export const FlagIcon = ({ className }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    height="20"
+    width="20"
+    className={className}>
+    <path d="M19 4H6V2H4v18H3v2h4v-2H6v-5h13a1 1 0 001-1V5a1 1 0 00-1-1z" />
+  </svg>
+);

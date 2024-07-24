@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-
 import { SearchIcon } from "@/assets";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import CommentActionsButton from "./commentActions";
+import { updateCommentStatus } from "@/lib/actions";
 import Axios from "axios";
 import Image from "next/image";
 
@@ -59,6 +59,22 @@ export default function CommentsTable({ comments }) {
         );
       }
     });
+  }
+
+  async function handleUpdateCommentStatus(status, id) {
+    try {
+      const toastId = toast.loading("Processing Request...", {
+        position: "bottom-center",
+      });
+      const data = await updateCommentStatus(status, id);
+      setTotalComments((prev) =>
+        prev.map((comment) => (comment.id === data.id ? data : comment))
+      );
+      toast.success("Comment status updated successfully");
+    } catch (error) {
+      console.error(error);
+      toast.error("Oops! Something went wrong");
+    }
   }
 
   return (
@@ -174,6 +190,7 @@ export default function CommentsTable({ comments }) {
                       <CommentActionsButton
                         onDelete={deleteComment}
                         comment={comment}
+                        onUpdate={handleUpdateCommentStatus}
                       />
                     </div>
                   </td>
