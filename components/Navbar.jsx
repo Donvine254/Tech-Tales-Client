@@ -9,6 +9,7 @@ import Popup from "./LoginAlert";
 import { baseUrl, clearLocalStorage, getCurrentUser } from "@/lib";
 import { SortUp, SortDown } from "@/assets";
 import Swal from "sweetalert2";
+import secureLocalStorage from "react-secure-storage";
 
 const user = getCurrentUser();
 export default function Navbar() {
@@ -19,6 +20,7 @@ export default function Navbar() {
     const fetchUser = async () => {
       try {
         const response = await fetch(`${baseUrl}/me`);
+
         if (!response.ok) {
           clearLocalStorage();
           if (user) {
@@ -39,6 +41,12 @@ export default function Navbar() {
               }
             });
           }
+        } else {
+          const data = await response.json();
+          secureLocalStorage.setItem(
+            "react_auth_token__",
+            JSON.stringify(data)
+          );
         }
       } catch (error) {
         console.error("Failed to fetch user data:", error);

@@ -1,14 +1,10 @@
 "use client";
 
-import {
-  baseUrl,
-  deleteComment,
-  patchComment,
-} from "@/lib";
+import { baseUrl, deleteComment, patchComment } from "@/lib";
 import { useState } from "react";
 import Axios from "axios";
 import Loader from "./Loader";
-import { Edit, FlagIcon, IconEyeOffSharp, Trash } from "@/assets";
+import { Edit, Trash } from "@/assets";
 import { UserImage } from "./Avatar";
 import Link from "next/link";
 import Image from "next/image";
@@ -83,7 +79,7 @@ export default function Comments({
     setIsEditing(false);
   }
 
- async function hideOrFlagComment(status, id) {
+  async function hideOrFlagComment(status, id) {
     try {
       const toastId = toast.loading("Processing Request...", {
         position: "bottom-center",
@@ -277,82 +273,166 @@ export default function Comments({
                       <>{comment.body ? parse(comment?.body) : comment.body}</>
                     )}
                   </div>
-                  <div className="py-1 flex items-center gap-4">
-                    {user && user?.role !== "admin" ? (
-                      <>
-                        <button
-                          className="flex items-center gap-2 text-sm   hover:text-white border px-1 py-0.5 rounded-md hover:bg-blue-500"
-                          title="edit comment"
-                          onClick={() => editComment(comment)}>
-                          <Edit size={14} />
-                          <span>Edit</span>
-                        </button>
 
-                        <button
-                          className="flex items-center gap-2 text-sm  hover:text-white border px-1 py-0.5 rounded-md hover:bg-red-500"
-                          title="delete comment"
-                          onClick={() =>
-                            deleteComment(comment.id, setComments)
-                          }>
-                          <Trash size={14} />
-                          <span> Delete</span>
-                        </button>
-                      </>
-                    ) : blogAuthorId == user?.id && user.role !== "admin" ? (
-                      <>
-                        <button
-                          className="flex items-center gap-2 text-sm   hover:text-white border px-1 py-0.5 rounded-md hover:bg-blue-500"
-                          title="hide comment"
-                          onClick={() =>
-                            hideOrFlagComment("HIDDEN", comment.id)
-                          }>
-                          <IconEyeOffSharp size={14} />
-                          <span>Hide</span>
-                        </button>
+                  {user && (
+                    <div className="py-1 flex items-center gap-4">
+                      {" "}
+                      {user && comment.authorId === user.id ? (
+                        <>
+                          {/* first scenario where the comment belongs to the user */}
+                          <button
+                            className="flex items-center gap-2 text-sm   hover:text-white border px-1 py-0.5 rounded-md hover:bg-blue-500"
+                            title="edit comment"
+                            onClick={() => editComment(comment)}>
+                            <Edit size={14} />
+                            <span>Edit</span>
+                          </button>
 
-                        <button
-                          className="flex items-center gap-2 text-sm  hover:text-white border px-1 py-0.5 rounded-md hover:bg-red-500"
-                          title="report as offensive/inappropriate"
-                          onClick={() =>
-                            hideOrFlagComment("FLAGGED", comment.id)
-                          }>
-                          <FlagIcon size={14} />
-                          <span>Flag</span>
-                        </button>
-                      </>
-                    ) : user.role === "admin" ? (
-                      <>
-                        <button
-                          className="flex items-center gap-2 text-sm   hover:text-white border px-1 py-0.5 rounded-md hover:bg-blue-500"
-                          title="hide comment"
-                          onClick={() =>
-                            hideOrFlagComment("HIDDEN", comment.id)
-                          }>
-                          <IconEyeOffSharp size={14} />
-                          <span>Hide</span>
-                        </button>
+                          <button
+                            className="flex items-center gap-2 text-sm  hover:text-white border px-1 py-0.5 rounded-md hover:bg-red-500"
+                            title="delete comment"
+                            onClick={() =>
+                              deleteComment(comment.id, setComments)
+                            }>
+                            <Trash size={14} />
+                            <span> Delete</span>
+                          </button>
+                        </>
+                      ) : blogAuthorId == user?.id && user?.role !== "admin" ? (
+                        <>
+                          {/* second scenario where the current user is the author of the blog but not an admin*/}
+                          <button
+                            className="flex items-center gap-2 text-sm   hover:text-white border px-1 py-0.5 rounded-md hover:bg-blue-500"
+                            title="hide comment"
+                            onClick={() =>
+                              hideOrFlagComment("HIDDEN", comment.id)
+                            }>
+                            <svg
+                              viewBox="0 0 64 64"
+                              fill="currentColor"
+                              height="14"
+                              width="14">
+                              <path
+                                fill="none"
+                                stroke="currentColor"
+                                strokeMiterlimit={10}
+                                strokeWidth={1}
+                                d="M1 32s11 15 31 15 31-15 31-15-11-15-31-15S1 32 1 32z"
+                              />
+                              <path
+                                fill="none"
+                                stroke="currentColor"
+                                strokeMiterlimit={10}
+                                strokeWidth={1}
+                                d="M39 32 A7 7 0 0 1 32 39 A7 7 0 0 1 25 32 A7 7 0 0 1 39 32 z"
+                              />
+                              <path
+                                fill="none"
+                                stroke="currentColor"
+                                strokeMiterlimit={10}
+                                strokeWidth={1}
+                                d="M9 55L55 9"
+                              />
+                            </svg>
+                            <span>Hide</span>
+                          </button>
 
-                        <button
-                          className="flex items-center gap-2 text-sm  hover:text-white border px-1 py-0.5 rounded-md hover:bg-red-500"
-                          title="report as offensive/inappropriate"
-                          onClick={() =>
-                            hideOrFlagComment("FLAGGED", comment.id)
-                          }>
-                          <FlagIcon size={14} />
-                          <span>Flag</span>
-                        </button>
-                        <button
-                          className="flex items-center gap-2 text-sm  hover:text-white border px-1 py-0.5 rounded-md hover:bg-red-500"
-                          title="delete comment"
-                          onClick={() =>
-                            deleteComment(comment.id, setComments)
-                          }>
-                          <Trash size={14} />
-                          <span> Delete</span>
-                        </button>
-                      </>
-                    ) : null}
-                  </div>
+                          <button
+                            className="flex items-center gap-2 text-sm  hover:text-white border px-1 py-0.5 rounded-md hover:bg-red-500"
+                            title="report as offensive/inappropriate"
+                            onClick={() =>
+                              hideOrFlagComment("FLAGGED", comment.id)
+                            }>
+                            <svg
+                              viewBox="0 0 64 64"
+                              fill="currentColor"
+                              height="14"
+                              width="14">
+                              <path
+                                fill="none"
+                                stroke="currentColor"
+                                strokeMiterlimit={10}
+                                strokeWidth={2}
+                                d="M12 0v64M12 6h41l-6 12 6 12H12"
+                              />
+                            </svg>
+                            <span>Flag</span>
+                          </button>
+                        </>
+                      ) : user?.id !== comment.authorId &&
+                        user?.role === "admin" ? (
+                        <>
+                          {/* third scenario where the comment where the comment does not belong to the current user, and the the user is admin */}
+                          <button
+                            className="flex items-center gap-2 text-sm   hover:text-white border px-1 py-0.5 rounded-md hover:bg-blue-500"
+                            title="hide comment"
+                            onClick={() =>
+                              hideOrFlagComment("HIDDEN", comment.id)
+                            }>
+                            <svg
+                              viewBox="0 0 64 64"
+                              fill="currentColor"
+                              height="14"
+                              width="14">
+                              <path
+                                fill="none"
+                                stroke="currentColor"
+                                strokeMiterlimit={10}
+                                strokeWidth={1}
+                                d="M1 32s11 15 31 15 31-15 31-15-11-15-31-15S1 32 1 32z"
+                              />
+                              <path
+                                fill="none"
+                                stroke="currentColor"
+                                strokeMiterlimit={10}
+                                strokeWidth={1}
+                                d="M39 32 A7 7 0 0 1 32 39 A7 7 0 0 1 25 32 A7 7 0 0 1 39 32 z"
+                              />
+                              <path
+                                fill="none"
+                                stroke="currentColor"
+                                strokeMiterlimit={10}
+                                strokeWidth={1}
+                                d="M9 55L55 9"
+                              />
+                            </svg>
+                            <span>Hide</span>
+                          </button>
+
+                          <button
+                            className="flex items-center gap-2 text-sm  hover:text-white border px-1 py-0.5 rounded-md hover:bg-red-500"
+                            title="report as offensive/inappropriate"
+                            onClick={() =>
+                              hideOrFlagComment("FLAGGED", comment.id)
+                            }>
+                            <svg
+                              viewBox="0 0 64 64"
+                              fill="currentColor"
+                              height="14"
+                              width="14">
+                              <path
+                                fill="none"
+                                stroke="currentColor"
+                                strokeMiterlimit={10}
+                                strokeWidth={2}
+                                d="M12 0v64M12 6h41l-6 12 6 12H12"
+                              />
+                            </svg>
+                            <span>Flag</span>
+                          </button>
+                          <button
+                            className="flex items-center gap-2 text-sm  hover:text-white border px-1 py-0.5 rounded-md hover:bg-red-500"
+                            title="delete comment"
+                            onClick={() =>
+                              deleteComment(comment.id, setComments)
+                            }>
+                            <Trash size={14} />
+                            <span> Delete</span>
+                          </button>
+                        </>
+                      ) : null}{" "}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
