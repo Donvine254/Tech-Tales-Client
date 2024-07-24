@@ -114,7 +114,7 @@ export default function CommentActionsButton({ onDelete, comment, onUpdate }) {
             {comment.status === "FLAGGED" ? (
               <button
                 className="py-1 text-gray-800 hover:text-green-600 bg-gray-100 w-full  hover:bg-green-200 rounded-md flex items-center gap-5 px-4"
-                onClick={() => onUpdate("VISIBLE", comment.id)}>
+                onClick={() => onUpdate("VISIBLE", comment.id, setTotalComments)}>
                 <svg
                   fill="none"
                   stroke="currentColor"

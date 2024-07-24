@@ -56,19 +56,33 @@ import { slugify } from "@/lib";
 
 export const comments = [
   {
-    body: "PHP is the best. I bought my first lambo 🚙 with it!! ",
-    blogId: 7,
+    body: "<p>Wow, I have learned alot. This elements just make things way simple and minimize the need to use javascript!💪</p>",
+    blogId: 11,
     authorId: 1,
   },
   {
-    body: "<p>PHP is dead @the_don😂</p>",
-
-    blogId: 7,
+    body: '<p>What is the difference between <strong><span style="color: rgb(35, 111, 161);">&lt;meter/&gt;</span></strong> and <strong><span style="color: rgb(35, 111, 161);">&lt;progress/&gt;</span></strong>. To me they seem like they do the same thing?🤷</p>',
+    blogId: 11,
     authorId: 2,
   },
   {
-    body: '<p>Top of the table should be <span style="text-decoration: underline; color: rgb(45, 194, 107);"><em>javascript</em></span>, <span style="text-decoration: underline; color: rgb(53, 152, 219);"><em>python</em></span>, <span style="text-decoration: underline; color: rgb(74, 62, 45);"><em>rust</em></span> and <span style="text-decoration: underline; color: rgb(126, 140, 141);"><em>go💪</em></span></p>',
-    blogId: 7,
-    authorId: 3,
+    body: "<p>I think the main difference between meter and progress elements is that:</p>\n<ul>\n<li>The progress element represents the completion progress of a task.</li>\n<li>The meter element represents a scalar measurement within a known range, or a fractional value</li>\n<li>Typically progress is one way change from zero to max. While the meter value may fluctuate in either direction, depending in its function.</li>\n</ul>",
+    blogId: 11,
+    authorId: 1,
+  },
+  {
+    body: "<p>That makes alot of sense @thedon</p>",
+    blogId: 11,
+    authorId: 2,
+  },
+  {
+    body: "<p>💘❤️</p>",
+    blogId: 11,
+    authorId: 4,
+  },
+  {
+    body: "<p>Great article, this is so educative</p>",
+    blogId: 11,
+    authorId: 5,
   },
 ];

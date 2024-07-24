@@ -59,6 +59,7 @@ export default function CommentsTable({ comments }) {
       }
     });
   }
+  //function to update comment status
 
   async function handleUpdateCommentStatus(status, id) {
     try {

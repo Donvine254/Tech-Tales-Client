@@ -1,10 +1,14 @@
 "use client";
 
-import { baseUrl, deleteComment, patchComment } from "@/lib";
+import {
+  baseUrl,
+  deleteComment,
+  patchComment,
+} from "@/lib";
 import { useState } from "react";
 import Axios from "axios";
 import Loader from "./Loader";
-import { Edit, Trash } from "@/assets";
+import { Edit, FlagIcon, IconEyeOffSharp, Trash } from "@/assets";
 import { UserImage } from "./Avatar";
 import Link from "next/link";
 import Image from "next/image";
@@ -13,6 +17,7 @@ import { formatDate } from "@/lib/utils";
 import { getCurrentUser } from "@/lib";
 import toast from "react-hot-toast";
 import parse from "html-react-parser";
+import { updateCommentStatus } from "@/lib/actions";
 const user = getCurrentUser();
 
 const DynamicEditor = dynamic(() => import("@/components/CommentEditor"), {
@@ -76,6 +81,24 @@ export default function Comments({
     patchComment(commentToEdit?.id, setComments, newComment);
     setNewComment("");
     setIsEditing(false);
+  }
+
+ async function hideOrFlagComment(status, id) {
+    try {
+      const toastId = toast.loading("Processing Request...", {
+        position: "bottom-center",
+      });
+      await updateCommentStatus(status, id);
+      setComments((prev) =>
+        prev.filter((prevComment) => prevComment.id !== id)
+      );
+      toast.success("Comment updated successfully");
+    } catch (error) {
+      console.error(error);
+      toast.error("Oops! Something went wrong");
+    } finally {
+      toast.dismiss();
+    }
   }
 
   function undoEditing() {
@@ -255,8 +278,7 @@ export default function Comments({
                     )}
                   </div>
                   <div className="py-1 flex items-center gap-4">
-                    {(user && comment?.authorId === user?.id) ||
-                    user?.role === "admin" ? (
+                    {user && user?.role !== "admin" ? (
                       <>
                         <button
                           className="flex items-center gap-2 text-sm   hover:text-white border px-1 py-0.5 rounded-md hover:bg-blue-500"
@@ -275,7 +297,59 @@ export default function Comments({
                           <Trash size={14} />
                           <span> Delete</span>
                         </button>
-                        {/* add hide and flag comment button */}
+                      </>
+                    ) : blogAuthorId == user?.id && user.role !== "admin" ? (
+                      <>
+                        <button
+                          className="flex items-center gap-2 text-sm   hover:text-white border px-1 py-0.5 rounded-md hover:bg-blue-500"
+                          title="hide comment"
+                          onClick={() =>
+                            hideOrFlagComment("HIDDEN", comment.id)
+                          }>
+                          <IconEyeOffSharp size={14} />
+                          <span>Hide</span>
+                        </button>
+
+                        <button
+                          className="flex items-center gap-2 text-sm  hover:text-white border px-1 py-0.5 rounded-md hover:bg-red-500"
+                          title="report as offensive/inappropriate"
+                          onClick={() =>
+                            hideOrFlagComment("FLAGGED", comment.id)
+                          }>
+                          <FlagIcon size={14} />
+                          <span>Flag</span>
+                        </button>
+                      </>
+                    ) : user.role === "admin" ? (
+                      <>
+                        <button
+                          className="flex items-center gap-2 text-sm   hover:text-white border px-1 py-0.5 rounded-md hover:bg-blue-500"
+                          title="hide comment"
+                          onClick={() =>
+                            hideOrFlagComment("HIDDEN", comment.id)
+                          }>
+                          <IconEyeOffSharp size={14} />
+                          <span>Hide</span>
+                        </button>
+
+                        <button
+                          className="flex items-center gap-2 text-sm  hover:text-white border px-1 py-0.5 rounded-md hover:bg-red-500"
+                          title="report as offensive/inappropriate"
+                          onClick={() =>
+                            hideOrFlagComment("FLAGGED", comment.id)
+                          }>
+                          <FlagIcon size={14} />
+                          <span>Flag</span>
+                        </button>
+                        <button
+                          className="flex items-center gap-2 text-sm  hover:text-white border px-1 py-0.5 rounded-md hover:bg-red-500"
+                          title="delete comment"
+                          onClick={() =>
+                            deleteComment(comment.id, setComments)
+                          }>
+                          <Trash size={14} />
+                          <span> Delete</span>
+                        </button>
                       </>
                     ) : null}
                   </div>
