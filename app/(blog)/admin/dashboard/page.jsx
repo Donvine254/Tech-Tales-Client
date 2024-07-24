@@ -26,23 +26,18 @@ export const metadata = {
 
 async function getTotalComments() {
   try {
-    const comments = await prisma.findMany({
-      where: {
-        status: {
-          not: "DELETED",
-        },
-        include: {
-          author: {
-            select: {
-              username: true,
-              picture: true,
-            },
+    const comments = await prisma.comment.findMany({
+      include: {
+        author: {
+          select: {
+            username: true,
+            picture: true,
           },
-          blog: {
-            select: {
-              slug: true,
-              title: true,
-            },
+        },
+        blog: {
+          select: {
+            slug: true,
+            title: true,
           },
         },
       },
