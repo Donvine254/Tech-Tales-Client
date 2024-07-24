@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-
 import { SearchIcon } from "@/assets";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import CommentActionsButton from "./commentActions";
+import { updateCommentStatus } from "@/lib/actions";
 import Axios from "axios";
 import Image from "next/image";
 
@@ -18,7 +18,7 @@ export default function CommentsTable({ comments }) {
       setTotalComments(commentsData);
     }
     const filteredComments = commentsData.filter((comment) =>
-      comment.blog.toLowerCase().includes(searchTerm.toLowerCase())
+      comment.blog.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setTotalComments(filteredComments);
   };
@@ -52,13 +52,29 @@ export default function CommentsTable({ comments }) {
       buttonsStyling: false,
     }).then(async (result) => {
       if (result.isConfirmed) {
-        Axios.delete(`https://techtales.up.railway.app/comments/${comment.id}`);
+        Axios.delete(`${baseUrl}/comments?id=${comment.id}`);
         toast.success("comment deleted successfully");
         setTotalComments((prevBlogs) =>
           prevBlogs.filter((b) => b.id !== comment.id)
         );
       }
     });
+  }
+
+  async function handleUpdateCommentStatus(status, id) {
+    try {
+      const toastId = toast.loading("Processing Request...", {
+        position: "bottom-center",
+      });
+      const data = await updateCommentStatus(status, id);
+      setTotalComments((prev) =>
+        prev.map((comment) => (comment.id === data.id ? data : comment))
+      );
+      toast.success("Comment status updated successfully");
+    } catch (error) {
+      console.error(error);
+      toast.error("Oops! Something went wrong");
+    }
   }
 
   return (
@@ -140,26 +156,42 @@ export default function CommentsTable({ comments }) {
                   <td className="px-4 py-2 ">
                     <span className="bg-gray-200 rounded-full  px-1 border group-hover:bg-gray-50 text-sm ">
                       {comment.id > 10 ? " #0" : "#00"}
-                      {comment.id.toString()}
+                      {comment.id}
                     </span>
                   </td>
                   <td className="px-4 py-2  text-start capitalize  content-center whitespace-nowrap xsm:text-sm">
                     <div className="flex items-center  gap-1">
                       <Image
-                        src={comment.user_avatar}
+                        src={comment.author.picture}
                         alt={comment.author}
                         height={32}
                         width={32}
                         className="rounded-full border italic h-8 w-8"
                       />
-                      <span>{comment.author}</span>
+                      <span>{comment.author.username}</span>
                     </div>
                   </td>
-                  <td className="px-4 py-2 ">{comment.blog}</td>
+                  <td className="px-4 py-2 ">
+                    <a
+                      href={`/blogs/${comment.blog.slug}#comments`}
+                      target="_blank"
+                      className="hover:underline hover:text-blue-600">
+                      {comment.blog.title}
+                    </a>
+                  </td>
 
                   <td className="px-4 py-2 ">
-                    <span className="inline-block px-2 rounded-full bg-green-100 text-green-600 border border-green-200 text-sm">
-                      Visible
+                    <span
+                      className={`inline-block px-2 rounded-full border text-sm ${
+                        comment.status === "VISIBLE"
+                          ? "bg-green-100 text-green-600  border-green-300"
+                          : comment.status === "HIDDEN"
+                          ? "bg-yellow-100 text-yellow-600  border-yellow-600"
+                          : comment.status === "FLAGGED"
+                          ? "bg-red-100 text-red-600  border-red-600"
+                          : "bg-gray-200 text-gray-700 border-gray-400"
+                      }`}>
+                      {comment.status.toLowerCase()}
                     </span>
                   </td>
                   <td className="px-4 py-2 ">
@@ -167,6 +199,7 @@ export default function CommentsTable({ comments }) {
                       <CommentActionsButton
                         onDelete={deleteComment}
                         comment={comment}
+                        onUpdate={handleUpdateCommentStatus}
                       />
                     </div>
                   </td>

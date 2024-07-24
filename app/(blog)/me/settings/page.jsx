@@ -4,9 +4,9 @@ import { baseUrl, clearLocalStorage } from "@/lib";
 import Loader from "@/components/Loader";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
-import Axios from "axios";
 import UpdateProfileModal from "@/components/UpdateProfileModal";
 import { UserImage } from "@/components/Avatar";
+import { deactivateUser, deleteUser } from "@/lib/actions";
 
 export default function Page() {
   const [user, setUser] = useState();
@@ -44,11 +44,23 @@ export default function Page() {
       buttonsStyling: false,
     }).then(async (result) => {
       if (result.isConfirmed) {
-        await fetch(`${baseUrl}/auth/logout`);
-        clearLocalStorage();
-        // get the current user and ensure the user cannot login again before 5 minutes elapse
-        if (typeof window !== "undefined" && window) {
-          window.location.reload();
+        try {
+          const toastId = toast.loading("Processing Request...", {
+            position: "bottom-center",
+          });
+          await deactivateUser(user.id);
+          toast.success("Account deactivated");
+          clearLocalStorage();
+          await fetch(`${baseUrl}/auth/logout`);
+          if (typeof window !== "undefined" && window) {
+            toast.dismiss();
+            window.location.reload();
+          }
+        } catch (error) {
+          toast.error("Something went wrong");
+          console.error(error);
+        } finally {
+          toast.dismiss();
         }
       }
     });
@@ -71,12 +83,22 @@ export default function Page() {
       buttonsStyling: false,
     }).then(async (result) => {
       if (result.isConfirmed) {
-        await Axios.delete(`https://techtales.up.railway.app/users/${user.id}`);
-        toast.success("Account deleted successfully");
-        fetch(`${baseUrl}/auth/logout`);
-        clearLocalStorage();
-        if (typeof window !== "undefined" && window) {
-          window.location.reload();
+        try {
+          const toastId = toast.loading("Processing Request...", {
+            position: "bottom-center",
+          });
+          await deleteUser(user.id);
+          toast.success("Account deleted successfully");
+          clearLocalStorage();
+          await fetch(`${baseUrl}/auth/logout`);
+          if (typeof window !== "undefined" && window) {
+            window.location.reload();
+          }
+        } catch (error) {
+          console.error(error);
+          toast.success("Oops! Something went wrong");
+        } finally {
+          toast.dismiss();
         }
       }
     });
@@ -124,7 +146,7 @@ export default function Page() {
               </div>
               <div className="space-y-2 flex items-center justify-between gap-4 text-gray-700 text-sm md:text-base">
                 <h3 className="hover:text-gray-900 font-semibold">Username</h3>
-                <p>{user?.username}</p>
+                <p className="capitalize">{user?.username}</p>
               </div>
               <div className="space-y-2 cursor-pointer flex items-center justify-between gap-4 text-gray-700">
                 <div onClick={showUpdateModal} className="text-sm md:text-base">

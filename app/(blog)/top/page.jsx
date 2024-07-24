@@ -1,16 +1,27 @@
 import { BlogsComponent, SideNav } from "@/components";
 export const revalidate = 600;
-
+import { baseUrl } from "@/lib";
 export const metadata = {
   title: "Top Blogs - Tech Tales",
   description:
     "Tech Tales is a simple blog for tech students and professionals who would like to share their solutions to various coding problems or practice blogging as a way of learning",
 };
 
+async function getBlogs() {
+  try {
+    const res = await fetch(`${baseUrl}/blogs/featured`, {
+      next: { revalidate: 600 },
+    });
+    const blogs = await res.json();
+    return blogs;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
 export default async function Top() {
-  let blogs = await fetch("https://techtales.up.railway.app/featured", {
-    next: { revalidate: 600 },
-  }).then((response) => response.json());
+  let blogs = (await getBlogs()) || [];
 
   return (
     <section className="relative md:min-h-[320px] md:mt-10">

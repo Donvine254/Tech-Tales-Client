@@ -70,7 +70,7 @@ export default function CreateNewBlog() {
     setLoading(true);
     const data = {
       ...blogData,
-      user_id: user.id,
+      authorId: user.id,
     };
     localStorage.removeItem("draftBlog");
     createBlog(data, router, setBlogData, setLoading);

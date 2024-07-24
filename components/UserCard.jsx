@@ -1,26 +1,29 @@
 import { NewTwitterIcon } from "@/assets";
 import Image from "next/image";
 import Link from "next/link";
-import { convertToHandle } from "@/lib/utils";
-export default function UserCard({ avatar, name, bio, socials }) {
+
+export default function UserCard({ author }) {
   // function to get author social media links
   function getSocialUrl(platform) {
-    return socials?.find((social) => social.platform === platform)?.url || null;
+    return (
+      author.socialMedia?.find((social) => social.platform === platform)
+        ?.handle || null
+    );
   }
-  const handle = convertToHandle(name);
+
   return (
     <div className=" bg-slate-50 absolute border shadow w-fit px-4 py-2 rounded-md xsm:w-full min-w-[250px] z-50">
       <div className="flex items-center gap-2">
         <Image
-          src={avatar}
+          src={author.picture}
           width={48}
           height={48}
-          alt={name}
+          alt={author.username}
           className="h-10 w-10 md:h-12 md:w-12 rounded-full cursor-pointer"
         />
         <div className="capitalize font-bold text-lg ">
           <p className="w-full inline-block relative pr-6">
-            <span className="relative">{name}</span>
+            <span className="relative">{author.username}</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -39,7 +42,7 @@ export default function UserCard({ avatar, name, bio, socials }) {
         </div>
       </div>
       <p className="text-base font-medium text-gray-600 my-1">
-        {bio ?? "This author has not updated their bio yet"}
+        {author.bio ?? "This author has not updated their bio yet"}
       </p>
 
       <div className="flex items-center gap-2">
@@ -47,7 +50,8 @@ export default function UserCard({ avatar, name, bio, socials }) {
         <div className="flex items-center my-2 justify-end gap-2">
           <a
             href={
-              getSocialUrl("facebook") ?? `https://www.facebook.com/${name}`
+              getSocialUrl("facebook") ??
+              `https://www.facebook.com/${author.handle}`
             }
             target="_blank">
             {" "}
@@ -65,12 +69,18 @@ export default function UserCard({ avatar, name, bio, socials }) {
             </svg>
           </a>
           <a
-            href={getSocialUrl("twitter") ?? `https://www.twitter.com/${name}`}
+            href={
+              getSocialUrl("twitter") ??
+              `https://www.twitter.com/${author.handle}`
+            }
             target="_blank">
             <NewTwitterIcon />
           </a>
           <a
-            href={getSocialUrl("github") ?? `https://www.github.com/${name}`}
+            href={
+              getSocialUrl("github") ??
+              `https://www.github.com/${author.handle}`
+            }
             target="_blank">
             {" "}
             <svg
@@ -90,7 +100,7 @@ export default function UserCard({ avatar, name, bio, socials }) {
       </div>
       <hr className="border border-gray-200" />
       <Link
-        href={`/explore/${handle}?status=published&select=all`}
+        href={`/explore/${author.handle}?status=published&select=all`}
         prefetch
         className="text-sm text-sky-400 hover:text-sky-600 cursor-pointer my-2">
         View more posts from this author &#8599;

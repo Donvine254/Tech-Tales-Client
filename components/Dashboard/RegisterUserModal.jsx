@@ -1,18 +1,19 @@
 "use client";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import axiosInstance from "@/axiosConfig";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import Loader from "../Loader";
+import { baseUrl } from "@/lib";
 
 export default function AdminRegisterUserModal() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-
+  const [error, setError] = useState("");
   const [data, setData] = useState({
     username: "",
     bio: "",
-    role: "user",
+    email: "",
     password: "password",
   });
   const handleChange = (event) => {
@@ -25,12 +26,13 @@ export default function AdminRegisterUserModal() {
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
+    setError("");
     try {
       if (data) {
-        await axiosInstance.post(
-          `https://techtales.up.railway.app/users`,
-          data
-        );
+        const toastId = toast.loading("Processing Request...", {
+          position: "bottom-center",
+        });
+        await axios.post(`${baseUrl}/users`, data);
         toast.success("User created successfully!");
         setLoading(false);
         document.getElementById("register_user_modal").close();
@@ -38,9 +40,11 @@ export default function AdminRegisterUserModal() {
         router.refresh();
       }
     } catch (error) {
+      setError(error?.response?.data?.error);
       console.error(error);
       setLoading(false);
-      toast.error("Request failed. Please try again");
+    } finally {
+      toast.dismiss();
     }
   }
 
@@ -90,6 +94,7 @@ export default function AdminRegisterUserModal() {
               className="flex h-10 focus:outline-none text-base  disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md"
               id="email-1"
               name="email"
+              title="must be a valid email address"
               placeholder="you@example.com"
               value={data.email}
               onChange={handleChange}
@@ -98,7 +103,7 @@ export default function AdminRegisterUserModal() {
               type="email"
             />
           </div>
-          <div className="space-y-2">
+          {/* <div className="space-y-2">
             <label
               className="text-base font-bold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700"
               htmlFor="role">
@@ -115,8 +120,13 @@ export default function AdminRegisterUserModal() {
               <option value="admin">Admin</option>
               <option value="user">User</option>
             </select>
-          </div>
+          </div> */}
         </div>
+        {error && (
+          <div className="my-1 px-6">
+            <p className="text-sm text-red-500">*{error}</p>
+          </div>
+        )}
         {/* start of actions buttons */}
         <div className="flex items-center justify-end gap-4 px-6 py-2">
           <button

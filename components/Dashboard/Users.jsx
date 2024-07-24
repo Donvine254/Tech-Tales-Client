@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import Link from "next/link";
 import { SearchIcon } from "@/assets";
 import UserActionsButton from "./userActions";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import { exportUsersCSV } from "@/lib/utils";
-import Axios from "axios";
+import { deleteUser } from "@/lib/actions";
 import Image from "next/image";
 import AdminUpdateProfileModal from "./ProfileUpdate";
 import AdminRegisterUserModal from "./RegisterUserModal";
@@ -44,16 +43,15 @@ export default function UsersTable({ users }) {
   };
 
   //function to delete users
-  async function deleteUser(id) {
+  async function handleDeleteUser(username, id) {
     Swal.fire({
       icon: "warning",
-      text: "Are you sure you want to delete this user? This action cannot be undone!",
+      text: `Are you sure you want to delete ${username}? `,
       showCloseButton: true,
       confirmButtonText: "Delete",
       showCancelButton: true,
       cancelButtonText: "Nevermind",
-      footer:
-        "Deleting user accounts without a valid reason might affect user experience!",
+      footer: "Deleted user accounts are automatically deleted after 3 months",
       customClass: {
         confirmButton:
           "px-2 py-1 mx-2 bg-red-500 text-white rounded-md hover:text-white hover:bg-red-500",
@@ -62,11 +60,16 @@ export default function UsersTable({ users }) {
       buttonsStyling: false,
     }).then(async (result) => {
       if (result.isConfirmed) {
-        Axios.delete(`https://techtales.up.railway.app/users/${id}`);
-        toast.success("Account deleted successfully");
-        setTotalUsers((prevUsers) =>
-          prevUsers.filter((b) => b.id.toString() !== id.toString())
-        );
+        try {
+          await deleteUser(id);
+          toast.success("Account deleted successfully");
+          setTotalUsers((prevUsers) =>
+            prevUsers.filter((b) => b.id.toString() !== id.toString())
+          );
+        } catch (error) {
+          toast.error("Something went wrong");
+          console.error(error);
+        }
       }
     });
   }
@@ -143,6 +146,8 @@ export default function UsersTable({ users }) {
               <th className="px-4 py-2 font-bold text-start">Username</th>
               <th className="px-4 py-2 font-bold text-start">Email</th>
 
+              <th className="px-4 py-2 font-bold text-start">Blogs</th>
+              <th className="px-4 py-2 font-bold text-start">Comments</th>
               <th className="px-4 py-2 font-bold text-start">Role</th>
               <th className="px-4 py-2 font-bold text-start">Status</th>
               <th className="px-4 py-2 font-bold text-start">Actions</th>
@@ -169,7 +174,12 @@ export default function UsersTable({ users }) {
                     {user.username}
                   </td>
                   <td className="px-4 py-2 ">{user.email}</td>
-
+                  <td className="px-4 py-2 text-center ">
+                    {user._count?.blogs}
+                  </td>
+                  <td className="px-4 py-2 text-center ">
+                    {user._count?.comments}
+                  </td>
                   <td className="px-4 py-2  text-start">
                     <span
                       className={`inline-block px-2 rounded-full  text-sm ${
@@ -181,14 +191,23 @@ export default function UsersTable({ users }) {
                     </span>
                   </td>
                   <td className="px-4 py-2 ">
-                    <span className="inline-block px-2 rounded-full bg-green-100 text-green-600 border-green-300 border text-sm">
-                      Active
+                    <span
+                      className={`inline-block px-2 rounded-full  border text-sm ${
+                        user.status === "ACTIVE"
+                          ? "bg-green-100 text-green-600 border-green-400"
+                          : user.status === "INACTIVE"
+                          ? "bg-gray-200 text-gray-600 border-gray-400"
+                          : user.status === "DEACTIVATED"
+                          ? "bg-amber-100 text-amber-600 border-amber-400"
+                          : "bg-red-100 text-red-600 border-red-400"
+                      }`}>
+                      {user.status?.toLowerCase()}
                     </span>
                   </td>
                   <td className="px-4 py-2 flex items-center justify-center ">
                     <UserActionsButton
                       user={user}
-                      onDelete={deleteUser}
+                      onDelete={() => handleDeleteUser(user.username, user.id)}
                       onEdit={showUpdateModal}
                     />
                     <AdminUpdateProfileModal user={user} />

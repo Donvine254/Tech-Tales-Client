@@ -1,3 +1,9 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,117 +14,93 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
-model ar_internal_metadata {
-  key        String   @id @db.VarChar
-  value      String?  @db.VarChar
-  created_at DateTime @db.Timestamp(6)
-  updated_at DateTime @db.Timestamp(6)
+enum Role {
+  user
+  admin
 }
 
-model blogs {
-  id         BigInt   @id @default(autoincrement())
-  title      String?  @db.VarChar
-  image      String?  @db.VarChar
-  body       String?
-  slug       String?  @db.VarChar
-  user_id    BigInt?
-  created_at DateTime @db.Timestamp(6)
-  updated_at DateTime @db.Timestamp(6)
-  tags       String?  @db.VarChar
-
-  @@index([user_id], map: "index_blogs_on_user_id")
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+  DEACTIVATED
 }
 
-model comments {
-  id         BigInt   @id @default(autoincrement())
-  body       String?
-  user_id    BigInt?
-  blog_id    BigInt?
-  created_at DateTime @db.Timestamp(6)
-  updated_at DateTime @db.Timestamp(6)
-
-  @@index([blog_id], map: "index_comments_on_blog_id")
-  @@index([user_id], map: "index_comments_on_user_id")
+enum BlogStatus {
+  PUBLISHED
+  UNPUBLISHED
+  ARCHIVED
 }
 
-model schema_migrations {
-  version String @id @db.VarChar
+enum CommentStatus {
+  VISIBLE
+  FLAGGED
+  HIDDEN
+  DELETED
 }
 
-model social_media {
-  id         BigInt   @id @default(autoincrement())
-  platform   String?  @db.VarChar
-  url        String?  @db.VarChar
-  user_id    BigInt?
-  created_at DateTime @db.Timestamp(6)
-  updated_at DateTime @db.Timestamp(6)
+model User {
+  id              Int           @id @default(autoincrement())
+  username        String        @unique
+  email           String        @unique
+  password_digest String
+  role            Role          @default(user)
+  bio             String?       @default("This user has no bio")
+  status          UserStatus    @default(ACTIVE)
+  picture         String?
+  handle          String        @unique
+  deleted         Boolean       @default(false)
+  favorites       Json          @default("[]")
+  blogs           Blog[]
+  comments        Comment[]
+  socialMedia     SocialMedia[]
+  deactivatedAt   DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
 
-  @@index([user_id], map: "index_social_media_on_user_id")
+  @@index(fields: [handle, email])
 }
 
-model users {
-  id              BigInt   @id @default(autoincrement())
-  username        String?  @db.VarChar
-  password_digest String   @db.VarChar
-  email           String?  @db.VarChar
-  picture         String?  @db.VarChar
-  created_at      DateTime @db.Timestamp(6)
-  updated_at      DateTime @db.Timestamp(6)
-  bio             String?
-  role            String?  @default("user") @db.VarChar
+model Blog {
+  id        Int        @id @default(autoincrement())
+  title     String     @unique
+  body      String
+  slug      String     @unique
+  image     String?
+  tags      String?
+  author    User       @relation(fields: [authorId], references: [id])
+  authorId  Int
+  status    BlogStatus @default(PUBLISHED)
+  comments  Comment[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@index([slug, authorId])
 }
 
+model Comment {
+  id        Int           @id @default(autoincrement())
+  body      String
+  author    User          @relation(fields: [authorId], references: [id])
+  authorId  Int
+  blog      Blog          @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  blogId    Int
+  status    CommentStatus @default(VISIBLE)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
 
-// generator client {
-//   provider = "prisma-client-js"
-// }
+  @@index([blogId, authorId])
+}
 
-// datasource db {
-//   provider  = "postgresql"
-//   url       = env("POSTGRES_PRISMA_URL")
-//   directUrl = env("POSTGRES_URL_NON_POOLING")
-// }
+model SocialMedia {
+  id        Int      @id @default(autoincrement())
+  platform  String
+  handle    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-// model User {
-//   id        Int      @id @default(autoincrement())
-//   name      String
-//   email     String   @unique
-//   password  String
-//   blogs     Blog[]
-//   comments  Comment[]
-//   socialMedia SocialMedia[]
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-// }
-
-// model Blog {
-//   id        Int      @id @default(autoincrement())
-//   title     String
-//   content   String
-//   author    User     @relation(fields: [authorId], references: [id])
-//   authorId  Int
-//   comments  Comment[]
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-// }
-
-// model Comment {
-//   id        Int      @id @default(autoincrement())
-//   content   String
-//   author    User     @relation(fields: [authorId], references: [id])
-//   authorId  Int
-//   blog      Blog     @relation(fields: [blogId], references: [id])
-//   blogId    Int
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-// }
-
-// model SocialMedia {
-//   id        Int      @id @default(autoincrement())
-//   platform  String
-//   handle    String
-//   user      User     @relation(fields: [userId], references: [id])
-//   userId    Int
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-// }
+  @@unique([userId, platform])
+  @@index([userId])
+}

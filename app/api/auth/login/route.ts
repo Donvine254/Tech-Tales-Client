@@ -1,4 +1,3 @@
-// pages/api/login.js
 import prisma from "@/prisma/prisma";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -7,12 +6,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 const rateLimitMap = new Map();
 
-export async function POST(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ message: "Method not allowed" });
-  }
-  const data = await req.json();
-  const { email, password } = data;
+export async function POST(req: NextRequest, res: NextResponse) {
+  const { email, password } = await req.json();
   const ip = req.ip || req.headers.get("X-Forwarded-For");
   const limit = 3; // Limiting requests to 3 login attempts per minute per IP
   const windowMs = 60 * 1000; // 1 minute
@@ -32,7 +27,7 @@ export async function POST(req, res) {
   // Check if the IP is currently suspended
   if (ipData.suspendedUntil && Date.now() < ipData.suspendedUntil) {
     return NextResponse.json(
-      { errors: ["Too Many Requests. Try again after 5 minutes"] },
+      { error: "Too Many Requests. Try again after 5 minutes" },
       { status: 429 }
     );
   }
@@ -46,23 +41,53 @@ export async function POST(req, res) {
     // Suspend the user for 5 minutes
     ipData.suspendedUntil = Date.now() + suspensionMs;
     return NextResponse.json(
-      { errors: ["Too Many Requests. Try again after 5 minutes"] },
+      { error: "Too Many Requests. Try again after 5 minutes" },
       { status: 429 }
     );
   }
 
   ipData.count += 1;
 
-  if (data) {
+  if (email && password) {
     try {
       // Check if the user exists
-      const user = await prisma.users.findFirst({
-        where: { email: email },
+      const user = await prisma.user.findUnique({
+        where: { email: email, deleted: false },
+        include: {
+          socialMedia: {
+            select: {
+              platform: true,
+              handle: true,
+            },
+          },
+        },
       });
 
       if (!user) {
         return NextResponse.json(
-          { errors: ["No user with matching email found"] },
+          { error: "No user with matching email found" },
+          { status: 404 }
+        );
+      } else if (user.status === "DEACTIVATED") {
+        const deactivatedAt = new Date(user.deactivatedAt);
+        const now = new Date();
+        const timeDiff = Number(now) - Number(deactivatedAt);
+        const remainingMinutes = Math.ceil(
+          (suspensionMs - timeDiff) / (60 * 1000)
+        );
+        if (remainingMinutes > 0) {
+          return NextResponse.json(
+            {
+              error: `This user account has been ${user.status.toLowerCase()}. Please try again in ${remainingMinutes} minutes.`,
+            },
+            { status: 404 }
+          );
+        }
+      } else if (user.status === "SUSPENDED") {
+        return NextResponse.json(
+          {
+            error: `This user account has been suspended. Please contact your administrator`,
+          },
           { status: 404 }
         );
       }
@@ -75,27 +100,21 @@ export async function POST(req, res) {
 
       if (!isPasswordValid) {
         return NextResponse.json(
-          { errors: ["Invalid password, please try again!"] },
+          { error: "Invalid password, please try again!" },
           { status: 401 }
         );
       }
-      const socials = await prisma.social_media.findMany({
-        where: { user_id: user.id },
-        select: {
-          platform: true,
-          url: true,
+      //set user status as active
+      await prisma.user.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          status: "ACTIVE",
         },
       });
-
-      const tokenData = {
-        id: user.id.toString(),
-        email: user.email,
-        username: user.username,
-        picture: user.picture,
-        socials: socials,
-        bio: user.bio,
-        role: user.role,
-      };
+      //generate tokenData
+      const tokenData = user;
       // Generate a JWT token
       const token = jwt.sign(tokenData, process.env.JWT_SECRET, {
         expiresIn: "8h",
@@ -103,15 +122,8 @@ export async function POST(req, res) {
 
       // Return user details and token
       const response = NextResponse.json(
-        {
-          id: user.id.toString(),
-          username: user.username,
-          email: user.email,
-          picture: user.picture,
-          socials: socials,
-          bio: user.bio,
-          role: user.role,
-        },
+        user,
+
         { status: 200 }
       );
       response.cookies.set("token", token, {
@@ -123,7 +135,7 @@ export async function POST(req, res) {
       console.error(error);
       return NextResponse.json(
         {
-          errors: ["Internal server error"],
+          error: "Internal server error",
         },
         { status: 500 }
       );
@@ -134,19 +146,9 @@ export async function POST(req, res) {
   } else {
     return NextResponse.json(
       {
-        errors: ["Internal server error"],
+        error: "Internal server error",
       },
       { status: 500 }
     );
   }
 }
-
-export async function GET(req, res) {
-  return NextResponse.json(
-    { error: "No login parameters provided" },
-    { status: 201 }
-  );
-}
-
-
-

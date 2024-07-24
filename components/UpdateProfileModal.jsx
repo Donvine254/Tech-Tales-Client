@@ -6,12 +6,14 @@ import { useRouter } from "next/navigation";
 import Loader from "./Loader";
 import secureLocalStorage from "react-secure-storage";
 import { UserImage } from "./Avatar";
+import { baseUrl } from "@/lib";
 
 export default function UpdateProfileModal({ user }) {
   const router = useRouter();
   const fileInputRef = useRef(null);
   const [image, setImage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [data, setData] = useState({
     picture: user?.picture,
@@ -62,9 +64,12 @@ export default function UpdateProfileModal({ user }) {
     e.preventDefault();
     setLoading(true);
     try {
+      const toastId = toast.loading("Processing Request...", {
+        position: "bottom-center",
+      });
       if (data && user) {
         const response = await axiosInstance.patch(
-          `https://techtales.up.railway.app/users/${user.id}`,
+          `${baseUrl}/users?id=${user.id}`,
           data
         );
         setImage("");
@@ -83,7 +88,10 @@ export default function UpdateProfileModal({ user }) {
     } catch (error) {
       console.error(error);
       setLoading(false);
-      toast.error("request failed");
+      setError(error?.response?.data?.error);
+      toast.error("Something went wrong");
+    } finally {
+      toast.dismiss();
     }
   }
 
@@ -219,12 +227,18 @@ export default function UpdateProfileModal({ user }) {
               <span>{data?.bio?.length ?? 0}/100</span>
             </p>
           </div>
+          {error && (
+            <div className=" bg-red-100 border-red-300 p-1 rounded-md text-center">
+              <p className="text-red-600 text-sm">{error}</p>
+            </div>
+          )}
         </div>
-        <div className="flex items-center justify-end gap-4 p-6">
+
+        <div className="flex items-center justify-end gap-4 px-6 pb-4">
           <button
             type="reset"
             title="reset"
-            className="px-4 h-10 py-1 border-2 border-green-400 hover:border-orange-500 rounded-xl disabled:bg-opacity-30 disabled:border-gray-200 bg-transparent"
+            className="px-4 h-10 py-0.5 border-2 border-green-400 hover:border-orange-500 rounded-xl disabled:bg-opacity-30 disabled:border-gray-200 bg-transparent"
             disabled={loading}
             onClick={() => {
               document.getElementById("my_modal_5").close();
@@ -232,7 +246,7 @@ export default function UpdateProfileModal({ user }) {
             Cancel
           </button>
           <button
-            className="px-4 py-1 h-10 border-2 bg-blue-600 text-white rounded-xl disabled:pointer-events-none disabled:bg-gray-100 disabled:text-black flex items-center justify-center gap-2"
+            className="px-4 py-0.5 h-10 border-2 bg-blue-600 text-white rounded-xl disabled:pointer-events-none disabled:bg-gray-100 disabled:text-black flex items-center justify-center gap-2"
             type="submit"
             title="submit"
             disabled={

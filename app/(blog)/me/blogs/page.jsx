@@ -1,5 +1,4 @@
 import MyBlogsComponent from "./blogs";
-import { baseUrl } from "@/lib";
 export const metadata = {
   title: "My Blogs - Tech Tales",
   description:

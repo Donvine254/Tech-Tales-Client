@@ -5,7 +5,7 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 import Axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
-import { saveUserData } from "@/lib";
+import { baseUrl, saveUserData } from "@/lib";
 import Loader from "@/components/Loader";
 
 export const dynamic = "force-dynamic";
@@ -14,6 +14,7 @@ export default function AccountNotFound() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const referrer = searchParams.get("referrer")?.split(".")[1];
+  const [error, setError] = useState(null);
 
   const [loading, setLoading] = useState(false);
   async function handleRegistration() {
@@ -22,11 +23,9 @@ export default function AccountNotFound() {
     toast.success("Processing Request");
     if (typeof window !== undefined) {
       user = secureLocalStorage.getItem("unauthorized_user");
+      console.log(user);
       try {
-        const response = await Axios.post(
-          "https://techtales.up.railway.app/users",
-          user
-        );
+        const response = await Axios.post(`${baseUrl}/auth/register`, user);
         const data = await response.data;
         saveUserData(data);
         secureLocalStorage.removeItem("unauthorized_user");
@@ -36,6 +35,7 @@ export default function AccountNotFound() {
       } catch (error) {
         setLoading(false);
         console.log(error);
+        setError(error?.response?.data?.error);
         toast.error("An error occurred, please try again");
         router.replace("/login");
         secureLocalStorage.removeItem("unauthorized_user");
@@ -82,8 +82,13 @@ export default function AccountNotFound() {
             </div>
           </div>
         </div>
+        {error && (
+          <div className="px-4">
+            <p className="text-red-500 text-base"> *{error}</p>
+          </div>
+        )}
         <button
-          className="py-1 px-4 bg-blue-500 hover:bg-blue-700 text-white hover:shadow my-3 rounded-md  w-full disabled:bg-gray-100 disabled:text-black flex items-center justify-center disabled:py-1 disabled:px-2 "
+          className="py-1 px-4 bg-blue-500 hover:bg-blue-700 text-white hover:shadow my-3 rounded-md h-10  w-full disabled:bg-gray-100 disabled:text-black flex items-center justify-center disabled:py-1 disabled:px-2 "
           disabled={loading}
           onClick={handleRegistration}>
           {loading ? <Loader size={30} /> : "Create Account"}

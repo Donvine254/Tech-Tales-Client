@@ -1,12 +1,20 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { handleSignOut, baseUrl } from "@/lib";
 
 import Image from "next/image";
 import Link from "next/link";
 import Loader from "@/components/Loader";
 import parse from "html-react-parser";
-import { Clipboard, Facebook, GithubIcon, NewTwitterIcon } from "@/assets";
+import {
+  Clipboard,
+  Facebook,
+  GithubIcon,
+  NewTwitterIcon,
+  Clock,
+  Comment,
+} from "@/assets";
+import { calculateReadingTime } from "@/lib";
 import secureLocalStorage from "react-secure-storage";
 import SocialMediaModal from "@/components/SocialMediaModal";
 
@@ -16,32 +24,47 @@ export default function Profile() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const [userLoaded, setUserLoaded] = useState(false);
   const [readingList, setReadingList] = useState({});
   const [allBlogs, setAllBlogs] = useState([]);
 
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const userData = await fetch(`${baseUrl}/me`).then((response) =>
-          response.json()
-        );
-        if (userData) {
-          setUser(userData);
-
-          const response = await fetch(`${baseUrl}/my-blogs`);
-          const data = await response.json();
-          setBlogs(data);
-          setLoading(false);
-        }
-      } catch (error) {
-        setLoading(false);
-        console.error("Error fetching blogs:", error);
+  // Fetch user data
+  const fetchUserData = useCallback(async () => {
+    try {
+      const userData = await fetch(`${baseUrl}/me`).then((response) =>
+        response.json()
+      );
+      if (userData) {
+        setUser(userData);
+        setUserLoaded(true);
       }
-    };
-
-    fetchBlogs();
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
   }, []);
 
+  // Fetch blogs when user data changes
+  const fetchBlogs = useCallback(async () => {
+    if (!userLoaded) return;
+
+    try {
+      const response = await fetch(`${baseUrl}/my-blogs`);
+      const data = await response.json();
+      setBlogs(data);
+    } catch (error) {
+      console.error("Error fetching blogs:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [userLoaded]);
+
+  useEffect(() => {
+    fetchUserData();
+  }, [fetchUserData]);
+
+  useEffect(() => {
+    fetchBlogs();
+  }, [fetchBlogs]);
   //useEffect to get user reading list
   useEffect(() => {
     const localStorageData = secureLocalStorage.getItem("bookmarked_blogs");
@@ -72,10 +95,11 @@ export default function Profile() {
       </div>
     );
   }
-  //function to signout
+
   function getSocialUrl(user, platform) {
     return (
-      user.socials?.find((social) => social.platform === platform)?.url || null
+      user.socialMedia?.find((social) => social.platform === platform)
+        ?.handle || null
     );
   }
 
@@ -109,7 +133,7 @@ export default function Profile() {
               className="w-[120px] h-[120px] rounded-full m-auto ring-offset-4 ring-2 ring-blue-600 italic ring-offset-white"
             />
             <p className="text-gray-600 font-semibold flex items-center justify-center ">
-              <span>{user.username} </span>
+              <span className="capitalize">{user.username} </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -148,7 +172,7 @@ export default function Profile() {
                     <path d="M5.338 1.59a61.44 61.44 0 00-2.837.856.481.481 0 00-.328.39c-.554 4.157.726 7.19 2.253 9.188a10.725 10.725 0 002.287 2.233c.346.244.652.42.893.533.12.057.218.095.293.118a.55.55 0 00.101.025.615.615 0 00.1-.025c.076-.023.174-.061.294-.118.24-.113.547-.29.893-.533a10.726 10.726 0 002.287-2.233c1.527-1.997 2.807-5.031 2.253-9.188a.48.48 0 00-.328-.39c-.651-.213-1.75-.56-2.837-.855C9.552 1.29 8.531 1.067 8 1.067c-.53 0-1.552.223-2.662.524zM5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 011.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.775 11.775 0 01-2.517 2.453 7.159 7.159 0 01-1.048.625c-.28.132-.581.24-.829.24s-.548-.108-.829-.24a7.158 7.158 0 01-1.048-.625 11.777 11.777 0 01-2.517-2.453C1.928 10.487.545 7.169 1.141 2.692A1.54 1.54 0 012.185 1.43 62.456 62.456 0 015.072.56z" />
                     <path d="M9.5 6.5a1.5 1.5 0 01-1 1.415l.385 1.99a.5.5 0 01-.491.595h-.788a.5.5 0 01-.49-.595l.384-1.99a1.5 1.5 0 112-1.415z" />
                   </svg>
-                  <Link href="/admin/dashboard" className="">
+                  <Link href="/admin/dashboard?tab=0" className="">
                     Go to Dashboard
                   </Link>
                 </div>
@@ -297,7 +321,7 @@ export default function Profile() {
               </Link>
 
               <button
-                onClick={handleSignOut}
+                onClick={() => handleSignOut(user.id)}
                 className="hover:bg-gray-200 hover:text-red-500  p-1 w-full rounded-md h-8  border flex items-center gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -339,13 +363,54 @@ export default function Profile() {
                       href={`/blogs/${blog.slug}`}
                       className="hover:underline "
                       prefetch>
-                      <span className="font-semibold  py-1 text-gray-700 hover:text-blue-500 ">
+                      <span className="font-semibold  py-1 text-gray-700 hover:text-blue-500 hover:underline">
                         {blog.title}
                       </span>
                     </Link>
+                    <div className="flex gap-2 flex-wrap text-sm">
+                      {blog.tags.split(",").map((tag, index) => (
+                        <Link
+                          key={index}
+                          href={`/search?search=${tag.trim()}`}
+                          className="md:px-2 md:py-0.5 text-blue-600 md:bg-transparent md:hover:bg-blue-600 md:hover:text-white cursor-pointer md:border md:border-blue-600 md:rounded-xl ">
+                          #{tag.trim()}
+                        </Link>
+                      ))}
+                    </div>
                     <article className=" text-gray-500 leading-8 line-clamp-2">
                       {blog.body ? parse(blog.body) : blog.body}
                     </article>
+                    <div className="flex items-center justify-between gap-1 space-y-1">
+                      <p className="text-sm flex items-center gap-1 md:gap-2  text-black ">
+                        <Clock />
+                        {calculateReadingTime(blog.body)} min{" "}
+                        <span className="xsm:hidden">read</span>
+                      </p>
+                      <p
+                        className={`text-sm inline-flex items-center px-1 rounded-lg border ${
+                          blog.status === "PUBLISHED"
+                            ? "text-green-600"
+                            : " text-amber-600 "
+                        }`}>
+                        <svg
+                          viewBox="0 0 220 1000"
+                          fill="currentColor"
+                          className={`text-sm  ${
+                            blog.status === "PUBLISHED"
+                              ? "text-green-600"
+                              : " text-amber-600 "
+                          }`}
+                          height="20"
+                          width="20">
+                          <path d="M110 390c30.667 0 56.667 10.667 78 32s32 47.333 32 78c0 29.333-10.667 55-32 77s-47.333 33-78 33-56.667-11-78-33-32-47.667-32-77c0-30.667 10.667-56.667 32-78s47.333-32 78-32" />
+                        </svg>
+                        <span>{blog.status.toLowerCase()}</span>
+                      </p>
+                      <p className="text-sm  inline-flex items-center gap-1">
+                        <Comment />
+                        <span>{blog?._count?.comments}</span>
+                      </p>
+                    </div>
 
                     <hr className="my-2 border-1 border-slate-300" />
                   </div>
@@ -382,11 +447,21 @@ export default function Profile() {
                         href={`/blogs/${blog.slug}`}
                         className="hover:underline "
                         prefetch>
-                        <p className="font-semibold py-1 text-gray-700 hover:text-blue-500">
+                        <p className="font-semibold py-1 text-gray-700 hover:text-blue-500 inline-flex items-center justify-start">
                           {blog.title}{" "}
                           <span className="font-medium ">by {blog.author}</span>
                         </p>
                       </Link>
+                      <div className="flex gap-2 flex-wrap text-sm">
+                        {blog.tags.split(",").map((tag, index) => (
+                          <Link
+                            key={index}
+                            href={`/search?search=${tag.trim()}`}
+                            className="md:px-2 md:py-0.5 text-blue-600 md:bg-transparent md:hover:bg-blue-600 md:hover:text-white cursor-pointer md:border md:border-blue-600 md:rounded-xl ">
+                            #{tag.trim()}
+                          </Link>
+                        ))}
+                      </div>
                       <article className=" text-gray-500 leading-8 line-clamp-2">
                         {blog.body ? parse(blog.body) : blog.body}
                       </article>

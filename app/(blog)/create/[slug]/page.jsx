@@ -31,7 +31,7 @@ export default function EditBlog({ params }) {
         const user = await fetch(`${baseUrl}/me`).then((response) =>
           response.json()
         );
-        const response = await fetch(`${baseUrl}/blogs`, {
+        const response = await fetch(`${baseUrl}/blogs/slug`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -41,8 +41,7 @@ export default function EditBlog({ params }) {
         const blog = await response.json();
 
         // modify this to ensure admins can edit any blog
-        if (user.id !== blog.user_id && user.role !== "admin") {
-          console.log("userId:", user.id, "blog user_id:", blog.user_id);
+        if (user.id !== blog.authorId && user.role !== "admin") {
           toast.error("This blog belongs to a different author!");
           router.replace("/me/blogs?action=forbidden");
         } else {
@@ -230,7 +229,6 @@ export default function EditBlog({ params }) {
         </div>
       </form>
       <PreviewModal blog={blogData} />
-      
     </div>
   );
 }

@@ -1,6 +1,5 @@
 import { BlogsComponent, SideNav } from "@/components";
 export const revalidate = 600;
-import { formatDate } from "@/lib/utils";
 import prisma from "@/prisma/prisma";
 // fetch the data based on created time
 
@@ -12,39 +11,29 @@ export const metadata = {
 
 async function getBlogs() {
   try {
-    const latestBlogs = await prisma.blogs.findMany({
-      orderBy: {
-        created_at: "desc",
+    const blogs = await prisma.blog.findMany({
+      where: {
+        status: "PUBLISHED",
       },
-      take: 5,
-    });
-
-    const formattedBlogs = await Promise.all(
-      latestBlogs.map(async (blog) => {
-        const user = await prisma.users.findUnique({
-          where: {
-            id: blog.user_id,
-          },
+      include: {
+        author: {
           select: {
             username: true,
             picture: true,
           },
-        });
-
-        return {
-          id: blog.id.toString(),
-          image: blog.image,
-          title: blog.title,
-          body: blog.body,
-          tags: blog.tags,
-          slug: blog.slug,
-          user_avatar: user.picture,
-          author: user.username,
-          created_at_date: formatDate(blog.created_at),
-        };
-      })
-    );
-    return formattedBlogs;
+        },
+        _count: {
+          select: {
+            comments: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      take: 5,
+    });
+    return blogs;
   } catch (error) {
     console.error(error);
     return null;

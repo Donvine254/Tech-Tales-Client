@@ -1,15 +1,16 @@
 "use client";
 
-import { deleteComment, patchComment } from "@/lib";
-import { useState, useEffect, useRef } from "react";
+import { baseUrl, deleteComment, patchComment } from "@/lib";
+import { useState } from "react";
 import Axios from "axios";
 import Loader from "./Loader";
 import { Edit, Trash } from "@/assets";
 import { UserImage } from "./Avatar";
 import Link from "next/link";
+import Image from "next/image";
 import dynamic from "next/dynamic";
-import { getRandomColor } from "@/lib/utils";
-import { baseUrl, getCurrentUser } from "@/lib";
+import { formatDate } from "@/lib/utils";
+import { getCurrentUser } from "@/lib";
 import toast from "react-hot-toast";
 import parse from "html-react-parser";
 const user = getCurrentUser();
@@ -18,45 +19,17 @@ const DynamicEditor = dynamic(() => import("@/components/CommentEditor"), {
   loading: () => <Loader size={60} />,
 });
 
-export default function Comments({ blogId, slug, setCommentsCount, author }) {
+export default function Comments({
+  blogId,
+  slug,
+  comments,
+  setComments,
+  blogAuthorId,
+}) {
   const [newComment, setNewComment] = useState("");
-  const [comments, setComments] = useState([]);
   const [commentToEdit, setCommentToEdit] = useState(null);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const commentsRef = useRef({});
-  useEffect(() => {
-    (async () => {
-      try {
-        const response = await fetch(
-          `${baseUrl}/comments`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ blogId: blogId }),
-          },
-          { cache: "force-cache", revalidate: 600 }
-        );
-        const resData = await response.json();
-        let commentsWithColors = resData;
-        if (resData.length > 0) {
-          commentsWithColors = resData.map((comment) => {
-            if (!commentsRef.current[comment.id]) {
-              commentsRef.current[comment.id] = getRandomColor();
-            }
-            return { ...comment, color: commentsRef.current[comment.id] };
-          });
-        }
-
-        setComments(commentsWithColors);
-        setCommentsCount(comments.length);
-      } catch (error) {
-        console.error(error);
-      }
-    })();
-  }, [blogId, setCommentsCount, comments.length]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -70,22 +43,10 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
       body: newComment,
     };
     try {
-      const res = await Axios.post(
-        "https://techtales.up.railway.app/comments",
-        commentData
-      );
+      const res = await Axios.post(`${baseUrl}/comments`, commentData);
       const data = await res.data;
       setNewComment("");
-      const newCommentWithColor = {
-        ...data,
-        color: getRandomColor(),
-      };
-      setComments((prev) =>
-        Array.isArray(prev)
-          ? [...prev, newCommentWithColor]
-          : [newCommentWithColor]
-      );
-      setCommentsCount((prev) => prev + 1);
+      setComments((prev) => [...prev, data]);
       toast.success("Comment posted successfully");
     } catch (error) {
       toast.error(error?.response?.data?.errors);
@@ -117,12 +78,16 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
     setIsEditing(false);
   }
   const getPlainTextLength = (htmlString) => {
-    const doc = new DOMParser().parseFromString(htmlString, "text/html");
-    return doc.body.textContent.length;
+    if (typeof window !== "undefined") {
+      const doc = new DOMParser().parseFromString(htmlString, "text/html");
+      return doc.body.textContent.length;
+    } else {
+      return 0;
+    }
   };
 
   return (
-    <div>
+    <div className="">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h1 className="text-bold text-xl md:text-2xl py-2 font-bold">
           Comments
@@ -214,33 +179,34 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
           </div>
         </div>
       )}
-      <div>
-        {comments?.length > 0 ? (
-          comments?.map((comment) => (
+      <div id="comments">
+        {comments && comments?.length > 0 ? (
+          comments.map((comment) => (
             <div className="py-1 font-poppins " key={comment.id}>
               <div className="flex gap-4">
                 <UserImage
-                  url={comment.user_avatar}
-                  className={`ring-2 ring-offset-2 ring-${
-                    comment.color ?? "cyan-400"
-                  } italic `}
+                  url={comment.author.picture}
+                  className={`ring-2 ring-offset-2 ring-"cyan-400"
+                   italic `}
                 />
                 <div className="">
                   <div>
                     <div className="flex items-center gap-2">
-                      <p className="font-semibold">{comment?.author}</p>
-                      {comment?.user_id === author && (
+                      <p className="font-semibold capitalize">
+                        {comment?.author.username}
+                      </p>
+                      {comment?.authorId === blogAuthorId && (
                         <button className="bg-cyan-100 text-cyan-500 font-light rounded-md px-1 text-sm xsm:text-[12px] pointer-events-none border border-cyan-500">
                           Author
                         </button>
                       )}
-                      {comment?.user_role === "admin" &&
-                        comment?.user_id !== author && (
+                      {comment?.author.role === "admin" &&
+                        comment?.authorId !== blogAuthorId && (
                           <button className="bg-yellow-100 text-yellow-600 font-light rounded-md px-1 text-sm xsm:text-[12px] pointer-events-none border border-[#FFD700]">
                             Admin
                           </button>
                         )}
-                      {user && comment.user_id === user?.id && (
+                      {comment.author.status === "ACTIVE" && (
                         <div>
                           <div className="online-indicator">
                             <span className="blink"></span>
@@ -253,19 +219,16 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
                       <span className="font-light xsm:text-sm">
                         Published on
                       </span>{" "}
-                      <time dateTime={comment?.created_at_date}>
+                      <time dateTime={comment?.createdAt}>
                         {" "}
-                        {comment?.created_at_date}
+                        {formatDate(comment.createdAt)}
                       </time>
                     </p>
                   </div>
 
                   <div
-                    className="p-3 rounded-r-xl xsm:text-sm rounded-bl-xl border border-[#67e8f9]"
-                    id="comment-body"
-                    style={{
-                      backgroundColor: comment.color ?? "#cffafe",
-                    }}>
+                    className="p-3 rounded-r-xl xsm:text-sm rounded-bl-xl border border-cyan-400 bg-cyan-100"
+                    id="comment-body">
                     {comment.body && getPlainTextLength(comment.body) > 350 ? (
                       <div>
                         <p className="">
@@ -285,7 +248,7 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
                     )}
                   </div>
                   <div className="py-1 flex items-center gap-4">
-                    {(user && comment?.user_id === user?.id) ||
+                    {(user && comment?.authorId === user?.id) ||
                     user?.role === "admin" ? (
                       <>
                         <button
@@ -313,7 +276,13 @@ export default function Comments({ blogId, slug, setCommentsCount, author }) {
             </div>
           ))
         ) : (
-          <p className="my-2 text-xl font-semibold">Be the first to comment</p>
+          <div className="flex flex-col items-center place-content-center gap-1  p-2 my-2">
+            <Image src="/comment.svg" alt="comment" height={100} width={100} />
+            <p className="font-semibold md:text-lg">
+              This thread is open to discussion
+            </p>
+            <p className="font-extralight">Be the first to comment</p>
+          </div>
         )}
       </div>
     </div>

@@ -11,11 +11,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <Toaster />
-        <GoogleOAuthProvider
-          clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
-          {children}
-        </GoogleOAuthProvider>
+        <main>
+          <Toaster />
+          <GoogleOAuthProvider
+            clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
+            {children}
+          </GoogleOAuthProvider>
+        </main>
       </body>
     </html>
   );

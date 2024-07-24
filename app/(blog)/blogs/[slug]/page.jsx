@@ -1,6 +1,6 @@
 import { SideNav } from "@/components";
 import Slug from "./slug";
-
+import { baseUrl } from "@/lib";
 export const revalidate = 600;
 
 export const metadata = {
@@ -23,6 +23,7 @@ export async function generateStaticParams() {
     }
 
     const blogSlugs = data.map((blog) => blog.slug);
+
     return blogSlugs;
   } catch (error) {
     console.error("Error fetching blog data:", error);
@@ -31,13 +32,9 @@ export async function generateStaticParams() {
 }
 
 export default async function BlogsPage({ params }) {
-  const url =
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:3000/api/blogs"
-      : "https://techtales.vercel.app/api/blogs";
   async function fetchBlog() {
     try {
-      const response = await fetch(`${url}`, {
+      const response = await fetch(`${baseUrl}/blogs/slug`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -46,6 +43,7 @@ export default async function BlogsPage({ params }) {
         next: { revalidate: 600 },
       });
       const data = await response.json();
+
       return data;
     } catch (error) {
       console.error(error);

@@ -1,19 +1,43 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import BlogsTable from "@/components/Dashboard/Blogs";
 import UsersTable from "@/components/Dashboard/Users";
 import CommentsTable from "@/components/Dashboard/Comments";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
-export default function Dashboard({ blogs, totalComments, users }) {
-  const [activeTab, setActiveTab] = useState("tab-0");
+export default function Dashboard({ blogs, users, totalComments }) {
+  const searchParams = useSearchParams();
+  let tab = searchParams.get("tab") || "0";
+  const [activeTab, setActiveTab] = useState(tab ?? "0");
+  useEffect(() => {
+    const tab = searchParams.get("tab");
+    setActiveTab(tab ?? "0");
+  }, [searchParams]);
 
+  //memoize tables
+  const Users = useMemo(() => {
+    return <UsersTable users={users} />;
+  }, [users]);
+
+  const Blogs = useMemo(() => {
+    return <BlogsTable blogs={blogs} />;
+  }, [blogs]);
+
+  const Comments = useMemo(() => {
+    return <CommentsTable comments={totalComments} />;
+  }, [totalComments]);
   return (
     <section className="w-full min-h-[320px] py-4 md:mt-10" id="dashboard-page">
       <div className="grid grid-cols-1 gap-4  py-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 ">
         {/* first card */}
         <div
           className=" bg-gray-100 hover:bg-gray-200 p-6 space-y-4 text-center shadow rounded-md hover:-translate-y-1 transition-transform duration-300"
-          onClick={() => setActiveTab("tab-0")}>
+          onClick={() => {
+            if (typeof window == !undefined && window) {
+              window.location.href = "/admin/dashboard?tab=0";
+            }
+          }}>
           <div className=" inline-flex items-center justify-center w-full text-cyan-500">
             <svg
               viewBox="0 0 640 512"
@@ -36,7 +60,11 @@ export default function Dashboard({ blogs, totalComments, users }) {
         {/* second card */}
         <div
           className=" bg-gray-100 hover:bg-gray-200 p-6 space-y-4 text-center  shadow rounded-md hover:-translate-y-1 transition-transform duration-300"
-          onClick={() => setActiveTab("tab-1")}>
+          onClick={() => {
+            if (typeof window == !undefined && window) {
+              window.location.href = "/admin/dashboard?tab=1";
+            }
+          }}>
           <div className=" inline-flex items-center justify-center w-full text-cyan-500">
             <svg
               version="1.1"
@@ -94,7 +122,11 @@ export default function Dashboard({ blogs, totalComments, users }) {
         {/* third card */}
         <div
           className=" bg-gray-100 hover:bg-gray-200 p-6 space-y-4  shadow rounded-md hover:-translate-y-1 transition-transform duration-300 text-center"
-          onClick={() => setActiveTab("tab-2")}>
+          onClick={() => {
+            if (typeof window == !undefined && window) {
+              window.location.href = "/admin/dashboard?tab=2";
+            }
+          }}>
           <div className=" inline-flex items-center justify-center w-full text-cyan-500">
             <svg viewBox="0 0 24 24" fill="currentColor" height="48" width="48">
               <path d="M20 2H4a2 2 0 00-2 2v12a2 2 0 002 2h4v3c0 .55.45 1 1 1h.5c.25 0 .5-.1.7-.29L13.9 18H20c1.11 0 2-.89 2-2V4a2 2 0 00-2-2m-9.53 12L7 10.5l1.4-1.41 2.07 2.08L15.6 6 17 7.41 10.47 14z" />
@@ -102,7 +134,7 @@ export default function Dashboard({ blogs, totalComments, users }) {
           </div>
 
           <h1 className="text-6xl font-sans font-bold">
-            {totalComments.length}
+            {/* {totalComments.length} */}5
           </h1>
 
           <p className="text-gray-600 "> Total comments</p>
@@ -115,36 +147,43 @@ export default function Dashboard({ blogs, totalComments, users }) {
         {/* end of cards  */}
       </div>
       <div className="text-xl  my-2  flex items-center gap-2 md:gap-4 lg:gap-6 border-b border-b-gray-400 bg-gray-100 rounded-t-md  transition-all duration-300 shadow">
-        <p
-          onClick={() => setActiveTab("tab-0")}
+        <Link
+          href="/admin/dashboard?tab=0"
+          prefetch
           className={`px-4 cursor-pointer py-2 hover:text-blue-600 font-medium ${
-            activeTab === "tab-0" ? "border-b-2  border-b-blue-600 text- " : ""
+            activeTab === "0" ? "border-b-2  border-b-blue-600 text- " : ""
           }`}>
           Users
-        </p>
-        <p
-          onClick={() => setActiveTab("tab-1")}
+        </Link>
+        <Link
+          href="/admin/dashboard?tab=1"
+          prefetch
           className={`px-4 cursor-pointer py-2 hover:text-blue-600 font-medium ${
-            activeTab === "tab-1"
+            activeTab === "1"
               ? "border-b-2 border-b-blue-600 text-blue-500 "
               : ""
           }`}>
           Blogs
-        </p>
-        <p
-          onClick={() => setActiveTab("tab-2")}
+        </Link>
+        <Link
+          href="/admin/dashboard?tab=2"
+          prefetch
           className={`px-4 cursor-pointer py-2 hover:text-blue-600 font-medium  ${
-            activeTab === "tab-2"
+            activeTab === "2"
               ? "border-b-2 border-b-blue-600 text-blue-500 "
               : ""
           }`}>
           Comments
-        </p>
+        </Link>
       </div>
       {/* add sections from here based on the tab */}
-      {activeTab === "tab-0" && <UsersTable users={users} />}
-      {activeTab === "tab-1" && <BlogsTable blogs={blogs} />}
-      {activeTab === "tab-2" && <CommentsTable comments={totalComments} />}
+      {/* {activeTab === "0" && <UsersTable users={users} />}
+      {activeTab === "1" && <BlogsTable blogs={blogs} />}
+      {activeTab === "2" && <CommentsTable comments={totalComments} />} */}
+      {/* add memoized values */}
+      {activeTab === "0" && Users}
+      {activeTab === "1" && Blogs}
+      {activeTab === "2" && Comments}
     </section>
   );
 }
