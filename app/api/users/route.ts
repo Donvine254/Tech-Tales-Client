@@ -1,6 +1,5 @@
 import bcrypt from "bcryptjs";
 import prisma from "@/prisma/prisma";
-import jwt from "jsonwebtoken";
 import { NextRequest, NextResponse } from "next/server";
 import { convertToHandle, createUserAvatar, validateEmail } from "@/lib/utils";
 
@@ -20,9 +19,18 @@ type RequestData = {
   email: string;
   password: string;
   role?: string;
+  picture?: string;
 };
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const token = req.cookies.get("token");
+  if (!token) {
+    return NextResponse.json(
+      { error: "Unauthorized Request" },
+      { status: 401 }
+    );
+  }
+
   try {
     const users = await prisma.user.findMany({
       select: {
@@ -99,7 +107,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
   try {
     const data: UserData = {
       username: requestData.username.toLowerCase(),
-      picture: createUserAvatar(requestData.username),
+      picture: requestData.picture || createUserAvatar(requestData.username),
       email: email,
       handle: handle,
       password_digest: await hashPassword(requestData.password),
@@ -130,5 +138,73 @@ export async function POST(req: NextRequest, res: NextResponse) {
       { error: "Internal Server Error" },
       { status: 500 }
     );
+  }
+}
+
+//function patch users
+type PatchData = {
+  username?: string;
+  picture?: string;
+  bio?: string;
+};
+export async function PATCH(req: NextRequest, res: NextResponse) {
+  const token = req.cookies.get("token");
+  if (!token) {
+    return NextResponse.json(
+      { error: "Unauthorized Request" },
+      { status: 401 }
+    );
+  }
+  const { username, bio, picture } = (await req.json()) as PatchData;
+  const id = req.nextUrl.searchParams.get("id") as string;
+  let handle: string;
+  if (username) {
+    handle = convertToHandle(username);
+  }
+
+  try {
+    const user = await prisma.user.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        username,
+        handle,
+        bio,
+        picture,
+      },
+      select: {
+        id: true,
+        email: true,
+        username: true,
+        role: true,
+        status: true,
+        picture: true,
+        handle: true,
+        bio: true,
+        _count: {
+          select: {
+            comments: true,
+            blogs: true,
+          },
+        },
+      },
+    });
+    return NextResponse.json(user, { status: 201 });
+  } catch (e) {
+    console.error(e);
+    if (e.code === "P2002") {
+      return NextResponse.json(
+        { error: "Username is already taken" },
+        { status: 409 }
+      );
+    } else if (e.code === "P2025") {
+      return NextResponse.json(
+        { error: "Record to update not found" },
+        { status: 409 }
+      );
+    } else {
+      return NextResponse.json(e, { status: 500 });
+    }
   }
 }
