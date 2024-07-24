@@ -181,7 +181,16 @@ export default function CommentsTable({ comments }) {
                   </td>
 
                   <td className="px-4 py-2 ">
-                    <span className="inline-block px-2 rounded-full bg-green-100 text-green-600 border border-green-200 text-sm">
+                    <span
+                      className={`inline-block px-2 rounded-full border text-sm ${
+                        comment.status === "VISIBLE"
+                          ? "bg-green-100 text-green-600  border-green-300"
+                          : comment.status === "HIDDEN"
+                          ? "bg-yellow-100 text-yellow-600  border-yellow-600"
+                          : comment.status === "FLAGGED"
+                          ? "bg-red-100 text-red-600  border-red-600"
+                          : "bg-gray-200 text-gray-700 border-gray-400"
+                      }`}>
                       {comment.status.toLowerCase()}
                     </span>
                   </td>

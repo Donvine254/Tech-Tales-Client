@@ -219,7 +219,7 @@ export default function BlogsTable({ blogs }) {
                     <span
                       className={`inline-block px-2 rounded-full border text-sm ${
                         blog.status === "PUBLISHED"
-                          ? "bg-green-100 text-green-600  border-green-200"
+                          ? "bg-green-100 text-green-600  border-green-300"
                           : blog.status === "UNPUBLISHED"
                           ? "bg-yellow-100 text-yellow-600  border-yellow-600"
                           : "bg-gray-200 text-gray-700 border-gray-400"
