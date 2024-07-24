@@ -10,7 +10,7 @@ export const metadata = {
 async function getBlogs() {
   try {
     const res = await fetch(`${baseUrl}/blogs/featured`, {
-      next: { revalidate: 600 },
+      next: { revalidate: 60 },
     });
     const blogs = await res.json();
     return blogs;

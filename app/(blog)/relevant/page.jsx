@@ -1,6 +1,6 @@
 import { BlogsComponent, SideNav } from "@/components";
 import { baseUrl } from "@/lib";
-export const revalidate = 600;
+export const revalidate = 60;
 
 export const metadata = {
   title: "Relevant Blogs - Tech Tales",
@@ -10,7 +10,7 @@ export const metadata = {
 
 export default async function Relevant() {
   const blogs = await fetch(`${baseUrl}/blogs`, {
-    next: { revalidate: 600 },
+    next: { revalidate: 60 },
   }).then((response) => response.json());
   function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {

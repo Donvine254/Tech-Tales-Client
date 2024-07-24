@@ -10,48 +10,75 @@ export const metadata = {
 };
 export async function generateStaticParams() {
   try {
-    const response = await fetch("https://techtales.vercel.app/api/blogs", {
-      next: { revalidate: 600 },
+    const slugs = await prisma.blog.findMany({
+      where: {
+        status: "PUBLISHED",
+      },
+      select: {
+        slug: true,
+      },
     });
-    if (!response.ok) {
-      throw new Error("Network response was not ok.");
-    }
-    const data = await response.json();
-    // Extract blog IDs from the data and return as an array
-    if (!Array.isArray(data)) {
-      throw new Error("Invalid data format: expected an array.");
-    }
-
-    const blogSlugs = data.map((blog) => blog.slug);
-
-    return blogSlugs;
+    const slugArray = slugs.map((slugObj) => slugObj.slug);
+    return slugArray;
   } catch (error) {
     console.error("Error fetching blog data:", error);
     return [];
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+async function getBlogData(slug) {
+  try {
+    const blog = await prisma.blog.findUnique({
+      where: {
+        slug: slug,
+        status: "PUBLISHED",
+      },
+      include: {
+        author: {
+          select: {
+            username: true,
+            picture: true,
+            handle: true,
+            bio: true,
+            socialMedia: {
+              select: {
+                platform: true,
+                handle: true,
+              },
+            },
+          },
+        },
+        comments: {
+          where: {
+            status: "VISIBLE",
+          },
+          include: {
+            author: {
+              select: {
+                username: true,
+                picture: true,
+                role: true,
+                status: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return blog;
+  } catch (error) {
+    console.error(error);
+    return null;
+  } finally {
+    await prisma.$disconnect();
   }
 }
 
 export default async function BlogsPage({ params }) {
-  async function fetchBlog() {
-    try {
-      const response = await fetch(`${baseUrl}/blogs/slug`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ slug: params.slug }),
-        next: { revalidate: 600 },
-      });
-      const data = await response.json();
-
-      return data;
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
-  }
-
-  let blog = await fetchBlog();
+  let blog = await getBlogData(params.slug);
 
   return (
     <div className="w-full mx-auto m-2 min-h-[75%] px-8 md:w-4/5 md:mt-10 font-poppins ">
