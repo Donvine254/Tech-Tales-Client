@@ -1,5 +1,4 @@
 import Dashboard from "./Dashboard";
-import { baseUrl } from "@/lib";
 import Loader from "@/components/Loader";
 import prisma from "@/prisma/prisma";
 import { Suspense } from "react";
@@ -11,18 +10,6 @@ export const metadata = {
     "Tech Tales is a simple blog for tech students and professionals who would like to share their solutions to various coding problems or practice blogging as a way of learning",
 };
 
-// async function getTotalComments() {
-//   try {
-//     const res = await fetch(`${baseUrl}/comments`, {
-//       revalidate: 10,
-//     });
-//     const comments = await res.json();
-//     return comments;
-//   } catch (error) {
-//     console.error("Error fetching comments:", error);
-//     throw new Error(`Error fetching comments`, error);
-//   }
-// }
 
 async function getTotalComments() {
   try {

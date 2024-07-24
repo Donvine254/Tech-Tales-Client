@@ -134,7 +134,7 @@ export default function Dashboard({ blogs, users, totalComments }) {
           </div>
 
           <h1 className="text-6xl font-sans font-bold">
-            {/* {totalComments.length} */}5
+            {totalComments.length}
           </h1>
 
           <p className="text-gray-600 "> Total comments</p>
