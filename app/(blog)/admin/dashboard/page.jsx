@@ -11,18 +11,51 @@ export const metadata = {
     "Tech Tales is a simple blog for tech students and professionals who would like to share their solutions to various coding problems or practice blogging as a way of learning",
 };
 
+// async function getTotalComments() {
+//   try {
+//     const res = await fetch(`${baseUrl}/comments`, {
+//       revalidate: 10,
+//     });
+//     const comments = await res.json();
+//     return comments;
+//   } catch (error) {
+//     console.error("Error fetching comments:", error);
+//     throw new Error(`Error fetching comments`, error);
+//   }
+// }
+
 async function getTotalComments() {
   try {
-    const res = await fetch(`${baseUrl}/comments`, {
-      revalidate: 60,
+    const comments = await prisma.findMany({
+      where: {
+        status: {
+          not: "DELETED",
+        },
+        include: {
+          author: {
+            select: {
+              username: true,
+              picture: true,
+            },
+          },
+          blog: {
+            select: {
+              slug: true,
+              title: true,
+            },
+          },
+        },
+      },
     });
-    const comments = await res.json();
     return comments;
   } catch (error) {
-    console.error("Error fetching comments:", error);
-    throw new Error(`Error fetching comments`, error);
+    console.error("Error fetching users:", error);
+    throw error;
+  } finally {
+    await prisma.$disconnect();
   }
 }
+
 async function getTotalUsers() {
   try {
     const users = await prisma.user.findMany({
