@@ -37,20 +37,11 @@ export async function GET() {
 
 export async function POST(req: NextRequest, res: NextResponse) {
   // Validate and parse the incoming data
-  let data: Comment;
-  try {
-    data = await req.json();
+ const data = (await req.json()) as Comment;
 
-    if (!data.body || !data.authorId || !data.blogId) {
-      return NextResponse.json(
-        { error: "Invalid data. Ensure all required fields are present." },
-        { status: 400 }
-      );
-    }
-  } catch (error) {
-    console.error("Error parsing request body:", error);
+  if (!data.body || !data.authorId || !data.blogId) {
     return NextResponse.json(
-      { error: "Invalid request body." },
+      { error: "Invalid data. Ensure all required fields are present." },
       { status: 400 }
     );
   }

@@ -38,8 +38,8 @@ export default function Comments({
       return false;
     }
     const commentData = {
-      user_id: user.id,
-      blog_id: blogId,
+      authorId: user.id,
+      blogId: blogId,
       body: newComment,
     };
     try {
@@ -49,7 +49,9 @@ export default function Comments({
       setComments((prev) => [...prev, data]);
       toast.success("Comment posted successfully");
     } catch (error) {
-      toast.error(error?.response?.data?.errors);
+      toast.error(
+        error?.response?.data?.error ?? "Invalid data, user and blog must exist"
+      );
     } finally {
       setIsInputFocused(false);
     }
