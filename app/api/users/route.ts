@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import prisma from "@/prisma/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { convertToHandle, createUserAvatar, validateEmail } from "@/lib/utils";
-
+import { decodeUserToken } from "@/lib/decodeToken";
 const hashPassword = async (password: string) => {
   return await bcrypt.hash(password, 10);
 };
@@ -23,10 +23,11 @@ type RequestData = {
 };
 
 export async function GET(req: NextRequest) {
-  const token = req.cookies.get("token");
-  if (!token) {
+  const userData = await decodeUserToken(req);
+
+  if (!userData || userData.role !== "admin") {
     return NextResponse.json(
-      { error: "Unauthorized Request" },
+      { error: "Unauthorized request." },
       { status: 401 }
     );
   }
@@ -148,15 +149,16 @@ type PatchData = {
   bio?: string;
 };
 export async function PATCH(req: NextRequest, res: NextResponse) {
-  const token = req.cookies.get("token");
-  if (!token) {
+  const userData = await decodeUserToken(req);
+  const { username, bio, picture } = (await req.json()) as PatchData;
+  const id = req.nextUrl.searchParams.get("id") as string;
+  if (!userData && userData.id !== id && userData.role !== "admin") {
     return NextResponse.json(
-      { error: "Unauthorized Request" },
+      { error: "Unauthorized request." },
       { status: 401 }
     );
   }
-  const { username, bio, picture } = (await req.json()) as PatchData;
-  const id = req.nextUrl.searchParams.get("id") as string;
+
   let handle: string;
   if (username) {
     handle = convertToHandle(username);

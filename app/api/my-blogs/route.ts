@@ -1,39 +1,10 @@
 import prisma from "@/prisma/prisma";
 import { NextResponse, NextRequest } from "next/server";
-import jwt from "jsonwebtoken";
-// Function to format created_at date for the blog
-
-type DecodedToken = {
-  id: string;
-  username: string;
-  email: string;
-  handle: string;
-  bio: string;
-  password_digest: string;
-  status: string;
-};
-
+import { decodeUserToken } from "@/lib/decodeToken";
 //function to decodeToken
-const getDataFromToken = async (request: NextRequest) => {
-  try {
-    const token = request.cookies.get("token")?.value || "";
-
-    if (!token) {
-      return null;
-    }
-
-    const decodedToken = jwt.verify(
-      token,
-      process.env.JWT_SECRET
-    ) as DecodedToken;
-    return decodedToken;
-  } catch (error) {
-    return null;
-  }
-};
 
 export async function GET(req: NextRequest, res: NextResponse) {
-  const userData = await getDataFromToken(req);
+  const userData = await decodeUserToken(req);
 
   if (!userData) {
     return NextResponse.json(
