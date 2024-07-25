@@ -33,5 +33,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
     }
   } catch (error) {
     return new NextResponse(null, { status: 400 });
+  } finally {
+    await prisma.$disconnect();
   }
 }

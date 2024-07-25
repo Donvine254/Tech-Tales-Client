@@ -135,6 +135,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
       { error: "Internal Server Error" },
       { status: 500 }
     );
+  } finally {
+    await prisma.$disconnect();
   }
 }
 
@@ -204,5 +206,7 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
     } else {
       return NextResponse.json(e, { status: 500 });
     }
+  } finally {
+    await prisma.$disconnect();
   }
 }

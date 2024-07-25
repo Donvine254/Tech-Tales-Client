@@ -32,12 +32,14 @@ export async function GET() {
       { error: "Something went wrong, kindly try again" },
       { status: 200 }
     );
+  } finally {
+    await prisma.$disconnect();
   }
 }
 
 export async function POST(req: NextRequest, res: NextResponse) {
   // Validate and parse the incoming data
- const data = (await req.json()) as Comment;
+  const data = (await req.json()) as Comment;
 
   if (!data.body || !data.authorId || !data.blogId) {
     return NextResponse.json(
@@ -136,6 +138,8 @@ export async function DELETE(req: NextRequest, res: NextResponse) {
         { error: "Record to delete does not exist." },
         { status: 404 }
       );
+    } finally {
+      await prisma.$disconnect();
     }
   } else {
     return NextResponse.json(

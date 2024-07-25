@@ -180,6 +180,8 @@ export async function DELETE(req: NextRequest, res: NextResponse) {
         { error: "Record to delete does not exist." },
         { status: 404 }
       );
+    } finally {
+      await prisma.$disconnect();
     }
   } else {
     return NextResponse.json(

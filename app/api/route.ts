@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-export async function GET(req, res) {
+export async function GET() {
   const data = {
     message: "Shhh! this is a secret page!",
   };
