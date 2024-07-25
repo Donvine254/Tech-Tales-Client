@@ -58,6 +58,11 @@ export async function POST(req: NextRequest, res: NextResponse) {
         { error: "Username is already taken" },
         { status: 422 }
       );
+    } else {
+      return NextResponse.json(
+        { error: "Both Username and Email are already taken" },
+        { status: 422 }
+      );
     }
   }
   const data: UserData = {
