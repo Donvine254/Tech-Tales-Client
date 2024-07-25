@@ -103,3 +103,11 @@ export async function POST(req: NextRequest, res: NextResponse) {
     await prisma.$disconnect();
   }
 }
+
+//get specific prisma error message
+// if (error.code === "P2002") {
+//   return NextResponse.json(
+//     { error: `${error.meta.target[0]} is already taken` },
+//     { status: 409 }
+//   );
+// }
