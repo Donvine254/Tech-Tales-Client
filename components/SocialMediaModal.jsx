@@ -2,10 +2,9 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import Loader from "./Loader";
-import Axios from "axios";
+import { updateUserSocials } from "@/lib/updateUserSocials";
 const SocialMediaModal = ({ platform, user }) => {
   const [data, setData] = useState({
-    user_id: user.id,
     platform: platform,
     url: "",
   });
@@ -29,17 +28,13 @@ const SocialMediaModal = ({ platform, user }) => {
     } else {
       setSubmitting(true);
       try {
-        const res = await Axios.post(
-          "https://techtales.up.railway.app/social_media",
-          data
-        );
-        console.log(res.data);
+        await updateUserSocials(user.id, data);
         toast.success(`profile updated successfully!`);
         setSubmitting(false);
         handleClose();
       } catch (error) {
         console.error(error);
-        toast.error(error.message);
+        toast.error("Something went wrong");
         setSubmitting(false);
       }
     }

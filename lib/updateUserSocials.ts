@@ -1,9 +1,13 @@
+"use server";
+
 import prisma from "@/prisma/prisma";
+
 export async function updateUserSocials(
   userId: number,
-  newSocials: { platform: string; url: string }[]
+  newSocial: { platform: string; url: string }
 ) {
   try {
+    // Fetch the current user data
     const user = await prisma.user.findUnique({
       where: { id: userId },
       select: { socials: true },
@@ -12,16 +16,15 @@ export async function updateUserSocials(
     if (!user) {
       throw new Error("User not found");
     }
+
     // Create a map for existing socials
     const existingSocialsMap = new Map<string, string>();
     (user.socials || []).forEach((social: any) =>
       existingSocialsMap.set(social.platform, social.url)
     );
 
-    // Update the map with new socials
-    newSocials.forEach((social) =>
-      existingSocialsMap.set(social.platform, social.url)
-    );
+    // Update the map with the new social media
+    existingSocialsMap.set(newSocial.platform, newSocial.url);
 
     // Convert the map back to an array
     const updatedSocials = Array.from(
@@ -31,10 +34,15 @@ export async function updateUserSocials(
         url,
       })
     );
+
+    // Update the user with the new social media data
     const updatedUser = await prisma.user.update({
       where: { id: userId },
       data: {
         socials: updatedSocials,
+      },
+      select: {
+        id: true,
       },
     });
 
@@ -46,5 +54,3 @@ export async function updateUserSocials(
     await prisma.$disconnect();
   }
 }
-
-// Example usage
