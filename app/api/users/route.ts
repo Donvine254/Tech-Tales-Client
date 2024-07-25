@@ -145,21 +145,17 @@ type PatchData = {
   username?: string;
   picture?: string;
   bio?: string;
+  handle?: string;
 };
 export async function PATCH(req: NextRequest, res: NextResponse) {
   const userData = await decodeUserToken(req);
-  const { username, bio, picture } = (await req.json()) as PatchData;
+  const { username, bio, picture, handle } = (await req.json()) as PatchData;
   const id = req.nextUrl.searchParams.get("id") as string;
   if (!userData && userData.id !== id && userData.role !== "admin") {
     return NextResponse.json(
       { error: "Unauthorized request." },
       { status: 401 }
     );
-  }
-
-  let handle: string;
-  if (username) {
-    handle = convertToHandle(username);
   }
 
   try {

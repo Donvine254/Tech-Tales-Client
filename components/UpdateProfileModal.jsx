@@ -7,6 +7,7 @@ import Loader from "./Loader";
 import secureLocalStorage from "react-secure-storage";
 import { UserImage } from "./Avatar";
 import { baseUrl } from "@/lib";
+import { convertToHandle } from "@/lib/utils";
 
 export default function UpdateProfileModal({ user }) {
   const router = useRouter();
@@ -19,6 +20,7 @@ export default function UpdateProfileModal({ user }) {
     picture: user?.picture,
     username: user?.username,
     bio: user?.bio ?? "",
+    handle: user?.handle ?? "",
   });
   function handleFileChange(e) {
     const maxAllowedSize = 5 * 1024 * 1024;
@@ -60,6 +62,15 @@ export default function UpdateProfileModal({ user }) {
       }
     }
   }
+
+  const handleUsernameChange = (e) => {
+    const { value } = e.target;
+    setData((prevData) => ({
+      ...prevData,
+      username: value,
+      handle: convertToHandle(value),
+    }));
+  };
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
@@ -189,12 +200,7 @@ export default function UpdateProfileModal({ user }) {
               title="numbers and special characters are not allowed"
               maxLength={20}
               minLength={3}
-              onChange={(e) => {
-                setData((prev) => ({
-                  ...prev,
-                  username: e.target.value,
-                }));
-              }}
+              onChange={handleUsernameChange}
             />
             <p className="text-[14px] text-gray-600">
               Appears on your Profile page, as your author title, and in your
