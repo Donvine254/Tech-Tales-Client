@@ -36,34 +36,33 @@ enum CommentStatus {
   VISIBLE
   FLAGGED
   HIDDEN
-  DELETED
 }
 
 model User {
-  id              Int           @id @default(autoincrement())
-  username        String        @unique
-  email           String        @unique
+  id              Int        @id @default(autoincrement())
+  username        String     @unique
+  email           String     @unique
   password_digest String
-  role            Role          @default(user)
-  bio             String?       @default("This user has no bio")
-  status          UserStatus    @default(ACTIVE)
+  role            Role       @default(user)
+  bio             String?    @default("This user has no bio")
+  status          UserStatus @default(ACTIVE)
   picture         String?
-  handle          String        @unique
-  deleted         Boolean       @default(false)
-  favorites       Json          @default("[]")
+  handle          String     @unique
+  deleted         Boolean    @default(false)
+  favorites       Json?
   blogs           Blog[]
   comments        Comment[]
-  socialMedia     SocialMedia[]
+  socials         Json?      @default("[]")
   deactivatedAt   DateTime?
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
 
   @@index(fields: [handle, email])
 }
 
 model Blog {
   id        Int        @id @default(autoincrement())
-  title     String     @unique
+  title     String
   body      String
   slug      String     @unique
   image     String?
@@ -90,17 +89,4 @@ model Comment {
   updatedAt DateTime      @updatedAt
 
   @@index([blogId, authorId])
-}
-
-model SocialMedia {
-  id        Int      @id @default(autoincrement())
-  platform  String
-  handle    String   @unique
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@unique([userId, platform])
-  @@index([userId])
 }
