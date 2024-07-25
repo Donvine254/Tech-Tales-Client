@@ -2,38 +2,51 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import axiosInstance from "@/axiosConfig";
-
+import { convertToHandle } from "@/lib/utils";
 import Loader from "../Loader";
 import { baseUrl } from "@/lib";
 
-export default function AdminUpdateProfileModal({ user }) {
+export default function AdminUpdateProfileModal({ user, setUsers }) {
   const [loading, setLoading] = useState(false);
-
+  const [error, setError] = useState(null);
   const [data, setData] = useState({
     username: user?.username ?? "",
+    handle: user?.handle ?? "",
     bio: user?.bio ?? "",
   });
+  const handleUsernameChange = (e) => {
+    const { value } = e.target;
+    setData((prevData) => ({
+      ...prevData,
+      username: value,
+      handle: convertToHandle(value),
+    }));
+  };
 
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
+    setError(null);
     try {
       const toastId = toast.loading("Processing Request...", {
         position: "bottom-center",
       });
       if (data && user) {
-        await axiosInstance.patch(`${baseUrl}/users?id=${user.id}`, data);
+        const res = await axiosInstance.patch(
+          `${baseUrl}/users?id=${user.id}`,
+          data
+        );
+        const userData = await res.data;
+        setUsers((prev) => [...prev, userData]);
         toast.success("Details updated successfully!");
         setLoading(false);
         document.getElementById("profile_update_modal").close();
-        if (typeof window !== "undefined") {
-          window.location.reload();
-        }
       }
     } catch (error) {
       console.error(error);
       setLoading(false);
-      toast.error("request failed");
+      setError(error?.response?.data?.error);
+      toast.error("Something went wrong");
     } finally {
       toast.dismiss();
     }
@@ -67,16 +80,15 @@ export default function AdminUpdateProfileModal({ user }) {
               title="numbers and special characters are not allowed"
               maxLength={20}
               minLength={3}
-              onChange={(e) => {
-                setData((prev) => ({
-                  ...prev,
-                  username: e.target.value,
-                }));
-              }}
+              onChange={handleUsernameChange}
             />
-            <p className="text-[14px] text-gray-600">
-              Appears on the profile page, as author title, and in comments.
-            </p>
+            {error ? (
+              <p className="text-[14px] text-red-500">* {error}</p>
+            ) : (
+              <p className="text-[14px] text-gray-600">
+                Appears on the profile page, as author title, and in comments.
+              </p>
+            )}
           </div>
           <div className="space-y-1">
             <label className="font-semibold" htmlFor="Bio">
@@ -104,7 +116,7 @@ export default function AdminUpdateProfileModal({ user }) {
               <span>{data?.bio?.length ?? 0}/100</span>
             </p>
           </div>
-          <div className="space-y-1">
+          {/* <div className="space-y-1">
             <label htmlFor="role" className="font-semibold">
               Role
             </label>
@@ -123,8 +135,22 @@ export default function AdminUpdateProfileModal({ user }) {
               <option value="user">User</option>
             </select>
             <span className="text-red-500 text-sm">
-              User roles cannot only be changed from the admin dashboard!
+              User roles can only be changed from the admin dashboard!
             </span>
+          </div> */}
+          <div className="space-y-1">
+            <label htmlFor="password" className="font-semibold">
+              Password
+            </label>
+            <button
+              type="button"
+              disabled
+              className="px-4  w-full py-1 border-2 border-green-400 hover:border-orange-500 bg-green-100 hover:bg-orange-200 rounded-xl disabled:bg-opacity-30 disabled:border-gray-200 bg-transparent">
+              Reset User Password
+            </button>
+            <p className="text-[14px] text-gray-600">
+              Only reset user password if requested by the user!
+            </p>
           </div>
         </div>
         <div className="flex items-center justify-end gap-4 px-6 py-2">

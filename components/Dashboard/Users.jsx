@@ -213,7 +213,10 @@ export default function UsersTable({ users }) {
                       onDelete={() => handleDeleteUser(user.username, user.id)}
                       onEdit={showUpdateModal}
                     />
-                    <AdminUpdateProfileModal user={user} />
+                    <AdminUpdateProfileModal
+                      user={user}
+                      setUsers={setTotalUsers}
+                    />
                   </td>
                 </tr>
               ))}
