@@ -32,7 +32,7 @@ export default function Dashboard({ blogs, users, totalComments }) {
       <div className="grid grid-cols-1 gap-4  py-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 ">
         {/* first card */}
         <div
-          className=" bg-gray-100 hover:bg-gray-200 p-6 space-y-4 text-center shadow rounded-md hover:-translate-y-1 transition-transform duration-300"
+          className=" bg-gray-100 hover:bg-gray-200 p-6 space-y-4 text-center shadow rounded-md hover:-translate-y-1 transition-transform duration-300 cursor-pointer"
           onClick={() => {
             if (typeof window == !undefined && window) {
               window.location.href = "/admin/dashboard?tab=0";
@@ -59,7 +59,7 @@ export default function Dashboard({ blogs, users, totalComments }) {
         </div>
         {/* second card */}
         <div
-          className=" bg-gray-100 hover:bg-gray-200 p-6 space-y-4 text-center  shadow rounded-md hover:-translate-y-1 transition-transform duration-300"
+          className=" bg-gray-100 hover:bg-gray-200 p-6 space-y-4 text-center  shadow rounded-md hover:-translate-y-1 transition-transform duration-300 cursor-pointer"
           onClick={() => {
             if (typeof window == !undefined && window) {
               window.location.href = "/admin/dashboard?tab=1";
@@ -121,7 +121,7 @@ export default function Dashboard({ blogs, users, totalComments }) {
         </div>
         {/* third card */}
         <div
-          className=" bg-gray-100 hover:bg-gray-200 p-6 space-y-4  shadow rounded-md hover:-translate-y-1 transition-transform duration-300 text-center"
+          className=" bg-gray-100 hover:bg-gray-200 p-6 space-y-4  shadow rounded-md hover:-translate-y-1 transition-transform duration-300 text-center cursor-pointer"
           onClick={() => {
             if (typeof window == !undefined && window) {
               window.location.href = "/admin/dashboard?tab=2";
@@ -150,6 +150,7 @@ export default function Dashboard({ blogs, users, totalComments }) {
         <Link
           href="/admin/dashboard?tab=0"
           prefetch
+          scroll={false}
           className={`px-4 cursor-pointer py-2 hover:text-blue-600 font-medium ${
             activeTab === "0" ? "border-b-2  border-b-blue-600 text- " : ""
           }`}>
@@ -157,6 +158,7 @@ export default function Dashboard({ blogs, users, totalComments }) {
         </Link>
         <Link
           href="/admin/dashboard?tab=1"
+          scroll={false}
           prefetch
           className={`px-4 cursor-pointer py-2 hover:text-blue-600 font-medium ${
             activeTab === "1"
@@ -167,6 +169,7 @@ export default function Dashboard({ blogs, users, totalComments }) {
         </Link>
         <Link
           href="/admin/dashboard?tab=2"
+          scroll={false}
           prefetch
           className={`px-4 cursor-pointer py-2 hover:text-blue-600 font-medium  ${
             activeTab === "2"
@@ -177,10 +180,6 @@ export default function Dashboard({ blogs, users, totalComments }) {
         </Link>
       </div>
       {/* add sections from here based on the tab */}
-      {/* {activeTab === "0" && <UsersTable users={users} />}
-      {activeTab === "1" && <BlogsTable blogs={blogs} />}
-      {activeTab === "2" && <CommentsTable comments={totalComments} />} */}
-      {/* add memoized values */}
       {activeTab === "0" && Users}
       {activeTab === "1" && Blogs}
       {activeTab === "2" && Comments}
