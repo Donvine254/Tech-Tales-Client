@@ -2,8 +2,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Edit, Trash, Share } from "@/assets";
 import ShareModal from "./ShareModal";
+import { baseUrl } from "@/lib";
+import toast from "react-hot-toast";
 
-export default function ActionsButton({ onDelete, onEdit, blog, onUpdate, setBlogs }) {
+export default function ActionsButton({
+  onDelete,
+  onEdit,
+  blog,
+  onUpdate,
+  setBlogs,
+}) {
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const popupRef = useRef(null);
@@ -25,9 +33,25 @@ export default function ActionsButton({ onDelete, onEdit, blog, onUpdate, setBlo
   }, [popupRef]);
 
   //function to handleSharing
-  function handleSharing() {
-    setPopupOpen(false);
-    setShowShareModal(true);
+  async function handleSharing() {
+    // setPopupOpen(false);
+    // setShowShareModal(true);
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `${blog.title}`,
+          text: "Check out this blog from tech tales!",
+          url: `${baseUrl}/blogs/${blog.slug}`,
+        });
+        console.log("Content shared successfully");
+      } catch (error) {
+        toast.error("Something went wrong");
+        console.error("Error sharing content:", error);
+      }
+    } else {
+      toast.error("Web Share API not supported in this browser.");
+    }
   }
 
   return (

@@ -375,7 +375,7 @@ export default function Profile() {
                         </Link>
                       ))}
                     </div>
-                    <article className=" text-gray-500 leading-8 line-clamp-2">
+                    <article className=" text-gray-500 xsm:text-sm leading-8 line-clamp-2">
                       {blog.body ? parse(blog.body) : blog.body}
                     </article>
                     <div className="flex items-center justify-between gap-1 space-y-1">
