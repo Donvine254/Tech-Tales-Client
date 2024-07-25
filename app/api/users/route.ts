@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import prisma from "@/prisma/prisma";
 import { NextRequest, NextResponse } from "next/server";
-import { convertToHandle, createUserAvatar, validateEmail } from "@/lib/utils";
+import { validateEmail } from "@/lib/utils";
 import { decodeUserToken } from "@/lib/decodeToken";
 const hashPassword = async (password: string) => {
   return await bcrypt.hash(password, 10);

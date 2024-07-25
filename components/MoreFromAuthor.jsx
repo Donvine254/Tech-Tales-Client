@@ -3,17 +3,16 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import parse from "html-react-parser";
 import { UserImage } from "./Avatar";
+import { baseUrl } from "@/lib";
+import { formatDate } from "@/lib/utils";
 
 export default function MoreFromAuthor({ author, id, blogId }) {
   const [blogs, setBlogs] = useState();
   useEffect(() => {
     (async () => {
-      const data = await fetch(
-        `https://techtales.up.railway.app/blogs/user/${id}`,
-        {
-          next: { cache: "force-cache", revalidate: 600 },
-        }
-      ).then((response) => response.json());
+      const data = await fetch(`${baseUrl}/users/${id}`, {
+        next: { cache: "force-cache", revalidate: 60 },
+      }).then((response) => response.json());
 
       if (data.length > 1) {
         const filteredBlogs = data.filter(
@@ -38,17 +37,17 @@ export default function MoreFromAuthor({ author, id, blogId }) {
                 className=" my-4 p-4 rounded-md border shadow bg-gray-100 hover:bg-slate-200 sm:flex-shrink-0 sm:w-1/2 snap-normal snap-center">
                 <div className="">
                   <div className="flex gap-2 xsm:items-center">
-                    <UserImage url={blog.user_avatar} />
+                    <UserImage url={blog.author.picture} />
                     <div className="">
                       <p className=" text-base  ">
                         Written by{" "}
                         <span className="capitalize font-bold">
-                          {blog.author}
+                          {blog.author.username}
                         </span>
                       </p>
                       <p className="text-sm font-medium md:text-base ">
                         <span className="xsm:hidden sm:hidden">&mdash;</span>{" "}
-                        Published on {blog.created_at_date}
+                        Published on {formatDate(blog.createdAt)}
                       </p>
                     </div>
                   </div>

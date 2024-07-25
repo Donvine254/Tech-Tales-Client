@@ -49,7 +49,7 @@ model User {
   picture         String?
   handle          String     @unique
   deleted         Boolean    @default(false)
-  favorites       Json?
+  favorites       Json?      @default("[]")
   blogs           Blog[]
   comments        Comment[]
   socials         Json?      @default("[]")
@@ -70,6 +70,7 @@ model Blog {
   author    User       @relation(fields: [authorId], references: [id])
   authorId  Int
   status    BlogStatus @default(PUBLISHED)
+  likes     Int        @default(0)
   comments  Comment[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
