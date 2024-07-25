@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import prisma from "@/prisma/prisma";
 import jwt from "jsonwebtoken";
 import { NextRequest, NextResponse } from "next/server";
-import { convertToHandle, createUserAvatar, validateEmail } from "@/lib/utils";
+import { validateEmail } from "@/lib/utils";
 
 const hashPassword = async (password: string) => {
   return await bcrypt.hash(password, 10);
@@ -19,16 +19,14 @@ type RequestData = {
   username: string;
   email: string;
   password: string;
-  picture?: string;
-  role?: string;
+  handle: string;
+  picture: string;
 };
 
 export async function POST(req: NextRequest, res: NextResponse) {
-  const requestData = (await req.json()) as RequestData;
-  const isValidEmail = validateEmail(requestData.email);
-
-  const email = requestData.email.toLowerCase();
-  const handle = convertToHandle(requestData.username);
+  let { username, email, password, handle, picture } =
+    (await req.json()) as RequestData;
+  const isValidEmail = validateEmail(email);
 
   if (!isValidEmail) {
     return NextResponse.json(
@@ -36,6 +34,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
       { status: 422 }
     );
   }
+  email = email.toLowerCase();
+  username = username.toLowerCase();
+
   const existingUser = await prisma.user.findFirst({
     where: {
       OR: [{ email: email }, { handle: handle }],
@@ -47,13 +48,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
   });
 
   if (existingUser) {
-    const normalizedEmail = existingUser.email.toLowerCase();
-    if (normalizedEmail === email && existingUser.handle === handle) {
-      return NextResponse.json(
-        { error: "Both email and username are already taken" },
-        { status: 422 }
-      );
-    } else if (normalizedEmail === email) {
+    if (existingUser.email === email) {
       return NextResponse.json(
         { error: "Email is already taken" },
         { status: 422 }
@@ -66,27 +61,19 @@ export async function POST(req: NextRequest, res: NextResponse) {
     }
   }
   const data: UserData = {
-    username: requestData.username.toLowerCase(),
-    picture: requestData.picture || createUserAvatar(requestData.username),
+    username: username,
+    picture: picture,
     email: email,
     handle: handle,
-    password_digest: await hashPassword(requestData.password),
+    password_digest: await hashPassword(password),
   };
   try {
     const user = await prisma.user.create({
       data: data,
-      include: {
-        socialMedia: {
-          select: {
-            platform: true,
-            handle: true,
-          },
-        },
-      },
     });
-    const tokenData = user;
+
     // Generate a JWT token
-    const token = jwt.sign(tokenData, process.env.JWT_SECRET, {
+    const token = jwt.sign(user, process.env.JWT_SECRET, {
       expiresIn: "8h",
     });
 

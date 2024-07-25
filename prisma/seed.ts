@@ -2,12 +2,10 @@ import prisma from "./prisma";
 import { comments, socials } from "./data";
 import { updateUserSocials } from "@/lib/updateUserSocials";
 
-const newSocials = [
-  {
-    platform: "facebook",
-    url: "https://www.facebook.com/@shicks.wanjiku",
-  },
-];
+const newSocials = {
+  platform: "facebook",
+  url: "https://www.facebook.com/@shicks.wanjiku",
+};
 
 async function seedDb() {
   console.log("Seeding... ");

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { getUserData, registerUser, saveUserData } from "@/lib";
+import { convertToHandle, createUserAvatar } from "@/lib/utils";
 import Script from "next/script";
 import { useGoogleLogin } from "@react-oauth/google";
 import { GithubIcon, GoogleIcon } from "@/assets";
@@ -17,6 +18,8 @@ export default function Register() {
     username: "",
     email: "",
     password: "",
+    picture: "",
+    avatar: "",
   });
   const router = useRouter();
   const handleChange = (event) => {
@@ -24,6 +27,17 @@ export default function Register() {
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
+    }));
+  };
+
+  //function to update username
+  const handleUsernameChange = (e) => {
+    const { value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      username: value,
+      handle: convertToHandle(value),
+      picture: createUserAvatar(value),
     }));
   };
   function handleSubmit(e) {
@@ -101,7 +115,7 @@ export default function Register() {
                 name="username"
                 placeholder="john doe"
                 value={formData.username}
-                onChange={handleChange}
+                onChange={handleUsernameChange}
                 disabled={loading}
                 required
                 type="text"
