@@ -2,7 +2,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { handleRoleUpdate, handleUserStatusUpdate } from "@/lib";
 import { IconEdit, Trash } from "@/assets";
-export default function UserActionsButton({ onDelete, user, onEdit }) {
+export default function UserActionsButton({
+  onDelete,
+  user,
+  onEdit,
+  setUsers,
+}) {
   const [isPopupOpen, setPopupOpen] = useState(false);
   const popupRef = useRef(null);
   useEffect(() => {
@@ -76,7 +81,7 @@ export default function UserActionsButton({ onDelete, user, onEdit }) {
             <button
               className="py-1 text-gray-800 hover:text-blue-600 bg-gray-100 w-full  hover:bg-gray-200 rounded-md flex items-center gap-5 px-4"
               onClick={() =>
-                handleRoleUpdate(user.id, user.role, user.username)
+                handleRoleUpdate(user.id, user.role, user.username, setUsers)
               }>
               <svg
                 viewBox="0 0 640 512"
@@ -94,7 +99,12 @@ export default function UserActionsButton({ onDelete, user, onEdit }) {
               <button
                 className="py-1 text-gray-800 hover:text-green-600 bg-gray-100 w-full  hover:bg-green-200 rounded-md flex items-center gap-5 px-4"
                 onClick={() =>
-                  handleUserStatusUpdate(user.id, user.username, "INACTIVE")
+                  handleUserStatusUpdate(
+                    user.id,
+                    user.username,
+                    "INACTIVE",
+                    setUsers
+                  )
                 }>
                 <svg fill="none" viewBox="0 0 15 15" height="20" width="20">
                   <path
@@ -108,7 +118,12 @@ export default function UserActionsButton({ onDelete, user, onEdit }) {
               <button
                 className="py-1 text-gray-800 hover:text-amber-600 bg-gray-100 w-full  hover:bg-amber-200 rounded-md flex items-center gap-5 px-4"
                 onClick={() =>
-                  handleUserStatusUpdate(user.id, user.username, "SUSPENDED")
+                  handleUserStatusUpdate(
+                    user.id,
+                    user.username,
+                    "SUSPENDED",
+                    setUsers
+                  )
                 }>
                 <svg
                   viewBox="0 0 512 512"
