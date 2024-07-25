@@ -11,7 +11,6 @@ import {
   Facebook,
   GithubIcon,
   NewTwitterIcon,
-  Clock,
   Comment,
 } from "@/assets";
 import { calculateReadingTime } from "@/lib";
@@ -380,9 +379,9 @@ export default function Profile() {
                       {blog.body ? parse(blog.body) : blog.body}
                     </article>
                     <div className="flex items-center justify-between gap-1 space-y-1">
-                      <p className="text-sm flex items-center gap-1 md:gap-2  text-black ">
-                        <Clock />
-                        {calculateReadingTime(blog.body)} min{" "}
+                      <p className="text-sm  text-black ">
+                        &#128337;
+                        {calculateReadingTime(blog.body)}min{" "}
                         <span className="xsm:hidden">read</span>
                       </p>
                       <p
@@ -406,7 +405,7 @@ export default function Profile() {
                         <span>{blog.status.toLowerCase()}</span>
                       </p>
                       <p className="text-sm  inline-flex items-center gap-1">
-                        <Comment />
+                        <Comment size={16} />
                         <span>{blog?._count?.comments}</span>
                       </p>
                     </div>
