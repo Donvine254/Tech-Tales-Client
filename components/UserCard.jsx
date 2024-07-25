@@ -6,7 +6,7 @@ export default function UserCard({ author }) {
   // function to get author social media links
   function getSocialUrl(platform) {
     return (
-      author.socials?.find((social) => social.platform === platform)?.handle ||
+      author.socials?.find((social) => social.platform === platform)?.url ||
       null
     );
   }

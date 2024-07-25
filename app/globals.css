@@ -132,7 +132,8 @@ h4 {
 .blog-body p:last-child {
   margin-bottom: 0;
 }
-.blog-body pre {
+.blog-body pre,
+.blog-body code {
   background-color: #464444;
   color: white;
   overflow-x: auto;
