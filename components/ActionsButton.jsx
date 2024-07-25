@@ -40,9 +40,9 @@ export default function ActionsButton({
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `${blog.title}`,
+          title: `${blog.slug}`,
           text: "Check out this blog from tech tales!",
-          url: `${baseUrl}/blogs/${blog.slug}`,
+          url: `https://techtales.vercel.app/blogs/${blog.slug}`,
         });
         console.log("Content shared successfully");
       } catch (error) {
