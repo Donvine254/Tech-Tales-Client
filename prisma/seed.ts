@@ -1,13 +1,19 @@
 import prisma from "./prisma";
-import { comments } from "./data";
+import { comments, socials } from "./data";
 
 async function seedDb() {
   console.log("Seeding... ");
-  for (let comment of comments) {
-    await prisma.comment.create({
-      data: comment,
-    });
-  }
+  // for (let comment of comments) {
+  //   await prisma.comment.create({
+  //     data: comment,
+  //   });
+  // }
+  await prisma.user.update({
+    where: {
+      id: 1,
+    },
+    data: { socials: socials },
+  });
   console.log("Done seeding ✅");
 }
 

@@ -86,3 +86,22 @@ export const comments = [
     authorId: 5,
   },
 ];
+
+export const socials = [
+  {
+    platform: "facebook",
+    url: "https://www.facebook.com/diamond.degesh.3",
+  },
+  {
+    platform: "linkedin",
+    url: "https://www.linkedin.com/in/donvine-mugendi-2a909b116/",
+  },
+  {
+    platform: "github",
+    url: "https://github.com/Donvine254",
+  },
+  {
+    platform: "twitter",
+    url: "https://twitter.com/diamonddegesh",
+  },
+];
