@@ -98,8 +98,8 @@ export default function Profile() {
 
   function getSocialUrl(user, platform) {
     return (
-      user.socialMedia?.find((social) => social.platform === platform)
-        ?.handle || null
+      user.socials?.find((social) => social.platform === platform)?.handle ||
+      null
     );
   }
 

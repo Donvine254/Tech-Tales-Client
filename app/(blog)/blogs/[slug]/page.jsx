@@ -42,12 +42,7 @@ async function getBlogData(slug) {
             picture: true,
             handle: true,
             bio: true,
-            socialMedia: {
-              select: {
-                platform: true,
-                handle: true,
-              },
-            },
+            socials: true,
           },
         },
         comments: {
