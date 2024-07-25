@@ -7,6 +7,7 @@ import CommentActionsButton from "./commentActions";
 import { updateCommentStatus } from "@/lib/actions";
 import Axios from "axios";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function CommentsTable({ comments }) {
   const commentsData = comments.sort((a, b) => a.id - b.id);
@@ -174,12 +175,12 @@ export default function CommentsTable({ comments }) {
                     </div>
                   </td>
                   <td className="px-4 py-2 ">
-                    <a
+                    <Link
                       href={`/blogs/${comment.blog.slug}#comments`}
                       target="_blank"
                       className="hover:underline hover:text-blue-600">
                       {comment.blog.title}
-                    </a>
+                    </Link>
                   </td>
 
                   <td className="px-4 py-2 ">

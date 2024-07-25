@@ -68,7 +68,7 @@ export default function CommentActionsButton({ onDelete, comment, onUpdate }) {
               href={`/blogs/${comment.blog.slug}#comments`}
               className="py-1 text-gray-800 hover:text-blue-600  w-full  hover:bg-gray-200 rounded-md bg-gray-100 flex items-center gap-5 px-4 ">
               <IconEdit />
-              <span>Edit Comment</span>
+              <span>View Comment</span>
             </Link>
             <button
               className="py-1 text-gray-800 hover:text-blue-600 bg-gray-100 w-full  hover:bg-gray-200 rounded-md flex items-center gap-5 px-4"
@@ -114,7 +114,7 @@ export default function CommentActionsButton({ onDelete, comment, onUpdate }) {
             {comment.status === "FLAGGED" ? (
               <button
                 className="py-1 text-gray-800 hover:text-green-600 bg-gray-100 w-full  hover:bg-green-200 rounded-md flex items-center gap-5 px-4"
-                onClick={() => onUpdate("VISIBLE", comment.id, setTotalComments)}>
+                onClick={() => onUpdate("VISIBLE", comment.id)}>
                 <svg
                   fill="none"
                   stroke="currentColor"
@@ -132,7 +132,6 @@ export default function CommentActionsButton({ onDelete, comment, onUpdate }) {
               <button
                 className="py-1 text-gray-800 hover:text-amber-600 bg-amber-100 w-full  hover:bg-amber-200 rounded-md flex items-center gap-5 px-4"
                 onClick={() => onUpdate("FLAGGED", comment.id)}>
-                {/* first check if it is flagged */}
                 <FlagIcon />
                 <span>Flag Comment</span>
               </button>
@@ -142,7 +141,7 @@ export default function CommentActionsButton({ onDelete, comment, onUpdate }) {
               className="py-1 text-gray-800 hover:text-red-600 bg-red-50 w-full  hover:bg-red-200 rounded-md flex items-center gap-5 px-4 "
               onClick={() => onDelete(comment.id)}>
               <Trash stroke={2} />
-              Delete Comment
+              <span className="whitespace-nowrap">Delete Comment</span>
             </button>
           </div>
         </div>
