@@ -11,6 +11,8 @@ import { SortUp, SortDown } from "@/assets";
 import Swal from "sweetalert2";
 import secureLocalStorage from "react-secure-storage";
 
+export const dynamic = "force-dynamic";
+
 const user = getCurrentUser();
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);

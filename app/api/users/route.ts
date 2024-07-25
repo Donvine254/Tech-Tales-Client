@@ -12,14 +12,16 @@ type UserData = {
   email: string;
   picture: string;
   handle: string;
+  status?: string;
   password_digest: string;
 };
 type RequestData = {
   username: string;
   email: string;
   password: string;
-  role?: string;
-  picture?: string;
+  handle: string;
+  picture: string;
+  status: string;
 };
 
 export async function GET(req: NextRequest) {
@@ -63,18 +65,17 @@ export async function GET(req: NextRequest) {
 //function to create new users
 //ensure emails and usernames are saved as lowercase letters. Admin cannot use this route when creating new users
 export async function POST(req: NextRequest, res: NextResponse) {
-  const requestData = (await req.json()) as RequestData;
-  const isValidEmail = validateEmail(requestData.email);
-
-  const email = requestData.email.toLowerCase();
-  const handle = convertToHandle(requestData.username);
-
+  let { username, picture, password, email, handle } =
+    (await req.json()) as RequestData;
+  const isValidEmail = validateEmail(email);
   if (!isValidEmail) {
     return NextResponse.json(
       { error: "Invalid email address" },
       { status: 422 }
     );
   }
+  email = email.toLowerCase();
+
   const existingUser = await prisma.user.findFirst({
     where: {
       OR: [{ email: email }, { handle: handle }],
@@ -86,13 +87,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
   });
 
   if (existingUser) {
-    const normalizedEmail = existingUser.email.toLowerCase();
-    if (normalizedEmail === email && existingUser.handle === handle) {
-      return NextResponse.json(
-        { error: "Both email and username are already taken" },
-        { status: 422 }
-      );
-    } else if (normalizedEmail === email) {
+    if (existingUser.email === email) {
       return NextResponse.json(
         { error: "Email is already taken" },
         { status: 422 }
@@ -107,11 +102,12 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
   try {
     const data: UserData = {
-      username: requestData.username.toLowerCase(),
-      picture: requestData.picture || createUserAvatar(requestData.username),
+      username: username.toLowerCase(),
+      picture: picture,
       email: email,
       handle: handle,
-      password_digest: await hashPassword(requestData.password),
+      status: "INACTIVE",
+      password_digest: await hashPassword(password),
     };
     const user = await prisma.user.create({
       data: data,

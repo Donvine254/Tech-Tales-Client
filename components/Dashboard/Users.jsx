@@ -165,7 +165,10 @@ export default function UsersTable({ users }) {
                   </td>
                   <td className="px-4 py-2  text-start capitalize flex items-center content-center gap-1 whitespace-nowrap ">
                     <Image
-                      src={user.picture}
+                      src={
+                        user.picture ??
+                        "https://res.cloudinary.com/dipkbpinx/image/upload/v1705280157/gztaho1v2leujxr8w3c8.png"
+                      }
                       alt={user.username ?? "user_avatar"}
                       height={32}
                       width={32}
@@ -221,7 +224,7 @@ export default function UsersTable({ users }) {
           <strong>{users.length}</strong> users
         </p>
       </div>
-      <AdminRegisterUserModal />
+      <AdminRegisterUserModal setUsers={setTotalUsers} />
     </section>
   );
 }

@@ -2,12 +2,11 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { createUserAvatar, convertToHandle } from "@/lib/utils";
 import Loader from "../Loader";
 import { baseUrl } from "@/lib";
 
-export default function AdminRegisterUserModal() {
-  const router = useRouter();
+export default function AdminRegisterUserModal({ setUsers }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [data, setData] = useState({
@@ -15,12 +14,24 @@ export default function AdminRegisterUserModal() {
     bio: "",
     email: "",
     password: "password",
+    handle: "",
+    picture: "",
   });
   const handleChange = (event) => {
     const { name, value } = event.target;
     setData((prevData) => ({
       ...prevData,
       [name]: value,
+    }));
+  };
+
+  const handleUsernameChange = (e) => {
+    const { value } = e.target;
+    setData((prevData) => ({
+      ...prevData,
+      username: value,
+      handle: convertToHandle(value),
+      picture: createUserAvatar(value),
     }));
   };
   async function handleSubmit(e) {
@@ -32,12 +43,12 @@ export default function AdminRegisterUserModal() {
         const toastId = toast.loading("Processing Request...", {
           position: "bottom-center",
         });
-        await axios.post(`${baseUrl}/users`, data);
+        const res = await axios.post(`${baseUrl}/users`, data);
+        const userData = await res.data;
         toast.success("User created successfully!");
         setLoading(false);
+        setUsers((prev) => [...prev, userData]);
         document.getElementById("register_user_modal").close();
-        router.push("/admin");
-        router.refresh();
       }
     } catch (error) {
       setError(error?.response?.data?.error);
@@ -74,7 +85,7 @@ export default function AdminRegisterUserModal() {
               name="username"
               placeholder="john doe"
               value={data.username}
-              onChange={handleChange}
+              onChange={handleUsernameChange}
               disabled={loading}
               required
               type="text"
