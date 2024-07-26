@@ -7,6 +7,7 @@ import { Toaster } from "react-hot-toast";
 import ScrollToTopButton from "@/components/ScrollButton";
 import dynamic from "next/dynamic";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { UserContextProvider } from "@/providers";
 const NoSSRNavbar = dynamic(() => import("@/components/Navbar"), {
   ssr: false,
 });
@@ -22,17 +23,19 @@ export default function RootLayout({ children }) {
       <body>
         <ScrollIndicator />
         <Toaster />
-        <GoogleOAuthProvider
-          clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
-          <NoSSRNavbar />
-          <SearchMD />
-          <main className="max-w-7xl mx-auto overflow-x-hidden">
-            {children}
-          </main>
-          <Newsletter />
-          <ScrollToTopButton />
-          <Footer />
-        </GoogleOAuthProvider>
+        <UserContextProvider>
+          <GoogleOAuthProvider
+            clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
+            <NoSSRNavbar />
+            <SearchMD />
+            <main className="max-w-7xl mx-auto overflow-x-hidden">
+              {children}
+            </main>
+            <Newsletter />
+            <ScrollToTopButton />
+            <Footer />
+          </GoogleOAuthProvider>
+        </UserContextProvider>
       </body>
     </html>
   );

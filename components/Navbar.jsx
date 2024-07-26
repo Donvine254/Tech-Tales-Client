@@ -1,63 +1,19 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Search } from "./Search";
 import { Menu } from "./Menu";
 import Popup from "./LoginAlert";
-import { baseUrl, clearLocalStorage, getCurrentUser } from "@/lib";
 import { SortUp, SortDown } from "@/assets";
-import Swal from "sweetalert2";
-import secureLocalStorage from "react-secure-storage";
-
+import { useUserContext } from "@/providers";
 export const dynamic = "force-dynamic";
 
-const user = getCurrentUser();
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(true);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await fetch(`${baseUrl}/me`);
-
-        if (!response.ok) {
-          clearLocalStorage();
-          if (user) {
-            Swal.fire({
-              title: "Session Expired",
-              icon: "warning",
-              showCloseButton: true,
-              confirmButtonColor: "#09A3E5",
-              confirmButtonText: "Okay",
-              text: "Your session has expired. Kindly login again to continue.",
-              iconColor: "red",
-              footer: '<a href="/login">Click here to login again</a>',
-            }).then((result) => {
-              if (result.isDismissed) {
-                window.location.href = "/login";
-              } else if (result.isConfirmed) {
-                window.location.href = "/login";
-              }
-            });
-          }
-        } else {
-          const data = await response.json();
-          secureLocalStorage.setItem(
-            "react_auth_token__",
-            JSON.stringify(data)
-          );
-        }
-      } catch (error) {
-        console.error("Failed to fetch user data:", error);
-        clearLocalStorage();
-      }
-    };
-
-    fetchUser();
-  }, []);
+  const user = useUserContext();
 
   const pathname = usePathname().replace(/^\/+/, "") ?? "relevant";
   return (

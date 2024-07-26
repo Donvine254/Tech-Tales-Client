@@ -16,38 +16,22 @@ import {
 import { calculateReadingTime } from "@/lib";
 import secureLocalStorage from "react-secure-storage";
 import SocialMediaModal from "@/components/SocialMediaModal";
-
+import { useUserContext } from "@/providers";
 export const dynamic = "auto";
 
 export default function Profile() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(null);
-  const [userLoaded, setUserLoaded] = useState(false);
   const [readingList, setReadingList] = useState({});
   const [allBlogs, setAllBlogs] = useState([]);
-
-  // Fetch user data
-  const fetchUserData = useCallback(async () => {
-    try {
-      const userData = await fetch(`${baseUrl}/me`).then((response) =>
-        response.json()
-      );
-      if (userData) {
-        setUser(userData);
-        setUserLoaded(true);
-      }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  }, []);
+  const user = useUserContext();
 
   // Fetch blogs when user data changes
   const fetchBlogs = useCallback(async () => {
-    if (!userLoaded) return;
-
     try {
-      const response = await fetch(`${baseUrl}/my-blogs`);
+      const response = await fetch(`${baseUrl}/my-blogs`, {
+        next: { cache: "force-cache", revalidate: 60 },
+      });
       const data = await response.json();
       setBlogs(data);
     } catch (error) {
@@ -55,11 +39,7 @@ export default function Profile() {
     } finally {
       setLoading(false);
     }
-  }, [userLoaded]);
-
-  useEffect(() => {
-    fetchUserData();
-  }, [fetchUserData]);
+  }, []);
 
   useEffect(() => {
     fetchBlogs();
@@ -74,7 +54,7 @@ export default function Profile() {
     (async () => {
       try {
         const response = await fetch(`${baseUrl}/blogs`, {
-          next: { revalidate: 600 },
+          next: { revalidate: 60 },
         });
         const data = await response.json();
         setAllBlogs(data);
