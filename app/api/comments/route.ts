@@ -86,7 +86,7 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
   if (!body) {
     return NextResponse.json(
       { error: "Invalid data. Ensure all required fields are present." },
-      { status: 400 }
+      { status: 418 }
     );
   }
 
@@ -131,7 +131,7 @@ export async function DELETE(req: NextRequest, res: NextResponse) {
           id: Number(id),
         },
       });
-      return NextResponse.json({}, { status: 200 });
+      return NextResponse.json({}, { status: 204 });
     } catch (error) {
       console.error(error);
       return NextResponse.json(

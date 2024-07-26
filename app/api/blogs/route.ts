@@ -165,7 +165,7 @@ export async function DELETE(req: NextRequest, res: NextResponse) {
           id: Number(id),
         },
       });
-      return NextResponse.json({}, { status: 200 });
+      return NextResponse.json({}, { status: 204 });
     } else {
       await prisma.blog.update({
         where: {
