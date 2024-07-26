@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { createBlog, baseUrl } from "@/lib";
+import { createBlog, baseUrl, slugify } from "@/lib";
 import TagInput from "@/components/TagInput";
 import toast from "react-hot-toast";
 import dynamic from "next/dynamic";
@@ -24,14 +24,26 @@ const DynamicEditor = dynamic(() => import("@/components/Editor"), {
 export default function CreateNewBlog() {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState();
+  const [error, setError] = useState(null);
   let count = 0;
   const router = useRouter();
   const [blogData, setBlogData] = useState({
     title: "",
     image: "",
     body: "",
+    slug: "",
     tags: "",
   });
+
+  //function to create slug
+  const handleTitleChange = (e) => {
+    const { value } = e.target;
+    setBlogData((prevData) => ({
+      ...prevData,
+      title: value,
+      slug: slugify(value),
+    }));
+  };
   function saveDraft() {
     if (blogData.title === "" && blogData.body == "") {
       toast.error("Kindly fill the required fields");
@@ -72,8 +84,7 @@ export default function CreateNewBlog() {
       ...blogData,
       authorId: user.id,
     };
-    localStorage.removeItem("draftBlog");
-    createBlog(data, router, setBlogData, setLoading);
+    createBlog(data, setLoading, setError);
   }
   //function to trigger alert
   function triggerAlert(command) {
@@ -134,6 +145,11 @@ export default function CreateNewBlog() {
           Blog Title
         </label>
         {/* div for alert */}
+        {error && (
+          <div className="px-2 text-sm text-red-500">
+            <p>* {error}</p>
+          </div>
+        )}
         <div
           className="absolute bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md z-50 mr-4 hidden"
           role="alert"
@@ -182,12 +198,7 @@ export default function CreateNewBlog() {
           onFocus={() => triggerAlert("show")}
           disabled={loading}
           value={blogData?.title}
-          onChange={(e) =>
-            setBlogData((prev) => ({
-              ...prev,
-              title: e.target.value,
-            }))
-          }
+          onChange={handleTitleChange}
           placeholder="Write your blog title here"
           required
         />

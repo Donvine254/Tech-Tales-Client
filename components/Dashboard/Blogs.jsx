@@ -83,7 +83,6 @@ export default function BlogsTable({ blogs }) {
       toast.success("Blog deleted successfully!");
       await Revalidate(blog);
       // try using window.location.reload()
-      router.refresh();
     } catch (error) {
       console.error(error);
       toast.error("An error has occurred");
@@ -94,7 +93,7 @@ export default function BlogsTable({ blogs }) {
     revalidateBlogs();
     revalidateBlogs(blog.slug);
     revalidatePage("latest");
-    revalidatePage("admin/dashboard");
+    revalidatePage("top");
     revalidatePage("relevant");
   }
   return (

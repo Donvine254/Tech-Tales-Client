@@ -48,51 +48,44 @@ export async function GET(req: NextRequest, res: NextResponse) {
 }
 
 export async function POST(req: NextRequest, res: NextResponse) {
-  const blogData = (await req.json()) as Blog;
-  const data = {
-    ...blogData,
-    slug: slugify(blogData.title),
-  };
-  if (data) {
-    try {
-      const blog = await prisma.blog.create({
-        data: data,
-        include: {
-          author: {
-            select: {
-              username: true,
-              picture: true,
-            },
-          },
-          _count: {
-            select: {
-              comments: true,
-            },
-          },
-        },
-      });
-      return NextResponse.json(blog, { status: 201 });
-    } catch (error) {
-      console.error(error);
-      if (error instanceof prisma.PrismaClientKnownRequestError) {
-        return NextResponse.json(
-          { error: "Invalid blog data. Kindly try again" },
-          { status: 422 }
-        );
-      }
+  const { authorId, title, image, slug, body, tags } =
+    (await req.json()) as Blog;
 
+  try {
+    const blog = await prisma.blog.create({
+      data: {
+        authorId,
+        title,
+        image,
+        slug,
+        body,
+        tags,
+      },
+      select: {
+        id: true,
+      },
+    });
+    return NextResponse.json(
+      { message: "Blog created successfully" },
+      { status: 201 }
+    );
+  } catch (error) {
+    console.error(error);
+    if (error.code === "P2002") {
+      return NextResponse.json(
+        {
+          error:
+            "A blog with similar title exists, kindly choose a different title!",
+        },
+        { status: 409 }
+      );
+    } else
       return NextResponse.json(
         { error: "An error occurred while creating the blog." },
         { status: 500 }
       );
-    } finally {
-      await prisma.$disconnect();
-    }
-  } else {
-    return NextResponse.json(
-      { error: "Invalid blog data provided" },
-      { status: 409 }
-    );
+  } finally {
+    await prisma.$disconnect();
   }
 }
 
