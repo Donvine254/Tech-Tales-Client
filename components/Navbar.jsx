@@ -22,9 +22,12 @@ export default function Navbar() {
         className="p-4 md:p-5 bg-[#f4f3f2] flex w-full items-center justify-between fixed top-0 z-20 flex-wrap mb-2 border-b-2"
         id="parent div">
         <Link href="/">
-          <h1 className="text-2xl md:text-3xl font-bold lg:text-4xl m-auto cursor-pointer">
-            Tech Tales
-            <span className="text-red-600 text-3xl md:text-5xl">.</span>
+          <h1 className="text-xl md:text-2xl font-semibold lg:text-3xl m-auto cursor-pointer font-saira">
+            TECH
+            <span className="text-white bg-cyan-500 px-0.5 rounded-md">
+              TALES
+              <span className="text-red-600 text-3xl md:text-5xl">.</span>
+            </span>
           </h1>
         </Link>
 
