@@ -39,16 +39,17 @@ export default function Slug({ blog }) {
   const [liked, setLiked] = useState(false);
   const [isCardVisible, setIsCardVisible] = useState(false);
   const [commentData, setCommentData] = useState(blog.comments ?? []);
+  const [commentCount, setCommentCount] = useState(blog.comments.length ?? 0);
   const printRef = useRef(null);
   const router = useRouter();
 
   function handleLikeClick() {
     setLiked(!liked);
     if (!liked) {
-      setLikes(likes + 1);
+      setLikes((prev) => (prev += 1));
       //update function to update blog likes count and add blog to user liked array
     } else {
-      setLikes(likes - 1);
+      setLikes((prev) => (prev -= 1));
       //update function to update blog likes count and remove blog to user liked array
     }
   }
@@ -237,7 +238,7 @@ export default function Slug({ blog }) {
             <p className="blog__icons">
               <Comment size={30} />
               <span className="text-base ">
-                {blog.comments.length ?? 0}{" "}
+                {commentCount}{" "}
                 <Link href="#write-comment" className="xsm:hidden">
                   Comments
                 </Link>
@@ -253,6 +254,8 @@ export default function Slug({ blog }) {
             blogAuthorId={blog.authorId}
             comments={commentData}
             setComments={setCommentData}
+            commentCount={commentCount}
+            setCommentCount={setCommentCount}
           />
           <div ref={printRef} style={{ display: "none" }}>
             <h1 className="text-xl font-bold">{blog.title}</h1>

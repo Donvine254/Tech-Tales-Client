@@ -26,12 +26,14 @@ export default function Comments({
   comments,
   setComments,
   blogAuthorId,
+  commentCount,
+  setCommentCount,
 }) {
   const [newComment, setNewComment] = useState("");
   const [commentToEdit, setCommentToEdit] = useState(null);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [commentCount, setCommentCount] = useState(comments.length ?? 0);
+
   async function handleSubmit(e) {
     e.preventDefault();
     if (newComment.length <= 10) {
@@ -51,7 +53,7 @@ export default function Comments({
       const data = await res.data;
       setNewComment("");
       setComments((prev) => [...prev, data]);
-      setCommentCount((prev) => prev + 1);
+      setCommentCount((prev) => (prev += 1));
       toast.success("Comment posted successfully");
     } catch (error) {
       toast.error(
@@ -89,6 +91,7 @@ export default function Comments({
       setComments((prev) =>
         prev.filter((prevComment) => prevComment.id !== id)
       );
+      setCommentCount((prev) => (prev -= 1));
       toast.success("Comment updated successfully");
     } catch (error) {
       console.error(error);
