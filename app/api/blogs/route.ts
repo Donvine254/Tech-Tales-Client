@@ -1,6 +1,6 @@
+import { decodeUserToken } from "@/lib/decodeToken";
 import prisma from "@/prisma/prisma";
 import { NextRequest, NextResponse } from "next/server";
-import { slugify } from "@/lib";
 
 type Blog = {
   authorId: number;
@@ -99,45 +99,43 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
     );
   }
 
-  let data = await req.json();
-  if (data.title) {
-    data = { ...data, slug: slugify(data.title) };
-  }
+  const { title, slug, body, image, tags } = await req.json();
 
   try {
     const blog = await prisma.blog.update({
       where: {
         id: Number(id),
       },
-      data: data,
-      include: {
-        author: {
-          select: {
-            username: true,
-            picture: true,
-          },
-        },
-        _count: {
-          select: {
-            comments: true,
-          },
-        },
+      data: {
+        title,
+        slug,
+        body,
+        image,
+        tags,
+      },
+      select: {
+        id: true,
       },
     });
-    return NextResponse.json(blog, { status: 201 });
+    return NextResponse.json(
+      { message: "Blog updated successfully" },
+      { status: 201 }
+    );
   } catch (error) {
     console.error(error);
-    if (error instanceof prisma.PrismaClientValidationError) {
+    if (error.code === "P2002") {
       return NextResponse.json(
-        { error: "Invalid blog data. Kindly try again" },
+        {
+          error:
+            "A blog with similar title exists, kindly choose a different title!",
+        },
         { status: 409 }
       );
-    }
-
-    return NextResponse.json(
-      { error: "An error occurred while creating the blog." },
-      { status: 500 }
-    );
+    } else
+      return NextResponse.json(
+        { error: "An error occurred while creating the blog." },
+        { status: 500 }
+      );
   } finally {
     await prisma.$disconnect();
   }
@@ -146,40 +144,46 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
 //function to delete blogs. create an admin route where an admin can delete the record completely
 export async function DELETE(req: NextRequest, res: NextResponse) {
   const id = req.nextUrl.searchParams.get("id");
-  const role = req.nextUrl.searchParams.get("role");
-  if (id) {
-    try {
-      if (role && role === "admin") {
-        await prisma.blog.delete({
-          where: {
-            id: Number(id),
-          },
-        });
-        return NextResponse.json({}, { status: 200 });
-      } else {
-        await prisma.blog.update({
-          where: {
-            id: Number(id),
-          },
-          data: {
-            status: "ARCHIVED",
-          },
-        });
-        return NextResponse.json({}, { status: 200 });
-      }
-    } catch (error) {
-      console.error(error);
-      return NextResponse.json(
-        { error: "Record to delete does not exist." },
-        { status: 404 }
-      );
-    } finally {
-      await prisma.$disconnect();
+  const user = await decodeUserToken(req);
+  if (!id) {
+    return NextResponse.json(
+      { error: "Record to update not found" },
+      { status: 409 }
+    );
+  }
+  if (!user) {
+    return NextResponse.json(
+      { error: "Unauthorized Request" },
+      { status: 401 }
+    );
+  }
+
+  try {
+    if (user.role === "admin") {
+      await prisma.blog.delete({
+        where: {
+          id: Number(id),
+        },
+      });
+      return NextResponse.json({}, { status: 200 });
+    } else {
+      await prisma.blog.update({
+        where: {
+          id: Number(id),
+        },
+        data: {
+          status: "ARCHIVED",
+        },
+      });
+      return NextResponse.json({}, { status: 200 });
     }
-  } else {
+  } catch (error) {
+    console.error(error);
     return NextResponse.json(
       { error: "Record to delete does not exist." },
       { status: 404 }
     );
+  } finally {
+    await prisma.$disconnect();
   }
 }

@@ -78,7 +78,7 @@ export default function BlogsTable({ blogs }) {
 
   async function handleDelete(blog) {
     try {
-      await Axios.delete(`${baseUrl}/blogs?id=${blog.id}&role=admin`);
+      await Axios.delete(`${baseUrl}/blogs?id=${blog.id}`);
       setTotalBlogs((prevBlogs) => prevBlogs.filter((b) => b.id !== blog.id));
       toast.success("Blog deleted successfully!");
       await Revalidate(blog);
