@@ -52,7 +52,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     (await req.json()) as Blog;
 
   try {
-    const blog = await prisma.blog.create({
+    await prisma.blog.create({
       data: {
         authorId,
         title,
@@ -102,7 +102,7 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
   const { title, slug, body, image, tags } = await req.json();
 
   try {
-    const blog = await prisma.blog.update({
+    await prisma.blog.update({
       where: {
         id: Number(id),
       },

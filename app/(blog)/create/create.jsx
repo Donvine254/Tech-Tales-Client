@@ -2,15 +2,12 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createBlog, baseUrl, slugify } from "@/lib";
-import TagInput from "@/components/TagInput";
+import { Loader, PreviewModal, TagInput, UploadButton } from "@/components";
 import toast from "react-hot-toast";
 import dynamic from "next/dynamic";
-import Loader from "@/components/Loader";
-import UploadButton from "@/components/uploadButton";
 import Script from "next/script";
 import secureLocalStorage from "react-secure-storage";
 import Link from "next/link";
-import PreviewModal from "@/components/PreviewModal";
 
 const DynamicEditor = dynamic(() => import("@/components/Editor"), {
   loading: () => (

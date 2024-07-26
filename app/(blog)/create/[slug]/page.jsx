@@ -1,16 +1,14 @@
 "use client";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import Loader from "@/components/Loader";
+import { Loader, PreviewModal, TagInput, UploadButton } from "@/components";
 import dynamic from "next/dynamic";
 import Axios from "axios";
 import Script from "next/script";
 import Link from "next/link";
 import { revalidateBlogs } from "@/lib/actions";
-import { baseUrl } from "@/lib";
-import TagInput from "@/components/TagInput";
-import { useRouter } from "next/navigation";
-import PreviewModal from "@/components/PreviewModal";
+import { baseUrl, slugify } from "@/lib";
+import { getBlogData } from "@/lib/actions";
 
 const DynamicEditor = dynamic(() => import("@/components/Editor"), {
   loading: () => (
@@ -23,22 +21,23 @@ const DynamicEditor = dynamic(() => import("@/components/Editor"), {
 
 export default function EditBlog({ params }) {
   const [loading, setLoading] = useState("loading");
-  const [blogData, setBlogData] = useState();
-  const router = useRouter();
+  const [blogData, setBlogData] = useState({
+    title: "",
+    slug: "",
+    body: "",
+    tags: "",
+    image: "",
+  });
+  const [error, setError] = useState("");
+
   useEffect(() => {
     async function getUser() {
       try {
         const user = await fetch(`${baseUrl}/me`).then((response) =>
           response.json()
         );
-        const response = await fetch(`${baseUrl}/blogs/slug`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ slug: params.slug }),
-        });
-        const blog = await response.json();
+
+        const blog = await getBlogData(params.slug);
 
         // modify this to ensure admins can edit any blog
         if (user.id !== blog.authorId && user.role !== "admin") {
@@ -54,22 +53,20 @@ export default function EditBlog({ params }) {
       }
     }
     getUser();
-  }, [params.slug, router]);
-
+  }, [params.slug]);
+  const handleTitleChange = (e) => {
+    const { value } = e.target;
+    setBlogData((prevData) => ({
+      ...prevData,
+      title: value,
+      slug: slugify(value),
+    }));
+    setError("");
+  };
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading("submitting");
-    // toast.custom((t) => (
-    //   <div
-    //     className={`${
-    //       t.visible ? "animate-enter" : "animate-leave"
-    //     } max-w-md w-fit bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5 font-poppins`}>
-    //     <div className="py-1 flex items-center space-x-2 px-2 text-base">
-    //       <Loader size={14} />
-    //       <span>processing request....</span>
-    //     </div>
-    //   </div>
-    // ));
+    setError("");
 
     if (blogData.title === "" || blogData.body == "") {
       toast.error("Please fill out all the required fields");
@@ -77,10 +74,7 @@ export default function EditBlog({ params }) {
       return false;
     } else {
       try {
-        await Axios.patch(
-          `https://techtales.up.railway.app/blogs/${blogData.id}`,
-          blogData
-        );
+        await Axios.patch(`${baseUrl}/blogs/id=${blogData.id}`, blogData);
         toast.success("Blog updated successfully");
         confetti({
           particleCount: 800,
@@ -89,9 +83,12 @@ export default function EditBlog({ params }) {
         });
         setLoading("");
         revalidateBlogs(params.slug);
-        router.replace("/me/blogs");
+        if (typeof window !== "undefined" && window) {
+          window.location.href = "/me/blogs";
+        }
       } catch (error) {
-        toast.error(error?.response?.data?.errors);
+        toast.error("Something went wrong");
+        setError(error?.response?.data?.errors);
         console.error(error);
         setLoading("");
       }
@@ -152,22 +149,30 @@ export default function EditBlog({ params }) {
           className="p-2 mt-2 text-xl text-center font-bold">
           Blog Title
         </label>
+        {error && (
+          <div className="px-2 ">
+            <p className="text-sm text-red-500">* {error}</p>
+          </div>
+        )}
         <input
           className="blog-input-field focus:outline-none text-lg text-gray-500"
           type="text"
           name="title"
           id="title"
+          minLength={30}
+          maxLength={80}
           disabled={loading === "submitting"}
           value={blogData?.title}
-          onChange={(e) =>
-            setBlogData((prev) => ({
-              ...prev,
-              title: e.target.value,
-            }))
-          }
+          onChange={handleTitleChange}
           placeholder="Write your blog title here"
           required
         />
+        <div className="text-sm text-gray-600 flex justify-end ">
+          <p>
+            {blogData.title.length ?? 0}/
+            <span className="font-medium text-gray-800">80</span>
+          </p>
+        </div>
         <TagInput
           setBlogData={setBlogData}
           blogTags={
@@ -179,6 +184,19 @@ export default function EditBlog({ params }) {
               : []
           }
         />
+        <UploadButton setBlog={setBlogData} />
+        {blogData.image ? (
+          <p className="m-2 text-sm">
+            {" "}
+            Blog cover image:{" "}
+            <a
+              href={blogData?.image}
+              target="_blank"
+              className="text-blue-500 hover:underline cursor-pointer">
+              {blogData?.image}
+            </a>
+          </p>
+        ) : null}
 
         <DynamicEditor data={blogData?.body} handleChange={setBlogData} />
 
