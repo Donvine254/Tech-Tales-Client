@@ -35,7 +35,7 @@ const NoSSRComments = dynamic(() => import("@/components/Comments"), {
   ),
 });
 export default function Slug({ blog }) {
-  const [likes, setLikes] = useState(0);
+  const [likes, setLikes] = useState(blog.likes);
   const [liked, setLiked] = useState(false);
   const [isCardVisible, setIsCardVisible] = useState(false);
   const [commentData, setCommentData] = useState(blog.comments ?? []);
@@ -46,8 +46,10 @@ export default function Slug({ blog }) {
     setLiked(!liked);
     if (!liked) {
       setLikes(likes + 1);
+      //update function to update blog likes count and add blog to user liked array
     } else {
       setLikes(likes - 1);
+      //update function to update blog likes count and remove blog to user liked array
     }
   }
 
@@ -230,9 +232,7 @@ export default function Slug({ blog }) {
                   className="text-red-500 cursor-pointer fill-red-500 font-bold"
                 />
               )}
-              <span className="text-base  xsm:hidden">
-                {likes ? likes : null} {!liked ? "Add Reaction" : "likes"}
-              </span>
+              <span className="text-base  xsm:hidden">{likes} Likes</span>
             </p>
             <p className="blog__icons">
               <Comment size={30} />

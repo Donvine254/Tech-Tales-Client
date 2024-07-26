@@ -31,7 +31,7 @@ export default function Comments({
   const [commentToEdit, setCommentToEdit] = useState(null);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-
+  const [commentCount, setCommentCount] = useState(comments.length ?? 0);
   async function handleSubmit(e) {
     e.preventDefault();
     if (newComment.length <= 10) {
@@ -51,6 +51,7 @@ export default function Comments({
       const data = await res.data;
       setNewComment("");
       setComments((prev) => [...prev, data]);
+      setCommentCount((prev) => prev + 1);
       toast.success("Comment posted successfully");
     } catch (error) {
       toast.error(
@@ -116,7 +117,7 @@ export default function Comments({
     <div className="">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h1 className="text-bold text-xl md:text-2xl py-2 font-bold">
-          Comments
+          Comments ({commentCount})
         </h1>
       </div>
       <p className="my-1">

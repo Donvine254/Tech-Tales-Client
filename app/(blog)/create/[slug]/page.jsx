@@ -38,11 +38,12 @@ export default function EditBlog({ params }) {
         );
 
         const blog = await getBlogData(params.slug);
-
         // modify this to ensure admins can edit any blog
         if (user.id !== blog.authorId && user.role !== "admin") {
           toast.error("This blog belongs to a different author!");
-          router.replace("/me/blogs?action=forbidden");
+          if (typeof window !== "undefined" && window) {
+            window.location.href = "/me/blogs?action=forbidden";
+          }
         } else {
           setBlogData(blog);
           setLoading("");
