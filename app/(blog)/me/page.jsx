@@ -425,9 +425,8 @@ export default function Profile() {
                         href={`/blogs/${blog.slug}`}
                         className="hover:underline "
                         prefetch>
-                        <p className="font-semibold py-1 text-gray-700 hover:text-blue-500 inline-flex items-center justify-start">
+                        <p className="font-semibold py-1 text-gray-700 hover:text-blue-500 ">
                           {blog.title}{" "}
-                          <span className="font-medium ">by {blog.author}</span>
                         </p>
                       </Link>
                       <div className="flex gap-2 flex-wrap text-sm">
@@ -443,6 +442,22 @@ export default function Profile() {
                       <article className=" text-gray-500 leading-8 line-clamp-2">
                         {blog.body ? parse(blog.body) : blog.body}
                       </article>
+                      <div className="flex items-center justify-between gap-1 space-y-1">
+                        <p>
+                          <span className="font-medium text-sm">
+                            By {blog.author.username}
+                          </span>
+                        </p>
+                        <p className="text-sm  text-black ">
+                          &#128337;
+                          {calculateReadingTime(blog.body)}min{" "}
+                          <span className="xsm:hidden">read</span>
+                        </p>
+                        <p className="text-sm  inline-flex items-center gap-1">
+                          <Comment size={16} />
+                          <span>{blog?._count?.comments}</span>
+                        </p>
+                      </div>
                       <hr className="my-2 border-1 border-slate-300" />
                     </div>
                   ))
