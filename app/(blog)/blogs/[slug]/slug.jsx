@@ -42,7 +42,6 @@ export default function Slug({ blog }) {
   const [commentCount, setCommentCount] = useState(blog.comments.length ?? 0);
   const printRef = useRef(null);
   const router = useRouter();
-
   function handleLikeClick() {
     setLiked(!liked);
     if (!liked) {

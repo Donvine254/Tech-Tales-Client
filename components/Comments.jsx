@@ -10,11 +10,10 @@ import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { formatDate } from "@/lib/utils";
-import { getCurrentUser } from "@/lib";
 import toast from "react-hot-toast";
 import parse from "html-react-parser";
 import { updateCommentStatus } from "@/lib/actions";
-const user = getCurrentUser();
+import { useUserContext } from "@/providers";
 
 const DynamicEditor = dynamic(() => import("@/components/CommentEditor"), {
   loading: () => <Loader size={60} />,
@@ -34,6 +33,8 @@ export default function Comments({
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
+  const user = useUserContext();
+  //function to submit comment form
   async function handleSubmit(e) {
     e.preventDefault();
     if (newComment.length <= 10) {
@@ -447,7 +448,7 @@ export default function Comments({
             <p className="font-semibold md:text-lg">
               This thread is open to discussion
             </p>
-            <p className="font-extralight">Be the first to comment</p>
+            <p className="font-extralight">✨ Be the first to comment ✨</p>
           </div>
         )}
       </div>
