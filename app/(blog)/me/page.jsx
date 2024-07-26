@@ -20,11 +20,10 @@ import { useUserContext } from "@/providers";
 export const dynamic = "auto";
 
 export default function Profile() {
+  const user = useUserContext();
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [readingList, setReadingList] = useState({});
-  const [allBlogs, setAllBlogs] = useState([]);
-  const user = useUserContext();
+  const [readingList, setReadingList] = useState([]);
 
   // Fetch blogs when user data changes
   const fetchBlogs = useCallback(async () => {
@@ -50,22 +49,29 @@ export default function Profile() {
     const bookmarkedBlogs = localStorageData
       ? JSON.parse(localStorageData)
       : {};
-    setReadingList(bookmarkedBlogs);
+    const bookmarkedBlogIds = Object.keys(bookmarkedBlogs).filter(
+      (id) => bookmarkedBlogs[id]
+    );
     (async () => {
       try {
-        const response = await fetch(`${baseUrl}/blogs`, {
-          next: { revalidate: 60 },
-        });
-        const data = await response.json();
-        setAllBlogs(data);
-        setLoading(false);
+        if (bookmarkedBlogs) {
+          const response = await fetch(`${baseUrl}/my-blogs`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ blogIds: bookmarkedBlogIds }),
+          });
+          const data = await response.json();
+          setReadingList(data);
+          setLoading(false);
+        }
       } catch (error) {
-        console.error("Error fetching blogs:", error);
+        console.error("Error fetching bookmarked blogs:", error);
         setLoading(false);
       }
     })();
   }, []);
-  const filteredBlogs = allBlogs.filter((blog) => readingList[blog.id]);
 
   if (!user) {
     return (
@@ -75,16 +81,16 @@ export default function Profile() {
     );
   }
 
-  function getSocialUrl(user, platform) {
+  function getSocialUrl(platform) {
     return (
-      user.socials?.find((social) => social.platform === platform)?.url || null
+      user?.socials?.find((social) => social.platform === platform)?.url || null
     );
   }
 
-  const facebookUrl = getSocialUrl(user, "facebook");
-  const linkedinUrl = getSocialUrl(user, "linkedin");
-  const githubUrl = getSocialUrl(user, "github");
-  const twitterUrl = getSocialUrl(user, "twitter");
+  const facebookUrl = getSocialUrl("facebook");
+  const linkedinUrl = getSocialUrl("linkedin");
+  const githubUrl = getSocialUrl("github");
+  const twitterUrl = getSocialUrl("twitter");
 
   //function to show modals
   const showModal = async (platform) => {
@@ -418,8 +424,8 @@ export default function Profile() {
             </div>
           ) : (
             <ul>
-              {filteredBlogs.length > 0
-                ? filteredBlogs.map((blog) => (
+              {readingList.length > 0
+                ? readingList.map((blog) => (
                     <div key={blog.id} className="mb-2">
                       <Link
                         href={`/blogs/${blog.slug}`}

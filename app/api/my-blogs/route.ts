@@ -55,3 +55,52 @@ export async function GET(req: NextRequest, res: NextResponse) {
     await prisma.$disconnect();
   }
 }
+
+export async function POST(req: NextRequest, res: NextResponse) {
+  const userData = await decodeUserToken(req);
+
+  if (!userData) {
+    return NextResponse.json(
+      { error: "Unauthorized request. Token is either missing or expired" },
+      { status: 401 }
+    );
+  }
+
+  const { blogIds } = await req.json();
+  if (!Array.isArray(blogIds) || blogIds.length === 0) {
+    return NextResponse.json(
+      { error: "Invalid request. No blog IDs provided." },
+      { status: 400 }
+    );
+  }
+  try {
+    const blogs = await prisma.blog.findMany({
+      where: {
+        id: {
+          in: blogIds.map((id) => Number(id)),
+        },
+        status: "PUBLISHED",
+      },
+      include: {
+        author: {
+          select: {
+            username: true,
+          },
+        },
+        _count: {
+          select: {
+            comments: true,
+          },
+        },
+      },
+    });
+
+    return NextResponse.json(blogs);
+  } catch (error) {
+    console.error("Error fetching blog data:", error);
+    return NextResponse.json(
+      { error: "An error occurred while fetching blog data." },
+      { status: 500 }
+    );
+  }
+}
