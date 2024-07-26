@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import ShareModal from "../ShareModal";
+import toast from "react-hot-toast";
 import {
   IconEdit,
   Trash,
@@ -39,9 +39,24 @@ export default function BlogActionsButton({
   }, [popupRef]);
 
   //function to handleSharing
-  function handleSharing() {
-    setPopupOpen(false);
-    setShowShareModal(true);
+  async function handleSharing() {
+    // setPopupOpen(false);
+    // setShowShareModal(true);
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `${blog.slug}`,
+          text: "Check out this blog from tech tales!",
+          url: `https://techtales.vercel.app/blogs/${blog.slug}`,
+        });
+        console.log("Content shared successfully");
+      } catch (error) {
+        toast.error("Something went wrong");
+        console.error("Error sharing content:", error);
+      }
+    } else {
+      toast.error("Web Share API not supported in this browser.");
+    }
   }
 
   return (
@@ -138,13 +153,13 @@ export default function BlogActionsButton({
           </div>
         </div>
       )}
-      {showShareModal && (
+      {/* {showShareModal && (
         <div
           className="absolute right-4 top-6 bg-white border shadow-lg rounded-md min-w-[200px] w-fit h-fit py-4 z-50"
           ref={popupRef}>
           <ShareModal id={blog.id} slug={blog.slug} />
         </div>
-      )}
+      )} */}
     </div>
   );
 }
