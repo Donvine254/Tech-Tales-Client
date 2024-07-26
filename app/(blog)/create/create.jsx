@@ -8,7 +8,7 @@ import dynamic from "next/dynamic";
 import Script from "next/script";
 import secureLocalStorage from "react-secure-storage";
 import Link from "next/link";
-
+import { useUserContext } from "@/providers";
 const DynamicEditor = dynamic(() => import("@/components/Editor"), {
   loading: () => (
     <div className="flex items-center justify-center gap-2 text-xl my-2">
@@ -19,8 +19,8 @@ const DynamicEditor = dynamic(() => import("@/components/Editor"), {
 });
 
 export default function CreateNewBlog() {
+  const user = useUserContext();
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState();
   const [error, setError] = useState("");
   let count = 0;
   const router = useRouter();
@@ -57,19 +57,6 @@ export default function CreateNewBlog() {
     }
   }, []);
 
-  useEffect(() => {
-    async function getUser() {
-      try {
-        const response = await fetch(`${baseUrl}/me`);
-        const data = await response.json();
-        setUser(data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    getUser();
-  }, []);
-
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
@@ -80,7 +67,7 @@ export default function CreateNewBlog() {
     setLoading(true);
     const data = {
       ...blogData,
-      authorId: user.id,
+      authorId: Number(user.id),
     };
     createBlog(data, setLoading, setError);
   }

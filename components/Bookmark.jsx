@@ -2,33 +2,33 @@
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import { getCurrentUser } from "@/lib";
+import { useUserContext } from "@/providers";
 import secureLocalStorage from "react-secure-storage";
+
 export default function Bookmark({ blogId, size = 24 }) {
-  const user = getCurrentUser();
+  const user = useUserContext();
   const router = useRouter();
-  const localStorageKey = `bookmarked_blogs`;
 
   const [isBookmarked, setIsBookmarked] = useState(false);
 
   // Check if the blog is already bookmarked when the component mounts
   useEffect(() => {
-    const localStorageData = secureLocalStorage.getItem(localStorageKey);
+    const localStorageData = secureLocalStorage.getItem("bookmarked_blogs");
     const bookmarkedBlogs = localStorageData
       ? JSON.parse(localStorageData)
       : {};
     setIsBookmarked(!!bookmarkedBlogs[blogId]);
-  }, [blogId, localStorageKey]);
+  }, [blogId]);
 
   // Function to update local storage with the bookmarked blogs
   const updateLocalStorage = (blogId, value) => {
-    const localStorageData = secureLocalStorage.getItem(localStorageKey);
+    const localStorageData = secureLocalStorage.getItem("bookmarked_blogs");
     const bookmarkedBlogs = localStorageData
       ? JSON.parse(localStorageData)
       : {};
     bookmarkedBlogs[blogId] = value;
     secureLocalStorage.setItem(
-      localStorageKey,
+      "bookmarked_blogs",
       JSON.stringify(bookmarkedBlogs)
     );
   };
@@ -47,8 +47,6 @@ export default function Bookmark({ blogId, size = 24 }) {
     updateLocalStorage(blogId, updatedValue);
 
     toast.success(updatedValue ? "bookmarked" : "bookmark removed");
-
-    router.refresh();
   }
 
   return (

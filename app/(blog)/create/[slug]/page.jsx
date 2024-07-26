@@ -9,6 +9,7 @@ import Link from "next/link";
 import { revalidateBlogs } from "@/lib/actions";
 import { baseUrl, slugify } from "@/lib";
 import { getBlogData } from "@/lib/actions";
+import { useUserContext } from "@/providers";
 
 const DynamicEditor = dynamic(() => import("@/components/Editor"), {
   loading: () => (
@@ -29,14 +30,10 @@ export default function EditBlog({ params }) {
     image: "",
   });
   const [error, setError] = useState("");
-
+  const user = useUserContext();
   useEffect(() => {
     async function getUser() {
       try {
-        const user = await fetch(`${baseUrl}/me`).then((response) =>
-          response.json()
-        );
-
         const blog = await getBlogData(params.slug);
         // modify this to ensure admins can edit any blog
         if (user.id !== blog.authorId && user.role !== "admin") {
@@ -54,7 +51,8 @@ export default function EditBlog({ params }) {
       }
     }
     getUser();
-  }, [params.slug]);
+  }, [params.slug, user]);
+  //function to handle title change
   const handleTitleChange = (e) => {
     const { value } = e.target;
     setBlogData((prevData) => ({
