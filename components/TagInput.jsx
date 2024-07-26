@@ -78,7 +78,7 @@ const TagInput = ({ setBlogData, blogTags }) => {
             ? "Add another"
             : "Add up to 4 tags"
         }
-        className="p-1 mb-1 bg-transparent outline-none text-lg"
+        className="p-1 mb-1 bg-transparent outline-none text-lg placeholder-gray-600"
       />
     </section>
   );

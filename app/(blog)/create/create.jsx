@@ -24,7 +24,7 @@ const DynamicEditor = dynamic(() => import("@/components/Editor"), {
 export default function CreateNewBlog() {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState();
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
   let count = 0;
   const router = useRouter();
   const [blogData, setBlogData] = useState({
@@ -43,6 +43,7 @@ export default function CreateNewBlog() {
       title: value,
       slug: slugify(value),
     }));
+    setError("");
   };
   function saveDraft() {
     if (blogData.title === "" && blogData.body == "") {
@@ -72,9 +73,9 @@ export default function CreateNewBlog() {
     getUser();
   }, []);
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-
+    setError("");
     if (blogData.title === "" || blogData.body == "") {
       toast.error("Please fill out all the required fields");
       return false;
@@ -146,8 +147,8 @@ export default function CreateNewBlog() {
         </label>
         {/* div for alert */}
         {error && (
-          <div className="px-2 text-sm text-red-500">
-            <p>* {error}</p>
+          <div className="px-2 ">
+            <p className="text-sm text-red-500">* {error}</p>
           </div>
         )}
         <div
@@ -169,7 +170,8 @@ export default function CreateNewBlog() {
                 Think of your post title as a super short (but compelling!)
                 description — like an overview of the actual post in one short
                 sentence. Use keywords where appropriate to help ensure people
-                can find your post by search.
+                can find your post by search. The title should be a maximum of
+                80 words.
               </p>
             </div>
           </div>
@@ -192,6 +194,8 @@ export default function CreateNewBlog() {
           type="text"
           name="title"
           id="title"
+          maxLength={80}
+          minLength={20}
           autoComplete="on"
           autoCorrect="on"
           spellCheck="true"
@@ -202,6 +206,12 @@ export default function CreateNewBlog() {
           placeholder="Write your blog title here"
           required
         />
+        <div className="text-sm text-gray-600 flex justify-end ">
+          <p>
+            {blogData.title.length ?? 0}/
+            <span className="font-medium text-gray-800">80</span>
+          </p>
+        </div>
 
         <TagInput
           setBlogData={setBlogData}
