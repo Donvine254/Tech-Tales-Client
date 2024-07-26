@@ -80,7 +80,7 @@ export default function UpdateProfileModal({ user }) {
       });
       if (data && user) {
         const response = await axiosInstance.patch(
-          `${baseUrl}/users?id=${user.id}`,
+          `${baseUrl}/users/${user.id}`,
           data
         );
         setImage("");

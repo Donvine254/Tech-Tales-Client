@@ -13,6 +13,7 @@ export default function AdminUpdateProfileModal({ user, setUsers }) {
     username: user?.username ?? "",
     handle: user?.handle ?? "",
     bio: user?.bio ?? "",
+    role: user?.role ?? "user",
   });
   const handleUsernameChange = (e) => {
     const { value } = e.target;
@@ -116,14 +117,14 @@ export default function AdminUpdateProfileModal({ user, setUsers }) {
               <span>{data?.bio?.length ?? 0}/100</span>
             </p>
           </div>
-          {/* <div className="space-y-1">
+          <div className="space-y-1">
             <label htmlFor="role" className="font-semibold">
               Role
             </label>
             <select
               className="h-8 w-full border-b border-green-500 bg-transparent focus:outline-none py-2 invalid:border-red-500"
               value={data.role}
-              disabled
+              disabled={loading}
               title="Change user roles on the dashboard"
               onChange={(e) => {
                 setData((prev) => ({
@@ -134,10 +135,7 @@ export default function AdminUpdateProfileModal({ user, setUsers }) {
               <option value="admin">Admin</option>
               <option value="user">User</option>
             </select>
-            <span className="text-red-500 text-sm">
-              User roles can only be changed from the admin dashboard!
-            </span>
-          </div> */}
+          </div>
           <div className="space-y-1">
             <label htmlFor="password" className="font-semibold">
               Password
@@ -145,7 +143,13 @@ export default function AdminUpdateProfileModal({ user, setUsers }) {
             <button
               type="button"
               disabled
-              className="px-4  w-full py-1 border-2 border-green-400 hover:border-orange-500 bg-green-100 hover:bg-orange-200 rounded-xl disabled:bg-opacity-30 disabled:border-gray-200 bg-transparent">
+              className="px-4  w-full py-1 bg-cyan-100 border hover:bg-cyan-200  rounded-xl disabled:bg-opacity-30 disabled:border-gray-200 disabled:pointer-events-none "
+              onClick={() => {
+                setData((prev) => ({
+                  ...prev,
+                  password: "password",
+                }));
+              }}>
               Reset User Password
             </button>
             <p className="text-[14px] text-gray-600">
