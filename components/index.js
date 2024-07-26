@@ -11,7 +11,7 @@ import ActionsButton from "./ActionsButton";
 import Loader from "./Loader";
 import PreviewModal from "./PreviewModal";
 import TagInput from "./TagInput";
-import UploadButton from "./UploadButton";
+import UploadButton from "./uploadButton";
 export {
   BlogsComponent,
   Bookmark,

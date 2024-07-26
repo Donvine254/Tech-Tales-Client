@@ -232,11 +232,13 @@ export default function Slug({ blog }) {
                   className="text-red-500 cursor-pointer fill-red-500 font-bold"
                 />
               )}
-              <span className="text-base  xsm:hidden">{likes} Likes</span>
+              <span className="text-base xsm:text-sm">
+                {likes} <span className="xsm:hidden">Likes</span>
+              </span>
             </p>
             <p className="blog__icons">
               <Comment size={30} />
-              <span className="text-base ">
+              <span className="text-base xsm:text-base ">
                 {commentCount}{" "}
                 <Link href="#write-comment" className="xsm:hidden">
                   Comments
