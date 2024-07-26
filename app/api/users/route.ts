@@ -140,20 +140,22 @@ export async function POST(req: NextRequest, res: NextResponse) {
   }
 }
 
-//function patch users
+//function patch users: THIS IS AN ADMIN ROUTE ONLY
 type PatchData = {
   username?: string;
   picture?: string;
   bio?: string;
   handle?: string;
+  role?: string;
 };
 export async function PATCH(req: NextRequest, res: NextResponse) {
   const userData = await decodeUserToken(req);
-  const { username, bio, picture, handle } = (await req.json()) as PatchData;
+  const { username, bio, picture, handle, role } =
+    (await req.json()) as PatchData;
   const id = req.nextUrl.searchParams.get("id") as string;
-  if (!userData && userData.id !== id && userData.role !== "admin") {
+  if (!userData && userData.role !== "admin") {
     return NextResponse.json(
-      { error: "Unauthorized request." },
+      { error: "Unauthorized request!" },
       { status: 401 }
     );
   }
@@ -168,6 +170,7 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
         handle,
         bio,
         picture,
+        role,
       },
       select: {
         id: true,
