@@ -8,7 +8,7 @@ const UserContext = createContext({});
 
 export function UserContextProvider({ children }) {
   const [user, setUser] = useState(null);
-
+  //fetch user blogs here
   useEffect(() => {
     const savedUser = secureLocalStorage.getItem("react_auth_token__");
 

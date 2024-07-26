@@ -450,7 +450,7 @@ export default function Profile() {
                       </article>
                       <div className="flex items-center justify-between gap-1 space-y-1">
                         <p>
-                          <span className="font-medium text-sm">
+                          <span className="font-medium text-sm capitalize">
                             By {blog.author.username}
                           </span>
                         </p>
