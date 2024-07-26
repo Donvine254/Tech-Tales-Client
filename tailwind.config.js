@@ -19,8 +19,7 @@ module.exports = {
       fontFamily: {
         crimson: ["Crimson Pro", "serif"],
         poppins: ["Poppins", "serif"],
-        saira: ["Saira", "Black Ops One", "Poppins"],
-        NotoSans: ["Noto Sans Nushu", "Saira", "Black Ops One", "Poppins"],
+        Roboto: ["Roboto", "Roboto Pro", "sans-serif"],
       },
       fontWeight: {
         "extra-bold": "800",

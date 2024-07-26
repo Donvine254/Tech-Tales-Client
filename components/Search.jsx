@@ -80,7 +80,7 @@ export const Search = () => {
             viewBox="0 0 16 16"
             height="1.25rem"
             width="1.25rem"
-            className="w-5 h-5 text-gray-900 absolute right-1 top-1/2 transform -translate-y-1/2 hover:text-blue-500"
+            className="w-5 h-5 text-gray-900 absolute right-1 top-1/2 transform -translate-y-1/2 hover:text-cyan-500"
             onClick={startVoiceSearch}
             aria-hidden="true">
             <title>Search by Voice</title>
@@ -96,7 +96,7 @@ export const Search = () => {
           <SearchIcon className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600" />
         </div>
         <div
-          className="cursor-pointer border-2 bg-gray-50 hover:bg-blue-500 hover:text-slate-200 rounded-xl p-2 px-3 m-1 border-gray-300 hover:border-blue-500 shadow "
+          className="cursor-pointer border-2 bg-gray-50 hover:bg-cyan-500 hover:text-slate-200 rounded-xl p-2 px-3 m-1 border-gray-300 hover:border-cyan-500 shadow "
           onClick={() => setShowDropdown(!showDropdown)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
