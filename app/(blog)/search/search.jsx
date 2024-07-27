@@ -46,7 +46,7 @@ export default function SearchPage() {
           ? blogs.map((blog) => (
               <div
                 key={blog.id}
-                className="bg-gray-100 my-4 p-4 rounded-md border shadow hover:bg-slate-200">
+                className="bg-gray-50 my-4 p-4 rounded-md border shadow hover:bg-[#fefefe]">
                 <div className="">
                   <div className="flex gap-4 xsm:gap-2 xsm:items-center">
                     <UserImage url={blog.author.picture} />
