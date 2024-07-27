@@ -73,7 +73,7 @@ export default function EditBlog({ params }) {
       return false;
     } else {
       try {
-        await Axios.patch(`${baseUrl}/blogs/id=${blogData.id}`, blogData);
+        await Axios.patch(`${baseUrl}/blogs?id=${blogData.id}`, blogData);
         toast.success("Blog updated successfully");
         confetti({
           particleCount: 800,
