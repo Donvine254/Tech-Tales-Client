@@ -12,6 +12,7 @@ import Loader from "./Loader";
 import PreviewModal from "./PreviewModal";
 import TagInput from "./TagInput";
 import UploadButton from "./uploadButton";
+import SlugShareButtons from "./SlugShareButtons";
 export {
   BlogsComponent,
   Bookmark,
@@ -27,4 +28,5 @@ export {
   PreviewModal,
   TagInput,
   UploadButton,
+  SlugShareButtons,
 };

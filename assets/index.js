@@ -183,12 +183,12 @@ export const Share = ({
     <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" />
   </svg>
 );
-export const Facebook = ({ className }) => (
+export const Facebook = ({ className, size = 24 }) => (
   <svg
     viewBox="0 0 24 24"
     fill="currentColor"
-    height="24"
-    width="24"
+    height={size}
+    width={size}
     className={`text-blue-500 cursor-pointer ${className}`}>
     <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
     <title>Facebook</title>
@@ -211,12 +211,12 @@ export const Twitter = ({ className }) => (
     <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
   </svg>
 );
-export const Whatsapp = ({ className }) => (
+export const Whatsapp = ({ className, size = 24 }) => (
   <svg
     viewBox="0 0 24 24"
     fill="#25D366"
-    height="24"
-    width="24"
+    height={size}
+    width={size}
     title="Whatsapp"
     className={`cursor-pointer ${className}`}>
     <path fill="none" d="M0 0h24v24H0z" />

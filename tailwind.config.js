@@ -19,7 +19,7 @@ module.exports = {
       fontFamily: {
         crimson: ["Crimson Pro", "serif"],
         poppins: ["Poppins", "serif"],
-        Roboto: ["Roboto", "Roboto Pro", "sans-serif"],
+        roboto: ["Roboto", "Roboto Pro", "sans-serif"],
       },
       fontWeight: {
         "extra-bold": "800",
