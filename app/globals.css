@@ -243,6 +243,15 @@ div.arrow-up {
 
 /* style for quill editor */
 
+.ql-syntax {
+  background-color: #f9f9f9;
+  padding: 5px;
+  border-radius: 8px;
+  font-weight: 100;
+  font-size: 12px;
+}
+
+/* style for like animation */
 .heart {
   cursor: pointer;
   height: 70px;

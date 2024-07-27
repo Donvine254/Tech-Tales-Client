@@ -259,7 +259,7 @@ export default function Comments({
                   </div>
 
                   <div
-                    className="p-3 rounded-r-xl xsm:text-sm rounded-bl-xl border border-cyan-400 bg-cyan-100"
+                    className="p-3 rounded-r-xl xsm:text-sm rounded-bl-xl border border-cyan-400 bg-[#e9fafa]"
                     id="comment-body">
                     {comment.body && getPlainTextLength(comment.body) > 350 ? (
                       <div>
