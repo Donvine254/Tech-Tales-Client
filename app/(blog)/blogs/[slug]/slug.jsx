@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
-import { Like, Comment, Share } from "@/assets";
+import { Comment, Share } from "@/assets";
 import {
   Bookmark,
   UserCard,
@@ -8,6 +8,7 @@ import {
   AudioPlayer,
   Loader,
   UserImage,
+  LikeButton,
 } from "@/components";
 
 import parse from "html-react-parser";
@@ -17,6 +18,7 @@ import Image from "next/image";
 import toast from "react-hot-toast";
 import { baseUrl, calculateReadingTime } from "@/lib";
 import { formatDate } from "@/lib/utils";
+
 import dynamic from "next/dynamic";
 
 const NoSSRComments = dynamic(() => import("@/components/Comments"), {
@@ -29,23 +31,13 @@ const NoSSRComments = dynamic(() => import("@/components/Comments"), {
 });
 export default function Slug({ blog }) {
   const [likes, setLikes] = useState(blog.likes);
-  const [liked, setLiked] = useState(false);
+
   const [isCardVisible, setIsCardVisible] = useState(false);
   const [commentData, setCommentData] = useState(blog.comments ?? []);
   const [commentCount, setCommentCount] = useState(blog.comments.length ?? 0);
   const [copied, setCopied] = useState(false);
   const printRef = useRef(null);
   const router = useRouter();
-  function handleLikeClick() {
-    setLiked(!liked);
-    if (!liked) {
-      setLikes((prev) => (prev += 1));
-      //update function to update blog likes count and add blog to user liked array
-    } else {
-      setLikes((prev) => (prev -= 1));
-      //update function to update blog likes count and remove blog to user liked array
-    }
-  }
 
   useEffect(() => {
     if (!blog) {
@@ -246,17 +238,7 @@ export default function Slug({ blog }) {
           {/* div for actions buttons */}
           <div className="flex items-center justify-between mt-2">
             <p className="blog__icons">
-              {!liked ? (
-                <Like
-                  handleClick={handleLikeClick}
-                  className="cursor-pointer font-bold"
-                />
-              ) : (
-                <Like
-                  handleClick={handleLikeClick}
-                  className="text-red-500 cursor-pointer fill-red-500 font-bold"
-                />
-              )}
+              <LikeButton blogId={blog.id} setLikes={setLikes} />
               <span className="text-base xsm:text-sm">
                 {likes} <span className="xsm:hidden">Likes</span>
               </span>
