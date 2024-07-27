@@ -99,7 +99,7 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
     );
   }
 
-  const { title, slug, body, image, tags } = await req.json();
+  const { title, slug, body, image, tags, status } = await req.json();
 
   try {
     await prisma.blog.update({
@@ -112,6 +112,7 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
         body,
         image,
         tags,
+        status,
       },
       select: {
         id: true,
