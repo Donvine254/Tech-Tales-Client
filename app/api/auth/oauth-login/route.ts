@@ -6,13 +6,10 @@ export async function POST(req: NextRequest, res: NextResponse) {
   try {
     const userData = await req.json();
     const user = await prisma.user.findUnique({
-      where: { email: userData.email },
-      include: {
-        socialMedia: {
-          select: {
-            platform: true,
-            handle: true,
-          },
+      where: {
+        email: userData.email,
+        status: {
+          not: "SUSPENDED",
         },
       },
     });
