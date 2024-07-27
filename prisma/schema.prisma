@@ -5,7 +5,8 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["relationJoins"]
 }
 
 datasource db {
@@ -49,7 +50,7 @@ model User {
   picture         String?
   handle          String     @unique
   deleted         Boolean    @default(false)
-  favorites       Json?      @default("[]")
+  favorites       Favorite[]
   blogs           Blog[]
   comments        Comment[]
   socials         Json?      @default("[]")
@@ -57,7 +58,7 @@ model User {
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
 
-  @@index(fields: [handle, email])
+  @@index(fields: [handle, email, username])
 }
 
 model Blog {
@@ -71,9 +72,11 @@ model Blog {
   authorId  Int
   status    BlogStatus @default(PUBLISHED)
   likes     Int        @default(0)
+  views     Int        @default(0)
   comments  Comment[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
+  Favorite  Favorite[]
 
   @@index([slug, authorId])
 }
@@ -90,4 +93,15 @@ model Comment {
   updatedAt DateTime      @updatedAt
 
   @@index([blogId, authorId])
+}
+
+model Favorite {
+  id     Int  @id @default(autoincrement())
+  userId Int
+  blogId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  blog   Blog @relation(fields: [blogId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, blogId])
+  @@index([userId, blogId])
 }
