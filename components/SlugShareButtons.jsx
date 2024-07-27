@@ -40,11 +40,11 @@ export default function SlugShareButtons({ slug, title, handlePrint }) {
     }
   }
   return (
-    <div className="bg-cyan-200 bg-opacity-40 border py-5 px-2 flex xsm:flex-col  items-center justify-between rounded-md my-2 font-roboto">
+    <div className="bg-cyan-200 bg-opacity-40 border py-5 px-2 flex flex-col md:flex-row items-center justify-between rounded-md my-2 font-roboto">
       <h1 className="font-semibold text-base text-gray-600 md:text-xl">
         Like what you see? Share with a Friend
       </h1>
-      <div className="flex items-center xsm:justify-between  xsm:w-full xsm:p-3 sm:gap-2 md:gap-4">
+      <div className="flex items-center  xsm:flex-wrap  xsm:gap-2 xsm:p-3 gap-4">
         {/* <Link
         href={`https://twitter.com/share?url=https://techtales.vercel.app/blogs/${blog.slug}&text=${blog.title}`}
         target="_blank"
@@ -78,7 +78,7 @@ export default function SlugShareButtons({ slug, title, handlePrint }) {
         <button
           onClick={handleCopying}
           title="copy link"
-          className="bg-[#f3f6f9]  rounded-md flex items-center justify-center h-8 w-28 px-1 py-0  border-2 border-blue-300 focus:outline-none hover:bg-[#e4ebf2;] hover:shadow gap-1 hover:-translate-y-1 transition-transform duration-300">
+          className="bg-[#f3f6f9]  rounded-md flex items-center justify-center h-8  w-fit md:w-28 px-1 py-0  border-2 border-blue-300 focus:outline-none hover:bg-[#e4ebf2;] hover:shadow gap-1 hover:-translate-y-1 transition-transform duration-300">
           {copied ? (
             <>
               {" "}
