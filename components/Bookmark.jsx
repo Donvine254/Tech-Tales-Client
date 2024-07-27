@@ -53,40 +53,25 @@ export default function Bookmark({ blogId, size = 24 }) {
     <>
       {isBookmarked ? (
         <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width={size}
-          height={size}
           viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          title="bookmark"
-          onClick={handleClick}
-          className="md:text-xl cursor-pointer hover:scale-125 font-bold text-green-600">
+          fill="#67e8f9"
+          height={size}
+          width={size}
+          className=" fill-cyan-300 hover:scale-110"
+          onClick={handleClick}>
           <title>remove bookmark</title>
-          <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2Z" />
-          <path d="m9 10 2 2 4-4" />
+          <path d="M18 22a1 1 0 01-.5-.134L12 18.694l-5.5 3.172A1 1 0 015 21V5a3.003 3.003 0 013-3h8a3.003 3.003 0 013 3v16a1 1 0 01-1 1z" />
         </svg>
       ) : (
         <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width={size}
-          height={size}
           viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          title="bookmark"
-          className="md:text-xl cursor-pointer hover:scale-125"
+          fill="currentColor"
+          height={size}
+          width={size}
+          className="hover:scale-110"
           onClick={handleClick}>
           <title>bookmark</title>
-          <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" />
-          <line x1="12" x2="12" y1="7" y2="13" />
-          <line x1="15" x2="9" y1="10" y2="10" />
+          <path d="M16 2H8a3.003 3.003 0 00-3 3v16.5a.5.5 0 00.75.434l6.25-3.6 6.25 3.6A.5.5 0 0019 21.5V5a3.003 3.003 0 00-3-3zm2 18.635l-5.75-3.312a.51.51 0 00-.5 0L6 20.635V5a2.003 2.003 0 012-2h8a2.003 2.003 0 012 2v15.635z" />
         </svg>
       )}
     </>
