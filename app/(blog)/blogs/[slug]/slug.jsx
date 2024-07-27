@@ -1,13 +1,9 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import {
   Like,
   Comment,
-  NewTwitterIcon,
-  Facebook,
-  Whatsapp,
-  Copy,
-  Share,
+ 
 } from "@/assets";
 import {
   Bookmark,
@@ -23,8 +19,7 @@ import parse from "html-react-parser";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import toast from "react-hot-toast";
-import { baseUrl, calculateReadingTime } from "@/lib";
+import { calculateReadingTime } from "@/lib";
 import { formatDate } from "@/lib/utils";
 import dynamic from "next/dynamic";
 
@@ -42,7 +37,7 @@ export default function Slug({ blog }) {
   const [isCardVisible, setIsCardVisible] = useState(false);
   const [commentData, setCommentData] = useState(blog.comments ?? []);
   const [commentCount, setCommentCount] = useState(blog.comments.length ?? 0);
-  const printRef = useRef(null);
+  
   const router = useRouter();
   function handleLikeClick() {
     setLiked(!liked);
@@ -71,14 +66,6 @@ export default function Slug({ blog }) {
   }
 
   //function to print contents
-  const handlePrint = async () => {
-    const printContents = printRef.current.innerHTML;
-    const originalContents = document.body.innerHTML;
-
-    document.body.innerHTML = printContents;
-    window.print();
-    document.body.innerHTML = originalContents;
-  };
 
   return (
     <div>
@@ -157,7 +144,9 @@ export default function Slug({ blog }) {
           <SlugShareButtons
             slug={blog.slug}
             title={blog.title}
-            handlePrint={handlePrint}
+            body={blog.body}
+            author={blog.author.username}
+            createdAt={blog.createdAt}
           />
           {/* div for actions buttons */}
           <div className="flex items-center justify-between mt-2">
@@ -199,14 +188,6 @@ export default function Slug({ blog }) {
             commentCount={commentCount}
             setCommentCount={setCommentCount}
           />
-          <div ref={printRef} style={{ display: "none" }}>
-            <h1 className="text-xl font-bold">{blog.title}</h1>
-            <p className="italic">
-              By {blog.author.username} published on{" "}
-              {formatDate(blog.createdAt)}
-            </p>
-            <div className="blog-body">{parse(blog.body)}</div>
-          </div>
         </div>
       ) : null}
       <div className="my-2">
