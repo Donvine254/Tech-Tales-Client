@@ -169,6 +169,7 @@ export default function Comments({
                   <>
                     <button
                       type="submit"
+                      disabled={!newComment}
                       className="bg-blue-500 text-white border-2 border-blue-500 px-6 py-0.5 lg:mr-3 rounded-md hover:bg-blue-600 disabled:bg-gray-100 disabled:border-gray-600 disabled:text-gray-600 disabled:pointer-events-none"
                       onClick={handleSubmit}>
                       Respond

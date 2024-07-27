@@ -243,3 +243,40 @@ div.arrow-up {
 
 /* style for quill editor */
 
+.heart {
+  cursor: pointer;
+  height: 70px;
+  width: 70px;
+  position: relative;
+  background-image: url("https://abs.twimg.com/a/1446542199/img/t1/web_heart_animation.png");
+  background-position: left;
+  background-repeat: no-repeat;
+  background-size: 2900%;
+}
+
+.heart:hover {
+  background-position: right;
+}
+
+.is_animating {
+  animation: heart-burst 0.8s steps(28) 1;
+}
+
+.placement {
+  margin: 0;
+  position: relative;
+}
+.placement .content {
+  position: absolute !important;
+  left: 70% !important;
+  bottom: 35%;
+}
+
+@keyframes heart-burst {
+  from {
+    background-position: left;
+  }
+  to {
+    background-position: right;
+  }
+}

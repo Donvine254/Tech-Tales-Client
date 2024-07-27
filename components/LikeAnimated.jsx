@@ -1,14 +1,18 @@
 "use client";
 import React, { useState } from "react";
 import { useUserContext } from "@/providers";
-import { handleBlogLiking } from "@/lib/actions";
-import { Like } from "@/assets";
 import toast from "react-hot-toast";
-export default function LikeButton({ blogId, setLikes }) {
-  const [liked, setLiked] = useState(false);
-  const [animate, setAnimate] = useState(false);
+import { handleBlogLiking } from "@/lib/actions";
+export default function AnimatedLikeBtn({ blogId, setLikes, likes }) {
+  const [liked, setLiked] = useState();
   const user = useUserContext();
 
+  const toggleClass = () => {
+    const btn = document.querySelector(".heart");
+    if (btn) {
+      btn.classList.toggle("is_animating");
+    }
+  };
   async function handleLikeClick() {
     if (!user) {
       toast.error("Kindly login to like this blog!");
@@ -16,7 +20,7 @@ export default function LikeButton({ blogId, setLikes }) {
     }
     const newLikedState = !liked;
     setLiked(newLikedState);
-    setAnimate(true);
+    toggleClass();
 
     try {
       if (newLikedState) {
@@ -33,29 +37,21 @@ export default function LikeButton({ blogId, setLikes }) {
       setLiked(!newLikedState);
       setLikes((prev) => (newLikedState ? prev - 1 : prev + 1));
     } finally {
-      setTimeout(() => setAnimate(false), 2000);
+      setTimeout(() => toggleClass(), 2000);
     }
   }
+
   return (
-    <>
-      {" "}
-      {!liked ? (
-        <Like
-          handleClick={handleLikeClick}
-          title="like blog"
-          className={`cursor-pointer hover:scale-105 font-bold ${
-            animate ? "heartbeat" : ""
-          }`}
-        />
-      ) : (
-        <Like
-          handleClick={handleLikeClick}
-          title="unlike blog"
-          className={`cursor-pointer  fill-red-500 stroke-none ${
-            animate ? "heartbeat" : ""
-          }`}
-        />
-      )}
-    </>
+    <div className="placement">
+      <div
+        style={{ backgroundPosition: liked ? "right" : "left" }}
+        className="heart"
+        onClick={handleLikeClick}
+        title="Like this blog">
+        <span className="text-base font-bold content whitespace-nowrap">
+          {likes} <span className="xsm:hidden">Likes</span>
+        </span>
+      </div>
+    </div>
   );
 }

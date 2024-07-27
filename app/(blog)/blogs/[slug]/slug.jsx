@@ -9,6 +9,7 @@ import {
   Loader,
   UserImage,
   LikeButton,
+  AnimatedLikeBtn,
 } from "@/components";
 
 import parse from "html-react-parser";
@@ -238,12 +239,6 @@ export default function Slug({ blog }) {
           {/* div for actions buttons */}
           <div className="flex items-center justify-between mt-2">
             <p className="blog__icons">
-              <LikeButton blogId={blog.id} setLikes={setLikes} />
-              <span className="text-base xsm:text-sm">
-                {likes} <span className="xsm:hidden">Likes</span>
-              </span>
-            </p>
-            <p className="blog__icons">
               <Comment size={30} />
               <span className="text-base xsm:text-base ">
                 {commentCount}{" "}
@@ -252,6 +247,11 @@ export default function Slug({ blog }) {
                 </Link>
               </span>
             </p>
+            <AnimatedLikeBtn
+              blogId={blog.id}
+              setLikes={setLikes}
+              likes={likes}
+            />
             <Bookmark blogId={blog?.id} size={30} />
           </div>
           {/* beginning of comment section */}

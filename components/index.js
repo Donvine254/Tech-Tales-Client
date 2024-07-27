@@ -12,7 +12,8 @@ import Loader from "./Loader";
 import PreviewModal from "./PreviewModal";
 import TagInput from "./TagInput";
 import UploadButton from "./uploadButton";
-import LikeButton from "./Like"
+import LikeButton from "./Like";
+import AnimatedLikeBtn from "./LikeAnimated";
 export {
   BlogsComponent,
   Bookmark,
@@ -29,4 +30,5 @@ export {
   TagInput,
   UploadButton,
   LikeButton,
+  AnimatedLikeBtn,
 };
