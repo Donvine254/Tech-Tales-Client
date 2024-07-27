@@ -8,7 +8,6 @@ import {
   AudioPlayer,
   Loader,
   UserImage,
-  LikeButton,
   AnimatedLikeBtn,
 } from "@/components";
 
@@ -31,11 +30,11 @@ const NoSSRComments = dynamic(() => import("@/components/Comments"), {
   ),
 });
 export default function Slug({ blog }) {
-  const [likes, setLikes] = useState(blog.likes);
+  const [likes, setLikes] = useState(blog?.likes ?? 0);
 
   const [isCardVisible, setIsCardVisible] = useState(false);
-  const [commentData, setCommentData] = useState(blog.comments ?? []);
-  const [commentCount, setCommentCount] = useState(blog.comments.length ?? 0);
+  const [commentData, setCommentData] = useState(blog?.comments ?? []);
+  const [commentCount, setCommentCount] = useState(blog?.comments.length ?? 0);
   const [copied, setCopied] = useState(false);
   const printRef = useRef(null);
   const router = useRouter();
@@ -277,11 +276,10 @@ export default function Slug({ blog }) {
       ) : null}
       <div className="my-2">
         <hr className="my-2" />
-
         <MoreFromAuthor
-          author={blog.author.username}
-          id={blog.authorId}
-          blogId={blog.id}
+          author={blog?.author.username}
+          id={blog?.authorId}
+          blogId={blog?.id}
         />
       </div>
       <div className="my-2">

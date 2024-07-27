@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { createBlog, baseUrl, slugify } from "@/lib";
+import { createBlog, slugify } from "@/lib";
 import { Loader, PreviewModal, TagInput, UploadButton } from "@/components";
 import toast from "react-hot-toast";
 import dynamic from "next/dynamic";

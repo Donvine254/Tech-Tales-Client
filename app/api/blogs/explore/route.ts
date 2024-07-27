@@ -11,35 +11,12 @@ export async function POST(req: NextRequest, res: NextResponse) {
     );
   }
 
-  let user;
-
-  try {
-    user = await prisma.user.findUnique({
-      where: {
-        handle: handle,
-        status: "ACTIVE",
-      },
-    });
-  } catch (error) {
-    console.error("Error fetching user:", error);
-    return NextResponse.json(
-      { error: "An error occurred while fetching the user." },
-      { status: 500 }
-    );
-  }
-
-  if (!user) {
-    return NextResponse.json(
-      { error: "No user with matching handle found" },
-      { status: 404 }
-    );
-  }
-
   try {
     const blogs = await prisma.blog.findMany({
       where: {
-        authorId: user.id,
-        status: "PUBLISHED",
+        author: {
+          handle: handle,
+        },
       },
       include: {
         author: {

@@ -58,6 +58,7 @@ export default async function BlogsComponent({ blogs }) {
                 {blog ? parse(blog.body) : blog.body}
               </article>
             </div>
+            {/* start of flex div for actions */}
             <div className="flex items-center justify-between py-2">
               <div className="inline-flex xsm:gap-2 md:gap-4 items-center">
                 <Link
@@ -83,6 +84,7 @@ export default async function BlogsComponent({ blogs }) {
 
               <Bookmark blogId={blog.id} />
             </div>
+            {/* end of flex div */}
           </div>
         ))
       ) : (

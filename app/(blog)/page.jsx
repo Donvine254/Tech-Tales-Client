@@ -1,4 +1,4 @@
-import { Clock, Comment } from "@/assets";
+import { Clock, Comment, Like } from "@/assets";
 import parse from "html-react-parser";
 import { Bookmark, SideNav, UserImage } from "@/components";
 import Link from "next/link";
@@ -81,32 +81,28 @@ export default async function HomePage() {
               </div>
 
               <div className="flex items-center justify-between py-2">
-                <Link
-                  href={`/blogs/${blog.slug}`}
-                  prefetch
-                  className="inline-flex items-center gap-1 hover:underline hover:text-blue-500">
-                  <span>Read</span>
-                  <svg
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    viewBox="0 0 24 24"
-                    height="1em"
-                    width="1em">
-                    <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" />
-                  </svg>
-                </Link>
-                <p className="text-base flex items-center gap-1 md:gap-2 bg-gray-300 rounded-full border text-black px-2">
+                <div className="inline-flex xsm:gap-2 md:gap-4 items-center">
+                  <Link
+                    href={`/blogs/${blog.slug}`}
+                    className="text-base  inline-flex items-center gap-1">
+                    <Comment size={24} className="stroke-none fill-gray-400" />
+                    <span>{blog?._count?.comments}</span>
+                  </Link>
+                  <Link
+                    href={`/blogs/${blog.slug}`}
+                    prefetch
+                    className="inline-flex items-center gap-0.5 ">
+                    <Like className="stroke-gray-400 fill-none" size={24} />
+                    <span className="font-bold">{blog.likes}</span>
+                  </Link>
+                </div>
+
+                <p className="text-base flex items-center gap-1 md:gap-2 bg-gray-200 border rounded-full text-black px-2  ">
                   <Clock />
                   {calculateReadingTime(blog.body)} min{" "}
                   <span className="xsm:hidden">read</span>
                 </p>
-                <p className="text-base  inline-flex items-center gap-1">
-                  <Comment />
-                  <span>{blog?._count?.comments}</span>
-                </p>
+
                 <Bookmark blogId={blog.id} />
               </div>
             </div>
