@@ -4,6 +4,7 @@ import "react-quill/dist/quill.snow.css";
 
 export default function CommentEditor({ data, handleChange, handleFocus }) {
   const editorRef = useRef(null);
+
   const modules = {
     toolbar: [
       ["bold", "italic", "underline", "blockquote"],
@@ -44,6 +45,9 @@ export default function CommentEditor({ data, handleChange, handleFocus }) {
         value={data}
         onKeyDown={handleFocus}
       />
+      <span className="text-red-500 text-sm font-medium">
+        * Min 5 Characters, Maximum 250
+      </span>
     </div>
   );
 }
