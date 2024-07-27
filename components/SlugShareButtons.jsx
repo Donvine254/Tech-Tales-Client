@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { baseUrl } from "@/lib";
 import toast from "react-hot-toast";
-import { Share, Facebook, NewTwitterIcon, Whatsapp } from "@/assets";
+import { Share } from "@/assets";
 
 export default function SlugShareButtons({ slug, title, handlePrint }) {
   const [copied, setCopied] = useState(false);
@@ -45,30 +45,6 @@ export default function SlugShareButtons({ slug, title, handlePrint }) {
         Like what you see? Share with a Friend
       </h1>
       <div className="flex items-center  xsm:flex-wrap  xsm:gap-2 xsm:p-3 gap-4">
-        {/* <Link
-        href={`https://twitter.com/share?url=https://techtales.vercel.app/blogs/${blog.slug}&text=${blog.title}`}
-        target="_blank"
-        className="hover:-translate-y-1 transition-transform duration-300 "
-        title="share on twitter">
-        <NewTwitterIcon size={30} />
-      </Link>
-      <Link
-        href={`https://facebook.com/sharer.php?u=https://techtales.vercel.app/blogs/${blog.slug}`}
-        target="_blank"
-        className="hover:-translate-y-1 transition-transform duration-300 ">
-        <Facebook className="" size={30} />
-      </Link>
-      <button
-        onClick={() => {
-          const whatsappUrl = `whatsapp://send?text=${encodeURIComponent(
-            `https://techtales.vercel.app/blogs/${blog.slug}`
-          )}`;
-          window.open(whatsappUrl);
-        }}
-        title="share on whatsapp"
-        className="hover:-translate-y-1 transition-transform duration-300">
-        <Whatsapp size={30} />
-      </button> */}
         <button
           onClick={handleSharing}
           className="bg-[#f3f6f9]  rounded-md flex items-center justify-center h-8 px-1 py-0  border-2 border-blue-300 focus:outline-none hover:bg-[#e4ebf2;] hover:shadow gap-1 hover:-translate-y-1 transition-transform duration-300"
