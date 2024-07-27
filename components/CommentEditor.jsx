@@ -1,46 +1,48 @@
 import React, { useRef } from "react";
-import { Editor } from "@tinymce/tinymce-react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 export default function CommentEditor({ data, handleChange, handleFocus }) {
-  const editorRef = useRef(null);
-  const log = () => {
-    if (editorRef.current) {
-      console.log(editorRef.current.getContent());
-    }
+  const modules = {
+    toolbar: [
+      ["bold", "italic", "underline", "blockquote"],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["link", "image", "code-block"],
+      ["clean"],
+    ],
+    clipboard: {
+      matchVisual: false,
+    },
   };
+
   return (
-    <div className="flex-1  flex-grow" id="write-comment">
-      <Editor
-        apiKey={process.env.NEXT_PUBLIC_TINY_API_KEY}
-        onInit={(evt, editor) => (editorRef.current = editor)}
-        initialValue={data}
-        onChange={() => handleChange(editorRef.current.getContent())}
-        onFocus={handleFocus}
-        name="body"
-        isReadOnly={true}
-        init={{
-          height: 100,
-          toolbar_location: "bottom",
-          toolbar_mode: "sliding",
-          menubar: false,
-          skin: "borderless",
-          statusbar: false,
-          placeholder: "Start by writing text here....",
-          browser_spellcheck: true,
-          autocomplete: true,
-          plugins: [
-            "autolink",
-            "lists",
-            "link",
-            "autoresize",
-            "emoticons",
-            "fullscreen",
-          ],
-          toolbar:
-            "bold italic underline  forecolor| numlist bullist| blockquote emoticons link ",
-          content_style:
-            "@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap'); body { font-family: Poppins; }",
+    <div className="flex-1 flex-grow" id="write-comment">
+      <ReactQuill
+        theme="snow"
+        id="editor-container"
+        className="rounded-md h-36 border-2 border-gray-500 font-poppins text-base"
+        style={{
+          display: "flex",
+          flexDirection: "column-reverse",
         }}
+        formats={[
+          "bold",
+          "italic",
+          "underline",
+          "blockquote",
+          "list",
+          "bullet",
+          "link",
+          "image",
+          "emoji",
+          "code-block",
+        ]}
+        placeholder="Start by typing something..."
+        modules={modules}
+        onChange={handleChange}
+        value={data}
+        onClick={handleFocus}
+        onFocus={handleFocus}
       />
     </div>
   );
