@@ -5,6 +5,7 @@ import parse from "html-react-parser";
 import { UserImage } from "./Avatar";
 import { baseUrl } from "@/lib";
 import { formatDate } from "@/lib/utils";
+import { calculateReadingTime } from "@/lib";
 
 export default function MoreFromAuthor({ author, id, blogId }) {
   const [blogs, setBlogs] = useState();
@@ -34,7 +35,7 @@ export default function MoreFromAuthor({ author, id, blogId }) {
             {blogs.map((blog) => (
               <div
                 key={blog.id}
-                className=" my-4 p-4 rounded-md border shadow bg-gray-100 hover:bg-slate-200 sm:flex-shrink-0 sm:w-1/2 snap-normal snap-center">
+                className=" my-4 p-4 rounded-md border shadow bg-gray-50 hover:bg-[#FEFEFE] sm:flex-shrink-0 sm:w-1/2 snap-normal snap-center">
                 <div className="">
                   <div className="flex gap-2 xsm:items-center">
                     <UserImage url={blog.author.picture} />
@@ -42,9 +43,12 @@ export default function MoreFromAuthor({ author, id, blogId }) {
                       <p className=" text-base capitalize font-medium ">
                         {blog.author.username}
                       </p>
-                      <p className="text-sm font-medium md:text-base ">
-                        <span className="xsm:hidden sm:hidden">&mdash;</span>{" "}
-                        Published on {formatDate(blog.createdAt)}
+                      <p className="text-base xsm:text-sm xsm:mb-0">
+                        <span className="xsm:hidden">Published on </span>{" "}
+                        <time dateTime={blog?.createdAt}>
+                          {formatDate(blog.createdAt)} {""}
+                        </time>
+                        &#x2022; &#128337;{calculateReadingTime(blog.body)} min
                       </p>
                     </div>
                   </div>
