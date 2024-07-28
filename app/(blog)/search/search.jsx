@@ -4,7 +4,7 @@ import { calculateReadingTime, baseUrl } from "@/lib";
 import { UserImage } from "@/components/Avatar";
 import { useSearchParams } from "next/navigation";
 import Axios from "axios";
-import { Clock, Comment, Like, Graph } from "@/assets";
+import { Comment, Like, Graph } from "@/assets";
 import parse from "html-react-parser";
 import { Bookmark, SideNav, ShareButton } from "@/components";
 
@@ -51,11 +51,8 @@ export default function SearchPage() {
                   <div className="flex gap-4 xsm:gap-2 xsm:items-center">
                     <UserImage url={blog.author.picture} />
                     <div className="">
-                      <p className=" text-base md:text-xl capitalize">
-                        Written By{" "}
-                        <span className="font-bold">
-                          {blog.author.username}
-                        </span>
+                      <p className=" text-base md:text-xl capitalize font-medium">
+                        {blog.author.username}
                       </p>
                       <p className="text-base xsm:text-sm xsm:mb-0">
                         <span className="xsm:hidden">Published on </span>{" "}

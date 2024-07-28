@@ -2,19 +2,23 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Clock, Clipboard, Comment } from "@/assets";
+import { Clock, Clipboard, Comment, Graph, Like } from "@/assets";
 import {
   deleteBlog,
   baseUrl,
   calculateReadingTime,
   handleUpdateStatus,
 } from "@/lib";
-import { SideNav, UserImage, SkeletonBlog, ActionsButton } from "@/components";
+import {
+  SideNav,
+  UserImage,
+  SkeletonBlog,
+  ActionsButton,
+  ShareButton,
+} from "@/components";
 import { formatDate } from "@/lib/utils";
 
 import parse from "html-react-parser";
-
-//check for the current user
 
 export default function MyBlogsComponent() {
   const navigate = useRouter();
@@ -77,12 +81,15 @@ export default function MyBlogsComponent() {
                 <div className="flex gap-2 xsm:items-center">
                   <UserImage url={blog.author.picture} />
                   <div className="">
-                    <p className=" text-base md:text-xl capitalize">
-                      Written By{" "}
-                      <span className="font-bold">{blog.author.username}</span>
+                    <p className=" text-base md:text-xl capitalize font-medium ">
+                      {blog.author.username}
                     </p>
-                    <p className="text-sm font-medium md:text-base">
-                      Published on {formatDate(blog.createdAt)}
+                    <p className="text-base xsm:text-sm xsm:mb-0">
+                      <span className="xsm:hidden">Published on </span>{" "}
+                      <time dateTime={blog?.createdAt}>
+                        {formatDate(blog.createdAt)} {""}
+                      </time>
+                      &#x2022; &#128337;{calculateReadingTime(blog.body)} min
                     </p>
                   </div>
                 </div>
@@ -110,38 +117,33 @@ export default function MyBlogsComponent() {
                     <></>
                   )}
                 </div>
-                <article className="text-sm sm:text-base md:text-xl leading-8 line-clamp-2 md:pb-1 trimmed-blog-body ">
+                <article className="text-sm sm:text-base md:text-[18px] leading-8 line-clamp-2 md:pb-1 trimmed-blog-body ">
                   {blog.body ? parse(blog.body) : blog.body}
                 </article>
               </div>
-              <div className="flex items-center justify-between py-2">
+              {/* beginning div for actions buttons */}
+              <div className="flex items-center justify-between xsm:gap-2 md:gap-4  py-2">
+                <Link
+                  href={`/blogs/${blog.slug}`}
+                  className="text-base  inline-flex items-center gap-1">
+                  <Comment size={20} className="stroke-none fill-gray-400" />
+                  <span>{blog?._count?.comments}</span>
+                </Link>
                 <Link
                   href={`/blogs/${blog.slug}`}
                   prefetch
-                  className="inline-flex items-center gap-1 hover:underline hover:text-blue-500">
-                  <span>Read</span>
-                  <svg
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    viewBox="0 0 24 24"
-                    height="1em"
-                    width="1em">
-                    <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" />
-                  </svg>
+                  className="inline-flex items-center gap-0.5 ">
+                  <Like className="stroke-gray-400 fill-none" size={20} />
+                  <span className="">{blog.likes}</span>
                 </Link>
-                <p className="text-base flex items-center gap-1 md:gap-2 bg-gray-300 border rounded-full text-black px-2">
-                  <Clock />
-                  {calculateReadingTime(blog.body)} min{" "}
-                  <span className="xsm:hidden">read</span>
-                </p>
-                <p className="text-base  inline-flex items-center gap-1">
-                  <Comment />
-                  <span>{blog?._count?.comments}</span>
-                </p>
-
+                <Link
+                  href={`/blogs/${blog.slug}`}
+                  prefetch
+                  className="inline-flex items-center gap-0.5">
+                  <Graph className="stroke-gray-500 fill-none" size={20} />
+                  <span className="">{blog.views}</span>
+                </Link>
+                <ShareButton size={20} title={blog.title} slug={blog.slug} />
                 <ActionsButton
                   onDelete={() => handleDelete(blog.id, blog.slug)}
                   onEdit={() => handleEdit(blog.slug)}
@@ -150,6 +152,7 @@ export default function MyBlogsComponent() {
                   blog={blog}
                 />
               </div>
+              {/* end of actions button div */}
             </div>
           ))
         ) : (
