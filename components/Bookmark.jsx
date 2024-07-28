@@ -54,10 +54,10 @@ export default function Bookmark({ blogId, size = 24 }) {
       {isBookmarked ? (
         <svg
           viewBox="0 0 24 24"
-          fill="#67e8f9"
+          fill="#22d3ee"
           height={size}
           width={size}
-          className=" fill-cyan-300 hover:scale-110"
+          className=" fill-cyan-400 hover:scale-110 stroke-cyan-500"
           onClick={handleClick}>
           <title>remove bookmark</title>
           <path d="M18 22a1 1 0 01-.5-.134L12 18.694l-5.5 3.172A1 1 0 015 21V5a3.003 3.003 0 013-3h8a3.003 3.003 0 013 3v16a1 1 0 01-1 1z" />

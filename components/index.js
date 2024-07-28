@@ -12,8 +12,8 @@ import Loader from "./Loader";
 import PreviewModal from "./PreviewModal";
 import TagInput from "./TagInput";
 import UploadButton from "./uploadButton";
-import LikeButton from "./Like";
 import AnimatedLikeBtn from "./LikeAnimated";
+import ShareButton from "./ShareButton"
 export {
   BlogsComponent,
   Bookmark,
@@ -29,6 +29,6 @@ export {
   PreviewModal,
   TagInput,
   UploadButton,
-  LikeButton,
+  ShareButton,
   AnimatedLikeBtn,
 };

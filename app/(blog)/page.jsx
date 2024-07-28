@@ -1,9 +1,8 @@
-import { Clock, Comment, Like, Graph, NewShareIcon } from "@/assets";
+import { Comment, Like, Graph } from "@/assets";
 import parse from "html-react-parser";
-import { Bookmark, SideNav, UserImage } from "@/components";
+import { Bookmark, ShareButton, SideNav, UserImage } from "@/components";
 import Link from "next/link";
 import { baseUrl, calculateReadingTime } from "@/lib";
-import { handleSharing } from "@/lib/utils";
 import Image from "next/image";
 import { formatDate } from "@/lib/utils";
 export const metadata = {
@@ -76,7 +75,7 @@ export default async function HomePage() {
                     <></>
                   )}
                 </div>
-                <article className="text-sm sm:text-base md:text-xl leading-8 line-clamp-2 md:pb-1 overflow-hidden trimmed-blog-body ">
+                <article className="text-sm sm:text-base md:text-[18px] leading-8 line-clamp-2 md:pb-1 overflow-hidden trimmed-blog-body ">
                   {blog ? parse(blog.body) : blog.body}
                 </article>
               </div>
@@ -102,14 +101,8 @@ export default async function HomePage() {
                   <Graph className="stroke-gray-500 fill-none" size={20} />
                   <span className="">{blog.views}</span>
                 </Link>
-                <div className="w-6 h-6 rounded-full hover:bg-gray-200 p-1 flex items-center">
-                  <NewShareIcon
-                    className=""
-                    size={20}
-                    handleClick={() => handleSharing(blog.title, blog.slug)}
-                  />
-                </div>
-                <Bookmark blogId={blog.id} />
+                <ShareButton size={20} title={blog.title} slug={blog.slug} />
+                <Bookmark blogId={blog.id} size={20} />
               </div>
             </div>
           ))
