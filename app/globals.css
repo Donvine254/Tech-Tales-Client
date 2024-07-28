@@ -164,6 +164,9 @@ h4 {
 #comment-body ul {
   @apply xsm:!pl-4 !pl-6 md:!pl-8;
 }
+#comment-body a {
+  @apply text-blue-500 cursor-pointer hover:underline;
+}
 
 #blog-body table,
 #blog-body iframe {
