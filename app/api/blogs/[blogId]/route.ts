@@ -62,13 +62,13 @@ export async function PATCH(req: NextRequest, { params }) {
 //function to delete blogs. create an admin route where an admin can delete the record completely
 export async function DELETE(req: NextRequest, { params }) {
   const { blogId } = params;
-  const user = await decodeUserToken(req);
   if (!blogId) {
     return NextResponse.json(
       { error: "Record to update not found" },
       { status: 409 }
     );
   }
+  const user = await decodeUserToken(req);
   if (!user) {
     return NextResponse.json(
       { error: "Unauthorized Request" },
