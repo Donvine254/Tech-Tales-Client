@@ -24,6 +24,7 @@ export async function GET() {
           },
         },
       },
+      cacheStrategy: { ttl: 60 },
     });
     return NextResponse.json(comments, { status: 200 });
   } catch (error) {

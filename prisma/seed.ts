@@ -20,6 +20,8 @@ async function seedDb() {
   //   },
   //   data: { socials: socials },
   // });
+  const users = await prisma.user.findMany();
+  console.log(users);
   updateUserSocials(2, newSocials)
     .then((updatedUser) => console.log("User updated:", updatedUser))
     .catch((error) => console.error("Update failed:", error));

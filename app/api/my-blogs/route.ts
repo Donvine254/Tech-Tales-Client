@@ -93,6 +93,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
           },
         },
       },
+      cacheStrategy: { ttl: 60 },
     });
 
     return NextResponse.json(blogs);

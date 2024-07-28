@@ -27,6 +27,7 @@ async function getTotalComments() {
           },
         },
       },
+      cacheStrategy: { ttl: 60 },
     });
     return comments;
   } catch (error) {
@@ -59,6 +60,7 @@ async function getTotalUsers() {
           },
         },
       },
+      cacheStrategy: { ttl: 60 },
     });
     return users;
   } catch (error) {
@@ -80,6 +82,7 @@ async function getBlogs() {
           },
         },
       },
+      cacheStrategy: { ttl: 60 },
     });
     return blogs;
   } catch (error) {

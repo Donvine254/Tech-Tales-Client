@@ -52,6 +52,7 @@ export async function GET(req: NextRequest) {
           },
         },
       },
+      cacheStrategy: { ttl: 60 },
     });
     return NextResponse.json(users, { status: 200 });
   } catch (error) {

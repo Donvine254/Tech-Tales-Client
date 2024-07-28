@@ -25,10 +25,12 @@ export default function AnimatedLikeBtn({ blogId, setLikes, likes }) {
     try {
       if (newLikedState) {
         setLikes((prev) => prev + 1);
-        const result = await handleBlogLiking(blogId, "LIKE");
+        const result = await handleBlogLiking(blogId, user.id, "LIKE");
+        toast.success("Blog added to favorites");
       } else {
         setLikes((prev) => prev - 1);
-        const result = await handleBlogLiking(blogId, "DISLIKE");
+        const result = await handleBlogLiking(blogId, user.id, "DISLIKE");
+        toast.success("Blog removed from favorites");
       }
     } catch (error) {
       console.error(error);

@@ -30,6 +30,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
           },
         },
       },
+      cacheStrategy: { ttl: 60 },
     });
 
     // Format blogs data if needed

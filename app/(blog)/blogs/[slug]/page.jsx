@@ -1,8 +1,7 @@
 import { SideNav } from "@/components";
 import Slug from "./slug";
-import { baseUrl } from "@/lib";
 export const revalidate = 600;
-
+import prisma from "@/prisma/prisma";
 export const metadata = {
   title: "Blog Page - Tech Tales",
   description:
@@ -29,12 +28,14 @@ export async function generateStaticParams() {
 }
 
 async function getBlogData(slug) {
+  "use server";
   try {
-    const blog = await prisma.blog.findUnique({
+    const blog = await prisma.blog.update({
       where: {
         slug: slug,
         status: "PUBLISHED",
       },
+      data: { views: { increment: 1 } },
       include: {
         author: {
           select: {
