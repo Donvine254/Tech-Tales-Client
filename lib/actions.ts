@@ -2,7 +2,7 @@
 import prisma from "@/prisma/prisma";
 import { revalidatePath } from "next/cache";
 
-export async function revalidateBlogs(slug) {
+export async function revalidateBlogs(slug: string) {
   if (slug) {
     revalidatePath(`/blogs/${slug}`, "page");
   } else {
