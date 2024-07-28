@@ -3,12 +3,11 @@ import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { Loader, PreviewModal, TagInput, UploadButton } from "@/components";
 import dynamic from "next/dynamic";
-import Axios from "axios";
 import Script from "next/script";
 import Link from "next/link";
 import { revalidateBlogs } from "@/lib/actions";
 import { UpdateBlogData } from "@/lib/patchBlogData";
-import { baseUrl, slugify } from "@/lib";
+import { slugify } from "@/lib";
 import { getBlogData } from "@/lib/actions";
 import { useUserContext } from "@/providers";
 
