@@ -40,6 +40,7 @@ export async function GET(request: NextRequest, { params }) {
       orderBy: {
         createdAt: "desc",
       },
+      cacheStrategy: { ttl: 60 },
     });
     return NextResponse.json(blogs, { status: 200 });
   } catch (error) {

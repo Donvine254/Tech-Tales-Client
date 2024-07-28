@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Edit, Trash, Share } from "@/assets";
 import ShareModal from "./ShareModal";
-import { baseUrl } from "@/lib";
 import toast from "react-hot-toast";
 
 export default function ActionsButton({

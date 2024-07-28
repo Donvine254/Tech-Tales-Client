@@ -7,6 +7,7 @@ import Axios from "axios";
 import Script from "next/script";
 import Link from "next/link";
 import { revalidateBlogs } from "@/lib/actions";
+import { UpdateBlogData } from "@/lib/patchBlogData";
 import { baseUrl, slugify } from "@/lib";
 import { getBlogData } from "@/lib/actions";
 import { useUserContext } from "@/providers";
@@ -73,7 +74,7 @@ export default function EditBlog({ params }) {
       return false;
     } else {
       try {
-        await Axios.patch(`${baseUrl}/blogs?id=${blogData.id}`, blogData);
+        await UpdateBlogData(blogData.id, blogData);
         toast.success("Blog updated successfully");
         confetti({
           particleCount: 800,
@@ -87,7 +88,7 @@ export default function EditBlog({ params }) {
         }
       } catch (error) {
         toast.error("Something went wrong");
-        setError(error?.response?.data?.errors);
+        setError(error.message);
         console.error(error);
         setLoading("");
       }

@@ -91,58 +91,58 @@ export async function POST(req: NextRequest, res: NextResponse) {
 }
 
 //function to update blogs
-export async function PATCH(req: NextRequest, res: NextResponse) {
-  const id = req.nextUrl.searchParams.get("id");
-  if (!id) {
-    return NextResponse.json(
-      { error: "Record to update not found" },
-      { status: 409 }
-    );
-  }
+// export async function PATCH(req: NextRequest, res: NextResponse) {
+//   const id = req.nextUrl.searchParams.get("id");
+//   if (!id) {
+//     return NextResponse.json(
+//       { error: "Record to update not found" },
+//       { status: 409 }
+//     );
+//   }
 
-  const { title, slug, body, image, tags, status } = await req.json();
-  console.log(req.json());
+//   const { title, slug, body, image, tags, status } = await req.json();
+//   console.log(req.json());
 
-  try {
-    await prisma.blog.update({
-      where: {
-        id: Number(id),
-      },
-      data: {
-        title,
-        slug,
-        body,
-        image,
-        tags,
-        status,
-      },
-      select: {
-        id: true,
-      },
-    });
-    return NextResponse.json(
-      { message: "Blog updated successfully" },
-      { status: 201 }
-    );
-  } catch (error) {
-    console.error(error);
-    if (error.code === "P2002") {
-      return NextResponse.json(
-        {
-          error:
-            "A blog with similar title exists, kindly choose a different title!",
-        },
-        { status: 409 }
-      );
-    } else
-      return NextResponse.json(
-        { error: "An error occurred while creating the blog." },
-        { status: 500 }
-      );
-  } finally {
-    await prisma.$disconnect();
-  }
-}
+//   try {
+//     await prisma.blog.update({
+//       where: {
+//         id: Number(id),
+//       },
+//       data: {
+//         title,
+//         slug,
+//         body,
+//         image,
+//         tags,
+//         status,
+//       },
+//       select: {
+//         id: true,
+//       },
+//     });
+//     return NextResponse.json(
+//       { message: "Blog updated successfully" },
+//       { status: 201 }
+//     );
+//   } catch (error) {
+//     console.error(error);
+//     if (error.code === "P2002") {
+//       return NextResponse.json(
+//         {
+//           error:
+//             "A blog with similar title exists, kindly choose a different title!",
+//         },
+//         { status: 409 }
+//       );
+//     } else
+//       return NextResponse.json(
+//         { error: "An error occurred while creating the blog." },
+//         { status: 500 }
+//       );
+//   } finally {
+//     await prisma.$disconnect();
+//   }
+// }
 
 //function to delete blogs. create an admin route where an admin can delete the record completely
 export async function DELETE(req: NextRequest, res: NextResponse) {
