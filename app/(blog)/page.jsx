@@ -79,7 +79,7 @@ export default async function HomePage() {
                   {blog ? parse(blog.body) : blog.body}
                 </article>
               </div>
-
+              {/* beginning of actions button div */}
               <div className="flex items-center justify-between xsm:gap-2 md:gap-4  py-2">
                 <Link
                   href={`/blogs/${blog.slug}`}
@@ -104,6 +104,7 @@ export default async function HomePage() {
                 <ShareButton size={20} title={blog.title} slug={blog.slug} />
                 <Bookmark blogId={blog.id} size={20} />
               </div>
+              {/* end of actions button div */}
             </div>
           ))
         ) : (

@@ -16,8 +16,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import toast from "react-hot-toast";
-import { baseUrl, calculateReadingTime } from "@/lib";
-import { formatDate } from "@/lib/utils";
+import { calculateReadingTime } from "@/lib";
+import { formatDate, handleSharing } from "@/lib/utils";
 
 import dynamic from "next/dynamic";
 
@@ -64,22 +64,7 @@ export default function Slug({ blog }) {
     document.body.innerHTML = originalContents;
   };
   //function to open native share modal
-  async function handleSharing() {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: `${blog.title}`,
-          text: "See this interesting blog i found on Techtales!",
-          url: `${baseUrl}/blogs/${blog.slug}`,
-        });
-      } catch (error) {
-        toast.error("Something went wrong");
-        console.error("Error sharing content:", error);
-      }
-    } else {
-      toast.error("Web Share API not supported in this browser.");
-    }
-  }
+
   //function to copy blog link
   async function handleCopying() {
     setCopied(true);
@@ -174,9 +159,9 @@ export default function Slug({ blog }) {
             <h1 className="font-semibold text-base text-gray-600 md:text-xl">
               Like what you see? Share with a Friend
             </h1>
-            <div className="flex items-center  xsm:flex-wrap  xsm:gap-2 xsm:p-3 gap-4">
+            <div className="flex items-center xsm:justify-between xsm:w-full  xsm:gap-2 xsm:py-2 gap-4">
               <button
-                onClick={handleSharing}
+                onClick={() => handleSharing(blog.title, blog.slug)}
                 className="bg-[#f3f6f9]  rounded-md flex items-center justify-center h-8 px-1 py-0  border-2 border-blue-300 focus:outline-none hover:bg-[#e4ebf2;] hover:shadow gap-1 hover:-translate-y-1 transition-transform duration-300"
                 title="more">
                 <Share size={20} /> share

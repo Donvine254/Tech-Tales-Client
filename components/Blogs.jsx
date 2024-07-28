@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { Clock, Comment, Like } from "@/assets";
+import { Graph, Comment, Like } from "@/assets";
 import parse from "html-react-parser";
 import Bookmark from "./Bookmark";
 import { UserImage } from "./Avatar";
+import ShareButton from "./ShareButton";
 import Image from "next/image";
 import { calculateReadingTime } from "@/lib";
 import { formatDate } from "@/lib/utils";
@@ -25,8 +26,12 @@ export default async function BlogsComponent({ blogs }) {
                       {blog.author.username}
                     </span>
                   </p>
-                  <p className="text-sm font-medium md:text-base ">
-                    Published on {formatDate(blog.createdAt)}
+                  <p className="text-base xsm:text-sm xsm:mb-0">
+                    <span className="xsm:hidden">Published on </span>{" "}
+                    <time dateTime={blog?.createdAt}>
+                      {formatDate(blog.createdAt)} {""}
+                    </time>
+                    &#x2022; &#128337;{calculateReadingTime(blog.body)} min
                   </p>
                 </div>
               </div>
@@ -54,35 +59,34 @@ export default async function BlogsComponent({ blogs }) {
                   <></>
                 )}
               </div>
-              <article className="text-sm sm:text-base md:text-xl leading-8 md:pb-1 line-clamp-2  overflow-hidden trimmed-blog-body ">
+              <article className="text-sm sm:text-base md:text-[18px] leading-8 md:pb-1 line-clamp-2  overflow-hidden trimmed-blog-body ">
                 {blog ? parse(blog.body) : blog.body}
               </article>
             </div>
             {/* start of flex div for actions */}
-            <div className="flex items-center justify-between py-2">
-              <div className="inline-flex xsm:gap-2 md:gap-4 items-center">
-                <Link
-                  href={`/blogs/${blog.slug}`}
-                  className="text-base  inline-flex items-center gap-1">
-                  <Comment size={24} className="stroke-none fill-gray-400" />
-                  <span>{blog?._count?.comments}</span>
-                </Link>
-                <Link
-                  href={`/blogs/${blog.slug}`}
-                  prefetch
-                  className="inline-flex items-center gap-0.5 ">
-                  <Like className="stroke-gray-400 fill-none" size={24} />
-                  <span className="font-bold">{blog.likes}</span>
-                </Link>
-              </div>
-
-              <p className="text-base flex items-center gap-1 md:gap-2 bg-gray-200 border rounded-full text-black px-2  ">
-                <Clock />
-                {calculateReadingTime(blog.body)} min{" "}
-                <span className="xsm:hidden">read</span>
-              </p>
-
-              <Bookmark blogId={blog.id} />
+            <div className="flex items-center justify-between xsm:gap-2 md:gap-4  py-2">
+              <Link
+                href={`/blogs/${blog.slug}`}
+                className="text-base  inline-flex items-center gap-1">
+                <Comment size={20} className="stroke-none fill-gray-400" />
+                <span>{blog?._count?.comments}</span>
+              </Link>
+              <Link
+                href={`/blogs/${blog.slug}`}
+                prefetch
+                className="inline-flex items-center gap-0.5 ">
+                <Like className="stroke-gray-400 fill-none" size={20} />
+                <span className="">{blog.likes}</span>
+              </Link>
+              <Link
+                href={`/blogs/${blog.slug}`}
+                prefetch
+                className="inline-flex items-center gap-0.5">
+                <Graph className="stroke-gray-500 fill-none" size={20} />
+                <span className="">{blog.views}</span>
+              </Link>
+              <ShareButton size={20} title={blog.title} slug={blog.slug} />
+              <Bookmark blogId={blog.id} size={20} />
             </div>
             {/* end of flex div */}
           </div>
