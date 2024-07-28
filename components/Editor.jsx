@@ -8,6 +8,7 @@ export default function App({ data, handleChange }) {
       console.log(editorRef.current.getContent());
     }
   };
+  log();
   return (
     <div>
       <Editor
@@ -50,6 +51,8 @@ export default function App({ data, handleChange }) {
             "code",
             "help",
             "wordcount",
+            "autocorrect",
+            "spellchecker",
           ],
           toolbar:
             "undo redo | blocks | bold italic forecolor underline| align numlist bullist | link image table media pageembed | backcolor  emoticons codesample blockquote| preview removeformat",
