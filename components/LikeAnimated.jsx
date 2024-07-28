@@ -34,7 +34,7 @@ export default function AnimatedLikeBtn({ blogId, setLikes, likes }) {
       }
     } catch (error) {
       console.error(error);
-      toast.error(error.message);
+      toast.error("You have already favorited this blog");
       // Revert the state in case of an error
       setLiked(!newLikedState);
       setLikes((prev) => (newLikedState ? prev - 1 : prev + 1));

@@ -9,7 +9,7 @@ export default function CommentEditor({ data, handleChange, handleFocus }) {
     toolbar: [
       ["bold", "italic", "underline", "blockquote"],
       [{ list: "ordered" }, { list: "bullet" }],
-      ["link", "emoji", "code-block"],
+      ["link", "code-block"],
       ["clean"],
     ],
     clipboard: {
@@ -36,7 +36,6 @@ export default function CommentEditor({ data, handleChange, handleFocus }) {
           "list",
           "bullet",
           "link",
-          "emoji",
           "code-block",
         ]}
         placeholder="Start by typing something..."
