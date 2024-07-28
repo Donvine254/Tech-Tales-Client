@@ -19,13 +19,12 @@ export default function BlogActionsButton({
   setBlogs,
 }) {
   const [isPopupOpen, setPopupOpen] = useState(false);
-  const [showShareModal, setShowShareModal] = useState(false);
+
   const popupRef = useRef(null);
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (popupRef.current && !popupRef.current.contains(event.target)) {
         setPopupOpen(false);
-        setShowShareModal(false);
       }
     };
 

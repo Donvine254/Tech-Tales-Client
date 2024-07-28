@@ -5,10 +5,9 @@ import BlogActionsButton from "./blogActions";
 import Image from "next/image";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
-import { baseUrl, handleUpdateStatus } from "@/lib";
-import { revalidateBlogs, revalidatePage } from "@/lib/actions";
+import { handleUpdateStatus } from "@/lib";
+import { DeleteBlog, revalidateBlogs, revalidatePage } from "@/lib/actions";
 import { exportCSV } from "@/lib/utils";
-import Axios from "axios";
 import { useRouter } from "next/navigation";
 
 export default function BlogsTable({ blogs }) {
@@ -78,14 +77,15 @@ export default function BlogsTable({ blogs }) {
 
   async function handleDelete(blog) {
     try {
-      await Axios.delete(`${baseUrl}/blogs/${blog.id}`);
+      await DeleteBlog(blog.id);
       setTotalBlogs((prevBlogs) => prevBlogs.filter((b) => b.id !== blog.id));
       toast.success("Blog deleted successfully!");
-      await Revalidate(blog);
       // try using window.location.reload()
     } catch (error) {
       console.error(error);
       toast.error("An error has occurred");
+    } finally {
+      await Revalidate(blog);
     }
   }
 

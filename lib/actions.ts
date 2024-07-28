@@ -312,7 +312,15 @@ export async function UpdateBlogStatus(id: number, status: string) {
   }
 }
 
-
-export async function DeleteBlog(id:number){
-  
+export async function DeleteBlog(id: number) {
+  try {
+    await prisma.blog.delete({
+      where: {
+        id: Number(id),
+      },
+    });
+    return { success: "Blog has been deleted successfully" };
+  } catch (error) {
+    throw new Error(error);
+  }
 }
