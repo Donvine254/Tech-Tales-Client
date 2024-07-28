@@ -18,7 +18,8 @@ import Image from "next/image";
 import toast from "react-hot-toast";
 import { calculateReadingTime } from "@/lib";
 import { formatDate, handleSharing } from "@/lib/utils";
-
+import hljs from "highlight.js";
+import "highlight.js/styles/github.css";
 import dynamic from "next/dynamic";
 
 const NoSSRComments = dynamic(() => import("@/components/Comments"), {
@@ -45,6 +46,9 @@ export default function Slug({ blog }) {
     }
   }, [blog, router]);
 
+  useEffect(() => {
+    hljs.highlightAll(); 
+  }, []);
   //function to pop-up user card
   function handleMouseEnter() {
     setIsCardVisible(true);
@@ -63,7 +67,6 @@ export default function Slug({ blog }) {
     window.print();
     document.body.innerHTML = originalContents;
   };
-  //function to open native share modal
 
   //function to copy blog link
   async function handleCopying() {
