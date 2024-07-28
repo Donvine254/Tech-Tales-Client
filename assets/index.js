@@ -11,8 +11,10 @@ export const Graph = ({ className, size = 24 }) => {
       strokeLinecap="round"
       strokeLinejoin="round"
       className={`cursor-pointer ${className}`}>
-      <line x1="18" x2="18" y1="20" y2="10" />
+      <title>Blog Views</title>
+      <line x1="18" x2="18" y1="20" y2="8" />
       <line x1="12" x2="12" y1="20" y2="4" />
+      <line x1="18" x2="18" y1="20" y2="12" />
       <line x1="6" x2="6" y1="20" y2="14" />
     </svg>
   );
@@ -194,7 +196,6 @@ export const Facebook = ({ className, size = 24 }) => (
     <title>Facebook</title>
   </svg>
 );
-
 
 export const Twitter = ({ className }) => (
   <svg
