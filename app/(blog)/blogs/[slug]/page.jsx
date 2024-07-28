@@ -60,6 +60,9 @@ async function getBlogData(slug) {
               },
             },
           },
+          orderBy: {
+            createdAt: "desc",
+          },
         },
       },
     });

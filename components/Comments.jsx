@@ -32,7 +32,7 @@ export default function Comments({
   const [commentToEdit, setCommentToEdit] = useState(null);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-
+  const [length, setLength] = useState(0);
   const user = useUserContext();
   //function to submit comment form
   async function handleSubmit(e) {
@@ -144,51 +144,18 @@ export default function Comments({
               data={newComment}
               handleChange={setNewComment}
               handleFocus={() => setIsInputFocused(true)}
+              length={length}
+              setLength={setLength}
+              isInputFocused={isInputFocused}
+              isEditing={isEditing}
+              handleUpdate={handleUpdate}
+              undoEditing={undoEditing}
+              handleSubmit={handleSubmit}
+              setNewComment={setNewComment}
+              setIsEditing={setIsEditing}
             />
           </div>
-          <div className="flex items-center justify-end gap-2 md:gap-4 py-1 px-4">
-            {isInputFocused && (
-              <>
-                {isEditing ? (
-                  <>
-                    <button
-                      type="submit"
-                      disabled={!commentToEdit}
-                      className="bg-blue-500 border-2 border-blue-500 text-white  px-6 py-0.5 lg:mr-4 rounded-md hover:bg-blue-600  disabled:bg-gray-100 disabled:border-gray-600 disabled:text-gray-600"
-                      onClick={handleUpdate}>
-                      Update
-                    </button>
-                    <button
-                      type="button"
-                      onClick={undoEditing}
-                      className="border-2  border-green-500 hover:border-red-500 px-6 py-0.5 rounded-md">
-                      Cancel
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <button
-                      type="submit"
-                      disabled={!newComment || newComment.length < 10}
-                      className="bg-blue-500 text-white border-2 border-blue-500 px-6 py-0.5 lg:mr-3 rounded-md hover:bg-blue-600 disabled:bg-gray-100 disabled:border-gray-600 disabled:text-gray-600 disabled:pointer-events-none"
-                      onClick={handleSubmit}>
-                      Respond
-                    </button>
-                    <button
-                      type="button"
-                      className="border-2  border-green-500 hover:border-red-500 px-6 py-0.5 rounded-md"
-                      onClick={() => {
-                        setIsInputFocused(false);
-                        setNewComment("");
-                        setIsEditing(false);
-                      }}>
-                      Cancel
-                    </button>
-                  </>
-                )}
-              </>
-            )}
-          </div>
+          
         </form>
       ) : (
         <div className="flex flex-col items-center justify-center  gap-2 xsm:gap-1 border rounded-md h-fit min-h-10 px-2 py-4 my-2 bg-blue-100 bg-opacity-50 ">
