@@ -311,3 +311,8 @@ export async function UpdateBlogStatus(id: number, status: string) {
     await prisma.$disconnect();
   }
 }
+
+
+export async function DeleteBlog(id:number){
+  
+}
