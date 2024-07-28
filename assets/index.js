@@ -1,20 +1,19 @@
-export const Graph = () => {
+export const Graph = ({ className, size = 24 }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="20"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
       strokeWidth="1"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="cursor-pointer">
-      <path d="M3 3v18h18" />
-      <path d="M13 17V9" />
-      <path d="M18 17V5" />
-      <path d="M8 17v-3" />
+      className={`cursor-pointer ${className}`}>
+      <line x1="18" x2="18" y1="20" y2="10" />
+      <line x1="12" x2="12" y1="20" y2="4" />
+      <line x1="6" x2="6" y1="20" y2="14" />
     </svg>
   );
 };
@@ -193,6 +192,18 @@ export const Facebook = ({ className, size = 24 }) => (
     className={`text-blue-500 cursor-pointer ${className}`}>
     <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
     <title>Facebook</title>
+  </svg>
+);
+
+export const NewShareIcon = ({ size = 16, className, handleClick = null }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    height={size}
+    width={size}
+    onClick={handleClick}
+    className={`cursor-pointer ${className}`}>
+    <path d="M5.5 15a3.51 3.51 0 002.36-.93l6.26 3.58a3.06 3.06 0 00-.12.85 3.53 3.53 0 101.14-2.57l-6.26-3.58a2.74 2.74 0 00.12-.76l6.15-3.52A3.49 3.49 0 1014 5.5a3.35 3.35 0 00.12.85L8.43 9.6A3.5 3.5 0 105.5 15zm12 2a1.5 1.5 0 11-1.5 1.5 1.5 1.5 0 011.5-1.5zm0-13A1.5 1.5 0 1116 5.5 1.5 1.5 0 0117.5 4zm-12 6A1.5 1.5 0 114 11.5 1.5 1.5 0 015.5 10z" />
   </svg>
 );
 
