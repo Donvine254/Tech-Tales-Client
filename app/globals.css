@@ -136,9 +136,20 @@ h4 {
 .blog-body pre code {
   border-radius: 8px !important;
   width: 100%;
+  background-color: #f2f2f2 !important;
   white-space: pre-wrap;
   line-height: normal;
   font-size: 15px !important;
+}
+
+.blog-body pre:not(:has(code)) {
+  border-radius: 8px !important;
+  width: 100%;
+  white-space: pre-wrap;
+  line-height: normal;
+  font-size: 15px !important;
+  background-color: #f2f2f2;
+  padding: 1em;
 }
 
 #blog-body ul,
@@ -241,9 +252,8 @@ div.arrow-up {
 /* style for quill editor */
 
 .ql-syntax {
-  background-color: #f9f9f9;
+  background-color: #f2f2f2;
   padding: 5px;
-  border-radius: 8px;
   font-weight: 100;
   font-size: 12px;
 }

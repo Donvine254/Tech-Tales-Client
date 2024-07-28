@@ -47,7 +47,11 @@ export default function Slug({ blog }) {
   }, [blog, router]);
 
   useEffect(() => {
-    hljs.highlightAll(); 
+    hljs.highlightAll();
+    document.querySelectorAll(".ql-syntax").forEach((el) => {
+      el.classList.add("language-javascript");
+      hljs.highlightElement(el);
+    });
   }, []);
   //function to pop-up user card
   function handleMouseEnter() {
