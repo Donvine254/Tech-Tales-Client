@@ -13,7 +13,7 @@ export async function revalidatePage(page) {
   revalidatePath(`/${page}`, "page");
 }
 
-export async function updateUserRole(id, role) {
+export async function updateUserRole(id: string | number, role: string) {
   try {
     const user = await prisma.user.update({
       where: {
@@ -66,7 +66,7 @@ export async function deactivateUser(id) {
   }
 }
 
-export async function updateUserStatus(id, status) {
+export async function updateUserStatus(id: number | string, status: string) {
   try {
     const user = await prisma.user.update({
       where: {
@@ -101,7 +101,7 @@ export async function updateUserStatus(id, status) {
   }
 }
 
-export async function deleteUser(id) {
+export async function deleteUser(id: number | string) {
   try {
     await prisma.user.update({
       where: {
@@ -119,7 +119,7 @@ export async function deleteUser(id) {
   }
 }
 
-export async function updateCommentStatus(status, id) {
+export async function updateCommentStatus(status: string, id: number | string) {
   try {
     const comment = await prisma.comment.update({
       where: {
@@ -154,7 +154,7 @@ export async function updateCommentStatus(status, id) {
 }
 
 //function to get slug blog
-export async function getBlogData(slug) {
+export async function getBlogData(slug: string) {
   try {
     const blog = await prisma.blog.findUnique({
       where: {
@@ -177,7 +177,11 @@ export async function getBlogData(slug) {
   }
 }
 
-export async function handleBlogLiking(id, userId, action) {
+export async function handleBlogLiking(
+  id: number | string,
+  userId: number | string,
+  action: string
+) {
   try {
     // Get the current likes count
     if (action === "LIKE") {
@@ -216,6 +220,93 @@ export async function handleBlogLiking(id, userId, action) {
   } catch (error) {
     console.error(error);
     throw new Error(error);
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+// added here since imports are bringing errors
+type patchData = {
+  title?: string;
+  body?: string;
+  slug?: string;
+  image?: string;
+  tags?: string;
+  status?: string;
+  likes?: number;
+  views?: number;
+};
+
+export async function UpdateBlogData(id: number, data: patchData) {
+  if (!id) {
+    throw new Error("Record to update not found!");
+  }
+  try {
+    const { title, slug, body, image, tags, status, likes, views } = data;
+    const blog = await prisma.blog.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        title,
+        slug,
+        body,
+        image,
+        tags,
+        status,
+        likes,
+        views,
+      },
+      select: {
+        id: true,
+      },
+    });
+    return { message: "Blog updated successfully" };
+  } catch (error) {
+    console.error(error);
+    if (error.code === "P2002") {
+      throw new Error(
+        "A blog with similar title exists, kindly choose a different title!"
+      );
+    } else throw new Error("An error occurred while creating the blog.");
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+const allowedStatuses = ["PUBLISHED", "ARCHIVED", "UNPUBLISHED"];
+
+export async function UpdateBlogStatus(id: number, status: string) {
+  if (!allowedStatuses.includes(status)) {
+    throw new Error("Invalid status provided!");
+  }
+
+  try {
+    const blog = await prisma.blog.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        status: status,
+      },
+      include: {
+        author: {
+          select: {
+            username: true,
+            picture: true,
+          },
+        },
+        _count: {
+          select: {
+            comments: true,
+          },
+        },
+      },
+    });
+    return blog;
+  } catch (error) {
+    console.error(error);
+    throw new Error("An error occurred while updating the blog status.");
   } finally {
     await prisma.$disconnect();
   }
