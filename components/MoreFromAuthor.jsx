@@ -39,11 +39,8 @@ export default function MoreFromAuthor({ author, id, blogId }) {
                   <div className="flex gap-2 xsm:items-center">
                     <UserImage url={blog.author.picture} />
                     <div className="">
-                      <p className=" text-base  ">
-                        Written by{" "}
-                        <span className="capitalize font-bold">
-                          {blog.author.username}
-                        </span>
+                      <p className=" text-base capitalize font-medium ">
+                        {blog.author.username}
                       </p>
                       <p className="text-sm font-medium md:text-base ">
                         <span className="xsm:hidden sm:hidden">&mdash;</span>{" "}
