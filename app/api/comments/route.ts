@@ -125,27 +125,23 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
 //function to delete comment
 export async function DELETE(req: NextRequest, res: NextResponse) {
   const id = req.nextUrl.searchParams.get("id");
-  if (id) {
-    try {
-      await prisma.comment.delete({
-        where: {
-          id: Number(id),
-        },
-      });
-      return NextResponse.json({}, { status: 204 });
-    } catch (error) {
-      console.error(error);
-      return NextResponse.json(
-        { error: "Record to delete does not exist." },
-        { status: 404 }
-      );
-    } finally {
-      await prisma.$disconnect();
-    }
-  } else {
+  try {
+    await prisma.comment.delete({
+      where: {
+        id: Number(id),
+      },
+    });
+    return NextResponse.json(
+      { message: "comment deleted successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error(error);
     return NextResponse.json(
       { error: "Record to delete does not exist." },
       { status: 404 }
     );
+  } finally {
+    await prisma.$disconnect();
   }
 }

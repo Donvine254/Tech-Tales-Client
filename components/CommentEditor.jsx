@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useCallback } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import Swal from "sweetalert2";
 
 export default function CommentEditor({
   data,
@@ -24,14 +25,37 @@ export default function CommentEditor({
       setLength(quill.getLength());
     }
   }, [data, setLength]);
+  // const imageHandler = useCallback(() => {
+  //   const url = prompt("Enter the image URL");
+  //   if (url && editorRef.current) {
+  //     const quill = editorRef.current.getEditor();
+  //     const range = quill.getSelection(true);
+  //     quill.insertEmbed(range.index, "image", url, "user");
+  //   }
+  // }, []);
   const imageHandler = useCallback(() => {
-    const url = prompt("Enter the image URL");
-    if (url && editorRef.current) {
-      const quill = editorRef.current.getEditor();
-      const range = quill.getSelection(true);
-      quill.insertEmbed(range.index, "image", url, "user");
-    }
-  }, []);
+    Swal.fire({
+      text: "Enter the image URL",
+      input: "url",
+      confirmButtonText: "Insert",
+      showCloseButton: true,
+      showCancelButton: true,
+      customClass: {
+        confirmButton:
+          "px-2 py-1 mx-2 bg-green-500 text-white rounded-md hover:text-white hover:bg-green-500",
+        cancelButton: "px-2 py-1 mx-2 bg-red-500 rounded-md text-white",
+      },
+      buttonsStyling: false,
+    }).then((input) => {
+      let url = input.value;
+      console.log(url);
+      if (url && editorRef.current) {
+        const quill = editorRef.current.getEditor();
+        const range = quill.getSelection(true);
+        quill.insertEmbed(range.index, "image", url, "user");
+      }
+    });
+  }, [editorRef]);
 
   const modules = {
     toolbar: {

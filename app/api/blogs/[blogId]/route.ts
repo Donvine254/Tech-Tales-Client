@@ -122,7 +122,10 @@ export async function DELETE(req: NextRequest, { params }) {
           id: Number(blogId),
         },
       });
-      return NextResponse.json({}, { status: 204 });
+      return NextResponse.json(
+        { message: "Deleted successfully" },
+        { status: 200 }
+      );
     } else {
       await prisma.blog.update({
         where: {
@@ -132,7 +135,7 @@ export async function DELETE(req: NextRequest, { params }) {
           status: "ARCHIVED",
         },
       });
-      return NextResponse.json({}, { status: 200 });
+      return NextResponse.json({});
     }
   } catch (error) {
     console.error("Error deleting blog", error);
