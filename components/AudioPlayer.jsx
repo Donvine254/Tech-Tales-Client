@@ -111,8 +111,8 @@ export default function AudioPlayer({ blog }) {
   const progressPercentage = (elapsedTime / (totalReadingTime * 60)) * 100;
 
   return (
-    <div className="">
-      <div className="bg-zinc-100 my-2 px-4 py-2 rounded-full flex items-center gap-2 text-gray-500  w-fit whitespace-nowrap min-w-[60%] xsm:w-full sm:w-[80%] md:w-[60%] ">
+    <div className="border-2 border-dotted bg-zinc-200 border-blue-500 py-2 mt-4">
+      <div className="bg-zinc-100 my-2 px-4 py-2 rounded-full flex items-center gap-2 text-gray-500 mx-auto  w-fit whitespace-nowrap min-w-[60%] xsm:w-full sm:w-[80%] md:w-[60%] ">
         <div>
           {isPlaying ? (
             <svg

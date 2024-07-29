@@ -253,22 +253,24 @@ export default function Comments({
                   </div>
 
                   <div
-                    className="p-3 rounded-r-xl xsm:text-sm rounded-bl-xl border shadow bg-[#fefefe]"
+                    className="p-3 rounded-r-xl xsm:text-sm rounded-bl-xl border shadow bg-[#fefefe] max-w-full"
                     id="comment-body">
                     {comment.body && getPlainTextLength(comment.body) > 350 ? (
-                      <div>
-                        <p className="">
+                      <>
+                        <p className="max-w-[90%]">
                           &#x1F6C8; This comment is too long! Click{" "}
                           <mark>show full comment</mark> to read the full
                           comment
                         </p>
-                        <details>
-                          <summary className="border bg-gray-50 shadow px-1 py-0.5 w-fit rounded-md">
+                        <details className="w-fit">
+                          <summary className="border bg-gray-50 shadow px-1 py-0.5 rounded-md cursor-pointer">
                             Show Full Comment
                           </summary>
-                          {parse(comment.body)}
+                          <div className="overflow-auto">
+                            {parse(comment.body)}
+                          </div>
                         </details>
-                      </div>
+                      </>
                     ) : (
                       <>{comment.body ? parse(comment?.body) : comment.body}</>
                     )}

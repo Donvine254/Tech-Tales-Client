@@ -39,6 +39,7 @@ export default function Slug({ blog }) {
   const [commentCount, setCommentCount] = useState(blog?.comments.length ?? 0);
   const [copied, setCopied] = useState(false);
   const [showPlayButton, setShowPlayButton] = useState(false);
+  const [summary, setSummary] = useState("");
   const printRef = useRef(null);
   const router = useRouter();
 
@@ -164,8 +165,12 @@ export default function Slug({ blog }) {
               <Comment size={20} className="stroke-none fill-gray-400" />
               <span> {commentCount}</span>
             </p>
-            <p className="inline-flex items-center gap-0.5 " title="likes">
-              <Like className="stroke-gray-400 fill-none" size={20} />
+            <p className="inline-flex items-center gap-0.5 ">
+              <Like
+                className="stroke-gray-400 fill-none"
+                size={20}
+                title="likes"
+              />
               <span className="">{blog.likes}</span>
             </p>
             <p className="inline-flex items-center gap-0.5" title="views">
@@ -196,34 +201,41 @@ export default function Slug({ blog }) {
             <Bookmark blogId={blog.id} size={20} />
           </div>
           {/* div for playing the blog */}
-          {showPlayButton && (
-            <div className="my-1">
-              <AudioPlayer blog={blog} />
+          {showPlayButton && <AudioPlayer blog={blog} />}
+          {/* div for generating blog summary */}
+
+          {/* div for key takeaways */}
+
+          {!showPlayButton && (
+            <div className="border-2 border-dotted p-2 border-blue-500 bg-zinc-200 my-1 mt-2">
+              <div className="my-2 mt-4 mx-auto sm:w-1/2 md:w-1/3 ">
+                <button
+                  className="py-1 w-full bg-gradient-to-r from-blue-400 via-green-400 to-purple-400 shadow shadow-purple-400 text-white relative rounded-full hover:shadow-lg hover:shadow-purple-400 hover:-translate-y-1 transition-transform duration-300"
+                  onClick={() => toast.success("Incoming feature")}>
+                  <span>✨ Generate Summary ✨</span>
+                  <span className="text-white bg-green-400 text-sm px-2 rounded-md absolute top-[-10px] right-2">
+                    New
+                  </span>
+                </button>
+              </div>
+              {!showPlayButton && summary && (
+                <>
+                  <h1 className="font-bold text-base md:text-xl">
+                    Key Takeaways:
+                  </h1>
+                  <ul className="list-disc pl-4 text-base xsm:text-sm">
+                    <li>Something about the blog</li>
+                    <li>Something about the blog</li>
+                    <li>Something about the blog</li>
+                    <li>Something about the blog</li>
+                    <li>Something about the blog</li>
+                    <li>Something about the blog</li>
+                  </ul>
+                </>
+              )}
             </div>
           )}
-          {/* div for generating blog summary */}
-          <div className="my-2 mt-4 mx-auto sm:w-1/2 md:w-1/3 ">
-            <button
-              className="py-1 w-full bg-gradient-to-r from-blue-400 via-green-400 to-purple-400 shadow shadow-purple-400 text-white relative rounded-full hover:shadow-lg hover:shadow-purple-400 hover:-translate-y-1 transition-transform duration-300"
-              onClick={() => toast.success("Incoming feature")}>
-              <span>✨ Generate Summary ✨</span>
-              <span className="text-white bg-green-400 text-sm px-2 rounded-md absolute top-[-10px] right-2">
-                New
-              </span>
-            </button>
-          </div>
-          {/* div for key takeaways */}
-          {/* <div className="border-2 border-dotted p-2 border-blue-500 bg-zinc-200 my-1 mt-2">
-            <h1 className="font-bold text-base md:text-xl">Key Takeaways:</h1>
-            <ul className="list-disc pl-4 text-base xsm:text-sm">
-              <li>Something about the blog</li>
-              <li>Something about the blog</li>
-              <li>Something about the blog</li>
-              <li>Something about the blog</li>
-              <li>Something about the blog</li>
-              <li>Something about the blog</li>
-            </ul>
-          </div> */}
+
           {/* article body */}
           <article
             className="text-base md:text-[18px] leading-8 md:leading-10 mt-3 subpixel-antialiased blog-body"

@@ -162,7 +162,7 @@ h4 {
 }
 
 #comment-body {
-  @apply xsm:!max-w-[80%];
+  @apply xsm:!max-w-[80%] xsm:whitespace-pre-wrap max-w-full;
 }
 
 #comment-body ul {
@@ -171,7 +171,9 @@ h4 {
 #comment-body a {
   @apply text-blue-500 cursor-pointer hover:underline break-words whitespace-pre-wrap;
 }
-
+#comment-body details[open] {
+  @apply xsm:max-w-[90%];
+}
 #comment-body img {
   max-width: 200px;
   max-height: 150px;
@@ -270,6 +272,7 @@ div.arrow-up {
   padding: 5px;
   font-weight: 100;
   font-size: 12px;
+  overflow-x: auto;
 }
 
 /* style for like animation */
