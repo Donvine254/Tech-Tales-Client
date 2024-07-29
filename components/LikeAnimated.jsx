@@ -3,10 +3,12 @@ import React, { useState, useEffect } from "react";
 import { useUserContext } from "@/providers";
 import toast from "react-hot-toast";
 import { handleBlogLiking, CheckFavoriteStatus } from "@/lib/actions";
+import Swal from "sweetalert2";
+import { usePathname } from "next/navigation";
 export default function AnimatedLikeBtn({ blogId, setLikes, likes }) {
   const [liked, setLiked] = useState();
   const user = useUserContext();
-
+  const pathname = usePathname().replace(/^\/+/, "");
   useEffect(() => {
     if (user) {
       const fetchFavoriteStatus = async () => {
@@ -29,7 +31,26 @@ export default function AnimatedLikeBtn({ blogId, setLikes, likes }) {
   };
   async function handleLikeClick() {
     if (!user) {
-      toast.error("Kindly login to like this blog!");
+      Swal.fire({
+        icon: "warning",
+        title: "Login To Continue",
+        text: "Kindly login to favorite this blog",
+        showCancelButton: true,
+        showCloseButton: true,
+        footer:
+          "By continuing you agree with our <b><a href='/terms'>terms and conditions</a></b>.",
+        confirmButtonText: "Login",
+        customClass: {
+          confirmButton:
+            "px-2 py-1 mx-2 bg-green-500 text-white rounded-md hover:text-white hover:bg-green-600",
+          cancelButton: "px-2 py-1 mx-2 bg-red-500 rounded-md text-white",
+        },
+        buttonsStyling: false,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          router.push(`/login?post_login_redirect_url=${pathname}`);
+        }
+      });
       return false;
     }
     const newLikedState = !liked;

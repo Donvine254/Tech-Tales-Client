@@ -12,10 +12,10 @@ export const Graph = ({ className, size = 24 }) => {
       strokeLinejoin="round"
       className={`cursor-pointer ${className}`}>
       <title>Blog Views</title>
-      <line x1="18" x2="18" y1="20" y2="8" />
-      <line x1="12" x2="12" y1="20" y2="4" />
-      <line x1="18" x2="18" y1="20" y2="12" />
-      <line x1="6" x2="6" y1="20" y2="14" />
+      <line x1="6" x2="6" y1="20" y2="16" />
+      <line x1="10" x2="10" y1="20" y2="8" />
+      <line x1="14" x2="14" y1="20" y2="12" />
+      <line x1="18" x2="18" y1="20" y2="14" />
     </svg>
   );
 };
