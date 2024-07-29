@@ -162,7 +162,7 @@ h4 {
 }
 
 #comment-body {
-  @apply xsm:max-w-[85%];
+  @apply xsm:!max-w-[80%];
 }
 
 #comment-body ul {
