@@ -18,6 +18,7 @@ import Image from "next/image";
 import toast from "react-hot-toast";
 import { calculateReadingTime } from "@/lib";
 import { formatDate, handleSharing } from "@/lib/utils";
+import { Like, Graph } from "@/assets";
 import hljs from "highlight.js";
 import "highlight.js/styles/github.css";
 import dynamic from "next/dynamic";
@@ -37,6 +38,7 @@ export default function Slug({ blog }) {
   const [commentData, setCommentData] = useState(blog?.comments ?? []);
   const [commentCount, setCommentCount] = useState(blog?.comments.length ?? 0);
   const [copied, setCopied] = useState(false);
+  const [showPlayButton, setShowPlayButton] = useState(false);
   const printRef = useRef(null);
   const router = useRouter();
 
@@ -141,6 +143,7 @@ export default function Slug({ blog }) {
           <div className="py-1">
             {blog.tags ? (
               <div className="flex gap-2 flex-wrap">
+                <h1 className="font-semibold md:text-xl">Tags:</h1>
                 {blog.tags.split(",").map((tag, index) => (
                   <Link
                     key={index}
@@ -154,8 +157,51 @@ export default function Slug({ blog }) {
               <></>
             )}
           </div>
+          <div className="flex items-center justify-between xsm:gap-2 md:gap-4  py-2 border-y border-gray-100 shadow-sm my-1">
+            <p
+              className="text-base  inline-flex items-center gap-1"
+              title="comments">
+              <Comment size={20} className="stroke-none fill-gray-400" />
+              <span> {commentCount}</span>
+            </p>
+            <p className="inline-flex items-center gap-0.5 " title="likes">
+              <Like className="stroke-gray-400 fill-none" size={20} />
+              <span className="">{blog.likes}</span>
+            </p>
+            <p className="inline-flex items-center gap-0.5" title="views">
+              <Graph className="stroke-gray-500 fill-none" size={20} />
+              <span className="">{blog.views}</span>
+            </p>
+            <svg
+              fill="none"
+              viewBox="0 0 24 24"
+              height="20"
+              width="20"
+              onClick={() => setShowPlayButton(!showPlayButton)}
+              className="stroke-gray-300 fill-none">
+              <path
+                fill="currentColor"
+                fillRule="evenodd"
+                d="M12 21a9 9 0 100-18 9 9 0 000 18zm0 2c6.075 0 11-4.925 11-11S18.075 1 12 1 1 5.925 1 12s4.925 11 11 11z"
+                clipRule="evenodd"
+              />
+              <title>Listen to this blog</title>
+              <path fill="currentColor" d="M16 12l-6 4.33V7.67L16 12z" />
+            </svg>
+            <button
+              onClick={() => handleSharing(blog.title, blog.slug)}
+              title="share this blog">
+              <Share size={20} />
+            </button>
+            <Bookmark blogId={blog.id} size={20} />
+          </div>
           {/* div for playing the blog */}
-          <AudioPlayer blog={blog} />
+          {showPlayButton && (
+            <div className="my-1">
+              <AudioPlayer blog={blog} />
+            </div>
+          )}
+          {/* article body */}
           <article
             className="text-base md:text-xl leading-8 md:leading-10 mt-3 subpixel-antialiased blog-body"
             id="blog-body">

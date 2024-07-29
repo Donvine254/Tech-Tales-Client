@@ -112,7 +112,7 @@ export default function AudioPlayer({ blog }) {
 
   return (
     <div className="">
-      <div className="bg-[#2C63AE] my-2 px-4 py-2 rounded-full flex items-center gap-2 text-gray-200 w-fit whitespace-nowrap min-w-[60%] xsm:w-full sm:w-[80%] md:w-[60%] ">
+      <div className="bg-zinc-100 my-2 px-4 py-2 rounded-full flex items-center gap-2 text-gray-500  w-fit whitespace-nowrap min-w-[60%] xsm:w-full sm:w-[80%] md:w-[60%] ">
         <div>
           {isPlaying ? (
             <svg
@@ -144,7 +144,7 @@ export default function AudioPlayer({ blog }) {
           {formatTime(elapsedTime) ?? "0:00"}/ {totalReadingTime}
           :00
         </span>
-        <div className="flex-1 overflow-hidden  bg-white h-1.5 p-0 rounded-md">
+        <div className="flex-1 overflow-hidden  bg-gray-500 h-1.5 p-0 rounded-md">
           <div
             className="bg-green-500 h-1.5 rounded-md"
             style={{ width: `${progressPercentage}%` }}></div>
