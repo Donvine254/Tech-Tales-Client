@@ -20,8 +20,8 @@ export default async function BlogsComponent({ blogs }) {
               <div className="flex gap-2 xsm:items-center">
                 <UserImage url={blog.author.picture} />
                 <div className="">
-                  <p className="text-sm sm:text-base md:text-xl font-medium">
-                  {blog.author.username}
+                  <p className="text-sm sm:text-base md:text-xl font-medium capitalize">
+                    {blog.author.username}
                   </p>
                   <p className="text-base xsm:text-sm xsm:mb-0">
                     <span className="xsm:hidden">Published on </span>{" "}

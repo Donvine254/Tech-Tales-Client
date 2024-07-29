@@ -21,17 +21,12 @@ export async function GET(req: NextRequest, res: NextResponse) {
         },
       },
       orderBy: {
-        createdAt: "desc",
+        likes: "desc",
       },
+      take: 5,
     });
 
-    // Sort blogs by comment count in descending order
-    blogs.sort((a: any, b: any) => b._count.comments - a._count.comments);
-
-    // Take the top 5 blogs
-    const topBlogs = blogs.slice(0, 5);
-
-    return NextResponse.json(topBlogs, { status: 200 });
+    return NextResponse.json(blogs, { status: 200 });
   } catch (error) {
     console.error("Error fetching blogs:", error);
 
