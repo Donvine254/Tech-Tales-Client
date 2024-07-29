@@ -324,3 +324,19 @@ export async function DeleteBlog(id: number) {
     throw new Error(error);
   }
 }
+
+export async function CheckFavoriteStatus(userId: number, blogId: number) {
+  try {
+    const favorite = await prisma.favorite.findFirst({
+      where: {
+        userId: userId,
+        blogId: blogId,
+      },
+    });
+    if (favorite) return true;
+    else return false;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error);
+  }
+}

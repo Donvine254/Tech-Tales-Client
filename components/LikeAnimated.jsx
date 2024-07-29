@@ -1,11 +1,25 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useUserContext } from "@/providers";
 import toast from "react-hot-toast";
-import { handleBlogLiking } from "@/lib/actions";
+import { handleBlogLiking, CheckFavoriteStatus } from "@/lib/actions";
 export default function AnimatedLikeBtn({ blogId, setLikes, likes }) {
   const [liked, setLiked] = useState();
   const user = useUserContext();
+
+  useEffect(() => {
+    if (user) {
+      const fetchFavoriteStatus = async () => {
+        try {
+          const isFavorited = await CheckFavoriteStatus(user.id, blogId);
+          setLiked(isFavorited);
+        } catch (error) {
+          console.error("Error fetching favorite status:", error);
+        }
+      };
+      fetchFavoriteStatus();
+    }
+  }, [user, blogId]);
 
   const toggleClass = () => {
     const btn = document.querySelector(".heart");
@@ -49,7 +63,7 @@ export default function AnimatedLikeBtn({ blogId, setLikes, likes }) {
         style={{ backgroundPosition: liked ? "right" : "left" }}
         className="heart"
         onClick={handleLikeClick}
-        title="Like this blog">
+        title="favorite this blog">
         <span className="text-base font-bold content whitespace-nowrap">
           {likes} <span className="xsm:hidden">Likes</span>
         </span>
