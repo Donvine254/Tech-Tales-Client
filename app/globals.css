@@ -167,7 +167,13 @@ h4 {
 #comment-body a {
   @apply text-blue-500 cursor-pointer hover:underline;
 }
-
+#comment-body img {
+  max-width: 200px;
+  max-height: 150px;
+  width: auto;
+  height: auto;
+  border-radius: 8px;
+}
 #blog-body table,
 #blog-body iframe {
   margin-top: 2px;

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useCallback } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
@@ -24,19 +24,31 @@ export default function CommentEditor({
       setLength(quill.getLength());
     }
   }, [data, setLength]);
+  const imageHandler = useCallback(() => {
+    const url = prompt("Enter the image URL");
+    if (url && editorRef.current) {
+      const quill = editorRef.current.getEditor();
+      const range = quill.getSelection(true);
+      quill.insertEmbed(range.index, "image", url, "user");
+    }
+  }, []);
 
   const modules = {
-    toolbar: [
-      ["bold", "italic", "underline", "blockquote"],
-      [{ list: "ordered" }, { list: "bullet" }],
-      ["link", "code-block"],
-      ["clean"],
-    ],
+    toolbar: {
+      container: [
+        ["bold", "italic", "underline", "blockquote"],
+        [{ list: "ordered" }, { list: "bullet" }],
+        ["link", "code-block", "image"],
+        ["clean"],
+      ],
+      handlers: {
+        image: imageHandler,
+      },
+    },
     clipboard: {
       matchVisual: false,
     },
   };
-
   return (
     <div className="flex-1 flex-grow" id="write-comment">
       <ReactQuill
@@ -57,6 +69,7 @@ export default function CommentEditor({
           "bullet",
           "link",
           "code-block",
+          "image",
         ]}
         placeholder="Start by typing something..."
         modules={modules}

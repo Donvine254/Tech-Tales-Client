@@ -33,6 +33,7 @@ export default function Comments({
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [length, setLength] = useState(0);
+  const [isSorted, setIsSorted] = useState(false);
   const user = useUserContext();
   //function to submit comment form
   async function handleSubmit(e) {
@@ -116,13 +117,40 @@ export default function Comments({
       return 0;
     }
   };
+  //function to sort
+  const handleSort = () => {
+    setIsSorted(!isSorted);
+    if (isSorted) {
+      const sortedComments = [...comments].sort((a, b) => {
+        return b.id - a.id;
+      });
+      setComments(sortedComments);
+    } else {
+      const sortedComments = [...comments].sort((a, b) => {
+        return a.id - b.id;
+      });
+      setComments(sortedComments);
+    }
+  };
 
   return (
     <div className="">
-      <div className="flex flex-wrap items-center justify-between gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         <h1 className="text-bold text-xl md:text-2xl py-2 font-bold">
           Comments ({commentCount})
         </h1>
+        <svg
+          viewBox="0 0 320 512"
+          fill="currentColor"
+          height="24"
+          width="24"
+          onClick={handleSort}
+          className={`hover:bg-gray-300 hover:border cursor-pointer rounded-full p-1 ${
+            isSorted ? "bg-gray-300 fill-cyan-400 shadow" : ""
+          }`}>
+          <title>sort comments</title>
+          <path d="M137.4 41.4c12.5-12.5 32.8-12.5 45.3 0l128 128c9.2 9.2 11.9 22.9 6.9 34.9S301 224.1 288 224.1H32c-12.9 0-24.6-7.8-29.6-19.8s-2.2-25.7 6.9-34.9l128-128zm0 429.3l-128-128c-9.2-9.2-11.9-22.9-6.9-34.9S19.1 288 32.1 288H288c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-128 128c-12.5 12.5-32.8 12.5-45.3 0z" />
+        </svg>
       </div>
       <p className="my-1">
         Before you comment please read our{" "}
@@ -225,7 +253,7 @@ export default function Comments({
                   </div>
 
                   <div
-                    className="p-3 rounded-r-xl xsm:text-sm rounded-bl-xl border border-cyan-400 bg-[#e9fafa]"
+                    className="p-3 rounded-r-xl xsm:text-sm rounded-bl-xl border shadow bg-[#fefefe]"
                     id="comment-body">
                     {comment.body && getPlainTextLength(comment.body) > 350 ? (
                       <div>
