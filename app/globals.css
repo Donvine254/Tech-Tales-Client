@@ -161,12 +161,17 @@ h4 {
   list-style: square !important;
 }
 
+#comment-body {
+  @apply xsm:max-w-[85%];
+}
+
 #comment-body ul {
   @apply xsm:!pl-4 !pl-6 md:!pl-8;
 }
 #comment-body a {
-  @apply text-blue-500 cursor-pointer hover:underline;
+  @apply text-blue-500 cursor-pointer hover:underline break-words whitespace-pre-wrap;
 }
+
 #comment-body img {
   max-width: 200px;
   max-height: 150px;
