@@ -204,7 +204,7 @@ export default function Slug({ blog }) {
           {/* div for generating blog summary */}
           <div className="my-2 mt-4 mx-auto sm:w-1/2 md:w-1/3 ">
             <button
-              className="py-1 rounded-lg w-full bg-blue-500 text-white relative"
+              className="py-1 w-full bg-gradient-to-r from-blue-400 via-green-400 to-purple-400 shadow shadow-purple-400 text-white relative rounded-full hover:shadow-lg hover:shadow-purple-400 hover:-translate-y-1 transition-transform duration-300"
               onClick={() => toast.success("Incoming feature")}>
               <span>✨ Generate Summary ✨</span>
               <span className="text-white bg-green-400 text-sm px-2 rounded-md absolute top-[-10px] right-2">
