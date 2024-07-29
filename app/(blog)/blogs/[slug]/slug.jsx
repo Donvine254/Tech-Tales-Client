@@ -201,9 +201,32 @@ export default function Slug({ blog }) {
               <AudioPlayer blog={blog} />
             </div>
           )}
+          {/* div for generating blog summary */}
+          <div className="my-2 mt-4 mx-auto sm:w-1/2 md:w-1/3 ">
+            <button
+              className="py-1 rounded-lg w-full bg-blue-500 text-white relative"
+              onClick={() => toast.success("Incoming feature")}>
+              <span>✨ Generate Summary ✨</span>
+              <span className="text-white bg-green-400 text-sm px-2 rounded-md absolute top-[-10px] right-2">
+                New
+              </span>
+            </button>
+          </div>
+          {/* div for key takeaways */}
+          {/* <div className="border-2 border-dotted p-2 border-blue-500 bg-zinc-200 my-1 mt-2">
+            <h1 className="font-bold text-base md:text-xl">Key Takeaways:</h1>
+            <ul className="list-disc pl-4 text-base xsm:text-sm">
+              <li>Something about the blog</li>
+              <li>Something about the blog</li>
+              <li>Something about the blog</li>
+              <li>Something about the blog</li>
+              <li>Something about the blog</li>
+              <li>Something about the blog</li>
+            </ul>
+          </div> */}
           {/* article body */}
           <article
-            className="text-base md:text-xl leading-8 md:leading-10 mt-3 subpixel-antialiased blog-body"
+            className="text-base md:text-[18px] leading-8 md:leading-10 mt-3 subpixel-antialiased blog-body"
             id="blog-body">
             {blog.body ? parse(blog?.body) : blog.body}
           </article>
