@@ -162,7 +162,7 @@ h4 {
 }
 
 #comment-body {
-  @apply xsm:!max-w-[80%] xsm:whitespace-pre-wrap max-w-full;
+  @apply xsm:!max-w-[80%]  max-w-full;
 }
 
 #comment-body ul {
