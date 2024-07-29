@@ -5,12 +5,12 @@ import "react-quill/dist/quill.snow.css";
 export default function CommentEditor({
   data,
   handleChange,
-  handleFocus,
   length,
   setLength,
   setIsEditing,
   isEditing,
   isInputFocused,
+  setIsInputFocused,
   handleUpdate,
   setNewComment,
   handleSubmit,
@@ -62,7 +62,7 @@ export default function CommentEditor({
         modules={modules}
         onChange={handleChange}
         value={data}
-        onKeyDown={handleFocus}
+        onKeyDown={() => setIsInputFocused(true)}
       />
       <span className="p-0 text-sm font-medium flex items-end justify-end">
         {length}/500

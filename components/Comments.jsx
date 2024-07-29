@@ -143,10 +143,10 @@ export default function Comments({
             <DynamicEditor
               data={newComment}
               handleChange={setNewComment}
-              handleFocus={() => setIsInputFocused(true)}
               length={length}
               setLength={setLength}
               isInputFocused={isInputFocused}
+              setIsInputFocused={setIsInputFocused}
               isEditing={isEditing}
               handleUpdate={handleUpdate}
               undoEditing={undoEditing}
@@ -155,7 +155,6 @@ export default function Comments({
               setIsEditing={setIsEditing}
             />
           </div>
-          
         </form>
       ) : (
         <div className="flex flex-col items-center justify-center  gap-2 xsm:gap-1 border rounded-md h-fit min-h-10 px-2 py-4 my-2 bg-blue-100 bg-opacity-50 ">
