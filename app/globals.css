@@ -299,3 +299,31 @@ div.arrow-up {
     background-position: right;
   }
 }
+/* styling for bookmark icon */
+.bookmark-icon {
+  transition: transform 0.2s ease-in-out;
+}
+
+.bookmark-icon:hover {
+  transform: scale(1.1);
+}
+
+.bookmark-icon-clicked {
+  animation: bounce 0.3s ease-in-out;
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}

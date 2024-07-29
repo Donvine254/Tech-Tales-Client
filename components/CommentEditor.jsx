@@ -23,7 +23,7 @@ export default function CommentEditor({
       const quill = editorRef.current.getEditor();
       setLength(quill.getLength());
     }
-  }, [data]);
+  }, [data, setLength]);
 
   const modules = {
     toolbar: [
