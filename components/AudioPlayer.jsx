@@ -305,3 +305,16 @@ export default function AudioPlayer({ handleClick }) {
     </div>
   );
 }
+
+// export default function AudioPlayer() {
+//   return (
+//     <div className="border-2 border-dotted bg-gray-200 rounded-md border-blue-500 py-2 mt-4 mx-auto">
+//       <div className="bg-zinc-100 my-2 px-4 rounded-full flex items-center gap-2 text-gray-500 mx-auto  w-fit whitespace-nowrap min-w-[60%] xsm:w-full sm:w-[80%] md:w-[60%] ">
+//         <audio
+//           controls
+//           src="https://utfs.io/f/cdf26e15-d624-49bb-b423-d6318d8eb839-s429h1.m4a"
+//           type="audio.m4a"></audio>
+//       </div>
+//     </div>
+//   );
+// }

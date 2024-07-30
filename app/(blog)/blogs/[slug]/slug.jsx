@@ -205,6 +205,7 @@ export default function Slug({ blog }) {
           {showPlayButton && (
             <AudioPlayer handleClick={() => setShowPlayButton(false)} />
           )}
+
           {/* div for generating blog summary */}
           <BlogSummary body={blog.body} show={!showPlayButton} id={blog.id} />
           {/* article body */}
