@@ -265,7 +265,9 @@ export default function Comments({
 
                   {comment.body && getPlainTextLength(comment.body) > 150 ? (
                     <div
-                      className="p-3 rounded-r-xl xsm:text-sm rounded-bl-xl border shadow bg-[#fefefe] w-full xsm:max-w-[70%]"
+                      className={`p-3 rounded-r-xl xsm:text-sm rounded-bl-xl border shadow bg-[#fefefe] w-full ${
+                        showFullComment ? "xsm:max-w-[70%]" : ""
+                      }`}
                       id="comment-body">
                       <div className="xsm:max-w-[100%]">
                         {showFullComment
