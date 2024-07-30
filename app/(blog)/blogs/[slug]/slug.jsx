@@ -91,6 +91,30 @@ export default function Slug({ blog }) {
       toast.error("Failed to copy link to clipboard");
     }
   }
+  //function to convert blog body to text for text-speech recognition
+  function htmlToPlainText(html) {
+    if (typeof window !== "undefined") {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, "text/html");
+      let text = doc.body.textContent || "";
+      text = text
+        .replace(/&nbsp;|&#160;/g, " ")
+        .replace(/&gt;/g, ">")
+        .replace(/&lt;/g, "<")
+        .replace(/&quot;/g, '"')
+        .replace(/&apos;/g, "'")
+        .replace(/&ldquo;/g, "“")
+        .replace(/&rdquo;/g, "”")
+        .replace(/&amp;/g, "&")
+        .replace(/\s{2,}/g, "~>")
+        .replace(/[\r\n]+/g, "\n")
+        .replace(/\s{2,}/g, " ");
+      return text.trim();
+    } else {
+      return null;
+    }
+  }
+
   return (
     <div>
       {blog ? (
@@ -203,7 +227,7 @@ export default function Slug({ blog }) {
           {/* div for playing the blog */}
           {showPlayButton && (
             <AudioPlayer
-              blog={blog}
+              body={htmlToPlainText(blog.body)}
               handleClick={() => setShowPlayButton(false)}
             />
           )}

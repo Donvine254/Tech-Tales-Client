@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { calculateReadingTime } from "@/lib";
-export default function AudioPlayer({ blog, handleClick }) {
+export default function AudioPlayer({ body, handleClick }) {
   // function to read the blog
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentPosition, setCurrentPosition] = useState(0);
@@ -25,7 +25,7 @@ export default function AudioPlayer({ blog, handleClick }) {
     const handlePlayPause = () => {
       if (isPlaying) {
         const speech = new SpeechSynthesisUtterance(
-          blog.body.slice(currentPosition)
+          body.slice(currentPosition)
         );
         speech.lang = "en-US";
         speech.rate = playbackSpeed;
@@ -60,7 +60,7 @@ export default function AudioPlayer({ blog, handleClick }) {
         stopTimer();
       }
     };
-  }, [isPlaying, blog.body, currentPosition, volume, playbackSpeed]);
+  }, [isPlaying, body, currentPosition, volume, playbackSpeed]);
 
   const togglePlayPause = () => {
     setIsPlaying(!isPlaying);
@@ -107,7 +107,7 @@ export default function AudioPlayer({ blog, handleClick }) {
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
   };
-  const totalReadingTime = calculateReadingTime(blog.body); //convert to seconds
+  const totalReadingTime = calculateReadingTime(body); //convert to seconds
   const progressPercentage = (elapsedTime / (totalReadingTime * 60)) * 100;
 
   return (
