@@ -49,7 +49,7 @@ export default function BlogSummary({ body, show, id }) {
         show ? "" : "hidden"
       }`}>
       {showButton && (
-        <div className="mx-auto sm:w-1/2 md:w-1/3 py-4">
+        <div className="mx-auto sm:w-1/2 md:w-1/3 p-4">
           <button
             className="py-1 w-full bg-gradient-to-r from-blue-400 via-green-400 to-purple-400 shadow shadow-purple-400 text-white relative rounded-full hover:shadow-lg hover:shadow-purple-400 hover:-translate-y-1 transition-transform duration-300"
             onClick={getBlogSummary}>
