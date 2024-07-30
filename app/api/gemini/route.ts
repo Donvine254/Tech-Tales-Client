@@ -15,13 +15,12 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     const result = await model.generateContent([message, body]);
     const response = await result.response.text();
-    console.log(response);
     return NextResponse.json({ message: response });
   } catch (error) {
     console.error(error);
     return NextResponse.json(
-      { message: "Something went wrong" },
-      { status: 404 }
+      { error: "Something went wrong" },
+      { status: 503 }
     );
   }
 }
