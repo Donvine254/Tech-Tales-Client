@@ -201,9 +201,14 @@ export default function Slug({ blog }) {
             <Bookmark blogId={blog.id} size={20} />
           </div>
           {/* div for playing the blog */}
-          {showPlayButton && <AudioPlayer blog={blog} />}
+          {showPlayButton && (
+            <AudioPlayer
+              blog={blog}
+              handleClick={() => setShowPlayButton(false)}
+            />
+          )}
           {/* div for generating blog summary */}
-           <BlogSummary body={blog.body} show={!showPlayButton}/>
+          <BlogSummary body={blog.body} show={!showPlayButton} id={blog.id} />
           {/* article body */}
           <article
             className="text-base md:text-[18px] leading-8 md:leading-10 mt-3 subpixel-antialiased blog-body"

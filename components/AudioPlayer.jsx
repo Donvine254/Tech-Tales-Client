@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { calculateReadingTime } from "@/lib";
-export default function AudioPlayer({ blog }) {
+export default function AudioPlayer({ blog, handleClick }) {
   // function to read the blog
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentPosition, setCurrentPosition] = useState(0);
@@ -111,7 +111,23 @@ export default function AudioPlayer({ blog }) {
   const progressPercentage = (elapsedTime / (totalReadingTime * 60)) * 100;
 
   return (
-    <div className="border-2 border-dotted bg-zinc-200 border-blue-500 py-2 mt-4">
+    <div className="border-2 border-dotted bg-gray-200 rounded-md border-blue-500 py-2 mt-4 relative">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        onClick={handleClick}
+        className="hover:fill-red-500 hover:bg-gray-100 p-1 rounded-full hover:text-red-500 cursor-pointer z-50 absolute top-0 right-0">
+        <path d="M18 6 6 18" />
+        <path d="m6 6 12 12" />
+        <title>Close</title>
+      </svg>
       <div className="bg-zinc-100 my-2 px-4 py-2 rounded-full flex items-center gap-2 text-gray-500 mx-auto  w-fit whitespace-nowrap min-w-[60%] xsm:w-full sm:w-[80%] md:w-[60%] ">
         <div>
           {isPlaying ? (

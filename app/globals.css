@@ -136,7 +136,6 @@ h4 {
 .blog-body pre code {
   border-radius: 8px !important;
   width: 100%;
-  background-color: #f2f2f2 !important;
   white-space: pre-wrap;
   line-height: normal;
   font-size: 15px !important;
@@ -148,7 +147,7 @@ h4 {
   white-space: pre-wrap;
   line-height: normal;
   font-size: 15px !important;
-  background-color: #f2f2f2;
+  background-color: #f2f2f2 !important;
   padding: 1em;
 }
 
