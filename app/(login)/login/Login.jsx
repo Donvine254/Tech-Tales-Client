@@ -14,7 +14,10 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const searchParams = useSearchParams();
-  const redirect = searchParams.get("post_login_redirect_url") ?? "relevant";
+  const redirect =
+    searchParams.get("post_login_redirect_url") ||
+    window?.location?.origin ||
+    "/";
 
   const [loginData, setLoginData] = useState({
     email: "",

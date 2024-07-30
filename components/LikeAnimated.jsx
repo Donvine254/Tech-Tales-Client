@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { handleBlogLiking, CheckFavoriteStatus } from "@/lib/actions";
 import Swal from "sweetalert2";
 import { usePathname, useRouter } from "next/navigation";
+
 export default function AnimatedLikeBtn({ blogId, setLikes, likes }) {
   const [liked, setLiked] = useState();
   const user = useUserContext();
