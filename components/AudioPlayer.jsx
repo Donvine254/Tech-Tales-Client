@@ -114,7 +114,7 @@ export default function AudioPlayer({ handleClick }) {
   const progressPercentage = (elapsedTime / (totalReadingTime * 60)) * 100;
 
   return (
-    <div className="border-2 border-dotted bg-gray-200 rounded-md border-blue-500 py-2 mt-4 relative">
+    <div className="border-2 border-dotted bg-gray-200 rounded-md border-blue-500 py-2 mt-4 relative xsm:px-4">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
