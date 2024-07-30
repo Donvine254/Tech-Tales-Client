@@ -31,6 +31,7 @@ export default function Comments({
   const [newComment, setNewComment] = useState("");
   const [commentToEdit, setCommentToEdit] = useState(null);
   const [isInputFocused, setIsInputFocused] = useState(false);
+  const [showFullComment, setShowFullComment] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [length, setLength] = useState(0);
   const [isSorted, setIsSorted] = useState(false);
@@ -116,6 +117,16 @@ export default function Comments({
     } else {
       return 0;
     }
+  };
+  const toggleShowFullComment = () => {
+    setShowFullComment(!showFullComment);
+  };
+  const getTruncatedText = (text, length) => {
+    const div = document.createElement("div");
+    div.innerHTML = text;
+    return div.innerText.length > length
+      ? div.innerText.substring(0, length) + "..."
+      : div.innerText;
   };
   //function to sort
   const handleSort = () => {
@@ -252,29 +263,28 @@ export default function Comments({
                     </p>
                   </div>
 
-                  <div
-                    className="p-3 rounded-r-xl xsm:text-sm rounded-bl-xl border shadow bg-[#fefefe]"
-                    id="comment-body">
-                    {comment.body && getPlainTextLength(comment.body) > 350 ? (
-                      <>
-                        <p className="max-w-[90%]">
-                          &#x1F6C8; This comment is too long! Click{" "}
-                          <mark>show full comment</mark> to read the full
-                          comment
-                        </p>
-                        <details className="w-fit">
-                          <summary className="border bg-gray-50 shadow px-1 py-0.5 rounded-md cursor-pointer">
-                            Show Full Comment
-                          </summary>
-                          <div className="overflow-auto">
-                            {parse(comment.body)}
-                          </div>
-                        </details>
-                      </>
-                    ) : (
-                      <>{comment.body ? parse(comment?.body) : comment.body}</>
-                    )}
-                  </div>
+                  {comment.body && getPlainTextLength(comment.body) > 150 ? (
+                    <div
+                      className="p-3 rounded-r-xl xsm:text-sm rounded-bl-xl border shadow bg-[#fefefe] w-full xsm:max-w-[70%]"
+                      id="comment-body">
+                      <div className="xsm:max-w-[100%]">
+                        {showFullComment
+                          ? parse(comment.body)
+                          : getTruncatedText(comment.body, 150)}
+                      </div>
+                      <button
+                        className="border bg-gray-50 shadow my-1 px-1 py-0.5 rounded-md cursor-pointer"
+                        onClick={toggleShowFullComment}>
+                        {showFullComment ? "Read Less" : "Read More.."}
+                      </button>
+                    </div>
+                  ) : (
+                    <div
+                      className="p-3 rounded-r-xl xsm:text-sm rounded-bl-xl border shadow bg-[#fefefe]"
+                      id="comment-body">
+                      {comment.body ? parse(comment.body) : comment.body}
+                    </div>
+                  )}
 
                   {user && (
                     <div className="py-1 flex items-center gap-4">
