@@ -37,7 +37,7 @@ export async function resetPassword(userData: {
     if (error.code === "P2025") {
       throw new Error("User to update does not exist");
     }
-    throw new Error(error);
+    throw new Error("Something went wrong");
   }
 }
 
