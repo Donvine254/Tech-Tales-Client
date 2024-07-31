@@ -136,7 +136,7 @@ h4 {
 .blog-body pre code {
   border-radius: 8px !important;
   width: 100%;
-  white-space: pre-wrap;
+  overflow-x: auto;
   line-height: normal;
   font-size: 15px !important;
 }
@@ -265,12 +265,14 @@ div.arrow-up {
 /* style for quill editor */
 
 .ql-syntax {
+  /* still struggling with this */
   background-color: #f2f2f2;
   padding: 5px;
   font-weight: 100;
   font-size: 12px;
   overflow-x: auto;
   word-wrap: pre-wrap;
+  overflow-x: auto;
 }
 
 /* style for like animation */
