@@ -169,9 +169,7 @@ export default function Slug({ blog }) {
               <Comment size={20} className="stroke-none fill-gray-400" />
               <span> {commentCount}</span>
             </Link>
-            <Link
-              className="inline-flex items-center gap-0.5 "
-              href="#comments">
+            <Link className="inline-flex items-center gap-0.5 " href="#actions">
               <Like
                 className="stroke-gray-400 fill-none"
                 size={20}
@@ -311,7 +309,7 @@ export default function Slug({ blog }) {
             </div>
           </div>
           {/* div for actions buttons */}
-          <div className="flex items-center justify-between mt-2">
+          <div className="flex items-center justify-between mt-2" id="actions">
             <p className="blog__icons">
               <Comment size={30} />
               <span className="text-base xsm:text-base ">
