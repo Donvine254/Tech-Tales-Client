@@ -176,7 +176,7 @@ h4 {
 }
 #blog-body blockquote,
 #blog-body pre blockquote {
-  @apply text-base  md:text-lg italic font-semibold text-gray-900 bg-[#f2f2f2] p-4 my-4 border-l-4 md:border-l-8  border-gray-500 leading-relaxed;
+  @apply text-base  md:text-lg italic font-semibold text-gray-900 bg-[#f2f2f2] p-4 my-4 shadow border-l-4 md:border-l-8   border-gray-500 leading-relaxed;
 }
 #blog-body table,
 #blog-body iframe {

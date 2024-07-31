@@ -30,6 +30,8 @@ export default function App({ data, handleChange }) {
           autocomplete: true,
           placeholder: "Start by writing or pasting (Ctrl + V) text here....",
           browser_spellcheck: true,
+          contextmenu: false,
+          autocomplete: true,
           plugins: [
             "advlist",
             "autolink",
@@ -52,7 +54,6 @@ export default function App({ data, handleChange }) {
             "help",
             "wordcount",
             "autocorrect",
-            "spellchecker",
           ],
           toolbar:
             "undo redo | blocks | bold italic forecolor underline| align numlist bullist | link image table media pageembed | backcolor  emoticons codesample blockquote| preview removeformat",
