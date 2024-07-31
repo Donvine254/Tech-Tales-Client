@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { getUserData, registerUser, saveUserData } from "@/lib";
+import { getUserData, registerUser, saveUserData, baseUrl} from "@/lib";
 import { convertToHandle, createUserAvatar } from "@/lib/utils";
 import Script from "next/script";
 import { useGoogleLogin } from "@react-oauth/google";
@@ -63,7 +63,7 @@ export default function Register() {
     if (user) {
       try {
         const response = await Axios.post(
-          "https://techtales.up.railway.app/users",
+          `${baseUrl}/users`,
           user
         );
         const data = response.data;
