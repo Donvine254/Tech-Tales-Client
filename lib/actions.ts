@@ -398,8 +398,8 @@ export async function validateRecaptcha(captcha: string) {
 
   const data = await response.json();
 
-  if (!data.success) {
-    throw new Error("Failed reCAPTCHA validation", data.error_codes);
+  if (!data.success && data.score < 0.5) {
+    throw new Error("Failed reCAPTCHA validation", data.score);
   }
 
   return true;

@@ -46,12 +46,13 @@ export default function ResetPage() {
       return;
     }
     if (!token) {
-      console.error("ReCAPTCHA not available");
+      toast.error("Kindly complete the recaptcha challenge");
       return;
     }
 
     try {
       const isValid = await validateRecaptcha(token);
+      console.log(isValid);
       if (isValid) {
         await resetPassword(resetForm);
         toast.success("Password reset successfully");
