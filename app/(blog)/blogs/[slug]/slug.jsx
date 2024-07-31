@@ -162,21 +162,26 @@ export default function Slug({ blog }) {
             )}
           </div>
           <div className="flex items-center justify-between xsm:gap-2 md:gap-4  py-2 border-y border-gray-100 shadow-sm my-1">
-            <p
+            <Link
+              href="#comments"
               className="text-base  inline-flex items-center gap-1"
               title="comments">
               <Comment size={20} className="stroke-none fill-gray-400" />
               <span> {commentCount}</span>
-            </p>
-            <p className="inline-flex items-center gap-0.5 ">
+            </Link>
+            <Link
+              className="inline-flex items-center gap-0.5 "
+              href="#comments">
               <Like
                 className="stroke-gray-400 fill-none"
                 size={20}
                 title="likes"
               />
               <span className="">{blog.likes}</span>
-            </p>
-            <p className="inline-flex items-center gap-0.5" title="views">
+            </Link>
+            <p
+              className="inline-flex items-center gap-0.5"
+              title="this displays the total blog views">
               <Graph className="stroke-gray-500 fill-none" size={20} />
               <span className="">{blog.views}</span>
             </p>
