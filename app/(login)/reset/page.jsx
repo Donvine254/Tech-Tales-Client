@@ -184,7 +184,6 @@ export default function ResetPage() {
               {loading ? <Loader size={30} /> : "Reset Password"}
             </button>
             <ReCAPTCHA
-              className="!w-full"
               sitekey={process.env.NEXT_PUBLIC_GOOGLE_RECAPTCHA_SITE_KEY}
               onChange={setCaptcha}
               required
