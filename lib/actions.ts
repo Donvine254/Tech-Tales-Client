@@ -1,6 +1,7 @@
 "use server";
 import prisma from "@/prisma/prisma";
 import { revalidatePath } from "next/cache";
+import bcrypt from "bcryptjs";
 
 export async function revalidateBlogs(slug: string) {
   if (slug) {
@@ -11,6 +12,30 @@ export async function revalidateBlogs(slug: string) {
 }
 export async function revalidatePage(page) {
   revalidatePath(`/${page}`, "page");
+}
+const hashPassword = async (password: string) => {
+  return await bcrypt.hash(password, 10);
+};
+
+export async function resetPassword(userData: {
+  email: string;
+  password: string;
+}) {
+  const { email, password } = userData;
+  try {
+    await prisma.user.update({
+      where: {
+        email: email,
+      },
+      data: {
+        password: await hashPassword(password),
+      },
+    });
+    return { message: "Password updated successfully!" };
+  } catch (error) {
+    console.error(error);
+    throw new Error(error);
+  }
 }
 
 export async function updateUserRole(id: string | number, role: string) {
