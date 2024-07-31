@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Axios from "axios";
 import toast from "react-hot-toast";
 import Loader from "@/components/Loader";
+import {baseUrl} from "@/lib";
 
 export default function ResetPage() {
   const [error, setError] = useState(false);
@@ -44,7 +45,7 @@ export default function ResetPage() {
       return;
     }
     try {
-      await Axios.patch("https://techtales.up.railway.app/reset", resetForm);
+      await Axios.patch(`${baseUrl}/users`, resetForm);
       toast.success("Password reset successfully");
       setLoading(false);
       push("/login");
