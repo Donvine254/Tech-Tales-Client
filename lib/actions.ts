@@ -28,7 +28,7 @@ export async function resetPassword(userData: {
         email: email,
       },
       data: {
-        password: await hashPassword(password),
+        password_digest: await hashPassword(password),
       },
     });
     return { message: "Password updated successfully!" };

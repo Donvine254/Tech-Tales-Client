@@ -2,7 +2,6 @@
 import { useState } from "react";
 
 import { useRouter } from "next/navigation";
-import Axios from "axios";
 import toast from "react-hot-toast";
 import Loader from "@/components/Loader";
 import { resetPassword } from "@/lib/actions";
@@ -51,7 +50,7 @@ export default function ResetPage() {
       push("/login");
     } catch (error) {
       setLoading(false);
-      toast.error(error?.response?.data?.errors ?? "something went wrong");
+      toast.error(error?.message ?? "something went wrong");
     }
     setFormData({
       email: "",
@@ -70,7 +69,7 @@ export default function ResetPage() {
             <h3 className="font-semibold tracking-tight text-xl md:text-2xl text-center">
               Reset Your Password
             </h3>
-            <p className="xsm:text-base text-base  text-center">
+            <p className="xsm:text-sm text-base  text-center">
               Unlock your account to access your personalized settings and
               content.
             </p>

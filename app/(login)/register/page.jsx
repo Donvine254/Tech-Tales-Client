@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { getUserData, registerUser, saveUserData, baseUrl} from "@/lib";
+import { getUserData, registerUser, saveUserData, baseUrl } from "@/lib";
 import { convertToHandle, createUserAvatar } from "@/lib/utils";
 import Script from "next/script";
 import { useGoogleLogin } from "@react-oauth/google";
@@ -62,15 +62,12 @@ export default function Register() {
     const user = await getUserData(access_token);
     if (user) {
       try {
-        const response = await Axios.post(
-          `${baseUrl}/users`,
-          user
-        );
+        const response = await Axios.post(`${baseUrl}/auth/register`, user);
         const data = response.data;
         saveUserData(data);
         setLoading(false);
-        toast.success("registration successful");
-        router.replace("/relevant");
+        toast.success("Registration successful");
+        router.replace("/");
       } catch (error) {
         setLoading(false);
         console.log(error);
