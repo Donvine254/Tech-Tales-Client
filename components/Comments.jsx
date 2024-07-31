@@ -13,7 +13,6 @@ import { formatDate } from "@/lib/utils";
 import toast from "react-hot-toast";
 import parse from "html-react-parser";
 import { updateCommentStatus } from "@/lib/actions";
-import { useUserContext } from "@/providers";
 
 const DynamicEditor = dynamic(() => import("@/components/CommentEditor"), {
   loading: () => <Loader size={60} />,
@@ -27,6 +26,7 @@ export default function Comments({
   blogAuthorId,
   commentCount,
   setCommentCount,
+  user,
 }) {
   const [newComment, setNewComment] = useState("");
   const [commentToEdit, setCommentToEdit] = useState(null);
@@ -35,7 +35,7 @@ export default function Comments({
   const [isEditing, setIsEditing] = useState(false);
   const [length, setLength] = useState(0);
   const [isSorted, setIsSorted] = useState(false);
-  const user = useUserContext();
+
   //function to submit comment form
   async function handleSubmit(e) {
     e.preventDefault();
@@ -263,7 +263,7 @@ export default function Comments({
                     </p>
                   </div>
 
-                  {comment.body && getPlainTextLength(comment.body) > 150 ? (
+                  {comment.body && getPlainTextLength(comment.body) > 250 ? (
                     <div
                       className={`p-3 rounded-r-xl xsm:text-sm rounded-bl-xl border shadow bg-[#fefefe] w-full ${
                         showFullComment ? "xsm:max-w-[70%]" : ""
@@ -272,7 +272,7 @@ export default function Comments({
                       <div className="xsm:max-w-[100%]">
                         {showFullComment
                           ? parse(comment.body)
-                          : getTruncatedText(comment.body, 150)}
+                          : getTruncatedText(comment.body, 250)}
                       </div>
                       <button
                         className="border bg-gray-50 shadow my-1 px-1 py-0.5 rounded-md cursor-pointer"

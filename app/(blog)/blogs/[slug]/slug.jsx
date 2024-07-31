@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
-import { Comment, Share } from "@/assets";
+import { Comment, Edit, Share } from "@/assets";
 import {
   Bookmark,
   UserCard,
@@ -23,6 +23,7 @@ import hljs from "highlight.js";
 import "highlight.js/styles/github.css";
 import dynamic from "next/dynamic";
 import BlogSummary from "@/components/blogSummary";
+import { useUserContext } from "@/providers";
 
 const NoSSRComments = dynamic(() => import("@/components/Comments"), {
   loading: () => (
@@ -34,7 +35,6 @@ const NoSSRComments = dynamic(() => import("@/components/Comments"), {
 });
 export default function Slug({ blog }) {
   const [likes, setLikes] = useState(blog?.likes ?? 0);
-
   const [isCardVisible, setIsCardVisible] = useState(false);
   const [commentData, setCommentData] = useState(blog?.comments ?? []);
   const [commentCount, setCommentCount] = useState(blog?.comments.length ?? 0);
@@ -42,6 +42,8 @@ export default function Slug({ blog }) {
   const [showPlayButton, setShowPlayButton] = useState(false);
   const printRef = useRef(null);
   const router = useRouter();
+
+  const user = useUserContext();
 
   useEffect(() => {
     if (!blog) {
@@ -145,7 +147,7 @@ export default function Slug({ blog }) {
           <div className="py-1">
             {blog.tags ? (
               <div className="flex gap-2 flex-wrap">
-                <h1 className="font-semibold md:text-xl">Tags:</h1>
+                <h1 className="font-semibold md:text-xl xsm:hidden">Tags:</h1>
                 {blog.tags.split(",").map((tag, index) => (
                   <Link
                     key={index}
@@ -202,9 +204,32 @@ export default function Slug({ blog }) {
             <Bookmark blogId={blog.id} size={20} />
           </div>
           {/* div for playing the blog */}
-          {showPlayButton && (
-            <AudioPlayer handleClick={() => setShowPlayButton(false)} />
-          )}
+          {showPlayButton &&
+            (blog && blog.audio ? (
+              <div className="border-2 border-dotted bg-gray-200 rounded-md border-blue-500 py-2 mt-4 mx-auto relative">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  onClick={() => setShowPlayButton(false)}
+                  className="hover:fill-red-500 hover:bg-gray-100 p-1 rounded-full hover:text-red-500 cursor-pointer z-50 absolute top-0 right-0">
+                  <path d="M18 6 6 18" />
+                  <path d="m6 6 12 12" />
+                  <title>Close</title>
+                </svg>
+                <div className="bg-zinc-100 my-2 px-4 rounded-full flex items-center gap-2 text-gray-500 mx-auto w-fit whitespace-nowrap min-w-[60%] xsm:w-full sm:w-[80%] md:w-[60%]">
+                  <audio controls src={blog.audio} type="audio"></audio>
+                </div>
+              </div>
+            ) : (
+              <AudioPlayer handleClick={() => setShowPlayButton(false)} />
+            ))}
 
           {/* div for generating blog summary */}
           <BlogSummary body={blog.body} show={!showPlayButton} id={blog.id} />
@@ -296,6 +321,17 @@ export default function Slug({ blog }) {
               setLikes={setLikes}
               likes={likes}
             />
+            {user && user.id === blog.authorId && (
+              <Link href={`/create/${blog.slug}`}>
+                <svg
+                  viewBox="0 0 1024 1024"
+                  fill="currentColor"
+                  height="30"
+                  width="30">
+                  <path d="M880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32zm-622.3-84c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 000-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 009.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9z" />
+                </svg>
+              </Link>
+            )}
             <Bookmark blogId={blog?.id} size={30} />
           </div>
           {/* beginning of comment section */}
@@ -308,6 +344,7 @@ export default function Slug({ blog }) {
             setComments={setCommentData}
             commentCount={commentCount}
             setCommentCount={setCommentCount}
+            user={user}
           />
           <div ref={printRef} style={{ display: "none" }}>
             <h1 className="text-xl font-bold">{blog.title}</h1>
