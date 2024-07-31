@@ -5,12 +5,12 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Loader from "@/components/Loader";
 import { resetPassword, validateRecaptcha } from "@/lib/actions";
-import ReCAPTCHA from "react-google-recaptcha";
+import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 
 export default function ResetPage() {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [captcha, setCaptcha] = useState(null);
+  const [token, setToken] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -45,13 +45,13 @@ export default function ResetPage() {
       setLoading(false);
       return;
     }
-    if (!captcha) {
-      toast.error("Please fill the captcha field!");
-      setLoading(false);
-      return false;
+    if (!token) {
+      console.error("ReCAPTCHA not available");
+      return;
     }
+
     try {
-      const isValid = await validateRecaptcha(captcha);
+      const isValid = await validateRecaptcha(token);
       if (isValid) {
         await resetPassword(resetForm);
         toast.success("Password reset successfully");
@@ -183,10 +183,10 @@ export default function ResetPage() {
               title="reset">
               {loading ? <Loader size={30} /> : "Reset Password"}
             </button>
-            <ReCAPTCHA
-              sitekey={process.env.NEXT_PUBLIC_GOOGLE_RECAPTCHA_SITE_KEY}
-              onChange={setCaptcha}
-              required
+            <GoogleReCaptcha
+              onVerify={(token) => {
+                setToken(token);
+              }}
             />
             <div
               className="bg-teal-100 border border-teal-500 text-teal-600 py-3 rounded relative space-y-2 border-l-4 "
