@@ -4,11 +4,13 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Loader from "@/components/Loader";
-import { resetPassword } from "@/lib/actions";
+import { resetPassword, validateRecaptcha } from "@/lib/actions";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function ResetPage() {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [captcha, setCaptcha] = useState(null);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -43,11 +45,19 @@ export default function ResetPage() {
       setLoading(false);
       return;
     }
-    try {
-      await resetPassword(resetForm);
-      toast.success("Password reset successfully");
+    if (!captcha) {
+      toast.error("Please fill the captcha field!");
       setLoading(false);
-      push("/login");
+      return false;
+    }
+    try {
+      const isValid = await validateRecaptcha(captcha);
+      if (isValid) {
+        await resetPassword(resetForm);
+        toast.success("Password reset successfully");
+        setLoading(false);
+        push("/login");
+      } else toast.error("Failed to validate reCAPTCHA response");
     } catch (error) {
       setLoading(false);
       toast.error(error?.message ?? "something went wrong");
@@ -165,7 +175,6 @@ export default function ResetPage() {
               )
             )}
           </div>
-
           <div className="items-center px-6 pb-4 flex flex-col space-y-4">
             <button
               className="inline-flex items-center justify-center  disabled:pointer-events-none disabled:bg-gray-100 disabled:text-black hover:bg-primary/90 px-4 py-1.5 w-full bg-blue-500 text-white rounded-md h-10"
@@ -174,6 +183,12 @@ export default function ResetPage() {
               title="reset">
               {loading ? <Loader size={30} /> : "Reset Password"}
             </button>
+            <ReCAPTCHA
+              className="!w-full"
+              sitekey={process.env.NEXT_PUBLIC_GOOGLE_RECAPTCHA_SITE_KEY}
+              onChange={setCaptcha}
+              required
+            />
             <div
               className="bg-teal-100 border border-teal-500 text-teal-600 py-3 rounded relative space-y-2 border-l-4 "
               role="alert">
