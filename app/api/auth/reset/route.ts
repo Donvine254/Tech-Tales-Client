@@ -51,7 +51,35 @@ export async function POST(req: NextRequest, res: NextResponse) {
   } catch (error) {
     console.error(error);
     return NextResponse.json(
-      { error: "Unexpected error occured" },
+      { error: "Unexpected error occurred" },
+      { status: 500 }
+    );
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+export async function PATCH(req: NextRequest, res: NextResponse) {
+  const { password, email } = await req.json();
+
+  try {
+    const user = await prisma.user.update({
+      where: {
+        email: email,
+      },
+      data: {
+        password_digest: await hashPassword(password),
+      },
+    });
+    if (!user) {
+      return NextResponse.json(
+        { error: "Record to update not found" },
+        { status: 404 }
+      );
+    }
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { error: "Unexpected error occurred" },
       { status: 500 }
     );
   } finally {

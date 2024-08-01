@@ -8,9 +8,11 @@ import { GithubIcon, GoogleIcon } from "@/assets";
 import { useGoogleLogin } from "@react-oauth/google";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import { findUser } from "@/lib/actions";
+import { resetPassword, validateRecaptcha } from "@/lib/actions";
 
 export default function ResetPage() {
   const [step, setStep] = useState(0);
+
   return (
     <section className="w-full">
       <div className="flex flex-col items-center justify-center w-full min-h-screen  px-4 md:px-6 font-crimson bg-gray-50">
@@ -155,7 +157,6 @@ const StepOne = ({ setStep }) => {
           </button>
         </div>
       </div>
-      <GoogleReCaptcha />
     </form>
   );
 };
@@ -262,6 +263,7 @@ const StepTwo = ({ setStep }) => {
 const StepThree = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [token, setToken] = useState(false);
   const [data, setData] = useState({
     password: "",
     confirmPassword: "",
@@ -287,11 +289,19 @@ const StepThree = () => {
     setError("");
     setLoading(true);
     try {
-      //reset password login
-      toast.success("Password reset successfully!");
-      router.replace("/login");
+      const isValid = await validateRecaptcha(token);
+      if (isValid) {
+        await resetPassword({
+          email: email,
+          password: data.password,
+        });
+        toast.success("Password reset successfully");
+        setLoading(false);
+        push("/login");
+      } else toast.error("Failed to validate reCAPTCHA response");
     } catch (error) {
       setError(error?.response?.data?.error);
+      setLoading(false);
     }
   }
 
@@ -389,6 +399,11 @@ const StepThree = () => {
           {loading ? <Loader size={30} /> : "Submit"}
         </button>
       </div>
+      <GoogleReCaptcha
+        onVerify={(token) => {
+          setToken(token);
+        }}
+      />
     </form>
   );
 };
