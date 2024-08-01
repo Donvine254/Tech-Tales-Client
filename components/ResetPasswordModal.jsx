@@ -2,12 +2,10 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import axiosInstance from "@/axiosConfig";
-import { useRouter } from "next/navigation";
 import Loader from "./Loader";
+import { baseUrl } from "@/lib";
 
 export default function ResetPasswordModal({ user }) {
-  const router = useRouter();
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -17,6 +15,7 @@ export default function ResetPasswordModal({ user }) {
     confirmPassword: "",
   });
   const handleChange = (event) => {
+    setError(null);
     const { name, value } = event.target;
     setData((prevData) => ({
       ...prevData,
@@ -33,13 +32,22 @@ export default function ResetPasswordModal({ user }) {
     }
   };
   async function handleSubmit(e) {
-    if (error) {
-      toast.error("Kindly make sure the passwords match");
-      setLoading(false);
-      return;
-    }
     e.preventDefault();
-    console.log(data);
+    setError(null);
+    try {
+      setLoading(true);
+      const response = await axiosInstance.post(`${baseUrl}/auth/reset`, {
+        id: user.id,
+        currentPassword: data.currentPassword,
+        newPassword: data.newPassword,
+      });
+      toast.success("Password updated successfully!");
+      setLoading(false);
+      document.getElementById("password_reset_modal").close();
+    } catch (error) {
+      setError(error?.response?.data?.error);
+      setLoading(false);
+    }
   }
 
   return (
@@ -52,7 +60,7 @@ export default function ResetPasswordModal({ user }) {
         onSubmit={handleSubmit}>
         <div className="flex gap-2 items-center justify-center">
           <hr className="border border-blue-200 w-1/3" />
-          <div className="flex flex-col text-blue-500 items-center w-14 h-14 rounded-full justify-center border bg-blue-100 ring ring-offset-1 ring-blue-400">
+          <div className="flex flex-col text-blue-500 items-center p-1 w-14 h-14 rounded-full justify-center border bg-blue-100 ring ring-offset-1 ring-blue-400">
             <svg viewBox="0 0 24 24" fill="currentColor" height="30" width="30">
               <path d="M12.63 2c5.53 0 10.01 4.5 10.01 10s-4.48 10-10.01 10c-3.51 0-6.58-1.82-8.37-4.57l1.58-1.25C7.25 18.47 9.76 20 12.64 20a8 8 0 008-8 8 8 0 00-8-8C8.56 4 5.2 7.06 4.71 11h2.76l-3.74 3.73L0 11h2.69c.5-5.05 4.76-9 9.94-9m2.96 8.24c.5.01.91.41.91.92v4.61c0 .5-.41.92-.92.92h-5.53c-.51 0-.92-.42-.92-.92v-4.61c0-.51.41-.91.91-.92V9.23c0-1.53 1.25-2.77 2.77-2.77 1.53 0 2.78 1.24 2.78 2.77v1.01m-2.78-2.38c-.75 0-1.37.61-1.37 1.37v1.01h2.75V9.23c0-.76-.62-1.37-1.38-1.37z" />
             </svg>
