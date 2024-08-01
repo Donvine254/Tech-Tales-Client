@@ -4,6 +4,7 @@ import Loader from "@/components/Loader";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import UpdateProfileModal from "@/components/UpdateProfileModal";
+import ResetPasswordModal from "@/components/ResetPasswordModal";
 import { UserImage } from "@/components/Avatar";
 import { deactivateUser, deleteUser } from "@/lib/actions";
 import { useUserContext } from "@/providers";
@@ -95,6 +96,15 @@ export default function Page() {
       console.error("Element with ID 'my_modal_3' not found.");
     }
   }
+
+  function showPasswordResetModal() {
+    const modal = document.getElementById("password_reset_modal");
+    if (modal) {
+      modal.showModal();
+    } else {
+      console.error("Element with ID 'my_modal_3' not found.");
+    }
+  }
   return (
     <div className="font-poppins flex items-center justify-center m-auto md:mt-10 ">
       <div className="bg-slate-100 shadow border-2 py-2 rounded-md">
@@ -115,10 +125,10 @@ export default function Page() {
             <h3 className="hover:text-gray-900 font-semibold">Username</h3>
             <p className="capitalize">{user?.username}</p>
           </div>
-          <div className="space-y-2 cursor-pointer flex items-center justify-between gap-4 text-gray-700">
+          <div className="space-y-2 cursor-pointer flex items-center justify-between gap-4 text-gray-700 ">
             <div onClick={showUpdateModal} className="text-sm md:text-base">
               <h3>Profile Information</h3>
-              <p onClick={showUpdateModal}>
+              <p onClick={showUpdateModal} className="hover:underline">
                 Edit your profile photo, bio and username
               </p>
             </div>
@@ -130,7 +140,7 @@ export default function Page() {
             </div>
           </div>
         </div>
-        <div className="px-6 py-2 flex items-center justify-between gap-3 text-sm md:text-base">
+        <div className="px-6 py-2 flex items-center justify-between gap-3 text-sm md:text-base space-y-2">
           <div className="py-1">
             <h3 className="">Allow Email Notifications </h3>
             <p className="text-sm wrap text-gray-600">
@@ -157,7 +167,7 @@ export default function Page() {
         </div>
         <div className="px-6 py-1 flex items-center justify-between gap-3 text-sm md:text-base">
           <div className="py-1">
-            <h3 className="">Enable/Disable Cookies </h3>
+            <h3 className="">Enable Cookies </h3>
             <p className="text-sm wrap text-gray-600">
               We use cookies to provide you with the best experience.
             </p>
@@ -170,6 +180,11 @@ export default function Page() {
         <h2 className="px-6 font-semibold">Danger Zone</h2>
         <div className="items-center px-6 py-2 flex flex-col space-y-4">
           <button
+            className="inline-flex items-center justify-center  font-medium hover:bg-primary/90 h-10 px-4 py-2 w-full border-2   rounded-md hover:bg-cyan-400 hover:text-white"
+            onClick={showPasswordResetModal}>
+            Change Password
+          </button>
+          <button
             className="inline-flex items-center justify-center  font-medium hover:bg-primary/90 h-10 px-4 py-2 w-full bg-[#FDFAE9] border-2 border-amber-500  rounded-md hover:bg-amber-400 hover:text-white"
             onClick={handleDeactivate}>
             Deactivate Account
@@ -181,6 +196,10 @@ export default function Page() {
           </button>
         </div>
         <UpdateProfileModal
+          user={user}
+          closeModal={() => setShowModal(false)}
+        />
+        <ResetPasswordModal
           user={user}
           closeModal={() => setShowModal(false)}
         />

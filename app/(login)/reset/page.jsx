@@ -71,9 +71,9 @@ export default function ResetPage() {
 
   return (
     <form className="w-full" onSubmit={handleReset}>
-      <div className="flex flex-col items-center justify-center w-full min-h-screen  px-4 font-crimson">
+      <div className="flex flex-col items-center justify-center w-full min-h-screen  px-4 md:px-6 font-crimson bg-gray-50">
         <div
-          className="border text-card-foreground w-full max-w-sm mx-auto rounded-xl shadow-md overflow-hidden bg-white "
+          className="border text-card-foreground w-full max-w-sm mx-auto rounded-xl shadow-md overflow-hidden"
           data-v0-t="card">
           <div className="flex flex-col space-y-1.5 px-6 py-2 font-poppins">
             <h3 className="font-semibold tracking-tight text-xl md:text-2xl text-center">
