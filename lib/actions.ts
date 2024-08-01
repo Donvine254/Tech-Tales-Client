@@ -404,3 +404,26 @@ export async function validateRecaptcha(captcha: string) {
 
   return true;
 }
+
+export async function findUser(email: string) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+      select: {
+        id: true,
+        email: true,
+      },
+    });
+    if (user) {
+      //send email here with otp code
+      return user;
+    } else {
+      throw new Error("Ooops! we couldn't find your account");
+    }
+  } catch (error) {
+    console.error(error);
+    throw new Error("Something went wrong, try again later");
+  }
+}

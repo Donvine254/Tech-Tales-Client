@@ -23,6 +23,6 @@
       }
     ]
   },
-  "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx", "lib/utils.js", "lib/fetchComments.js"],
+  "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx", "lib/utils.js", "lib/fetchComments.js", "app/(login)/reset/reset.jsx"],
   "exclude": ["node_modules"]
 }

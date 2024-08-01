@@ -43,6 +43,11 @@ export default function ResetPasswordModal({ user }) {
       });
       toast.success("Password updated successfully!");
       setLoading(false);
+      setData({
+        currentPassword: "",
+        confirmPassword: "",
+        newPassword: "",
+      });
       document.getElementById("password_reset_modal").close();
     } catch (error) {
       setError(error?.response?.data?.error);
@@ -190,6 +195,11 @@ export default function ResetPasswordModal({ user }) {
             className="px-4 h-10 py-0.5 border-2 border-green-400 hover:border-orange-500 rounded-xl disabled:bg-opacity-30 disabled:border-gray-200 bg-transparent"
             disabled={loading}
             onClick={() => {
+              setData({
+                currentPassword: "",
+                confirmPassword: "",
+                newPassword: "",
+              });
               document.getElementById("password_reset_modal").close();
             }}>
             Cancel
