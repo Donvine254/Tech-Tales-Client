@@ -6,6 +6,8 @@ import { convertToHandle, createUserAvatar } from "@/lib/utils";
 import Script from "next/script";
 import { useGoogleLogin } from "@react-oauth/google";
 import { GithubIcon, GoogleIcon } from "@/assets";
+import { validateRecaptcha } from "@/lib/actions";
+import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import Axios from "axios";
 import toast from "react-hot-toast";
 import Loader from "@/components/Loader";
@@ -14,6 +16,7 @@ export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [token, setToken] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -40,11 +43,20 @@ export default function Register() {
       picture: createUserAvatar(value),
     }));
   };
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    setLoading(true);
-    setError("");
-    registerUser(formData, setLoading, router, setError);
+    if (!token) {
+      toast.error("Kindly complete the recaptcha challenge");
+      return;
+    }
+    const isValid = await validateRecaptcha(token);
+    if (isValid) {
+      setLoading(true);
+      setError("");
+      registerUser(formData, setLoading, router, setError);
+    } else {
+      toast.error("Recaptcha Validation failed");
+    }
   }
   //function to register users with google
   const handleGoogleSignup = useGoogleLogin({
@@ -174,6 +186,11 @@ export default function Register() {
             </div>
           )}
           <div className="items-center px-6 py-2 pb-4 flex flex-col space-y-2">
+            <GoogleReCaptcha
+              onVerify={(token) => {
+                setToken(token);
+              }}
+            />
             <button
               className="inline-flex items-center justify-center disabled:pointer-events-none hover:bg-primary/90 h-10 px-4 py-2 w-full bg-blue-500 hover:bg-blue-600 text-white rounded-md disabled:bg-gray-100 disabled:text-black border"
               type="submit"

@@ -52,7 +52,6 @@ export default function ResetPage() {
 
     try {
       const isValid = await validateRecaptcha(token);
-      console.log(isValid);
       if (isValid) {
         await resetPassword(resetForm);
         toast.success("Password reset successfully");

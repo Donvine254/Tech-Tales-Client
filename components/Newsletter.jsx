@@ -3,9 +3,23 @@
 import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import toast from "react-hot-toast";
+import {
+  GoogleReCaptcha,
+  GoogleReCaptchaProvider,
+} from "react-google-recaptcha-v3";
 
 export default function Newsletter() {
+  return (
+    <GoogleReCaptchaProvider
+      reCaptchaKey={process.env.NEXT_PUBLIC_GOOGLE_RECAPTCHA_SITE_KEY}>
+      <Form />
+    </GoogleReCaptchaProvider>
+  );
+}
+
+function Form() {
   const [showForm, setShowForm] = useState(true);
+  const [token, setToken] = useState(null);
   const pathname = usePathname();
   const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
   useEffect(() => {
@@ -95,6 +109,11 @@ export default function Newsletter() {
             <br className="sm:block" />
             <span>By subscribing you agree to our terms and conditions</span>
           </p>
+          <GoogleReCaptcha
+            onVerify={(token) => {
+              setToken(token);
+            }}
+          />
         </form>
       )}
     </div>

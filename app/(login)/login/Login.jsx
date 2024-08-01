@@ -6,13 +6,15 @@ import toast from "react-hot-toast";
 import { useGoogleLogin } from "@react-oauth/google";
 import Loader from "@/components/Loader";
 import { GithubIcon, GoogleIcon } from "@/assets";
-
+import { validateRecaptcha } from "@/lib/actions";
+import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 export const dynamic = "force-dynamic";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [token, setToken] = useState(false);
   const searchParams = useSearchParams();
   const redirect = searchParams.get("post_login_redirect_url") ?? "relevant";
 
@@ -32,9 +34,19 @@ export default function LoginPage() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setLoading(true);
-    setError("");
-    handleLogin(loginData, setLoading, setError, router, redirect);
+    if (!token) {
+      toast.error("Kindly complete the recaptcha challenge");
+      return;
+    }
+    const isValid = await validateRecaptcha(token);
+    if (isValid) {
+      setLoading(true);
+      setError("");
+      handleLogin(loginData, setLoading, setError, router, redirect);
+    } else {
+      setLoading(false);
+      toast.error("Recaptcha Validation Failed");
+    }
   }
 
   //functions to handle Login with google
@@ -138,6 +150,11 @@ export default function LoginPage() {
             </div>
           )}
           <div className="items-center px-6 py-2 pb-4 flex flex-col space-y-2">
+            <GoogleReCaptcha
+              onVerify={(token) => {
+                setToken(token);
+              }}
+            />
             <button
               className="inline-flex items-center justify-center  border disabled:pointer-events-none disabled:bg-gray-100 disabled:text-black  h-10 px-4 py-2 w-full bg-blue-500 hover:bg-blue-600 text-white rounded-md"
               type="submit"
