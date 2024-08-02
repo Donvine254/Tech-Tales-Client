@@ -96,7 +96,6 @@ const StepOne = () => {
       );
     } catch (error) {
       console.error(error);
-      toast.error(error.message);
       setError("Ooops! we couldn't find your account");
       setLoading(false);
     }
