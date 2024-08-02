@@ -6,8 +6,8 @@ import Loader from "@/components/Loader";
 import { GithubIcon, GoogleIcon } from "@/assets";
 import { useGoogleLogin } from "@react-oauth/google";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
-import { findUser } from "@/lib/actions";
-import { resetPassword, validateRecaptcha } from "@/lib/actions";
+import { getUserData, authenticateUser } from "@/lib";
+import { resetPassword, validateRecaptcha, findUser } from "@/lib/actions";
 
 export default function ResetPage() {
   const [step, setStep] = useState(0);
