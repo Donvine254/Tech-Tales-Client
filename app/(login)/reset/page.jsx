@@ -12,7 +12,7 @@ import { resetPassword, validateRecaptcha } from "@/lib/actions";
 
 export default function ResetPage() {
   const [step, setStep] = useState(0);
-
+  const [email, setEmail] = useState("");
   return (
     <section className="w-full">
       <div className="flex flex-col items-center justify-center w-full min-h-screen  px-4 md:px-6 font-crimson bg-gray-50">
@@ -40,9 +40,11 @@ export default function ResetPage() {
               content.
             </p>
           </div>
-          {step === 0 && <StepOne setStep={setStep} />}
+          {step === 0 && (
+            <StepOne setStep={setStep} email={email} setEmail={setEmail} />
+          )}
           {step === 1 && <StepTwo setStep={setStep} />}
-          {step === 2 && <StepThree setStep={setStep} />}
+          {step === 2 && <StepThree setStep={setStep} email={email} />}
         </div>
         <div className="mt-2 text-gray-600 text-base">
           Remember Password?{" "}
@@ -57,10 +59,9 @@ export default function ResetPage() {
   );
 }
 //first step
-const StepOne = ({ setStep }) => {
+const StepOne = ({ setStep, email, setEmail }) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState("");
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: (tokenResponse) => {
       loginGoogleUsers(tokenResponse.access_token);
@@ -260,7 +261,7 @@ const StepTwo = ({ setStep }) => {
   );
 };
 
-const StepThree = () => {
+const StepThree = ({ email }) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [token, setToken] = useState(false);
@@ -297,7 +298,7 @@ const StepThree = () => {
         });
         toast.success("Password reset successfully");
         setLoading(false);
-        push("/login");
+        router.push("/login");
       } else toast.error("Failed to validate reCAPTCHA response");
     } catch (error) {
       setError(error?.response?.data?.error);
