@@ -198,7 +198,7 @@ const StepTwo = () => {
     try {
       const response = await verifyOTP(email, code);
       const encodedEmail = btoa(email);
-      router.push(
+      router.replace(
         `/reset?step=new_password&rs=${encodeURIComponent(encodedEmail)}`
       );
       toast.success(response.message);
