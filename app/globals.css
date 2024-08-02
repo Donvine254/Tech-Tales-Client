@@ -174,6 +174,12 @@ h4 {
   height: auto;
   border-radius: 8px;
 }
+
+#blog-body img {
+  width: 100%;
+  height: auto;
+}
+
 #blog-body blockquote,
 #blog-body pre blockquote {
   @apply text-base  md:text-lg italic font-semibold text-gray-900 bg-[#f2f2f2] p-4 my-4 shadow border-l-4 md:border-l-8   border-gray-500 leading-relaxed;
