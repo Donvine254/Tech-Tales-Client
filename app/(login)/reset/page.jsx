@@ -90,6 +90,7 @@ const StepOne = () => {
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
+    setError("");
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     try {
       const response = await findUser(email, otp);
@@ -100,7 +101,9 @@ const StepOne = () => {
         `/reset?step=verification&verify=${encodeURIComponent(encodedEmail)}`
       );
     } catch (error) {
-      setError(error.message);
+      console.error(error);
+      toast.error(error.message);
+      setError("Ooops! we couldn't find your account");
       setLoading(false);
     }
   }
