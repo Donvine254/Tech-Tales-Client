@@ -440,7 +440,7 @@ export async function findUser(email: string, otp: string) {
     return data.message;
   } catch (error) {
     console.error(error);
-    throw new Error(error);
+    throw new Error("Ooops! we couldn't find your account");
   }
 }
 //function to send email
@@ -470,6 +470,7 @@ export async function sendEmail(email: string, otp: string) {
 //function to verify the OTP
 export async function verifyOTP(email: string, otpCode: string) {
   let otpEntry: any;
+  console.log(email, otpCode);
   try {
     otpEntry = await prisma.OTP.findFirst({
       where: {
