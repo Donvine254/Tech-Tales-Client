@@ -2,6 +2,7 @@
 import prisma from "@/prisma/prisma";
 import { revalidatePath } from "next/cache";
 import bcrypt from "bcryptjs";
+import { baseUrl } from ".";
 
 export async function revalidateBlogs(slug: string) {
   if (slug) {
@@ -405,7 +406,9 @@ export async function validateRecaptcha(captcha: string) {
   return true;
 }
 
-export async function findUser(email: string) {
+//function to send user otp codes
+
+export async function findUser(email: string, otp: string) {
   try {
     const user = await prisma.user.findUnique({
       where: {
@@ -417,8 +420,35 @@ export async function findUser(email: string) {
       },
     });
     if (user) {
-      //send email here with otp code
-      return user;
+      try {
+        //create otp in the database
+        const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
+        await prisma.OTP.create({
+          data: {
+            email,
+            code: otp,
+            expiresAt: expiresAt,
+          },
+        });
+        //send email to user
+        const body = { email: email, otpCode: otp };
+        console.log(body);
+        const response = await fetch(`${baseUrl}/mailer`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(body),
+        });
+        console.log(response);
+        const data = await response.json();
+        console.log(data);
+        return data.message;
+      } catch (error) {
+        console.error(error);
+        throw new Error(error);
+      }
     } else {
       throw new Error("Ooops! we couldn't find your account");
     }

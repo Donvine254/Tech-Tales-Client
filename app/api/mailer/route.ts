@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
     const { email, otpCode } = data;
-
+    console.log(data);
     const emailHtml = `
       <div>
         <h3>Your TechTales OTP</h3>
@@ -42,9 +42,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ message: "Email sent successfully" });
   } catch (error) {
     console.error("Email delivery failed:", error);
-    return new Response("Email delivery failed", { status: 400 });
+    return NextResponse.json(
+      { message: "Email delivery failed" },
+      { status: 400 }
+    );
   }
 }
-
-// https://www.corbado.com/blog/nextjs-login-page
-//https://ethereal.email/

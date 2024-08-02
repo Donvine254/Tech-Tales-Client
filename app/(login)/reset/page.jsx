@@ -90,7 +90,7 @@ const StepOne = ({ setStep, email, setEmail }) => {
     setLoading(true);
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     try {
-      const user = await findUser(email, otp);
+      const response = await findUser(email, otp);
       setLoading(false);
       toast.success("Verification code sent to your email");
       console.log(otp);
@@ -100,7 +100,6 @@ const StepOne = ({ setStep, email, setEmail }) => {
       setLoading(false);
     }
   }
-
   return (
     <form onSubmit={handleSubmit}>
       <div className="px-6">
@@ -163,7 +162,7 @@ const StepOne = ({ setStep, email, setEmail }) => {
   );
 };
 //second step
-const StepTwo = ({ setStep }) => {
+const StepTwo = ({ setStep, email }) => {
   const [isResendDisabled, setIsResendDisabled] = useState(true);
   const [timer, setTimer] = useState(120);
   const [loading, setLoading] = useState(false);
