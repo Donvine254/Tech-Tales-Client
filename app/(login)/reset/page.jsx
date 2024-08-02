@@ -1,12 +1,13 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 import Loader from "@/components/Loader";
 import { GithubIcon, GoogleIcon } from "@/assets";
 import { useGoogleLogin } from "@react-oauth/google";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
-import { getUserData, authenticateUser } from "@/lib";
+import { getUserData, authenticateUser, baseUrl } from "@/lib";
+import secureLocalStorage from "react-secure-storage";
 import {
   resetPassword,
   validateRecaptcha,
@@ -14,10 +15,11 @@ import {
   verifyOTP,
   sendEmail,
 } from "@/lib/actions";
+import axios from "axios";
 
 export default function ResetPage() {
-  const [step, setStep] = useState(0);
-  const [email, setEmail] = useState("");
+  const searchParams = useSearchParams();
+  const step = searchParams.get("step") || "send-otp";
   return (
     <section className="w-full">
       <div className="flex flex-col items-center justify-center w-full min-h-screen  px-4 md:px-6 font-crimson bg-gray-50">
@@ -45,11 +47,9 @@ export default function ResetPage() {
               content.
             </p>
           </div>
-          {step === 0 && (
-            <StepOne setStep={setStep} email={email} setEmail={setEmail} />
-          )}
-          {step === 1 && <StepTwo setStep={setStep} />}
-          {step === 2 && <StepThree setStep={setStep} email={email} />}
+          {!step || (step === "send-otp" && <StepOne />)}
+          {step === "verification" && <StepTwo />}
+          {step === "new_password" && <StepThree />}
         </div>
         <div className="mt-2 text-gray-600 text-base">
           Remember Password?{" "}
@@ -64,9 +64,12 @@ export default function ResetPage() {
   );
 }
 //first step
-const StepOne = ({ setStep, email, setEmail }) => {
+const StepOne = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const router = useRouter();
+
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: (tokenResponse) => {
       loginGoogleUsers(tokenResponse.access_token);
@@ -97,9 +100,12 @@ const StepOne = ({ setStep, email, setEmail }) => {
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     try {
       const response = await findUser(email, otp);
+      const encodedEmail = btoa(email);
       setLoading(false);
       toast.success("Verification code sent to your email");
-      setStep(1);
+      router.replace(
+        `/reset?step=verification&verify=${encodeURIComponent(encodedEmail)}`
+      );
     } catch (error) {
       setError(error.message);
       setLoading(false);
@@ -167,13 +173,16 @@ const StepOne = ({ setStep, email, setEmail }) => {
   );
 };
 //second step
-const StepTwo = ({ setStep, email }) => {
+const StepTwo = () => {
   const [isResendDisabled, setIsResendDisabled] = useState(true);
   const [timer, setTimer] = useState(120);
   const [loading, setLoading] = useState(false);
   const [code, setCode] = useState("");
   const [error, setError] = useState(null);
   const [resending, setResending] = useState(false);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const email = atob(decodeURIComponent(searchParams.get("verify")));
   useEffect(() => {
     if (isResendDisabled) {
       const countdown = setInterval(() => {
@@ -195,12 +204,15 @@ const StepTwo = ({ setStep, email }) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await verifyOTP(email, code);
-      setStep(2);
-      toast.success(response.message);
+      const response = await axios.post(`${baseUrl}/reset/verify_token`, {
+        email,
+        code,
+      });
+      router.push("/reset?step=new_password");
+      toast.success("OTP Code Verified");
     } catch (error) {
       console.error(error);
-      setError(error.message);
+      setError(error.response?.data?.error);
       setLoading(false);
     }
   }
@@ -248,19 +260,20 @@ const StepTwo = ({ setStep, email }) => {
               required
               type="text"
             />
-
-            <button
-              className="border h-10 px-3 py-2 disabled:opacity-50 disabled:bg-gray-100 disabled:text-black disabled:pointer-events-none bg-blue-500 text-white text-base rounded-md border-gray-300 flex items-center justify-center"
-              type="button"
-              onClick={handleResend}
-              disabled={isResendDisabled || loading || resending}>
-              {resending ? <Loader size={20} /> : "Resend"}
-            </button>
           </div>
         </div>
         <p className="text-sm text-center">
           {" "}
-          {isResendDisabled ? `Resend Code in ${timer} Seconds` : ""}
+          {isResendDisabled ? (
+            `Didn't receive the code? Resend in ${timer} seconds`
+          ) : (
+            <span>
+              Didn&apos;t receive the code?
+              <span className="text-blue-500" onClick={handleResend}>
+                Resend code
+              </span>
+            </span>
+          )}
         </p>
         <div className="h-5 min-h-5 max-h-5">
           {error ? (
@@ -276,6 +289,14 @@ const StepTwo = ({ setStep, email }) => {
           title="reset">
           {loading ? <Loader size={30} /> : "Verify"}
         </button>
+      </div>
+      <div
+        id="information"
+        className="bg-green-100 border-t border-green-500 flex items-center gap-1 p-2 text-sm">
+        <svg fill="currentColor" viewBox="0 0 16 16" height="1em" width="1em">
+          <path d="M8 16A8 8 0 108 0a8 8 0 000 16zm.93-9.412l-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 110-2 1 1 0 010 2z" />
+        </svg>
+        <p> If you cannot see the code, kindly check the spam folder</p>
       </div>
     </form>
   );
@@ -312,10 +333,11 @@ const StepThree = ({ email }) => {
     try {
       const isValid = await validateRecaptcha(token);
       if (isValid) {
-        await resetPassword({
+        const response = await axios.patch(`${baseUrl}/reset`, {
           email: email,
           password: data.password,
         });
+        secureLocalStorage.removeItem("verify_email");
         toast.success("Password reset successfully");
         setLoading(false);
         router.push("/login");
