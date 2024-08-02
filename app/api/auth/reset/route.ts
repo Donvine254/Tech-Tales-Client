@@ -60,14 +60,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
 //modify patch request
 export async function PATCH(req: NextRequest, res: NextResponse) {
-  const verify_token = req.cookies.get("verify_token");
-
-  if (verify_token) {
-    return NextResponse.json(
-      { error: "Unauthorized Request" },
-      { status: 401 }
-    );
-  }
   const { password, email } = await req.json();
   try {
     const user = await prisma.user.update({
@@ -84,7 +76,6 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
         { status: 404 }
       );
     }
-    req.cookies.delete("verify_token");
     return NextResponse.json(
       { message: "Password updated successfully" },
       { status: 201 }

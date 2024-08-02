@@ -37,8 +37,9 @@ export async function resetPassword(userData: {
     console.error(error);
     if (error.code === "P2025") {
       throw new Error("User to update does not exist");
+    } else {
+      throw new Error("Something went wrong");
     }
-    throw new Error("Something went wrong");
   }
 }
 
@@ -464,5 +465,65 @@ export async function sendEmail(email: string, otp: string) {
   } catch (error) {
     console.error(error);
     throw new Error(error);
+  }
+}
+
+//function to verify the OTP
+export async function verifyOTP(email: string, otpCode: string) {
+  let otpEntry: any;
+  try {
+    otpEntry = await prisma.OTP.findFirst({
+      where: {
+        email: email,
+        code: otpCode,
+      },
+    });
+
+    if (!otpEntry) {
+      throw new Error("Wrong OTP code provided");
+    }
+
+    if (new Date() > otpEntry.expiresAt) {
+      throw new Error("The OTP code has expired");
+    }
+
+    return { message: "OTP verified successfully" };
+  } catch (error) {
+    console.error("OTP verification failed:", error);
+    throw new Error(error);
+  } finally {
+    //delete the otp after verification
+    if (otpEntry) {
+      await prisma.OTP.delete({
+        where: {
+          id: otpEntry.id,
+        },
+      });
+    }
+    await prisma.$disconnect();
+  }
+}
+
+//function to resend OTP email
+export async function resendOTPEmail(email: string, otpCode: string) {
+  try {
+    await prisma.OTP.deleteMany({
+      where: {
+        email: email,
+      },
+    });
+    const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes expiry
+    await prisma.OTP.create({
+      data: {
+        email,
+        code: otpCode,
+        expiresAt: expiresAt,
+      },
+    });
+    const data = await sendEmail(email, otpCode);
+    return data.message;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error sending email!");
   }
 }

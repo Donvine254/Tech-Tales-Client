@@ -6,7 +6,7 @@ import Loader from "@/components/Loader";
 import { GithubIcon, GoogleIcon } from "@/assets";
 import { useGoogleLogin } from "@react-oauth/google";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
-import { getUserData, authenticateUser, baseUrl } from "@/lib";
+import { getUserData, authenticateUser } from "@/lib";
 import secureLocalStorage from "react-secure-storage";
 import {
   resetPassword,
@@ -14,8 +14,8 @@ import {
   findUser,
   verifyOTP,
   sendEmail,
+  resendOTPEmail,
 } from "@/lib/actions";
-import axios from "axios";
 
 export default function ResetPage() {
   const searchParams = useSearchParams();
@@ -204,15 +204,15 @@ const StepTwo = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post(`${baseUrl}/reset/verify_token`, {
-        email,
-        code,
-      });
-      router.push("/reset?step=new_password");
-      toast.success("OTP Code Verified");
+      const response = await verifyOTP(email, code);
+      const encodedEmail = btoa(email);
+      router.push(
+        `/reset?step=new_password&rs=${encodeURIComponent(encodedEmail)}`
+      );
+      toast.success(response.message);
     } catch (error) {
       console.error(error);
-      setError(error.response?.data?.error);
+      setError(error.message);
       setLoading(false);
     }
   }
@@ -228,8 +228,8 @@ const StepTwo = () => {
         setResending(false);
         return;
       }
-      const response = await sendEmail(email, otp);
-      toast.success("Verification resent code sent to your email");
+      const response = await resendOTPEmail(email, otp);
+      toast.success("Verification code resent to your email!");
       setResending(false);
     } catch (error) {
       console.error(error);
@@ -302,7 +302,7 @@ const StepTwo = () => {
   );
 };
 
-const StepThree = ({ email }) => {
+const StepThree = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [token, setToken] = useState(false);
@@ -310,7 +310,10 @@ const StepThree = ({ email }) => {
     password: "",
     confirmPassword: "",
   });
+
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const email = atob(decodeURIComponent(searchParams.get("rs")));
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -333,17 +336,16 @@ const StepThree = ({ email }) => {
     try {
       const isValid = await validateRecaptcha(token);
       if (isValid) {
-        const response = await axios.patch(`${baseUrl}/reset`, {
+        await resetPassword({
           email: email,
           password: data.password,
         });
-        secureLocalStorage.removeItem("verify_email");
         toast.success("Password reset successfully");
         setLoading(false);
         router.push("/login");
       } else toast.error("Failed to validate reCAPTCHA response");
     } catch (error) {
-      setError(error?.response?.data?.error);
+      setError(error.message);
       setLoading(false);
     }
   }
