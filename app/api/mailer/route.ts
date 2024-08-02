@@ -4,11 +4,8 @@ import nodemailer from "nodemailer";
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    type: "OAuth2",
-    user: "admin@techtales.vercel.app",
-    clientId: "YOUR_CLIENT_ID",
-    clientSecret: "YOUR_CLIENT_SECRET",
-    refreshToken: "YOUR_REFRESH_TOKEN",
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASSWORD,
   },
 });
 
@@ -28,9 +25,9 @@ export async function POST(req: NextRequest) {
 
     const emailHtml = `
       <div>
-        <h1>Your Techtales OTP</h1>
-        <p> Below is your one time passcode that you need to use to complete your authentication. The verification code will be valid for 30 minutes. Please do not share this code with anyone.</p>
-        <p>Your OTP code is: <strong>${otpCode}</strong></p>
+        <h3>Your TechTales OTP</h3>
+        <p> Below is your one time passcode that you need to use to complete your authentication. The verification code will be valid for 5 minutes. Please do not share this code with anyone.</p>
+          <p style="background-color: #f0f0f0; color: #333; padding: 5px; border-radius: 5px;">Your OTP code is: <strong >${otpCode}</strong></p>
         <p>If you didn't request this code, please ignore this email or contact support.</p>
       </div>
     `;
@@ -48,7 +45,6 @@ export async function POST(req: NextRequest) {
     return new Response("Email delivery failed", { status: 400 });
   }
 }
-
 
 // https://www.corbado.com/blog/nextjs-login-page
 //https://ethereal.email/
