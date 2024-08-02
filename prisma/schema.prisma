@@ -106,3 +106,11 @@ model Favorite {
   @@unique([userId, blogId])
   @@index([userId, blogId])
 }
+
+model OTP {
+  id        Int      @id @default(autoincrement())
+  email     String
+  code      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}

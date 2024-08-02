@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect } from "react";
-
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Loader from "@/components/Loader";
@@ -89,10 +88,12 @@ const StepOne = ({ setStep, email, setEmail }) => {
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
     try {
-      const user = await findUser(email);
+      const user = await findUser(email, otp);
       setLoading(false);
       toast.success("Verification code sent to your email");
+      console.log(otp);
       setStep(1);
     } catch (error) {
       setError(error.message);
@@ -133,7 +134,7 @@ const StepOne = ({ setStep, email, setEmail }) => {
           type="submit"
           disabled={loading}
           title="reset">
-          {loading ? <Loader size={30} /> : "Continue"}
+          {loading ? <Loader size={30} /> : "Send OTP"}
         </button>
         <div className="flex items-center gap-2 w-full ">
           <hr className="border border-gray-200 w-full" />
