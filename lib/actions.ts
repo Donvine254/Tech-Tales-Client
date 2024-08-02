@@ -410,6 +410,7 @@ export async function validateRecaptcha(captcha: string) {
 
 export async function findUser(email: string, otp: string) {
   try {
+    // Check if the user exists
     const user = await prisma.user.findUnique({
       where: {
         email: email,
@@ -419,41 +420,85 @@ export async function findUser(email: string, otp: string) {
         email: true,
       },
     });
-    if (user) {
-      try {
-        //create otp in the database
-        const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
-        await prisma.OTP.create({
-          data: {
-            email,
-            code: otp,
-            expiresAt: expiresAt,
-          },
-        });
-        //send email to user
-        const body = { email: email, otpCode: otp };
-        console.log(body);
-        const response = await fetch(`${baseUrl}/mailer`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify(body),
-        });
-        console.log(response);
-        const data = await response.json();
-        console.log(data);
-        return data.message;
-      } catch (error) {
-        console.error(error);
-        throw new Error(error);
-      }
-    } else {
+
+    if (!user) {
+      // User not found
+      console.error("Ooops! we couldn't find your account");
       throw new Error("Ooops! we couldn't find your account");
     }
+    // Create OTP in the database
+    const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes expiry
+    await prisma.OTP.create({
+      data: {
+        email,
+        code: otp,
+        expiresAt: expiresAt,
+      },
+    });
+    // Send email to user
+    const data = await sendEmail(email, otp);
+    return data.message;
   } catch (error) {
     console.error(error);
-    throw new Error("Something went wrong, try again later");
+    throw new Error(error);
+  }
+}
+//function to send email
+export async function sendEmail(email: string, otp: string) {
+  try {
+    const body = { email: email, otpCode: otp };
+    const response = await fetch(`${baseUrl}/mailer`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("Failed to send OTP email:", errorData);
+      throw new Error("Failed to send OTP email. Please try again later.");
+    }
+    return { message: "Email sent successfully" };
+  } catch (error) {
+    console.error(error);
+    throw new Error(error);
+  }
+}
+
+//function to verify the OTP
+export async function verifyOTP(email: string, otpCode: string) {
+  let otpEntry: any;
+  try {
+    otpEntry = await prisma.OTP.findFirst({
+      where: {
+        email: email,
+        code: otpCode,
+      },
+    });
+
+    if (!otpEntry) {
+      throw new Error("Wrong OTP code provided");
+    }
+
+    if (new Date() > otpEntry.expiresAt) {
+      throw new Error("The OTP code has expired");
+    }
+
+    return { message: "OTP verified successfully" };
+  } catch (error) {
+    console.error("OTP verification failed:", error);
+    throw new Error(error);
+  } finally {
+    //delete the otp after verification
+    if (otpEntry) {
+      await prisma.OTP.delete({
+        where: {
+          id: otpEntry.id,
+        },
+      });
+    }
+    await prisma.$disconnect();
   }
 }

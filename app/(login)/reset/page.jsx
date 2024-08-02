@@ -7,7 +7,13 @@ import { GithubIcon, GoogleIcon } from "@/assets";
 import { useGoogleLogin } from "@react-oauth/google";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import { getUserData, authenticateUser } from "@/lib";
-import { resetPassword, validateRecaptcha, findUser } from "@/lib/actions";
+import {
+  resetPassword,
+  validateRecaptcha,
+  findUser,
+  verifyOTP,
+  sendEmail,
+} from "@/lib/actions";
 
 export default function ResetPage() {
   const [step, setStep] = useState(0);
@@ -93,7 +99,6 @@ const StepOne = ({ setStep, email, setEmail }) => {
       const response = await findUser(email, otp);
       setLoading(false);
       toast.success("Verification code sent to your email");
-      console.log(otp);
       setStep(1);
     } catch (error) {
       setError(error.message);
@@ -168,7 +173,7 @@ const StepTwo = ({ setStep, email }) => {
   const [loading, setLoading] = useState(false);
   const [code, setCode] = useState("");
   const [error, setError] = useState(null);
-
+  const [resending, setResending] = useState(false);
   useEffect(() => {
     if (isResendDisabled) {
       const countdown = setInterval(() => {
@@ -186,26 +191,40 @@ const StepTwo = ({ setStep, email }) => {
     }
   }, [isResendDisabled]);
 
-  const handleResendClick = () => {
-    setIsResendDisabled(true);
-    setTimer(120);
-    // Add your resend logic here
-  };
-
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
     try {
-      //verify the code here
+      const response = await verifyOTP(email, code);
       setStep(2);
-      toast.success("code accepted!");
+      toast.success(response.message);
     } catch (error) {
       console.error(error);
-      setError(error);
+      setError(error.message);
       setLoading(false);
     }
   }
 
+  async function handleResend() {
+    setResending(true);
+    setIsResendDisabled(true);
+    setTimer(120);
+    try {
+      const otp = Math.floor(100000 + Math.random() * 900000).toString();
+      if (!email) {
+        toast.error("Email address is required");
+        setResending(false);
+        return;
+      }
+      const response = await sendEmail(email, otp);
+      toast.success("Verification resent code sent to your email");
+      setResending(false);
+    } catch (error) {
+      console.error(error);
+      setResending(false);
+      setError(error.message);
+    }
+  }
   return (
     <form onSubmit={handleSubmit}>
       <div className="px-6">
@@ -231,10 +250,11 @@ const StepTwo = ({ setStep, email }) => {
             />
 
             <button
-              className="border h-10 px-3 py-2 disabled:opacity-50 disabled:pointer-events-none bg-blue-500 text-white text-base rounded-md border-gray-300"
-              onClick={handleResendClick}
-              disabled={isResendDisabled || loading}>
-              Resend
+              className="border h-10 px-3 py-2 disabled:opacity-50 disabled:bg-gray-100 disabled:text-black disabled:pointer-events-none bg-blue-500 text-white text-base rounded-md border-gray-300 flex items-center justify-center"
+              type="button"
+              onClick={handleResend}
+              disabled={isResendDisabled || loading || resending}>
+              {resending ? <Loader size={20} /> : "Resend"}
             </button>
           </div>
         </div>
@@ -252,7 +272,7 @@ const StepTwo = ({ setStep, email }) => {
         <button
           className="inline-flex items-center justify-center  disabled:pointer-events-none disabled:bg-gray-100 disabled:text-black hover:bg-primary/90 px-4  w-full bg-blue-500 text-white rounded-md h-10 py-1.5 my-2 mb-4"
           type="submit"
-          disabled={loading}
+          disabled={loading || resending}
           title="reset">
           {loading ? <Loader size={30} /> : "Verify"}
         </button>

@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
     const { email, otpCode } = data;
-    console.log(data);
+
     const emailHtml = `
       <div>
         <h3>Your TechTales OTP</h3>
