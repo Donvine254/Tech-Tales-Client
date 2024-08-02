@@ -7,15 +7,9 @@ import CodeInput from "@/components/CodeInput";
 import { GithubIcon, GoogleIcon } from "@/assets";
 import { useGoogleLogin } from "@react-oauth/google";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
-import { getUserData, authenticateUser } from "@/lib";
-
-import {
-  resetPassword,
-  validateRecaptcha,
-  findUser,
-  verifyOTP,
-  resendOTPEmail,
-} from "@/lib/actions";
+import { getUserData, authenticateUser, baseUrl } from "@/lib";
+import axios from "axios";
+import { validateRecaptcha, findUser, resendOTPEmail } from "@/lib/actions";
 
 export default function ResetPage() {
   const searchParams = useSearchParams();
@@ -199,15 +193,20 @@ const StepTwo = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await verifyOTP(email, code);
+      const response = await axios.post(`${baseUrl}/auth/verify-token`, {
+        email: email,
+        code: code,
+      });
+      const data = await response.data;
       const encodedEmail = btoa(email);
       router.replace(
         `/reset?step=new_password&rs=${encodeURIComponent(encodedEmail)}`
       );
-      toast.success(response.message);
+      toast.success(data.message);
     } catch (error) {
       console.error(error);
-      setError(error.message);
+      toast.error("Something went wrong!");
+      setError(error.response?.data?.error);
       setLoading(false);
     }
   }
@@ -318,8 +317,8 @@ const StepThree = () => {
     setLoading(true);
     try {
       const isValid = await validateRecaptcha(token);
-      if (isValid) {
-        await resetPassword({
+      if (isValid && email) {
+        await axios.patch(`${baseUrl}/auth/reset`, {
           email: email,
           password: data.password,
         });
@@ -328,7 +327,7 @@ const StepThree = () => {
         router.push("/login");
       } else toast.error("Failed to validate reCAPTCHA response");
     } catch (error) {
-      setError(error.message);
+      setError(error.response?.data?.error);
       setLoading(false);
     }
   }

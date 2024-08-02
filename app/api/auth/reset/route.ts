@@ -72,7 +72,7 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
     });
     if (!user) {
       return NextResponse.json(
-        { error: "Record to update not found" },
+        { error: "Oops! we couldn't find your account" },
         { status: 404 }
       );
     }
