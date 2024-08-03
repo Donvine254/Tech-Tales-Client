@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 
-export default function CodeInput({ setCode }) {
+export default function CodeInput({ setCode, loading }) {
   const inputsRef = useRef([]);
   useEffect(() => {
     const form = document.querySelector("#verify-token");
@@ -97,8 +97,11 @@ export default function CodeInput({ setCode }) {
           <input
             key={index}
             type="tel"
+            minLength="1"
             maxLength="1"
             pattern="[0-9]"
+            disabled={loading}
+            required
             className="h-10 bg-background text-base disabled:cursor-not-allowed disabled:opacity-50  w-1/6 px-3 py-2 border border-gray-300 rounded-md invalid:border-red-400"
             ref={(el) => (inputsRef.current[index] = el)}
           />

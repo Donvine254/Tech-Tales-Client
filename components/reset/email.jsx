@@ -25,7 +25,7 @@ export default function EmailPage() {
 
   async function loginGoogleUsers(access_token) {
     const user = await getUserData(access_token);
-  //check on why this is misbehaving
+    //check on why this is misbehaving
     if (user) {
       try {
         authenticateUser(user, router, "accounts.google.com");
@@ -55,7 +55,7 @@ export default function EmailPage() {
       setLoading(false);
       toast.success("Verification code sent to your email");
       router.replace(
-        `/reset?action=verification&verify=${encodeURIComponent(encodedEmail)}`
+        `/reset?action=verification&rs=${encodeURIComponent(encodedEmail)}`
       );
     } catch (error) {
       console.error(error);

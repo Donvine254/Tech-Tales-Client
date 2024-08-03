@@ -29,6 +29,7 @@ export async function POST(req: NextRequest) {
         <p> Below is your one time passcode that you need to use to complete your authentication. The verification code will be valid for 5 minutes. Please do not share this code with anyone.</p>
           <p style="background-color: #f0f0f0; color: #333; padding: 5px; border-radius: 5px;">Your OTP code is: <strong >${otpCode}</strong></p>
         <p>If you didn't request this code, please ignore this email or contact support.</p>
+        <footer>This is an automated message, please do not reply to this email</footer>
       </div>
     `;
 
