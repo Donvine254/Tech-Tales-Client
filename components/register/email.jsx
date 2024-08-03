@@ -8,7 +8,7 @@ import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import Axios from "axios";
 import toast from "react-hot-toast";
 import Loader from "@/components/Loader";
-import { findUser } from "@/lib/actions";
+import { createOtpCode, findUser } from "@/lib/actions";
 export default function VerifyEmail() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -64,8 +64,13 @@ export default function VerifyEmail() {
         setLoading(false);
         return false;
       } else {
-        toast.success("Proceed to registration");
+        await createOtpCode(email.toLowerCase());
+        toast.success("Verification code sent to your email");
+        const encodedEmail = btoa(email.toLowerCase());
         setLoading(false);
+        router.replace(
+          `/register?action=verification&rs=${encodeURIComponent(encodedEmail)}`
+        );
       }
     } catch (error) {
       setLoading(false);

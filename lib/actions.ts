@@ -448,41 +448,6 @@ export async function sendEmail(email: string, otp: string) {
   }
 }
 
-//function to verify the OTP
-// export async function verifyOTP(email: string, otpCode: string) {
-//   let otpEntry: any;
-//   try {
-//     otpEntry = await prisma.OTP.findFirst({
-//       where: {
-//         email: email,
-//         code: otpCode,
-//       },
-//     });
-
-//     if (!otpEntry) {
-//       throw new Error("Wrong OTP code provided");
-//     }
-
-//     if (new Date() > otpEntry.expiresAt) {
-//       throw new Error("The OTP code has expired");
-//     }
-
-//     return { message: "OTP verified successfully" };
-//   } catch (error) {
-//     console.error("OTP verification failed:", error);
-//     throw new Error(error);
-//   } finally {
-//     //delete the otp after verification
-//     if (otpEntry) {
-//       await prisma.OTP.delete({
-//         where: {
-//           id: otpEntry.id,
-//         },
-//       });
-//     }
-//     await prisma.$disconnect();
-//   }
-// }
 
 //function to resend OTP email
 export async function resendOTPEmail(email: string) {

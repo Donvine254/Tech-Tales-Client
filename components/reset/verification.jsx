@@ -37,15 +37,15 @@ export default function Verification({ verifyCode, loading, setLoading }) {
     try {
       if (!email) {
         toast.error("Email address is required");
-        setResending(false);
+        setLoading(false);
         return;
       }
       const response = await resendOTPEmail(email);
       toast.success("Verification code resent to your email!");
-      setResending(false);
+      setLoading(false);
     } catch (error) {
       console.error(error);
-      setResending(false);
+      setLoading(false);
       setError(error.message);
     }
   }
