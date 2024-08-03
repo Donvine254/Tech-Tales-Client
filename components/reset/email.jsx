@@ -48,7 +48,6 @@ export default function EmailPage() {
     e.preventDefault();
     setLoading(true);
     setError("");
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
     try {
       const user = await findUser(email.toLowerCase());
       if (!user) {
@@ -56,8 +55,8 @@ export default function EmailPage() {
         setLoading(false);
         return;
       } else {
-        await createOtpCode(otp, email);
-        const encodedEmail = btoa(email);
+        await createOtpCode(email.toLowerCase());
+        const encodedEmail = btoa(email.toLowerCase());
         setLoading(false);
         toast.success("Verification code sent to your email");
         router.replace(
@@ -81,7 +80,6 @@ export default function EmailPage() {
             </svg>
             <hr className="border border-blue-200 w-1/3" />
           </div>
-
           {/* start of form */}
           <form onSubmit={handleSubmit}>
             <div className="px-6">

@@ -35,13 +35,12 @@ export default function Verification({ verifyCode, loading, setLoading }) {
     setIsResendDisabled(true);
     setTimer(120);
     try {
-      const otp = Math.floor(100000 + Math.random() * 900000).toString();
       if (!email) {
         toast.error("Email address is required");
         setResending(false);
         return;
       }
-      const response = await resendOTPEmail(email, otp.toString());
+      const response = await resendOTPEmail(email);
       toast.success("Verification code resent to your email!");
       setResending(false);
     } catch (error) {

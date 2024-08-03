@@ -1,21 +1,63 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { getUserData, saveUserData, baseUrl } from "@/lib";
+import { getUserData, registerUser, saveUserData, baseUrl } from "@/lib";
+import { convertToHandle, createUserAvatar } from "@/lib/utils";
+import Script from "next/script";
 import { useGoogleLogin } from "@react-oauth/google";
 import { GithubIcon, GoogleIcon } from "@/assets";
+import { validateRecaptcha } from "@/lib/actions";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import Axios from "axios";
 import toast from "react-hot-toast";
 import Loader from "@/components/Loader";
-import { findUser } from "@/lib/actions";
-export default function VerifyEmail() {
+import Image from "next/image";
+export default function Register() {
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [token, setToken] = useState(false);
-  const [email, setEmail] = useState("");
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    picture: "",
+    avatar: "",
+  });
   const router = useRouter();
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
+  //function to update username
+  const handleUsernameChange = (e) => {
+    const { value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      username: value,
+      handle: convertToHandle(value),
+      picture: createUserAvatar(value),
+    }));
+  };
+  async function handleSubmit(e) {
+    e.preventDefault();
+    if (!token) {
+      toast.error("Kindly complete the recaptcha challenge");
+      return;
+    }
+    const isValid = await validateRecaptcha(token);
+    if (isValid) {
+      setLoading(true);
+      setError("");
+      registerUser(formData, setLoading, router, setError);
+    } else {
+      toast.error("Recaptcha Validation failed");
+    }
+  }
   //function to register users with google
   const handleGoogleSignup = useGoogleLogin({
     onSuccess: (tokenResponse) => {
@@ -53,29 +95,9 @@ export default function VerifyEmail() {
     );
     toast.success("processing request");
   }
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-    try {
-      const user = await findUser(email.toLowerCase());
-      if (user) {
-        setError("A user with this email already exists");
-        setLoading(false);
-        return false;
-      } else {
-        toast.success("Proceed to registration");
-        setLoading(false);
-      }
-    } catch (error) {
-      setLoading(false);
-      console.error(error);
-      setError("Something went wrong, please try again");
-    }
-  }
-
   return (
     <form className="w-full my-4 register-form" onSubmit={handleSubmit}>
+      <Script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.2/tsparticles.confetti.bundle.min.js"></Script>
       <div className="flex flex-col items-center justify-center w-full min-h-screen  px-4 font-crimson  backdrop-blur-md">
         <div
           className="border  w-full max-w-sm mx-auto rounded-xl shadow-md overflow-hidden bg-white"
@@ -97,6 +119,28 @@ export default function VerifyEmail() {
           </div>
           {/* beginning of input div */}
           <div className="px-6 pt-1 space-y-1.5 group">
+            {/* <div className="space-y-2">
+              <label
+                className="text-base font-bold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700"
+                htmlFor="username">
+                Username
+              </label>
+              <input
+                className="flex h-10 bg-background text-base disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md"
+                id="username"
+                name="username"
+                placeholder="john doe"
+                value={formData.username}
+                onChange={handleUsernameChange}
+                disabled={loading}
+                required
+                type="text"
+                minLength={3}
+                maxLength={20}
+                pattern="^(?!.*@).*"
+                title="Email addresses are not allowed as usernames."
+              />
+            </div> */}
             <div className="space-y-2">
               <label
                 className="text-base font-bold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700"
@@ -108,30 +152,40 @@ export default function VerifyEmail() {
                 id="email"
                 name="email"
                 placeholder="you@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={formData.email}
+                onChange={handleChange}
                 disabled={loading}
                 required
                 type="email"
               />
             </div>
-            <div className="inline-flex gap-1 items-center">
+            {/* <div className="space-y-2">
+              <label
+                className="text-base font-bold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700"
+                htmlFor="password">
+                Password
+              </label>
+              <input
+                className="flex h-10 bg-background text-base  disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md"
+                id="password"
+                name="password"
+                placeholder="*******"
+                value={formData.password}
+                onChange={handleChange}
+                minLength={8}
+                disabled={loading}
+                required
+                type={showPassword ? "text" : "password"}
+              />
+            </div> */}
+            {/* <div className="flex items-center justify-start gap-4">
               <input
                 type="checkbox"
-                name="terms"
-                required
-                title="terms"
-                aria-label="Agree to terms and conditions"
+                value={showPassword}
+                onChange={() => setShowPassword(!showPassword)}
               />
-              <label className="text-sm font-extralight">
-                Agree with{" "}
-                <a
-                  href="/terms"
-                  className="text-blue-500 cursor-pointer hover:underline">
-                  Terms and Conditions
-                </a>
-              </label>
-            </div>
+              <span> {showPassword ? "Hide" : "Show"} Password</span>
+            </div> */}
           </div>
           {error && (
             <div className="my-1 px-6">
@@ -172,6 +226,25 @@ export default function VerifyEmail() {
               <GithubIcon />
               <span>Sign up with GitHub</span>
             </button>
+            {/* <div
+              className="bg-orange-100 border border-orange-500 text-orange-600 py-3 rounded relative space-y-2 border-l-4 "
+              role="alert">
+              <div className="flex  px-1 ">
+                <div className="py-1">
+                  <svg
+                    className="fill-current h-6 w-6 text-orange-500 mr-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20">
+                    <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-xs">
+                    By continuing, you agree to our Terms and Conditions.
+                  </p>
+                </div>
+              </div>
+            </div> */}
           </div>
         </div>
         <div className="mt-2 text-gray-600">

@@ -406,7 +406,8 @@ export async function findUser(email: string) {
 }
 
 //function to create OTP code in the database
-export async function createOtpCode(email: string, otp: string) {
+export async function createOtpCode(email: string) {
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
   try {
     const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes expiry
     await prisma.OTP.create({
@@ -484,7 +485,8 @@ export async function sendEmail(email: string, otp: string) {
 // }
 
 //function to resend OTP email
-export async function resendOTPEmail(email: string, otpCode: string) {
+export async function resendOTPEmail(email: string) {
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
   try {
     await prisma.OTP.deleteMany({
       where: {
@@ -495,11 +497,11 @@ export async function resendOTPEmail(email: string, otpCode: string) {
     await prisma.OTP.create({
       data: {
         email,
-        code: otpCode,
+        code: otp,
         expiresAt: expiresAt,
       },
     });
-    const data = await sendEmail(email, otpCode);
+    const data = await sendEmail(email, otp);
     return data.message;
   } catch (error) {
     console.error(error);
