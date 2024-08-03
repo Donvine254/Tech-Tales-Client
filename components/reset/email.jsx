@@ -25,8 +25,15 @@ export default function EmailPage() {
 
   async function loginGoogleUsers(access_token) {
     const user = await getUserData(access_token);
+  //check on why this is misbehaving
     if (user) {
-      authenticateUser(user, router, "accounts.google.com");
+      try {
+        authenticateUser(user, router, "accounts.google.com");
+        router.replace("/");
+      } catch (error) {
+        console.error(error);
+        toast.error("Login failed");
+      }
     }
   }
   //function to handle GitHub Login

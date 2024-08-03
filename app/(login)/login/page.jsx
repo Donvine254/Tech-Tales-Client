@@ -8,6 +8,7 @@ import Loader from "@/components/Loader";
 import { GithubIcon, GoogleIcon } from "@/assets";
 import { validateRecaptcha } from "@/lib/actions";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
+
 export const dynamic = "force-dynamic";
 
 export default function LoginPage() {
