@@ -2,6 +2,7 @@
 import { useState } from "react";
 import VerifyEmail from "@/components/register/email";
 import Verification from "@/components/reset/verification";
+import CompleteRegistration from "@/components/register/complete";
 import { useSearchParams, useRouter } from "next/navigation";
 import { baseUrl } from "@/lib";
 import axios from "axios";
@@ -50,6 +51,7 @@ export default function Register() {
           setLoading={setLoading}
         />
       )}
+      {step === "complete" && <CompleteRegistration />}
     </section>
   );
 }

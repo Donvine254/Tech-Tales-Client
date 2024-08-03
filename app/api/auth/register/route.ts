@@ -39,31 +39,18 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
   const existingUser = await prisma.user.findFirst({
     where: {
-      OR: [{ email: email }, { handle: handle }],
+      handle: handle,
     },
     select: {
-      email: true,
       handle: true,
     },
   });
 
   if (existingUser) {
-    if (existingUser.email === email) {
-      return NextResponse.json(
-        { error: "Email is already taken" },
-        { status: 422 }
-      );
-    } else if (existingUser.handle === handle) {
-      return NextResponse.json(
-        { error: "Username is already taken" },
-        { status: 422 }
-      );
-    } else {
-      return NextResponse.json(
-        { error: "Both Username and Email are already taken" },
-        { status: 422 }
-      );
-    }
+    return NextResponse.json(
+      { error: "Username is already taken" },
+      { status: 422 }
+    );
   }
   const data: UserData = {
     username: username,
