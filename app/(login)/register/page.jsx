@@ -11,7 +11,7 @@ import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import Axios from "axios";
 import toast from "react-hot-toast";
 import Loader from "@/components/Loader";
-
+import Image from "next/image";
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -100,19 +100,26 @@ export default function Register() {
       <Script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.2/tsparticles.confetti.bundle.min.js"></Script>
       <div className="flex flex-col items-center justify-center w-full min-h-screen  px-4 font-crimson  backdrop-blur-md">
         <div
-          className="border text-card-foreground w-full max-w-sm mx-auto rounded-xl shadow-md overflow-hidden bg-white"
+          className="border  w-full max-w-sm mx-auto rounded-xl shadow-md overflow-hidden bg-white"
           data-v0-t="card">
-          <div className="flex flex-col space-y-1.5 px-6 pt-2 font-poppins">
+          <div className="flex gap-2 text-blue-500 items-center justify-center py-1 mt-2 ">
+            <hr className="border border-blue-200 w-1/3" />
+            <svg viewBox="0 0 512 512" fill="#3b82f6" height="60" width="60">
+              <path d="M399 384.2c-22.1-38.4-63.6-64.2-111-64.2h-64c-47.4 0-88.9 25.8-111 64.2 35.2 39.2 86.2 63.8 143 63.8s107.8-24.7 143-63.8zM512 256c0 141.4-114.6 256-256 256S0 397.4 0 256 114.6 0 256 0s256 114.6 256 256zm-256 16c39.8 0 72-32.2 72-72s-32.2-72-72-72-72 32.2-72 72 32.2 72 72 72z" />
+            </svg>
+            <hr className="border border-blue-200 w-1/3" />
+          </div>
+          <div className="flex flex-col space-y-2 px-6 py-2 font-poppins">
             <h3 className="font-semibold tracking-tight text-xl md:text-2xl text-center">
-              Get Started Today!
+              Welcome on Board!
             </h3>
-            <p className="xsm:text-base text-base  text-center">
+            <p className="text-sm text-center">
               Create a new account to access personalized settings and content.
             </p>
           </div>
           {/* beginning of input div */}
           <div className="px-6 pt-1 space-y-1.5 group">
-            <div className="space-y-2">
+            {/* <div className="space-y-2">
               <label
                 className="text-base font-bold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700"
                 htmlFor="username">
@@ -133,12 +140,12 @@ export default function Register() {
                 pattern="^(?!.*@).*"
                 title="Email addresses are not allowed as usernames."
               />
-            </div>
+            </div> */}
             <div className="space-y-2">
               <label
                 className="text-base font-bold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700"
                 htmlFor="email">
-                Email
+                Enter Your Email Address
               </label>
               <input
                 className="flex h-10 bg-background text-base  disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md"
@@ -152,7 +159,7 @@ export default function Register() {
                 type="email"
               />
             </div>
-            <div className="space-y-2">
+            {/* <div className="space-y-2">
               <label
                 className="text-base font-bold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700"
                 htmlFor="password">
@@ -170,15 +177,15 @@ export default function Register() {
                 required
                 type={showPassword ? "text" : "password"}
               />
-            </div>
-            <div className="flex items-center justify-start gap-4">
+            </div> */}
+            {/* <div className="flex items-center justify-start gap-4">
               <input
                 type="checkbox"
                 value={showPassword}
                 onChange={() => setShowPassword(!showPassword)}
               />
               <span> {showPassword ? "Hide" : "Show"} Password</span>
-            </div>
+            </div> */}
           </div>
           {error && (
             <div className="my-1 px-6">
@@ -196,7 +203,7 @@ export default function Register() {
               type="submit"
               disabled={loading}
               title="register">
-              {loading ? <Loader /> : "Sign up"}
+              {loading ? <Loader /> : "Continue"}
             </button>
             <div className="flex items-center gap-2 w-full ">
               <hr className="border border-gray-200 w-full" />
