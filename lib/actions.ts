@@ -379,8 +379,7 @@ export async function validateRecaptcha(captcha: string) {
 }
 
 //function to send user otp codes
-
-export async function findUser(email: string, otp: string) {
+export async function findUser(email: string) {
   try {
     // Check if the user exists
     const user = await prisma.user.findUnique({
@@ -396,9 +395,19 @@ export async function findUser(email: string, otp: string) {
     if (!user) {
       // User not found
       console.error("Ooops! we couldn't find your account");
-      throw new Error("Ooops! we couldn't find your account");
+      return null;
     }
     // Create OTP in the database
+    return user;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+//function to create OTP code in the database
+export async function createOtpCode(email: string, otp: string) {
+  try {
     const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes expiry
     await prisma.OTP.create({
       data: {
@@ -407,12 +416,11 @@ export async function findUser(email: string, otp: string) {
         expiresAt: expiresAt,
       },
     });
-    // Send email to user
     const data = await sendEmail(email, otp);
     return data.message;
   } catch (error) {
     console.error(error);
-    throw new Error("Ooops! we couldn't find your account");
+    throw new Error(error);
   }
 }
 //function to send email

@@ -3,7 +3,7 @@ import { GithubIcon, GoogleIcon } from "@/assets";
 import { useRouter } from "next/navigation";
 import { useGoogleLogin } from "@react-oauth/google";
 import { getUserData, authenticateUser } from "@/lib";
-import { findUser } from "@/lib/actions";
+import { createOtpCode, findUser } from "@/lib/actions";
 import Loader from "../Loader";
 import toast from "react-hot-toast";
 
@@ -50,16 +50,23 @@ export default function EmailPage() {
     setError("");
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     try {
-      const response = await findUser(email, otp);
-      const encodedEmail = btoa(email);
-      setLoading(false);
-      toast.success("Verification code sent to your email");
-      router.replace(
-        `/reset?action=verification&rs=${encodeURIComponent(encodedEmail)}`
-      );
+      const user = await findUser(email.toLowerCase());
+      if (!user) {
+        setError("Oops! We couldn't find your account");
+        setLoading(false);
+        return;
+      } else {
+        await createOtpCode(otp, email);
+        const encodedEmail = btoa(email);
+        setLoading(false);
+        toast.success("Verification code sent to your email");
+        router.replace(
+          `/reset?action=verification&rs=${encodeURIComponent(encodedEmail)}`
+        );
+      }
     } catch (error) {
       console.error(error);
-      setError("Ooops! we couldn't find your account");
+      setError("Something went wrong");
       setLoading(false);
     }
   }
