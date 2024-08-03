@@ -82,10 +82,14 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
     );
   } catch (error) {
     console.error(error);
-    return NextResponse.json(
-      { error: "Unexpected error occurred" },
-      { status: 500 }
-    );
+    if (error.code === "P2025") {
+      return NextResponse.json({ error: error.meta.cause }, { status: 500 });
+    } else {
+      return NextResponse.json(
+        { error: "Unexpected error occurred" },
+        { status: 500 }
+      );
+    }
   } finally {
     await prisma.$disconnect();
   }
