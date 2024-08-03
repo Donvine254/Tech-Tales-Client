@@ -3,7 +3,7 @@ import CodeInput from "../CodeInput";
 import Loader from "../Loader";
 import { resendOTPEmail } from "@/lib/actions";
 import { useSearchParams } from "next/navigation";
-
+import toast from "react-hot-toast";
 export default function Verification({ verifyCode, loading, setLoading }) {
   const [isResendDisabled, setIsResendDisabled] = useState(true);
   const [timer, setTimer] = useState(120);
@@ -85,9 +85,9 @@ export default function Verification({ verifyCode, loading, setLoading }) {
                 ) : (
                   <span>
                     Didn&apos;t receive the code?
-                    <span className="text-blue-500" onClick={handleResend}>
+                    <button className="text-blue-500" onClick={handleResend}>
                       Resend code
-                    </span>
+                    </button>
                   </span>
                 )}
               </p>
@@ -122,11 +122,32 @@ export default function Verification({ verifyCode, loading, setLoading }) {
           {/* end of form */}
         </div>
         <div className="mt-2 text-gray-600 text-base">
-          Remember Password?{" "}
           <a
-            className="text-blue-500 hover:underline border px-2 py-0.5"
+            className="text-blue-500 flex items-center gap-1 hover:underline border px-2 py-0.5"
             href="login">
-            Login Here
+            <svg
+              viewBox="0 0 512 512"
+              fill="currentColor"
+              height="16"
+              width="16">
+              <path
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={32}
+                d="M112 352l-64-64 64-64"
+              />
+              <path
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={32}
+                d="M64 288h294c58.76 0 106-49.33 106-108v-20"
+              />
+            </svg>
+            <span>Back to Login</span>
           </a>
         </div>
       </div>

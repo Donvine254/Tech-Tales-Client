@@ -2,13 +2,14 @@
 import { useState } from "react";
 import VerifyEmail from "@/components/register/email";
 import Verification from "@/components/reset/verification";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { baseUrl } from "@/lib";
 import axios from "axios";
 import toast from "react-hot-toast";
 
 export default function Register() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const step = searchParams.get("action");
   const [loading, setLoading] = useState(false);
 
