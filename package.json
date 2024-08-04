@@ -7,7 +7,7 @@
     "build": "prisma generate --no-engine && next build",
     "start": "next start",
     "postinstall": "prisma generate --no-engine",
-    "postbuild": "next-sitemap",
+    "postbuild": "next-sitemap --config next-sitemap.config.js",
     "lint": "next lint",
     "db-seed": "prisma db seed"
   },
