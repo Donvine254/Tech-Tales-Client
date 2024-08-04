@@ -8,7 +8,7 @@ import ScrollToTopButton from "@/components/ScrollButton";
 import dynamic from "next/dynamic";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { UserContextProvider } from "@/providers";
-import { GoogleAnalytics } from "@next/third-parties/google";
+import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 
 const NoSSRNavbar = dynamic(() => import("@/components/Navbar"), {
   ssr: false,
@@ -39,8 +39,8 @@ export default function RootLayout({ children }) {
           </GoogleOAuthProvider>
         </UserContextProvider>
         <GoogleAnalytics gaId="G-12QCPH9MS1" />
+        <GoogleTagManager gtmId="GTM-5QD9S2NG" />
       </body>
     </html>
   );
 }
-//GTM-5QD9S2NG
