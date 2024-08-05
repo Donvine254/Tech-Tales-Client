@@ -81,6 +81,11 @@ async function getBlogs() {
             picture: true,
           },
         },
+        _count: {
+          select: {
+            comments: true,
+          },
+        },
       },
       cacheStrategy: { ttl: 60 },
     });

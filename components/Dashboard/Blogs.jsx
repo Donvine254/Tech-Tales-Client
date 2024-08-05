@@ -14,7 +14,6 @@ export default function BlogsTable({ blogs }) {
   const blogsData = blogs.sort((a, b) => a.id - b.id);
   const [totalBlogs, setTotalBlogs] = useState(blogsData);
   const [isSorted, setIsSorted] = useState(false);
-  const router = useRouter();
 
   const handleSearch = (e) => {
     const searchTerm = e.target.value;
@@ -177,7 +176,10 @@ export default function BlogsTable({ blogs }) {
               <th className="px-4 py-2  font-bold">#</th>
               <th className="px-4 py-2  font-bold text-start">Author</th>
               <th className="px-4 py-2  font-bold text-start">Title</th>
-              <th className="px-4 py-2  font-bold">Status</th>
+              <th className="px-4 py-2  font-bold text-center">Likes</th>
+              <th className="px-4 py-2  font-bold text-center">Views</th>
+              <th className="px-4 py-2  font-bold text-center">Comments</th>
+              <th className="px-4 py-2  font-bold ">Status</th>
               <th className="px-4 py-2  font-bold ">Actions</th>
             </tr>
           </thead>
@@ -213,7 +215,15 @@ export default function BlogsTable({ blogs }) {
                       {blog.title}
                     </Link>
                   </td>
-
+                  <td className="px-4 py-2 place-items-center ">
+                    {blog.likes}
+                  </td>
+                  <td className="px-4 py-2 place-items-center ">
+                    {blog.views}
+                  </td>
+                  <td className="px-4 py-2 place-items-center ">
+                    {blog._count?.comments}
+                  </td>
                   <td className="px-4 py-2 place-items-center ">
                     <span
                       className={`inline-block px-2 rounded-full border text-sm ${
