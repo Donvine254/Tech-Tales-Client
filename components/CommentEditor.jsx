@@ -23,16 +23,14 @@ export default function CommentEditor({
     if (editorRef.current) {
       const quill = editorRef.current.getEditor();
       setLength(quill.getLength());
+      quill.on("text-change", function (delta, old, source) {
+        if (quill.getLength() > 500) {
+          quill.deleteText(500, quill.getLength());
+        }
+      });
     }
   }, [data, setLength]);
-  // const imageHandler = useCallback(() => {
-  //   const url = prompt("Enter the image URL");
-  //   if (url && editorRef.current) {
-  //     const quill = editorRef.current.getEditor();
-  //     const range = quill.getSelection(true);
-  //     quill.insertEmbed(range.index, "image", url, "user");
-  //   }
-  // }, []);
+
   const imageHandler = useCallback(() => {
     Swal.fire({
       text: "Enter the image URL",
@@ -99,10 +97,24 @@ export default function CommentEditor({
         onChange={handleChange}
         value={data}
         onKeyDown={() => setIsInputFocused(true)}
+        maxLength="500"
       />
-      <span className="p-0 text-sm font-medium flex items-end justify-end">
-        {length}/500
-      </span>
+      <div
+        className={`flex items-center ${
+          length > 500 ? "justify-between" : "justify-end"
+        }`}>
+        {" "}
+        {length > 500 && (
+          <small className="text-red-500">* Maximum length exceeded!</small>
+        )}
+        <p className="p-0 text-sm font-medium ">
+          <span className={`${length > 500 ? "text-red-500" : ""}`}>
+            {length}
+          </span>
+          / 500
+        </p>
+      </div>
+
       <div className="flex items-center justify-end gap-2 md:gap-4 py-1 ">
         {isInputFocused && (
           <>
