@@ -5,6 +5,7 @@ import Newsletter from "@/components/Newsletter";
 import { SearchMD } from "@/components/SearchMD";
 import { Toaster } from "react-hot-toast";
 import ScrollToTopButton from "@/components/ScrollButton";
+import { CookieAlert } from "@/components";
 import dynamic from "next/dynamic";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { UserContextProvider } from "@/providers";
@@ -36,6 +37,7 @@ export default function RootLayout({ children }) {
             </main>
             <Newsletter />
             <ScrollToTopButton />
+            <CookieAlert />
             <Footer />
           </GoogleOAuthProvider>
         </UserContextProvider>

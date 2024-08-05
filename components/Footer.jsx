@@ -1,4 +1,3 @@
-"use client";
 import Link from "next/link";
 import { GithubIcon, NewTwitterIcon } from "@/assets";
 export default function Footer() {

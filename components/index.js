@@ -13,7 +13,8 @@ import PreviewModal from "./PreviewModal";
 import TagInput from "./TagInput";
 import UploadButton from "./uploadButton";
 import AnimatedLikeBtn from "./LikeAnimated";
-import ShareButton from "./ShareButton"
+import ShareButton from "./ShareButton";
+import CookieAlert from "./alerts/cookie";
 export {
   BlogsComponent,
   Bookmark,
@@ -31,4 +32,5 @@ export {
   UploadButton,
   ShareButton,
   AnimatedLikeBtn,
+  CookieAlert,
 };

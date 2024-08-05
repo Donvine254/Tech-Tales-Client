@@ -1,4 +1,4 @@
-import { BlogsComponent, SideNav } from "@/components";
+import { BlogsComponent, CookieAlert, SideNav } from "@/components";
 export const revalidate = 600;
 import { baseUrl } from "@/lib";
 export const metadata = {
