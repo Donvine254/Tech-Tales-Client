@@ -153,11 +153,14 @@ h4 {
 
 #blog-body ul,
 #blog-body ol {
-  @apply xsm:!pl-4 !pl-6 md:!pl-8;
+  @apply list-item list-inside;
 }
 #blog-body ul li,
 #comment-body ul li {
   list-style: square !important;
+}
+#blog-body ol li {
+  list-style: decimal !important;
 }
 
 #comment-body ul {
@@ -168,11 +171,13 @@ h4 {
 }
 
 #comment-body img {
-  max-width: 200px;
-  max-height: 150px;
+  max-height: 200px;
   width: auto;
   height: auto;
   border-radius: 8px;
+}
+#comment-body img {
+  @apply xsm:max-w-full xsm:max-h-40 h-auto w-full;
 }
 
 #blog-body img {
