@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useState } from "react";
 import { baseUrl, clearLocalStorage } from "@/lib";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
@@ -6,9 +7,31 @@ import UpdateProfileModal from "@/components/UpdateProfileModal";
 import ResetPasswordModal from "@/components/ResetPasswordModal";
 import { UserImage } from "@/components/Avatar";
 import { deactivateUser, deleteUser } from "@/lib/actions";
+import { getCookie, setCookie } from "@/lib/utils";
 import { useUserContext } from "@/providers";
+
 export default function Page() {
   const user = useUserContext();
+  const [acceptCookies, setAcceptCookies] = useState(false);
+
+  useEffect(() => {
+    const cookieConsent = getCookie("acceptCookies");
+    if (cookieConsent === "true") {
+      setAcceptCookies(true);
+    }
+  }, []);
+
+  // Handle checkbox change event
+  const handleCheckboxChange = (event) => {
+    const checked = event.target.checked;
+    setAcceptCookies(checked);
+    if (checked) {
+      setCookie("acceptCookies", "true", 30);
+    } else {
+      setCookie("acceptCookies", "", -1);
+    }
+  };
+
   //function to deactivate user account
   function handleDeactivate() {
     Swal.fire({
@@ -172,8 +195,12 @@ export default function Page() {
             </p>
           </div>
           <label className="relative inline-flex items-center cursor-pointer">
-            {/* check this is acceptcookies cookie exists */}
-            <input type="checkbox" value="" className="sr-only peer" />
+            <input
+              type="checkbox"
+              checked={acceptCookies}
+              onChange={handleCheckboxChange}
+              className="sr-only peer"
+            />
             <div className="w-11 h-6 bg-gray-400 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-blue-600"></div>
           </label>
         </div>
