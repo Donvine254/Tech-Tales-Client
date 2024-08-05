@@ -82,7 +82,7 @@ export async function generateMetadata({ params }) {
     });
   }
 
-  const description = `Created by: ${blog.author.username} - ${blog.body.slice(
+  const description = `Written by: ${blog.author.username} - ${blog.body.slice(
     0,
     150
   )}... Read More`;

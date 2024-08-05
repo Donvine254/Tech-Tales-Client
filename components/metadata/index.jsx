@@ -1,7 +1,7 @@
 export const metaobject = {
   title: "Tech Tales",
   description:
-    "Tech Tales: A blog for tech students and professionals to share coding solutions, enhance learning, and practice blogging.",
+    "A blog for tech students and professionals to share coding solutions, enhance learning, and practice blogging.",
   // Basic metadata
   applicationName: "Tech Tales",
   authors: [{ name: "Donvine Mugendi", url: "https://techtales.vercel.app" }],
