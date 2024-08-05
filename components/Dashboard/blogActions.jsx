@@ -12,6 +12,7 @@ import {
   PDFIcon,
 } from "@/assets";
 import Link from "next/link";
+import {downloadPDF} from "@/lib/downloadPDF"
 
 export default function BlogActionsButton({
   onDelete,
@@ -40,8 +41,6 @@ export default function BlogActionsButton({
 
   //function to handleSharing
   async function handleSharing() {
-    // setPopupOpen(false);
-    // setShowShareModal(true);
     if (navigator.share) {
       try {
         await navigator.share({
@@ -112,7 +111,7 @@ export default function BlogActionsButton({
               <ShareIcon stroke={2} size={20} />
               <span>Share Blog</span>
             </button>
-            <button className="py-1 text-gray-800 hover:text-blue-600 bg-gray-100 w-full  hover:bg-gray-200 rounded-md flex items-center gap-5 px-4 ">
+            <button className="py-1 text-gray-800 hover:text-blue-600 bg-gray-100 w-full  hover:bg-gray-200 rounded-md flex items-center gap-5 px-4 " onClick={()=> downloadPDF(blog.title, blog.body, blog.author.username, blog.createdAt, blog.image)}>
               <PDFIcon />
               <span>Download</span>
             </button>

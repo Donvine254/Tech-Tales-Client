@@ -105,8 +105,8 @@ export default function Page() {
     }
   }
   return (
-    <div className="font-poppins flex items-center justify-center m-auto md:mt-10 ">
-      <div className="bg-slate-100 shadow border-2 py-2 rounded-md">
+    <div className="font-poppins flex items-center justify-center m-auto xsm:m-2 md:mt-10 ">
+      <div className="bg-gray-50 shadow border-2 py-2 rounded-md">
         <div className="flex flex-col space-y-1.5 py-1 px-6">
           <h3 className="tracking-tight text-xl text-center font-bold md:text-2xl">
             Settings
@@ -172,6 +172,7 @@ export default function Page() {
             </p>
           </div>
           <label className="relative inline-flex items-center cursor-pointer">
+            {/* check this is acceptcookies cookie exists */}
             <input type="checkbox" value="" className="sr-only peer" />
             <div className="w-11 h-6 bg-gray-400 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-blue-600"></div>
           </label>
