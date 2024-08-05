@@ -1,10 +1,8 @@
-import { BlogsComponent, CookieAlert, SideNav } from "@/components";
+import { BlogsComponent, SideNav } from "@/components";
 export const revalidate = 600;
 import { baseUrl } from "@/lib";
 export const metadata = {
   title: "Top Blogs - Tech Tales",
-  description:
-    "Tech Tales is a simple blog for tech students and professionals who would like to share their solutions to various coding problems or practice blogging as a way of learning",
 };
 
 async function getBlogs() {

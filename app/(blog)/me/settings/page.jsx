@@ -1,6 +1,5 @@
 "use client";
 import { baseUrl, clearLocalStorage } from "@/lib";
-import Loader from "@/components/Loader";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import UpdateProfileModal from "@/components/UpdateProfileModal";

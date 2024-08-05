@@ -6,8 +6,6 @@ export const revalidate = 60;
 
 export const metadata = {
   title: "Admin Dashboard - Tech Tales",
-  description:
-    "Tech Tales is a simple blog for tech students and professionals who would like to share their solutions to various coding problems or practice blogging as a way of learning",
 };
 
 async function getTotalComments() {
