@@ -92,7 +92,7 @@ export async function generateMetadata({ params }) {
     description,
     ogImage: blog.image,
     keywords: blog.tags.split(","),
-    url: `https://techtales.vercel.app/blog/${blog.slug}`,
+    canonicalUrl: `https://techtales.vercel.app/blog/${blog.slug}`,
   });
 }
 
