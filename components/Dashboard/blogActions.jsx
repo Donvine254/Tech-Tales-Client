@@ -9,6 +9,7 @@ import {
   IconEye,
   IconEyeOffSharp,
   ShareIcon,
+  PDFIcon,
 } from "@/assets";
 import Link from "next/link";
 
@@ -111,6 +112,10 @@ export default function BlogActionsButton({
               <ShareIcon stroke={2} size={20} />
               <span>Share Blog</span>
             </button>
+            <button className="py-1 text-gray-800 hover:text-blue-600 bg-gray-100 w-full  hover:bg-gray-200 rounded-md flex items-center gap-5 px-4 ">
+              <PDFIcon />
+              <span>Download</span>
+            </button>
             {blog.status === "PUBLISHED" ? (
               <button
                 className=" bg-gray-100  py-1 text-gray-800 hover:text-amber-600 w-full hover:bg-amber-200 rounded-md  flex items-center gap-5 px-4 "
@@ -152,13 +157,6 @@ export default function BlogActionsButton({
           </div>
         </div>
       )}
-      {/* {showShareModal && (
-        <div
-          className="absolute right-4 top-6 bg-white border shadow-lg rounded-md min-w-[200px] w-fit h-fit py-4 z-50"
-          ref={popupRef}>
-          <ShareModal id={blog.id} slug={blog.slug} />
-        </div>
-      )} */}
     </div>
   );
 }

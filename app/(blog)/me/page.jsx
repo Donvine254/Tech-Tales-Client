@@ -75,8 +75,8 @@ export default function Profile() {
 
   if (!user) {
     return (
-      <div className="flex items-center justify-center h-[300px] md:h-[600px]">
-        <Loader size={60} />
+      <div className="flex items-center justify-center h-screen">
+        <div className="loader"></div>
       </div>
     );
   }
@@ -103,7 +103,7 @@ export default function Profile() {
   };
 
   return (
-    <div className="font-poppins w-full min-h-[400px] mx-auto px-8 md:w-4/5 md:mt-10">
+    <div className="font-poppins w-full min-h-[400px] mx-auto xsm:px-2 sm:px-8 md:w-4/5 md:mt-10">
       {/* have two cards rendered as flexbox */}
       <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-start md:gap-5 ">
         {/* first card */}
