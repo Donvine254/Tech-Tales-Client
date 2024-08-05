@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import VerifyEmail from "@/components/register/email";
 import Verification from "@/components/reset/verification";
 import CompleteRegistration from "@/components/register/complete";
@@ -8,7 +8,20 @@ import { baseUrl } from "@/lib";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-export default function Register() {
+export default function Page() {
+  return (
+    <Suspense
+      fallback={
+        <div className="h-screen flex items-center justify-center">
+          <div className="loader"></div>
+        </div>
+      }>
+      <Register />
+    </Suspense>
+  );
+}
+
+function Register() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const step = searchParams.get("action");

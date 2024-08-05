@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import EmailPage from "@/components/reset/email";
 import Verification from "@/components/reset/verification";
@@ -8,7 +8,20 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { baseUrl } from "@/lib";
 
-export default function ResetPage() {
+export default function Page() {
+  return (
+    <Suspense
+      fallback={
+        <div className="h-screen flex items-center justify-center">
+          <div className="loader"></div>
+        </div>
+      }>
+      <ResetPage />
+    </Suspense>
+  );
+}
+
+function ResetPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
