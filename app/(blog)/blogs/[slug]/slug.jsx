@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
-import { Comment, Edit, Share } from "@/assets";
+import { Comment, Share } from "@/assets";
 import {
   Bookmark,
   UserCard,
