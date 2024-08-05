@@ -9,16 +9,14 @@ import { CookieAlert } from "@/components";
 import dynamic from "next/dynamic";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { UserContextProvider } from "@/providers";
+import { metaobject } from "@/components/metadata";
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 
 const NoSSRNavbar = dynamic(() => import("@/components/Navbar"), {
   ssr: false,
 });
 export const metadata = {
-  title: "Tech Tales",
-  description:
-    "Tech Tales is a simple blog for tech students and professionals who would like to share their solutions to various coding problems or practice blogging as a way of learning",
-  verification: { google: "9SOlFuK-ili9ZVjwR08EAyntbaai9SO1QKx9Se4tOXk" },
+  ...metaobject,
 };
 
 export default function RootLayout({ children }) {

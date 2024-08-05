@@ -23,6 +23,6 @@
       }
     ]
   },
-  "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx", "lib/utils.js", "lib/fetchComments.js", "app/(login)/reset/page.jsx", "next-sitemap.config.js"],
+  "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx", "lib/utils.js", "lib/fetchComments.js", "app/(login)/reset/page.jsx", "next-sitemap.config.js", "lib/customMetadataGenerator.js"],
   "exclude": ["node_modules"]
 }

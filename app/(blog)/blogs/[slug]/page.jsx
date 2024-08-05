@@ -2,11 +2,8 @@ import { SideNav } from "@/components";
 import Slug from "./slug";
 export const revalidate = 600;
 import prisma from "@/prisma/prisma";
-export const metadata = {
-  title: "Blog Page - Tech Tales",
-  description:
-    "Tech Tales is a simple blog for tech students and professionals who would like to share their solutions to various coding problems or practice blogging as a way of learning",
-};
+import { customMetaDataGenerator } from "@/lib/customMetadataGenerator";
+
 export async function generateStaticParams() {
   try {
     const slugs = await prisma.blog.findMany({
@@ -76,8 +73,32 @@ async function getBlogData(slug) {
   }
 }
 
+export async function generateMetadata({ params }) {
+  const blog = await getBlogData(params.slug);
+  if (!blog) {
+    return customMetaDataGenerator({
+      title: "Blog Not Found | Tech Tales",
+      description: "The requested blog could not be found on Tech Tales.",
+    });
+  }
+
+  const description = `Created by: ${blog.author.username} - ${blog.body.slice(
+    0,
+    150
+  )}... Read More`;
+
+  return customMetaDataGenerator({
+    title: blog.title,
+    description,
+    ogImage: blog.image,
+    keywords: blog.tags.split(","),
+    canonicalUrl: `https://techtales.vercel.app/blog/${blog.slug}`,
+  });
+}
+
 export default async function BlogsPage({ params }) {
   let blog = await getBlogData(params.slug);
+  generateMetadata(params);
   return (
     <div className="w-full mx-auto m-2 min-h-[75%] px-8 xsm:px-4 md:w-4/5 md:mt-10 font-poppins ">
       <SideNav />
