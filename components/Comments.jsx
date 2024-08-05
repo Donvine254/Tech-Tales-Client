@@ -245,7 +245,7 @@ export default function Comments({
                     </p>
                   </div>
                   <div
-                    className="p-3 rounded-r-xl xsm:text-sm rounded-bl-xl border shadow bg-[#F0F2F5] bg-opacity-70 text-extralight"
+                    className="p-3 rounded-r-xl xsm:text-sm rounded-bl-xl border shadow bg-cyan-50 bg-opacity-50  text-extralight"
                     id="comment-body">
                     {comment.body ? parse(comment.body) : comment.body}
                   </div>

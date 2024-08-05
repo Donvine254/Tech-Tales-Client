@@ -153,7 +153,7 @@ h4 {
 
 #blog-body ul,
 #blog-body ol {
-  @apply list-item list-inside;
+  @apply list-item list-inside pl-4;
 }
 #blog-body ul li,
 #comment-body ul li {
@@ -177,7 +177,7 @@ h4 {
   border-radius: 8px;
 }
 #comment-body img {
-  @apply xsm:max-w-full xsm:max-h-40 h-auto w-full;
+  @apply xsm:max-w-full xsm:max-h-40 xsm:h-auto w-auto;
 }
 
 #blog-body img {
