@@ -62,7 +62,7 @@ export default function CommentEditor({
       container: [
         ["bold", "italic", "underline", "blockquote"],
         [{ list: "ordered" }, { list: "bullet" }],
-        ["link", "code-block", "image"],
+        ["link", "image"],
         ["clean"],
       ],
       handlers: {
@@ -92,7 +92,6 @@ export default function CommentEditor({
           "list",
           "bullet",
           "link",
-          "code-block",
           "image",
         ]}
         placeholder="Start by typing something..."
