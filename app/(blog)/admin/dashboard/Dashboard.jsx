@@ -29,8 +29,8 @@ export default function Dashboard({ blogs, users, totalComments }) {
     return <CommentsTable comments={totalComments} />;
   }, [totalComments]);
   return (
-    <section className="w-full min-h-[320px] py-4 md:mt-10" id="dashboard-page">
-      <div className="grid grid-cols-1 gap-4  py-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 ">
+    <section className="w-full min-h-screen py-4 md:mt-10" id="dashboard-page">
+      <div className="grid grid-cols-1 gap-4  py-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
         {/* first card */}
         <div
           className=" bg-gray-100 hover:bg-gray-200 p-6 space-y-4 text-center shadow rounded-md hover:-translate-y-1 transition-transform duration-300 cursor-pointer"

@@ -260,14 +260,14 @@ export default function BlogsTable({ blogs }) {
               ))}
           </tbody>
         </table>
-        <Pagination
-          data={blogsData.length}
-          rows={rows}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          setRows={setRows}
-        />
       </div>
+      <Pagination
+        data={blogsData.length}
+        rows={rows}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        setRows={setRows}
+      />
     </section>
   );
 }

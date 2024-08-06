@@ -199,14 +199,14 @@ export default function CommentsTable({ comments }) {
               ))}
           </tbody>
         </table>
-        <Pagination
-          data={commentsData.length}
-          rows={rows}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          setRows={setRows}
-        />
       </div>
+      <Pagination
+        data={commentsData.length}
+        rows={rows}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        setRows={setRows}
+      />
     </section>
   );
 }

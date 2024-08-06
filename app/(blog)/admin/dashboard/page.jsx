@@ -107,7 +107,7 @@ export default async function Page() {
           <div className="loader"></div>
         </div>
       }>
-      <section className="w-full mx-auto m-2 min-h-[320px] px-8 md:w-5/6 md:mt-10 font-poppins">
+      <section className="w-full mx-auto m-2 min-h-[320px] xsm:px-3 px-8 md:w-5/6 md:mt-10 font-poppins">
         <Dashboard
           blogs={blogs}
           totalComments={totalComments}

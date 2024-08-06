@@ -23,24 +23,26 @@ export default function Pagination({
   };
 
   return (
-    <div className="pagination-container flex items-center justify-between p-2 my-3">
-      <div className="rows-per-page">
-        <label htmlFor="rows">Rows per page:</label>
+    <div className="flex items-center justify-between my-3 max-w-full font-extralight text-gray-500">
+      <div className="flex items-center gap-2">
+        <label htmlFor="rows" className="whitespace-nowrap font-extralight">
+          Rows per page:
+        </label>
         <select
           id="rows"
           value={rows}
           onChange={handleRowsChange}
           className="bg-transparent">
-          {[10, 25, 50, 100, 150].map((num) => (
+          {[10, 15, 25, 50, 100, 150].map((num) => (
             <option key={num} value={num}>
               {num}
             </option>
           ))}
         </select>
       </div>
-      <div className="page-navigation flex items-center">
-        <span className="px-2">
-          Page {currentPage} of {totalPages}
+      <div className="flex items-center gap-2">
+        <span className="mx-2 whitespace-nowrap">
+          {currentPage}/{totalPages} of {totalPages}
         </span>
         <button
           type="button"
@@ -53,7 +55,6 @@ export default function Pagination({
             place="bottom"
             content="Go to the previous page"
             variant="info"
-            effect="solid"
           />
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -80,7 +81,6 @@ export default function Pagination({
             place="bottom"
             content="Go to the next page"
             variant="info"
-            effect="solid"
           />
           <svg
             xmlns="http://www.w3.org/2000/svg"

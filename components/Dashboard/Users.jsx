@@ -235,14 +235,14 @@ export default function UsersTable({ users }) {
               ))}
           </tbody>
         </table>
-        <Pagination
-          data={usersData.length}
-          rows={rows}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          setRows={setRows}
-        />
       </div>
+      <Pagination
+        data={usersData.length}
+        rows={rows}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        setRows={setRows}
+      />
       <AdminRegisterUserModal setUsers={setTotalUsers} />
     </section>
   );
