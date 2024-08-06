@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { SearchIcon } from "@/assets";
 import BlogActionsButton from "./blogActions";
@@ -9,11 +9,21 @@ import toast from "react-hot-toast";
 import { handleUpdateStatus } from "@/lib";
 import { DeleteBlog, revalidateBlogs, revalidatePage } from "@/lib/actions";
 import { exportCSV } from "@/lib/utils";
-
+const rowsPerPage = 10;
 export default function BlogsTable({ blogs }) {
   const blogsData = blogs.sort((a, b) => a.id - b.id);
   const [totalBlogs, setTotalBlogs] = useState(blogsData);
   const [isSorted, setIsSorted] = useState(false);
+  const [rows, setRows] = useState(rowsPerPage);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  //useEffect for pagination
+
+  useEffect(() => {
+    const startIdx = (currentPage - 1) * rows;
+    const endIdx = startIdx + rows;
+    setTotalBlogs(blogsData.slice(startIdx, endIdx));
+  }, [blogsData, currentPage, rows]);
 
   const handleSearch = (e) => {
     const searchTerm = e.target.value;
@@ -250,7 +260,13 @@ export default function BlogsTable({ blogs }) {
               ))}
           </tbody>
         </table>
-        <Pagination setData={setTotalBlogs} data={totalBlogs} />
+        <Pagination
+          data={blogsData.length}
+          rows={rows}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          setRows={setRows}
+        />
       </div>
     </section>
   );

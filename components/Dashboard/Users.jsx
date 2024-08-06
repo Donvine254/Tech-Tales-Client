@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SearchIcon } from "@/assets";
 import UserActionsButton from "./userActions";
 import Swal from "sweetalert2";
@@ -8,11 +8,23 @@ import { deleteUser } from "@/lib/actions";
 import Image from "next/image";
 import AdminUpdateProfileModal from "./ProfileUpdate";
 import AdminRegisterUserModal from "./RegisterUserModal";
+import Pagination from "./pagination";
+
+const rowsPerPage = 10;
 
 export default function UsersTable({ users }) {
   const usersData = users.sort((a, b) => a.id.toString() - b.id.toString());
   const [totalUsers, setTotalUsers] = useState(usersData);
   const [isSorted, setIsSorted] = useState(false);
+  const [rows, setRows] = useState(rowsPerPage);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  //useEffect for pagination
+  useEffect(() => {
+    const startIdx = (currentPage - 1) * rows;
+    const endIdx = startIdx + rows;
+    setTotalUsers(usersData.slice(startIdx, endIdx));
+  }, [usersData, currentPage, rows]);
 
   const handleSearch = (e) => {
     const searchTerm = e.target.value;
@@ -223,10 +235,13 @@ export default function UsersTable({ users }) {
               ))}
           </tbody>
         </table>
-        <p>
-          Showing <strong>{totalUsers.length}</strong> of{" "}
-          <strong>{users.length}</strong> users
-        </p>
+        <Pagination
+          data={usersData.length}
+          rows={rows}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          setRows={setRows}
+        />
       </div>
       <AdminRegisterUserModal setUsers={setTotalUsers} />
     </section>
