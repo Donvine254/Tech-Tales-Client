@@ -11,7 +11,7 @@ export const Graph = ({ className, size = 24 }) => {
       strokeLinecap="round"
       strokeLinejoin="round"
       className={`cursor-pointer ${className}`}>
-      <title>Blog Views</title>
+      <title>Blog views</title>
       <line x1="6" x2="6" y1="20" y2="16" />
       <line x1="10" x2="10" y1="20" y2="8" />
       <line x1="14" x2="14" y1="20" y2="12" />

@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { handleBlogLiking, CheckFavoriteStatus } from "@/lib/actions";
 import Swal from "sweetalert2";
 import { usePathname, useRouter } from "next/navigation";
-
+import { Tooltip } from "react-tooltip";
 export default function AnimatedLikeBtn({ blogId, setLikes, likes }) {
   const [liked, setLiked] = useState();
   const user = useUserContext();
@@ -86,11 +86,21 @@ export default function AnimatedLikeBtn({ blogId, setLikes, likes }) {
         style={{ backgroundPosition: liked ? "right" : "left" }}
         className="heart"
         onClick={handleLikeClick}
-        title="favorite this blog">
+        data-tooltip-id="favorite">
         <span className="text-base font-bold content whitespace-nowrap">
           {likes} <span className="xsm:hidden">Likes</span>
         </span>
       </div>
+      <Tooltip
+        id="favorite"
+        content={
+          liked
+            ? "Remove this blog from favorites"
+            : "Add this blog to favorites"
+        }
+        variant="info"
+        float="true"
+      />
     </div>
   );
 }

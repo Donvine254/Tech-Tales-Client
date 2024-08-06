@@ -10,7 +10,6 @@ import {
   UserImage,
   AnimatedLikeBtn,
 } from "@/components";
-
 import parse from "html-react-parser";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -24,6 +23,7 @@ import "highlight.js/styles/github.css";
 import dynamic from "next/dynamic";
 import BlogSummary from "@/components/blogSummary";
 import { useUserContext } from "@/providers";
+import { Tooltip } from "react-tooltip";
 
 const NoSSRComments = dynamic(() => import("@/components/Comments"), {
   loading: () => (
@@ -165,22 +165,43 @@ export default function Slug({ blog }) {
             <Link
               href="#comments"
               className="text-base  inline-flex items-center gap-1"
-              title="comments">
+              data-tooltip-id="comments">
               <Comment size={20} className="stroke-none fill-gray-400" />
               <span> {commentCount}</span>
+              <Tooltip
+                id="comments"
+                content="Number of comments in this blog"
+                variant="info"
+                float="true"
+              />
             </Link>
-            <Link className="inline-flex items-center gap-0.5 " href="#actions">
+            <Link
+              className="inline-flex items-center gap-0.5 "
+              href="#actions"
+              data-tooltip-id="blog-likes">
               <Like
                 className="stroke-gray-400 fill-none"
                 size={20}
                 title="likes"
               />
               <span className="">{blog.likes}</span>
+              <Tooltip
+                id="blog-likes"
+                content="Number of times this blog has been favorited by readers"
+                variant="info"
+                float="true"
+              />
             </Link>
             <p
               className="inline-flex items-center gap-0.5"
-              title="this displays the total blog views">
+              data-tooltip-id="blog-views">
               <Graph className="stroke-gray-500 fill-none" size={20} />
+              <Tooltip
+                id="blog-views"
+                content="Number of times this blog has been seen by readers"
+                variant="info"
+                float="true"
+              />
               <span className="">{blog.views}</span>
             </p>
             <svg
@@ -189,7 +210,8 @@ export default function Slug({ blog }) {
               height="20"
               width="20"
               onClick={() => setShowPlayButton(!showPlayButton)}
-              className="stroke-gray-300 fill-none">
+              className="stroke-gray-300 fill-none"
+              data-tooltip-id="play-blog">
               <path
                 fill="currentColor"
                 fillRule="evenodd"
@@ -199,10 +221,22 @@ export default function Slug({ blog }) {
               <title>Listen to this blog</title>
               <path fill="currentColor" d="M16 12l-6 4.33V7.67L16 12z" />
             </svg>
+            <Tooltip
+              id="play-blog"
+              content="Listen to this blog narration"
+              variant="info"
+              float="true"
+            />
             <button
               onClick={() => handleSharing(blog.title, blog.slug)}
-              title="share this blog">
+              data-tooltip-id="share-blog">
               <Share size={20} />
+              <Tooltip
+                id="share-blog"
+                content="Share this blog with others"
+                variant="info"
+                float="true"
+              />
             </button>
             <Bookmark blogId={blog.id} size={20} />
           </div>
