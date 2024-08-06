@@ -25,12 +25,12 @@ export const metaobject = {
   openGraph: {
     title: "Tech Tales",
     description:
-      "Tech Tales: A blog for tech students and professionals to share coding solutions, enhance learning, and practice blogging.",
+      "A blog for tech students and professionals to share coding solutions, enhance learning, and practice blogging.",
     url: "https://techtales.vercel.app",
     siteName: "Tech Tales",
     images: [
       {
-        url: "https://myawesomewebsite.com/og-image.jpg",
+        url: "https://techtales.vercel.app/logo.png",
         width: 1200,
         height: 630,
         alt: "Tech Tales",
@@ -47,7 +47,7 @@ export const metaobject = {
     description:
       "ech Tales: A blog for tech students and professionals to share coding solutions, enhance learning, and practice blogging.",
     creator: "@diamonddegesh",
-    images: ["https://myawesomewebsite.com/twitter-image.jpg"],
+    images: ["https://techtales.vercel.app/logo.png"],
   },
 
   // Verification for search engines

@@ -77,15 +77,12 @@ export async function generateMetadata({ params }) {
   const blog = await getBlogData(params.slug);
   if (!blog) {
     return customMetaDataGenerator({
-      title: "Blog Not Found | Tech Tales",
+      title: `${params.slug} | Tech Tales"`,
       description: "The requested blog could not be found on Tech Tales.",
     });
   }
 
-  const description = `Written by: ${blog.author.username} - ${blog.body.slice(
-    0,
-    150
-  )}... Read More`;
+  const description = `${blog.body.slice(0, 150)}... Read More`;
 
   return customMetaDataGenerator({
     title: blog.title,
