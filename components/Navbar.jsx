@@ -8,6 +8,7 @@ import { Menu } from "./Menu";
 import Popup from "./LoginAlert";
 import { SortUp, SortDown } from "@/assets";
 import { useUserContext } from "@/providers";
+import { Tooltip } from "react-tooltip";
 export const dynamic = "force-dynamic";
 
 export default function Navbar() {
@@ -40,7 +41,15 @@ export default function Navbar() {
           id="user present">
           <Link
             href="/create"
-            className="hidden md:block py-2 mx-1 px-4 border border-blue-500 hover:bg-gradient-to-r hover:from-indigo-400 hover:via-cyan-500 hover:to-green-400 rounded-md text-xl cursor-pointer hover:text-white shadow-md ">
+            className="hidden md:block py-2 mx-1 px-4 border border-blue-500 hover:bg-gradient-to-r hover:from-indigo-400 hover:via-cyan-500 hover:to-green-400 rounded-md text-xl cursor-pointer hover:text-white shadow-md "
+            data-tooltip-id="create-post">
+            <Tooltip
+              id="create-post"
+              place="bottom"
+              content="Write your own blog post!"
+              variant="info"
+              effect="solid"
+            />
             Create Post
           </Link>
           <div className="flex items-center gap-1 relative">

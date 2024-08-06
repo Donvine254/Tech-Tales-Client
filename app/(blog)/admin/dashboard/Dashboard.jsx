@@ -3,13 +3,14 @@ import React, { useState, useEffect, useMemo } from "react";
 import BlogsTable from "@/components/Dashboard/Blogs";
 import UsersTable from "@/components/Dashboard/Users";
 import CommentsTable from "@/components/Dashboard/Comments";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
-
+import { Tooltip } from "react-tooltip";
 export default function Dashboard({ blogs, users, totalComments }) {
   const searchParams = useSearchParams();
   let tab = searchParams.get("tab") || "0";
   const [activeTab, setActiveTab] = useState(tab ?? "0");
+  const router = useRouter();
   useEffect(() => {
     const tab = searchParams.get("tab");
     setActiveTab(tab ?? "0");
@@ -33,11 +34,17 @@ export default function Dashboard({ blogs, users, totalComments }) {
         {/* first card */}
         <div
           className=" bg-gray-100 hover:bg-gray-200 p-6 space-y-4 text-center shadow rounded-md hover:-translate-y-1 transition-transform duration-300 cursor-pointer"
+          data-tooltip-id="manage-users"
           onClick={() => {
-            if (typeof window == !undefined && window) {
-              window.location.href = "/admin/dashboard?tab=0";
-            }
+            router.push("/admin/dashboard?tab=0");
           }}>
+          <Tooltip
+            id="manage-users"
+            place="right"
+            content="Go to users dashboard"
+            variant="info"
+            effect="solid"
+          />
           <div className=" inline-flex items-center justify-center w-full text-cyan-500">
             <svg
               viewBox="0 0 640 512"
@@ -52,18 +59,14 @@ export default function Dashboard({ blogs, users, totalComments }) {
           </h1>
           <p className="text-gray-600"> Total Users.</p>
           <hr />
-          <p className="text-gray-600">
-            {" "}
-            Keep track of your registered authors.
-          </p>
+          <p className="text-gray-600"> Keep track of your registered users.</p>
         </div>
         {/* second card */}
         <div
           className=" bg-gray-100 hover:bg-gray-200 p-6 space-y-4 text-center  shadow rounded-md hover:-translate-y-1 transition-transform duration-300 cursor-pointer"
+          data-tooltip-id="manage-blogs"
           onClick={() => {
-            if (typeof window == !undefined && window) {
-              window.location.href = "/admin/dashboard?tab=1";
-            }
+            router.push("/admin/dashboard?tab=1");
           }}>
           <div className=" inline-flex items-center justify-center w-full text-cyan-500">
             <svg
@@ -118,15 +121,27 @@ export default function Dashboard({ blogs, users, totalComments }) {
           <p className="text-gray-600">Total published blogs.</p>
           <hr />
           <p className="text-gray-600 "> Manage and publish blogs.</p>
+          <Tooltip
+            id="manage-blogs"
+            place="right"
+            content="Go to blogs dashboard"
+            variant="info"
+            effect="solid"
+          />
         </div>
         {/* third card */}
         <div
           className=" bg-gray-100 hover:bg-gray-200 p-6 space-y-4  shadow rounded-md hover:-translate-y-1 transition-transform duration-300 text-center cursor-pointer"
+          data-tooltip-id="manage-comments"
           onClick={() => {
-            if (typeof window == !undefined && window) {
-              window.location.href = "/admin/dashboard?tab=2";
-            }
+            router.push("/admin/dashboard?tab=2");
           }}>
+          <Tooltip
+            id="manage-comments"
+            place="left"
+            content="Go to comments dashboard"
+            variant="info"
+          />
           <div className=" inline-flex items-center justify-center w-full text-cyan-500">
             <svg viewBox="0 0 24 24" fill="currentColor" height="48" width="48">
               <path d="M20 2H4a2 2 0 00-2 2v12a2 2 0 002 2h4v3c0 .55.45 1 1 1h.5c.25 0 .5-.1.7-.29L13.9 18H20c1.11 0 2-.89 2-2V4a2 2 0 00-2-2m-9.53 12L7 10.5l1.4-1.41 2.07 2.08L15.6 6 17 7.41 10.47 14z" />

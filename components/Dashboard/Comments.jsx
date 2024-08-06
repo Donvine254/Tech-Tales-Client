@@ -84,28 +84,6 @@ export default function CommentsTable({ comments }) {
     <section>
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <h1 className="md:text-xl  font-semibold my-2 ">Manage comments</h1>
-        <div className="flex items-center gap-1 md:gap-2 lg:gap-4 my-1 ">
-          <button
-            onClick={() => toast.success("incoming feature")}
-            className="xsm:hidden p-2 bg-cyan-100 text-cyan-600 border-cyan-600  rounded-md border hover:bg-cyan-500 hover:text-white flex items-center shadow ">
-            <svg viewBox="0 0 24 24" fill="currentColor" height="24" width="24">
-              <path d="M17 11a1 1 0 010 2h-4v4a1 1 0 01-2 0v-4H7a1 1 0 010-2h4V7a1 1 0 012 0v4h4z" />
-            </svg>
-            <span>Add comment</span>
-          </button>
-          <button
-            className="p-2  rounded-md border hover:bg-gray-900 hover:text-white  flex items-center gap-1 shadow bg-white"
-            onClick={() => toast.success("incoming feature")}>
-            <svg
-              viewBox="0 0 640 512"
-              fill="currentColor"
-              height="24"
-              width="24">
-              <path d="M32 64C32 28.7 60.7 0 96 0h160v128c0 17.7 14.3 32 32 32h128v128H248c-13.3 0-24 10.7-24 24s10.7 24 24 24h168v112c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V64zm384 272v-48h110.1l-39-39c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l80 80c9.4 9.4 9.4 24.6 0 33.9l-80 80c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l39-39H416zm0-208H288V0l128 128z" />
-            </svg>
-            <span>Export CSV</span>
-          </button>
-        </div>
       </div>
       {/* search input */}
       <div className="flex items-center my-2 sm:gap-2 md:gap-4">
