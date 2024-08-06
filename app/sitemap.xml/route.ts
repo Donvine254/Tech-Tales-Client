@@ -4,13 +4,18 @@ import prisma from "@/prisma/prisma";
 
 export async function GET() {
   const baseUrl = "https://techtales.vercel.app";
-  const blogs = await prisma.blog.findMany();
+  const blogs = await prisma.blog.findMany({
+    select: {
+      slug: true,
+      updatedAt: true,
+    },
+  });
 
   const blogEntries = blogs
     .map(
       (blog) => `
     <url>
-      <loc>${baseUrl}/blog/${blog.slug}</loc>
+      <loc>${baseUrl}/blogs/${blog.slug}</loc>
       <lastmod>${new Date(blog.updatedAt!).toISOString()}</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.8</priority>
