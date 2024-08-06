@@ -1,18 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SearchIcon } from "@/assets";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import { baseUrl } from "@/lib";
 import CommentActionsButton from "./commentActions";
 import { updateCommentStatus } from "@/lib/actions";
+import Pagination from "./pagination";
 import Axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 
+const rowsPerPage = 10;
+
 export default function CommentsTable({ comments }) {
   const commentsData = comments.sort((a, b) => a.id - b.id);
+  const [rows, setRows] = useState(rowsPerPage);
+  const [currentPage, setCurrentPage] = useState(1);
   const [totalComments, setTotalComments] = useState(commentsData);
   const [isSorted, setIsSorted] = useState(false);
+
+  useEffect(() => {
+    const startIdx = (currentPage - 1) * rows;
+    const endIdx = startIdx + rows;
+    setTotalComments(commentsData.slice(startIdx, endIdx));
+  }, [commentsData, currentPage, rows]);
 
   const handleSearch = (e) => {
     const searchTerm = e.target.value;
@@ -188,10 +199,13 @@ export default function CommentsTable({ comments }) {
               ))}
           </tbody>
         </table>
-        <p>
-          Showing <strong>{totalComments.length}</strong> of{" "}
-          <strong>{comments.length}</strong> comments
-        </p>
+        <Pagination
+          data={commentsData.length}
+          rows={rows}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          setRows={setRows}
+        />
       </div>
     </section>
   );

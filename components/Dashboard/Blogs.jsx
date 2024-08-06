@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { SearchIcon } from "@/assets";
 import BlogActionsButton from "./blogActions";
+import Pagination from "./pagination";
 import Image from "next/image";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import { handleUpdateStatus } from "@/lib";
 import { DeleteBlog, revalidateBlogs, revalidatePage } from "@/lib/actions";
 import { exportCSV } from "@/lib/utils";
-import { Tooltip } from "react-tooltip";
 
 export default function BlogsTable({ blogs }) {
   const blogsData = blogs.sort((a, b) => a.id - b.id);
@@ -250,74 +250,7 @@ export default function BlogsTable({ blogs }) {
               ))}
           </tbody>
         </table>
-
-        {/* rows per page dropdown, < for navigation > */}
-        <div className="flex items-center gap-2 md:gap-5 justify-end my-1">
-          <div className="flex items-center gap-2">
-            <p>Rows per page: </p>
-            <select name="rows" id="rows" className="bg-transparent">
-              <option value={5}>5</option>
-              <option value={10}>10</option>
-              <option value={15}>15</option>
-              <option value={25}>25</option>
-              <option value={50}>50</option>
-              <option value={100}>100</option>
-              <option value={150}>150</option>
-              <option value={200}>200</option>
-              <option value={250}>250</option>
-            </select>
-          </div>
-          <p>
-            {/* showing current page/total pages */}
-            <span>{totalBlogs.length}</span> of <span>{blogs.length}</span>
-          </p>
-          <div className="flex items-center gap-4 md:gap-6 text-extralight">
-            <button type="button" data-tooltip-id="previous-page" className="">
-              <Tooltip
-                id="previous-page"
-                place="bottom"
-                content="Go to the previous page"
-                variant="info"
-                effect="solid"
-              />
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="">
-                <path d="m11 17-5-5 5-5" />
-              </svg>
-            </button>
-            <button type="button" data-tooltip-id="next-page" className="">
-              <Tooltip
-                id="next-page"
-                place="bottom"
-                content="Go to the next page"
-                variant="info"
-                effect="solid"
-              />
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="">
-                <path d="m6 17 5-5-5-5" />
-              </svg>
-            </button>
-          </div>
-        </div>
+        <Pagination setData={setTotalBlogs} data={totalBlogs} />
       </div>
     </section>
   );
