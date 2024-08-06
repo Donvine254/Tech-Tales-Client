@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { setCookie, getCookie } from "@/lib/utils";
+import Image from "next/image";
 const CookieAlert = () => {
   const [show, setShow] = useState(false);
 
@@ -25,7 +26,7 @@ const CookieAlert = () => {
 
   return (
     <div
-      className={`bg-gray-50 font-roboto shadow-md rounded-lg max-w-fit p-6 relative cookie-alert ${
+      className={`bg-white font-roboto text-sm shadow-md rounded-lg max-w-fit px-4 py-2 relative m-0 xsm:mx-2 cookie-alert ${
         show ? "show" : ""
       }`}>
       <button
@@ -47,11 +48,14 @@ const CookieAlert = () => {
         </svg>
       </button>
       <div>
-        <h1 className="text-lg font-bold">&#x1F36A; Do you like cookies?</h1>
-        <p className="text-gray-700 mt-2">
+        <h1 className="text-base font-bold inline-flex items-center gap-1">
+          <Image src="/cookie.svg" alt="cookie" height={20} width={20} /> Do you
+          like cookies?
+        </h1>
+        <p className="text-gray-700 mt-1 font-crimson">
           We use cookies to ensure you get the best experience on our website.
         </p>
-        <div className="flex justify-end mt-4 gap-2">
+        <div className="flex justify-end mt-1 gap-2">
           <a
             href="http://cookiesandyou.com/"
             target="_blank"
