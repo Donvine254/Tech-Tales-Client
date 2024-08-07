@@ -16,9 +16,29 @@ export default async function CommunityPage() {
       </div>
       <div className="px-2 md:px-8 w-full mx-auto md:my-4 md:w-2/3">
         <div>
-          <h1 className="text-gray-600 font-bold text-xl md:text-2xl">
-            Community Engagement Rules
-          </h1>
+          <div className="flex items-center justify-between gap-1">
+            <hr className="w-1/3 border border-blue-300" />
+            <h2 className="xsm:text-xl text-2xl font-bold inline-flex gap-1 items-center flex-1 whitespace-nowrap">
+              <svg
+                viewBox="0 0 21 21"
+                fill="currentColor"
+                height="1em"
+                width="1em"
+                className="fill-blue-500">
+                <g
+                  fill="none"
+                  fillRule="evenodd"
+                  stroke="#3b82f6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round">
+                  <path d="M17.5 14.5v-10a2 2 0 00-2-2h-8a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2z" />
+                  <path d="M5.305 4.935l-2.004.73a2 2 0 00-1.195 2.563l3.42 9.397A2 2 0 008.09 18.82l5.568-2.198M8.5 7.5h5M8.5 9.5h6M8.5 11.5h3" />
+                </g>
+              </svg>
+              <span>Community Guidelines</span>
+            </h2>
+            <hr className="w-1/3 border border-blue-300" />
+          </div>
           <h2 className="text-xl text-gray-600  font-bold my-1">
             Keep It Relevant{" "}
           </h2>
