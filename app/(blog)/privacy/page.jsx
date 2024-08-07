@@ -4,8 +4,10 @@ export default function PrivacyPage() {
   return (
     <div className="md:mt-8 font-crimson">
       <div className="p-2 md:p-6 bg-[url('https://res.cloudinary.com/dipkbpinx/image/upload/v1705348745/wlqqvrc1iqcbnfipageb.png')] bg-cover bg-no-repeat  ">
-        <h1 className="font-bold md:leading-loose text-center text-xl md:text-3xl tracking-wide my-1">
-          Tech Tales Privacy Policy
+        <h1 className="font-bold md:leading-loose text-center text-xl md:text-3xl tracking-wide my-1 ">
+          Tech{" "}
+          <span className="underline underline-offset-8">Tales Privacy </span>
+          Policy
         </h1>
         <p className="leading-loose text-base text-center md:w-1/2 md:mx-auto xsm:text-sm">
           At our blog, we are committed to protecting the privacy and security
