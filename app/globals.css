@@ -377,3 +377,7 @@ div.arrow-up {
   transform: translateY(0%);
   transition-delay: 1000ms;
 }
+/* styling for print view */
+#print-div pre {
+  border: 2px solid black !important;
+}

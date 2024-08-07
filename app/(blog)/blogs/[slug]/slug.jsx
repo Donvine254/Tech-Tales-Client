@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Comment, Share } from "@/assets";
 import {
   Bookmark,
@@ -24,6 +24,7 @@ import dynamic from "next/dynamic";
 import BlogSummary from "@/components/blogSummary";
 import { useUserContext } from "@/providers";
 import { Tooltip } from "react-tooltip";
+import Script from "next/script";
 
 const NoSSRComments = dynamic(() => import("@/components/Comments"), {
   loading: () => (
@@ -40,7 +41,6 @@ export default function Slug({ blog }) {
   const [commentCount, setCommentCount] = useState(blog?.comments.length ?? 0);
   const [copied, setCopied] = useState(false);
   const [showPlayButton, setShowPlayButton] = useState(false);
-  const printRef = useRef(null);
   const router = useRouter();
 
   const user = useUserContext();
@@ -69,12 +69,8 @@ export default function Slug({ blog }) {
 
   //function to print contents
   const handlePrint = async () => {
-    const printContents = printRef.current.innerHTML;
-    const originalContents = document.body.innerHTML;
-
-    document.body.innerHTML = printContents;
-    window.print();
-    document.body.innerHTML = originalContents;
+    const print = inkHtml;
+    print(document.getElementById("print-div"));
   };
 
   //function to copy blog link
@@ -108,7 +104,10 @@ export default function Slug({ blog }) {
               className="italic h-full w-full  mt-2 border-2 "
             />
           )}
-
+          <Script
+            src="https://unpkg.com/ink-html/dist/index.js"
+            async
+            defer></Script>
           <div className="block gap-5 items-center py-4">
             <div className="flex gap-2 md:gap-2 lg:gap-3 items-center">
               <div
@@ -386,14 +385,6 @@ export default function Slug({ blog }) {
             setCommentCount={setCommentCount}
             user={user}
           />
-          <div ref={printRef} style={{ display: "none" }}>
-            <h1 className="text-xl font-bold">{blog.title}</h1>
-            <p className="italic">
-              By {blog.author.username} published on{" "}
-              {formatDate(blog.createdAt)}
-            </p>
-            <div className="blog-body">{parse(blog.body)}</div>
-          </div>
         </div>
       ) : null}
       <div className="my-2">
@@ -420,6 +411,13 @@ export default function Slug({ blog }) {
             ))}
           </div>
         )}
+      </div>
+      <div id="print-div" style={{ display: "none" }}>
+        <h1 className="text-xl font-bold">{blog.title}</h1>
+        <p className="italic">
+          By {blog.author.username} published on {formatDate(blog.createdAt)}
+        </p>
+        <div className="blog-body">{parse(blog.body)}</div>
       </div>
     </div>
   );
