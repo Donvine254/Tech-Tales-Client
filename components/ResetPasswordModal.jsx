@@ -196,7 +196,7 @@ export default function ResetPasswordModal({ user }) {
           <button
             type="reset"
             title="reset"
-            className="px-4 h-10 py-0.5 border-2 border-green-400 hover:border-orange-500 rounded-xl disabled:bg-opacity-30 disabled:border-gray-200 bg-transparent"
+            className="px-4 h-8 py-0.5 border border-green-400 hover:border-orange-500 rounded-xl disabled:bg-opacity-30 disabled:border-gray-200 bg-transparent"
             disabled={loading}
             onClick={() => {
               setData({
@@ -209,7 +209,7 @@ export default function ResetPasswordModal({ user }) {
             Cancel
           </button>
           <button
-            className="px-4 py-0.5 h-10 border-2 bg-blue-600 text-white rounded-xl disabled:pointer-events-none disabled:bg-gray-100 disabled:text-black flex items-center justify-center gap-2"
+            className="px-4 py-0.5 h-8 border  bg-blue-600 text-white rounded-xl disabled:pointer-events-none disabled:bg-gray-100 disabled:text-black flex items-center justify-center gap-2"
             type="submit"
             title="submit"
             disabled={error || loading}>
@@ -218,7 +218,7 @@ export default function ResetPasswordModal({ user }) {
                 <Loader size="12" /> Saving...
               </>
             ) : (
-              "Update Password"
+              "Update"
             )}
           </button>
         </div>

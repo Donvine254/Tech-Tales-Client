@@ -258,7 +258,7 @@ div.arrow-up {
 
 /*  css styles for modal */
 .modal {
-  transition: top 0.4s, opacity 0.4s;
+  transition: top 0.5s, opacity 0.4s, ease-out;
   animation: animatetop 0.4s;
 }
 

@@ -26,7 +26,7 @@ const CookieAlert = () => {
 
   return (
     <div
-      className={`bg-white font-roboto text-sm shadow-md rounded-lg max-w-fit px-4 py-2 relative m-0 xsm:mx-2 cookie-alert ${
+      className={`bg-white font-roboto text-sm shadow-md rounded-lg max-w-fit px-4 py-2 relative xsm:w-full xsm:bottom-0 xsm:right-0 cookie-alert ${
         show ? "show" : ""
       }`}>
       <button
