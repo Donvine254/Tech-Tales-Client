@@ -4,14 +4,14 @@ export const metadata = {
 export default async function CommunityPage() {
   return (
     <section className="font-poppins md:mt-8">
-      <div className="p-2 md:p-6 bg-[url('https://res.cloudinary.com/dipkbpinx/image/upload/v1705348745/wlqqvrc1iqcbnfipageb.png')] bg-cover bg-no-repeat text-white ">
+      <div className="p-2 md:p-6 bg-[url('https://res.cloudinary.com/dipkbpinx/image/upload/v1705348745/wlqqvrc1iqcbnfipageb.png')] bg-cover bg-no-repeat  ">
         <h1 className="font-bold md:leading-loose text-center text-xl md:text-3xl tracking-wide my-1">
           Tech Tales Community Guidelines
         </h1>
-        <p className="leading-loose text-base md:text-center md:w-1/2 md:mx-auto">
+        <p className="leading-loose text-base text-center md:w-1/2 md:mx-auto xsm:text-sm">
           Tech Tales is a blog for tech students, enthusiasts and professionals
           where we share, learn and grow. This is a community where we always
-          treat each other with respect and help each other succeed .
+          treat each other with respect and help each other succeed.
         </p>
       </div>
       <div className="px-2 md:px-8 w-full mx-auto md:my-4 md:w-2/3">
