@@ -207,7 +207,7 @@ export default function PrivacyPage() {
             time period
           </p>
         </div>
-        <div className="text-center p-4 bg-cyan-100 rounded-md my-2 ">
+        <div className="text-center p-4 bg-cyan-100 rounded-md my-2 sm:border-l-8 border-cyan-500 ">
           <svg
             viewBox="0 0 24 24"
             fill="currentColor"
@@ -220,7 +220,7 @@ export default function PrivacyPage() {
             If you have any questions or concerns about our privacy policy,
             please don&apos;t hesitate to contact us at{" "}
             <a
-              href="mailto:support@techtales.vercel.app"
+              href="mailto:donvinemugend@gmail.com"
               className="underline text-blue-500">
               support@techtales.vercel.app.
             </a>

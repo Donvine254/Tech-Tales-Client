@@ -132,15 +132,16 @@ export default async function CommunityPage() {
         </div>
         {/* alert div */}
         <div
-          className="bg-blue-100 bg-opacity-40 border border-blue-500 text-blue-600 py-3 rounded relative border-l-4 "
+          className="bg-cyan-100  border border-cyan-500  py-3 rounded relative sm:border-l-8 "
           role="alert">
-          <div className="flex px-1 gap-2 ">
+          <div className="md:flex px-1 gap-2 ">
             <div className="py-1">
               <svg
                 viewBox="0 0 64 64"
                 fill="currentColor"
                 height="48"
-                width="48">
+                width="48"
+                className="xsm:mx-auto text-cyan-500">
                 <g
                   fill="none"
                   stroke="currentColor"
@@ -151,7 +152,7 @@ export default async function CommunityPage() {
                 </g>
               </svg>
             </div>
-            <div>
+            <div className="xsm:p-2">
               <p className="font-bold text-[18px]">
                 Tell us if you see abusive content!
               </p>
@@ -163,8 +164,8 @@ export default async function CommunityPage() {
                 <a
                   target="_blank"
                   className="font-semibold hover:underline p-1 border rounded-md border-blue-500 whitespace-nowrap"
-                  href="mailto:admin@techtales.vercel.app">
-                  admin@techtales.vercel.app
+                  href="mailto:donvinemugendi@gmail.com">
+                  support@techtales.vercel.app
                 </a>
               </p>
             </div>
