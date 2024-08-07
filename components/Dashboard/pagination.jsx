@@ -65,9 +65,9 @@ export default function Pagination({
             stroke="currentColor"
             strokeWidth="1"
             strokeLinecap="round"
-            strokeLinejoin="round"
-            className="">
-            <path d="m11 17-5-5 5-5" />
+            strokeLinejoin="round">
+            <rect width="18" height="18" x="3" y="3" rx="2" />
+            <path d="m14 16-4-4 4-4" />
           </svg>
         </button>
         <button
@@ -91,9 +91,9 @@ export default function Pagination({
             stroke="currentColor"
             strokeWidth="1"
             strokeLinecap="round"
-            strokeLinejoin="round"
-            className="">
-            <path d="m6 17 5-5-5-5" />
+            strokeLinejoin="round">
+            <rect width="18" height="18" x="3" y="3" rx="2" />
+            <path d="m10 8 4 4-4 4" />
           </svg>
         </button>
       </div>

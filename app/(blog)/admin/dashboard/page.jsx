@@ -1,5 +1,4 @@
 import Dashboard from "./Dashboard";
-import Loader from "@/components/Loader";
 import prisma from "@/prisma/prisma";
 import { Suspense } from "react";
 export const revalidate = 60;

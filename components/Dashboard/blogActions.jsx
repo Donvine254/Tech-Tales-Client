@@ -9,10 +9,8 @@ import {
   IconEye,
   IconEyeOffSharp,
   ShareIcon,
-  PDFIcon,
 } from "@/assets";
 import Link from "next/link";
-import { downloadPDF } from "@/lib/downloadPDF";
 
 export default function BlogActionsButton({
   onDelete,
