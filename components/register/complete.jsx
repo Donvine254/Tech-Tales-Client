@@ -8,6 +8,7 @@ import { validateRecaptcha } from "@/lib/actions";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import toast from "react-hot-toast";
 import Loader from "@/components/Loader";
+import PasswordStrengthMeter from "../alerts/passwordMeter";
 
 export default function CompleteRegistration() {
   const [showPassword, setShowPassword] = useState(false);
@@ -127,9 +128,6 @@ export default function CompleteRegistration() {
                 required
                 type={showPassword ? "text" : "password"}
               />
-              <small>
-                Password must contain at least one number and a letter
-              </small>
             </div>
             <div className="flex items-center justify-start gap-4">
               <input
@@ -139,6 +137,7 @@ export default function CompleteRegistration() {
               />
               <span> {showPassword ? "Hide" : "Show"} Password</span>
             </div>
+            <PasswordStrengthMeter password={formData.password} />
           </div>
           {error && (
             <div className="my-1 px-6">

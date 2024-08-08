@@ -6,6 +6,7 @@ import { validateRecaptcha } from "@/lib/actions";
 import toast from "react-hot-toast";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import Loader from "../Loader";
+import PasswordStrengthMeter from "../alerts/passwordMeter";
 
 export default function PasswordForm() {
   const [error, setError] = useState("");
@@ -75,7 +76,7 @@ export default function PasswordForm() {
                 Almost done. Enter a new password and you&apos;re all set!
               </p>
               <div className="space-y-2">
-                <div className="text-sm xsm:text-[12px] py-1">
+                {/* <div className="text-sm xsm:text-[12px] py-1">
                   <p className="text-base font-semibold">
                     Password Requirements
                   </p>
@@ -90,7 +91,7 @@ export default function PasswordForm() {
                       Not same as your username
                     </li>
                   </ul>
-                </div>
+                </div> */}
                 <label
                   className="font-bold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700"
                   htmlFor="password">
@@ -136,6 +137,7 @@ export default function PasswordForm() {
                   type="password"
                 />
               </div>
+              <PasswordStrengthMeter password={data.password} />
               <div className="h-5 min-h-5 max-h-5 space-y-1">
                 {error ? (
                   <p className="text-orange-600 inline-flex place-items-center items-center text-sm w-full gap-1 ">
