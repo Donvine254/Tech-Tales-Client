@@ -12,13 +12,13 @@ export default function Terms() {
         <p className="leading-loose text-base text-center md:w-1/2 md:mx-auto xsm:text-sm">
           At our blog, we are committed to protecting the privacy and security
           of our users. This terms of service form the agreement between you and
-          tech tales regarding the use of service
+          tech tales regarding the use of service.
         </p>
       </div>
       <div className="px-2 md:px-8 w-full mx-auto md:my-4 md:w-2/3">
         <div className="flex items-center  gap-1">
           <hr className="w-1/3 border border-blue-300" />
-          <h2 className="xsm:text-xl text-2xl font-bold inline-flex gap-1 items-center">
+          <h2 className="xsm:text-xl text-2xl font-bold inline-flex gap-1 items-center flex-1 whitespace-nowrap">
             <svg
               viewBox="0 0 21 21"
               fill="currentColor"
@@ -109,7 +109,7 @@ export default function Terms() {
           that is not lawfully available for use, a name or trademark that is
           subject to any rights of another person or entity other than you
           without appropriate authorization, or a name that is otherwise
-          offensive, vulgar or obscene
+          offensive, vulgar or obscene.
         </p>
 
         <h2 className="text-2xl font-semibold mb-2">3. User Content</h2>

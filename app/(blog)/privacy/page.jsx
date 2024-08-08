@@ -19,7 +19,7 @@ export default function PrivacyPage() {
         <div className="space-y-2">
           <div className="flex items-center  gap-1">
             <hr className="w-1/3 border border-blue-300" />
-            <h2 className="xsm:text-xl text-2xl font-bold inline-flex gap-1 items-center">
+            <h2 className="xsm:text-xl text-2xl font-bold inline-flex gap-1 items-center flex-1 whitespace-nowrap">
               <svg
                 viewBox="0 0 21 21"
                 fill="currentColor"
@@ -208,7 +208,7 @@ export default function PrivacyPage() {
             Incase you decide to delete your account, we will keep your account
             information for 30 days, upon which it will be automatically
             deleted. You can request to restore your account anytime during this
-            time period
+            time period.
           </p>
         </div>
         <div className="text-center p-4 bg-cyan-100 rounded-md my-2 sm:border-l-8 border-cyan-500 ">
