@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import axiosInstance from "@/axiosConfig";
 import Loader from "./Loader";
 import { baseUrl } from "@/lib";
+import PasswordStrengthMeter from "./alerts/passwordMeter";
 
 export default function ResetPasswordModal({ user }) {
   const [loading, setLoading] = useState(false);
@@ -92,7 +93,7 @@ export default function ResetPasswordModal({ user }) {
             <span>{user?.email}</span>
           </div>
         </div>
-        <div className="text-sm py-1">
+        {/* <div className="text-sm py-1">
           <p>Password Requirements</p>
           <ul className="list-disc">
             <li className="list-item list-inside">
@@ -103,7 +104,7 @@ export default function ResetPasswordModal({ user }) {
               Your new password cannot be the same as the current password
             </li>
           </ul>
-        </div>
+        </div> */}
         <div>
           <div className="space-y-2">
             <label className="font-semibold" htmlFor="current-password">
@@ -162,6 +163,7 @@ export default function ResetPasswordModal({ user }) {
               type="password"
             />
           </div>
+          <PasswordStrengthMeter password={data.newPassword} />
           <div className="h-5 min-h-5 max-h-5 space-y-1">
             {error ? (
               <p className="text-orange-600 inline-flex place-items-center items-center text-sm w-full gap-1 ">
