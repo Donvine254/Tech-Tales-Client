@@ -1,6 +1,5 @@
 "use client";
 import { Suspense } from "react";
-import { motion } from "framer-motion";
 import Register from "./register";
 import { FloatingShape } from "@/components/floatingShape";
 

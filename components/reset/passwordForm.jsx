@@ -56,8 +56,8 @@ export default function PasswordForm() {
   }
   return (
     <section className="w-full">
-      <div className="flex flex-col items-center justify-center w-full min-h-screen  px-4 md:px-6 font-crimson bg-gray-50">
-        <div className="border w-full max-w-sm mx-auto rounded-xl shadow-md overflow-hidden">
+      <div className="flex flex-col items-center justify-center w-full min-h-screen  px-4 md:px-6 font-crimson ">
+        <div className="border bg-gray-50 w-full max-w-sm mx-auto rounded-xl shadow-md overflow-hidden">
           <div className="flex gap-2 text-blue-500 items-center justify-center py-1 mt-2">
             <hr className="border border-blue-200 w-1/3" />
             <svg viewBox="0 0 24 24" fill="currentColor" height="60" width="60">
@@ -76,29 +76,13 @@ export default function PasswordForm() {
                 Almost done. Enter a new password and you&apos;re all set!
               </p>
               <div className="space-y-2">
-                {/* <div className="text-sm xsm:text-[12px] py-1">
-                  <p className="text-base font-semibold">
-                    Password Requirements
-                  </p>
-                  <ul className="list-disc">
-                    <li className="list-item list-inside">
-                      At least 8 characters
-                    </li>
-                    <li className="list-item list-inside">
-                      Include numbers, letters and symbols
-                    </li>
-                    <li className="list-item list-inside">
-                      Not same as your username
-                    </li>
-                  </ul>
-                </div> */}
                 <label
                   className="font-bold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700"
                   htmlFor="password">
                   New Password
                 </label>
                 <input
-                  className={`flex h-10 bg-background text-base disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md z-50 ${
+                  className={`flex h-10 bg-background text-base disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md z-[999] ${
                     error ? "border-red-500 bg-red-100" : ""
                   }`}
                   id="password"
@@ -121,7 +105,7 @@ export default function PasswordForm() {
                   Confirm Password
                 </label>
                 <input
-                  className={`flex h-10 bg-background text-base disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md z-50 ${
+                  className={`flex h-10 bg-background text-base disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md z-[999] ${
                     error ? "border-red-500 bg-red-100" : ""
                   }`}
                   id="confirmPassword"
@@ -172,7 +156,7 @@ export default function PasswordForm() {
                 )}
               </div>
               <button
-                className="inline-flex items-center justify-center  disabled:pointer-events-none disabled:bg-gray-100 disabled:text-black hover:bg-primary/90 px-4  w-full bg-blue-500 text-white rounded-md h-10 py-1.5 mb-4 z-50"
+                className="inline-flex items-center justify-center  disabled:pointer-events-none disabled:bg-gray-100 disabled:text-black hover:bg-primary/90 px-4  w-full bg-blue-500 text-white rounded-md h-10 py-1.5 mb-4 !z-50"
                 type="submit"
                 disabled={error || loading}
                 title="reset">

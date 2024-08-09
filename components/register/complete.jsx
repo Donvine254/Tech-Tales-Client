@@ -159,7 +159,7 @@ export default function CompleteRegistration() {
               {loading ? <Loader /> : "Register"}
             </button>
           </div>
-          <div className="mb-2 px-6 text-gray-600">
+          <div className="py-2 px-6 text-gray-600 bg-gray-200">
             Already a Member?{" "}
             <a className="text-blue-500 hover:underline z-50" href="/login">
               Login
