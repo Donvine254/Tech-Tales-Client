@@ -8,11 +8,11 @@ const PasswordCriteria = ({ password }) => {
   ];
 
   return (
-    <div className="mt-2 flex items-center flex-wrap  gap-x-4 space-y-1 w-full">
+    <div className="mt-2 flex items-center flex-wrap  gap-x-4 md:grid md:grid-cols-2 md:gap-x-2 space-y-1 w-full">
       {criteria.map((item) => (
         <div
           key={item.label}
-          className="flex justify-between items-center text-xs">
+          className="flex justify-between md:gap-1 md:justify-normal items-center text-xs">
           {item.met ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
