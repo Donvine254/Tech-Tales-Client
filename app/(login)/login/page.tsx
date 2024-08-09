@@ -1,24 +1,3 @@
-// import React, { Suspense } from "react";
-
-// import { motion } from "framer-motion";
-// export default function Page() {
-//   return (
-//     <Suspense
-//       fallback={
-//         <div className="h-screen flex items-center justify-center">
-//           <div className="loader"></div>
-//         </div>
-//       }>
-//       <motion.div
-//         initial={{ opacity: 0, y: 20 }}
-//         animate={{ opacity: 1, y: 0 }}
-//         transition={{ duration: 0.5 }}
-//         className="max-w-md w-full bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden">
-//         <LoginPage />
-//       </motion.div>
-//     </Suspense>
-//   );
-// }
 "use client";
 import { Suspense } from "react";
 import { motion } from "framer-motion";
@@ -86,7 +65,7 @@ export default function Page() {
 const FloatingShape = ({ color, size, top, left, delay }) => {
   return (
     <motion.div
-      className={`absolute rounded-full ${color} ${size} opacity-20 blur-xl`}
+      className={`absolute  rounded-full ${color} ${size} opacity-20 blur-xl`}
       style={{ top, left }}
       animate={{
         y: ["0%", "100%", "0%"],

@@ -97,7 +97,7 @@ export default function LoginPage() {
                 Email
               </label>
               <input
-                className="flex h-10 bg-background text-base  disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md"
+                className="flex h-10 bg-background text-base  disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md z-50"
                 id="email"
                 name="email"
                 type="email"
@@ -115,7 +115,7 @@ export default function LoginPage() {
                 Password
               </label>
               <input
-                className="flex h-10 bg-background text-base disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md"
+                className="flex h-10 bg-background text-base disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md z-50"
                 id="password"
                 name="password"
                 placeholder="*******"
@@ -131,6 +131,7 @@ export default function LoginPage() {
               <div className="flex items-center justify-start gap-1 md:gap-4">
                 <input
                   type="checkbox"
+                  className="z-50"
                   value={showPassword}
                   onChange={() => setShowPassword(!showPassword)}
                 />
@@ -138,7 +139,7 @@ export default function LoginPage() {
               </div>
               <div>
                 <a
-                  className="hover:text-blue-500 underline underline-offset-2 cursor-pointer"
+                  className="hover:text-blue-500 underline underline-offset-2 cursor-pointer z-50"
                   href="/reset">
                   Forgot Password?
                 </a>
@@ -157,7 +158,7 @@ export default function LoginPage() {
               }}
             />
             <button
-              className="inline-flex items-center justify-center  border disabled:pointer-events-none disabled:bg-gray-100 disabled:text-black  h-10 px-4 py-2 w-full bg-blue-500 hover:bg-blue-600 text-white rounded-md"
+              className="inline-flex items-center justify-center  border disabled:pointer-events-none disabled:bg-gray-100 disabled:text-black  h-10 px-4 py-2 w-full bg-blue-500 hover:bg-blue-600 text-white rounded-md z-50"
               type="submit"
               disabled={loading}
               title="login">
@@ -170,14 +171,14 @@ export default function LoginPage() {
               <hr className="border border-gray-200 w-full" />
             </div>
             <button
-              className="rounded-md font-medium  border  hover:bg-black hover:text-white  h-10 px-4 py-2 w-full flex justify-center items-center space-x-2"
+              className="rounded-md font-medium  border  hover:bg-black hover:text-white  h-10 px-4 py-2 w-full flex justify-center items-center space-x-2 z-50"
               type="button"
               onClick={handleGoogleLogin}>
               <GoogleIcon />
               <span>Login with Google</span>
             </button>
             <button
-              className="rounded-md font-medium  border  hover:bg-black hover:text-white  h-10 px-4 py-2 w-full flex justify-center items-center space-x-2"
+              className="rounded-md font-medium  border  hover:bg-black hover:text-white  h-10 px-4 py-2 w-full flex justify-center items-center space-x-2 z-50"
               type="button"
               onClick={handleGithubLogin}>
               <GithubIcon />
@@ -186,7 +187,7 @@ export default function LoginPage() {
           </div>
           <div className="px-6 mb-2 text-gray-600">
             Don&apos;t have an account?{" "}
-            <a className="text-blue-500 hover:underline " href="register">
+            <a className="text-blue-500 hover:underline z-50" href="register">
               Sign Up
             </a>
           </div>
