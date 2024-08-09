@@ -14,13 +14,13 @@ export const otpTemplate = (otpCode: string) => `
   </div>
 `;
 export const welcomeTemplate = (name: string) => `
-  <div style="width:100%; padding:2px; background-color: #F7F7F7">
-  <img src="https://www.touchpoint.com/wp-content/uploads/2023/11/Featured-image-1.png" style="width: 100%; max-height: 360px; margin:auto;"/>
+  <div >
+  <img src="https://blog-assets.freshworks.com/live-chat-software/wp-content/uploads/2019/01/23194917/Welcome-abroad.jpg" style="width: 95%; max-height: 300px; margin: 0 auto;"/>
     <h3 style="text-align: center;color: #3B82F6">Welcome to Techtales!</h3>
     <p> Dear ${name} </p>
     <p>Thank you for joining TechTales! We're excited to have you on board.</p>
-    <p>We are a community of developers and tech enthusiasts where you can explore, learn, and share your tech stories.</p><p>We encourage you to adhere to our <a href="https://techtales.vercel.app/terms">terms and conditions </a>and follow our <a href="https://techtales.vercel.app/community">community guidelines </a> when engaging with others.</p><footer style="font-size: 12px; color:#06b6d4; background-color: #cffafe; padding: 5px;border-radius: 5px; border: 1px solid #06b6d4;font-style: italic;">
-      This is an automated message, please do not reply to this email
+    <p>We are a community of developers and tech enthusiasts where you can explore, learn, and share your tech stories.</p><p>We encourage you to adhere to our <a href="https://techtales.vercel.app/terms">terms and conditions </a>and follow our <a href="https://techtales.vercel.app/community">community guidelines </a> when engaging with others.</p><footer style="font-size: 12px; color:#06b6d4; background-color: #cffafe; padding: 5px;border-radius: 5px; border: 1px solid #06b6d4;font-style: italic; width:fit-content;">
+     <p> This is an automated message, please do not reply to this email</p>
     </footer>
     
   </div>
