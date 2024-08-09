@@ -3,7 +3,7 @@ import prisma from "@/prisma/prisma";
 import jwt from "jsonwebtoken";
 import { NextRequest, NextResponse } from "next/server";
 import { validateEmail } from "@/lib/utils";
-
+import { sendWelcomeEmail } from "@/emails";
 const hashPassword = async (password: string) => {
   return await bcrypt.hash(password, 10);
 };
@@ -34,6 +34,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
       { status: 422 }
     );
   }
+  let success: boolean = false;
   email = email.toLowerCase();
   username = username.toLowerCase();
 
@@ -78,7 +79,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     response.cookies.set("token", token, {
       httpOnly: true,
     });
-
+    success = true;
     return response;
   } catch (error) {
     console.error("something went wrong", error);
@@ -87,6 +88,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
       { status: 500 }
     );
   } finally {
+    if (success) {
+      sendWelcomeEmail(email, username.toUpperCase());
+    }
     await prisma.$disconnect();
   }
 }
