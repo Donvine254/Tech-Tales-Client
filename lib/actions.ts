@@ -2,6 +2,7 @@
 import prisma from "@/prisma/prisma";
 import { revalidatePath } from "next/cache";
 import { baseUrl } from ".";
+import { sendVerificationEmail } from "@/emails";
 
 export async function revalidateBlogs(slug: string) {
   if (slug) {
@@ -417,37 +418,13 @@ export async function createOtpCode(email: string) {
         expiresAt: expiresAt,
       },
     });
-    const data = await sendEmail(email, otp);
-    return data.message;
+    const response = await sendVerificationEmail(email, otp);
+    return response.message;
   } catch (error) {
     console.error(error);
     throw new Error(error);
   }
 }
-//function to send email
-export async function sendEmail(email: string, otp: string) {
-  try {
-    const body = { email: email, otpCode: otp };
-    const response = await fetch(`${baseUrl}/mailer`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(body),
-    });
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error("Failed to send OTP email:", errorData);
-      throw new Error("Failed to send OTP email. Please try again later.");
-    }
-    return { message: "Email sent successfully" };
-  } catch (error) {
-    console.error(error);
-    throw new Error(error);
-  }
-}
-
 
 //function to resend OTP email
 export async function resendOTPEmail(email: string) {
@@ -466,8 +443,8 @@ export async function resendOTPEmail(email: string) {
         expiresAt: expiresAt,
       },
     });
-    const data = await sendEmail(email, otp);
-    return data.message;
+    const response = await sendVerificationEmail(email, otp);
+    return response.message;
   } catch (error) {
     console.error(error);
     throw new Error("Error sending email!");
