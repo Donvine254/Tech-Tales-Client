@@ -9,12 +9,19 @@ export const otpTemplate = (otpCode: string) => `
 `;
 export const welcomeTemplate = (name: string) => `
   <div>
-        <h3>Welcome to Techtales!</h3>
-        <p> Dear ${name} </p>
-        <p>Thank you for joining TechTales! We're excited to have you on board. Explore, learn, and share your tech stories with us. We encourage you to adhere to our <a href="https://techtales.vercel.app/terms">terms and conditions </a>and follow our <a href="https://techtales.vercel.app/community">community guidelines </a> when engaging with others.</p>
-        <footer>This is an automated message, please do not reply to this email</footer>
-      </div>
+    <h3>Welcome to Techtales!</h3>
+    <p> Dear ${name} </p>
+    <p>Thank you for joining TechTales! We're excited to have you on board. Explore, learn, and share your tech stories with us. We encourage you to adhere to our <a href="https://techtales.vercel.app/terms">terms and conditions </a>and follow our <a href="https://techtales.vercel.app/community">community guidelines </a> when engaging with others.</p>
+    <footer style="
+        font-size: 12px; 
+        color: #888; 
+        padding-top: 10px; 
+        font-style: italic;">
+      This is an automated message, please do not reply to this email
+    </footer>
+  </div>
 `;
+
 export const adminRegistrationTemplate = (
   name: string,
   email: string,
