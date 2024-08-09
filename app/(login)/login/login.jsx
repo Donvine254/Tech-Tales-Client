@@ -83,7 +83,7 @@ export default function LoginPage() {
           data-v0-t="card">
           <div className="flex flex-col space-y-1.5 px-6 py-4 font-poppins relative">
             <h3 className="font-semibold tracking-tight text-xl md:text-2xl text-center">
-              Login to Your Account
+              Welcome Back
             </h3>
             <p className="xsm:text-sm text-base  text-center">
               Access your personalized settings and content.
@@ -184,14 +184,12 @@ export default function LoginPage() {
               <span>Login with Github</span>
             </button>
           </div>
-        </div>
-        <div className="mt-2 text-gray-600">
-          Not a member?{" "}
-          <a
-            className="text-blue-500 hover:underline border px-2 py-0.5"
-            href="register">
-            Register Here
-          </a>
+          <div className="px-6 mb-2 text-gray-600">
+            Don&apos;t have an account?{" "}
+            <a className="text-blue-500 hover:underline " href="register">
+              Sign Up
+            </a>
+          </div>
         </div>
       </div>
     </form>
