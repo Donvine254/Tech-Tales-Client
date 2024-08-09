@@ -88,11 +88,11 @@ export default function CompleteRegistration() {
             <div className="space-y-2">
               <label
                 className="text-base font-bold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700"
-                htmlFor="email">
+                htmlFor="username">
                 Username
               </label>
               <input
-                className="flex h-10 bg-background text-base  disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md"
+                className="flex h-10 bg-background text-base  disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md z-50"
                 id="username"
                 name="username"
                 placeholder="John Doe"
@@ -115,7 +115,7 @@ export default function CompleteRegistration() {
                 Password
               </label>
               <input
-                className="flex h-10 bg-background text-base  disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md"
+                className="flex h-10 bg-background text-base  disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md z-50"
                 id="password"
                 name="password"
                 placeholder="*******"
@@ -129,9 +129,10 @@ export default function CompleteRegistration() {
                 type={showPassword ? "text" : "password"}
               />
             </div>
-            <div className="flex items-center justify-start gap-4">
+            <div className="flex items-center justify-start gap-2">
               <input
                 type="checkbox"
+                className="z-50"
                 value={showPassword}
                 onChange={() => setShowPassword(!showPassword)}
               />
@@ -151,21 +152,19 @@ export default function CompleteRegistration() {
               }}
             />
             <button
-              className="inline-flex items-center justify-center disabled:pointer-events-none hover:bg-primary/90 h-10 px-4 py-2 w-full bg-blue-500 hover:bg-blue-600 text-white rounded-md disabled:bg-gray-100 disabled:text-black border"
+              className="inline-flex items-center justify-center disabled:pointer-events-none hover:bg-primary/90 h-10 px-4 py-2 w-full bg-blue-500 hover:bg-blue-600 text-white rounded-md disabled:bg-gray-100 disabled:text-black border z-50"
               type="submit"
               disabled={loading || !formData.email}
               title="register">
               {loading ? <Loader /> : "Register"}
             </button>
           </div>
-        </div>
-        <div className="mt-2 text-gray-600">
-          Already a Member?{" "}
-          <a
-            className="text-blue-500 hover:underline border px-2 py-0.5"
-            href="/login">
-            Login Here
-          </a>
+          <div className="mb-2 px-6 text-gray-600">
+            Already a Member?{" "}
+            <a className="text-blue-500 hover:underline z-50" href="/login">
+              Login
+            </a>
+          </div>
         </div>
       </div>
     </form>

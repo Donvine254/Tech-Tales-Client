@@ -98,7 +98,7 @@ export default function PasswordForm() {
                   New Password
                 </label>
                 <input
-                  className={`flex h-10 bg-background text-base disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md ${
+                  className={`flex h-10 bg-background text-base disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md z-50 ${
                     error ? "border-red-500 bg-red-100" : ""
                   }`}
                   id="password"
@@ -121,7 +121,7 @@ export default function PasswordForm() {
                   Confirm Password
                 </label>
                 <input
-                  className={`flex h-10 bg-background text-base disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md ${
+                  className={`flex h-10 bg-background text-base disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md z-50 ${
                     error ? "border-red-500 bg-red-100" : ""
                   }`}
                   id="confirmPassword"
@@ -172,7 +172,7 @@ export default function PasswordForm() {
                 )}
               </div>
               <button
-                className="inline-flex items-center justify-center  disabled:pointer-events-none disabled:bg-gray-100 disabled:text-black hover:bg-primary/90 px-4  w-full bg-blue-500 text-white rounded-md h-10 py-1.5 mb-4"
+                className="inline-flex items-center justify-center  disabled:pointer-events-none disabled:bg-gray-100 disabled:text-black hover:bg-primary/90 px-4  w-full bg-blue-500 text-white rounded-md h-10 py-1.5 mb-4 z-50"
                 type="submit"
                 disabled={error || loading}
                 title="reset">
@@ -185,15 +185,12 @@ export default function PasswordForm() {
               }}
             />
           </form>
-          {/* end of form */}
-        </div>
-        <div className="mt-2 text-gray-600 text-base">
-          Remember Password?{" "}
-          <a
-            className="text-blue-500 hover:underline border px-2 py-0.5"
-            href="login">
-            Login Here
-          </a>
+          <div className="mb-2 px-6 text-gray-600 text-base">
+            Remember Password?{" "}
+            <a className="text-blue-500 hover:underline " href="login">
+              Login Here
+            </a>
+          </div>
         </div>
       </div>
     </section>

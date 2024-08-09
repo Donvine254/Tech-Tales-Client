@@ -102,7 +102,7 @@ export default function CodeInput({ setCode, loading }) {
             disabled={loading}
             placeholder="—"
             required
-            className="h-10 bg-background text-base disabled:cursor-not-allowed disabled:opacity-50 text-center  w-1/6 px-3 py-2 border border-gray-300 rounded-md invalid:border-red-400"
+            className="h-10 bg-background text-base disabled:cursor-not-allowed disabled:opacity-50 text-center  w-1/6 px-3 py-2 border border-gray-300 rounded-md invalid:border-red-400 z-50"
             ref={(el) => (inputsRef.current[index] = el)}
           />
         ))}

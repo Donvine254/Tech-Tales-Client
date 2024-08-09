@@ -9,6 +9,7 @@ import Axios from "axios";
 import toast from "react-hot-toast";
 import Loader from "@/components/Loader";
 import { createOtpCode, findUser } from "@/lib/actions";
+import Link from "next/link";
 export default function VerifyEmail() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -109,7 +110,7 @@ export default function VerifyEmail() {
                 Enter Your Email Address
               </label>
               <input
-                className="flex h-10 bg-background text-base  disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md"
+                className="flex h-10 bg-background text-base  disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md z-50"
                 id="email"
                 name="email"
                 placeholder="you@example.com"
@@ -126,15 +127,17 @@ export default function VerifyEmail() {
                 name="terms"
                 required
                 title="terms"
+                className="z-50"
                 aria-label="Agree to terms and conditions"
               />
               <label className="text-sm font-extralight">
                 Agree with{" "}
-                <a
+                <Link
+                  target="_blank"
                   href="/terms"
                   className="text-blue-500 cursor-pointer hover:underline">
                   Terms and Conditions
-                </a>
+                </Link>
               </label>
             </div>
           </div>
@@ -150,7 +153,7 @@ export default function VerifyEmail() {
               }}
             />
             <button
-              className="inline-flex items-center justify-center disabled:pointer-events-none hover:bg-primary/90 h-10 px-4 py-2 w-full bg-blue-500 hover:bg-blue-600 text-white rounded-md disabled:bg-gray-100 disabled:text-black border"
+              className="inline-flex items-center justify-center disabled:pointer-events-none hover:bg-primary/90 h-10 px-4 py-2 w-full bg-blue-500 hover:bg-blue-600 text-white rounded-md disabled:bg-gray-100 disabled:text-black border z-50"
               type="submit"
               disabled={loading}
               title="register">
@@ -162,7 +165,7 @@ export default function VerifyEmail() {
               <hr className="border border-gray-200 w-full" />
             </div>
             <button
-              className="rounded-md   border hover:bg-black hover:text-white h-10 px-4 py-2 w-full flex justify-center items-center space-x-2 disabled:pointer-events-none disabled:opacity-50 "
+              className="rounded-md   border hover:bg-black hover:text-white h-10 px-4 py-2 w-full flex justify-center items-center space-x-2 disabled:pointer-events-none disabled:opacity-50 z-50 "
               disabled={loading}
               type="button"
               onClick={handleGoogleSignup}>
@@ -170,7 +173,7 @@ export default function VerifyEmail() {
               <span>Sign up with Google</span>
             </button>
             <button
-              className="rounded-md   border    h-10 px-4 py-2 w-full flex justify-center items-center space-x-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-black hover:text-white"
+              className="rounded-md   border    h-10 px-4 py-2 w-full flex justify-center items-center space-x-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-black hover:text-white z-50"
               type="button"
               disabled={loading}
               onClick={handleGithubRegistration}>
@@ -178,14 +181,12 @@ export default function VerifyEmail() {
               <span>Sign up with GitHub</span>
             </button>
           </div>
-        </div>
-        <div className="mt-2 text-gray-600">
-          Already a Member?{" "}
-          <a
-            className="text-blue-500 hover:underline border px-2 py-0.5"
-            href="/login">
-            Login Here
-          </a>
+          <div className="mb-2 px-6 text-gray-600">
+            Already a Member?{" "}
+            <a className="text-blue-500 hover:underline" href="/login">
+              Login Here
+            </a>
+          </div>
         </div>
       </div>
     </form>

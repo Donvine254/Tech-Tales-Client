@@ -57,8 +57,8 @@ export default function Verification({ verifyCode, loading, setLoading }) {
 
   return (
     <section className="w-full">
-      <div className="flex flex-col items-center justify-center w-full min-h-screen  px-4 md:px-6 font-crimson bg-gray-50">
-        <div className="border w-full max-w-sm mx-auto rounded-xl shadow-md overflow-hidden">
+      <div className="flex flex-col items-center justify-center w-full min-h-screen  px-4 md:px-6 font-crimson ">
+        <div className="border w-full max-w-sm mx-auto rounded-xl shadow-md overflow-hidden bg-gray-50">
           <div className="flex gap-2 text-green-400 items-center justify-center py-1 mt-2">
             <hr className="border border-green-200 w-1/3" />
             <svg viewBox="0 0 24 24" fill="currentColor" height="60" width="60">
@@ -85,7 +85,9 @@ export default function Verification({ verifyCode, loading, setLoading }) {
                 ) : (
                   <span>
                     Didn&apos;t receive the code?
-                    <button className="text-blue-500" onClick={handleResend}>
+                    <button
+                      className="text-blue-500 z-50"
+                      onClick={handleResend}>
                       Resend code
                     </button>
                   </span>
@@ -99,12 +101,41 @@ export default function Verification({ verifyCode, loading, setLoading }) {
                 ) : null}
               </div>
               <button
-                className="inline-flex items-center justify-center  disabled:pointer-events-none disabled:bg-gray-100 disabled:text-black hover:bg-primary/90 px-4  w-full bg-blue-500 text-white rounded-md h-10 py-1.5 my-2 mb-4"
+                className="inline-flex items-center justify-center  disabled:pointer-events-none disabled:bg-gray-100 disabled:text-black hover:bg-primary/90 px-4  w-full bg-blue-500 text-white rounded-md h-10 py-1.5 my-2 mb-4 z-50"
                 type="submit"
                 disabled={loading}
                 title="reset">
                 {loading ? <Loader size={30} /> : "Verify"}
               </button>
+            </div>
+            <div className="text-center text-gray-600 text-base">
+              <a
+                className="text-blue-500 flex items-center justify-center gap-1 hover:underline "
+                href="login">
+                <svg
+                  viewBox="0 0 512 512"
+                  fill="currentColor"
+                  height="16"
+                  width="16">
+                  <path
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={32}
+                    d="M112 352l-64-64 64-64"
+                  />
+                  <path
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={32}
+                    d="M64 288h294c58.76 0 106-49.33 106-108v-20"
+                  />
+                </svg>
+                <span>Back to Login</span>
+              </a>
             </div>
             <div
               id="information"
@@ -120,35 +151,6 @@ export default function Verification({ verifyCode, loading, setLoading }) {
             </div>
           </form>
           {/* end of form */}
-        </div>
-        <div className="mt-2 text-gray-600 text-base">
-          <a
-            className="text-blue-500 flex items-center gap-1 hover:underline border px-2 py-0.5"
-            href="login">
-            <svg
-              viewBox="0 0 512 512"
-              fill="currentColor"
-              height="16"
-              width="16">
-              <path
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={32}
-                d="M112 352l-64-64 64-64"
-              />
-              <path
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={32}
-                d="M64 288h294c58.76 0 106-49.33 106-108v-20"
-              />
-            </svg>
-            <span>Back to Login</span>
-          </a>
         </div>
       </div>
     </section>
