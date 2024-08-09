@@ -61,7 +61,7 @@ export default function ResetPasswordModal({ user }) {
       id="password_reset_modal"
       className="modal backdrop-blur-2xl rounded-xl">
       <form
-        className="rounded-lg border bg-card text-card-foreground shadow-sm w-full max-w-lg p-6 max-h-full"
+        className="rounded-lg border bg-card text-card-foreground shadow-sm w-full max-w-lg px-6 py-2 max-h-full"
         method="dialog"
         onSubmit={handleSubmit}>
         <div className="flex gap-2 items-center justify-center">
@@ -78,21 +78,13 @@ export default function ResetPasswordModal({ user }) {
 
           <hr className="border border-blue-200 w-1/3" />
         </div>
-        <div className="flex flex-col space-y-1.5 px-6">
-          <h3 className="text-xl text-gray-600 font-semibold leading-none tracking-tight mt-2 text-center">
-            Change Your Password
-          </h3>
-          <div className="flex items-center justify-center gap-1">
-            <svg
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              height="1em"
-              width="1em">
-              <path d="M12 2C6.579 2 2 6.579 2 12s4.579 10 10 10 10-4.579 10-10S17.421 2 12 2zm0 5c1.727 0 3 1.272 3 3s-1.273 3-3 3c-1.726 0-3-1.272-3-3s1.274-3 3-3zm-5.106 9.772c.897-1.32 2.393-2.2 4.106-2.2h2c1.714 0 3.209.88 4.106 2.2C15.828 18.14 14.015 19 12 19s-3.828-.86-5.106-2.228z" />
-            </svg>
-            <span>{user?.email}</span>
-          </div>
+        <div className="flex items-center justify-center gap-1">
+          <svg viewBox="0 0 24 24" fill="currentColor" height="1em" width="1em">
+            <path d="M12 2C6.579 2 2 6.579 2 12s4.579 10 10 10 10-4.579 10-10S17.421 2 12 2zm0 5c1.727 0 3 1.272 3 3s-1.273 3-3 3c-1.726 0-3-1.272-3-3s1.274-3 3-3zm-5.106 9.772c.897-1.32 2.393-2.2 4.106-2.2h2c1.714 0 3.209.88 4.106 2.2C15.828 18.14 14.015 19 12 19s-3.828-.86-5.106-2.228z" />
+          </svg>
+          <span>{user?.email}</span>
         </div>
+
         <div>
           <div className="space-y-2">
             <label className="font-semibold" htmlFor="current-password">
@@ -154,12 +146,12 @@ export default function ResetPasswordModal({ user }) {
           <PasswordStrengthMeter password={data.newPassword} />
           <div className="h-5 min-h-5 max-h-5 space-y-1">
             {error ? (
-              <p className="text-orange-600 inline-flex place-items-center items-center text-sm w-full gap-1 ">
+              <p className="text-orange-600 inline-flex place-items-center items-center text-xs w-full gap-3">
                 <svg
                   viewBox="0 0 24 24"
                   fill="currentColor"
-                  height="1em"
-                  width="1em">
+                  height="12"
+                  width="12">
                   <path d="M11 7h2v7h-2zm0 8h2v2h-2z" />
                   <path d="M21.707 7.293l-5-5A.996.996 0 0016 2H8a.996.996 0 00-.707.293l-5 5A.996.996 0 002 8v8c0 .266.105.52.293.707l5 5A.996.996 0 008 22h8c.266 0 .52-.105.707-.293l5-5A.996.996 0 0022 16V8a.996.996 0 00-.293-.707zM20 15.586L15.586 20H8.414L4 15.586V8.414L8.414 4h7.172L20 8.414v7.172z" />
                 </svg>
@@ -168,8 +160,8 @@ export default function ResetPasswordModal({ user }) {
             ) : (
               data.confirmPassword !== "" &&
               data.confirmPassword === data.newPassword && (
-                <p className="text-green-500 inline-flex place-items-center items-center text-sm w-full gap-1">
-                  <svg fill="none" viewBox="0 0 15 15" height="1em" width="1em">
+                <p className="text-green-500 inline-flex place-items-center items-center w-full gap-3 text-xs">
+                  <svg fill="none" viewBox="0 0 15 15" height="12" width="12">
                     <path
                       stroke="currentColor"
                       strokeLinecap="square"
@@ -182,7 +174,7 @@ export default function ResetPasswordModal({ user }) {
             )}
           </div>
         </div>
-        <div className="flex items-center justify-end gap-4 px-6 py-1 pb-3">
+        <div className="flex items-center justify-end gap-4 px-6 py-1 pb-2">
           <button
             type="reset"
             title="reset"

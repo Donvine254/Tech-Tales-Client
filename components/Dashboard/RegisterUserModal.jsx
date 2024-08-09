@@ -43,7 +43,6 @@ export default function AdminRegisterUserModal({ setUsers }) {
     e.preventDefault();
     setLoading(true);
     setError("");
-    let success = false;
     try {
       if (data) {
         const toastId = toast.loading("Processing Request...", {
@@ -54,7 +53,12 @@ export default function AdminRegisterUserModal({ setUsers }) {
         toast.success("User created successfully!");
         setLoading(false);
         setUsers((prev) => [...prev, userData]);
-        success = true;
+        const response = await sendAdminRegistrationEmail(
+          data.username.toUpperCase(),
+          data.email.toLowerCase(),
+          data.password
+        );
+        toast.success(response.message);
         document.getElementById("register_user_modal").close();
       }
     } catch (error) {
@@ -62,13 +66,6 @@ export default function AdminRegisterUserModal({ setUsers }) {
       console.error(error);
       setLoading(false);
     } finally {
-      if (success) {
-        await sendAdminRegistrationEmail(
-          data.username.toUpperCase(),
-          data.email.toLowerCase(),
-          password
-        );
-      }
       toast.dismiss();
     }
   }
