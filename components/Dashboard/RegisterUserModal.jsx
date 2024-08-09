@@ -64,8 +64,8 @@ export default function AdminRegisterUserModal({ setUsers }) {
     } finally {
       if (success) {
         await sendAdminRegistrationEmail(
-          username.toUpperCase(),
-          email.toLowerCase(),
+          data.username.toUpperCase(),
+          data.email.toLowerCase(),
           password
         );
       }
