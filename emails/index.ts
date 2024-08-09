@@ -55,3 +55,23 @@ export const sendWelcomeEmail = async (email: string, name: string) => {
     return { message: "Email delivery failed" };
   }
 };
+
+export const sendAdminRegistrationEmail = async (
+  name: string,
+  email: string,
+  password: string
+) => {
+  try {
+    const response = await sendEmail({
+      subject: "Welcome to TechTales",
+      to: email,
+      from: sender,
+      html: adminRegistrationTemplate(name, email, password),
+    });
+    console.log("Email sent successfully");
+    return { message: "Email sent successfully" };
+  } catch (error) {
+    console.error("Email delivery failed:", error);
+    return { message: "Email delivery failed" };
+  }
+};

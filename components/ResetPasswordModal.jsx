@@ -93,18 +93,6 @@ export default function ResetPasswordModal({ user }) {
             <span>{user?.email}</span>
           </div>
         </div>
-        {/* <div className="text-sm py-1">
-          <p>Password Requirements</p>
-          <ul className="list-disc">
-            <li className="list-item list-inside">
-              At least 8 Characters. Include letters, numbers and symbols
-            </li>
-            <li className="list-item list-inside">Not same as your username</li>
-            <li className="list-item list-inside">
-              Your new password cannot be the same as the current password
-            </li>
-          </ul>
-        </div> */}
         <div>
           <div className="space-y-2">
             <label className="font-semibold" htmlFor="current-password">

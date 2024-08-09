@@ -2,9 +2,14 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { createUserAvatar, convertToHandle } from "@/lib/utils";
+import {
+  createUserAvatar,
+  convertToHandle,
+  generatePassword,
+} from "@/lib/utils";
 import Loader from "../Loader";
 import { baseUrl } from "@/lib";
+import { sendAdminRegistrationEmail } from "@/emails";
 
 export default function AdminRegisterUserModal({ setUsers }) {
   const [loading, setLoading] = useState(false);
@@ -13,7 +18,7 @@ export default function AdminRegisterUserModal({ setUsers }) {
     username: "",
     bio: "",
     email: "",
-    password: "password",
+    password: generatePassword(),
     handle: "",
     picture: "",
   });
@@ -38,6 +43,7 @@ export default function AdminRegisterUserModal({ setUsers }) {
     e.preventDefault();
     setLoading(true);
     setError("");
+    let success = false;
     try {
       if (data) {
         const toastId = toast.loading("Processing Request...", {
@@ -48,6 +54,7 @@ export default function AdminRegisterUserModal({ setUsers }) {
         toast.success("User created successfully!");
         setLoading(false);
         setUsers((prev) => [...prev, userData]);
+        success = true;
         document.getElementById("register_user_modal").close();
       }
     } catch (error) {
@@ -55,6 +62,13 @@ export default function AdminRegisterUserModal({ setUsers }) {
       console.error(error);
       setLoading(false);
     } finally {
+      if (success) {
+        await sendAdminRegistrationEmail(
+          username.toUpperCase(),
+          email.toLowerCase(),
+          password
+        );
+      }
       toast.dismiss();
     }
   }
