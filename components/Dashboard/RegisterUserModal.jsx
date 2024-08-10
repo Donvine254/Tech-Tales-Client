@@ -43,6 +43,7 @@ export default function AdminRegisterUserModal({ setUsers }) {
     e.preventDefault();
     setLoading(true);
     setError("");
+    let success = false;
     try {
       if (data) {
         const toastId = toast.loading("Processing Request...", {
@@ -53,12 +54,7 @@ export default function AdminRegisterUserModal({ setUsers }) {
         toast.success("User created successfully!");
         setLoading(false);
         setUsers((prev) => [...prev, userData]);
-        const response = await sendAdminRegistrationEmail(
-          data.username.toUpperCase(),
-          data.email.toLowerCase(),
-          data.password
-        );
-        toast.success(response.message);
+        success = true;
         document.getElementById("register_user_modal").close();
       }
     } catch (error) {
@@ -67,6 +63,13 @@ export default function AdminRegisterUserModal({ setUsers }) {
       setLoading(false);
     } finally {
       toast.dismiss();
+      if (success) {
+        await sendAdminRegistrationEmail(
+          data.username.toUpperCase(),
+          data.email.toLowerCase(),
+          data.password
+        );
+      }
     }
   }
 
@@ -125,7 +128,7 @@ export default function AdminRegisterUserModal({ setUsers }) {
               type="email"
             />
           </div>
-          {/* <div className="space-y-2">
+          <div className="space-y-2">
             <label
               className="text-base font-bold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700"
               htmlFor="role">
@@ -142,7 +145,7 @@ export default function AdminRegisterUserModal({ setUsers }) {
               <option value="admin">Admin</option>
               <option value="user">User</option>
             </select>
-          </div> */}
+          </div>
         </div>
         {error && (
           <div className="my-1 px-6">

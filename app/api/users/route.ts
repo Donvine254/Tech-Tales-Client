@@ -13,6 +13,7 @@ type UserData = {
   picture: string;
   handle: string;
   status?: string;
+  role?: string;
   password_digest: string;
 };
 type RequestData = {
@@ -22,6 +23,7 @@ type RequestData = {
   handle: string;
   picture: string;
   status: string;
+  role?: string;
 };
 
 export async function GET(req: NextRequest) {
@@ -66,7 +68,7 @@ export async function GET(req: NextRequest) {
 //function to create new users
 //ensure emails and usernames are saved as lowercase letters. Admin cannot use this route when creating new users
 export async function POST(req: NextRequest, res: NextResponse) {
-  let { username, picture, password, email, handle } =
+  let { username, picture, password, email, handle, role } =
     (await req.json()) as RequestData;
   const isValidEmail = validateEmail(email);
   if (!isValidEmail) {
@@ -108,6 +110,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
       email: email,
       handle: handle,
       status: "INACTIVE",
+      role: role,
       password_digest: await hashPassword(password),
     };
     const user = await prisma.user.create({
