@@ -2,13 +2,18 @@
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { registerUser } from "@/lib";
-import { convertToHandle, createUserAvatar } from "@/lib/utils";
+import {
+  convertToHandle,
+  createUserAvatar,
+  generatePassword,
+} from "@/lib/utils";
 import Script from "next/script";
 import { validateRecaptcha } from "@/lib/actions";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import toast from "react-hot-toast";
 import Loader from "@/components/Loader";
 import PasswordStrengthMeter from "../alerts/passwordMeter";
+import { Tooltip } from "react-tooltip";
 
 export default function CompleteRegistration() {
   const [showPassword, setShowPassword] = useState(false);
@@ -41,6 +46,14 @@ export default function CompleteRegistration() {
       username: value,
       handle: convertToHandle(value),
       picture: createUserAvatar(value),
+    }));
+  };
+
+  const handleSuggestPassword = () => {
+    const password = generatePassword();
+    setFormData((prevData) => ({
+      ...prevData,
+      password: password,
     }));
   };
   async function handleSubmit(e) {
@@ -129,14 +142,27 @@ export default function CompleteRegistration() {
                 type={showPassword ? "text" : "password"}
               />
             </div>
-            <div className="flex items-center justify-start gap-2">
-              <input
-                type="checkbox"
-                className="z-50"
-                value={showPassword}
-                onChange={() => setShowPassword(!showPassword)}
-              />
-              <span> {showPassword ? "Hide" : "Show"} Password</span>
+            <div className="flex items-center justify-between gap-2">
+              <div>
+                <input
+                  type="checkbox"
+                  className="z-50"
+                  value={showPassword}
+                  onChange={() => setShowPassword(!showPassword)}
+                />
+                <span> {showPassword ? "Hide" : "Show"} Password</span>
+              </div>
+              <span
+                className="text-blue-500 underline cursor-pointer"
+                data-tooltip-id="suggest-password"
+                onClick={handleSuggestPassword}>
+                <Tooltip
+                  content="click here to suggest a strong password"
+                  id="suggest-password"
+                  variant="info"
+                />
+                Suggest Password
+              </span>
             </div>
             <PasswordStrengthMeter password={formData.password} />
           </div>
