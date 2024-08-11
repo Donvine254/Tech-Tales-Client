@@ -47,89 +47,87 @@ export default function ContactForm() {
   }
   return (
     <GoogleReCaptchaProvider>
-      <div className="px-2 md:px-8 w-full mx-auto md:my-4 md:w-2/3">
-        <form
-          id="form"
-          onSubmit={handleSubmit}
-          className="border shadow border-blue-500 rounded-md bg-gray-50 py-6 px-4 space-y-2">
-          <h2 className="text-xl font-bold text-center">
-            Need More information?
-          </h2>
-          <p className="text-base text-start">
-            Fill up the form below to send us a message and we will get in touch
-            as soon as possible.
-          </p>
-          <input type="checkbox" name="botcheck" id="" className="hidden" />
-          <div className="space-y-2">
-            <label
-              className="peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              htmlFor="name">
-              Name <span className="text-red-600 font-bold">*</span>
-            </label>
-            <input
-              className="h-10 bg-white text-base focus:outline-none  disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md z-50"
-              id="name"
-              type="text"
-              name="fullname"
-              placeholder="John Doe"
-              autoComplete="name"
-              pattern="^[a-zA-Z\s]*$"
-              title="numbers and special characters are not allowed"
-              maxLength={20}
-              minLength={3}
-              required
-            />
-          </div>
-          <div className="space-y-2">
-            <label
-              className="peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              htmlFor="email">
-              Email <span className="text-red-600 font-bold">*</span>
-            </label>
-            <input
-              className="h-10 bg-white text-base focus:outline-none  disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md z-50"
-              id="email"
-              type="email"
-              name="email"
-              placeholder="you@example.com"
-              autoComplete="email"
-              title="enter a valid email address"
-              maxLength={60}
-              minLength={3}
-              required
-            />
-          </div>
-          <div className="space-y-2">
-            <label
-              className="peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              htmlFor="message">
-              Your Message<span className="text-red-600 font-bold">*</span>
-            </label>
-            <textarea
-              className=" bg-white text-base focus:outline-none  disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md z-50"
-              rows={3}
-              id="message"
-              name="message"
-              maxLength={500}
-              minLength={5}
-              required
-              placeholder="Tye your message here.."></textarea>
-          </div>
-          <div className=" flex items-center gap-4 justify-end">
-            <button
-              type="reset"
-              className="h-8 px-4 py-0.5 rounded-md bg-black text-white hover:bg-red-500 border">
-              Clear
-            </button>
-            <button
-              type="submit"
-              className="disabled:pointer-events-none hover:bg-primary/90 h-8 px-4 py-0.5  bg-blue-500 hover:bg-blue-600 text-white rounded-md disabled:bg-gray-100 disabled:text-black border">
-              Submit
-            </button>
-          </div>
-          <GoogleReCaptcha />
-        </form>
-      </div>
+      <form
+        id="form"
+        onSubmit={handleSubmit}
+        className="border shadow rounded-md bg-gray-50 py-6 px-4 space-y-2 flex-1">
+        <h2 className="text-xl font-bold text-center">
+          Need More information?
+        </h2>
+        <p className="text-base text-start">
+          Fill up the form below to send us a message and we will get in touch
+          as soon as possible.
+        </p>
+        <input type="checkbox" name="botcheck" id="" className="hidden" />
+        <div className="space-y-2">
+          <label
+            className="peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            htmlFor="name">
+            Name <span className="text-red-600 font-bold">*</span>
+          </label>
+          <input
+            className="h-10 bg-white text-base focus:outline-none  disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md z-50"
+            id="name"
+            type="text"
+            name="fullname"
+            placeholder="John Doe"
+            autoComplete="name"
+            pattern="^[a-zA-Z\s]*$"
+            title="numbers and special characters are not allowed"
+            maxLength={20}
+            minLength={3}
+            required
+          />
+        </div>
+        <div className="space-y-2">
+          <label
+            className="peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            htmlFor="email">
+            Email <span className="text-red-600 font-bold">*</span>
+          </label>
+          <input
+            className="h-10 bg-white text-base focus:outline-none  disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md z-50"
+            id="email"
+            type="email"
+            name="email"
+            placeholder="you@example.com"
+            autoComplete="email"
+            title="enter a valid email address"
+            maxLength={60}
+            minLength={3}
+            required
+          />
+        </div>
+        <div className="space-y-2">
+          <label
+            className="peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            htmlFor="message">
+            Your Message<span className="text-red-600 font-bold">*</span>
+          </label>
+          <textarea
+            className=" bg-white text-base focus:outline-none  disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md z-50"
+            rows={3}
+            id="message"
+            name="message"
+            maxLength={500}
+            minLength={5}
+            required
+            placeholder="Tye your message here.."></textarea>
+        </div>
+        <div className=" flex items-center gap-4 justify-end">
+          <button
+            type="reset"
+            className="h-8 px-4 py-0.5 rounded-md bg-black text-white hover:bg-red-500 border">
+            Clear
+          </button>
+          <button
+            type="submit"
+            className="disabled:pointer-events-none hover:bg-primary/90 h-8 px-4 py-0.5  bg-blue-500 hover:bg-blue-600 text-white rounded-md disabled:bg-gray-100 disabled:text-black border">
+            Submit
+          </button>
+        </div>
+        <GoogleReCaptcha />
+      </form>
     </GoogleReCaptchaProvider>
   );
 }
