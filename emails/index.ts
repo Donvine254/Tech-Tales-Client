@@ -29,7 +29,7 @@ export const sendEmail = async (emailOptions: {
 export const sendVerificationEmail = async (email: string, otp: string) => {
   try {
     const response = await sendEmail({
-      subject: "Your OTP Verification Code",
+      subject: `Your OTP Verification Code is ${otp}`,
       to: email,
       from: sender,
       html: otpTemplate(otp),
