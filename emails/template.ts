@@ -24,7 +24,7 @@ export const welcomeTemplate = (name: string) => `
     <p>As you get started, I encourage you to adhere to our <a href="https://techtales.vercel.app/terms">terms and conditions </a>and follow our <a href="https://techtales.vercel.app/community">community guidelines </a> when engaging with others to ensure a respectful and thriving community where everyone is welcome.</p>
     <p>Have a good one!</p>
     <p>Don.</p>
-    <footer style="font-size: 12px; color:#fff; background-color: #4b5563; padding: 5px; border: 1px solid #3B82F6; width:95%; margin: 10px 0px; text-align:center;">
+    <footer style="font-size: 12px; color:#fff; background-color: #808080; padding: 5px; border: 1px solid #3B82F6; width:95%; margin: 10px 0px; text-align:center;">
      <p style="color:#fff"> You have received this message because you have created an account at techtales.vercel.app and are part of the Tech Tales family.  </p>   
     <table align="center" style="margin: 10px auto;">
       <tr>
@@ -62,10 +62,10 @@ export const adminRegistrationTemplate = (
     <p> Dear ${name}, I am Don, founder of Tech Tales. </p>
     <p>An account has been created for you by the administrator at techtales.vercel.app and you are now registered as a ${role}.</p>
     <p>Below are your login details:</p>
-     <table style="width: 100%; border-collapse: collapse; background-color: #4b5563; color: #fff; border-radius: 5px;">
+     <table style="width: 100%; border-collapse: collapse; background-color: #808080; color: #fff; border-radius: 5px;">
   <tr style="border-bottom: 1px solid #ccc; ">
     <td style="padding: 10px;">Email:</td>
-    <td style="padding: 10px;"><strong>${email}</strong></td>
+    <td style="padding: 10px; color:#fff !important"><strong>${email}</strong></td>
   </tr>
   <tr>
     <td style="padding: 10px;">Password:</td>
@@ -78,8 +78,8 @@ export const adminRegistrationTemplate = (
     <p>As you get started, I encourage you to adhere to our <a href="https://techtales.vercel.app/terms">terms and conditions </a>and follow our <a href="https://techtales.vercel.app/community">community guidelines </a> when engaging with others to ensure a respectful and thriving community where everyone is welcome.</p>
     <p>Have a good one!</p>
     <p>Don.</p>
-    <footer style="font-size: 12px; color:#fff; background-color: #4b5563; padding: 5px; border: 1px solid #3B82F6; width:95%; margin: 10px 0px; text-align:center;">
-     <p style="color:#fff"> You have received this message because an account has been created for you at techtales.vercel.app and are part of the Tech Tales family. If you did not request for an account, kindly let us know by responding to this email, or login and delete your account. </p>   
+    <footer style="font-size: 12px; color:#fff; background-color: #808080; padding: 5px; width:95%; margin: 10px 0px; text-align:center;">
+     <p style="color:#fff"> You have received this message because an account has been created for you at <span style="color: blue; text-decoration-line:underline;">techtales.vercel.app</span> and are part of the Tech Tales family. If you did not request for an account, kindly let us know by responding to this email, or login and delete your account. </p>   
     <table align="center" style="margin: 10px auto;">
       <tr>
         <td style="padding: 0 5px;">
