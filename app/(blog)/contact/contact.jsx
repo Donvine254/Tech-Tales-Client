@@ -5,30 +5,50 @@ import {
   GoogleReCaptchaProvider,
 } from "react-google-recaptcha-v3";
 import Swal from "sweetalert2";
+import toast from "react-hot-toast";
 
 export default function ContactForm() {
   async function handleSubmit(e) {
-    Swal.fire({
-      icon: "success",
-      title: "Message sent successfully",
-      text: "Thank you! Your message has been submitted successfully. We will reply to you soon!",
-      showCloseButton: true,
-      confirmButtonColor: "#0056F1",
-      timerProgressBar: true,
-      timer: 3000,
-      customClass: {
-        confirmButton:
-          "px-2 py-1 mx-2 rounded-md bg-#0056F1 text-white hover:text-white",
+    e.preventDefault();
+    toast.success("Submitting form..");
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
       },
-      buttonsStyling: false,
+      body: JSON.stringify({
+        access_key: "c0376663-dd70-4ab4-ba1b-e849ba57eecc",
+        name: e.target.name.value,
+        email: e.target.email.value,
+        message: e.target.message.value,
+        from_name: "Tech Tales",
+        subject: "You have a new message at Tech Tales.",
+      }),
     });
+    const result = await response.json();
+    if (result.success) {
+      Swal.fire({
+        icon: "success",
+        title: "Message sent successfully",
+        text: "Thank you! Your message has been submitted successfully. We will reply to you soon!",
+        showCloseButton: true,
+        confirmButtonColor: "#0056F1",
+        timerProgressBar: true,
+        timer: 3000,
+        customClass: {
+          confirmButton:
+            "px-2 py-1 mx-2 rounded-md bg-#0056F1 text-white hover:text-white",
+        },
+        buttonsStyling: false,
+      });
+    }
+    e.target.reset();
   }
   return (
     <GoogleReCaptchaProvider>
       <div className="px-2 md:px-8 w-full mx-auto md:my-4 md:w-2/3">
         <form
-          action="https://api.web3forms.com/submit"
-          method="POST"
           id="form"
           onSubmit={handleSubmit}
           className="border shadow border-blue-500 rounded-md bg-gray-50 py-6 px-4 space-y-2">
@@ -39,21 +59,6 @@ export default function ContactForm() {
             Fill up the form below to send us a message and we will get in touch
             as soon as possible.
           </p>
-          <input
-            type="hidden"
-            name="access_key"
-            value="c0376663-dd70-4ab4-ba1b-e849ba57eecc"
-          />
-          <input
-            type="hidden"
-            name="redirect"
-            value="https://techtales.vercel.app/contact"
-          />
-          <input
-            type="hidden"
-            name="subject"
-            value="You have a new message at techtales.vercel.app"></input>
-          <input type="hidden" name="from_name" value="tech tales"></input>
           <input type="checkbox" name="botcheck" id="" className="hidden" />
           <div className="space-y-2">
             <label
@@ -102,7 +107,7 @@ export default function ContactForm() {
             </label>
             <textarea
               className=" bg-white text-base focus:outline-none  disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md z-50"
-              rows={2}
+              rows={3}
               id="message"
               name="message"
               maxLength={500}
@@ -113,12 +118,12 @@ export default function ContactForm() {
           <div className=" flex items-center gap-4 justify-end">
             <button
               type="reset"
-              className="h-10 px-4 py-0.5 rounded-md bg-black text-white hover:bg-red-500 border">
+              className="h-8 px-4 py-0.5 rounded-md bg-black text-white hover:bg-red-500 border">
               Clear
             </button>
             <button
               type="submit"
-              className="disabled:pointer-events-none hover:bg-primary/90 h-10 px-4 py-0.5  bg-blue-500 hover:bg-blue-600 text-white rounded-md disabled:bg-gray-100 disabled:text-black border">
+              className="disabled:pointer-events-none hover:bg-primary/90 h-8 px-4 py-0.5  bg-blue-500 hover:bg-blue-600 text-white rounded-md disabled:bg-gray-100 disabled:text-black border">
               Submit
             </button>
           </div>
