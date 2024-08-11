@@ -185,7 +185,7 @@ export default function LoginPage() {
               <span>Login with Github</span>
             </button>
           </div>
-          <div className="px-6 mb-2 text-gray-600">
+          <div className="px-6 text-base text-center py-2 bg-cyan-100 border-t-2 border-cyan-500 text-gray-600">
             Don&apos;t have an account?{" "}
             <a className="text-blue-500 hover:underline z-50" href="register">
               Sign Up

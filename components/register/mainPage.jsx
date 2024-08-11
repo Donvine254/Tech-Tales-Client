@@ -119,28 +119,6 @@ export default function Register() {
           </div>
           {/* beginning of input div */}
           <div className="px-6 pt-1 space-y-1.5 group">
-            {/* <div className="space-y-2">
-              <label
-                className="text-base font-bold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700"
-                htmlFor="username">
-                Username
-              </label>
-              <input
-                className="flex h-10 bg-background text-base disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md"
-                id="username"
-                name="username"
-                placeholder="john doe"
-                value={formData.username}
-                onChange={handleUsernameChange}
-                disabled={loading}
-                required
-                type="text"
-                minLength={3}
-                maxLength={20}
-                pattern="^(?!.*@).*"
-                title="Email addresses are not allowed as usernames."
-              />
-            </div> */}
             <div className="space-y-2">
               <label
                 className="text-base font-bold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700"
@@ -159,33 +137,6 @@ export default function Register() {
                 type="email"
               />
             </div>
-            {/* <div className="space-y-2">
-              <label
-                className="text-base font-bold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700"
-                htmlFor="password">
-                Password
-              </label>
-              <input
-                className="flex h-10 bg-background text-base  disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md"
-                id="password"
-                name="password"
-                placeholder="*******"
-                value={formData.password}
-                onChange={handleChange}
-                minLength={8}
-                disabled={loading}
-                required
-                type={showPassword ? "text" : "password"}
-              />
-            </div> */}
-            {/* <div className="flex items-center justify-start gap-4">
-              <input
-                type="checkbox"
-                value={showPassword}
-                onChange={() => setShowPassword(!showPassword)}
-              />
-              <span> {showPassword ? "Hide" : "Show"} Password</span>
-            </div> */}
           </div>
           {error && (
             <div className="my-1 px-6">
@@ -226,32 +177,11 @@ export default function Register() {
               <GithubIcon />
               <span>Sign up with GitHub</span>
             </button>
-            {/* <div
-              className="bg-orange-100 border border-orange-500 text-orange-600 py-3 rounded relative space-y-2 border-l-4 "
-              role="alert">
-              <div className="flex  px-1 ">
-                <div className="py-1">
-                  <svg
-                    className="fill-current h-6 w-6 text-orange-500 mr-4"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20">
-                    <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-xs">
-                    By continuing, you agree to our Terms and Conditions.
-                  </p>
-                </div>
-              </div>
-            </div> */}
           </div>
         </div>
-        <div className="mt-2 text-gray-600">
+        <div className="px-6 text-base text-center py-2 bg-cyan-100 border-t-2 border-cyan-500 text-gray-600">
           Already a Member?{" "}
-          <a
-            className="text-blue-500 hover:underline border px-2 py-0.5"
-            href="/login">
+          <a className="text-blue-500 hover:underline" href="/login">
             Login Here
           </a>
         </div>
