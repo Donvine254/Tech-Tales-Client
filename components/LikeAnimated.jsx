@@ -12,9 +12,7 @@ export default function AnimatedLikeBtn({ blogId, setLikes, likes }) {
   const router = useRouter();
   const pathname = usePathname().replace(/^\/+/, "");
 
-  let sound = new Audio();
-  sound.src =
-    "https://utfs.io/f/d74018ac-813d-452c-9414-4aa1ee4fb595-ry5vyc.mp3";
+  
   useEffect(() => {
     if (user) {
       const fetchFavoriteStatus = async () => {
@@ -84,13 +82,19 @@ export default function AnimatedLikeBtn({ blogId, setLikes, likes }) {
     }
   }
 
+//function to play audio
+function playSoundEffect() {
+let sound = new Audio();
+  sound.src = "https://utfs.io/f/d74018ac-813d-452c-9414-4aa1ee4fb595-ry5vyc.mp3";
+sound.play()
+} 
   return (
     <div className="placement">
       <div
         style={{ backgroundPosition: liked ? "right" : "left" }}
         className="heart"
         onClick={handleLikeClick}
-        onMouseDown={() => sound.play()}
+        onMouseDown={playSoundEffect}
         data-tooltip-id="favorite">
         <span className="text-base font-bold content whitespace-nowrap">
           {likes} <span className="xsm:hidden">Likes</span>
