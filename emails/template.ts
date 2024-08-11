@@ -1,14 +1,13 @@
 export const otpTemplate = (otpCode: string) => `
   <div >
     <div style="background-color:#222; display: flex;justify-content: center; width:95%;"> <img style="margin:auto" src="https://techtales.vercel.app/logo.png" width="40" height="40"/></div>
-  <img src="https://blog-assets.freshworks.com/live-chat-software/wp-content/uploads/2019/01/23194917/Welcome-abroad.jpg" style="width: 95%; max-height: 300px; margin: 0 auto;"/>
 <h3>Email OTP Verification</h3>
 <p>Below is your one time passcode that you need to use to complete your authentication. The verification code will be valid for 5 minutes. Please do not share this code with anyone.</p>
    <p style="background-color: #808080; color: #fff; padding: 5px; border-radius: 5px;">Your OTP code is: <strong>${otpCode}</strong></p>
  <p>If you are having any issues with your account, please don't hesitate to <a title="contact" href="https://techtales.vercel.app/contact">contact us.</a></p>
     <p>If you didn't request this code, please ignore this email or contact support.</p>
     <footer style="font-size: 12px; color:#fff; background-color: #808080; padding: 5px; width:95%; margin: 10px 0px; text-align:center;">
-     <p style="color:#fff"> You have received this message because you have requested to reset your password at <span style="color: #fff; text-decoration-line:underline;">techtales.vercel.app</span>. This is an automated message, please do not reply to this email.</p>   
+     <p style="color:#fff"> You have received this message because you have are a registered user at <span style="color: #fff; text-decoration-line:underline;">techtales.vercel.app</span>. This is an automated message, please do not reply to this email.</p>   
     <table align="center" style="margin: 10px auto;">
       <tr>
         <td style="padding: 0 5px;">
