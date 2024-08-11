@@ -60,14 +60,15 @@ export const sendWelcomeEmail = async (email: string, name: string) => {
 export const sendAdminRegistrationEmail = async (
   name: string,
   email: string,
-  password: string
+  password: string,
+  role: string
 ) => {
   try {
     const response = await sendEmail({
       subject: "Welcome to TechTales 🎉",
       to: email,
       from: sender,
-      html: adminRegistrationTemplate(name, email, password),
+      html: adminRegistrationTemplate(name, email, password, role),
     });
     console.log("Email sent successfully");
     return { message: "Email sent successfully" };

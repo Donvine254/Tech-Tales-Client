@@ -21,6 +21,7 @@ export default function AdminRegisterUserModal({ setUsers }) {
     password: generatePassword(),
     handle: "",
     picture: "",
+    role: "user",
   });
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -67,7 +68,8 @@ export default function AdminRegisterUserModal({ setUsers }) {
         await sendAdminRegistrationEmail(
           data.username.toUpperCase(),
           data.email.toLowerCase(),
-          data.password
+          data.password,
+          data.role
         );
       }
     }
