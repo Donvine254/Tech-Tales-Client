@@ -7,7 +7,7 @@ import Axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import { baseUrl, saveUserData } from "@/lib";
 import Loader from "@/components/Loader";
-
+import { sendWelcomeEmail } from "@/emails";
 export const dynamic = "force-dynamic";
 
 export default function AccountNotFound() {
@@ -19,6 +19,7 @@ export default function AccountNotFound() {
   const [loading, setLoading] = useState(false);
   async function handleRegistration() {
     let user;
+    let success = false;
     setLoading(true);
     toast.success("Processing Request");
     if (typeof window !== undefined) {
@@ -28,9 +29,11 @@ export default function AccountNotFound() {
         const response = await Axios.post(`${baseUrl}/auth/register`, user);
         const data = await response.data;
         saveUserData(data);
+        user = data;
+        success = true;
         secureLocalStorage.removeItem("unauthorized_user");
         setLoading(false);
-        toast.success("registration successful");
+        toast.success("registration successful 🎉");
         router.replace("/relevant");
       } catch (error) {
         setLoading(false);
@@ -39,6 +42,10 @@ export default function AccountNotFound() {
         toast.error("An error occurred, please try again");
         router.replace("/login");
         secureLocalStorage.removeItem("unauthorized_user");
+      } finally {
+        if (success) {
+          await sendWelcomeEmail(user.email, user.username);
+        }
       }
     } else {
       toast.error("Please try again later!");

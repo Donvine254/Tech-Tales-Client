@@ -66,7 +66,7 @@ export default function AdminRegisterUserModal({ setUsers }) {
       toast.dismiss();
       if (success) {
         await sendAdminRegistrationEmail(
-          data.username.toUpperCase(),
+          data.username,
           data.email.toLowerCase(),
           data.password,
           data.role

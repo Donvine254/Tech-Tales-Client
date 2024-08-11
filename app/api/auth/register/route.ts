@@ -89,7 +89,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     );
   } finally {
     if (success) {
-      sendWelcomeEmail(email, username.toUpperCase());
+      sendWelcomeEmail(email, username);
     }
     await prisma.$disconnect();
   }
