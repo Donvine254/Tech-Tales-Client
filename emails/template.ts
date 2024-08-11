@@ -24,9 +24,8 @@ export const welcomeTemplate = (name: string) => `
     <p>As you get started, I encourage you to adhere to our <a href="https://techtales.vercel.app/terms">terms and conditions </a>and follow our <a href="https://techtales.vercel.app/community">community guidelines </a> when engaging with others to ensure a respectful and thriving community where everyone is welcome.</p>
     <p>Have a good one!</p>
     <p>Don.</p>
- <div style="text-align:center"> <a href="https://techtales.vercel.app/me" style="background-color: #3B82F6;padding:5px 10px; border-radius: 8px; color:#fff; text-decoration-line:none; ; margin: auto;">Go To My Account</a></div>
-    <footer style="font-size: 12px; color:#fff; background-color: #4b5563; padding: 5px; border: 1px solid #3B82F6; width:95%; margin: 10px 0px;">
-     <p style="color:#fff"> You have received this message because you are part of the Tech Tales family. <span> Please do not reply to this email.</span> </p>   
+    <footer style="font-size: 12px; color:#fff; background-color: #4b5563; padding: 5px; border: 1px solid #3B82F6; width:95%; margin: 10px 0px; text-align:center;">
+     <p style="color:#fff"> You have received this message because you have created an account at techtales.vercel.app and are part of the Tech Tales family.  </p>   
     <table align="center" style="margin: 10px auto;">
       <tr>
         <td style="padding: 0 5px;">
