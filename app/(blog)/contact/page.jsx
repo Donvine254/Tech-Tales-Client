@@ -1,9 +1,10 @@
 import { Facebook, GithubIcon, NewTwitterIcon } from "@/assets";
-
+import ContactForm from "./contact";
 export const metadata = {
-  title: "Community Guidelines- Tech Tales",
+  title: "Contact Us- Tech Tales",
 };
-export default async function CommunityPage() {
+
+export default function Contact() {
   return (
     <section className="font-poppins md:mt-8">
       <div className="p-2 bg-[url('https://res.cloudinary.com/dipkbpinx/image/upload/v1705348745/wlqqvrc1iqcbnfipageb.png')] bg-cover bg-no-repeat  ">
@@ -114,65 +115,8 @@ export default async function CommunityPage() {
           </div>
         </div>
       </div>
-      <div className="px-2 md:px-8 w-full mx-auto md:my-4 md:w-2/3">
-        <div className="w-full max-w-4xl mx-auto py-12 md:py-16 lg:py-20">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
-            <div
-              className="rounded-lg border bg-card text-card-foreground shadow-sm"
-              data-v0-t="card">
-              <div className="flex flex-col space-y-1.5 p-6">
-                <h3 className="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight">
-                  Send us a message
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  Fill out the form below and we&apos;ll get back to you as soon
-                  as possible.
-                </p>
-              </div>
-              <div className="p-6">
-                <form className="grid gap-4">
-                  <div className="grid gap-2">
-                    <label
-                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      htmlFor="name">
-                      Name
-                    </label>
-                    <input
-                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                      id="name"
-                      placeholder="John Doe"
-                    />
-                  </div>
-                  <div className="grid gap-2">
-                    <label
-                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      htmlFor="email">
-                      Email
-                    </label>
-                    <input
-                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                      id="email"
-                      placeholder="you@example.com"
-                      type="email"
-                    />
-                  </div>
-                  <div className="grid gap-2">
-                    <label
-                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      for="message">
-                      Message
-                    </label>
-                    <textarea
-                      className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 min-h-[120px]"
-                      id="message"
-                      placeholder="Tye your message here.."></textarea>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* add form */}
+      <ContactForm />
     </section>
   );
 }
