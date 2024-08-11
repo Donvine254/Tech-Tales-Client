@@ -16,7 +16,7 @@ export default function Contact() {
           us
         </p>
         <div className="flex items-center  justify-center gap-5 flex-wrap">
-          <div className="bg-gray-50 p-6 h-60 rounded-md shadow space-y-4">
+          <div className="bg-gray-50 p-6 h-60 xsm:w-3/4 rounded-md shadow space-y-4">
             <svg
               viewBox="0 0 24 24"
               fill="currentColor"
@@ -33,7 +33,7 @@ export default function Contact() {
               support@techtales.vercel.app
             </a>
           </div>
-          <div className="bg-gray-50 p-6 h-60 rounded-md shadow space-y-4">
+          <div className="bg-gray-50 p-6 h-60 xsm:w-3/4 rounded-md shadow space-y-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="60"
@@ -60,7 +60,7 @@ export default function Contact() {
             </a>
           </div>
 
-          <div className="p-6 space-y-4 h-60 rounded-md bg-gray-50">
+          <div className="p-6 space-y-4 h-60 xsm:w-3/4 rounded-md bg-gray-50">
             <svg
               fill="currentColor"
               viewBox="0 0 16 16"
