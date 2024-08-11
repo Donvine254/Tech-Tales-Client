@@ -1,6 +1,6 @@
 export const otpTemplate = (otpCode: string) => `
   <div style="margin:0px 5px">
-    <div style="background-color:#222; display: flex;justify-content: center;"> <img style="margin:auto" src="https://techtales.vercel.app/logo.png" width="40" height="40"/></div>
+    <div style="background-color:#222; display: flex;justify-content: center;"> <img style="margin:auto" src="https://res.cloudinary.com/dipkbpinx/image/upload/v1723352321/logos/q77qolmtorv0s3f9ypoa.png" width="40" height="40" alt="logo"/></div>
 <h3>Your Tech Tales OTP Verification Code</h3>
 <p>Below is your one time passcode that you need to use to complete your authentication. The verification code will be valid for 5 minutes. Please do not share this code with anyone.</p>
  <h3 style="background-color: #808080; color: #fff; padding:10px 5px; border-radius: 5px; text-align:center"> ${otpCode}</h3>
@@ -33,7 +33,7 @@ export const otpTemplate = (otpCode: string) => `
 `;
 export const welcomeTemplate = (name: string) => `
   <div style="margin:0px 5px" >
-    <div style="background-color:#222; display: flex;justify-content: center;"> <img style="margin:auto" src="https://techtales.vercel.app/logo.png" width="40" height="40"/></div>
+    <div style="background-color:#222; display: flex;justify-content: center;"> <img style="margin:auto" src="https://res.cloudinary.com/dipkbpinx/image/upload/v1723352321/logos/q77qolmtorv0s3f9ypoa.png" width="40" height="40" alt="logo"/></div>
   <img src="https://blog-assets.freshworks.com/live-chat-software/wp-content/uploads/2019/01/23194917/Welcome-abroad.jpg" style="width: 100%; max-height: 300px; margin: 0 auto;"/>
     <p> Dear ${name}, I am Don, founder of Tech Tales. </p>
     <p>Thank you for joining TechTales! We're excited to have you on board.</p>
@@ -75,7 +75,7 @@ export const adminRegistrationTemplate = (
   role: string
 ) => `
  <div style="margin:0px 5px" >
-    <div style="background-color:#222; display: flex;justify-content: center;"> <img style="margin:auto" src="https://techtales.vercel.app/logo.png" width="40" height="40"/></div>
+    <div style="background-color:#222; display: flex;justify-content: center;"> <img style="margin:auto" src="https://res.cloudinary.com/dipkbpinx/image/upload/v1723352321/logos/q77qolmtorv0s3f9ypoa.png" width="40" height="40" alt="logo"/></div>
   <img src="https://blog-assets.freshworks.com/live-chat-software/wp-content/uploads/2019/01/23194917/Welcome-abroad.jpg" style="width: 100%; max-height: 300px; margin: 0 auto;"/>
     <p> Dear ${name}, I am Don, founder of Tech Tales. </p>
     <p>An account has been created for you by the administrator at techtales.vercel.app and you are now registered as a ${role}.</p>

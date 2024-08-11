@@ -7,11 +7,14 @@ import toast from "react-hot-toast";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import Loader from "../Loader";
 import PasswordStrengthMeter from "../alerts/passwordMeter";
+import { Tooltip } from "react-tooltip";
+import { generatePassword } from "@/lib/utils";
 
 export default function PasswordForm() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [token, setToken] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [data, setData] = useState({
     password: "",
     confirmPassword: "",
@@ -33,6 +36,14 @@ export default function PasswordForm() {
         setError(false);
       }
     }
+  };
+  //function to suggest password
+  const handleSuggestPassword = () => {
+    const password = generatePassword();
+    setData((prevData) => ({
+      ...prevData,
+      password: password,
+    }));
   };
   async function handleSubmit(e) {
     e.preventDefault();
@@ -95,7 +106,7 @@ export default function PasswordForm() {
                   disabled={loading}
                   minLength={8}
                   required
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                 />
               </div>
               <div className="space-y-1">
@@ -118,18 +129,40 @@ export default function PasswordForm() {
                   onChange={handleChange}
                   disabled={loading}
                   required
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                 />
+              </div>
+              <div className="flex items-center justify-between gap-2 my-1">
+                <div>
+                  <input
+                    type="checkbox"
+                    className="z-50"
+                    value={showPassword}
+                    onChange={() => setShowPassword(!showPassword)}
+                  />
+                  <span> {showPassword ? "Hide" : "Show"} Password</span>
+                </div>
+                <span
+                  className="text-blue-500 underline cursor-pointer"
+                  data-tooltip-id="suggest-password"
+                  onClick={handleSuggestPassword}>
+                  <Tooltip
+                    content="click here to suggest a strong password"
+                    id="suggest-password"
+                    variant="info"
+                  />
+                  Suggest Password
+                </span>
               </div>
               <PasswordStrengthMeter password={data.password} />
               <div className="h-5 min-h-5 max-h-5 space-y-1">
                 {error ? (
-                  <p className="text-orange-600 inline-flex place-items-center items-center text-sm w-full gap-1 ">
+                  <p className="text-orange-600 inline-flex place-items-center items-center text-xs w-full gap-3">
                     <svg
                       viewBox="0 0 24 24"
                       fill="currentColor"
-                      height="1em"
-                      width="1em">
+                      height="12"
+                      width="12">
                       <path d="M11 7h2v7h-2zm0 8h2v2h-2z" />
                       <path d="M21.707 7.293l-5-5A.996.996 0 0016 2H8a.996.996 0 00-.707.293l-5 5A.996.996 0 002 8v8c0 .266.105.52.293.707l5 5A.996.996 0 008 22h8c.266 0 .52-.105.707-.293l5-5A.996.996 0 0022 16V8a.996.996 0 00-.293-.707zM20 15.586L15.586 20H8.414L4 15.586V8.414L8.414 4h7.172L20 8.414v7.172z" />
                     </svg>
@@ -138,12 +171,12 @@ export default function PasswordForm() {
                 ) : (
                   data.confirmPassword !== "" &&
                   data.confirmPassword === data.password && (
-                    <p className="text-green-500 inline-flex place-items-center items-center text-sm w-full gap-1">
+                    <p className="text-green-500 inline-flex place-items-center items-center text-xs w-full gap-3">
                       <svg
                         fill="none"
                         viewBox="0 0 15 15"
-                        height="1em"
-                        width="1em">
+                        height="12"
+                        width="12">
                         <path
                           stroke="currentColor"
                           strokeLinecap="square"
@@ -169,7 +202,7 @@ export default function PasswordForm() {
               }}
             />
           </form>
-          <div className="mb-2 px-6 text-gray-600 text-base">
+          <div className="px-6 text-base text-center py-2 bg-cyan-100 border-t-2 border-cyan-500 text-gray-600 ">
             Remember Password?{" "}
             <a className="text-blue-500 hover:underline " href="login">
               Login Here
