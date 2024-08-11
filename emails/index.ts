@@ -44,7 +44,7 @@ export const sendVerificationEmail = async (email: string, otp: string) => {
 export const sendWelcomeEmail = async (email: string, name: string) => {
   try {
     const response = await sendEmail({
-      subject: "Welcome to TechTales",
+      subject: "Welcome to TechTales 🎉",
       to: email,
       from: sender,
       html: welcomeTemplate(name),
@@ -64,7 +64,7 @@ export const sendAdminRegistrationEmail = async (
 ) => {
   try {
     const response = await sendEmail({
-      subject: "Welcome to TechTales",
+      subject: "Welcome to TechTales 🎉",
       to: email,
       from: sender,
       html: adminRegistrationTemplate(name, email, password),

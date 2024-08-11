@@ -17,11 +17,14 @@ export const welcomeTemplate = (name: string) => `
   <div >
     <div style="background-color:#222; display: flex;justify-content: center; width:95%;"> <img style="margin:auto" src="https://techtales.vercel.app/logo.png" width="40" height="40"/></div>
   <img src="https://blog-assets.freshworks.com/live-chat-software/wp-content/uploads/2019/01/23194917/Welcome-abroad.jpg" style="width: 95%; max-height: 300px; margin: 0 auto;"/>
-    <h3 style="text-align: center;color: #3B82F6">Welcome to Techtales 🎉</h3>
-    <p> Dear ${name} </p>
+    <p> Dear ${name}, I am Don, founder of Tech Tales. </p>
     <p>Thank you for joining TechTales! We're excited to have you on board.</p>
-    <p>We are a community of developers and tech enthusiasts where you can explore, learn, and share your tech stories.</p><p>We encourage you to adhere to our <a href="https://techtales.vercel.app/terms">terms and conditions </a>and follow our <a href="https://techtales.vercel.app/community">community guidelines </a> when engaging with others.</p>
- <div style="text-align:center"> <a href="https://techtales.vercel.app/login?post_login_redirect_url=me" style="background-color: #3B82F6;padding:5px 10px; border-radius: 8px; color:#fff; text-decoration-line:none; ; margin: auto;">My Account</a></div>
+    <p>We are a community of developers and tech enthusiasts where you can explore, learn, and share your tech stories.</p>
+    <p>I am happy to answer any questions that you might have and I can’t wait to see you publish your first blog!🎉</p>
+    <p>As you get started, I encourage you to adhere to our <a href="https://techtales.vercel.app/terms">terms and conditions </a>and follow our <a href="https://techtales.vercel.app/community">community guidelines </a> when engaging with others to ensure a respectful and thriving community where everyone is welcome.</p>
+    <p>Have a good one!</p>
+    <p>Don.</p>
+ <div style="text-align:center"> <a href="https://techtales.vercel.app/me" style="background-color: #3B82F6;padding:5px 10px; border-radius: 8px; color:#fff; text-decoration-line:none; ; margin: auto;">Go To My Account</a></div>
     <footer style="font-size: 12px; color:#fff; background-color: #4b5563; padding: 5px; border: 1px solid #3B82F6; width:95%; margin: 10px 0px;">
      <p style="color:#fff"> You have received this message because you are part of the Tech Tales family. <span> Please do not reply to this email.</span> </p>   
     <table align="center" style="margin: 10px auto;">
