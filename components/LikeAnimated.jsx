@@ -14,7 +14,7 @@ export default function AnimatedLikeBtn({ blogId, setLikes, likes }) {
 
   let sound = new Audio();
   sound.src =
-    "https://utfs.io/f/d27665ef-2d65-4c23-8363-df00ca64c5c5-jo4cnl.mp3";
+    "https://utfs.io/f/d74018ac-813d-452c-9414-4aa1ee4fb595-ry5vyc.mp3";
   useEffect(() => {
     if (user) {
       const fetchFavoriteStatus = async () => {
