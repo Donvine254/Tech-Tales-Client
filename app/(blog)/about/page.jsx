@@ -13,9 +13,29 @@ export default function page() {
           enthusiasts and professionals can share, learn and grow.
         </p>
       </div>
-      <section className="mt-2">
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-2 md:gap-4 p-4 mx-auto md:w-3/4">
-          <div className="p-2 border bg-gray-50 shadow xsm:w-full ">
+      <section className="mt-2 p-4 mx-auto md:w-3/4">
+        <h3 className="font-bold md:leading-loose text-xl md:text-3xl lg:text-4xl tracking-wide mb-2">
+          Everyone has a story to tell!
+        </h3>
+        <p className="xsm:text-sm">
+          The internet is a bit chaotic and finding the right information could
+          take time. Tech Tales is a home for technology stories and ideas.
+          Here, everyone is welcome to share insightful perspectives, useful
+          knowledge, and life wisdom with the world.
+        </p>
+        <p className="xsm:text-sm my-2">
+          We believe that what you read and write matters. Words can divide or
+          empower us, inspire or discourage us. In a world where the most
+          sensational and surface-level stories often win, we’re building a
+          system that rewards depth, nuance, and time well spent. A space for
+          thoughtful conversation more than drive-by takes, and substance over
+          packaging.
+        </p>
+        <h2 className="font-bold md:leading-loose text-start text-xl md:text-3xl tracking-wide">
+          Meet Our Founder
+        </h2>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-2 md:gap-4 ">
+          <div className=" border bg-gray-50 shadow xsm:w-full sm:py-6 lg:py-2 lg:px-4 p-2">
             <img
               src="https://res.cloudinary.com/dipkbpinx/image/upload/v1704933173/badwfrnlys9ldszthtb7.jpg"
               width="150"
@@ -39,10 +59,7 @@ export default function page() {
               </Link>
             </div>
           </div>
-          <div className="space-y-2 flex-1">
-            <h2 className="font-bold md:leading-loose text-start text-xl md:text-3xl tracking-wide">
-              Meet Our Founder
-            </h2>
+          <div className=" flex-1 p-2">
             <p className="xsm:text-sm">
               Hi, I&apos;m Don, the founder of TechTales. I created this blog as
               a school project at Moringa School but later saw the need to
@@ -50,16 +67,17 @@ export default function page() {
               where people from all backgrounds can share their tech stories and
               inspire others.
             </p>
-            <p className="xsm:text-sm">
+            <p className="xsm:text-sm my-2">
               As a developer, I&apos;ve experienced firsthand the challenges of
               navigating the industry. TechTales is my passion project, a space
               where we celebrate diversity, empower each other, and learn from
               one another&apos;s unique experiences.
             </p>
-            <p className="xsm:text-sm">
+            <p className="xsm:text-sm mb-2">
               Whether you&apos;re a seasoned developer, a curious beginner, or
               somewhere in between, I invite you to join our community and be a
-              part of this incredible journey.
+              part of this incredible journey. Share your experience with others
+              and provide the resources you never had!
             </p>
           </div>
         </div>
