@@ -91,6 +91,16 @@ export default function Contact() {
               Facebook
             </a>
           </div>
+          <div>
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4809.952043800841!2d36.821709051599086!3d-1.283959399674801!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f10d67ee2d70b%3A0x2a9f5a7ddd13c4bd!2s123%20Kimathi%20St%2C%20Nairobi!5e0!3m2!1sen!2ske!4v1723484111001!5m2!1sen!2ske"
+              width="250"
+              height="150"
+              className="w-full h-auto md:w-[250px] md:h-[150px] border border-gray-200"
+              allowFullscreen=""
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"></iframe>
+          </div>
         </div>
         {/* add form */}
         <ContactForm />
