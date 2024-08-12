@@ -234,10 +234,8 @@ export default function Comments({
                         </div>
                       )}
                     </div>
-                    <p>
-                      <span className="font-light xsm:text-sm">
-                        Published on
-                      </span>{" "}
+                    <p className="font-light xsm:text-sm">
+                      <span>Published on</span>{" "}
                       <time dateTime={comment?.createdAt}>
                         {" "}
                         {formatDate(comment.createdAt)}
