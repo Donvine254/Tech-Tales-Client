@@ -104,7 +104,6 @@ export default function AnimatedLikeBtn({ blogId, setLikes, likes }) {
             : "Add this blog to favorites"
         }
         variant="info"
-        float="true"
       />
     </div>
   );

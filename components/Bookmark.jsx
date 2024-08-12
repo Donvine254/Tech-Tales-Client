@@ -103,13 +103,11 @@ export default function Bookmark({ blogId, size = 24 }) {
         id="bookmark"
         content="Add this blog to bookmarks"
         variant="info"
-        float="true"
       />
       <Tooltip
         id="un-bookmark"
         content="Remove this blog from bookmarks"
         variant="info"
-        float="true"
       />
     </>
   );
