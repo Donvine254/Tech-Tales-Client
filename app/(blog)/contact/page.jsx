@@ -1,4 +1,4 @@
-import { Facebook, GithubIcon, NewTwitterIcon } from "@/assets";
+import { Facebook, NewTwitterIcon } from "@/assets";
 import ContactForm from "./contact";
 export const metadata = {
   title: "Contact Us- Tech Tales",
@@ -11,7 +11,7 @@ export default function Contact() {
         <h1 className="font-bold md:leading-loose text-center text-xl md:text-3xl tracking-wide">
           Get in Touch
         </h1>
-        <p className="text-center  my-2">
+        <p className="leading-loose text-base text-center md:w-1/2 md:mx-auto xsm:text-sm">
           We would like to hear from you. Here is how you can get in touch with
           us
         </p>
@@ -57,6 +57,7 @@ export default function Contact() {
             </svg>
             <a
               href="https://api.whatsapp.com/send?phone=254702018079&text=Hello%2C%20I%20want%20more%20information%20about%20tech%20tales%F0%9F%98%8A"
+              target="_blank"
               className="hover:underline font-medium">
               +254 702018079
             </a>
