@@ -19,8 +19,11 @@ export default function Newsletter() {
         "/top",
       ];
       const isInShowPath = showPaths.includes(pathname);
-      if (!storedStatus && isInShowPath) {
-        setTimeout(() => setShowForm(true), 100000);
+      if (
+        (!storedStatus && isInShowPath) ||
+        (!storedStatus && pathname.startsWith("/blogs"))
+      ) {
+        setTimeout(() => setShowForm(true), 10);
       }
 
       if (showForm) {

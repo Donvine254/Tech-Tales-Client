@@ -8,7 +8,8 @@ export default function SubscribeModal() {
     const modal = document.getElementById("subscription_form");
     if (modal) {
       modal.classList.remove("show");
-      setTimeout(() => modal.close(), 1000);
+      sessionStorage.setItem("subscription_form_status", true);
+      setTimeout(() => modal.close(), 100000);
     }
   }
 
