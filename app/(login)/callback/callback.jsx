@@ -74,7 +74,7 @@ export default function Callback() {
           <p className="text-center font-medium  my-2">
             Github is validating your identity.
           </p>
-          <Loader size={60} />
+          <div className="loader"></div>
         </div>
 
         <div>
@@ -83,7 +83,7 @@ export default function Callback() {
             This taking too long? &nbsp;
             <a
               href="/login"
-              className="text-blue-600 font-bold border py-0.5 px-1 hover:bg-blue-600 hover:text-white rounded-md">
+              className="text-blue-600 font-bold border py-0.5 px-1 hover:bg-blue-600 hover:text-white rounded-md z-50">
               sign in another way
             </a>
           </p>
