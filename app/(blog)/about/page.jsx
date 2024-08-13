@@ -1,5 +1,9 @@
+"use client";
 import React from "react";
 import { Facebook, NewTwitterIcon, GithubIcon } from "@/assets";
+import SubscribeModal, {
+  SubscribeButton,
+} from "@/components/alerts/subscribeModal";
 import Link from "next/link";
 export default function page() {
   return (
@@ -82,7 +86,7 @@ export default function page() {
           </div>
         </div>
       </section>
-      <section className="px-2 my-2 md:w-3/4 mx-auto">
+      <section className=" p-4 my-2 md:w-3/4 mx-auto">
         <div className="grid gap-2 sm:px-5 md:gap-4 md:grid-cols-2">
           <div className="space-y-2 ">
             <h2 className="font-bold md:leading-loose text-start text-xl md:text-3xl tracking-wide">
@@ -106,17 +110,17 @@ export default function page() {
               Our Values
             </h2>
             <ul className="grid gap-4">
-              <li className="flex items-start gap-4">
+              <li className="flex items-start gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
+                  width="18"
+                  height="18"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   className="mt-1 h-5 w-5 flex-shrink-0 text-primary">
                   <path d="M20 6 9 17l-5-5"></path>
                 </svg>
@@ -128,17 +132,17 @@ export default function page() {
                   </p>
                 </div>
               </li>
-              <li className="flex items-start gap-4">
+              <li className="flex items-start gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
+                  width="18"
+                  height="18"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   className="mt-1 h-5 w-5 flex-shrink-0 text-primary">
                   <path d="M20 6 9 17l-5-5"></path>
                 </svg>
@@ -150,17 +154,17 @@ export default function page() {
                   </p>
                 </div>
               </li>
-              <li className="flex items-start gap-4">
+              <li className="flex items-start gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
+                  width="18"
+                  height="18"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   className="mt-1 h-5 w-5 flex-shrink-0 text-primary">
                   <path d="M20 6 9 17l-5-5"></path>
                 </svg>
@@ -176,7 +180,7 @@ export default function page() {
           </div>
         </div>
       </section>
-      <section className="px-2 my-2 md:w-3/4 mx-auto">
+      <section className="p-4 my-2 md:w-3/4 mx-auto">
         <div className="grid gap-2 sm:px-5 md:gap-4 md:grid-cols-2">
           <div className="space-y-2">
             <h2 className="font-bold md:leading-loose text-start text-xl md:text-3xl tracking-wide">
@@ -188,12 +192,13 @@ export default function page() {
               your story, connect with like-minded individuals, and be a part of
               our mission to create a more inclusive tech landscape.
             </p>
-            <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 justify-between">
               <Link
                 href="/register"
-                className="py-1 my-2 px-4 rounded-md bg-blue-500 text-white w-full text-center">
-                Become a Contributor Today!
+                className="py-1 my-2 px-4 rounded-md bg-blue-500 text-white text-center w-1/2">
+                Register
               </Link>
+              <SubscribeModal />
             </div>
           </div>
           <div className="space-y-2">
