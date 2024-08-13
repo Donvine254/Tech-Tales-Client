@@ -1,3 +1,4 @@
+"use client";
 import React, { Suspense } from "react";
 import Callback from "./callback";
 import { FloatingShape } from "@/components/floatingShape";
