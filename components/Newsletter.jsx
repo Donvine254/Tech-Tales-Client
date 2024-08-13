@@ -23,7 +23,7 @@ export default function Newsletter() {
         (!storedStatus && isInShowPath) ||
         (!storedStatus && pathname.startsWith("/blogs"))
       ) {
-        setTimeout(() => setShowForm(true), 10);
+        setTimeout(() => setShowForm(true), 100000);
       }
 
       if (showForm) {

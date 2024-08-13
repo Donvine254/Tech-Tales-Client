@@ -4,12 +4,13 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 export default function SubscribeModal() {
   const [error, setError] = useState(null);
+
   function closeModal() {
     const modal = document.getElementById("subscription_form");
     if (modal) {
       modal.classList.remove("show");
       sessionStorage.setItem("subscription_form_status", true);
-      setTimeout(() => modal.close(), 100000);
+      setTimeout(() => modal.close(), 1000);
     }
   }
 
@@ -39,7 +40,7 @@ export default function SubscribeModal() {
   return (
     <dialog
       id="subscription_form"
-      className="backdrop-blur-sm backdrop-blue-500 rounded-md font-segoi  max-w-md ">
+      className="backdrop-blur-sm backdrop-blue-500 rounded-md font-segoi  max-w-md xsm:mx-2 ">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
