@@ -6,7 +6,10 @@ export default function SubscribeModal() {
   const [error, setError] = useState(null);
   function closeModal() {
     const modal = document.getElementById("subscription_form");
-    if (modal) modal.close();
+    if (modal) {
+      modal.classList.remove("show");
+      setTimeout(() => modal.close(), 1000);
+    }
   }
 
   const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -27,12 +30,10 @@ export default function SubscribeModal() {
     setError(null);
     const email = e.target.elements.email.value;
     //send confirmation email
-    toast.success("You are in the inner circle!", {
-      position: "bottom-center",
-    });
+    toast.success("You are in the inner circle!");
     e.target.reset();
     closeModal();
-    sessionStorage.setItem("subscription_form_status", false);
+    sessionStorage.setItem("subscription_form_status", true);
   }
   return (
     <dialog
@@ -128,7 +129,10 @@ export const SubscribeButton = () => (
   <button
     onClick={() => {
       const modal = document.getElementById("subscription_form");
-      if (modal) modal.showModal();
+      if (modal) {
+        modal.classList.add("show");
+        modal.showModal();
+      }
     }}
     className="py-1 my-2 px-4 rounded-md bg-gray-700 text-white text-center hover:bg-green-400 w-1/2 ">
     Subscribe
