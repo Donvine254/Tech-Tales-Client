@@ -147,7 +147,7 @@ export default function EmailPage() {
             </div>
             <div className=" px-6 text-base text-center py-2 bg-cyan-100 border-t-2 border-cyan-500 text-gray-600 ">
               Remember Password?{" "}
-              <a className="text-blue-500 hover:underline z-50 " href="login">
+              <a className="text-blue-500 hover:underline z-50 " href="/login">
                 Login Here
               </a>
             </div>
