@@ -18,23 +18,35 @@ export default function Newsletter() {
         "/me/blogs",
         "/top",
       ];
-      const isInShowPath = showPaths.includes(pathname);
-      if (
-        (!storedStatus && isInShowPath) ||
-        (!storedStatus && pathname.startsWith("/blogs"))
-      ) {
-        setTimeout(() => setShowForm(true), 100000);
-      }
+      const isInShowPath =
+        showPaths.includes(pathname) || pathname.startsWith("/blogs");
 
-      if (showForm) {
-        const modal = document.getElementById("subscription_form");
-        if (modal) {
-          modal.classList.add("show");
-          modal.showModal();
+      const handleScroll = () => {
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+          setShowForm(true);
         }
+      };
+
+      if (!storedStatus && isInShowPath) {
+        const timeout = setTimeout(() => setShowForm(true), 100000);
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+          clearTimeout(timeout);
+          window.removeEventListener("scroll", handleScroll);
+        };
       }
     }
-  }, [pathname, showForm]);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (showForm) {
+      const modal = document.getElementById("subscription_form");
+      if (modal) {
+        modal.classList.add("show");
+        modal.showModal();
+      }
+    }
+  }, [showForm]);
 
   return showForm ? <SubscribeModal /> : null;
 }

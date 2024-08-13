@@ -61,9 +61,9 @@ export default function SubscribeModal() {
         <h1 className="font-bold xsm:text-base text-xl md:text-2xl lg:text-3xl text-center ">
           Join our Newsletter
         </h1>
-        <p className="text-sm md:text-base  md:text-center leading-loose">
-          Stay ahead on the latest updates and <br /> be the first to know when
-          we post a new blog.
+        <p className="text-sm md:text-base md:px-6 text-center leading-loose">
+          Stay ahead on the latest updates and be the first to know when we post
+          a new blog.
         </p>
       </div>
       <form onSubmit={handleSubmit} className="my-4 p-2 space-y-4">
@@ -85,7 +85,7 @@ export default function SubscribeModal() {
             minLength={6}
             title="Email address must be a valid email address"
             required
-            className=" disabled:cursor-not-allowed disabled:opacity-50 px-3 py-2  border  focus:border-blue-500 rounded-md outline-none w-full invalid:border-red-500"
+            className="disabled:cursor-not-allowed disabled:opacity-50 px-3 py-2  border  focus:border-blue-500 rounded-md outline-none w-full invalid:border-red-500"
           />
           <p
             className={`text-red-500 text-sm  ${
