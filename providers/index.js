@@ -19,7 +19,6 @@ export function UserContextProvider({ children }) {
         setUser(data);
         secureLocalStorage.setItem("react_auth_token__", JSON.stringify(data));
       } catch (error) {
-        console.error("Failed to fetch user", error);
         if (savedUser) {
           secureLocalStorage.removeItem("react_auth_token__");
           setUser(null);
@@ -31,7 +30,8 @@ export function UserContextProvider({ children }) {
             showCancelButton: true,
             text: "Your session has expired. Kindly login again to continue.",
             iconColor: "red",
-            footer: '<a href="/login">Click here to login again</a>',
+            footer:
+              '<a href="/login" style="text-decoration-line:underline; color: blue;">Click here to login again</a>',
             customClass: {
               confirmButton:
                 "px-2 py-1 mx-2 rounded-md bg-green-500 text-white hover:text-white hover:bg-green-500 focus:outline-none",

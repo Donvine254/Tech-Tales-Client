@@ -4,16 +4,21 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 export default function SubscribeModal() {
   const [error, setError] = useState(null);
-
+  let modalTimeout;
   function closeModal() {
     const modal = document.getElementById("subscription_form");
     if (modal) {
       modal.classList.remove("show");
-      sessionStorage.setItem("subscription_form_status", true);
-      setTimeout(() => modal.close(), 1000);
+      sessionStorage.setItem("subscription_form_status", "true");
+
+      if (modalTimeout) {
+        clearTimeout(modalTimeout);
+      }
+      modalTimeout = setTimeout(() => {
+        modal.close();
+      }, 1000);
     }
   }
-
   const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
   const handleInput = (e) => {
