@@ -109,72 +109,27 @@ export default function page() {
             <h2 className="font-bold md:leading-loose text-start text-xl md:text-3xl tracking-wide">
               Our Values
             </h2>
-            <ul className="grid gap-4">
-              <li className="flex items-start gap-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="mt-1 h-5 w-5 flex-shrink-0 text-primary">
-                  <path d="M20 6 9 17l-5-5"></path>
-                </svg>
-                <div>
-                  <h3 className="text-lg font-bold">Inclusivity</h3>
-                  <p className="text-muted-foreground">
-                    We celebrate diversity and strive to create a welcoming
-                    space for all tech enthusiasts.
-                  </p>
-                </div>
+            <ul className="grid gap-4 subscribe-form">
+              <li className="">
+                <h3 className="text-lg font-bold">Inclusivity</h3>
+                <p className="text-muted-foreground">
+                  We celebrate diversity and strive to create a welcoming space
+                  for all tech enthusiasts.
+                </p>
               </li>
-              <li className="flex items-start gap-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="mt-1 h-5 w-5 flex-shrink-0 text-primary">
-                  <path d="M20 6 9 17l-5-5"></path>
-                </svg>
-                <div>
-                  <h3 className="text-lg font-bold">Empowerment</h3>
-                  <p className="text-muted-foreground">
-                    We empower our community members to share their stories,
-                    connect with others, and grow their skills.
-                  </p>
-                </div>
+              <li className="">
+                <h3 className="text-lg font-bold">Empowerment</h3>
+                <p className="text-muted-foreground">
+                  We empower our community members to share their stories,
+                  connect with others, and grow their skills.
+                </p>
               </li>
-              <li className="flex items-start gap-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="mt-1 h-5 w-5 flex-shrink-0 text-primary">
-                  <path d="M20 6 9 17l-5-5"></path>
-                </svg>
-                <div>
-                  <h3 className="text-lg font-bold">Collaboration</h3>
-                  <p className="text-muted-foreground">
-                    We believe in the power of collaboration and encourage our
-                    community to support and learn from one another.
-                  </p>
-                </div>
+              <li>
+                <h3 className="text-lg font-bold">Collaboration</h3>
+                <p className="text-muted-foreground">
+                  We believe in the power of collaboration and encourage our
+                  community to support and learn from one another.
+                </p>
               </li>
             </ul>
           </div>
@@ -198,7 +153,7 @@ export default function page() {
                 className="py-1 my-2 px-4 rounded-md bg-blue-500 text-white text-center w-1/2">
                 Register
               </Link>
-              <SubscribeModal />
+              <SubscribeButton />
             </div>
           </div>
           <div className="space-y-2">
@@ -211,7 +166,7 @@ export default function page() {
               engage with fellow tech enthusiasts, and be a part of the
               TechTales movement.
             </p>
-            <div className="flex items-center gap-5 justify-between py-2">
+            <div className="flex items-center gap-5 justify-between py-2 xsm:bg-gray-200 xsm:px-2">
               <Link
                 href="https://x.com/diamonddegesh"
                 className=" hover:underline"
@@ -281,6 +236,7 @@ export default function page() {
           </div>
         </div>
       </section>
+      <SubscribeModal />
     </section>
   );
 }

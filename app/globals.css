@@ -381,3 +381,15 @@ div.arrow-up {
 #print-div pre {
   border: 2px solid black !important;
 }
+/* style for subscription form */
+li {
+  margin-bottom: 0.5rem;
+  padding-left: 1.5rem;
+  position: relative;
+}
+.subscribe-form li::before {
+  content: "✓";
+  color: #22c55e;
+  position: absolute;
+  left: 0;
+}

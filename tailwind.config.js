@@ -20,6 +20,7 @@ module.exports = {
         crimson: ["Crimson Pro", "serif"],
         poppins: ["Poppins", "serif"],
         roboto: ["Roboto", "Roboto Pro", "sans-serif"],
+        segoi: ["Segoe UI", "Tahoma", "Geneva", "Verdana", "sans-serif"],
       },
       fontWeight: {
         "extra-bold": "800",
