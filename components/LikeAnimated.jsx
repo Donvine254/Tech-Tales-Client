@@ -12,7 +12,6 @@ export default function AnimatedLikeBtn({ blogId, setLikes, likes }) {
   const router = useRouter();
   const pathname = usePathname().replace(/^\/+/, "");
 
-  
   useEffect(() => {
     if (user) {
       const fetchFavoriteStatus = async () => {
@@ -42,7 +41,7 @@ export default function AnimatedLikeBtn({ blogId, setLikes, likes }) {
         showCancelButton: true,
         showCloseButton: true,
         footer:
-          "By continuing you agree with our <b><a href='/terms'>terms and conditions</a></b>.",
+          "By continuing you agree with our <b><a href='/terms' style='text-decoration-line:underline; color: blue'>terms and conditions</a></b>.",
         confirmButtonText: "Login",
         customClass: {
           confirmButton:
@@ -82,12 +81,13 @@ export default function AnimatedLikeBtn({ blogId, setLikes, likes }) {
     }
   }
 
-//function to play audio
-function playSoundEffect() {
-let sound = new Audio();
-  sound.src = "https://utfs.io/f/d74018ac-813d-452c-9414-4aa1ee4fb595-ry5vyc.mp3";
-sound.play()
-} 
+  //function to play audio
+  function playSoundEffect() {
+    let sound = new Audio();
+    sound.src =
+      "https://utfs.io/f/d74018ac-813d-452c-9414-4aa1ee4fb595-ry5vyc.mp3";
+    sound.play();
+  }
   return (
     <div className="placement">
       <div

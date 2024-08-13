@@ -42,7 +42,7 @@ export default function Bookmark({ blogId, size = 24 }) {
         title: "Login To Continue",
         text: "Kindly login to bookmark this blog",
         footer:
-          "By continuing you agree with our <b><a href='/terms'>terms and conditions</a></b>.",
+          "By continuing you agree with our <b><a href='/terms' style='text-decoration-line:underline; color: blue'>terms and conditions</a></b>.",
         showCancelButton: true,
         showCloseButton: true,
         confirmButtonText: "Login",
