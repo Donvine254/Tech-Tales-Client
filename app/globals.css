@@ -406,7 +406,3 @@ li {
   transform: translateY(0%);
   transition-delay: 1000ms;
 }
-
-.grecaptcha-badge {
-  visibility: hidden !important;
-}

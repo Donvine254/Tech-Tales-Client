@@ -71,8 +71,7 @@ export default function ContactForm() {
   }
   return (
     <GoogleReCaptchaProvider
-      reCaptchaKey={process.env.NEXT_PUBLIC_GOOGLE_RECAPTCHA_SITE_KEY}
-      className="grecaptcha-badge">
+      reCaptchaKey={process.env.NEXT_PUBLIC_GOOGLE_RECAPTCHA_SITE_KEY}>
       <form
         id="form"
         onSubmit={handleSubmit}
@@ -147,21 +146,6 @@ export default function ContactForm() {
             required
             placeholder="Tye your message here.."></textarea>
         </div>
-        <small>
-          This form is protected by reCAPTCHA and the Google &nbsp;
-          <a
-            href="https://policies.google.com/privacy"
-            className="text-blue-500 underline">
-            Privacy Policy
-          </a>{" "}
-          and &nbsp;
-          <a
-            href="https://policies.google.com/terms"
-            className="text-blue-500 underline">
-            Terms of Service
-          </a>{" "}
-          apply.
-        </small>
         <div className=" flex items-center gap-4 justify-end">
           <button
             type="reset"
