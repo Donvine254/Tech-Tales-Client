@@ -6,7 +6,7 @@ export const metadata = {
 
 export default function Contact() {
   return (
-    <section className="font-poppins md:mt-8">
+    <section className="font-poppins md:mt-8 contact-page">
       <div className="p-2 bg-[url('https://res.cloudinary.com/dipkbpinx/image/upload/v1705348745/wlqqvrc1iqcbnfipageb.png')] bg-cover bg-no-repeat mb-4 ">
         <h1 className="font-bold md:leading-loose text-center text-xl md:text-3xl tracking-wide">
           Get in Touch
@@ -100,7 +100,7 @@ export default function Contact() {
               width="250"
               height="150"
               className="w-full h-auto md:w-[250px] md:h-[150px] border border-gray-200"
-              allowFullscreen=""
+              allowFullScreen=""
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"></iframe>
           </div>

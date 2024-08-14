@@ -1,15 +1,39 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   GoogleReCaptcha,
   GoogleReCaptchaProvider,
 } from "react-google-recaptcha-v3";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
+import { validateRecaptcha } from "@/lib/actions";
 
 export default function ContactForm() {
+  const [error, setError] = useState(null);
+  const [token, setToken] = useState("");
+  const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+  const handleInput = (e) => {
+    const emailValue = e.target.value;
+    if (emailValue.trim() === "") {
+      setError(null);
+    } else if (!emailValue.match(pattern)) {
+      setError("Please enter a valid email address");
+    } else {
+      setError(null);
+    }
+  };
   async function handleSubmit(e) {
     e.preventDefault();
+    if (!token) {
+      setError("Recaptcha validation failed");
+      return;
+    }
+    const isValid = await validateRecaptcha(token);
+    if (!isValid) {
+      setError("Recaptcha validation failed");
+      return;
+    }
     toast.success("Submitting form..");
     const response = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
@@ -46,7 +70,9 @@ export default function ContactForm() {
     e.target.reset();
   }
   return (
-    <GoogleReCaptchaProvider>
+    <GoogleReCaptchaProvider
+      reCaptchaKey={process.env.NEXT_PUBLIC_GOOGLE_RECAPTCHA_SITE_KEY}
+      className="grecaptcha-badge">
       <form
         id="form"
         onSubmit={handleSubmit}
@@ -86,17 +112,24 @@ export default function ContactForm() {
             Email <span className="text-red-600 font-bold">*</span>
           </label>
           <input
-            className="h-10 bg-white text-base focus:outline-none  disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md z-50"
+            className="h-10 bg-white text-base focus:outline-none  disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md z-50 "
             id="email"
             type="email"
             name="email"
             placeholder="you@example.com"
             autoComplete="email"
+            onInput={handleInput}
             title="enter a valid email address"
             maxLength={60}
             minLength={3}
             required
           />
+          <p
+            className={`text-red-500 text-sm  ${
+              error ? "visible opacity-100" : "invisible opacity-0"
+            }`}>
+            Please enter a valid email address
+          </p>
         </div>
         <div className="space-y-2">
           <label
@@ -114,6 +147,21 @@ export default function ContactForm() {
             required
             placeholder="Tye your message here.."></textarea>
         </div>
+        <small>
+          This form is protected by reCAPTCHA and the Google &nbsp;
+          <a
+            href="https://policies.google.com/privacy"
+            className="text-blue-500 underline">
+            Privacy Policy
+          </a>{" "}
+          and &nbsp;
+          <a
+            href="https://policies.google.com/terms"
+            className="text-blue-500 underline">
+            Terms of Service
+          </a>{" "}
+          apply.
+        </small>
         <div className=" flex items-center gap-4 justify-end">
           <button
             type="reset"
@@ -126,7 +174,12 @@ export default function ContactForm() {
             Submit
           </button>
         </div>
-        <GoogleReCaptcha />
+
+        <GoogleReCaptcha
+          onVerify={(token) => {
+            setToken(token);
+          }}
+        />
       </form>
     </GoogleReCaptchaProvider>
   );
