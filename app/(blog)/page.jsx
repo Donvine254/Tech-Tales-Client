@@ -4,7 +4,7 @@ import { Bookmark, ShareButton, SideNav, UserImage } from "@/components";
 import Link from "next/link";
 import { baseUrl, calculateReadingTime } from "@/lib";
 import Image from "next/image";
-import { formatDate } from "@/lib/utils";
+import { formatDate, formatViews } from "@/lib/utils";
 export const metadata = {
   title: "Home Page - Tech Tales",
   description:
@@ -100,7 +100,7 @@ export default async function HomePage() {
                   className="inline-flex xsm:items-center  sm:items-start gap-x-0.5 ">
                   <Graph className="stroke-gray-500 fill-none " size={20} />
                   <p className="text-base xsm:text-xs sm:align-text-bottom  xsm:pt-1.5">
-                    {blog.views}
+                    {formatViews(blog.views)}
                   </p>
                 </Link>
                 <ShareButton

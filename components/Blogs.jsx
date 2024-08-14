@@ -6,7 +6,7 @@ import { UserImage } from "./Avatar";
 import ShareButton from "./ShareButton";
 import Image from "next/image";
 import { calculateReadingTime } from "@/lib";
-import { formatDate } from "@/lib/utils";
+import { formatDate, formatViews } from "@/lib/utils";
 
 export default async function BlogsComponent({ blogs }) {
   return (
@@ -81,7 +81,7 @@ export default async function BlogsComponent({ blogs }) {
                 className="inline-flex xsm:items-center  sm:items-start gap-x-0.5 ">
                 <Graph className="stroke-gray-500 fill-none " size={20} />
                 <p className="text-base xsm:text-xs sm:align-text-bottom  xsm:pt-1.5">
-                  {blog.views}
+                  {formatViews(blog.views)}
                 </p>
               </Link>
               <ShareButton

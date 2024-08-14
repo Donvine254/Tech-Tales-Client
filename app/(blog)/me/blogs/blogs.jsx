@@ -16,7 +16,7 @@ import {
   ActionsButton,
   ShareButton,
 } from "@/components";
-import { formatDate } from "@/lib/utils";
+import { formatDate, formatViews } from "@/lib/utils";
 
 import parse from "html-react-parser";
 
@@ -142,7 +142,7 @@ export default function MyBlogsComponent() {
                   className="inline-flex xsm:items-center  sm:items-start gap-x-0.5 ">
                   <Graph className="stroke-gray-500 fill-none " size={20} />
                   <p className="text-base xsm:text-xs sm:align-text-bottom  xsm:pt-1.5">
-                    {blog.views}
+                    {formatViews(blog.views)}
                   </p>
                 </Link>
                 <ShareButton

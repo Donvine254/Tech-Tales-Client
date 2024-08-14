@@ -16,7 +16,7 @@ import Link from "next/link";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import { calculateReadingTime } from "@/lib";
-import { formatDate, handleSharing } from "@/lib/utils";
+import { formatDate, formatViews, handleSharing } from "@/lib/utils";
 import { Like, Graph } from "@/assets";
 import hljs from "highlight.js";
 import "highlight.js/styles/github.css";
@@ -198,7 +198,7 @@ export default function Slug({ blog }) {
                 content="Number of times this blog has been seen by readers"
                 variant="info"
               />
-              <span className="">{blog.views}</span>
+              <span className="">{formatViews(blog.views)}</span>
             </p>
             <svg
               fill="none"
