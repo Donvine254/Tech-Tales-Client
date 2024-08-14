@@ -139,11 +139,18 @@ export default function MyBlogsComponent() {
                 <Link
                   href={`/blogs/${blog.slug}`}
                   prefetch
-                  className="inline-flex items-center gap-0.5">
-                  <Graph className="stroke-gray-500 fill-none" size={20} />
-                  <span className="">{blog.views}</span>
+                  className="inline-flex xsm:items-center  sm:items-start gap-x-0.5 ">
+                  <Graph className="stroke-gray-500 fill-none " size={20} />
+                  <p className="text-base xsm:text-xs sm:align-text-bottom  xsm:pt-1.5">
+                    {blog.views}
+                  </p>
                 </Link>
-                <ShareButton size={20} title={blog.title} slug={blog.slug} />
+                <ShareButton
+                  size={20}
+                  className="h-[20px] w-[20px] text-gray-500"
+                  title={blog.title}
+                  slug={blog.slug}
+                />
                 <ActionsButton
                   onDelete={() => handleDelete(blog.id, blog.slug)}
                   onEdit={() => handleEdit(blog.slug)}

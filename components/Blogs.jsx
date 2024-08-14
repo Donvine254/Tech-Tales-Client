@@ -23,7 +23,7 @@ export default async function BlogsComponent({ blogs }) {
                   <p className="text-sm sm:text-base md:text-xl font-medium capitalize">
                     {blog.author.username}
                   </p>
-                  <p className="text-base xsm:text-sm xsm:mb-0">
+                  <p className="text-base xsm:text-xs xsm:mb-0">
                     <span className="xsm:hidden">Published on </span>{" "}
                     <time dateTime={blog?.createdAt}>
                       {formatDate(blog.createdAt)} {""}
@@ -61,28 +61,35 @@ export default async function BlogsComponent({ blogs }) {
               </article>
             </div>
             {/* start of flex div for actions */}
-            <div className="flex items-center justify-between xsm:gap-2 md:gap-4  py-2">
+            <div className="flex items-center justify-between xsm:gap-2 md:gap-4 py-2 ">
               <Link
                 href={`/blogs/${blog.slug}`}
-                className="text-base  inline-flex items-center gap-1">
+                className="text-base xsm:text-xs inline-flex items-center gap-x-1 ">
                 <Comment size={20} className="stroke-none fill-gray-400" />
                 <span>{blog?._count?.comments}</span>
               </Link>
               <Link
                 href={`/blogs/${blog.slug}`}
                 prefetch
-                className="inline-flex items-center gap-0.5 ">
+                className="inline-flex items-center gap-x-0.5  ">
                 <Like className="stroke-gray-400 fill-none" size={20} />
-                <span className="">{blog.likes}</span>
+                <span className="text-base xsm:text-xs">{blog.likes}</span>
               </Link>
               <Link
                 href={`/blogs/${blog.slug}`}
                 prefetch
-                className="inline-flex items-center gap-0.5">
-                <Graph className="stroke-gray-500 fill-none" size={20} />
-                <span className="">{blog.views}</span>
+                className="inline-flex xsm:items-center  sm:items-start gap-x-0.5 ">
+                <Graph className="stroke-gray-500 fill-none " size={20} />
+                <p className="text-base xsm:text-xs sm:align-text-bottom  xsm:pt-1.5">
+                  {blog.views}
+                </p>
               </Link>
-              <ShareButton size={20} title={blog.title} slug={blog.slug} />
+              <ShareButton
+                size={20}
+                className="h-[20px] w-[20px] text-gray-500"
+                title={blog.title}
+                slug={blog.slug}
+              />
               <Bookmark blogId={blog.id} size={20} />
             </div>
             {/* end of flex div */}
