@@ -153,11 +153,12 @@ h4 {
 
 #blog-body ul,
 #blog-body ol {
-  @apply list-item list-inside pl-4;
+  @apply pl-4;
 }
 #blog-body ul li,
 #comment-body ul li {
   list-style: square !important;
+  padding-left: 4px;
 }
 #blog-body ol li {
   list-style: decimal !important;
