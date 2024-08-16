@@ -408,8 +408,17 @@ li {
 }
 /* styling for blog summary */
 .summary li::before {
-  content: "✅";
+  content: "⚹";
   color: #222;
   position: absolute;
   left: 0;
+  font-size: 20px;
+}
+.summary li:hover::before {
+  content: "☑";
+}
+
+.summary li:hover {
+  color: #0891b2;
+  transition: transform 0.3s ease, color 0.3s ease;
 }

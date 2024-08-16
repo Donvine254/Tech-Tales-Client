@@ -59,7 +59,7 @@ export default function BlogSummary({ body, show, id }) {
 
               <h1>SUMMARY</h1>
             </div>
-            <ul className="summary  text-base xsm:text-[12px] font-extralight">
+            <ul className="summary text-base xsm:text-[12px] font-extralight">
               {parse(summary)}
             </ul>
           </div>
