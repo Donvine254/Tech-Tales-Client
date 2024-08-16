@@ -63,7 +63,7 @@ export default function SubscribeModal() {
         <title>Close</title>
       </svg>
       <div className="px-2 py-1 bg-gradient-to-r from-green-400 via-cyan-400 to-indigo-400 text-white space-y-2">
-        <h1 className="font-bold xsm:text-base text-xl md:text-2xl lg:text-3xl text-center ">
+        <h1 className="font-bold xsm:text-base text-2xl lg:text-3xl text-center ">
           Join our Newsletter
         </h1>
         <p className="text-sm md:text-base md:px-6 text-center leading-loose">

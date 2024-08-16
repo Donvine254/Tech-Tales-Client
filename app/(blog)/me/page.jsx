@@ -179,16 +179,16 @@ export default function Profile() {
               <p>Add Social Account</p>
             </button>
             {user.socials && user.socials.length > 0 ? (
-              <div className="flex items-center space-y-1 my-2 justify-between gap-4 bg-gray-200 rounded-md px-2 py-1 border ">
+              <div className="flex items-center space-y-1 my-2 justify-between gap-2  flex-wrap ">
                 {facebookUrl && (
-                  <a href={facebookUrl} target="_blank">
+                  <a href={facebookUrl} target="_blank" title="facebook">
                     {" "}
                     <Facebook />
                   </a>
                 )}
 
                 {linkedinUrl && (
-                  <a href={linkedinUrl} target="_blank">
+                  <a href={linkedinUrl} target="_blank" title="linkedin">
                     {" "}
                     <svg
                       viewBox="0 0 960 1000"
@@ -202,15 +202,37 @@ export default function Profile() {
                 )}
 
                 {githubUrl && (
-                  <a href={githubUrl} target="_blank">
+                  <a href={githubUrl} target="_blank" title="github">
                     {" "}
                     <GithubIcon />
                   </a>
                 )}
 
                 {twitterUrl && (
-                  <a href={twitterUrl} target="_blank">
+                  <a href={twitterUrl} target="_blank" title="twitter">
                     <NewTwitterIcon />
+                  </a>
+                )}
+                {instagramUrl && (
+                  <a href={instagramUrl} target="_blank" title="instagram">
+                    <svg
+                      viewBox="0 0 1024 1024"
+                      fill="#E1306C"
+                      height="30"
+                      width="30">
+                      <path d="M512 378.7c-73.4 0-133.3 59.9-133.3 133.3S438.6 645.3 512 645.3 645.3 585.4 645.3 512 585.4 378.7 512 378.7zM911.8 512c0-55.2.5-109.9-2.6-165-3.1-64-17.7-120.8-64.5-167.6-46.9-46.9-103.6-61.4-167.6-64.5-55.2-3.1-109.9-2.6-165-2.6-55.2 0-109.9-.5-165 2.6-64 3.1-120.8 17.7-167.6 64.5C132.6 226.3 118.1 283 115 347c-3.1 55.2-2.6 109.9-2.6 165s-.5 109.9 2.6 165c3.1 64 17.7 120.8 64.5 167.6 46.9 46.9 103.6 61.4 167.6 64.5 55.2 3.1 109.9 2.6 165 2.6 55.2 0 109.9.5 165-2.6 64-3.1 120.8-17.7 167.6-64.5 46.9-46.9 61.4-103.6 64.5-167.6 3.2-55.1 2.6-109.8 2.6-165zM512 717.1c-113.5 0-205.1-91.6-205.1-205.1S398.5 306.9 512 306.9 717.1 398.5 717.1 512 625.5 717.1 512 717.1zm213.5-370.7c-26.5 0-47.9-21.4-47.9-47.9s21.4-47.9 47.9-47.9 47.9 21.4 47.9 47.9a47.84 47.84 0 01-47.9 47.9z" />
+                    </svg>
+                  </a>
+                )}
+                {youtubeUrl && (
+                  <a href={youtubeUrl} target="_blank" title="youtube">
+                    <svg
+                      viewBox="0 0 512 512"
+                      fill="#FF0000"
+                      height="30"
+                      width="30">
+                      <path d="M508.64 148.79c0-45-33.1-81.2-74-81.2C379.24 65 322.74 64 265 64h-18c-57.6 0-114.2 1-169.6 3.6C36.6 67.6 3.5 104 3.5 149 1 184.59-.06 220.19 0 255.79q-.15 53.4 3.4 106.9c0 45 33.1 81.5 73.9 81.5 58.2 2.7 117.9 3.9 178.6 3.8q91.2.3 178.6-3.8c40.9 0 74-36.5 74-81.5 2.4-35.7 3.5-71.3 3.4-107q.34-53.4-3.26-106.9zM207 353.89v-196.5l145 98.2z" />
+                    </svg>
                   </a>
                 )}
               </div>

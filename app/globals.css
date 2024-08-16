@@ -54,6 +54,12 @@ input[id="username"]:not(:placeholder-shown):invalid {
 input[id="username"]:not(:placeholder-shown):valid {
   @apply bg-green-100;
 }
+input[id="url"]:not(:placeholder-shown):invalid {
+  @apply bg-red-100 border-red-500;
+}
+input[id="url"]:not(:placeholder-shown):valid {
+  @apply bg-green-100;
+}
 
 .avatar {
   @apply rounded-full w-8 h-8 md:w-10 md:h-10 shadow-md mr-6;
