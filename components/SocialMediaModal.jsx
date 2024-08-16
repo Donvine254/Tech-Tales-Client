@@ -2,7 +2,8 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import Loader from "./Loader";
-import { updateUserSocials } from "@/lib/updateUserSocials";
+import axios from "axios";
+import { baseUrl } from "@/lib";
 const SocialMediaModal = ({ user }) => {
   const [data, setData] = useState({
     platform: "",
@@ -29,7 +30,10 @@ const SocialMediaModal = ({ user }) => {
     } else {
       setSubmitting(true);
       try {
-        await updateUserSocials(user.id, data);
+        await axios.patch(`${baseUrl}/users/socials`, {
+          userId: user.id,
+          newSocial: data,
+        });
         toast.success(`profile updated successfully!`);
         setSubmitting(false);
         setData({
@@ -37,9 +41,13 @@ const SocialMediaModal = ({ user }) => {
           url: "",
         });
         handleClose();
+        if (typeof window !== "undefined") {
+          window.location.reload();
+        }
       } catch (error) {
         console.error(error);
         toast.error("Something went wrong");
+        setError(error?.response?.data?.error);
         setSubmitting(false);
       }
     }
@@ -82,7 +90,7 @@ const SocialMediaModal = ({ user }) => {
           </ul>
         </section>
         <form
-          className=" py-4 bg-[#f8f9fa] p-2 rounded-md mb-2 mx-4 border"
+          className=" py-4 bg-[#f8f9fa] p-2 rounded-md mb-4 mx-4 border"
           method="dialog"
           onSubmit={handleSubmit}>
           <div className="space-y-1">
@@ -191,24 +199,6 @@ const SocialMediaModal = ({ user }) => {
             </button>
           </div>
         </form>
-
-        <div className="flex items-center justify-center gap-1 bg-cyan-100 border-t-2 border-cyan-500 py-1">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#16a34a"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round">
-            <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
-            <line x1="12" x2="12" y1="16" y2="12" />
-            <line x1="12" x2="12.01" y1="8" y2="8" />
-          </svg>
-          <small>Changes will appear once you login again</small>
-        </div>
       </div>
     </dialog>
   );
