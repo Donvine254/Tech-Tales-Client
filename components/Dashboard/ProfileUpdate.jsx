@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import axiosInstance from "@/axiosConfig";
 import { convertToHandle } from "@/lib/utils";
-import Loader from "../Loader";
+import Loader from "../ui/Loader";
 import { baseUrl } from "@/lib";
 
 export default function AdminUpdateProfileModal({ user, setUsers }) {

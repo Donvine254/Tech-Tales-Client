@@ -7,7 +7,7 @@ import {
   convertToHandle,
   generatePassword,
 } from "@/lib/utils";
-import Loader from "../Loader";
+import Loader from "../ui/Loader";
 import { baseUrl } from "@/lib";
 import { sendAdminRegistrationEmail } from "@/emails";
 

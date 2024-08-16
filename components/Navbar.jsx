@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Search } from "./Search";
 import { Menu } from "./Menu";
-import Popup from "./LoginAlert";
+import Popup from "./alerts/LoginAlert";
 import { SortUp, SortDown } from "@/assets";
 import { useUserContext } from "@/providers";
 import { Tooltip } from "react-tooltip";

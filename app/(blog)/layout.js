@@ -1,10 +1,10 @@
 import "../globals.css";
 import Footer from "@/components/Footer";
-import ScrollIndicator from "@/components/ScrollIndicator";
+import ScrollIndicator from "@/components/ui/ScrollIndicator";
 import Newsletter from "@/components/Newsletter";
 import { SearchMD } from "@/components/SearchMD";
 import { Toaster } from "react-hot-toast";
-import ScrollToTopButton from "@/components/ScrollButton";
+import ScrollToTopButton from "@/components/ui/ScrollButton";
 import { CookieAlert } from "@/components";
 import dynamic from "next/dynamic";
 import { GoogleOAuthProvider } from "@react-oauth/google";

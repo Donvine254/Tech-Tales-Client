@@ -3,9 +3,9 @@ import React, { useState, useRef } from "react";
 import toast from "react-hot-toast";
 import axiosInstance from "@/axiosConfig";
 import { useRouter } from "next/navigation";
-import Loader from "./Loader";
+import Loader from "../ui/Loader";
 import secureLocalStorage from "react-secure-storage";
-import { UserImage } from "./Avatar";
+import { UserImage } from "../ui/Avatar";
 import { baseUrl } from "@/lib";
 import { convertToHandle } from "@/lib/utils";
 
@@ -109,11 +109,11 @@ export default function UpdateProfileModal({ user }) {
   return (
     <dialog id="my_modal_5" className="modal backdrop-blur-2xl rounded-xl">
       <form
-        className="rounded-lg border bg-card text-card-foreground shadow-sm w-full max-w-lg bg-slate-100"
+        className="rounded-lg border bg-card text-card-foreground shadow-sm w-full max-w-lg bg-gray-50"
         method="dialog"
         onSubmit={handleSubmit}>
-        <div className="flex flex-col space-y-1.5 px-6 pt-2">
-          <h3 className="text-xl text-gray-600 font-semibold leading-none tracking-tight mt-2 text-center">
+        <div className="pt-2 px-2 py-2 bg-gradient-to-r from-green-400 via-cyan-400 to-indigo-400 text-white">
+          <h3 className="text-xl 0 font-semibold leading-none tracking-tight mt-2 text-center">
             Update Profile Information
           </h3>
         </div>
@@ -186,12 +186,12 @@ export default function UpdateProfileModal({ user }) {
             </div>
           </div>
 
-          <div className="space-y-2">
+          <div className="">
             <label className="font-semibold" htmlFor="username">
               Username
             </label>
             <input
-              className="flex h-10 w-full border-b border-green-500 bg-transparent focus:outline-none py-2 invalid:border-red-500"
+              className="flex h-8 w-full border-b border-green-500 bg-transparent focus:outline-none py-2 invalid:border-red-500"
               id="username1"
               name="username"
               value={data.username}
@@ -202,25 +202,26 @@ export default function UpdateProfileModal({ user }) {
               minLength={3}
               onChange={handleUsernameChange}
             />
-            <p className="text-[14px] text-gray-600">
-              Appears on your Profile page, as your author title, and in your
+            <p className="text-xs text-gray-600">
+              Appears on your profile page, as your author title, and in your
               comments.
             </p>
           </div>
-          <div className="space-y-2">
-            <label className="font-semibold" htmlFor="Bio">
+          <div className="">
+            <label className="font-semibold my-1" htmlFor="Bio">
               Bio
             </label>
-            <input
-              className="h-8 w-full border-b border-green-500 bg-transparent focus:outline-none py-2 invalid:border-red-500"
-              id="Bio"
+            <textarea
+              className=" w-full border border-green-500 focus:outline-none p-2 invalid:border-red-500 rounded-md"
+              id="bio"
+              name="bio"
+              rows={2}
               value={data.bio}
-              minLength={5}
-              maxLength={100}
+              minLength={10}
+              maxLength={150}
               spellCheck={true}
               autoComplete="on"
               autoCorrect="on"
-              title="numbers and special characters are not allowed"
               onChange={(e) => {
                 setData((prev) => ({
                   ...prev,
@@ -228,9 +229,11 @@ export default function UpdateProfileModal({ user }) {
                 }));
               }}
             />
-            <p className="text-[14px] text-gray-600 flex items-center justify-between gap-4">
-              Appears on your Profile page and next to your articles.
-              <span>{data?.bio?.length ?? 0}/100</span>
+            <p className=" text-gray-600 flex items-center justify-between gap-4">
+              <small className="text-xs">
+                Appears on your Profile page and next to your articles.
+              </small>
+              <span className="text-sm">{data?.bio?.length ?? 0}/150</span>
             </p>
           </div>
           {error && (

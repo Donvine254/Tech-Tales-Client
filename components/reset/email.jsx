@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useGoogleLogin } from "@react-oauth/google";
 import { getUserData, authenticateUser } from "@/lib";
 import { createOtpCode, findUser } from "@/lib/actions";
-import Loader from "../Loader";
+import Loader from "../ui/Loader";
 import toast from "react-hot-toast";
 
 export default function EmailPage() {

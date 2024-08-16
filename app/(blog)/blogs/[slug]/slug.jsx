@@ -21,12 +21,12 @@ import { Like, Graph } from "@/assets";
 import hljs from "highlight.js";
 import "highlight.js/styles/github.css";
 import dynamic from "next/dynamic";
-import BlogSummary from "@/components/blogSummary";
+import BlogSummary from "@/components/blogs/blogSummary";
 import { useUserContext } from "@/providers";
 import { Tooltip } from "react-tooltip";
 import Script from "next/script";
 
-const NoSSRComments = dynamic(() => import("@/components/Comments"), {
+const NoSSRComments = dynamic(() => import("@/components/blogs/Comments"), {
   loading: () => (
     <div className="flex items-center justify-center gap-2 text-xl my-2">
       <Loader size={60} />

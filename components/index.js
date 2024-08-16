@@ -1,19 +1,19 @@
-import BlogsComponent from "./Blogs";
-import Bookmark from "./Bookmark";
+import BlogsComponent from "./blogs/Blogs";
+import Bookmark from "./ui/Bookmark";
 import SideNav from "./SideNav";
-import UserCard from "./UserCard";
-import MoreFromAuthor from "./MoreFromAuthor";
-import AudioPlayer from "./AudioPlayer";
-import Comments from "./Comments";
-import { UserImage } from "./Avatar";
-import SkeletonBlog from "./SkeletonBlog";
-import ActionsButton from "./ActionsButton";
-import Loader from "./Loader";
-import PreviewModal from "./PreviewModal";
-import TagInput from "./TagInput";
-import UploadButton from "./uploadButton";
-import AnimatedLikeBtn from "./LikeAnimated";
-import ShareButton from "./ShareButton";
+import UserCard from "./blogs/UserCard";
+import MoreFromAuthor from "./blogs/MoreFromAuthor";
+import AudioPlayer from "./ui/AudioPlayer";
+import Comments from "./blogs/Comments";
+import { UserImage } from "./ui/Avatar";
+import SkeletonBlog from "./blogs/SkeletonBlog";
+import ActionsButton from "./ui/ActionsButton";
+import Loader from "./ui/Loader";
+import PreviewModal from "./alerts/PreviewModal";
+import TagInput from "./editors/TagInput";
+import UploadButton from "./ui/uploadButton";
+import AnimatedLikeBtn from "./ui/LikeAnimated";
+import ShareButton from "./ui/ShareButton";
 import CookieAlert from "./alerts/cookie";
 export {
   BlogsComponent,

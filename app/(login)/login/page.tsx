@@ -1,7 +1,7 @@
 "use client";
 import { Suspense } from "react";
 import LoginPage from "./login";
-import { FloatingShape } from "@/components/floatingShape";
+import { FloatingShape } from "@/components/ui/floatingShape";
 
 export default function Page() {
   return (

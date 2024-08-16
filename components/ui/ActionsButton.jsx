@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { Edit, Trash, Share } from "@/assets";
-import ShareModal from "./ShareModal";
+import ShareModal from "../alerts/ShareModal";
 import toast from "react-hot-toast";
 
 export default function ActionsButton({

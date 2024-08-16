@@ -24,41 +24,21 @@ body {
   box-sizing: border-box;
 }
 
-input[type="search"]:not(:placeholder-shown):invalid {
-  @apply bg-red-100;
-}
-input[type="password"]:not(:placeholder-shown):invalid + .label {
-  @apply text-red-500;
-}
-input[type="password"]:not(:placeholder-shown):invalid {
-  @apply bg-red-100;
-}
-input[type="password"]:not(:placeholder-shown):valid {
-  @apply bg-green-100;
-}
-input[type="email"]:not(:placeholder-shown):invalid + .label {
-  @apply text-red-500;
-}
-input[type="email"]:not(:placeholder-shown):invalid {
-  @apply bg-red-100;
-}
-input[type="email"]:not(:placeholder-shown):valid {
-  @apply bg-green-100;
-}
-input[id="username"]:not(:placeholder-shown):invalid + .label {
-  @apply text-red-500;
-}
-input[id="username"]:not(:placeholder-shown):invalid {
-  @apply bg-red-100;
-}
-input[id="username"]:not(:placeholder-shown):valid {
-  @apply bg-green-100;
-}
+/* Common styles for invalid inputs */
+input[type="search"]:not(:placeholder-shown):invalid,
+input[type="password"]:not(:placeholder-shown):invalid,
+input[type="email"]:not(:placeholder-shown):invalid,
+input[id="username"]:not(:placeholder-shown):invalid,
 input[id="url"]:not(:placeholder-shown):invalid {
   @apply bg-red-100 border-red-500;
 }
+
+/* Common styles for valid inputs */
+input[type="password"]:not(:placeholder-shown):valid,
+input[type="email"]:not(:placeholder-shown):valid,
+input[id="username"]:not(:placeholder-shown):valid,
 input[id="url"]:not(:placeholder-shown):valid {
-  @apply bg-green-100;
+  @apply bg-green-100 border-green-500;
 }
 
 .avatar {

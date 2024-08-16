@@ -3,9 +3,8 @@
 import { baseUrl, deleteComment, patchComment } from "@/lib";
 import { useState } from "react";
 import Axios from "axios";
-import Loader from "./Loader";
 import { Edit, Trash } from "@/assets";
-import { UserImage } from "./Avatar";
+import { UserImage, Loader } from "@/components";
 import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
@@ -14,9 +13,12 @@ import toast from "react-hot-toast";
 import parse from "html-react-parser";
 import { updateCommentStatus } from "@/lib/actions";
 
-const DynamicEditor = dynamic(() => import("@/components/CommentEditor"), {
-  loading: () => <Loader size={60} />,
-});
+const DynamicEditor = dynamic(
+  () => import("@/components/editors/CommentEditor"),
+  {
+    loading: () => <Loader size={60} />,
+  }
+);
 
 export default function Comments({
   blogId,

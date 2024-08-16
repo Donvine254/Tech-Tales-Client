@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { calculateReadingTime, baseUrl } from "@/lib";
-import { UserImage } from "@/components/Avatar";
+import { UserImage } from "@/components/ui/Avatar";
 import { useSearchParams } from "next/navigation";
 import Axios from "axios";
 import { Comment, Like, Graph } from "@/assets";

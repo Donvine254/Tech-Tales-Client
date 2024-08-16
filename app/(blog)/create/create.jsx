@@ -9,7 +9,7 @@ import Script from "next/script";
 import secureLocalStorage from "react-secure-storage";
 import Link from "next/link";
 import { useUserContext } from "@/providers";
-const DynamicEditor = dynamic(() => import("@/components/Editor"), {
+const DynamicEditor = dynamic(() => import("@/components/editors/Editor"), {
   loading: () => (
     <div className="flex items-center justify-center gap-2 text-xl my-2">
       <Loader size={60} />

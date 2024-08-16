@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import Axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import { baseUrl, saveUserData } from "@/lib";
-import Loader from "@/components/Loader";
+import Loader from "@/components/ui/Loader";
 import { sendWelcomeEmail } from "@/emails";
 export const dynamic = "force-dynamic";
 

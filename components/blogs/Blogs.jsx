@@ -1,9 +1,8 @@
 import Link from "next/link";
 import { Graph, Comment, Like } from "@/assets";
 import parse from "html-react-parser";
-import Bookmark from "./Bookmark";
-import { UserImage } from "./Avatar";
-import ShareButton from "./ShareButton";
+import { Bookmark, UserImage, ShareButton } from "@/components";
+
 import Image from "next/image";
 import { calculateReadingTime } from "@/lib";
 import { formatDate, formatViews } from "@/lib/utils";

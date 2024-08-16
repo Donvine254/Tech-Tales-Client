@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import Loader from "./Loader";
+import Loader from "../ui/Loader";
 import axios from "axios";
 import { baseUrl } from "@/lib";
 const SocialMediaModal = ({ user }) => {

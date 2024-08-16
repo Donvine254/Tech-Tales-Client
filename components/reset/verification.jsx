@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import CodeInput from "../CodeInput";
-import Loader from "../Loader";
+import CodeInput from "../editors/CodeInput";
+import Loader from "../ui/Loader";
 import { resendOTPEmail } from "@/lib/actions";
 import { useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";

@@ -2,9 +2,9 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import axiosInstance from "@/axiosConfig";
-import Loader from "./Loader";
+import Loader from "../ui/Loader";
 import { baseUrl } from "@/lib";
-import PasswordStrengthMeter from "./alerts/passwordMeter";
+import PasswordStrengthMeter from "./passwordMeter";
 
 export default function ResetPasswordModal({ user }) {
   const [loading, setLoading] = useState(false);

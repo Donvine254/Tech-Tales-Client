@@ -7,7 +7,7 @@ import PasswordForm from "@/components/reset/passwordForm";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { baseUrl } from "@/lib";
-import { FloatingShape } from "@/components/floatingShape";
+import { FloatingShape } from "@/components/ui/floatingShape";
 
 export default function Page() {
   return (

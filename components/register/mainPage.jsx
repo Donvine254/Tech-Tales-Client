@@ -10,7 +10,7 @@ import { validateRecaptcha } from "@/lib/actions";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import Axios from "axios";
 import toast from "react-hot-toast";
-import Loader from "@/components/Loader";
+import Loader from "@/components/ui/Loader";
 import Image from "next/image";
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);

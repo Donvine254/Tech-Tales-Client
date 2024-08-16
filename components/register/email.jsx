@@ -7,7 +7,7 @@ import { GithubIcon, GoogleIcon } from "@/assets";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import Axios from "axios";
 import toast from "react-hot-toast";
-import Loader from "@/components/Loader";
+import Loader from "@/components/ui/Loader";
 import { createOtpCode, findUser } from "@/lib/actions";
 import Link from "next/link";
 export default function VerifyEmail() {

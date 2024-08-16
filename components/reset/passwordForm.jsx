@@ -5,7 +5,7 @@ import axios from "axios";
 import { validateRecaptcha } from "@/lib/actions";
 import toast from "react-hot-toast";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
-import Loader from "../Loader";
+import Loader from "../ui/Loader";
 import PasswordStrengthMeter from "../alerts/passwordMeter";
 import { Tooltip } from "react-tooltip";
 import { generatePassword } from "@/lib/utils";

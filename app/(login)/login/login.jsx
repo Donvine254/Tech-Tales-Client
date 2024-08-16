@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { authenticateUser, getUserData, handleLogin } from "@/lib";
 import toast from "react-hot-toast";
 import { useGoogleLogin } from "@react-oauth/google";
-import Loader from "@/components/Loader";
+import Loader from "@/components/ui/Loader";
 import { GithubIcon, GoogleIcon } from "@/assets";
 import { validateRecaptcha } from "@/lib/actions";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";

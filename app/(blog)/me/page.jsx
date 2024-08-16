@@ -4,7 +4,7 @@ import { handleSignOut, baseUrl } from "@/lib";
 
 import Image from "next/image";
 import Link from "next/link";
-import Loader from "@/components/Loader";
+import Loader from "@/components/ui/Loader";
 import parse from "html-react-parser";
 import {
   Clipboard,
@@ -15,7 +15,7 @@ import {
 } from "@/assets";
 import { calculateReadingTime } from "@/lib";
 import secureLocalStorage from "react-secure-storage";
-import SocialMediaModal from "@/components/SocialMediaModal";
+import SocialMediaModal from "@/components/alerts/SocialMediaModal";
 import { useUserContext } from "@/providers";
 export const dynamic = "auto";
 

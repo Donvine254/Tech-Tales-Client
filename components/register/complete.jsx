@@ -11,7 +11,7 @@ import Script from "next/script";
 import { validateRecaptcha } from "@/lib/actions";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import toast from "react-hot-toast";
-import Loader from "@/components/Loader";
+import Loader from "@/components/ui/Loader";
 import PasswordStrengthMeter from "../alerts/passwordMeter";
 import { Tooltip } from "react-tooltip";
 
