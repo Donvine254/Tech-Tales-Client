@@ -90,7 +90,9 @@ export default function Profile() {
   const facebookUrl = getSocialUrl("facebook");
   const linkedinUrl = getSocialUrl("linkedin");
   const githubUrl = getSocialUrl("github");
-  const twitterUrl = getSocialUrl("twitter");
+  const twitterUrl = getSocialUrl("x");
+  const instagramUrl = getSocialUrl("instagram");
+  const youtubeUrl = getSocialUrl("youtube");
 
   //function to show modals
   const showModal = () => {
@@ -165,7 +167,7 @@ export default function Profile() {
             <p className="font-bold">Connected Accounts</p>
             <button
               onClick={showModal}
-              className="bg-gray-100 hover:bg-gray-200 flex items-center justify-center py-0.5 hover:text-blue-500 px-4 rounded-md w-full gap-2">
+              className="bg-gray-100 hover:bg-gray-200 flex items-center justify-center py-0.5 border hover:text-blue-500 px-4 rounded-md w-full gap-2">
               {" "}
               <svg
                 viewBox="0 0 24 24"
@@ -177,29 +179,22 @@ export default function Profile() {
               <p>Add Social Account</p>
             </button>
             {user.socials && user.socials.length > 0 ? (
-              <div className="flex items-center space-y-1 my-2  gap-2 bg-gray-200 rounded-md p-2">
+              <div className="flex items-center space-y-1 my-2 justify-between gap-4 bg-gray-200 rounded-md px-2 py-1 border ">
                 {facebookUrl && (
-                  <a
-                    href={facebookUrl}
-                    target="_blank"
-                    className="flex items-center justify-center gap-2">
+                  <a href={facebookUrl} target="_blank">
                     {" "}
-                    <Facebook className="fill-white" />
+                    <Facebook />
                   </a>
                 )}
 
                 {linkedinUrl && (
-                  <a
-                    href={linkedinUrl}
-                    target="_blank"
-                    className="flex items-center justify-center gap-2">
+                  <a href={linkedinUrl} target="_blank">
                     {" "}
                     <svg
                       viewBox="0 0 960 1000"
                       fill="#0284C7"
                       height="26"
-                      width="26"
-                      className="fill-white">
+                      width="26">
                       <path d="M480 20c133.333 0 246.667 46.667 340 140s140 206.667 140 340c0 132-46.667 245-140 339S613.333 980 480 980c-132 0-245-47-339-141S0 632 0 500c0-133.333 47-246.667 141-340S348 20 480 20M362 698V386h-96v312h96m-48-352c34.667 0 52-16 52-48s-17.333-48-52-48c-14.667 0-27 4.667-37 14s-15 20.667-15 34c0 32 17.333 48 52 48m404 352V514c0-44-10.333-77.667-31-101s-47.667-35-81-35c-44 0-76 16.667-96 50h-2l-6-42h-84c1.333 18.667 2 52 2 100v212h98V518c0-12 1.333-20 4-24 8-25.333 24.667-38 50-38 32 0 48 22.667 48 68v174h98" />
                       <title>Linkedin</title>
                     </svg>
@@ -207,21 +202,15 @@ export default function Profile() {
                 )}
 
                 {githubUrl && (
-                  <a
-                    href={githubUrl}
-                    target="_blank"
-                    className="flex items-center justify-center gap-2">
+                  <a href={githubUrl} target="_blank">
                     {" "}
                     <GithubIcon />
                   </a>
                 )}
 
                 {twitterUrl && (
-                  <a
-                    href={twitterUrl}
-                    target="_blank"
-                    className="flex items-center justify-center gap-2">
-                    <NewTwitterIcon className=" bg-white  p-0.5 rounded-full" />
+                  <a href={twitterUrl} target="_blank">
+                    <NewTwitterIcon />
                   </a>
                 )}
               </div>

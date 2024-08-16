@@ -5,9 +5,10 @@ import Loader from "./Loader";
 import { updateUserSocials } from "@/lib/updateUserSocials";
 const SocialMediaModal = ({ user }) => {
   const [data, setData] = useState({
-    platform: "facebook",
+    platform: "",
     url: "",
   });
+  const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const handleClose = () => {
     const modal = document.getElementById(`social_media_modal`);
@@ -23,7 +24,7 @@ const SocialMediaModal = ({ user }) => {
     e.preventDefault();
 
     if (!data.url.includes(data.platform.toString())) {
-      toast.error(`Please enter a URL for a ${data.platform} profile`);
+      setError(`Please enter a URL for a ${data.platform} profile`);
       return;
     } else {
       setSubmitting(true);
@@ -76,7 +77,7 @@ const SocialMediaModal = ({ user }) => {
           </ul>
         </section>
         <form
-          className=" py-4 bg-gray-100 p-2 rounded-md mb-1 mx-4"
+          className=" py-4 bg-gray-100 p-2 rounded-md mb-2 mx-4"
           method="dialog"
           onSubmit={handleSubmit}>
           <div className="space-y-1">
@@ -99,32 +100,15 @@ const SocialMediaModal = ({ user }) => {
                 }))
               }>
               <option value="" disabled>
-                <span>
-                  <p>Select Platform</p>
-                </span>
+                Select Platform
               </option>
-              <option value="facebook">
-                <span>
-                  <p>Facebook</p>
-                </span>
-              </option>
-              <option value="twitter">
-                <span>
-                  <p>Twitter</p>
-                </span>
-              </option>
-              <option value="github">
-                <span>
-                  <p>Github</p>
-                </span>
-              </option>
-              <option value="linkedin">
-                <span>
-                  <p>Linkedin</p>
-                </span>
-              </option>
+              <option value="facebook">Facebook</option>
+              <option value="x">Twitter/X</option>
+              <option value="github">Github</option>
+              <option value="linkedin">Linkedin</option>
             </select>
           </div>
+
           <div className="space-y-1">
             <label
               className="capitalize font-semibold text-gray-600"
@@ -132,11 +116,12 @@ const SocialMediaModal = ({ user }) => {
               Enter your Profile Url
             </label>
             <input
-              className="h-8 w-full border p-2  border-blue-500 rounded-md  focus:outline-none  invalid:border-red-500 invalid:bg-red-100"
+              className="h-8 w-full border p-2  border-blue-500 rounded-md  focus:outline-none  invalid:border-red-500 "
               id="url"
               name="url"
               type="url"
               value={data.url}
+              onInput={() => setError(null)}
               required
               pattern="https://.*"
               onChange={(e) =>
@@ -147,10 +132,13 @@ const SocialMediaModal = ({ user }) => {
               }
               placeholder="https://www.example.com/your-account"
             />
-            <small>
-              Appears on your profile page and on your authored blogs
-            </small>
           </div>
+          <small
+            className={`text-red-500 text-sm xsm:text-xs  ${
+              error ? "visible opacity-100" : "invisible opacity-0"
+            }`}>
+            {error ? error : null}
+          </small>
           <div className="flex items-center justify-end gap-4  py-2">
             <button
               className="bg-transparent border-2 border-green-600 hover:border-orange-500 py-0.5 px-2 h-8 rounded-md "
@@ -177,8 +165,8 @@ const SocialMediaModal = ({ user }) => {
             </button>
           </div>
         </form>
-        <hr className="border-dotted border-green-600 " />
-        <div className="flex items-center justify-center gap-1">
+
+        <div className="flex items-center justify-center gap-1 bg-cyan-100 border-t-2 border-cyan-500 py-1">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="14"
