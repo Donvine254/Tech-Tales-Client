@@ -21,6 +21,8 @@ export default function Pagination({
     setRows(parseInt(e.target.value, 10));
     setCurrentPage(1);
   };
+  const startIndex = (currentPage - 1) * rows + 1;
+  const endIndex = Math.min(currentPage * rows, data);
 
   return (
     <div className="flex items-center justify-between my-3 max-w-full font-extralight text-gray-500">
@@ -42,12 +44,12 @@ export default function Pagination({
       </div>
       <div className="flex items-center gap-2">
         <span className="mx-2 whitespace-nowrap">
-          {currentPage}/{totalPages} of {totalPages}
+          {startIndex}-{endIndex} of {data}
         </span>
         <button
           type="button"
           data-tooltip-id="previous-page"
-          className=""
+          className="disabled:opacity-50 disabled:pointer-events-none"
           onClick={handlePrevPage}
           disabled={currentPage === 1}>
           <Tooltip
@@ -73,7 +75,7 @@ export default function Pagination({
         <button
           type="button"
           data-tooltip-id="next-page"
-          className=""
+          className="disabled:opacity-50 disabled:pointer-events-none"
           onClick={handleNextPage}
           disabled={currentPage === totalPages}>
           <Tooltip
