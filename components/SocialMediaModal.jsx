@@ -3,27 +3,27 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import Loader from "./Loader";
 import { updateUserSocials } from "@/lib/updateUserSocials";
-const SocialMediaModal = ({ platform, user }) => {
+const SocialMediaModal = ({ user }) => {
   const [data, setData] = useState({
-    platform: platform,
+    platform: "facebook",
     url: "",
   });
   const [submitting, setSubmitting] = useState(false);
   const handleClose = () => {
-    const modal = document.getElementById(`${platform}_modal`);
+    const modal = document.getElementById(`social_media_modal`);
     if (modal) {
       modal.close();
     }
   };
 
-  if (!platform || !user) {
+  if (!user) {
     return null;
   }
   async function handleSubmit(e) {
     e.preventDefault();
 
-    if (!data.url.includes(platform.toString())) {
-      toast.error(`Please enter a URL for a ${platform} profile`);
+    if (!data.url.includes(data.platform.toString())) {
+      toast.error(`Please enter a URL for a ${data.platform} profile`);
       return;
     } else {
       setSubmitting(true);
@@ -41,9 +41,18 @@ const SocialMediaModal = ({ platform, user }) => {
   }
   return (
     <dialog
-      id={`${platform}_modal`}
-      className="rounded-md max-w-[400px] m-auto xsm:mx-5 border backdrop-blur-sm shadow-md">
-      <div className="relative p-4">
+      id="social_media_modal"
+      className="rounded-md max-w-[400px] m-auto xsm:mx-5  backdrop-blur-sm shadow-md">
+      <div className="relative ">
+        <div className="px-2 py-1 bg-gradient-to-r from-green-400 via-cyan-400 to-indigo-400 text-white space-y-2">
+          <h3 className="lg:text-xl font-semibold  text-center capitalize">
+            Update Your Social Profile
+          </h3>
+          <p className="text-sm xsm:text-xs text-center">
+            Make it easier for other people to follow you by adding your social
+            media profiles
+          </p>
+        </div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -60,36 +69,88 @@ const SocialMediaModal = ({ platform, user }) => {
           <path d="m6 6 12 12" />
           <title>Close</title>
         </svg>
-        <div className="flex flex-col space-y-1.5  py-4">
-          <h3 className="lg:text-xl font-semibold  text-center capitalize">
-            Update Your {platform} Profile
-          </h3>
-          <p className="text-sm">
-            Make it easier for other people to follow you by adding your social
-            media profiles
-          </p>
-        </div>
-        <hr />
-        <form className=" py-4" method="dialog" onSubmit={handleSubmit}>
-          <label className="capitalize" htmlFor="url">
-            Enter your {platform} Account Url
-          </label>
-          <input
-            className="h-8 w-full border-b border-green-500 bg-transparent focus:outline-none py-2 invalid:border-red-500"
-            id="url"
-            name="url"
-            type="url"
-            value={data.url}
-            pattern="https://.*"
-            onChange={(e) =>
-              setData((prevData) => ({
-                ...prevData,
-                url: e.target.value,
-              }))
-            }
-            placeholder="https://www.example.com/your-account"
-          />
-          <small>Appears on your profile page and on your authored blogs</small>
+        <section id="benefits" className="p-2">
+          <ul className="subscribe-form">
+            <li>Build your own social community</li>
+            <li>Be followed and follow other users</li>
+          </ul>
+        </section>
+        <form
+          className=" py-4 bg-gray-100 p-2 rounded-md mb-1 mx-4"
+          method="dialog"
+          onSubmit={handleSubmit}>
+          <div className="space-y-1">
+            <label
+              className="capitalize font-semibold text-gray-600"
+              htmlFor="platform">
+              Select a Social Platform
+            </label>
+            <select
+              className="h-8 w-full border border-blue-500 rounded-md focus:outline-none py-2 "
+              id="platform"
+              name="platform"
+              type="text"
+              value={data.platform}
+              required
+              onChange={(e) =>
+                setData((prevData) => ({
+                  ...prevData,
+                  platform: e.target.value,
+                }))
+              }>
+              <option value="" disabled>
+                <span>
+                  <p>Select Platform</p>
+                </span>
+              </option>
+              <option value="facebook">
+                <span>
+                  <p>Facebook</p>
+                </span>
+              </option>
+              <option value="twitter">
+                <span>
+                  <p>Twitter</p>
+                </span>
+              </option>
+              <option value="github">
+                <span>
+                  <p>Github</p>
+                </span>
+              </option>
+              <option value="linkedin">
+                <span>
+                  <p>Linkedin</p>
+                </span>
+              </option>
+            </select>
+          </div>
+          <div className="space-y-1">
+            <label
+              className="capitalize font-semibold text-gray-600"
+              htmlFor="url">
+              Enter your Profile Url
+            </label>
+            <input
+              className="h-8 w-full border p-2  border-blue-500 rounded-md  focus:outline-none  invalid:border-red-500 invalid:bg-red-100"
+              id="url"
+              name="url"
+              type="url"
+              value={data.url}
+              required
+              pattern="https://.*"
+              onChange={(e) =>
+                setData((prevData) => ({
+                  ...prevData,
+                  url: e.target.value,
+                }))
+              }
+              placeholder="https://www.example.com/your-account"
+            />
+            <small>
+              Appears on your profile page and on your authored blogs
+            </small>
+          </div>
           <div className="flex items-center justify-end gap-4  py-2">
             <button
               className="bg-transparent border-2 border-green-600 hover:border-orange-500 py-0.5 px-2 h-8 rounded-md "
@@ -117,7 +178,7 @@ const SocialMediaModal = ({ platform, user }) => {
           </div>
         </form>
         <hr className="border-dotted border-green-600 " />
-        <div className="inline-flex items-center justify-center gap-1">
+        <div className="flex items-center justify-center gap-1">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="14"

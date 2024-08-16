@@ -30,7 +30,9 @@ export default function MoreFromAuthor({ author, id, blogId }) {
     <div>
       {blogs && blogs.length > 0 && (
         <>
-          <h1 className="font-bold text-xl">View More From {author}</h1>
+          <h1 className="font-bold text-lg capitalize">
+            View More From {author}
+          </h1>
           <div className="sm:flex sm:gap-2 sm:overflow-x-auto snap-x">
             {blogs.map((blog) => (
               <div
