@@ -406,3 +406,10 @@ li {
   transform: translateY(0%);
   transition-delay: 1000ms;
 }
+/* styling for blog summary */
+.summary li::before {
+  content: "✅";
+  color: #222;
+  position: absolute;
+  left: 0;
+}
