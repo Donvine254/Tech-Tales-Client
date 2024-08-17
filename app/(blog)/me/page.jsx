@@ -121,20 +121,30 @@ export default function Profile() {
             />
             <p className="text-gray-600 font-semibold flex items-center justify-center ">
               <span className="capitalize">{user.username} </span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill={user.role === "admin" ? " #4b5563" : "#09A3E5"}
-                stroke="#F7F8F9"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="mb-1">
-                <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
-                <path d="m9 12 2 2 4-4" />
-              </svg>
+              <>
+                {user.role === "admin" ? (
+                  <Image
+                    src="https://res.cloudinary.com/dipkbpinx/image/upload/v1723863889/logos/on4c9g21udqs4oqrucdo.png"
+                    width={18}
+                    height={18}
+                    alt="verification-badge"
+                  />
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="#1D9BF0"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="mb-1 ">
+                    <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+                    <path d="m9 12 2 2 4-4" stroke="#ffffff" />
+                  </svg>
+                )}
+              </>
             </p>
             <p className="text-gray-700 mb-2 break-words text-sm text-center">
               {user.email}
@@ -142,7 +152,7 @@ export default function Profile() {
           </div>
           <div className="px-6 py-1">
             <p className="text-gray-700 font-semibold mb-2 ">About</p>
-            <p className="mb-2 p-2 tracking-wide xsm:text-xs text-sm bg-gray-200 text-blue-600 font-extralight">
+            <p className="mb-2 p-2 tracking-wide xsm:text-xs text-sm bg-gray-200 text-blue-600 font-extralight rounded-sm">
               {user?.bio ?? "You have have no bio yet"}
             </p>
             {user.role === "admin" && (
