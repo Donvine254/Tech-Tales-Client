@@ -54,15 +54,33 @@ export default function Navbar() {
           </Link>
           <div className="flex items-center gap-1 relative">
             {user && (
-              <Image
-                className="h-10 w-10 md:h-12 md:w-12  rounded-full cursor-pointer italic ring ring-blue-400 ring-offset-1 ring-offset-white"
-                src={user.picture}
-                width={48}
-                height={48}
-                onClick={() => setMenuOpen(!menuOpen)}
-                alt="user profile avatar"
-                referrerPolicy="no-referrer"
-              />
+              <>
+                <svg
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  height="24"
+                  width="24"
+                  data-tooltip-id="notifications"
+                  className="fill-gray-400 hover:bg-gray-300 hover:fill-blue-500 rounded-full p-1 mx-2">
+                  <path d="M4 8a6 6 0 014.03-5.67 2 2 0 113.95 0A6 6 0 0116 8v6l3 2v1H1v-1l3-2V8zm8 10a2 2 0 11-4 0h4z" />
+                </svg>
+                <Tooltip
+                  id="notifications"
+                  place="bottom"
+                  content="You have no new notifications"
+                  variant="info"
+                  style={{ padding: "2px", fontSize: "12px" }}
+                />
+                <Image
+                  className="h-10 w-10 rounded-full cursor-pointer italic ring ring-blue-400 ring-offset-1 ring-offset-white"
+                  src={user.picture}
+                  width={40}
+                  height={40}
+                  onClick={() => setMenuOpen(!menuOpen)}
+                  alt="user profile avatar"
+                  referrerPolicy="no-referrer"
+                />
+              </>
             )}
             {menuOpen ? (
               <SortUp handleClick={() => setMenuOpen(!menuOpen)} />
