@@ -117,9 +117,9 @@ export default function Profile() {
               height={120}
               width={120}
               alt="User Profile"
-              className="w-[120px] h-[120px] rounded-full m-auto ring-offset-4 ring-2 ring-blue-600 italic ring-offset-white"
+              className="w-[120px] h-[120px] rounded-full m-auto ring-offset-4 ring-2 ring-blue-600 italic ring-offset-white "
             />
-            <p className="text-gray-600 font-semibold flex items-center justify-center ">
+            <p className="text-gray-600 font-semibold mt-1 flex items-center justify-center ">
               <span className="capitalize">{user.username} </span>
               <>
                 {user.role === "admin" ? (
@@ -147,7 +147,7 @@ export default function Profile() {
                 )}
               </>
             </p>
-            <p className="text-gray-700 mb-2 break-words text-sm text-center">
+            <p className="text-gray-700 mb-1 break-words text-sm text-center">
               {user.email}
             </p>
           </div>
