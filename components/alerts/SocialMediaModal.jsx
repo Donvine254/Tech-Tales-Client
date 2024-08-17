@@ -100,7 +100,7 @@ const SocialMediaModal = ({ user }) => {
               Select a Social Platform
             </label>
             <select
-              className="w-full border border-blue-500 rounded-md focus:outline-none py-1 "
+              className="w-full border border-blue-500 rounded-md focus:outline-none py-1 text-gray-600"
               id="platform"
               name="platform"
               type="text"
@@ -121,6 +121,7 @@ const SocialMediaModal = ({ user }) => {
               <option value="linkedin">Linkedin</option>
               <option value="instagram">Instagram</option>
               <option value="youtube">Youtube</option>
+              <option value="tiktok">TikTok</option>
             </select>
           </div>
 

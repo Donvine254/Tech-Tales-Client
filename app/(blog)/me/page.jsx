@@ -93,6 +93,7 @@ export default function Profile() {
   const twitterUrl = getSocialUrl("x");
   const instagramUrl = getSocialUrl("instagram");
   const youtubeUrl = getSocialUrl("youtube");
+  const tiktokUrl = getSocialUrl("tiktok");
 
   //function to show modals
   const showModal = () => {
@@ -183,7 +184,7 @@ export default function Profile() {
                 {facebookUrl && (
                   <a href={facebookUrl} target="_blank" title="facebook">
                     {" "}
-                    <Facebook />
+                    <Facebook size={24} />
                   </a>
                 )}
 
@@ -193,8 +194,8 @@ export default function Profile() {
                     <svg
                       viewBox="0 0 960 1000"
                       fill="#0284C7"
-                      height="26"
-                      width="26">
+                      height="24"
+                      width="24">
                       <path d="M480 20c133.333 0 246.667 46.667 340 140s140 206.667 140 340c0 132-46.667 245-140 339S613.333 980 480 980c-132 0-245-47-339-141S0 632 0 500c0-133.333 47-246.667 141-340S348 20 480 20M362 698V386h-96v312h96m-48-352c34.667 0 52-16 52-48s-17.333-48-52-48c-14.667 0-27 4.667-37 14s-15 20.667-15 34c0 32 17.333 48 52 48m404 352V514c0-44-10.333-77.667-31-101s-47.667-35-81-35c-44 0-76 16.667-96 50h-2l-6-42h-84c1.333 18.667 2 52 2 100v212h98V518c0-12 1.333-20 4-24 8-25.333 24.667-38 50-38 32 0 48 22.667 48 68v174h98" />
                       <title>Linkedin</title>
                     </svg>
@@ -204,13 +205,13 @@ export default function Profile() {
                 {githubUrl && (
                   <a href={githubUrl} target="_blank" title="github">
                     {" "}
-                    <GithubIcon />
+                    <GithubIcon size={24} />
                   </a>
                 )}
 
                 {twitterUrl && (
                   <a href={twitterUrl} target="_blank" title="twitter">
-                    <NewTwitterIcon />
+                    <NewTwitterIcon size={24} />
                   </a>
                 )}
                 {instagramUrl && (
@@ -218,8 +219,8 @@ export default function Profile() {
                     <svg
                       viewBox="0 0 1024 1024"
                       fill="#E1306C"
-                      height="30"
-                      width="30">
+                      height="24"
+                      width="24">
                       <path d="M512 378.7c-73.4 0-133.3 59.9-133.3 133.3S438.6 645.3 512 645.3 645.3 585.4 645.3 512 585.4 378.7 512 378.7zM911.8 512c0-55.2.5-109.9-2.6-165-3.1-64-17.7-120.8-64.5-167.6-46.9-46.9-103.6-61.4-167.6-64.5-55.2-3.1-109.9-2.6-165-2.6-55.2 0-109.9-.5-165 2.6-64 3.1-120.8 17.7-167.6 64.5C132.6 226.3 118.1 283 115 347c-3.1 55.2-2.6 109.9-2.6 165s-.5 109.9 2.6 165c3.1 64 17.7 120.8 64.5 167.6 46.9 46.9 103.6 61.4 167.6 64.5 55.2 3.1 109.9 2.6 165 2.6 55.2 0 109.9.5 165-2.6 64-3.1 120.8-17.7 167.6-64.5 46.9-46.9 61.4-103.6 64.5-167.6 3.2-55.1 2.6-109.8 2.6-165zM512 717.1c-113.5 0-205.1-91.6-205.1-205.1S398.5 306.9 512 306.9 717.1 398.5 717.1 512 625.5 717.1 512 717.1zm213.5-370.7c-26.5 0-47.9-21.4-47.9-47.9s21.4-47.9 47.9-47.9 47.9 21.4 47.9 47.9a47.84 47.84 0 01-47.9 47.9z" />
                     </svg>
                   </a>
@@ -229,9 +230,20 @@ export default function Profile() {
                     <svg
                       viewBox="0 0 512 512"
                       fill="#FF0000"
-                      height="30"
-                      width="30">
+                      height="24"
+                      width="24">
                       <path d="M508.64 148.79c0-45-33.1-81.2-74-81.2C379.24 65 322.74 64 265 64h-18c-57.6 0-114.2 1-169.6 3.6C36.6 67.6 3.5 104 3.5 149 1 184.59-.06 220.19 0 255.79q-.15 53.4 3.4 106.9c0 45 33.1 81.5 73.9 81.5 58.2 2.7 117.9 3.9 178.6 3.8q91.2.3 178.6-3.8c40.9 0 74-36.5 74-81.5 2.4-35.7 3.5-71.3 3.4-107q.34-53.4-3.26-106.9zM207 353.89v-196.5l145 98.2z" />
+                    </svg>
+                  </a>
+                )}
+                {tiktokUrl && (
+                  <a href={tiktokUrl} target="_blank" title="tiktok">
+                    <svg
+                      viewBox="0 0 448 512"
+                      fill="currentColor"
+                      height="24"
+                      width="24">
+                      <path d="M448 209.91a210.06 210.06 0 01-122.77-39.25v178.72A162.55 162.55 0 11185 188.31v89.89a74.62 74.62 0 1052.23 71.18V0h88a121.18 121.18 0 001.86 22.17A122.18 122.18 0 00381 102.39a121.43 121.43 0 0067 20.14z" />
                     </svg>
                   </a>
                 )}
