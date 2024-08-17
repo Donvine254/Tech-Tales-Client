@@ -171,6 +171,7 @@ export default function Slug({ blog }) {
                 id="comments"
                 content="Number of comments in this blog"
                 variant="info"
+                style={{ padding: "2px", fontSize: "12px" }}
               />
             </Link>
             <Link
@@ -187,6 +188,7 @@ export default function Slug({ blog }) {
                 id="blog-likes"
                 content="Number of times this blog has been favorited by readers"
                 variant="info"
+                style={{ padding: "2px", fontSize: "12px" }}
               />
             </Link>
             <p
@@ -197,6 +199,7 @@ export default function Slug({ blog }) {
                 id="blog-views"
                 content="Number of times this blog has been seen by readers"
                 variant="info"
+                style={{ padding: "2px", fontSize: "12px" }}
               />
               <span className="">{formatViews(blog.views)}</span>
             </p>
@@ -221,6 +224,7 @@ export default function Slug({ blog }) {
               id="play-blog"
               content="Listen to this blog narration"
               variant="info"
+              style={{ padding: "2px", fontSize: "12px" }}
             />
             <button
               onClick={() => handleSharing(blog.title, blog.slug)}
@@ -230,6 +234,7 @@ export default function Slug({ blog }) {
                 id="share-blog"
                 content="Share this blog with others"
                 variant="info"
+                style={{ padding: "2px", fontSize: "12px" }}
               />
             </button>
             <Bookmark blogId={blog.id} size={20} />

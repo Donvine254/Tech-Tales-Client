@@ -103,11 +103,13 @@ export default function Bookmark({ blogId, size = 24 }) {
         id="bookmark"
         content="Add this blog to bookmarks"
         variant="info"
+        style={{ padding: "2px", fontSize: "12px" }}
       />
       <Tooltip
         id="un-bookmark"
         content="Remove this blog from bookmarks"
         variant="info"
+        style={{ padding: "2px", fontSize: "12px" }}
       />
     </>
   );

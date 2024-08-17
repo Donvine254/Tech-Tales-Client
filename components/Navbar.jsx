@@ -48,7 +48,7 @@ export default function Navbar() {
               place="bottom"
               content="Write your own blog post!"
               variant="info"
-              effect="solid"
+              style={{ padding: "2px", fontSize: "12px" }}
             />
             Create Post
           </Link>
@@ -114,13 +114,6 @@ export default function Navbar() {
                 <circle cx="12" cy="12" r="10" />
               </svg>
             </Link>
-            {/* <Link
-              href="/register?action=register&user=new"
-              className={` py-2 xsm:py-0.5 px-2 border border-blue-500 hover:bg-blue-500 rounded-md text-xl xsm:hidden cursor-pointer hover:text-white ${
-                user ? "hidden" : ""
-              }`}>
-              Sign Up
-            </Link> */}
           </div>
         )}
 

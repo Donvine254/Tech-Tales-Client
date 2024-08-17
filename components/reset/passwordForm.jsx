@@ -150,6 +150,7 @@ export default function PasswordForm() {
                     content="click here to suggest a strong password"
                     id="suggest-password"
                     variant="info"
+                    style={{ padding: "2px", fontSize: "12px" }}
                   />
                   Suggest Password
                 </span>

@@ -108,6 +108,7 @@ export default function AnimatedLikeBtn({ blogId, setLikes, likes }) {
             : "Add this blog to favorites"
         }
         variant="info"
+        style={{ padding: "2px", fontSize: "12px" }}
       />
     </div>
   );

@@ -57,6 +57,7 @@ export default function Pagination({
             place="bottom"
             content="Go to the previous page"
             variant="info"
+            style={{ padding: "2px", fontSize: "12px" }}
           />
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -83,6 +84,7 @@ export default function Pagination({
             place="bottom"
             content="Go to the next page"
             variant="info"
+            style={{ padding: "2px", fontSize: "12px" }}
           />
           <svg
             xmlns="http://www.w3.org/2000/svg"
