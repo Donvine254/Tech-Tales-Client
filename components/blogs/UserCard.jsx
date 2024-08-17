@@ -38,7 +38,7 @@ export default function UserCard({ author }) {
                 src="https://res.cloudinary.com/dipkbpinx/image/upload/v1723863889/logos/on4c9g21udqs4oqrucdo.png"
                 width={18}
                 height={18}
-                className="h-auto w-auto max-w-[18px] "
+                className="h-auto w-auto max-w-[18px] mb-1 "
                 alt="verification-badge"
               />
             ) : (
@@ -141,7 +141,7 @@ export default function UserCard({ author }) {
       </div>
       <hr className="border border-gray-200" />
       <Link
-        href={`/explore/${author.handle}?status=published&select=all`}
+        href={`/explore/${author.handle}`}
         prefetch
         className="text-sm xsm:text-xs text-blue-500 hover:text-sky-600 hover:underline  my-2 whitespace-nowrap px-2">
         View more posts from{" "}
