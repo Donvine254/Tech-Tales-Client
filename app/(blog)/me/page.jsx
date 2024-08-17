@@ -24,7 +24,7 @@ export default function Profile() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [readingList, setReadingList] = useState([]);
-
+  //use state to store user socials, or just set the user in context
   // Fetch blogs when user data changes
   const fetchBlogs = useCallback(async () => {
     try {
@@ -181,14 +181,8 @@ export default function Profile() {
               onClick={showModal}
               className="bg-gray-100 hover:bg-gray-200 flex items-center justify-center py-0.5 border hover:text-blue-500 px-4 rounded-md w-full gap-2">
               {" "}
-              <svg
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                height="1em"
-                width="1em">
-                <path d="M21.4 7.5c.8.8.8 2.1 0 2.8l-2.8 2.8-7.8-7.8 2.8-2.8c.8-.8 2.1-.8 2.8 0l1.8 1.8 3-3 1.4 1.4-3 3 1.8 1.8m-5.8 5.8l-1.4-1.4-2.8 2.8-2.1-2.1 2.8-2.8-1.4-1.4-2.8 2.8-1.5-1.4-2.8 2.8c-.8.8-.8 2.1 0 2.8l1.8 1.8-4 4 1.4 1.4 4-4 1.8 1.8c.8.8 2.1.8 2.8 0l2.8-2.8-1.4-1.4 2.8-2.9z" />
-              </svg>
-              <p>Add Social Account</p>
+              <span className="text-xl font-bold">+</span>
+              <p>Connect Account</p>
             </button>
             {user.socials && user.socials.length > 0 ? (
               <div className="flex items-center space-y-1 my-2 justify-between gap-2  flex-wrap ">
@@ -260,7 +254,7 @@ export default function Profile() {
                 )}
               </div>
             ) : (
-              <p className="bg-gray-200 p-2 my-2 rounded-md text-blue-500">
+              <p className="bg-gray-200 p-1 my-2 rounded-sm text-blue-600">
                 You have no connected accounts
               </p>
             )}
@@ -384,7 +378,7 @@ export default function Profile() {
                   <div className="flex items-center justify-center py-1">
                     <Clipboard />
                   </div>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 text-center xsm:text-xs">
                     Looks like you have not written any blogs yet! Your
                     published blogs will appear here.
                   </p>
@@ -450,7 +444,7 @@ export default function Profile() {
                       <div className="flex items-center justify-center py-1">
                         <Clipboard />
                       </div>
-                      <p className="text-gray-600 text-center">
+                      <p className="text-gray-600 text-center xsm:text-xs">
                         All clear. Your bookmarked blogs will appear here
                       </p>
                     </div>

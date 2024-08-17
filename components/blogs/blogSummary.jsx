@@ -113,7 +113,7 @@ export default function BlogSummary({ body, show, id }) {
                 className="py-1 w-full bg-gradient-to-r from-blue-400 via-green-400 to-purple-400 shadow shadow-purple-400 text-white relative rounded-full hover:shadow-lg hover:shadow-purple-400 hover:-translate-y-1 transition-transform duration-300"
                 onClick={getBlogSummary}
                 disabled={loading}
-                id="generate-summary">
+                data-tooltip-id="generate-summary">
                 {loading ? (
                   <span className="flex items-center justify-center">
                     <span className="animate-spin mr-2">✨</span> Generating...
@@ -129,7 +129,7 @@ export default function BlogSummary({ body, show, id }) {
                   id="generate-summary"
                   content="Generate blog summary using AI"
                   variant="info"
-                  style={{ padding: "2px" }}
+                  style={{ padding: "2px", backgroundColor: "#4ade80" }}
                 />
               </button>
             </div>
