@@ -37,6 +37,16 @@ export default function Comments({
   const [length, setLength] = useState(0);
   const [isSorted, setIsSorted] = useState(false);
 
+  //function to play notification sound
+  function playSoundEffect() {
+    if (typeof Audio !== "undefined" && Audio) {
+      const sound = new Audio(
+        "https://utfs.io/f/fc748604-514a-4bdf-b406-a3ceee2abeb0-462ej8.mp3"
+      );
+      sound.play();
+    }
+  }
+
   //function to submit comment form
   async function handleSubmit(e) {
     e.preventDefault();
@@ -49,13 +59,14 @@ export default function Comments({
       blogId: blogId,
       body: newComment,
     };
+    const toastId = toast.loading("Processing Request...", {
+      position: "bottom-center",
+    });
     try {
-      const toastId = toast.loading("Processing Request...", {
-        position: "bottom-center",
-      });
       const res = await Axios.post(`${baseUrl}/comments`, commentData);
       const data = await res.data;
       setNewComment("");
+      playSoundEffect();
       setComments((prev) => [...prev, data]);
       setCommentCount((prev) => (prev += 1));
       toast.success("Comment posted successfully");
@@ -64,7 +75,7 @@ export default function Comments({
         error?.response?.data?.error ?? "Invalid data, user and blog must exist"
       );
     } finally {
-      toast.dismiss();
+      toast.dismiss(toastId);
       setIsInputFocused(false);
     }
   }
