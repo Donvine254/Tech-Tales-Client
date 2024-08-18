@@ -42,16 +42,17 @@ export default function CreateNewBlog() {
     }));
     setError("");
   };
-  function saveDraft() {
-    const hasEntries = Object.entries(blogData).some(
-      ([key, value]) =>
-        (key === "title" ||
-          key === "body" ||
-          key === "image" ||
-          key === "tags") &&
-        value.trim() !== ""
-    );
 
+  const hasEntries = Object.entries(blogData).some(
+    ([key, value]) =>
+      (key === "title" ||
+        key === "body" ||
+        key === "image" ||
+        key === "tags") &&
+      value.trim() !== ""
+  );
+
+  function saveDraft() {
     if (!hasEntries) {
       toast.error("Kindly fill the required fields");
     } else if (typeof window !== "undefined") {
@@ -78,13 +79,24 @@ export default function CreateNewBlog() {
         toast.success("Blog draft saved successfully");
       }
     };
+    const handleBeforeUnload = (e) => {
+      e.preventDefault();
+      if (hasEntries && !loading) {
+        const message =
+          "You have unsaved changes. Are you sure you want to leave?";
+        e.returnValue = message; // Standard way to set a return message
+        return message;
+      } else e.returnValue = true;
+    };
     // Add the event listener
     document.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("beforeunload", handleBeforeUnload);
     // Clean up the event listener
     return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [blogData]);
+  }, [blogData, loading, hasEntries]);
 
   async function handleSubmit(e) {
     e.preventDefault();
