@@ -36,8 +36,8 @@ export default function App({ data, handleChange }) {
         name="body"
         init={{
           toolbar_mode: "sliding",
-          menubar: false,
-          height: 500,
+          menubar: true,
+          min_height: 500,
           autocomplete: true,
           toolbar_sticky: true,
           toolbar_sticky_offset: 75,
