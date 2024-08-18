@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { createBlog, slugify } from "@/lib";
 import { Loader, PreviewModal, TagInput, UploadButton } from "@/components";
 import toast from "react-hot-toast";
@@ -23,7 +22,6 @@ export default function CreateNewBlog() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   let count = 0;
-  const router = useRouter();
   const [blogData, setBlogData] = useState({
     title: "",
     image: "",
@@ -84,7 +82,7 @@ export default function CreateNewBlog() {
       if (hasEntries && !loading) {
         const message =
           "You have unsaved changes. Are you sure you want to leave?";
-        e.returnValue = message; // Standard way to set a return message
+        e.returnValue = message;
         return message;
       } else e.returnValue = true;
     };
@@ -213,9 +211,8 @@ export default function CreateNewBlog() {
           </span>
         </div>
         {/* end of alert div */}
-
         <input
-          className=" blog-input-field focus:outline-none text-lg"
+          className=" blog-input-field focus:outline-none text-lg "
           type="text"
           name="title"
           id="title"
@@ -224,6 +221,8 @@ export default function CreateNewBlog() {
           autoComplete="on"
           autoCorrect="on"
           spellCheck="true"
+          pattern="^[a-zA-Z\s]*$"
+          title="numbers and special characters are not allowed"
           onFocus={() => triggerAlert("show")}
           disabled={loading}
           value={blogData?.title}

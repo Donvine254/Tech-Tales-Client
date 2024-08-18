@@ -32,6 +32,9 @@ input[id="username"]:not(:placeholder-shown):invalid,
 input[id="url"]:not(:placeholder-shown):invalid {
   @apply bg-red-100 border-red-500;
 }
+input[id="title"]:not(:placeholder-shown):invalid {
+  @apply border-red-500;
+}
 
 /* Common styles for valid inputs */
 input[type="password"]:not(:placeholder-shown):valid,
@@ -41,6 +44,9 @@ input[id="url"]:not(:placeholder-shown):valid {
   @apply bg-green-100 border-green-500;
 }
 
+input[id="title"]:not(:placeholder-shown):valid {
+  @apply border-green-500;
+}
 .avatar {
   @apply rounded-full w-8 h-8 md:w-10 md:h-10 shadow-md mr-6;
 }
