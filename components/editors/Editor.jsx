@@ -35,16 +35,19 @@ export default function App({ data, handleChange }) {
         }
         name="body"
         init={{
-          height: 500,
           toolbar_mode: "sliding",
-          toolbar_location: "bottom",
           menubar: false,
+          height: 500,
           autocomplete: true,
+          toolbar_sticky: true,
+          toolbar_sticky_offset: 75,
           placeholder: "Start by writing or pasting (Ctrl + V) text here....",
           browser_spellcheck: true,
           contextmenu: false,
           autocomplete: true,
           autosave_interval: "5s",
+          autoresize_overflow_padding: 5,
+          autoresize_bottom_margin: 25,
           plugins: [
             "advlist",
             "autolink",
@@ -67,11 +70,13 @@ export default function App({ data, handleChange }) {
             "help",
             "wordcount",
             "autosave",
+            "autoresize",
+            "template",
           ],
           toolbar:
             "undo redo | blocks | bold italic forecolor underline| align numlist bullist | link image table media pageembed | backcolor  emoticons codesample blockquote| preview removeformat restoredraft",
           content_style:
-            "@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap'); body { font-family: 'Segoe UI'; }",
+            "@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap'); body { font-family: 'Segoe UI'; height: 'auto'; overflow: 'hidden'; }",
           image_advtab: true,
         }}
       />
