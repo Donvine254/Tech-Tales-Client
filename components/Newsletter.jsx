@@ -2,12 +2,21 @@
 import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import SubscribeModal from "./alerts/subscribeModal";
+import { getCookie } from "@/lib/utils";
+import { useUserContext } from "@/providers";
 
 export default function Newsletter() {
+  const user = useUserContext();
   const pathname = usePathname();
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
+    const subscribed = getCookie("subscribed");
+    //do not show the modal to logged in users
+    if (subscribed === "true" || user) {
+      setShowForm(false);
+      return;
+    }
     if (typeof window !== "undefined") {
       const storedStatus = sessionStorage.getItem("subscription_form_status");
       const showPaths = [
