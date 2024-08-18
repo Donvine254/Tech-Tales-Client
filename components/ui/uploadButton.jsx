@@ -61,10 +61,7 @@ export default function UploadButton({ setBlog }) {
         htmlFor="title"
         className="my-2 text-base md:text-xl text-center font-bold text-black">
         Cover Image &nbsp;
-        <small className="text-gray-600 text-sm">
-          (optional, <span className="text-red-500 italic">*Max size 5MB</span>{" "}
-          )
-        </small>
+        <small className="text-red-500 italic text-xs">*Max size 5MB</small>
       </label>
       <div className="flex flex-col md:flex-row md:items-center md:gap-5">
         <div className="relative min-w-0 flex-auto ">
