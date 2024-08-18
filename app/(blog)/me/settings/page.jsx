@@ -13,11 +13,16 @@ import { useUserContext } from "@/providers";
 export default function Page() {
   const user = useUserContext();
   const [acceptCookies, setAcceptCookies] = useState(false);
+  const [subscribed, setSubscribed] = useState(false);
 
   useEffect(() => {
     const cookieConsent = getCookie("acceptCookies");
     if (cookieConsent === "true") {
       setAcceptCookies(true);
+    }
+    const subscribed = getCookie("subscribed");
+    if (subscribed === "true") {
+      setSubscribed(true);
     }
   }, []);
 
@@ -31,7 +36,16 @@ export default function Page() {
       setCookie("acceptCookies", "", -1);
     }
   };
-
+  //function to handle subscribing
+  const handleEmailSubscription = (e) => {
+    const checked = e.target.checked;
+    setSubscribed(checked);
+    if (checked) {
+      setCookie("subscribed", "true", 30);
+    } else {
+      setCookie("subscribed", "", -1);
+    }
+  };
   //function to deactivate user account
   function handleDeactivate() {
     Swal.fire({
@@ -172,6 +186,24 @@ export default function Page() {
           </div>
           <label className="relative inline-flex items-center cursor-pointer">
             <input type="checkbox" value="" className="sr-only peer" />
+            <div className="w-11 h-6 bg-gray-400 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-blue-600"></div>
+          </label>
+        </div>
+        <div className="px-6 py-2 flex items-center justify-between gap-3 text-sm md:text-base space-y-2">
+          <div className="py-1">
+            <h3 className="">Subscribe to Newsletters </h3>
+            <p className="text-sm wrap text-gray-600">
+              We will send you weekly newsletters to keep you in the know.
+            </p>
+          </div>
+          <label className="relative inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              value=""
+              className="sr-only peer"
+              checked={subscribed}
+              onChange={handleEmailSubscription}
+            />
             <div className="w-11 h-6 bg-gray-400 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-blue-600"></div>
           </label>
         </div>
