@@ -1,16 +1,17 @@
 "use client";
+import { setCookie } from "@/lib/utils";
 import Link from "next/link";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 export default function SubscribeModal() {
   const [error, setError] = useState(null);
   let modalTimeout;
+
   function closeModal() {
     const modal = document.getElementById("subscription_form");
     if (modal) {
       modal.classList.remove("show");
-      sessionStorage.setItem("subscription_form_status", "true");
-
+      sessionStorage.setItem("subscription_form_status", true);
       if (modalTimeout) {
         clearTimeout(modalTimeout);
       }
@@ -38,6 +39,7 @@ export default function SubscribeModal() {
     const email = e.target.elements.email.value;
     //send confirmation email
     toast.success("You are in the inner circle!");
+    setCookie("subscribed", "true", 30);
     e.target.reset();
     closeModal();
     sessionStorage.setItem("subscription_form_status", true);
