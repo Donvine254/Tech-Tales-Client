@@ -71,7 +71,6 @@ export default function App({ data, handleChange }) {
             "wordcount",
             "autosave",
             "autoresize",
-            "template",
           ],
           toolbar:
             "undo redo | blocks | bold italic forecolor underline| align numlist bullist | link image table media pageembed | backcolor  emoticons codesample blockquote| preview removeformat restoredraft",

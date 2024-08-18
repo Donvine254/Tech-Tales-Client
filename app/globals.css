@@ -414,3 +414,9 @@ li {
   color: #0891b2;
   transition: transform 0.3s ease, color 0.3s ease;
 }
+/* hide toolbar in small devices */
+@media screen and (max-width: 680px) {
+  .tox-menubar {
+    display: none !important;
+  }
+}
