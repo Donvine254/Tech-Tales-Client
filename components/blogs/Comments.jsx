@@ -413,12 +413,13 @@ export default function Comments({
             </div>
           ))
         ) : (
-          <div className="flex flex-col items-center place-content-center gap-1  p-2 my-2 ">
+          <div className="flex flex-col items-center justify-center gap-1  p-2 my-2 ">
             <Image
               src="/conversation.svg"
-              alt="comment"
-              height={100}
-              width={100}
+              alt="conversation-starter"
+              height={150}
+              width={150}
+              className="italic w-auto max-w-[150px] "
             />
             <p className="font-semibold md:text-lg">
               This thread is open to discussion
