@@ -129,7 +129,7 @@ export default function Comments({
   };
 
   return (
-    <div className="">
+    <div className=" px-2">
       <div className="flex flex-wrap items-center gap-2">
         <h1 className="text-bold text-xl md:text-2xl py-2 font-bold">
           Comments ({commentCount})
@@ -245,7 +245,7 @@ export default function Comments({
                     </p>
                   </div>
                   <div
-                    className="p-3 rounded-r-xl xsm:text-sm rounded-bl-xl border shadow bg-cyan-50 bg-opacity-50  text-extralight"
+                    className="p-3 rounded-r-xl xsm:text-sm rounded-bl-xl border shadow bg-white  text-extralight"
                     id="comment-body">
                     {comment.body ? parse(comment.body) : comment.body}
                   </div>
@@ -413,8 +413,13 @@ export default function Comments({
             </div>
           ))
         ) : (
-          <div className="flex flex-col items-center place-content-center gap-1  p-2 my-2">
-            <Image src="/comment.svg" alt="comment" height={100} width={100} />
+          <div className="flex flex-col items-center place-content-center gap-1  p-2 my-2 ">
+            <Image
+              src="/conversation.svg"
+              alt="comment"
+              height={100}
+              width={100}
+            />
             <p className="font-semibold md:text-lg">
               This thread is open to discussion
             </p>
