@@ -252,7 +252,7 @@ export default function CreateNewBlog() {
           </p>
         ) : null}
 
-        <DynamicEditor data={blogData.body} handleChange={setBlogData} />
+        <DynamicEditor data={blogData} handleChange={setBlogData} />
 
         <div className="flex gap-2 xsm:items-center xsm:justify-between mt-4 transition-all">
           <button

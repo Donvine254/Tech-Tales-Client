@@ -101,7 +101,7 @@ export default function EditBlog({ params }) {
   }
   if (loading === "loading") {
     return (
-      <div className="flex items-center justify-center ">
+      <div className="flex items-center justify-center h-screen">
         <div className="loader"></div>
         Loading Blog...
       </div>
@@ -196,7 +196,7 @@ export default function EditBlog({ params }) {
           </p>
         ) : null}
 
-        <DynamicEditor data={blogData?.body} handleChange={setBlogData} />
+        <DynamicEditor data={blogData} handleChange={setBlogData} />
 
         <div className="flex gap-2 xsm:items-center xsm:justify-between justify-end md:gap-8 mt-4">
           <button

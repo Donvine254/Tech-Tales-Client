@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
-
+import toast from "react-hot-toast";
+import secureLocalStorage from "react-secure-storage";
 export default function App({ data, handleChange }) {
   const editorRef = useRef(null);
   const log = () => {
@@ -9,12 +10,23 @@ export default function App({ data, handleChange }) {
     }
   };
 
+  const autoSave = () => {
+    secureLocalStorage.setItem("draft_blog_data__", JSON.stringify(data));
+    toast.success("Blog draft saved successfully");
+  };
+
   return (
     <div>
       <Editor
         apiKey={process.env.NEXT_PUBLIC_TINY_API_KEY}
         onInit={(evt, editor) => (editorRef.current = editor)}
-        initialValue={data}
+        initialValue={data.body}
+        onKeyDown={(e) => {
+          if (e.key === "s" && (e.ctrlKey || e.metaKey)) {
+            e.preventDefault();
+            autoSave();
+          }
+        }}
         onChange={() =>
           handleChange((prev) => ({
             ...prev,
@@ -32,6 +44,7 @@ export default function App({ data, handleChange }) {
           browser_spellcheck: true,
           contextmenu: false,
           autocomplete: true,
+          autosave_interval: "5s",
           plugins: [
             "advlist",
             "autolink",
@@ -53,9 +66,10 @@ export default function App({ data, handleChange }) {
             "code",
             "help",
             "wordcount",
+            "autosave",
           ],
           toolbar:
-            "undo redo | blocks | bold italic forecolor underline| align numlist bullist | link image table media pageembed | backcolor  emoticons codesample blockquote| preview removeformat",
+            "undo redo | blocks | bold italic forecolor underline| align numlist bullist | link image table media pageembed | backcolor  emoticons codesample blockquote| preview removeformat restoredraft",
           content_style:
             "@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap'); body { font-family: 'Segoe UI'; }",
           image_advtab: true,
