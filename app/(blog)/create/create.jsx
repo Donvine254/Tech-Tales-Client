@@ -59,30 +59,32 @@ export default function CreateNewBlog() {
       toast.success("Draft saved successfully!");
     } else return null;
   }
-  //save draft when user clicks ctrl+s in windows and command + s in mac
+
   useEffect(() => {
     const draftBlogData = secureLocalStorage.getItem("draft_blog_data__");
     if (draftBlogData) {
       setBlogData(JSON.parse(draftBlogData));
     }
   }, []);
-
-  // useEffect(() => {
-  //   const handleKeyDown = (e) => {
-  //     if (e.keyCode === 17 && e.keyCode === 83) {
-  //       e.preventDefault();
-  //       secureLocalStorage.setItem(
-  //         "draft_blog_data__",
-  //         JSON.stringify(blogData)
-  //       );
-  //       toast.success("blog draft saved successfully");
-  //     }
-  //   };
-  //   document.addEventListener("keydown", handleKeyDown);
-  //   return () => {
-  //     document.removeEventListener("keydown", handleKeyDown);
-  //   };
-  // }, [blogData]);
+  //save draft when user clicks ctrl+s in windows and command + s in mac
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "s" && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault();
+        secureLocalStorage.setItem(
+          "draft_blog_data__",
+          JSON.stringify(blogData)
+        );
+        toast.success("Blog draft saved successfully");
+      }
+    };
+    // Add the event listener
+    document.addEventListener("keydown", handleKeyDown);
+    // Clean up the event listener
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [blogData]);
 
   async function handleSubmit(e) {
     e.preventDefault();

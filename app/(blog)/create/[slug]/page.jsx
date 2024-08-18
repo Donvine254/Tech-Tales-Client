@@ -101,8 +101,8 @@ export default function EditBlog({ params }) {
   }
   if (loading === "loading") {
     return (
-      <div className="flex items-center justify-center gap-2 text-xl min-h-[500px]">
-        <Loader />
+      <div className="flex items-center justify-center ">
+        <div className="loader"></div>
         Loading Blog...
       </div>
     );
