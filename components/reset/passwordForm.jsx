@@ -133,7 +133,7 @@ export default function PasswordForm() {
                 />
               </div>
               <div className="flex items-center justify-between gap-2 my-1">
-                <div>
+                <div className="flex items-center  gap-2">
                   <input
                     type="checkbox"
                     className="z-50"

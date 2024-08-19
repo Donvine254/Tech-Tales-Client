@@ -4,17 +4,20 @@ import toast from "react-hot-toast";
 import axiosInstance from "@/axiosConfig";
 import Loader from "../ui/Loader";
 import { baseUrl } from "@/lib";
+import { Tooltip } from "react-tooltip";
+import { generatePassword } from "@/lib/utils";
 import PasswordStrengthMeter from "./passwordMeter";
 
 export default function ResetPasswordModal({ user }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
+  const [showPassword, setShowPassword] = useState(false);
   const [data, setData] = useState({
     currentPassword: "",
     newPassword: "",
     confirmPassword: "",
   });
+
   const handleChange = (event) => {
     setError(null);
     const { name, value } = event.target;
@@ -31,6 +34,15 @@ export default function ResetPasswordModal({ user }) {
         setError(false);
       }
     }
+  };
+
+  //function to suggest password
+  const handleSuggestPassword = () => {
+    const password = generatePassword();
+    setData((prevData) => ({
+      ...prevData,
+      newPassword: password,
+    }));
   };
   async function handleSubmit(e) {
     e.preventDefault();
@@ -60,49 +72,39 @@ export default function ResetPasswordModal({ user }) {
     <dialog
       id="password_reset_modal"
       className="modal backdrop-blur-2xl rounded-xl">
-      <form
-        className="rounded-lg border bg-card text-card-foreground shadow-sm w-full max-w-lg px-6 py-2 max-h-full"
-        method="dialog"
-        onSubmit={handleSubmit}>
-        <div className="flex gap-2 items-center justify-center">
-          <hr className="border border-blue-200 w-1/3" />
-
-          <svg
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            height="60"
-            width="60"
-            className="fill-blue-500">
-            <path d="M12.63 2c5.53 0 10.01 4.5 10.01 10s-4.48 10-10.01 10c-3.51 0-6.58-1.82-8.37-4.57l1.58-1.25C7.25 18.47 9.76 20 12.64 20a8 8 0 008-8 8 8 0 00-8-8C8.56 4 5.2 7.06 4.71 11h2.76l-3.74 3.73L0 11h2.69c.5-5.05 4.76-9 9.94-9m2.96 8.24c.5.01.91.41.91.92v4.61c0 .5-.41.92-.92.92h-5.53c-.51 0-.92-.42-.92-.92v-4.61c0-.51.41-.91.91-.92V9.23c0-1.53 1.25-2.77 2.77-2.77 1.53 0 2.78 1.24 2.78 2.77v1.01m-2.78-2.38c-.75 0-1.37.61-1.37 1.37v1.01h2.75V9.23c0-.76-.62-1.37-1.38-1.37z" />
-          </svg>
-
-          <hr className="border border-blue-200 w-1/3" />
-        </div>
+      <div className="px-2 py-1 bg-gradient-to-r from-green-400 via-cyan-400 to-indigo-400 text-white">
+        <h1 className="font-bold xsm:text-base text-2xl text-center ">
+          Reset Your Password
+        </h1>
         <div className="flex items-center justify-center gap-1">
           <svg viewBox="0 0 24 24" fill="currentColor" height="1em" width="1em">
             <path d="M12 2C6.579 2 2 6.579 2 12s4.579 10 10 10 10-4.579 10-10S17.421 2 12 2zm0 5c1.727 0 3 1.272 3 3s-1.273 3-3 3c-1.726 0-3-1.272-3-3s1.274-3 3-3zm-5.106 9.772c.897-1.32 2.393-2.2 4.106-2.2h2c1.714 0 3.209.88 4.106 2.2C15.828 18.14 14.015 19 12 19s-3.828-.86-5.106-2.228z" />
           </svg>
           <span>{user?.email}</span>
         </div>
-
+      </div>
+      <form
+        className="rounded-lg border bg-card text-card-foreground shadow-sm w-full max-w-md xsm:mx-2 px-6 py-2 max-h-full"
+        method="dialog"
+        onSubmit={handleSubmit}>
         <div>
           <div className="space-y-2">
             <label className="font-semibold" htmlFor="current-password">
               Current Password
             </label>
             <input
-              className={`flex h-10 bg-background text-base disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md ${
+              className={`flex bg-background text-base disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-1 border border-gray-300 rounded-md ${
                 error ? "border-red-500 bg-red-100" : ""
               }`}
               id="current-password"
               name="currentPassword"
-              placeholder="*******"
+              placeholder="********"
               value={data.currentPassword}
               onChange={handleChange}
               minLength={8}
               disabled={loading}
               required
-              type="password"
+              type={showPassword ? "text" : "password"}
             />
           </div>
           <div className="space-y-2">
@@ -110,18 +112,18 @@ export default function ResetPasswordModal({ user }) {
               New Password
             </label>
             <input
-              className={`flex h-10 bg-background text-base disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md ${
+              className={`flex bg-background text-base disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-1 border border-gray-300 rounded-md ${
                 error ? "border-red-500 bg-red-100" : ""
               }`}
               id="new-password"
               name="newPassword"
-              placeholder="*******"
+              placeholder="********"
               value={data.newPassword}
               onChange={handleChange}
               minLength={8}
               disabled={loading}
               required
-              type="password"
+              type={showPassword ? "text" : "password"}
             />
           </div>
           <div className="space-y-2">
@@ -129,19 +131,42 @@ export default function ResetPasswordModal({ user }) {
               Confirm Password
             </label>
             <input
-              className={`flex h-10 bg-background text-base disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-2 border border-gray-300 rounded-md ${
+              className={`flex bg-background text-base disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-1 border border-gray-300 rounded-md ${
                 error ? "border-red-500 bg-red-100" : ""
               }`}
               id="confirm-password"
               name="confirmPassword"
-              placeholder="*******"
+              placeholder="********"
               value={data.confirmPassword}
               onChange={handleChange}
               minLength={8}
               disabled={loading}
               required
-              type="password"
+              type={showPassword ? "text" : "password"}
             />
+          </div>
+          <div className="flex items-center justify-between gap-2 my-1">
+            <div className="flex items-center  gap-2">
+              <input
+                type="checkbox"
+                className="z-50"
+                value={showPassword}
+                onChange={() => setShowPassword(!showPassword)}
+              />
+              <span> {showPassword ? "Hide" : "Show"} Password</span>
+            </div>
+            <span
+              className="text-blue-500 underline cursor-pointer"
+              data-tooltip-id="suggest-password"
+              onClick={handleSuggestPassword}>
+              <Tooltip
+                content="click here to suggest a strong password"
+                id="suggest-password"
+                variant="info"
+                style={{ padding: "2px", fontSize: "12px" }}
+              />
+              Suggest Password
+            </span>
           </div>
           <PasswordStrengthMeter password={data.newPassword} />
           <div className="h-5 min-h-5 max-h-5 space-y-1">

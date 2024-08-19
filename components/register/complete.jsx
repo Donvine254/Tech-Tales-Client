@@ -143,7 +143,7 @@ export default function CompleteRegistration() {
               />
             </div>
             <div className="flex items-center justify-between gap-2">
-              <div>
+              <div className="flex items-center  gap-2">
                 <input
                   type="checkbox"
                   className="z-50"

@@ -128,7 +128,7 @@ export default function LoginPage() {
               />
             </div>
             <div className="xsm:text-sm flex items-center justify-between gap-1 md:gap-4">
-              <div className="flex items-center justify-start gap-1 md:gap-4">
+              <div className="flex items-center justify-start gap-1 md:gap-2">
                 <input
                   type="checkbox"
                   className="z-50"
