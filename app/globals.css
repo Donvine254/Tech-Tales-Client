@@ -24,6 +24,30 @@ body {
   box-sizing: border-box;
 }
 
+/* styling for scrollbar */
+/* Define the styles for all scrollbars */
+
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #3b82f6 #ffffff;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 16px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #3b82f6;
+  border-radius: 10px;
+  border: 3px solid #ffffff;
+}
 /* Common styles for invalid inputs */
 input[type="search"]:not(:placeholder-shown):invalid,
 input[type="password"]:not(:placeholder-shown):invalid,
