@@ -2,7 +2,9 @@
 import { useState, useEffect } from "react";
 import { setCookie, getCookie } from "@/lib/utils";
 import Image from "next/image";
+import { useUserContext } from "@/providers";
 const CookieAlert = () => {
+  const user = useUserContext();
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -24,6 +26,10 @@ const CookieAlert = () => {
     toggleClass();
   };
 
+  if (user) {
+    return null;
+  }
+  
   return (
     <div
       className={`bg-white font-roboto text-sm shadow-md rounded-lg max-w-fit px-4 py-2 relative xsm:w-full xsm:bottom-0 xsm:right-0 cookie-alert ${
