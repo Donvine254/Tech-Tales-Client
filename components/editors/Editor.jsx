@@ -45,7 +45,6 @@ export default function App({ data, handleChange }) {
           browser_spellcheck: true,
           contextmenu: false,
           autocomplete: true,
-          autosave_interval: "5s",
           autoresize_overflow_padding: 5,
           autoresize_bottom_margin: 25,
           plugins: [
@@ -53,6 +52,7 @@ export default function App({ data, handleChange }) {
             "autolink",
             "lists",
             "link",
+            "autolink",
             "image",
             "charmap",
             "preview",
@@ -69,8 +69,8 @@ export default function App({ data, handleChange }) {
             "code",
             "help",
             "wordcount",
-            "autosave",
             "autoresize",
+            "accordion",
           ],
           toolbar:
             "undo redo | blocks | bold italic forecolor underline| align numlist bullist | link image table media pageembed | backcolor  emoticons codesample blockquote| preview removeformat restoredraft",

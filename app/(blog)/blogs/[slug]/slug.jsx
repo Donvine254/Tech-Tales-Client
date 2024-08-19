@@ -18,14 +18,12 @@ import toast from "react-hot-toast";
 import { calculateReadingTime } from "@/lib";
 import { formatDate, formatViews, handleSharing } from "@/lib/utils";
 import { Like, Graph } from "@/assets";
-import hljs from "highlight.js";
-import "highlight.js/styles/github.css";
+import PrismLoader from "@/components/ui/prismLoader";
 import dynamic from "next/dynamic";
 import BlogSummary from "@/components/blogs/blogSummary";
 import { useUserContext } from "@/providers";
 import { Tooltip } from "react-tooltip";
 import Script from "next/script";
-
 const NoSSRComments = dynamic(() => import("@/components/blogs/Comments"), {
   loading: () => (
     <div className="flex items-center justify-center gap-2 text-xl my-2">
@@ -51,13 +49,6 @@ export default function Slug({ blog }) {
     }
   }, [blog, router]);
 
-  useEffect(() => {
-    hljs.highlightAll();
-    document.querySelectorAll(".ql-syntax").forEach((el) => {
-      el.classList.add("language-javascript");
-      hljs.highlightElement(el);
-    });
-  }, []);
   //function to pop-up user card
   function handleMouseEnter() {
     setIsCardVisible(true);
@@ -104,6 +95,7 @@ export default function Slug({ blog }) {
               className="italic h-full w-full  mt-2 border-2 "
             />
           )}
+          {/* script for printing the blog pages */}
           <Script
             src="https://unpkg.com/ink-html/dist/index.js"
             async
@@ -273,6 +265,7 @@ export default function Slug({ blog }) {
           <article
             className="text-base md:text-[18px] leading-8 md:leading-10 mt-3 subpixel-antialiased blog-body"
             id="blog-body">
+            <PrismLoader />
             {blog.body ? parse(blog?.body) : blog.body}
           </article>
           {/* div for sharing */}
