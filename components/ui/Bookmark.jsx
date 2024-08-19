@@ -78,7 +78,7 @@ export default function Bookmark({ blogId, size = 24 }) {
           fill="#22d3ee"
           height={size}
           width={size}
-          className={`bookmark-icon fill-cyan-400 hover:scale-110 stroke-cyan-500 ${
+          className={`bookmark-icon fill-cyan-400 focus:outline-none hover:scale-110 stroke-cyan-500 ${
             isClicked ? "bookmark-icon-clicked" : ""
           }`}
           onClick={handleClick}
@@ -91,7 +91,7 @@ export default function Bookmark({ blogId, size = 24 }) {
           fill="currentColor"
           height={size}
           width={size}
-          className={`bookmark-icon hover:scale-110 ${
+          className={`bookmark-icon focus:outline-none  hover:scale-110 ${
             isClicked ? "bookmark-icon-clicked" : ""
           }`}
           onClick={handleClick}
