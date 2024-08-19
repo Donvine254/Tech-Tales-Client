@@ -20,14 +20,14 @@ export default function Navbar() {
   return (
     <nav className="w-full font-crimson h-20 md:h-16 lg:h-10">
       <div
-        className="p-4 md:px-4 md:py-0 lg:px-4 lg:py-0 bg-[#f4f3f2]  flex w-full items-center justify-between fixed top-0 z-20 flex-wrap mb-2 border-b-2"
+        className="p-4 md:px-4 md:py-0 lg:px-4 lg:py-0 bg-[#f4f3f2]  flex w-full items-center justify-between fixed top-0 z-20 flex-wrap mb-2 border-b"
         id="parent div">
         <Link href="/">
           <h1 className="text-xl md:text-2xl font-semibold lg:text-3xl m-auto cursor-pointer font-roboto">
             TECH
             <span className="text-white bg-cyan-500 px-0.5 rounded-md">
               TALES
-              <span className="text-red-600 text-3xl md:text-5xl">.</span>
+              <span className="text-red-600 text-3xl md:text-6xl">.</span>
             </span>
           </h1>
         </Link>
@@ -41,7 +41,7 @@ export default function Navbar() {
           id="user present">
           <Link
             href="/create"
-            className="hidden md:block py-2 mx-1 px-4 border border-blue-500 hover:bg-gradient-to-r hover:from-indigo-400 hover:via-cyan-500 hover:to-green-400 rounded-md text-xl cursor-pointer hover:text-white shadow-md "
+            className="hidden lg:flex md:items-center py-2 mx-1 px-4 border border-blue-500 hover:bg-gradient-to-r hover:from-indigo-400 hover:via-cyan-500 hover:to-green-400 rounded-md font-extralight cursor-pointer hover:text-white shadow-md gap-3  "
             data-tooltip-id="create-post">
             <Tooltip
               id="create-post"
@@ -50,19 +50,40 @@ export default function Navbar() {
               variant="info"
               style={{ padding: "2px", fontSize: "12px" }}
             />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="">
+              <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+              <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
+            </svg>
             Create Post
           </Link>
           <div className="flex items-center gap-1 relative">
             {user && (
               <>
                 <svg
-                  viewBox="0 0 20 20"
+                  viewBox="0 0 512 512"
                   fill="currentColor"
-                  height="24"
-                  width="24"
+                  height="30"
+                  width="30"
                   data-tooltip-id="notifications"
-                  className="fill-gray-400 hover:bg-gray-300 hover:fill-blue-500 rounded-full p-1 mx-2">
-                  <path d="M4 8a6 6 0 014.03-5.67 2 2 0 113.95 0A6 6 0 0116 8v6l3 2v1H1v-1l3-2V8zm8 10a2 2 0 11-4 0h4z" />
+                  className="stroke-gray-600 focus:outline-none hover:bg-gray-300 rounded-full p-1 mx-2">
+                  <path
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={32}
+                    d="M427.68 351.43C402 320 383.87 304 383.87 217.35 383.87 138 343.35 109.73 310 96c-4.43-1.82-8.6-6-9.95-10.55C294.2 65.54 277.8 48 256 48s-38.21 17.55-44 37.47c-1.35 4.6-5.52 8.71-9.95 10.53-33.39 13.75-73.87 41.92-73.87 121.35C128.13 304 110 320 84.32 351.43 73.68 364.45 83 384 101.61 384h308.88c18.51 0 27.77-19.61 17.19-32.57zM320 384v16a64 64 0 01-128 0v-16"
+                  />
                 </svg>
                 <Tooltip
                   id="notifications"
