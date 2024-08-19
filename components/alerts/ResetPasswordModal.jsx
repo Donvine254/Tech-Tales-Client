@@ -163,7 +163,8 @@ export default function ResetPasswordModal({ user }) {
                 content="click here to suggest a strong password"
                 id="suggest-password"
                 variant="info"
-                style={{ padding: "2px", fontSize: "12px" }}
+                place="bottom"
+                style={{ padding: "4px", fontSize: "12px" }}
               />
               Suggest Password
             </span>
