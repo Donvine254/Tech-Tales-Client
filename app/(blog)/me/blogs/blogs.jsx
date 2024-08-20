@@ -127,14 +127,14 @@ export default function MyBlogsComponent() {
                   href={`/blogs/${blog.slug}`}
                   className="text-base  inline-flex items-center gap-1">
                   <Comment size={20} className="stroke-none fill-gray-400" />
-                  <span>{blog?._count?.comments}</span>
+                  <span className="xsm:text-xs">{blog?._count?.comments}</span>
                 </Link>
                 <Link
                   href={`/blogs/${blog.slug}`}
                   prefetch
                   className="inline-flex items-center gap-0.5 ">
                   <Like className="stroke-gray-400 fill-none" size={20} />
-                  <span className="">{blog.likes}</span>
+                  <span className="xsm:text-xs">{blog.likes}</span>
                 </Link>
                 <Link
                   href={`/blogs/${blog.slug}`}

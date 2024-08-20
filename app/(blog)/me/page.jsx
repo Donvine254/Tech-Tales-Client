@@ -333,17 +333,17 @@ export default function Profile() {
                         </Link>
                       ))}
                     </div>
-                    <article className=" text-gray-500 xsm:text-sm leading-8 line-clamp-2">
+                    <article className=" text-gray-500 xsm:text-xs leading-8 line-clamp-2">
                       {blog.body ? parse(blog.body) : blog.body}
                     </article>
                     <div className="flex items-center justify-between gap-1 space-y-1">
-                      <p className="text-sm  text-black ">
+                      <p className="text-sm xsm:text-xs  text-black ">
                         &#128337;
                         {calculateReadingTime(blog.body)}min{" "}
                         <span className="xsm:hidden">read</span>
                       </p>
                       <p
-                        className={`text-sm inline-flex items-center px-1 rounded-lg border ${
+                        className={`text-sm xsm:text-xs inline-flex items-center px-1 rounded-lg border ${
                           blog.status === "PUBLISHED"
                             ? "text-green-600"
                             : " text-amber-600 "
@@ -362,7 +362,7 @@ export default function Profile() {
                         </svg>
                         <span>{blog.status.toLowerCase()}</span>
                       </p>
-                      <p className="text-sm  inline-flex items-center gap-1">
+                      <p className="text-sm xsm:text-xs inline-flex items-center gap-1">
                         <Comment size={16} />
                         <span>{blog?._count?.comments}</span>
                       </p>
@@ -417,21 +417,21 @@ export default function Profile() {
                           </Link>
                         ))}
                       </div>
-                      <article className=" text-gray-500 leading-8 line-clamp-2">
+                      <article className=" text-gray-500 leading-8 xsm:text-xs line-clamp-2">
                         {blog.body ? parse(blog.body) : blog.body}
                       </article>
                       <div className="flex items-center justify-between gap-1 space-y-1">
                         <p>
-                          <span className="font-medium text-sm capitalize">
+                          <span className="font-medium text-sm xsm:text-xs capitalize">
                             By {blog.author.username}
                           </span>
                         </p>
-                        <p className="text-sm  text-black ">
+                        <p className="text-sm xsm:text-xs text-black ">
                           &#128337;
                           {calculateReadingTime(blog.body)}min{" "}
                           <span className="xsm:hidden">read</span>
                         </p>
-                        <p className="text-sm  inline-flex items-center gap-1">
+                        <p className="text-sm xsm:text-xs  inline-flex items-center gap-1">
                           <Comment size={16} />
                           <span>{blog?._count?.comments}</span>
                         </p>
