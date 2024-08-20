@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import toast from "react-hot-toast";
 import secureLocalStorage from "react-secure-storage";
-export default function App({ data, handleChange }) {
+export default function App({ data, handleChange, onFocus }) {
   const editorRef = useRef(null);
   const log = () => {
     if (editorRef.current) {
@@ -33,6 +33,7 @@ export default function App({ data, handleChange }) {
             body: editorRef.current.getContent(),
           }))
         }
+        onFocus={onFocus}
         name="body"
         init={{
           toolbar_mode: "sliding",

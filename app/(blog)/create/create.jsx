@@ -22,6 +22,7 @@ export default function CreateNewBlog() {
   const user = useUserContext();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showButtons, setShowButtons] = useState(false);
   let count = 0;
   const [blogData, setBlogData] = useState({
     title: "",
@@ -264,8 +265,15 @@ export default function CreateNewBlog() {
             </a>
           </p>
         ) : null}
-        <DynamicEditor data={blogData} handleChange={setBlogData} />
-        <div className="flex gap-2 xsm:items-center xsm:justify-between mt-4 transition-all justify-between bg-white p-4 rounded-md shadow">
+        <DynamicEditor
+          data={blogData}
+          handleChange={setBlogData}
+          onFocus={() => setShowButtons(true)}
+        />
+        <div
+          className={`flex gap-2 xsm:items-center xsm:justify-between mt-4 transition-all justify-between bg-white p-4 rounded-md shadow border ${
+            !showButtons ? "hidden" : ""
+          }`}>
           {!loading && (
             <div className="flex items-center gap-2">
               <button
@@ -328,7 +336,7 @@ export default function CreateNewBlog() {
           <button
             type="submit"
             disabled={loading}
-            className="text-gray-600 border border-gray-600 disabled:bg-gray-200 disabled:text-black px-2 md:px-4 rounded-lg hover:bg-blue-500 hover:text-white w-36"
+            className="text-gray-600 border py-1 disabled:bg-gray-200 disabled:text-black px-2 md:px-4 rounded-lg hover:bg-blue-500 hover:text-white w-36"
             title="submit">
             {loading ? (
               <p className="flex items-center gap-x-1 justify-center">
