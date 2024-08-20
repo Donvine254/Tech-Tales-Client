@@ -140,7 +140,7 @@ export default function Comments({
   };
 
   return (
-    <div className=" px-2">
+    <div className=" px-2 ">
       <div className="flex flex-wrap items-center gap-2">
         <h1 className="text-bold text-xl md:text-2xl py-2 font-bold">
           Comments ({commentCount})
@@ -162,11 +162,11 @@ export default function Comments({
         Before you comment please read our{" "}
         <Link
           href="/community"
-          className="text-blue-500 p-1 border rounded-md whitespace-nowrap hover:underline py-1">
+          className="text-blue-500 p-1 border border-blue-500 bg-[#f5f5f5] rounded-md whitespace-nowrap hover:underline py-1">
           community guidelines
         </Link>
       </p>
-      <hr className="text-blue-500" />
+      <hr className="border-blue-500" />
       {user ? (
         <form className="mt-4" id="write-comment">
           <div className="flex gap-2 xsm:gap-1.5">
@@ -247,7 +247,7 @@ export default function Comments({
                         </div>
                       )}
                     </div>
-                    <p className="font-light xsm:text-sm">
+                    <p className="font-light text-sm xsm:text-xs">
                       <span>Published on</span>{" "}
                       <time dateTime={comment?.createdAt}>
                         {" "}
@@ -267,7 +267,7 @@ export default function Comments({
                         <>
                           {/* first scenario where the comment belongs to the user */}
                           <button
-                            className="flex items-center gap-2 text-sm   hover:text-white border px-1 py-0.5 rounded-md hover:bg-blue-500"
+                            className="flex items-center gap-2 text-sm   hover:text-white border   px-1 py-0.5 rounded-md hover:bg-blue-500"
                             title="edit comment"
                             onClick={() => editComment(comment)}>
                             <Edit size={14} />
@@ -275,7 +275,7 @@ export default function Comments({
                           </button>
 
                           <button
-                            className="flex items-center gap-2 text-sm  hover:text-white border px-1 py-0.5 rounded-md hover:bg-red-500"
+                            className="flex items-center gap-2 text-sm  hover:text-white border   px-1 py-0.5 rounded-md hover:bg-red-500"
                             title="delete comment"
                             onClick={() =>
                               deleteComment(comment.id, setComments)
@@ -288,7 +288,7 @@ export default function Comments({
                         <>
                           {/* second scenario where the current user is the author of the blog but not an admin*/}
                           <button
-                            className="flex items-center gap-2 text-sm   hover:text-white border px-1 py-0.5 rounded-md hover:bg-blue-500"
+                            className="flex items-center gap-2 text-sm   hover:text-white border border-white px-1 py-0.5 rounded-md hover:bg-blue-500"
                             title="hide comment"
                             onClick={() =>
                               hideOrFlagComment("HIDDEN", comment.id)
