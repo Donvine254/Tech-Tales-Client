@@ -164,7 +164,7 @@ export default function CreateNewBlog() {
         </p>
       </div>
       <form
-        className="bg-gray-100 border m-auto lg:w-3/4 p-4 md:p-8 rounded-sm relative"
+        className="bg-gray-50  border m-auto lg:w-3/4 p-4 md:p-8 rounded-sm relative"
         onSubmit={handleSubmit}>
         <label
           htmlFor="title"
