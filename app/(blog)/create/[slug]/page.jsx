@@ -113,7 +113,7 @@ export default function EditBlog({ params }) {
       <Script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.2/tsparticles.confetti.bundle.min.js"></Script>
       <div className="w-full bg-[#FDFAE9] border-b-amber-500  border text-center p-2 mb-2 ">
         <p className="text-sm hidden xsm:block">
-          &#x1F6C8; Before you write your blog, please read our{" "}
+          Before you write your blog, please read our{" "}
           <Link
             href="/community"
             className="hover:text-blue-500 font-bold underline">
