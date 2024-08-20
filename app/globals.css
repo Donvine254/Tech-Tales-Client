@@ -34,6 +34,15 @@ body {
   border-radius: 10px;
   border: 3px solid #ffffff;
 }
+/* bold headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+}
 /* Common styles for invalid inputs */
 input[type="search"]:not(:placeholder-shown):invalid,
 input[type="password"]:not(:placeholder-shown):invalid,
