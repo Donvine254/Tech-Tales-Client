@@ -269,7 +269,7 @@ export default function Slug({ blog }) {
             {blog.body ? parse(blog?.body) : blog.body}
           </article>
           {/* div for sharing */}
-          <div className="bg-cyan-200 bg-opacity-40 border py-5 px-2 flex flex-col md:flex-row items-center justify-between rounded-md my-2 font-roboto">
+          <div className="bg-cyan-200 bg-opacity-40 border border-cyan-200 py-5 px-2 flex flex-col md:flex-row items-center justify-between rounded-md my-2 font-roboto">
             <h1 className="font-semibold text-base text-gray-600 md:text-xl">
               Like what you see? Share with a Friend
             </h1>

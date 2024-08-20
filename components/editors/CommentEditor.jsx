@@ -81,6 +81,7 @@ export default function CommentEditor({
         style={{
           display: "flex",
           flexDirection: "column-reverse",
+          backgroundColor: "#f5f5f5",
         }}
         formats={[
           "bold",
