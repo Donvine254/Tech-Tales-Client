@@ -5,9 +5,9 @@ export default function Footer() {
     <footer className="max-w-7xl w-full mx-auto m-2 p-4 divide-blue-500 font-poppins text-xl bg-[#f4f3f2] border shadow">
       <h1 className="p-2 px-4">
         <span className="md:text-xl font-bold">Tech Tales</span>
-        <span className="xsm:text-sm">
+        <span className="xsm:text-xs text-sm md:text-base font-extralight">
           &#x2015; An inclusive social network blog for tech enthusiasts and
-          professionals
+          professionals to share, learn and grow.
         </span>
       </h1>
       <div className="flex flex-wrap md:justify-between md:flex-row align-center md:gap-2">
