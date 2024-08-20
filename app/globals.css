@@ -6,20 +6,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Noto+Sans+Nushu&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Saira:ital,wght@0,100..900;1,100..900&display=swap");
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  color: black;
+  background-color: #d6dbdc;
   scroll-behavior: smooth;
   box-sizing: border-box;
 }
@@ -127,10 +116,14 @@ label {
 .blog-body h1 {
   @apply text-xl my-2 font-bold;
 }
-.blog-body h2,
-h3,
-h4 {
-  @apply font-bold;
+.blog-body h2 {
+  @apply text-lg my-1 font-bold;
+}
+.blog-body h3,
+h4,
+h5,
+h6 {
+  @apply font-bold my-1;
 }
 .blog-body p {
   margin: 14px 0;
@@ -150,11 +143,15 @@ h4 {
   margin-bottom: 0;
 }
 .blog-body pre code {
+  line-height: normal;
+  font-size: 14px !important;
+}
+.blog-body pre:has(code) {
   border-radius: 8px !important;
   width: 100%;
   overflow-x: auto;
   line-height: normal;
-  font-size: 15px !important;
+  font-size: 14px !important;
 }
 
 .blog-body pre:not(:has(code)) {

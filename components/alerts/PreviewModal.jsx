@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import parse from "html-react-parser";
-
+import PrismLoader from "../ui/prismLoader";
 export default function PreviewModal({ blog }) {
   const handleClose = () => {
     const modal = document.getElementById("preview-modal");
@@ -70,6 +70,7 @@ export default function PreviewModal({ blog }) {
           <article
             className="text-sm md:text-base leading-4 mt-3 subpixel-antialiased blog-body"
             id="blog-body">
+            <PrismLoader />
             {blog.body ? parse(blog?.body) : blog.body}
           </article>
         </section>
