@@ -143,28 +143,36 @@ export default function Page() {
   }
   return (
     <div className="font-poppins flex items-center justify-center m-auto xsm:m-2 md:mt-10 ">
-      <div className="bg-gray-50 shadow border-2 py-2 rounded-md">
-        <div className="flex flex-col space-y-1.5 py-1 px-6">
+      <div className="bg-gray-50 shadow border rounded-md">
+        <div className="space-y-2 py-1 px-6 bg-gradient-to-r from-green-400 via-cyan-400 to-indigo-400 text-white rounded-t-md">
           <h3 className="tracking-tight text-xl text-center font-bold md:text-2xl">
             Settings
           </h3>
-          <p className="text-center text-sm md:text-base">
+          <p className="text-center text-sm xsm:text-xs md:text-base">
             Update your details, profile picture, and manage your account.
           </p>
         </div>
         <div className="px-6 py-4 space-y-1">
           <div className="space-y-2 flex items-center justify-between gap-4 text-gray-700">
             <h3 className="text-sm md:text-base">Email address</h3>
-            <p className="break-words text-sm md:text-base">{user?.email}</p>
+            <p className="break-words text-sm xsm:text-xs  md:text-base">
+              {user?.email}
+            </p>
           </div>
           <div className="space-y-2 flex items-center justify-between gap-4 text-gray-700 text-sm md:text-base">
-            <h3 className="hover:text-gray-900 font-semibold">Username</h3>
-            <p className="capitalize">{user?.username}</p>
+            <h3 className="hover:text-gray-900 text-sm md:text-base">
+              Username
+            </h3>
+            <p className="capitalize text-sm xsm:text-xs">{user?.username}</p>
           </div>
           <div className="space-y-2 cursor-pointer flex items-center justify-between gap-4 text-gray-700 ">
             <div onClick={showUpdateModal} className="text-sm md:text-base">
-              <h3>Profile Information</h3>
-              <p onClick={showUpdateModal} className="hover:underline">
+              <h3 className="hover:text-gray-900 text-sm md:text-base">
+                Profile Information
+              </h3>
+              <p
+                onClick={showUpdateModal}
+                className="hover:underline text-sm xsm:text-xs">
                 Edit your profile photo, bio and username
               </p>
             </div>
@@ -178,8 +186,8 @@ export default function Page() {
         </div>
         <div className="px-6 py-2 flex items-center justify-between gap-3 text-sm md:text-base space-y-2">
           <div className="py-1">
-            <h3 className="">Allow Email Notifications </h3>
-            <p className="text-sm wrap text-gray-600">
+            <h3 className="xsm:text-sm">Allow Email Notifications </h3>
+            <p className="text-sm xsm:text-xs  text-gray-600">
               You&apos;ll still receive administrative emails even if this
               setting is off.
             </p>
@@ -191,8 +199,8 @@ export default function Page() {
         </div>
         <div className="px-6 py-2 flex items-center justify-between gap-3 text-sm md:text-base space-y-2">
           <div className="py-1">
-            <h3 className="">Subscribe to Newsletters </h3>
-            <p className="text-sm wrap text-gray-600">
+            <h3 className="xsm:text-sm">Subscribe to Newsletters </h3>
+            <p className="text-sm xsm:text-xs  text-gray-600">
               We will send you weekly newsletters to keep you in the know.
             </p>
           </div>
@@ -209,8 +217,8 @@ export default function Page() {
         </div>
         <div className="px-6 py-1 flex items-center justify-between gap-3 text-sm md:text-base">
           <div className="py-1">
-            <h3 className="">Analytics Report </h3>
-            <p className="text-sm wrap text-gray-600">
+            <h3 className="xsm:text-sm">Analytics Report </h3>
+            <p className="text-sm xsm:text-xs text-gray-600">
               We will send you analytics reports each month.
             </p>
           </div>
@@ -221,8 +229,8 @@ export default function Page() {
         </div>
         <div className="px-6 py-1 flex items-center justify-between gap-3 text-sm md:text-base">
           <div className="py-1">
-            <h3 className="">Enable Cookies </h3>
-            <p className="text-sm wrap text-gray-600">
+            <h3 className="xsm:text-sm">Enable Cookies </h3>
+            <p className="text-sm xsm:text-xs text-gray-600">
               We use cookies to provide you with the best experience.
             </p>
           </div>
@@ -239,12 +247,12 @@ export default function Page() {
         <h2 className="px-6 font-semibold">Danger Zone</h2>
         <div className="items-center px-6 py-2 flex flex-col space-y-4">
           <button
-            className="inline-flex items-center justify-center  font-medium hover:bg-primary/90 h-10 px-4 py-2 w-full border-2   rounded-md hover:bg-cyan-400 hover:text-white"
+            className="inline-flex items-center justify-center  font-medium h-10 px-4 py-2 w-full border-2 bg-cyan-50 border-cyan-400 rounded-md hover:bg-cyan-400 hover:text-white"
             onClick={showPasswordResetModal}>
             Change Password
           </button>
           <button
-            className="inline-flex items-center justify-center  font-medium hover:bg-primary/90 h-10 px-4 py-2 w-full bg-[#FDFAE9] border-2 border-amber-500  rounded-md hover:bg-amber-400 hover:text-white"
+            className="inline-flex items-center justify-center  font-medium  h-10 px-4 py-2 w-full bg-[#FDFAE9] border-2 border-amber-500  rounded-md hover:bg-amber-500 hover:text-white"
             onClick={handleDeactivate}>
             Deactivate Account
           </button>
