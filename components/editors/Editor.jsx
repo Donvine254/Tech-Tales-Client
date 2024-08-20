@@ -39,7 +39,7 @@ export default function App({ data, handleChange, onFocus }) {
         init={{
           toolbar_mode: "sliding",
           menubar: true,
-          min_height: 500,
+          min_height: 300,
           autocomplete: true,
           toolbar_sticky: true,
           toolbar_sticky_offset: 75,
@@ -64,7 +64,6 @@ export default function App({ data, handleChange, onFocus }) {
             "code",
             "codesample",
             "emoticons",
-            "fullscreen",
             "insertdatetime",
             "media",
             "table",
@@ -75,7 +74,7 @@ export default function App({ data, handleChange, onFocus }) {
             "accordion",
           ],
           toolbar:
-            "undo redo | blocks | fontfamily | bold italic forecolor underline| align numlist bullist | link image table media pageembed | backcolor  emoticons codesample blockquote| preview removeformat restoredraft",
+            "undo redo | blocks | fontfamily | bold italic forecolor underline| align numlist bullist | link image table media | backcolor  emoticons codesample blockquote| preview removeformat",
           content_style:
             "@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap'); body { font-family: 'Segoe UI'; height: 'auto'; overflow: 'hidden'; }",
           image_advtab: true,
