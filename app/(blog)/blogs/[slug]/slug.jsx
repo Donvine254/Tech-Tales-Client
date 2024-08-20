@@ -152,7 +152,7 @@ export default function Slug({ blog }) {
               <></>
             )}
           </div>
-          <div className="flex items-center justify-between xsm:gap-2 md:gap-4  py-2 border-y border-gray-100 shadow-sm my-1">
+          <div className="flex items-center justify-between xsm:gap-2 md:gap-4  py-2 border-y border-slate-300  my-1">
             <Link
               href="#comments"
               className="text-base  inline-flex items-center gap-1"
