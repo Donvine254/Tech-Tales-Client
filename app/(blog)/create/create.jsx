@@ -274,73 +274,74 @@ export default function CreateNewBlog() {
           className={`flex gap-2 xsm:items-center xsm:justify-between mt-4 transition-all justify-between bg-white p-4 rounded-md shadow border ${
             !showButtons ? "hidden" : ""
           }`}>
-          {!loading && (
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={showPreviewModal}
-                disabled={loading}
-                className="flex text-gray-600 items-center justify-center gap-1 px-2 md:px-4 hover:bg-gray-600 hover:text-white rounded-lg py-1 border  disabled:pointer-events-none"
-                data-tooltip-id="preview">
-                <Tooltip
-                  content="see what your blog will look like after publishing"
-                  id="preview"
-                  variant="info"
-                  style={{ padding: "4px" }}
-                />
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round">
-                  <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
-                  <circle cx="12" cy="12" r="3" />
-                </svg>{" "}
-                Preview
-              </button>
-              <button
-                type="button"
-                onClick={saveDraft}
-                disabled={loading}
-                className="text-gray-60 py-1  border  px-2 md:px-4  rounded-lg xsm:w-fit flex items-center md:justify-center gap-1 disabled:bg-gray-200 disabled:text-black disabled:border-gray-200 disabled:pointer-events-none hover:bg-gray-600 hover:text-white 0"
-                data-tooltip-id="draft">
-                <Tooltip
-                  content="save draft and come back later"
-                  id="draft"
-                  variant="info"
-                  style={{ padding: "4px" }}
-                />
-                <svg
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1}
-                  viewBox="0 0 24 24"
-                  height="16"
-                  width="16">
-                  <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z" />
-                  <path d="M17 21v-8H7v8M7 3v5h8" />
-                </svg>
-                <span>
-                  <span className="xsm:hidden">Save</span> Draft
-                </span>
-              </button>
-            </div>
-          )}
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={showPreviewModal}
+              disabled={loading}
+              className="flex text-gray-600 items-center justify-center gap-1 px-2 md:px-4 hover:bg-gray-600 hover:text-white rounded-lg py-1 border  disabled:pointer-events-none"
+              data-tooltip-id="preview">
+              <Tooltip
+                content="see what your blog will look like after publishing"
+                id="preview"
+                variant="info"
+                style={{ padding: "4px" }}
+              />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round">
+                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>{" "}
+              Preview
+            </button>
+            <button
+              type="button"
+              onClick={saveDraft}
+              disabled={loading}
+              className="text-gray-60 py-1  border  px-2 md:px-4  rounded-lg xsm:w-fit flex items-center md:justify-center gap-1  disabled:text-black disabled:border-gray-200 disabled:pointer-events-none hover:bg-gray-600 hover:text-white 0"
+              data-tooltip-id="draft">
+              <Tooltip
+                content="save draft and come back later"
+                id="draft"
+                variant="info"
+                style={{ padding: "4px" }}
+              />
+              <svg
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1}
+                viewBox="0 0 24 24"
+                height="16"
+                width="16">
+                <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z" />
+                <path d="M17 21v-8H7v8M7 3v5h8" />
+              </svg>
+              <span>
+                <span className="xsm:hidden">Save</span> Draft
+              </span>
+            </button>
+          </div>
+
           <button
             type="submit"
             disabled={loading}
-            className="text-gray-600 border py-1 disabled:bg-gray-200 disabled:text-black px-2 md:px-4 rounded-lg hover:bg-blue-500 hover:text-white w-36"
+            className={`text-gray-600 border  disabled:pointer-events-none disabled:text-black px-2 md:px-4 rounded-lg hover:bg-blue-500 hover:text-white w-36 ${
+              !loading ? "py-1" : ""
+            }`}
             title="submit">
             {loading ? (
               <p className="flex items-center gap-x-1 justify-center">
-                <Loader size={20} />
+                <Loader size={16} />
                 <span>Processing...</span>
               </p>
             ) : (
