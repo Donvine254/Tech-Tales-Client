@@ -71,7 +71,7 @@ export default function ResetPasswordModal({ user }) {
   return (
     <dialog
       id="password_reset_modal"
-      className="modal backdrop-blur-2xl rounded-xl">
+      className="backdrop-blur-sm backdrop-blue-500 rounded-md font-segoi  max-w-md xsm:mx-2">
       <div className="px-2 py-1 bg-gradient-to-r from-green-400 via-cyan-400 to-indigo-400 text-white">
         <h1 className="font-bold xsm:text-base text-2xl text-center ">
           Reset Your Password
@@ -83,10 +83,7 @@ export default function ResetPasswordModal({ user }) {
           <span>{user?.email}</span>
         </div>
       </div>
-      <form
-        className="rounded-lg border bg-card text-card-foreground shadow-sm w-full max-w-md xsm:mx-2 px-6 py-2 max-h-full"
-        method="dialog"
-        onSubmit={handleSubmit}>
+      <form className="px-6 py-2" method="dialog" onSubmit={handleSubmit}>
         <div>
           <div className="space-y-2">
             <label className="font-semibold" htmlFor="current-password">
