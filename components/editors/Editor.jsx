@@ -24,6 +24,7 @@ export default function App({ data, handleChange, onFocus }) {
         onKeyDown={(e) => {
           if (e.key === "s" && (e.ctrlKey || e.metaKey)) {
             e.preventDefault();
+            e.target.blur();
             autoSave();
           }
         }}
