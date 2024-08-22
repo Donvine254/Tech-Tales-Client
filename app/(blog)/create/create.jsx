@@ -137,8 +137,7 @@ export default function CreateNewBlog() {
       <Script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.2/tsparticles.confetti.bundle.min.js"></Script>
       <div className="w-full bg-[#FDFAE9] border-b-amber-500  border text-center p-2 mb-2 ">
         <p className="text-sm hidden xsm:block">
-          Before you write your blog, please
-          read our{" "}
+          Before you write your blog, please read our{" "}
           <Link
             href="/community"
             className="hover:text-blue-500 font-bold underline">
@@ -225,8 +224,8 @@ export default function CreateNewBlog() {
           autoComplete="on"
           autoCorrect="on"
           spellCheck="true"
-          pattern="^[a-zA-Z\s]*$"
-          title="numbers and special characters are not allowed"
+          pattern="^[a-zA-Z0-9\s]*$"
+          title="special characters are not allowed"
           onFocus={() => triggerAlert("show")}
           disabled={loading}
           value={blogData?.title}
