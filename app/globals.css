@@ -134,8 +134,10 @@ h6 {
 .blog-body p {
   margin: 14px 0;
 }
-.blog-body p {
-  margin: 14px 0;
+.blog-body p code {
+  background-color: #e8e8e8;
+  font-family: monospace;
+  border-radius: 5px;
 }
 .blog-body a {
   color: #1e40af;
