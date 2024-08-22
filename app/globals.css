@@ -135,9 +135,13 @@ h6 {
   margin: 14px 0;
 }
 .blog-body p code {
-  background-color: #e8e8e8;
+  background-color: #f5f2f0;
   font-family: monospace;
   border-radius: 5px;
+  color: #990069;
+  padding: 0px 5px;
+  text-decoration-line: none !important;
+  font-size: 14px !important;
 }
 .blog-body a {
   color: #1e40af;
@@ -171,6 +175,7 @@ h6 {
   font-size: 15px !important;
   background-color: #f2f2f2 !important;
   padding: 1em;
+  border: 1px solid #ccc !important;
 }
 
 #blog-body ul,
