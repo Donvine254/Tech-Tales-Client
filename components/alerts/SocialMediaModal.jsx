@@ -112,7 +112,7 @@ const SocialMediaModal = ({ user }) => {
                   platform: e.target.value,
                 }))
               }>
-              <option value="" disabled>
+              <option value="" disabled selected hidden>
                 Select Platform
               </option>
               <option value="facebook">Facebook</option>

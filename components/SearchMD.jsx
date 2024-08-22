@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { SearchIcon } from "@/assets";
-
+import { categories } from "@/constants";
 export const SearchMD = () => {
   const [query, setQuery] = useState("");
   const router = useRouter();
@@ -105,16 +105,15 @@ export const SearchMD = () => {
                 }
               }, 100);
             }}
-            className="rounded-xl  py-2 px-6 focus:outline-none border border-blue-500 ">
-            <option value="">All Categories</option>
-            <option value="ai">Artificial Intelligence</option>
-            <option value="react">React</option>
-            <option value="rails">Ruby on Rails</option>
-            <option value="nextjs">Next.js</option>
-            <option value="python">Python</option>
-            <option value="javascript">Javascript</option>
-            <option value="html css">HTML & CSS</option>
-            <option value="host">Hosting</option>
+            className="rounded-xl py-2 px-6 focus:outline-none border border-blue-500 ">
+            <option value="" disabled selected hidden>
+              All Categories
+            </option>
+            {categories.map((cat) => (
+              <option value={cat.value} key={cat.value}>
+                {cat.label}
+              </option>
+            ))}
           </select>
         </div>
       )}

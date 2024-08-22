@@ -147,7 +147,7 @@ export const Search = () => {
                         setCategory(cat.value);
                         setShowDropdown(false);
                         setTimeout(() => {
-                          if (cat.value !== "") {
+                          if (cat.value !== "" && !cat.value) {
                             router.replace(`/search?search=${cat.value}`);
                           }
                         }, 100);

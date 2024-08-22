@@ -9,7 +9,7 @@ export const categories = [
   { value: "css", label: "CSS" },
   { value: "css tricks", label: "CSS Tricks" },
   { value: "caching", label: "Caching" },
-  { value: "database", label: "Database & Designs" },
+  { value: "backend", label: "Database & Designs" },
   { value: "auth", label: "Authentication & Security" },
   { value: "host", label: "Web Hosting" },
   { value: "technology", label: "Technology" },
