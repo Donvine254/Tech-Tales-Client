@@ -56,6 +56,16 @@ export const Search = () => {
     setIsListening(true);
   }
 
+  function handleCategorySelect(value) {
+    setShowDropdown(false);
+    setCategory(value);
+    setTimeout(() => {
+      if (value !== "" && value) {
+        router.replace(`/search?search=${value}`);
+      }
+    }, 100);
+  }
+
   return (
     <div className="hidden md:flex  md:items-center gap-2">
       <form
@@ -131,6 +141,7 @@ export const Search = () => {
           <div className="absolute top-full mt-1 border border-gray-300 rounded w-fit z-10">
             <div className="relative" ref={dropdownRef}>
               <button
+                type="button"
                 onClick={() => setShowDropdownOptions(!showDropdownOptions)}
                 className="rounded-xl flex items-center gap-4 py-2 bg-white p-2 w-64 focus:outline-none justify-between border border-blue-500">
                 {category === ""
@@ -143,15 +154,7 @@ export const Search = () => {
                   {categories.map((cat) => (
                     <div
                       key={cat.value}
-                      onClick={() => {
-                        setCategory(cat.value);
-                        setShowDropdown(false);
-                        setTimeout(() => {
-                          if (cat.value !== "" && !cat.value) {
-                            router.replace(`/search?search=${cat.value}`);
-                          }
-                        }, 100);
-                      }}
+                      onClick={() => handleCategorySelect(cat.value)}
                       className={`flex items-center justify-between p-1 hover:bg-gray-200 rounded-md hover:text-blue-500 cursor-pointer ${
                         category === cat.value ? "text-blue-500" : ""
                       }`}>

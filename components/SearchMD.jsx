@@ -1,7 +1,7 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { SearchIcon } from "@/assets";
+import { SearchIcon, SortDown, SortUp } from "@/assets";
 import { categories } from "@/constants";
 export const SearchMD = () => {
   const [query, setQuery] = useState("");
@@ -9,7 +9,8 @@ export const SearchMD = () => {
   const [isListening, setIsListening] = useState(false);
   const [category, setCategory] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
-
+  const [showDropdownOptions, setShowDropdownOptions] = useState(false);
+  const dropdownRef = useRef(null);
   useEffect(() => {
     if (isListening) {
       const recognition =
@@ -38,6 +39,15 @@ export const SearchMD = () => {
   }
   function startVoiceSearch() {
     setIsListening(true);
+  }
+  function handleCategorySelect(value) {
+    setShowDropdown(false);
+    setCategory(value);
+    setTimeout(() => {
+      if (value !== "" && value) {
+        router.replace(`/search?search=${value}`);
+      }
+    }, 100);
   }
   return (
     <form
@@ -93,28 +103,42 @@ export const SearchMD = () => {
         </svg>
       </div>
       {showDropdown && (
-        <div className="absolute mt-24 w-fit rounded z-10">
-          <select
-            value={category}
-            onChange={(e) => {
-              setCategory(e.target.value);
-              setShowDropdown(false);
-              setTimeout(() => {
-                if (e.target.value !== "") {
-                  router.replace(`/search?search=${e.target.value}`);
-                }
-              }, 100);
-            }}
-            className="rounded-xl py-2 px-6 focus:outline-none border border-blue-500 ">
-            <option value="" disabled selected hidden>
-              All Categories
-            </option>
-            {categories.map((cat) => (
-              <option value={cat.value} key={cat.value}>
-                {cat.label}
-              </option>
-            ))}
-          </select>
+        <div className="absolute mt-1 border border-gray-300 rounded w-4/5 mx-4 z-10 ">
+          <div className="relative" ref={dropdownRef}>
+            <button
+              type="button"
+              onClick={() => setShowDropdownOptions(!showDropdownOptions)}
+              className="rounded-xl flex items-center gap-4 text-sm bg-white p-2 w-full focus:border-blue-500 justify-between border border-blue-500">
+              {category === ""
+                ? "All Categories"
+                : categories.find((cat) => cat.value === category).label}
+              {showDropdownOptions ? <SortUp /> : <SortDown />}
+            </button>
+            {showDropdownOptions && (
+              <div className="absolute mt-2 w-full rounded-md px-2 py-1 bg-white shadow h-56 overflow-auto">
+                {categories.map((cat) => (
+                  <div
+                    key={cat.value}
+                    onClick={() => handleCategorySelect(cat.value)}
+                    className={`flex items-center justify-between p-1 text-xs hover:bg-gray-200 rounded-md hover:text-blue-500 cursor-pointer ${
+                      category === cat.value ? "text-blue-500" : ""
+                    }`}>
+                    <span>{cat.label}</span>
+                    {category === cat.value && (
+                      <svg
+                        fill="none"
+                        viewBox="0 0 15 15"
+                        height="24"
+                        width="24"
+                        className="ml-12">
+                        <path stroke="currentColor" d="M4 7.5L7 10l4-5" />
+                      </svg>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       )}
     </form>
