@@ -82,7 +82,7 @@ export const Search = () => {
             placeholder="Search blogs..."
             autoCorrect="on"
             spellCheck={true}
-            autoComplete="on"
+            autoComplete="search"
             className="rounded-xl bg-gray-50 p-2 pl-8 pr-6 px-4 w-full focus:border-blue-500  text-black focus:outline-none text-xl border-2 border-gray-300   placeholder-gray-600 shadow"
           />
 
