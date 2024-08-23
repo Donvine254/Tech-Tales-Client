@@ -224,8 +224,6 @@ export default function CreateNewBlog() {
           autoComplete="on"
           autoCorrect="on"
           spellCheck="true"
-          pattern="^[a-zA-Z0-9\s]*$"
-          title="special characters are not allowed"
           onFocus={() => triggerAlert("show")}
           disabled={loading}
           value={blogData?.title}

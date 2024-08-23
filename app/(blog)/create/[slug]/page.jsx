@@ -159,8 +159,6 @@ export default function EditBlog({ params }) {
           id="title"
           minLength={30}
           maxLength={80}
-          pattern="^[a-zA-Z0-9\s]*$"
-          title="special characters are not allowed"
           disabled={loading === "submitting"}
           value={blogData?.title}
           onChange={handleTitleChange}
