@@ -111,7 +111,7 @@ export const Search = () => {
             style={{ padding: "4px" }}
           />
           <SearchIcon className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600" />
-          <div class="options" id="options-container"></div>
+          <div className="options" id="options-container"></div>
         </search>
         <div
           className="cursor-pointer border-2 bg-gray-50 hover:bg-cyan-500 hover:text-slate-200 rounded-xl p-2 px-3 m-1 border-gray-300 hover:border-cyan-500 shadow "

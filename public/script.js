@@ -1,16 +1,78 @@
-let options;
+let options = [
+  "ai",
+  "censorship",
+  "governments",
+  "ai regulation",
+  "css",
+  "frontend",
+  "web-dev",
+  "beginner",
+  "webdev",
+  "html",
+  "beginners",
+  "nextjs",
+  "react",
+  "authentication",
+  "otp",
+  "security",
+  "web dev",
+  "programming",
+  "javascript",
+  "python",
+  "c++",
+  "prisma",
+  "postgresql",
+  "backend",
+  "server",
+  "typography",
+  "fonts",
+  "front-end",
+  "gemini",
+  "node",
+  "resources",
+  "jwt",
+  "server-actions",
+  "vercel",
+  "rendering",
+  "forms",
+  "css-frameworks",
+  "video-generation",
+  "deep-fakes",
+  "crime",
+  "css tricks",
+  "developers",
+  "jobs",
+  "chatgpt",
+  "context api",
+  "data flow",
+  "education",
+  "dishonesty",
+  "ruby",
+  "ruby on rails",
+  "hosting",
+  "web service",
+  "fetch",
+  "caching",
+  "revalidate",
+  "recaptcha",
+];
 const fetchOptions = async () =>
   await fetch("https://techtales.vercel.app/api/blogs/tags").then((response) =>
     response.json()
   );
-options = await fetchOptions();
+
+try {
+  const newOptions = await fetchOptions();
+  options = Array.from(new Set([...options, ...newOptions]));
+} catch (error) {
+  console.error("Failed to fetch options:", error);
+}
 
 const input = document.getElementById("combobox-input");
 const optionsContainer = document.getElementById("options-container");
 
 input.addEventListener("input", function () {
   const query = input.value.toLowerCase();
-  console.log(query);
   optionsContainer.innerHTML = ""; // Clear previous options
 
   const filteredOptions = options.filter((option) =>
