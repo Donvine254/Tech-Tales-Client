@@ -1,6 +1,6 @@
 let options;
 const fetchOptions = async () =>
-  await fetch("http://localhost:3000/api/blogs/tags").then((response) =>
+  await fetch("https://techtales.vercel.app/api/blogs/tags").then((response) =>
     response.json()
   );
 options = await fetchOptions();

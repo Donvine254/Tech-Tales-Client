@@ -53,7 +53,7 @@ export const SearchMD = () => {
     <form
       className="py-1 flex items-center justify-center z-99 md:hidden"
       onSubmit={handleSearch}>
-      <div className="relative xsm:mx-2">
+      <search className="relative xsm:mx-2">
         <input
           type="search"
           id="search"
@@ -83,7 +83,7 @@ export const SearchMD = () => {
           />
         </svg>
         <SearchIcon className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 " />
-      </div>
+      </search>
       <div
         className="cursor-pointer border bg-gray-50 hover:bg-blue-500
         hover:text-slate-200 rounded-xl p-2 m-1 h-10 border-gray-300 "
