@@ -39,7 +39,8 @@ export default function App({ data, handleChange, onFocus }) {
         init={{
           toolbar_mode: "sliding",
           menubar: true,
-          min_height: 300,
+          min_height: 400,
+          resize: true,
           autocomplete: true,
           toolbar_sticky: true,
           toolbar_sticky_offset: 75,
