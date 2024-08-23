@@ -1,34 +1,9 @@
-const options = [
-  "ai",
-  "html",
-  "css",
-  "react",
-  "rails",
-  "nextjs",
-  "ruby on rails",
-  "web dev",
-  "backend",
-  "hosting",
-  "python",
-  "javascript",
-  "education",
-  "authentication",
-  "prisma",
-  "crime",
-  "chatgpt",
-  "gemini",
-  "security",
-  "typography",
-  "fonts",
-  "node",
-  "javascript",
-  "vercel",
-  "rendering",
-  "server",
-  "server-actions",
-  "postgresql",
-  "css tricks",
-];
+let options;
+const fetchOptions = async () =>
+  await fetch("http://localhost:3000/api/blogs/tags").then((response) =>
+    response.json()
+  );
+options = await fetchOptions();
 
 const input = document.getElementById("combobox-input");
 const optionsContainer = document.getElementById("options-container");

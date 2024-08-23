@@ -69,7 +69,7 @@ export const Search = () => {
 
   return (
     <div className="hidden md:flex  md:items-center gap-2">
-      <Script src="script.js"></Script>
+      <Script src="script.js" type="module"></Script>
       <form
         className="md:py-2 md:flex md:items-center md:justify-center"
         action="/search/">
