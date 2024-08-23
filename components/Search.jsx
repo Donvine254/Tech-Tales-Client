@@ -4,6 +4,7 @@ import { SearchIcon, SortDown } from "@/assets";
 import { useRouter } from "next/navigation";
 import { categories } from "@/constants";
 import { Tooltip } from "react-tooltip";
+import Script from "next/script";
 
 export const Search = () => {
   const router = useRouter();
@@ -47,11 +48,11 @@ export const Search = () => {
     };
   }, []);
 
-  function handleSearch(e) {
-    e.preventDefault();
-    const value = query.trim();
-    router.replace(`/search?search=${value}`);
-  }
+  // function handleSearch(e) {
+  //   e.preventDefault();
+  //   const value = query.trim();
+  //   router.replace(`/search?search=${value}`);
+  // }
   function startVoiceSearch() {
     setIsListening(true);
   }
@@ -68,21 +69,20 @@ export const Search = () => {
 
   return (
     <div className="hidden md:flex  md:items-center gap-2">
+      <Script src="script.js"></Script>
       <form
-        className="md:py-2 md:flex md:items-center md:justify-center "
-        onSubmit={handleSearch}>
-        <div className="relative">
+        className="md:py-2 md:flex md:items-center md:justify-center"
+        action="/search/">
+        <search className="relative">
           <input
             type="search"
-            id="search-lg"
+            id="combobox-input"
             name="search"
             minLength={2}
             placeholder="Search blogs..."
-            value={query}
             autoCorrect="on"
             spellCheck={true}
             autoComplete="on"
-            onChange={(e) => setQuery(e.target.value)}
             className="rounded-xl bg-gray-50 p-2 pl-8 pr-6 px-4 w-full focus:border-blue-500  text-black focus:outline-none text-xl border-2 border-gray-300   placeholder-gray-600 shadow"
           />
 
@@ -110,9 +110,9 @@ export const Search = () => {
             content="search by voice"
             style={{ padding: "4px" }}
           />
-
           <SearchIcon className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600" />
-        </div>
+          <div class="options" id="options-container"></div>
+        </search>
         <div
           className="cursor-pointer border-2 bg-gray-50 hover:bg-cyan-500 hover:text-slate-200 rounded-xl p-2 px-3 m-1 border-gray-300 hover:border-cyan-500 shadow "
           onClick={() => setShowDropdown(!showDropdown)}>

@@ -455,3 +455,32 @@ li {
     display: none !important;
   }
 }
+
+/* combobox styling */
+.options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  border: 1px solid #d1d5db;
+  max-height: 250px;
+  max-width: 400px;
+  margin: auto;
+  margin-top: 8px;
+  overflow-y: auto;
+  background-color: white;
+  display: none;
+  border-radius: 8px;
+  z-index: 999;
+}
+.option {
+  padding: 8px;
+  cursor: pointer;
+}
+.option:hover {
+  background-color: #f0f0f0;
+}
+.no-options {
+  padding: 8px;
+  color: #999;
+}
