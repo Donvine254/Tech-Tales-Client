@@ -60,25 +60,29 @@ const TagInput = ({ setBlogData, blogTags, title }) => {
     }
     const button = document.getElementById("generateTags");
     button.classList.add("animate-spin");
-    setBlogData((prev) => ({
-      ...prev,
-      tags: "",
-    }));
-    toast.success("Processing...");
     const requestData = {
       message:
         "Tags help search engines categorize and index your content, making it more likely to appear in relevant search results. Tags also help readers to quickly find content related to specific topics or interests. For this blog title, generate four tags and return them as comma separated sentence in this format: 'tag1,tag2, tag3,tag4'. Do not say here are the four tags, just be direct to the point",
       body: title,
     };
-    const data = await generateSummary(requestData);
-    const generatedTags = data.message.split(",").map((tag) => tag.trim());
-    setBlogData((prev) => ({
-      ...prev,
-      tags: data.message,
-    }));
-    toast.success("Tags generated successfully");
-    setShowAIButton(false);
-    button.classList.remove("animate-spin");
+    try {
+      setBlogData((prev) => ({
+        ...prev,
+        tags: "",
+      }));
+      const data = await generateSummary(requestData);
+      const generatedTags = data.message.split(",").map((tag) => tag.trim());
+      setBlogData((prev) => ({
+        ...prev,
+        tags: data.message,
+      }));
+      toast.success("Tags generated successfully");
+      setShowAIButton(false);
+      button.classList.remove("animate-spin");
+    } catch (error) {
+      toast.error("Failed to generate tags");
+      button.classList.remove("animate-spin");
+    }
   }
 
   return (

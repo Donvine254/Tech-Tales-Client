@@ -459,3 +459,7 @@ li {
 .tox .tox-edit-area::before {
   border: 0 !important;
 }
+.tox-promotion {
+  display: none !important;
+  opacity: 0 !important;
+}
