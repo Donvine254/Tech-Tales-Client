@@ -31,8 +31,11 @@ export default function CommentEditor({
         initialValue={data}
         onChange={() => handleChange(editorRef.current.getContent())}
         onFocus={() => setIsInputFocused(true)}
-        onKeyUp={() => setLength(editorRef.current.getContent().length)}
+        onKeyUp={() =>
+          setLength(editorRef.current.getContent({ format: "text" }).length)
+        }
         name="body"
+        isReadOnly={length > 500}
         init={{
           min_height: 100,
           toolbar_location: "bottom",
@@ -51,12 +54,11 @@ export default function CommentEditor({
             "emoticons",
             "fullscreen",
             "insertdatetime",
-            "preview",
           ],
           toolbar:
-            "bold italic underline  forecolor| numlist bullist| blockquote link image |emoticons preview ",
+            "bold italic underline forecolor|numlist bullist|blockquote link image|emoticons",
           content_style:
-            "@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap'); body { font-family: Poppins; height: 'auto'; overflow: 'hidden'; }",
+            "@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap'); body { font-family: Poppins; height: 'auto'; overflow: 'hidden';  }",
           image_advtab: true,
         }}
       />
@@ -111,6 +113,7 @@ export default function CommentEditor({
                   onClick={() => {
                     setIsInputFocused(false);
                     setNewComment("");
+                    setLength(0);
                     setIsEditing(false);
                   }}>
                   Cancel
