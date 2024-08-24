@@ -14,6 +14,8 @@ export const Search = () => {
   const [comboOptions, setComboOptions] = useState(options);
   const [showComboOptions, setShowComboOptions] = useState(false);
   const dropdownRef = useRef(null);
+  const inputRef = useRef(null);
+  const optionsContainerRef = useRef(null);
   useEffect(() => {
     if (isListening) {
       const recognition =
@@ -35,11 +37,19 @@ export const Search = () => {
       recognition.start();
     }
   }, [isListening, router]);
+
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
         setShowDropdown(false);
         setShowDropdownOptions(false);
+      }
+      if (
+        (inputRef.current && !inputRef.current.contains(e.target)) ||
+        (optionsContainerRef.current &&
+          !optionsContainerRef.current.contains(e.target))
+      ) {
+        setShowComboOptions(false);
       }
     };
 
@@ -95,6 +105,7 @@ export const Search = () => {
             id="combobox-input"
             name="search"
             minLength={2}
+            ref={inputRef}
             onInput={handleSearch}
             placeholder="Search blogs..."
             autoCorrect="on"
@@ -131,14 +142,15 @@ export const Search = () => {
           {showComboOptions && (
             <div
               className="absolute top-full left-0 right-0 border border-gray-300 max-h-[250px] max-w-[400px] mx-auto mt-2 overflow-y-auto bg-white block rounded-lg z-50"
-              id="options-container">
+              id="options-container"
+              ref={optionsContainerRef}>
               {comboOptions &&
                 comboOptions?.map((option, index) => (
                   <div
                     key={index}
                     className={`${
                       option === "No Results Found"
-                        ? "p-2 text-[#999]"
+                        ? "p-2 text-[#999] cursor-not-allowed pointer-events-none"
                         : "p-2 cursor-pointer hover:bg-[##f0f0f0]"
                     }`}
                     onClick={() => handleComboSearch(option)}>
