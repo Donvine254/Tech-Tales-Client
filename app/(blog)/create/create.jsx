@@ -22,7 +22,7 @@ export default function CreateNewBlog() {
   const user = useUserContext();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [showButtons, setShowButtons] = useState(true);
+  const [showButtons, setShowButtons] = useState(false);
   let count = 0;
   const [blogData, setBlogData] = useState({
     title: "",
@@ -133,7 +133,6 @@ export default function CreateNewBlog() {
     }
   }
 
-  console.log(blogData);
   return (
     <div className="font-poppins md:mt-9">
       <Script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.2/tsparticles.confetti.bundle.min.js"></Script>
@@ -265,11 +264,11 @@ export default function CreateNewBlog() {
             </a>
           </p>
         ) : null}
-        {/* <DynamicEditor
+        <DynamicEditor
           data={blogData}
           handleChange={setBlogData}
           onFocus={() => setShowButtons(true)}
-        /> */}
+        />
         <div
           className={`flex gap-2 xsm:items-center xsm:justify-between mt-4 transition-all justify-between bg-white p-4 rounded-md shadow border ${
             !showButtons ? "hidden" : ""

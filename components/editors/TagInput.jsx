@@ -15,7 +15,7 @@ const TagInput = ({ setBlogData, blogTags, title }) => {
       addTag(inputValue.trim());
     }
     if (e.key === "Backspace" && !inputValue) {
-      removeTag(tags.length - 1);
+      removeTag(blogTags.length - 1);
     }
   };
 
