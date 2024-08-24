@@ -2,6 +2,7 @@
   "compilerOptions": {
     "paths": {
       "@/*": ["./*"]
-    }
+    },
+    "exclude": ["node_modules", "tinymce"]
   }
 }

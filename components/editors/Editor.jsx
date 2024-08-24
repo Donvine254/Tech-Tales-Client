@@ -18,7 +18,8 @@ export default function App({ data, handleChange, onFocus }) {
   return (
     <div>
       <Editor
-        apiKey={process.env.NEXT_PUBLIC_TINY_API_KEY}
+        tinymceScriptSrc="/tinymce/tinymce.min.js"
+        licenseKey="gpl"
         onInit={(evt, editor) => (editorRef.current = editor)}
         initialValue={data.body}
         onKeyDown={(e) => {

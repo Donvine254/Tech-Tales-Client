@@ -455,3 +455,7 @@ li {
     display: none !important;
   }
 }
+
+.tox .tox-edit-area::before {
+  border: 0 !important;
+}
