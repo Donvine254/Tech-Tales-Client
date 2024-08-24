@@ -114,7 +114,7 @@ export const Search = () => {
             width="1.25rem"
             className="w-5 h-5 text-gray-900 absolute right-1 top-1/2 transform -translate-y-1/2 hover:text-cyan-500 focus:outline-none"
             onClick={startVoiceSearch}
-            aria-description="search by voice"
+            aria-label="search by voice"
             data-tooltip-id="voice-search">
             <path
               d="M3.5 6.5A.5.5 0 014 7v1a4 4 0 008 0V7a.5.5 0 011 0v1a5 5 0 01-4.5 4.975V15h3a.5.5 0 010 1h-7a.5.5 0 010-1h3v-2.025A5 5 0 013 8V7a.5.5 0 01.5-.5z"
@@ -166,7 +166,8 @@ export const Search = () => {
             strokeWidth="1"
             strokeLinecap="round"
             strokeLinejoin="round"
-            data-tooltip-id="category-search">
+            data-tooltip-id="category-search"
+            aria-label="filter blogs by categories">
             <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
             <title>Search by Category</title>
           </svg>

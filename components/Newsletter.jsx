@@ -45,7 +45,7 @@ export default function Newsletter() {
         };
       }
     }
-  }, [pathname]);
+  }, [pathname, user]);
 
   useEffect(() => {
     if (showForm) {
