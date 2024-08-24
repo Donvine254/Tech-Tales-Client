@@ -44,13 +44,6 @@ export const Search = () => {
         setShowDropdown(false);
         setShowDropdownOptions(false);
       }
-      if (
-        (inputRef.current && !inputRef.current.contains(e.target)) ||
-        (optionsContainerRef.current &&
-          !optionsContainerRef.current.contains(e.target))
-      ) {
-        setShowComboOptions(false);
-      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
