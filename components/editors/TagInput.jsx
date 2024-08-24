@@ -55,6 +55,8 @@ const TagInput = ({ setBlogData, blogTags, title }) => {
   async function generateTags() {
     if (!title || title === "") {
       toast.error("Kindly write a title first");
+      setShowAIButton(false);
+      return false;
     }
     setBlogData((prev) => ({
       ...prev,
@@ -110,9 +112,9 @@ const TagInput = ({ setBlogData, blogTags, title }) => {
         }
         className="p-1 mb-1 bg-transparent outline-none  text-lg placeholder-gray-600"
       />
-      {showAIButton && (
+      {showAIButton && title && (
         <button
-          className="flex items-center gap-2  text-sm text-white bg-gradient-to-r from-blue-400 via-green-400 to-purple-400 shadow shadow-purple-400 rounded-md px-1 absolute right-5 "
+          className="flex items-center gap-2  text-sm text-white bg-gradient-to-r from-blue-400 via-green-400 to-purple-400 shadow-2xl shadow-purple-400 rounded-md px-1 absolute right-5 "
           type="button"
           onClick={generateTags}
           data-tooltip-id="generate-tags">
