@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
-
+import { handleImageUpload } from "./index";
 export default function CommentEditor({
   data,
   handleChange,
@@ -60,6 +60,7 @@ export default function CommentEditor({
           content_style:
             "@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap'); body { font-family: Poppins; height: 'auto'; overflow: 'hidden';  }",
           image_advtab: true,
+          images_upload_handler: handleImageUpload,
         }}
       />
       <div
