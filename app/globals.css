@@ -227,6 +227,33 @@ h6 {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
+/* style for blog tag */
+
+.highlight-link-0 {
+  @apply md:hover:bg-pink-50 md:hover:border-pink-400;
+}
+.highlight-link-0 span {
+  @apply text-pink-600;
+}
+.highlight-link-1 {
+  @apply md:hover:bg-green-50 md:hover:border-green-400;
+}
+.highlight-link-1 span {
+  @apply text-green-500;
+}
+.highlight-link-2 {
+  @apply md:hover:bg-blue-50 md:hover:border-blue-400;
+}
+.highlight-link-2 span {
+  @apply text-blue-600;
+}
+.highlight-link-3 {
+  @apply md:hover:bg-red-50 md:hover:border-red-400;
+}
+.highlight-link-3 span {
+  @apply text-red-600;
+}
+
 /* styling for sweetalert */
 .swal2-popup {
   @apply !font-poppins;

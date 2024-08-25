@@ -143,8 +143,9 @@ export default function Slug({ blog }) {
                   <Link
                     key={index}
                     href={`/search?search=${tag.trim()}`}
-                    className="md:px-2 md:py-0.5 text-blue-600 md:bg-transparent md:hover:bg-blue-600 md:hover:text-white cursor-pointer md:border md:border-blue-600 md:rounded-xl">
-                    #{tag.trim()}
+                    className={`md:px-2 md:py-0 text-blue-600 md:bg-transparent    md:border border-transparent md:rounded-full  xsm:text-sm highlight-link-${index}`}>
+                    <span>#</span>
+                    {tag.trim()}
                   </Link>
                 ))}
               </div>
