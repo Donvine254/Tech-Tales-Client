@@ -27,7 +27,9 @@ export default function UploadButton({ setBlog }) {
     if (
       (image !== "" && image.type === "image/png") ||
       image.type === "image/jpg" ||
-      image.type === "image/jpeg"
+      image.type === "image/jpeg" ||
+      image.type === "image/webp" ||
+      image.type === "image/avif"
     ) {
       const newImage = new FormData();
       newImage.append("file", image);
