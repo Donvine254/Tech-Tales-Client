@@ -43,7 +43,7 @@ export default function CreateNewBlog() {
     setError("");
   };
 
-  let hasEntries = Object.entries(blogData).some(
+  const hasEntries = Object.entries(blogData).some(
     ([key, value]) =>
       (key === "title" ||
         key === "body" ||
@@ -66,7 +66,9 @@ export default function CreateNewBlog() {
     if (draftBlogData) {
       setBlogData(JSON.parse(draftBlogData));
     }
+    return () => setLoading(false);
   }, []);
+
   //save draft when user clicks ctrl+s in windows and command + s in mac
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -81,6 +83,9 @@ export default function CreateNewBlog() {
     };
     const handleBeforeUnload = (e) => {
       e.preventDefault();
+      if (loading) {
+        return;
+      }
       if (hasEntries && !loading) {
         const message =
           "You have unsaved changes. Are you sure you want to leave?";
@@ -101,12 +106,12 @@ export default function CreateNewBlog() {
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
-    hasEntries = false;
     if (blogData.title === "" || blogData.body == "") {
       toast.error("Please fill out all the required fields");
       return false;
     }
     setLoading(true);
+    window.removeEventListener("beforeunload", handleBeforeUnload);
     const data = {
       ...blogData,
       authorId: Number(user.id),

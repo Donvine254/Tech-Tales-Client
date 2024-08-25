@@ -145,7 +145,7 @@ label {
 }
 .blog-body a {
   color: #1e40af;
-  text-decoration: underline;
+  text-decoration-line: underline;
 }
 .blog-body p:first-child {
   margin-top: 0;
@@ -156,14 +156,14 @@ label {
 }
 .blog-body pre code {
   line-height: normal;
-  font-size: 14px !important;
+  font-size: 15px !important;
 }
 .blog-body pre:has(code) {
   border-radius: 8px !important;
   width: 100%;
   overflow-x: auto;
   line-height: normal;
-  font-size: 14px !important;
+  font-size: 15px !important;
   border: 1px solid #ccc !important;
 }
 
@@ -213,9 +213,22 @@ label {
   height: auto;
 }
 
-#blog-body blockquote,
-#blog-body pre blockquote {
-  @apply text-base  md:text-lg italic font-semibold text-gray-900 bg-[#f2f2f2] p-4 my-4 shadow border-l-4 md:border-l-8   border-gray-500 leading-relaxed;
+blockquote {
+  background: #f9f9f9;
+  border-left: 10px solid #ccc;
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+  quotes: "\201C""\201D""\2018""\2019";
+}
+blockquote:before {
+  color: #ccc;
+  content: open-quote;
+  font-size: 4em;
+  line-height: 0.1em;
+  vertical-align: -0.4em;
+}
+blockquote p {
+  display: inline;
 }
 #blog-body table,
 #blog-body iframe {
