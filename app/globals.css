@@ -120,19 +120,19 @@ label {
 }
 /* styling for blog body */
 .blog-body h1 {
-  @apply text-xl my-2 font-bold;
+  @apply text-xl md:text-2xl lg:text-[2rem] my-2 font-bold;
 }
 .blog-body h2 {
   @apply text-lg my-1 font-bold;
 }
 .blog-body h3,
-h4,
-h5,
-h6 {
+.blog-body h4,
+.blog-body h5,
+.blog-body h6 {
   @apply font-bold my-1;
 }
 .blog-body p {
-  margin: 14px 0;
+  @apply my-3.5;
 }
 .blog-body p code {
   background-color: #f5f2f0;
