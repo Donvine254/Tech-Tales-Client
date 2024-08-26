@@ -319,76 +319,103 @@ export default function Profile() {
         </div>
         {/* second card */}
         <div className="lg:w-2/3 p-6 space-y-2 bg-gray-50 border shadow rounded-md">
-          <h1 className="text-2xl font-semibold ">My Blogs</h1>
+          <h1 className="text-2xl font-semibold ">Pinned Blogs</h1>
           {loading && (
             <div className="flex items-center justify-center">
               <Loader size={30} />
             </div>
           )}
-          <ul>
+          <div>
             {blogs && blogs.length >= 1 ? (
               <>
-                {blogs.map((blog) => (
-                  <div key={blog.id} className="mb-2">
-                    <Link
-                      href={`/blogs/${blog.slug}`}
-                      className="hover:underline "
-                      prefetch>
-                      <span className="font-semibold  py-1 text-gray-700 hover:text-blue-500 hover:underline">
-                        {blog.title}
-                      </span>
-                    </Link>
-                    <div className="flex gap-2 flex-wrap text-sm">
-                      {blog.tags.split(",").map((tag, index) => (
-                        <Link
-                          key={index}
-                          href={`/search?search=${tag.trim()}`}
-                          className="md:px-2 md:py-0.5 text-blue-600 md:bg-transparent md:hover:bg-blue-600 md:hover:text-white cursor-pointer md:border md:border-blue-600 md:rounded-xl ">
-                          #{tag.trim()}
-                        </Link>
-                      ))}
-                    </div>
-                    <article className=" text-gray-500 xsm:text-xs leading-8 line-clamp-2">
-                      {blog.body ? parse(blog.body) : blog.body}
-                    </article>
-                    <div className="flex items-center justify-between gap-1 space-y-1">
-                      <p className="text-sm xsm:text-xs  text-black ">
-                        &#128337;
-                        {calculateReadingTime(blog.body)}min{" "}
-                        <span className="xsm:hidden">read</span>
-                      </p>
-                      <p
-                        className={`text-sm xsm:text-xs inline-flex items-center px-1 rounded-lg border ${
-                          blog.status === "PUBLISHED"
-                            ? "text-green-600"
-                            : " text-amber-600 "
-                        }`}>
+                {blogs
+                  .sort(() => 0.5 - Math.random())
+                  .slice(0, 5)
+                  .map((blog) => (
+                    <div
+                      key={blog.id}
+                      className="mb-4 mt-2 border-2 rounded-md border-gray-300 p-2 relative">
+                      <button
+                        className="cursor-pointer absolute -top-3 left-2 bg-gray-200 px-4 py-1 rounded-md text-blue-600 font-semibold inline-flex items-center justify-center gap-1 "
+                        disabled={blogs.length <= 1}
+                        title="unpin blog"
+                        onClick={() => {
+                          setBlogs((prev) =>
+                            prev.filter((prevBlog) => prevBlog.id !== blog.id)
+                          );
+                        }}>
                         <svg
-                          viewBox="0 0 220 1000"
-                          fill="currentColor"
-                          className={`text-sm  ${
-                            blog.status === "PUBLISHED"
-                              ? "text-green-600"
-                              : " text-amber-600 "
-                          }`}
-                          height="20"
-                          width="20">
-                          <path d="M110 390c30.667 0 56.667 10.667 78 32s32 47.333 32 78c0 29.333-10.667 55-32 77s-47.333 33-78 33-56.667-11-78-33-32-47.667-32-77c0-30.667 10.667-56.667 32-78s47.333-32 78-32" />
-                        </svg>
-                        <span>{blog.status.toLowerCase()}</span>
-                      </p>
-                      <p className="text-sm xsm:text-xs inline-flex items-center gap-1">
-                        <Comment size={16} />
-                        <span>{blog?._count?.comments}</span>
-                      </p>
-                    </div>
+                          fill="#ef4444"
+                          viewBox="0 0 16 16"
+                          height="1em"
+                          width="1em">
+                          <path d="M9.828.722a.5.5 0 01.354.146l4.95 4.95a.5.5 0 010 .707c-.48.48-1.072.588-1.503.588-.177 0-.335-.018-.46-.039l-3.134 3.134a5.927 5.927 0 01.16 1.013c.046.702-.032 1.687-.72 2.375a.5.5 0 01-.707 0l-2.829-2.828-3.182 3.182c-.195.195-1.219.902-1.414.707-.195-.195.512-1.22.707-1.414l3.182-3.182-2.828-2.829a.5.5 0 010-.707c.688-.688 1.673-.767 2.375-.72a5.922 5.922 0 011.013.16l3.134-3.133a2.772 2.772 0 01-.04-.461c0-.43.108-1.022.589-1.503a.5.5 0 01.353-.146z" />
+                        </svg>{" "}
+                        Pinned
+                      </button>
+                      <div className="p-2 mt-5 border rounded-md shadow">
+                        <Link
+                          href={`/blogs/${blog.slug}`}
+                          className="hover:underline "
+                          prefetch>
+                          <span className="font-semibold  py-1 text-gray-700 hover:text-blue-500 hover:underline">
+                            {blog.title}
+                          </span>
+                        </Link>
 
-                    <hr className="my-2 border-1 border-slate-300" />
-                  </div>
-                ))}
+                        <div className="flex gap-2 flex-wrap text-sm">
+                          {blog.tags.split(",").map((tag, index) => (
+                            <Link
+                              key={index}
+                              href={`/search?search=${tag.trim()}`}
+                              className={` text-blue-500  highlight-tag-${index}`}>
+                              <span>#</span>
+                              {tag.trim()}
+                            </Link>
+                          ))}
+                        </div>
+                        <div className="flex items-center justify-between gap-1 space-y-1">
+                          <p className="text-sm xsm:text-xs  text-black ">
+                            ❤️{blog.likes} likes
+                          </p>
+                          <p className="text-sm xsm:text-xs inline-flex items-center gap-1">
+                            <Comment size={16} />
+                            <span>{blog?._count?.comments} comments</span>
+                          </p>
+
+                          <p
+                            className={`text-sm xsm:text-xs inline-flex items-center r ${
+                              blog.status === "PUBLISHED"
+                                ? "text-green-600"
+                                : " text-amber-600 "
+                            }`}>
+                            <svg
+                              viewBox="0 0 220 1000"
+                              fill="currentColor"
+                              className={`text-sm  ${
+                                blog.status === "PUBLISHED"
+                                  ? "text-green-600"
+                                  : " text-amber-600 "
+                              }`}
+                              height="20"
+                              width="20">
+                              <path d="M110 390c30.667 0 56.667 10.667 78 32s32 47.333 32 78c0 29.333-10.667 55-32 77s-47.333 33-78 33-56.667-11-78-33-32-47.667-32-77c0-30.667 10.667-56.667 32-78s47.333-32 78-32" />
+                            </svg>
+                            <span>{blog.status.toLowerCase()}</span>
+                          </p>
+                          <p className="text-sm xsm:text-xs  text-black ">
+                            &#128337;
+                            {calculateReadingTime(blog.body)}&nbsp;min{" "}
+                            <span className="xsm:hidden">read</span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
               </>
             ) : (
-              !loading && (
+              !loading &&
+              !blogs && (
                 <div>
                   <div className="flex items-center justify-center py-1">
                     <Clipboard />
@@ -400,7 +427,7 @@ export default function Profile() {
                 </div>
               )
             )}
-          </ul>
+          </div>
 
           <h2 className="text-2xl font-semibold  my-2" id="bookmarks">
             Reading List
@@ -427,7 +454,7 @@ export default function Profile() {
                           <Link
                             key={index}
                             href={`/search?search=${tag.trim()}`}
-                            className="md:px-2 md:py-0.5 text-blue-600 md:bg-transparent md:hover:bg-blue-600 md:hover:text-white cursor-pointer md:border md:border-blue-600 md:rounded-xl ">
+                            className="md:px-2 md:py-0 text-blue-600 md:bg-transparent md:hover:bg-blue-600 md:hover:text-white cursor-pointer md:border md:border-blue-600 md:rounded-xl ">
                             #{tag.trim()}
                           </Link>
                         ))}
@@ -443,7 +470,7 @@ export default function Profile() {
                         </p>
                         <p className="text-sm xsm:text-xs text-black ">
                           &#128337;
-                          {calculateReadingTime(blog.body)}min{" "}
+                          {calculateReadingTime(blog.body)} &nbsp;min{" "}
                           <span className="xsm:hidden">read</span>
                         </p>
                         <p className="text-sm xsm:text-xs  inline-flex items-center gap-1">
