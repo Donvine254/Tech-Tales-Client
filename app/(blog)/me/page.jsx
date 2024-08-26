@@ -319,7 +319,6 @@ export default function Profile() {
         </div>
         {/* second card */}
         <div className="lg:w-2/3 p-6 space-y-2 bg-gray-50 border shadow rounded-md">
-          <h1 className="text-2xl font-semibold ">Pinned Blogs</h1>
           {loading && (
             <div className="flex items-center justify-center">
               <Loader size={30} />
@@ -356,9 +355,13 @@ export default function Profile() {
                       <div className="p-2 mt-5 border rounded-md shadow">
                         <Link
                           href={`/blogs/${blog.slug}`}
-                          className="hover:underline "
+                          className={`hover:underline ${
+                            blog.status !== "PUBLISHED"
+                              ? "pointer-events-none text-gray-400"
+                              : ""
+                          }`}
                           prefetch>
-                          <span className="font-semibold  py-1 text-gray-700 hover:text-blue-500 hover:underline">
+                          <span className="font-semibold  py-1 text-gray-700 hover:text-blue-500 ">
                             {blog.title}
                           </span>
                         </Link>
