@@ -298,10 +298,10 @@ export default function Profile() {
             </div>
           )}
           <div>
+            {!loading && <UserStats blogs={blogs} />}
+            <hr />
             {blogs && blogs.length >= 1 ? (
               <>
-                <UserStats blogs={blogs} />
-                <hr />
                 <h2>Pinned Posts</h2>
                 {blogs
                   .sort(() => 0.5 - Math.random())
@@ -407,13 +407,12 @@ export default function Profile() {
                   ))}
               </>
             ) : (
-              !loading &&
-              !blogs && (
+              !loading && (
                 <div>
                   <div className="flex items-center justify-center py-1">
                     <Clipboard />
                   </div>
-                  <p className="text-gray-600 text-center xsm:text-xs">
+                  <p className="text-gray-600 text-center w-2/3 mx-auto xsm:text-xs">
                     Looks like you have not written any blogs yet! Your
                     published blogs will appear here.
                   </p>
