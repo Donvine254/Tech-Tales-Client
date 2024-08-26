@@ -2,14 +2,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { SearchIcon } from "@/assets";
-import { categories } from "@/constants";
+import { categories, options } from "@/constants";
 export const SearchMD = () => {
-  const [query, setQuery] = useState("");
   const router = useRouter();
   const [isListening, setIsListening] = useState(false);
   const [category, setCategory] = useState("");
-
+  const [comboOptions, setComboOptions] = useState(options);
+  const [showComboOptions, setShowComboOptions] = useState(false);
   const modalRef = useRef(null);
+  const inputRef = useRef(null);
+  const optionsContainerRef = useRef(null);
   useEffect(() => {
     if (isListening) {
       const recognition =
@@ -18,7 +20,8 @@ export const SearchMD = () => {
 
       recognition.onresult = (event) => {
         const transcript = event.results[0][0].transcript;
-        setQuery(transcript);
+        const input = document.getElementById("sm-combobox-input");
+        input.value = transcript.trim();
         setIsListening(false);
         router.replace(`/search?search=${transcript.trim()}`);
       };
@@ -32,9 +35,17 @@ export const SearchMD = () => {
   }, [isListening, router]);
 
   function handleSearch(e) {
-    e.preventDefault();
-    const value = query.trim();
-    router.replace(`/search?search=${value}`);
+    const value = e.target.value.toLowerCase();
+    setComboOptions("");
+    const filteredOptions = options.filter((option) =>
+      option.toLowerCase().includes(value)
+    );
+    if (filteredOptions.length > 0) {
+      setShowComboOptions(true);
+      setComboOptions(filteredOptions);
+    } else {
+      setComboOptions(["No Results Found"]);
+    }
   }
   function startVoiceSearch() {
     setIsListening(true);
@@ -53,20 +64,47 @@ export const SearchMD = () => {
       }
     }, 100);
   }
+  const handleComboSearch = (option) => {
+    const input = document.getElementById("sm-combobox-input");
+    input.value = option.trim();
+    input.focus();
+    setShowComboOptions(false);
+  };
+  // close the combobox search if user clicks outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        optionsContainerRef &&
+        !optionsContainerRef.current.contains(e.target) &&
+        inputRef.current &&
+        !inputRef.current.contains(e.target)
+      ) {
+        setShowComboOptions(false);
+        setTimeout(() => {
+          inputRef.current.focus();
+        }, 10);
+      }
+    };
+    //add the event listener
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div>
+    <div className="font-poppins">
       <form
         className="py-1 flex items-center justify-center z-99 md:hidden"
-        onSubmit={handleSearch}>
+        action="/search/">
         <search className="relative xsm:mx-2">
           <input
-            type="search"
-            id="search"
+            id="sm-combobox-input"
             name="search"
             autoCorrect="true"
             placeholder="Search..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            ref={inputRef}
+            onInput={handleSearch}
             className="rounded-xl bg-gray-50 p-2 pl-8 pr-6  xsm:w-full   focus:outline-none border border-gray-300 h-10 focus:border-blue-500 text-black    placeholder-gray-600"
           />
           <svg
@@ -88,6 +126,27 @@ export const SearchMD = () => {
             />
           </svg>
           <SearchIcon className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 " />
+          <div ref={optionsContainerRef}>
+            {showComboOptions && (
+              <div
+                className="absolute top-full left-0 right-0 border border-gray-300 max-h-[250px] max-w-[400px] mx-auto mt-2 overflow-y-auto bg-white block rounded-lg z-50"
+                id="options-container">
+                {comboOptions &&
+                  comboOptions?.map((option, index) => (
+                    <div
+                      key={index}
+                      className={`${
+                        option === "No Results Found"
+                          ? "p-2 text-[#999] cursor-not-allowed pointer-events-none"
+                          : "p-2 cursor-pointer hover:bg-[##f0f0f0]"
+                      }`}
+                      onClick={() => handleComboSearch(option)}>
+                      {option}
+                    </div>
+                  ))}
+              </div>
+            )}
+          </div>
         </search>
         <div
           className="cursor-pointer border bg-gray-50 hover:bg-blue-500
