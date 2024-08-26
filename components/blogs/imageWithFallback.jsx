@@ -1,18 +1,16 @@
 import React, { useState } from "react";
 import Image from "next/image";
 export default function ImageWithFallback({ src, fallbackSrc }) {
-  const [imgSrc, setImgSrc] = useState(src);
+  const [error, setError] = useState(null);
   return (
     <Image
-      src={src}
-      alt="blog-image"
+      src={error ? fallbackSrc : src}
+      alt="blog cover image"
       height={450}
       width={900}
       priority
       className="blog-cover-image italic h-auto max-h-full object-contain w-full  mt-2 border-2 "
-      onError={() => {
-        setImgSrc(fallbackSrc);
-      }}
+      onError={() => setError(true)}
     />
   );
 }
