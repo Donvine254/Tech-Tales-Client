@@ -17,7 +17,7 @@ export async function GET() {
       tagsArray.forEach((tag: string) => uniqueTags.add(tag.toLowerCase()));
     });
 
-    const tagsList = Array.from(uniqueTags);
+    const tagsList = Array.from(uniqueTags).sort();
 
     return NextResponse.json(tagsList);
   } catch (error) {
