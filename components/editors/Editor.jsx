@@ -3,7 +3,7 @@ import { Editor } from "@tinymce/tinymce-react";
 import toast from "react-hot-toast";
 import { handleImageUpload } from "./index";
 import secureLocalStorage from "react-secure-storage";
-import { codesample_languages } from "@/constants";
+import { codeSampleLanguages } from "@/constants";
 export default function App({ data, handleChange, onFocus }) {
   const editorRef = useRef(null);
   const log = () => {
@@ -83,28 +83,7 @@ export default function App({ data, handleChange, onFocus }) {
             "@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap'); body { font-family: 'Segoe UI'; height: 'auto'; overflow: 'hidden'; }",
           image_advtab: true,
           images_upload_handler: handleImageUpload,
-          codesample_languages: [
-            { text: "HTML/XML", value: "haml" },
-            { text: "JavaScript", value: "javascript" },
-            { text: "TypeScript", value: "typescript" },
-            { text: "Json", value: "json" },
-            { text: "CSS", value: "css" },
-            { text: "Bash", value: "bash" },
-            { text: "PHP", value: "php" },
-            { text: "Ruby", value: "ruby" },
-            { text: "Python", value: "python" },
-            { text: "Java", value: "java" },
-            { text: "C", value: "c" },
-            { text: "C#", value: "csharp" },
-            { text: "C++", value: "cpp" },
-            { text: "Go", value: "go" },
-            { text: "Kotlin", value: "kotlin" },
-            { text: "Markdown", value: "markdown" },
-            { text: "PowerShell", value: "powershell" },
-            { text: "SQL", value: "sql" },
-            { text: "Swift", value: "swift" },
-            { text: "YAML", value: "yaml" },
-          ],
+          codesample_languages: codeSampleLanguages
         }}
       />
     </div>

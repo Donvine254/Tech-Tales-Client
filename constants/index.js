@@ -64,11 +64,13 @@ export const options = [
   "web service",
 ];
 
-export const codesample_languages = [
+export const codeSampleLanguages = [
   { text: "HTML/XML", value: "haml" },
   { text: "JavaScript", value: "javascript" },
-  { text: "JavaScript-JSON", value: "json" },
+  { text: "TypeScript", value: "typescript" },
+  { text: "Json", value: "json" },
   { text: "CSS", value: "css" },
+  { text: "Bash", value: "bash" },
   { text: "PHP", value: "php" },
   { text: "Ruby", value: "ruby" },
   { text: "Python", value: "python" },
@@ -76,13 +78,11 @@ export const codesample_languages = [
   { text: "C", value: "c" },
   { text: "C#", value: "csharp" },
   { text: "C++", value: "cpp" },
-  { text: "Bash", value: "bash" },
   { text: "Go", value: "go" },
   { text: "Kotlin", value: "kotlin" },
   { text: "Markdown", value: "markdown" },
   { text: "PowerShell", value: "powershell" },
   { text: "SQL", value: "sql" },
   { text: "Swift", value: "swift" },
-  { text: "TypeScript", value: "typescript" },
   { text: "YAML", value: "yaml" },
 ];
