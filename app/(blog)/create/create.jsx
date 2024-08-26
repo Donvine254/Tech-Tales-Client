@@ -68,7 +68,19 @@ export default function CreateNewBlog() {
     }
     return () => setLoading(false);
   }, []);
-
+  //prevent closing page with unsaved changes
+  const handleBeforeUnload = (e) => {
+    e.preventDefault();
+    if (loading) {
+      return false;
+    }
+    if (hasEntries && !loading) {
+      const message =
+        "You have unsaved changes. Are you sure you want to leave?";
+      e.returnValue = message;
+      return message;
+    } else e.returnValue = true;
+  };
   //save draft when user clicks ctrl+s in windows and command + s in mac
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -80,18 +92,6 @@ export default function CreateNewBlog() {
         );
         toast.success("Blog draft saved successfully");
       }
-    };
-    const handleBeforeUnload = (e) => {
-      e.preventDefault();
-      if (loading) {
-        return;
-      }
-      if (hasEntries && !loading) {
-        const message =
-          "You have unsaved changes. Are you sure you want to leave?";
-        e.returnValue = message;
-        return message;
-      } else e.returnValue = true;
     };
     // Add the event listener
     document.addEventListener("keydown", handleKeyDown);
