@@ -67,6 +67,7 @@ export const options = [
 export const codesample_languages = [
   { text: "HTML/XML", value: "haml" },
   { text: "JavaScript", value: "javascript" },
+  { text: "JavaScript-JSON", value: "json" },
   { text: "CSS", value: "css" },
   { text: "PHP", value: "php" },
   { text: "Ruby", value: "ruby" },
