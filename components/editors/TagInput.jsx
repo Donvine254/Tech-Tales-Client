@@ -99,7 +99,7 @@ const TagInput = ({ setBlogData, blogTags, title }) => {
       {blogTags?.map((tag, index) => (
         <div
           key={index}
-          className={`flex items-center px-2 mb-1 border  rounded-md highlight-tag-${index}`}>
+          className={`flex items-center px-2 mb-1 border border-blue-500  rounded-md highlight-tag-${index}`}>
           <span onClick={() => handleClick(tag, index)}> # {tag}</span>
           <button
             className="ml-2 text-lg font-semibold  hover:text-red-500"
