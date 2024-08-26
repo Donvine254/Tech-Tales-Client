@@ -42,7 +42,17 @@ export const Search = () => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
         setShowDropdown(false);
-        setShowDropdownOptions(false);
+      }
+      if (
+        optionsContainerRef.current &&
+        !optionsContainerRef.current.contains(e.target) &&
+        inputRef.current &&
+        !inputRef.current.contains(e.target)
+      ) {
+        setShowComboOptions(false);
+        setTimeout(() => {
+          inputRef.current.focus();
+        }, 10);
       }
     };
 
@@ -132,26 +142,27 @@ export const Search = () => {
             style={{ padding: "4px" }}
           />
           <SearchIcon className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600" />
-          {showComboOptions && (
-            <div
-              className="absolute top-full left-0 right-0 border border-gray-300 max-h-[250px] max-w-[400px] mx-auto mt-2 overflow-y-auto bg-white block rounded-lg z-50"
-              id="options-container"
-              ref={optionsContainerRef}>
-              {comboOptions &&
-                comboOptions?.map((option, index) => (
-                  <div
-                    key={index}
-                    className={`${
-                      option === "No Results Found"
-                        ? "p-2 text-[#999] cursor-not-allowed pointer-events-none"
-                        : "p-2 cursor-pointer hover:bg-[##f0f0f0]"
-                    }`}
-                    onClick={() => handleComboSearch(option)}>
-                    {option}
-                  </div>
-                ))}
-            </div>
-          )}
+          <div ref={optionsContainerRef}>
+            {showComboOptions && (
+              <div
+                className="absolute top-full left-0 right-0 border border-gray-300 max-h-[250px] max-w-[400px] mx-auto mt-2 overflow-y-auto bg-white block rounded-lg z-50"
+                id="options-container">
+                {comboOptions &&
+                  comboOptions?.map((option, index) => (
+                    <div
+                      key={index}
+                      className={`${
+                        option === "No Results Found"
+                          ? "p-2 text-[#999] cursor-not-allowed pointer-events-none"
+                          : "p-2 cursor-pointer hover:bg-[##f0f0f0]"
+                      }`}
+                      onClick={() => handleComboSearch(option)}>
+                      {option}
+                    </div>
+                  ))}
+              </div>
+            )}
+          </div>
         </search>
         <div
           className="cursor-pointer border-2 bg-gray-50 hover:bg-cyan-500 hover:text-slate-200 rounded-xl p-2 px-3 m-1 border-gray-300 hover:border-cyan-500 shadow "
