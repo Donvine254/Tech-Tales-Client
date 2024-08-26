@@ -87,12 +87,12 @@ export default function Slug({ blog }) {
         <div key={blog.id}>
           {blog.image && (
             <Image
-              src={blog.image}
+              src={`https://res.cloudinary.com/dipkbpinx/image/upload/q_auto:best,l_text:Arial_60_bold:${blog.title},co_rgb:ffffff/v1724694597/lxbbifeejczxxepcdbfo.webp`}
               alt="blog-image"
               height={450}
               width={900}
               priority
-              className="italic h-full w-full  mt-2 border-2 "
+              className="blog-cover-image italic h-auto max-h-full object-contain w-full  mt-2 border-2 "
             />
           )}
           {/* script for printing the blog pages */}

@@ -83,7 +83,28 @@ export default function App({ data, handleChange, onFocus }) {
             "@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap'); body { font-family: 'Segoe UI'; height: 'auto'; overflow: 'hidden'; }",
           image_advtab: true,
           images_upload_handler: handleImageUpload,
-          codesample_languages: codeSampleLanguages
+          file_picker_types: "image",
+          file_picker_callback: (cb, value, meta) => {
+            const input = document.createElement("input");
+            input.setAttribute("type", "file");
+            input.setAttribute("accept", "image/*");
+            input.addEventListener("change", (e) => {
+              const file = e.target.files[0];
+              const reader = new FileReader();
+              reader.addEventListener("load", () => {
+                const id = "blobid" + new Date().getTime();
+                const blobCache = tinymce.activeEditor.editorUpload.blobCache;
+                const base64 = reader.result.split(",")[1];
+                const blobInfo = blobCache.create(id, file, base64);
+                blobCache.add(blobInfo);
+                cb(blobInfo.blobUri(), { title: file.name });
+              });
+              reader.readAsDataURL(file);
+            });
+
+            input.click();
+          },
+          codesample_languages: codeSampleLanguages,
         }}
       />
     </div>

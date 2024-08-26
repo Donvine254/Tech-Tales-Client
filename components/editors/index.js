@@ -6,7 +6,7 @@ export const handleImageUpload = (blobInfo, progress) =>
 
     // Update progress as the image is uploading
     xhr.upload.onprogress = (e) => {
-      progress((e.loaded / e.total) * 100);
+      progress(((e.loaded / e.total) * 100).toFixed(0));
     };
 
     xhr.onload = () => {

@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { createBlog, slugify } from "@/lib";
 import { Loader, PreviewModal, TagInput, UploadButton } from "@/components";
 import toast from "react-hot-toast";
@@ -17,8 +17,6 @@ const DynamicEditor = dynamic(() => import("@/components/editors/Editor"), {
     </div>
   ),
 });
-
-let isSubmitting = false;
 
 export default function CreateNewBlog() {
   const user = useUserContext();
@@ -71,16 +69,18 @@ export default function CreateNewBlog() {
     return () => setLoading(false);
   }, []);
   //handle before unload function
-  const handleBeforeUnload = (e) => {
-    e.preventDefault();
-    if (hasEntries && !loading) {
-      const message =
-        "You have unsaved changes. Are you sure you want to leave?";
-      e.returnValue = message;
-      return message;
-    } else return null;
-  };
-
+  const handleBeforeUnload = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (hasEntries && !loading) {
+        const message =
+          "You have unsaved changes. Are you sure you want to leave?";
+        e.returnValue = message;
+        return message;
+      } else return null;
+    },
+    [hasEntries, loading]
+  );
   //save draft when user clicks ctrl+s in windows and command + s in mac
   useEffect(() => {
     const handleKeyDown = (e) => {
