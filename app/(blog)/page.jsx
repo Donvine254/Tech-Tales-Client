@@ -61,13 +61,14 @@ export default async function HomePage() {
                 {/* div for blog tags */}
                 <div className="py-1">
                   {blog.tags ? (
-                    <div className="flex gap-1 flex-wrap text-sm">
+                    <div className="flex gap-1 flex-wrap text-sm xsm:text-xs">
                       {blog.tags.split(",").map((tag, index) => (
                         <Link
                           key={index}
                           href={`/search?search=${tag.trim()}`}
-                          className="md:px-2 md:py-0.5 text-blue-600 md:bg-transparent md:hover:bg-blue-600 md:hover:text-white cursor-pointer md:border md:border-blue-600 md:rounded-xl ">
-                          #{tag.trim()}
+                          className={` text-blue-500  highlight-tag-${index}`}>
+                          <span>#</span>
+                          {tag.trim()}
                         </Link>
                       ))}
                     </div>

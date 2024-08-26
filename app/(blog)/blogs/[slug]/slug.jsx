@@ -396,7 +396,7 @@ export default function Slug({ blog }) {
                 key={index}
                 href={`/search?search=${tag.trim()}`}
                 className="px-6 py-0.5  bg-gray-50 hover:bg-blue-600 hover:text-white cursor-pointer border w-fit rounded-md">
-                {tag.trim()}
+                <span>#</span> {tag.trim()}
               </Link>
             ))}
           </div>

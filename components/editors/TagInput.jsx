@@ -52,6 +52,16 @@ const TagInput = ({ setBlogData, blogTags, title }) => {
     }));
   };
 
+  function handleClick(tag, index) {
+    setInputValue(tag);
+    removeTag(index);
+    const input = document.getElementById("tag-input");
+    setTimeout(() => {
+      const input = document.getElementById("tag-input");
+      if (input) input.focus();
+    }, 10);
+  }
+
   async function generateTags() {
     if (!title || title === "") {
       toast.error("Kindly write a title first");
@@ -71,7 +81,6 @@ const TagInput = ({ setBlogData, blogTags, title }) => {
         tags: "",
       }));
       const data = await generateSummary(requestData);
-      const generatedTags = data.message.split(",").map((tag) => tag.trim());
       setBlogData((prev) => ({
         ...prev,
         tags: data.message,
@@ -90,10 +99,10 @@ const TagInput = ({ setBlogData, blogTags, title }) => {
       {blogTags?.map((tag, index) => (
         <div
           key={index}
-          className="flex items-center px-2 mb-1  bg-blue-600 text-white rounded-md">
-          {tag}
+          className={`flex items-center px-2 mb-1 border  rounded-md highlight-tag-${index}`}>
+          <span onClick={() => handleClick(tag, index)}> # {tag}</span>
           <button
-            className="ml-2 text-lg font-semibold text-white hover:text-red-500"
+            className="ml-2 text-lg font-semibold  hover:text-red-500"
             onClick={() => removeTag(index)}
             title="remove">
             &times;
@@ -104,6 +113,8 @@ const TagInput = ({ setBlogData, blogTags, title }) => {
       <input
         type="text"
         required
+        name="tag"
+        id="tag-input"
         value={inputValue}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}

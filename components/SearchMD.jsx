@@ -80,9 +80,6 @@ export const SearchMD = () => {
         !inputRef.current.contains(e.target)
       ) {
         setShowComboOptions(false);
-        setTimeout(() => {
-          inputRef.current.focus();
-        }, 10);
       }
     };
     //add the event listener

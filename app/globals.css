@@ -244,10 +244,10 @@ blockquote p {
 /* style for blog tag */
 
 .highlight-link-0 {
-  @apply md:hover:bg-pink-50 md:hover:border-pink-400;
+  @apply md:hover:bg-purple-50 md:hover:border-purple-400;
 }
 .highlight-link-0 span {
-  @apply text-pink-600;
+  @apply text-purple-600;
 }
 .highlight-link-1 {
   @apply md:hover:bg-green-50 md:hover:border-green-400;
@@ -256,16 +256,33 @@ blockquote p {
   @apply text-green-500;
 }
 .highlight-link-2 {
-  @apply md:hover:bg-blue-50 md:hover:border-blue-400;
+  @apply md:hover:bg-cyan-50 md:hover:border-cyan-400;
 }
 .highlight-link-2 span {
-  @apply text-blue-600;
+  @apply text-cyan-600;
 }
 .highlight-link-3 {
-  @apply md:hover:bg-red-50 md:hover:border-red-400;
+  @apply md:hover:bg-pink-50 md:hover:border-pink-400;
 }
 .highlight-link-3 span {
-  @apply text-red-600;
+  @apply text-pink-600;
+}
+/* style for tags in other pages */
+
+.highlight-tag-0 span {
+  @apply text-purple-600;
+}
+
+.highlight-tag-1 span {
+  @apply text-green-500;
+}
+
+.highlight-tag-2 span {
+  @apply text-cyan-600;
+}
+
+.highlight-tag-3 span {
+  @apply text-pink-600;
 }
 
 /* styling for sweetalert */
