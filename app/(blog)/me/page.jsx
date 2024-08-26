@@ -5,7 +5,7 @@ import { handleSignOut, baseUrl } from "@/lib";
 import Image from "next/image";
 import Link from "next/link";
 import Loader from "@/components/ui/Loader";
-import parse from "html-react-parser";
+
 import {
   Clipboard,
   Facebook,
@@ -17,13 +17,13 @@ import { calculateReadingTime } from "@/lib";
 import secureLocalStorage from "react-secure-storage";
 import SocialMediaModal from "@/components/alerts/SocialMediaModal";
 import { useUserContext } from "@/providers";
+import UserStats from "./stats";
 export const dynamic = "auto";
 
 export default function Profile() {
   const user = useUserContext();
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [readingList, setReadingList] = useState([]);
   //use state to store user socials, or just set the user in context
   // Fetch blogs when user data changes
   const fetchBlogs = useCallback(async () => {
@@ -43,35 +43,6 @@ export default function Profile() {
   useEffect(() => {
     fetchBlogs();
   }, [fetchBlogs]);
-  //useEffect to get user reading list
-  useEffect(() => {
-    const localStorageData = secureLocalStorage.getItem("bookmarked_blogs");
-    const bookmarkedBlogs = localStorageData
-      ? JSON.parse(localStorageData)
-      : {};
-    const bookmarkedBlogIds = Object.keys(bookmarkedBlogs).filter(
-      (id) => bookmarkedBlogs[id]
-    );
-    (async () => {
-      try {
-        if (bookmarkedBlogs) {
-          const response = await fetch(`${baseUrl}/my-blogs`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ blogIds: bookmarkedBlogIds }),
-          });
-          const data = await response.json();
-          setReadingList(data);
-          setLoading(false);
-        }
-      } catch (error) {
-        console.error("Error fetching bookmarked blogs:", error);
-        setLoading(false);
-      }
-    })();
-  }, []);
 
   if (!user) {
     return (
@@ -191,6 +162,7 @@ export default function Profile() {
                 </Link>
               </div>
             )}
+            {/* <Link href="/me/bookmarks">Reading List</Link> */}
             <p className="font-bold">Connected Accounts</p>
             <button
               onClick={showModal}
@@ -318,6 +290,7 @@ export default function Profile() {
           <SocialMediaModal user={user} />
         </div>
         {/* second card */}
+
         <div className="lg:w-2/3 p-6 space-y-2 bg-gray-50 border shadow rounded-md">
           {loading && (
             <div className="flex items-center justify-center">
@@ -327,6 +300,9 @@ export default function Profile() {
           <div>
             {blogs && blogs.length >= 1 ? (
               <>
+                <UserStats blogs={blogs} />
+                <hr />
+                <h2>Pinned Posts</h2>
                 {blogs
                   .sort(() => 0.5 - Math.random())
                   .slice(0, 5)
@@ -445,11 +421,11 @@ export default function Profile() {
               )
             )}
           </div>
-
+          {/* 
           <h2 className="text-2xl font-semibold  my-2" id="bookmarks">
             Reading List
-          </h2>
-          {loading ? (
+          </h2> */}
+          {/* {loading ? (
             <div className="flex items-center justify-center">
               <Loader size={30} />
             </div>
@@ -509,7 +485,7 @@ export default function Profile() {
                     </div>
                   )}
             </ul>
-          )}
+          )} */}
         </div>
       </div>
     </div>

@@ -13,7 +13,6 @@ import {
 import parse from "html-react-parser";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 import toast from "react-hot-toast";
 import { calculateReadingTime } from "@/lib";
 import { formatDate, formatViews, handleSharing } from "@/lib/utils";
