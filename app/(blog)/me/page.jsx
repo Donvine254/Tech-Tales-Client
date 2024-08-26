@@ -336,7 +336,7 @@ export default function Profile() {
                       key={blog.id}
                       className="mb-4 mt-2 border-2 rounded-md border-gray-300 p-2 relative">
                       <button
-                        className="cursor-pointer absolute -top-3 left-2 bg-gray-200 px-4 py-1 rounded-md text-blue-600 font-semibold inline-flex items-center justify-center gap-1 "
+                        className="cursor-pointer absolute -top-3 left-2 bg-gray-200 px-4 py-0.5 rounded-md text-blue-600 font-semibold inline-flex items-center justify-center gap-1 "
                         disabled={blogs.length <= 1}
                         title="unpin blog"
                         onClick={() => {
@@ -375,8 +375,22 @@ export default function Profile() {
                           ))}
                         </div>
                         <div className="flex items-center justify-between gap-1 space-y-1">
-                          <p className="text-sm xsm:text-xs  text-black ">
-                            ❤️{blog.likes} likes
+                          <p className="text-sm xsm:text-xs inline-flex items-center   text-black ">
+                            <svg
+                              viewBox="0 0 512 512"
+                              fill="#ef4444"
+                              height="1.5em"
+                              width="1.5em">
+                              <path
+                                fill="none"
+                                stroke="currentColor"
+                                strokeMiterlimit={10}
+                                strokeWidth={2}
+                                d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z"
+                              />
+                              <path d="M256 360a16 16 0 01-9-2.78c-39.3-26.68-56.32-45-65.7-56.41-20-24.37-29.58-49.4-29.3-76.5.31-31.06 25.22-56.33 55.53-56.33 20.4 0 35 10.63 44.1 20.41a6 6 0 008.72 0c9.11-9.78 23.7-20.41 44.1-20.41 30.31 0 55.22 25.27 55.53 56.33.28 27.1-9.31 52.13-29.3 76.5-9.38 11.44-26.4 29.73-65.7 56.41A16 16 0 01256 360z" />
+                            </svg>
+                            {blog.likes} likes
                           </p>
                           <p className="text-sm xsm:text-xs inline-flex items-center gap-1">
                             <Comment size={16} />
