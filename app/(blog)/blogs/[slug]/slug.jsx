@@ -24,6 +24,7 @@ import BlogSummary from "@/components/blogs/blogSummary";
 import { useUserContext } from "@/providers";
 import { Tooltip } from "react-tooltip";
 import Script from "next/script";
+import ImageWithFallback from "../../../../components/blogs/imageWithFallback";
 const NoSSRComments = dynamic(() => import("@/components/blogs/Comments"), {
   loading: () => (
     <div className="flex items-center justify-center gap-2 text-xl my-2">
@@ -86,13 +87,9 @@ export default function Slug({ blog }) {
       {blog ? (
         <div key={blog.id}>
           {blog.image && (
-            <Image
-              src={`https://res.cloudinary.com/dipkbpinx/image/upload/q_auto:best,l_text:Arial_60_bold:${blog.title},co_rgb:ffffff/v1724694597/lxbbifeejczxxepcdbfo.webp`}
-              alt="blog-image"
-              height={450}
-              width={900}
-              priority
-              className="blog-cover-image italic h-auto max-h-full object-contain w-full  mt-2 border-2 "
+            <ImageWithFallback
+              src={blog.image}
+              fallbackSrc={`https://res.cloudinary.com/dipkbpinx/image/upload/b_rgb:f9efef,e_auto_color,f_auto,q_100/c_fit,g_center,l_text:Arial_60_bold:${blog.title},co_rgb:ffffff,w_2000,x_50,y_-100/v1724694597/lxbbifeejczxxepcdbfo.webp`}
             />
           )}
           {/* script for printing the blog pages */}
