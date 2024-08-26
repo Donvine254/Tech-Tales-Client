@@ -103,6 +103,7 @@ const TagInput = ({ setBlogData, blogTags, title }) => {
 
       <input
         type="text"
+        required
         value={inputValue}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}

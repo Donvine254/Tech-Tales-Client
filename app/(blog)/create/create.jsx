@@ -18,6 +18,8 @@ const DynamicEditor = dynamic(() => import("@/components/editors/Editor"), {
   ),
 });
 
+let isSubmitting = false;
+
 export default function CreateNewBlog() {
   const user = useUserContext();
   const [loading, setLoading] = useState(false);
@@ -68,19 +70,17 @@ export default function CreateNewBlog() {
     }
     return () => setLoading(false);
   }, []);
-  //prevent closing page with unsaved changes
+  //handle before unload function
   const handleBeforeUnload = (e) => {
     e.preventDefault();
-    if (loading) {
-      return false;
-    }
     if (hasEntries && !loading) {
       const message =
         "You have unsaved changes. Are you sure you want to leave?";
       e.returnValue = message;
       return message;
-    } else e.returnValue = true;
+    } else return null;
   };
+
   //save draft when user clicks ctrl+s in windows and command + s in mac
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -95,13 +95,15 @@ export default function CreateNewBlog() {
     };
     // Add the event listener
     document.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("beforeunload", handleBeforeUnload);
+    if (blogData.title && !loading) {
+      window.addEventListener("beforeunload", handleBeforeUnload);
+    }
     // Clean up the event listener
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [blogData, loading, hasEntries]);
+  }, [blogData, loading, handleBeforeUnload]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -116,7 +118,7 @@ export default function CreateNewBlog() {
       ...blogData,
       authorId: Number(user.id),
     };
-    createBlog(data, setLoading, setError);
+    createBlog(data, setLoading, setError, handleBeforeUnload);
   }
   //function to trigger alert
   function triggerAlert(command) {
