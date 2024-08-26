@@ -3,6 +3,7 @@ import { Editor } from "@tinymce/tinymce-react";
 import toast from "react-hot-toast";
 import { handleImageUpload } from "./index";
 import secureLocalStorage from "react-secure-storage";
+import { codesample_languages } from "@/constants";
 export default function App({ data, handleChange, onFocus }) {
   const editorRef = useRef(null);
   const log = () => {
@@ -82,6 +83,7 @@ export default function App({ data, handleChange, onFocus }) {
             "@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap'); body { font-family: 'Segoe UI'; height: 'auto'; overflow: 'hidden'; }",
           image_advtab: true,
           images_upload_handler: handleImageUpload,
+          codesample_languages: codesample_languages,
         }}
       />
     </div>

@@ -14,6 +14,13 @@ import "prismjs/components/prism-ruby";
 import "prismjs/components/prism-php";
 import "prismjs/components/prism-haml";
 import "prismjs/components/prism-markup";
+import "prismjs/components/prism-bash";
+import "prismjs/components/prism-go";
+import "prismjs/components/prism-kotlin";
+import "prismjs/components/prism-powershell";
+import "prismjs/components/prism-swift";
+import "prismjs/components/prism-yaml";
+import "prismjs/components/prism-sql";
 
 export default function PrismLoader() {
   useEffect(() => {
