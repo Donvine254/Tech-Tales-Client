@@ -88,25 +88,25 @@ export default function Profile() {
   return (
     <section className="font-poppins md:mt-10">
       <div
-        className="w-full min-h-[200px] p-6"
+        className="w-full  lg:min-h-[180px] min-h-[150px] p-6"
         style={{
           backgroundColor: color,
         }}>
         <ColorPicker setColor={setColor} color={color} />
       </div>
       <div className="w-full min-h-[400px] mx-auto xsm:px-2 sm:px-8 md:w-4/5">
-        <div className="px-6 w-full -translate-y-20 rounded-md bg-white mb-3 z-50">
+        <div className="px-6 py-4 w-full relative -top-20 rounded-md bg-white">
           <Image
             src={user?.picture}
             height={120}
             width={120}
             alt="User Profile"
-            style={{ border: `0.75rem solid ${color}` }}
+            style={{ border: `0.5rem solid ${color}` }}
             priority
-            className="w-[150px] -translate-y-12 h-[150px] rounded-full m-auto  italic "
+            className="h-auto max-w-[120px] max-h-[120px] relative -top-20 rounded-full m-auto  italic "
           />
-          <div className="">
-            <p className="text-gray-600 font-semibold  flex items-center justify-center ">
+          <div className="-mt-20">
+            <p className="text-gray-600 font-semibold  flex items-center justify-center text-lg ">
               <span className="capitalize">{user.username} </span>
               <>
                 {user.role === "admin" ? (
@@ -138,7 +138,9 @@ export default function Profile() {
               {user.email}
             </p>
             <p className="xsm:text-xs text-center max-w-md mx-auto">
-              {user?.bio ?? "You have have no bio yet"}
+              {user?.bio === "This user has no bio"
+                ? "You have have no bio yet. Update your bio  to let others know who you are, your competencies, and what you do."
+                : user.bio}
             </p>
             <div className="flex items-center justify-between flex-wrap w-fit gap-4 mx-auto  py-2 text-gray-600 xsm:text-xs">
               <p className="flex items-center gap-1 flex-1">
@@ -176,7 +178,7 @@ export default function Profile() {
           </div>
         </div>
         {/* have two cards rendered as flexbox */}
-        <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-start md:gap-5 ">
+        <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-start md:gap-5 -mt-16">
           {/* first card */}
           <div className="lg:w-1/3  bg-gray-50 border shadow rounded-md ">
             <div className="px-6 py-4 space-y-2">
