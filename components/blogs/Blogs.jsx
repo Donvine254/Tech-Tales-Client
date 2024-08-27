@@ -41,7 +41,7 @@ export default async function BlogsComponent({ blogs }) {
               {/* div for blog tags */}
               <div className="py-1">
                 {blog.tags ? (
-                  <div className="flex gap-1 flex-wrap text-sm xsm:text-xs">
+                  <div className="flex gap-1 md:gap-2 flex-wrap text-sm xsm:text-xs">
                     {blog.tags.split(",").map((tag, index) => (
                       <Link
                         key={index}
