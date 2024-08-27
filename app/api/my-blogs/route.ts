@@ -85,6 +85,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         author: {
           select: {
             username: true,
+            picture: true,
           },
         },
         _count: {

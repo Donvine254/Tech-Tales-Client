@@ -5,7 +5,7 @@ import { handleSignOut, baseUrl } from "@/lib";
 import Image from "next/image";
 import Link from "next/link";
 import Loader from "@/components/ui/Loader";
-
+import ColorPicker from "@/components/ui/ColorPicker";
 import {
   Clipboard,
   Facebook,
@@ -80,20 +80,16 @@ export default function Profile() {
       console.log("modal not found");
     }
   };
-  const gradientStyle = {
-    background: `linear-gradient(to top, white, gray 20%, ${color})`,
-  };
 
   return (
     <div className="font-poppins w-full min-h-[400px] mx-auto xsm:px-2 sm:px-8 md:w-4/5 md:mt-10">
-      <div className=" px-6 pt-2 w-full rounded-md mb-3 bg-gradient-to-t from-white via-gray-100 to-cyan-400">
-        <input
-          type="color"
-          id="color"
-          name="color"
-          onInput={(e) => setColor(e.target.value)}
-          className="outline-none m-0"
-        />
+      <div
+        className={`px-6 pt-2 w-full rounded-md mb-3 `}
+        style={{
+          background: `linear-gradient(to top, #ffffff 0%, #f3f4f5 50%, ${color} 100%)`,
+          backgroundColor: "#ffffff",
+        }}>
+        <ColorPicker setColor={setColor} color={color} />
 
         <Image
           src={user?.picture}
