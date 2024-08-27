@@ -27,10 +27,15 @@ export async function POST(req: NextRequest, res: NextResponse) {
           },
         },
       },
-      take: 6,
+      take: 20,
+      cacheStrategy: { ttl: 600 },
     });
     const filteredBlogs = blogs.filter((blog) => blog.id !== Number(blogId));
-    return NextResponse.json(filteredBlogs);
+    const recommendations = filteredBlogs
+      .sort(() => 0.5 - Math.random())
+      .slice(0, 5);
+
+    return NextResponse.json(recommendations);
   } catch (error) {
     console.error("Error fetching blogs:", error);
     return NextResponse.json(

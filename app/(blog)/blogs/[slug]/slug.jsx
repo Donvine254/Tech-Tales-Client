@@ -9,6 +9,7 @@ import {
   Loader,
   UserImage,
   AnimatedLikeBtn,
+  Recommendations,
 } from "@/components";
 import parse from "html-react-parser";
 import { useRouter } from "next/navigation";
@@ -388,22 +389,7 @@ export default function Slug({ blog }) {
 
       {/* <Recommendations tags={blog.tags} id={blog?.id} /> */}
 
-      <div className="my-2">
-        <hr className="my-2 border-blue-500" />
-        <h1 className="font-bold text-xl">Explore Related Topics</h1>
-        {blog.tags && (
-          <div className="flex flex-wrap gap-2 py-2">
-            {blog.tags.split(",").map((tag, index) => (
-              <Link
-                key={index}
-                href={`/search?search=${tag.trim()}`}
-                className="px-6 py-0.5  bg-gray-50 hover:bg-blue-600 hover:text-white cursor-pointer border w-fit rounded-md">
-                <span>#</span> {tag.trim()}
-              </Link>
-            ))}
-          </div>
-        )}
-      </div>
+      <Recommendations tags={blog.tags} id={blog.id} />
       <div id="print-div" style={{ display: "none" }}>
         <h1 className="text-xl font-bold">{blog.title}</h1>
         <p className="italic">

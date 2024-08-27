@@ -19,6 +19,7 @@ import SocialMediaModal from "@/components/alerts/SocialMediaModal";
 import { useUserContext } from "@/providers";
 import UserStats from "@/components/stats";
 import { formatDate } from "@/lib/utils";
+import toast from "react-hot-toast";
 export const dynamic = "auto";
 
 export default function Profile() {
@@ -26,6 +27,7 @@ export default function Profile() {
   const [blogs, setBlogs] = useState([]);
   const [pinnedBlogs, setPinnedBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [color, setColor] = useState("#65DDF0");
   //use state to store user socials, or just set the user in context
   // Fetch blogs when user data changes
   const fetchBlogs = useCallback(async () => {
@@ -78,15 +80,27 @@ export default function Profile() {
       console.log("modal not found");
     }
   };
+  const gradientStyle = {
+    background: `linear-gradient(to top, white, gray 20%, ${color})`,
+  };
 
   return (
     <div className="font-poppins w-full min-h-[400px] mx-auto xsm:px-2 sm:px-8 md:w-4/5 md:mt-10">
-      <div className="bg-gradient-to-t px-6 pt-2 from-gray-50 via-gray-100 to-cyan-400 w-full rounded-md mb-3">
+      <div className=" px-6 pt-2 w-full rounded-md mb-3 bg-gradient-to-t from-white via-gray-100 to-cyan-400">
+        <input
+          type="color"
+          id="color"
+          name="color"
+          onInput={(e) => setColor(e.target.value)}
+          className="outline-none m-0"
+        />
+
         <Image
           src={user?.picture}
           height={120}
           width={120}
           alt="User Profile"
+          priority
           className="w-[120px] h-[120px] rounded-full m-auto ring-offset-4 ring-2 ring-blue-600 italic ring-offset-white "
         />
         <div className="py-2">
@@ -121,7 +135,7 @@ export default function Profile() {
           <p className="text-gray-700 mb-1 break-words text-sm text-center">
             {user.email}
           </p>
-          <p className="tracking-wide xsm:text-xs  text-blue-600 font-extralight text-center">
+          <p className="xsm:text-xs text-center max-w-md mx-auto">
             {user?.bio ?? "You have have no bio yet"}
           </p>
           <div className="flex items-center justify-between flex-wrap w-fit gap-4 mx-auto  py-2 text-gray-600 xsm:text-xs">
@@ -208,7 +222,7 @@ export default function Profile() {
                     title="writing debut badge"
                   />
                 )}
-                {blogs && blogs.length > 10 && (
+                {blogs && blogs.length >= 10 && (
                   <Image
                     width={30}
                     src="https://res.cloudinary.com/dipkbpinx/image/upload/v1724779829/badges/q86vokn45db0hfkklpud.svg"
@@ -282,7 +296,7 @@ export default function Profile() {
               <p>Connect Account</p>
             </button>
             {user.socials && user.socials.length > 0 ? (
-              <div className="flex items-center space-y-1 my-2  gap-2  flex-wrap ">
+              <div className="flex items-center space-y-1 my-2  gap-4  flex-wrap ">
                 {facebookUrl && (
                   <a href={facebookUrl} target="_blank" title="facebook">
                     {" "}
@@ -400,15 +414,16 @@ export default function Profile() {
                   .map((blog) => (
                     <div
                       key={blog.id}
-                      className="mb-4 mt-2 border-2 rounded-md border-gray-300 p-2 relative">
+                      className="mb-4 mt-2 border-2 rounded-md border-gray-200 p-2 relative">
                       <button
-                        className="cursor-pointer absolute -top-3 left-2 bg-gray-200 px-4 py-0.5 rounded-md text-blue-600 font-semibold inline-flex items-center justify-center gap-1 "
-                        disabled={pinnedBlogs.length <= 1}
+                        className="cursor-pointer absolute -top-3 left-2 bg-gray-200 px-6 py-0.5 rounded-md "
+                        disabled={pinnedBlogs.length <= 5}
                         title="unpin blog"
                         onClick={() => {
-                          setBlogs((prev) =>
+                          setPinnedBlogs((prev) =>
                             prev.filter((prevBlog) => prevBlog.id !== blog.id)
                           );
+                          toast.success("Blog unpinned");
                         }}>
                         <svg
                           fill="#ef4444"
@@ -417,7 +432,6 @@ export default function Profile() {
                           width="1em">
                           <path d="M9.828.722a.5.5 0 01.354.146l4.95 4.95a.5.5 0 010 .707c-.48.48-1.072.588-1.503.588-.177 0-.335-.018-.46-.039l-3.134 3.134a5.927 5.927 0 01.16 1.013c.046.702-.032 1.687-.72 2.375a.5.5 0 01-.707 0l-2.829-2.828-3.182 3.182c-.195.195-1.219.902-1.414.707-.195-.195.512-1.22.707-1.414l3.182-3.182-2.828-2.829a.5.5 0 010-.707c.688-.688 1.673-.767 2.375-.72a5.922 5.922 0 011.013.16l3.134-3.133a2.772 2.772 0 01-.04-.461c0-.43.108-1.022.589-1.503a.5.5 0 01.353-.146z" />
                         </svg>{" "}
-                        Pinned
                       </button>
                       <div className="p-2 mt-5 border rounded-md shadow">
                         <Link

@@ -59,7 +59,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         orderBy: {
           createdAt: "desc",
         },
-        cacheStrategy: { ttl: 60 },
+        cacheStrategy: { ttl: 600 },
       });
     }
 
