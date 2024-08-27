@@ -179,7 +179,7 @@ export default function Profile() {
                 )}
                 {user &&
                   new Date().getTime() - new Date(user.createdAt).getTime() <
-                    7 * 24 * 60 * 60 * 1000 && (
+                    90 * 24 * 60 * 60 * 1000 && (
                     <Image
                       width={30}
                       height={30}
@@ -199,7 +199,7 @@ export default function Profile() {
                       title="veteran badge"
                     />
                   )}
-                {blogs && blogs.length > 0 && (
+                {blogs && blogs.length > 0 && blogs.length <= 10 && (
                   <Image
                     width={30}
                     src="https://res.cloudinary.com/dipkbpinx/image/upload/v1724779829/badges/m0edwdlv6hvbdkvxeevz.svg"
