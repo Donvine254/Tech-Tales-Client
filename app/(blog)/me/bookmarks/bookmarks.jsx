@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Clipboard, Comment, Graph, Like } from "@/assets";
+import { Comment, Graph, Like } from "@/assets";
 import { baseUrl, calculateReadingTime } from "@/lib";
 import { SideNav, UserImage, SkeletonBlog, ShareButton } from "@/components";
 import { formatDate, formatViews } from "@/lib/utils";
@@ -9,11 +9,11 @@ import secureLocalStorage from "react-secure-storage";
 import parse from "html-react-parser";
 import { Tooltip } from "react-tooltip";
 import toast from "react-hot-toast";
+import Image from "next/image";
 
 export default function Bookmarks() {
   const [bookmarks, setBookmarks] = useState([]);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     const localStorageData = secureLocalStorage.getItem("bookmarked_blogs");
     const bookmarkedBlogs = localStorageData
@@ -24,7 +24,7 @@ export default function Bookmarks() {
     );
     (async () => {
       try {
-        if (bookmarkedBlogs && bookmarkedBlogs.length > 0) {
+        if (bookmarkedBlogs && bookmarkedBlogIds.length > 0) {
           const response = await fetch(`${baseUrl}/my-blogs`, {
             method: "POST",
             headers: {
@@ -185,23 +185,34 @@ export default function Bookmarks() {
         ) : (
           <>
             {!loading && (
-              <div className="py-6 px-2 h-full bg-white border rounded-md">
+              <div className="py-6 px-2 h-full bg-white border rounded-md text-center">
                 <div className="flex items-center justify-center py-1">
-                  <Clipboard />
+                  <Image
+                    src="https://res.cloudinary.com/dipkbpinx/image/upload/v1724795120/illustrations/autumn-reading-male-svgrepo-com_jtp0oc.svg"
+                    width="200"
+                    height="200"
+                    alt="reading illustration"
+                    title="reading illustration"
+                    priority
+                    className="bg-[url('https://res.cloudinary.com/dipkbpinx/image/upload/v1724713816/cxf2dejkjxn2qk3ss2wr.avif')] bg-cover bg-no-repeat bg-blend-lighten italic align-middle my-2"
+                  />
                 </div>
-                <h3 className="font-semibold text-lg md:text-center leading-loose tracking-wide ">
+                <h3 className="font-semibold text-lg leading-loose tracking-wide ">
                   Your reading list is empty
                 </h3>
-                <p className="font-medium md:text-center leading-loose tracking-wide ">
+                <p className="font-medium  leading-loose tracking-wide ">
                   Click the{" "}
-                  <span className="font-semibold"> bookmark reaction</span>
+                  <span className="font-semibold text-gray-600">
+                    {" "}
+                    bookmark reaction
+                  </span>
                   <span className="inline-block align-middle ">
                     <svg
                       viewBox="0 0 24 24"
                       fill="currentColor"
                       height="1.2em"
                       width="1.2em"
-                      className="focus:outline-none font-semibold ">
+                      className="focus:outline-none fill-gray-600 ">
                       <path d="M16 2H8a3.003 3.003 0 00-3 3v16.5a.5.5 0 00.75.434l6.25-3.6 6.25 3.6A.5.5 0 0019 21.5V5a3.003 3.003 0 00-3-3zm2 18.635l-5.75-3.312a.51.51 0 00-.5 0L6 20.635V5a2.003 2.003 0 012-2h8a2.003 2.003 0 012 2v15.635z" />
                     </svg>
                   </span>
