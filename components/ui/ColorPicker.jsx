@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { Tooltip } from "react-tooltip";
-
+import { setCookie } from "@/lib/utils";
 export default function ColorPicker({ color, setColor }) {
   const colorInputRef = useRef(null);
 
@@ -11,6 +11,7 @@ export default function ColorPicker({ color, setColor }) {
   };
   const handleColorChange = (e) => {
     setColor(e.target.value);
+    setCookie("selected_color", e.target.value, 60);
   };
 
   return (
@@ -28,18 +29,10 @@ export default function ColorPicker({ color, setColor }) {
         onClick={handleIconClick}
         fill="none"
         viewBox="0 0 24 24"
-        height="24"
-        width="24"
-        className="bg-white"
-        data-tooltip-id="color"
-        style={{
-          // Use inline style for dynamic background color
-          color: color,
-          cursor: "pointer",
-          padding: "4px",
-          border: "1px solid white",
-          borderRadius: "50%",
-        }}>
+        height="1.85em"
+        width="1.85em"
+        className="bg-white p-1 rounded-full cursor-pointer text-black border border-blue-500"
+        data-tooltip-id="color">
         <path
           fill="currentColor"
           d="M20.385 2.879a3 3 0 00-4.243 0L14.02 5l-.707-.708a1 1 0 10-1.414 1.415l5.657 5.656A1 1 0 0018.97 9.95l-.707-.707 2.122-2.122a3 3 0 000-4.242z"
