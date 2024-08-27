@@ -385,6 +385,9 @@ export default function Slug({ blog }) {
           blogId={blog?.id}
         />
       </div>
+
+      {/* <Recommendations tags={blog.tags} id={blog?.id} /> */}
+
       <div className="my-2">
         <hr className="my-2 border-blue-500" />
         <h1 className="font-bold text-xl">Explore Related Topics</h1>

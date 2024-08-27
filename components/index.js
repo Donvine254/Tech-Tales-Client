@@ -15,6 +15,7 @@ import UploadButton from "./ui/uploadButton";
 import AnimatedLikeBtn from "./ui/LikeAnimated";
 import ShareButton from "./ui/ShareButton";
 import CookieAlert from "./alerts/cookie";
+import Recommendations from "./blogs/ReadingRecommendation";
 export {
   BlogsComponent,
   Bookmark,
@@ -33,4 +34,5 @@ export {
   ShareButton,
   AnimatedLikeBtn,
   CookieAlert,
+  Recommendations,
 };

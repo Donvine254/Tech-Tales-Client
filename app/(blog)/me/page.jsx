@@ -14,10 +14,10 @@ import {
   Comment,
 } from "@/assets";
 import { calculateReadingTime } from "@/lib";
-import secureLocalStorage from "react-secure-storage";
+
 import SocialMediaModal from "@/components/alerts/SocialMediaModal";
 import { useUserContext } from "@/providers";
-import UserStats from "./stats";
+import UserStats from "@/components/stats";
 export const dynamic = "auto";
 
 export default function Profile() {

@@ -15,7 +15,7 @@ export default function UserStats({ blogs }) {
       {/* Total Blogs */}
       <div className="rounded-lg border shadow-sm flex-1 px-6 py-4 min-w-[200px] bg-white">
         <p className="text-2xl font-bold">{totalBlogs}</p>
-        <p className="text-extralight text-gray-500 inline-flex items-center gap-1">
+        <p className="text-extralight text-gray-500 inline-flex items-center ">
           <IconEdit />
           Total Authored Blogs
         </p>

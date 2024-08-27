@@ -3,9 +3,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import parse from "html-react-parser";
 import { UserImage } from "../ui/Avatar";
-import { baseUrl } from "@/lib";
 import { formatDate } from "@/lib/utils";
-import { calculateReadingTime } from "@/lib";
+import { calculateReadingTime, baseUrl } from "@/lib";
 
 export default function MoreFromAuthor({ author, id, blogId }) {
   const [blogs, setBlogs] = useState();
