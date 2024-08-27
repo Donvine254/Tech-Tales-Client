@@ -58,7 +58,7 @@ const SocialMediaModal = ({ user }) => {
       className="rounded-md max-w-[400px] m-auto xsm:mx-5  backdrop-blur-sm shadow-md">
       <div className="relative ">
         <div className="px-2 py-1 bg-gradient-to-r from-green-400 via-cyan-400 to-indigo-400 text-white space-y-2">
-          <h3 className="text-2xl lg:text-3xl font-semibold  text-center">
+          <h3 className="text-2xl  font-semibold  text-center">
             Update Your Social Profile
           </h3>
           <p className="text-sm xsm:text-xs text-center">

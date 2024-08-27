@@ -161,7 +161,7 @@ export default function Profile() {
       <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-start md:gap-5 ">
         {/* first card */}
         <div className="lg:w-1/3  bg-gray-50 border shadow rounded-md ">
-          <div className="px-6 py-2">
+          <div className="px-6 py-4 space-y-2">
             <p className="text-gray-700 font-semibold mb-2 ">Manage Blogs</p>
             {user.role === "admin" && (
               <div className="w-full flex items-center justify-start border bg-gray-100 hover:bg-gray-200 my-2 px-6 py-1 cursor-pointer hover:text-blue-500 h-8 rounded-md gap-2">
@@ -300,11 +300,11 @@ export default function Profile() {
             <div className="flex items-center gap-2 justify-between text-sm  py-2 ">
               <button
                 onClick={() => handleSignOut(user.id)}
-                className="hover:bg-gray-200 hover:text-red-500  p-1 w-full rounded-md h-8  border flex items-center gap-2">
+                className="hover:bg-gray-200 hover:text-red-500  py-.05  px-6 w-full rounded-md h-8  border border-red-300 flex items-center gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
+                  width="1em"
+                  height="1em"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -334,7 +334,7 @@ export default function Profile() {
             <hr />
             {blogs && blogs.length >= 1 ? (
               <>
-                <h2>Pinned Posts</h2>
+                <h2 className="my-1">Pinned Posts</h2>
                 {blogs
                   .sort(() => 0.5 - Math.random())
                   .slice(0, 5)
