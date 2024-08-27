@@ -24,6 +24,7 @@ export const dynamic = "auto";
 export default function Profile() {
   const user = useUserContext();
   const [blogs, setBlogs] = useState([]);
+  const [pinnedBlogs, setPinnedBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   //use state to store user socials, or just set the user in context
   // Fetch blogs when user data changes
@@ -34,6 +35,7 @@ export default function Profile() {
       });
       const data = await response.json();
       setBlogs(data);
+      setPinnedBlogs(data);
     } catch (error) {
       console.error("Error fetching blogs:", error);
     } finally {
@@ -162,6 +164,62 @@ export default function Profile() {
         {/* first card */}
         <div className="lg:w-1/3  bg-gray-50 border shadow rounded-md ">
           <div className="px-6 py-4 space-y-2">
+            {/* div for badges */}
+            <div className="mb-2 ">
+              <p className="text-gray-700 font-semibold mb-2 ">Badges</p>
+              <div className="flex items-center  my-2  gap-x-2 flex-wrap ">
+                {user && user.role === "admin" && (
+                  <Image
+                    width={30}
+                    height={30}
+                    src="https://res.cloudinary.com/dipkbpinx/image/upload/v1724780586/badges/qkphllyptlbfxsmhihnh.png"
+                    alt="admin badge"
+                    title="admin"
+                  />
+                )}
+                {user &&
+                  new Date().getTime() - new Date(user.createdAt).getTime() <
+                    7 * 24 * 60 * 60 * 1000 && (
+                    <Image
+                      width={30}
+                      height={30}
+                      src="https://res.cloudinary.com/dipkbpinx/image/upload/v1724781261/badges/ve5jrrevzjft7up36syp.png"
+                      alt="welcome badge"
+                      title="welcome badge"
+                    />
+                  )}
+                {user &&
+                  new Date().getTime() - new Date(user.createdAt).getTime() >=
+                    365 * 24 * 60 * 60 * 1000 && (
+                    <Image
+                      width={30}
+                      src="https://res.cloudinary.com/dipkbpinx/image/upload/v1724780825/badges/kotckmmr92ph9mayk2ds.webp"
+                      height={30}
+                      alt="veteran badge"
+                      title="veteran badge"
+                    />
+                  )}
+                {blogs && blogs.length > 0 && (
+                  <Image
+                    width={30}
+                    src="https://res.cloudinary.com/dipkbpinx/image/upload/v1724779829/badges/m0edwdlv6hvbdkvxeevz.svg"
+                    height={30}
+                    alt="writing debut"
+                    title="writing debut badge"
+                  />
+                )}
+                {blogs && blogs.length > 10 && (
+                  <Image
+                    width={30}
+                    src="https://res.cloudinary.com/dipkbpinx/image/upload/v1724779829/badges/q86vokn45db0hfkklpud.svg"
+                    height={30}
+                    alt="top author"
+                    title="top contributor"
+                  />
+                )}
+              </div>
+            </div>
+            <hr />
             <p className="text-gray-700 font-semibold mb-2 ">Manage Blogs</p>
             {user.role === "admin" && (
               <div className="w-full flex items-center justify-start border bg-gray-100 hover:bg-gray-200 my-2 px-6 py-1 cursor-pointer hover:text-blue-500 h-8 rounded-md gap-2">
@@ -213,7 +271,8 @@ export default function Profile() {
               </svg>
               Reading List
             </Link>
-            {/* <Link href="/me/bookmarks">Reading List</Link> */}
+
+            <hr />
             <p className="font-bold">Connected Accounts</p>
             <button
               onClick={showModal}
@@ -223,7 +282,7 @@ export default function Profile() {
               <p>Connect Account</p>
             </button>
             {user.socials && user.socials.length > 0 ? (
-              <div className="flex items-center space-y-1 my-2 justify-between gap-2  flex-wrap ">
+              <div className="flex items-center space-y-1 my-2  gap-2  flex-wrap ">
                 {facebookUrl && (
                   <a href={facebookUrl} target="_blank" title="facebook">
                     {" "}
@@ -300,7 +359,7 @@ export default function Profile() {
             <div className="flex items-center gap-2 justify-between text-sm  py-2 ">
               <button
                 onClick={() => handleSignOut(user.id)}
-                className="hover:bg-gray-200 hover:text-red-500  py-.05  px-6 w-full rounded-md h-8  border border-red-300 flex items-center gap-2">
+                className="bg-gray-100 hover:bg-gray-200 hover:text-red-500  py-.05  px-6 w-full rounded-md h-8  border hover:border-red-500 flex items-center gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="1em"
@@ -332,10 +391,10 @@ export default function Profile() {
           <div>
             {!loading && <UserStats blogs={blogs} />}
             <hr />
-            {blogs && blogs.length >= 1 ? (
+            {pinnedBlogs && pinnedBlogs.length >= 1 ? (
               <>
                 <h2 className="my-1">Pinned Posts</h2>
-                {blogs
+                {pinnedBlogs
                   .sort(() => 0.5 - Math.random())
                   .slice(0, 5)
                   .map((blog) => (
@@ -344,7 +403,7 @@ export default function Profile() {
                       className="mb-4 mt-2 border-2 rounded-md border-gray-300 p-2 relative">
                       <button
                         className="cursor-pointer absolute -top-3 left-2 bg-gray-200 px-4 py-0.5 rounded-md text-blue-600 font-semibold inline-flex items-center justify-center gap-1 "
-                        disabled={blogs.length <= 1}
+                        disabled={pinnedBlogs.length <= 1}
                         title="unpin blog"
                         onClick={() => {
                           setBlogs((prev) =>
