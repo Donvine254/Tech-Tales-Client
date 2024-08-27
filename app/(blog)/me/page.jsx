@@ -18,6 +18,7 @@ import { calculateReadingTime } from "@/lib";
 import SocialMediaModal from "@/components/alerts/SocialMediaModal";
 import { useUserContext } from "@/providers";
 import UserStats from "@/components/stats";
+import { formatDate } from "@/lib/utils";
 export const dynamic = "auto";
 
 export default function Profile() {
@@ -78,58 +79,92 @@ export default function Profile() {
 
   return (
     <div className="font-poppins w-full min-h-[400px] mx-auto xsm:px-2 sm:px-8 md:w-4/5 md:mt-10">
+      <div className="bg-gradient-to-t px-6 pt-2 from-gray-50 via-gray-100 to-cyan-400 w-full rounded-md mb-3">
+        <Image
+          src={user?.picture}
+          height={120}
+          width={120}
+          alt="User Profile"
+          className="w-[120px] h-[120px] rounded-full m-auto ring-offset-4 ring-2 ring-blue-600 italic ring-offset-white "
+        />
+        <div className="py-2">
+          <p className="text-gray-600 font-semibold mt-1 flex items-center justify-center ">
+            <span className="capitalize">{user.username} </span>
+            <>
+              {user.role === "admin" ? (
+                <Image
+                  src="https://res.cloudinary.com/dipkbpinx/image/upload/v1723863889/logos/on4c9g21udqs4oqrucdo.png"
+                  width={18}
+                  height={18}
+                  className="h-auto w-auto max-w-[18px] "
+                  alt="verification-badge"
+                />
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="#1D9BF0"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="mb-1 ">
+                  <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+                  <path d="m9 12 2 2 4-4" stroke="#ffffff" />
+                </svg>
+              )}
+            </>
+          </p>
+          <p className="text-gray-700 mb-1 break-words text-sm text-center">
+            {user.email}
+          </p>
+          <p className="tracking-wide xsm:text-xs  text-blue-600 font-extralight text-center">
+            {user?.bio ?? "You have have no bio yet"}
+          </p>
+          <div className="flex items-center justify-between flex-wrap w-fit gap-4 mx-auto  py-2 text-gray-600 xsm:text-xs">
+            <p className="flex items-center gap-1 flex-1">
+              <svg
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                height="1em"
+                width="1em">
+                <path fill="none" d="M0 0h24v24H0z" />
+                <path d="M8 6v3.999h3V6h2v3.999h3V6h2v3.999L19 10a3 3 0 012.995 2.824L22 13v1c0 1.014-.377 1.94-.999 2.645L21 21a1 1 0 01-1 1H4a1 1 0 01-1-1v-4.36a4.025 4.025 0 01-.972-2.182l-.022-.253L2 14v-1a3 3 0 012.824-2.995L5 10l1-.001V6h2zm1.002 10.641l-.054.063a3.994 3.994 0 01-2.514 1.273l-.23.018L6 18c-.345 0-.68-.044-1-.126V20h14v-2.126a4.007 4.007 0 01-3.744-.963l-.15-.15-.106-.117-.107.118a3.99 3.99 0 01-2.451 1.214l-.242.02L12 18a3.977 3.977 0 01-2.797-1.144l-.15-.157-.051-.058zM19 12H5a1 1 0 00-.993.883L4 13v.971l.003.147A2 2 0 006 16a1.999 1.999 0 001.98-1.7l.015-.153.005-.176c.036-1.248 1.827-1.293 1.989-.134l.01.134.004.147a2 2 0 003.992.031l.012-.282c.124-1.156 1.862-1.156 1.986 0l.012.282a2 2 0 003.99 0L20 14v-1a1 1 0 00-.883-.993L19 12zM7 1c1.32.871 1.663 2.088 1.449 2.888a1.5 1.5 0 01-2.898-.776C5.85 2.002 7 2.5 7 1zm5 0c1.32.871 1.663 2.088 1.449 2.888a1.5 1.5 0 11-2.898-.776C10.85 2.002 12 2.5 12 1zm5 0c1.32.871 1.663 2.088 1.449 2.888a1.5 1.5 0 11-2.898-.776C15.85 2.002 17 2.5 17 1z" />
+              </svg>
+              <span className="whitespace-nowrap ">
+                Joined on {formatDate(user.createdAt)}
+              </span>
+            </p>
+            <Link
+              href="/me/settings"
+              className="hover:bg-gray-200 border border-transparent hover:text-blue-600 p-1 w-full rounded-md  flex flex-1 items-center gap-2 justify-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="1em"
+                height="1em"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round">
+                <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+              Edit Profile
+            </Link>
+          </div>
+        </div>
+      </div>
       {/* have two cards rendered as flexbox */}
       <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-start md:gap-5 ">
         {/* first card */}
         <div className="lg:w-1/3  bg-gray-50 border shadow rounded-md ">
-          <div className="bg-gradient-to-t px-6 pt-2 from-gray-50 via-gray-100 to-cyan-400 w-full rounded-t-md">
-            <Image
-              src={user?.picture}
-              height={120}
-              width={120}
-              alt="User Profile"
-              className="w-[120px] h-[120px] rounded-full m-auto ring-offset-4 ring-2 ring-blue-600 italic ring-offset-white "
-            />
-            <p className="text-gray-600 font-semibold mt-1 flex items-center justify-center ">
-              <span className="capitalize">{user.username} </span>
-              <>
-                {user.role === "admin" ? (
-                  <Image
-                    src="https://res.cloudinary.com/dipkbpinx/image/upload/v1723863889/logos/on4c9g21udqs4oqrucdo.png"
-                    width={18}
-                    height={18}
-                    className="h-auto w-auto max-w-[18px] "
-                    alt="verification-badge"
-                  />
-                ) : (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="#1D9BF0"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="mb-1 ">
-                    <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
-                    <path d="m9 12 2 2 4-4" stroke="#ffffff" />
-                  </svg>
-                )}
-              </>
-            </p>
-            <p className="text-gray-700 mb-1 break-words text-sm text-center">
-              {user.email}
-            </p>
-          </div>
-          <div className="px-6 py-1">
-            <p className="text-gray-700 font-semibold mb-2 ">About</p>
-            <p className="mb-2 p-2 tracking-wide xsm:text-xs text-sm bg-gray-200 text-blue-600 font-extralight rounded-sm">
-              {user?.bio ?? "You have have no bio yet"}
-            </p>
+          <div className="px-6 py-2">
             <p className="text-gray-700 font-semibold mb-2 ">Manage Blogs</p>
-            {user.role === "admin" ? (
-              <div className="w-full flex items-center justify-center border bg-gray-100 hover:bg-gray-200 mb-1 px-2 py-1 cursor-pointer hover:text-blue-500 h-8 rounded-md gap-2">
+            {user.role === "admin" && (
+              <div className="w-full flex items-center justify-start border bg-gray-100 hover:bg-gray-200 my-2 px-6 py-1 cursor-pointer hover:text-blue-500 h-8 rounded-md gap-2">
                 <svg
                   fill="currentColor"
                   viewBox="0 0 16 16"
@@ -142,31 +177,47 @@ export default function Profile() {
                   Go to Dashboard
                 </Link>
               </div>
-            ) : (
-              <div className="w-full flex items-center justify-center border bg-gray-100 hover:bg-gray-200 mb-1 px-2 py-1 cursor-pointer hover:text-blue-500 h-8 rounded-md gap-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1"
-                  strokeLinecap="round"
-                  strokeLinejoin="round">
-                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-                </svg>
-                <Link href="/me/blogs" className="">
-                  My Blogs
-                </Link>
-              </div>
             )}
+            <Link
+              href="/me/blogs"
+              className="w-full flex items-center justify-start border bg-gray-100 hover:bg-gray-200 my-2 px-6 py-1 cursor-pointer hover:text-blue-500 h-8 rounded-md gap-2">
+              <svg
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1}
+                viewBox="0 0 24 24"
+                height="1em"
+                width="1em">
+                <path d="M8 21h12a2 2 0 002-2v-2H10v2a2 2 0 11-4 0V5a2 2 0 10-4 0v3h4" />
+                <path d="M19 17V5a2 2 0 00-2-2H4M15 8h-5M15 12h-5" />
+              </svg>
+              My Blogs
+            </Link>
+            <Link
+              href="/me/bookmarks"
+              className="w-full flex items-center justify-start border bg-gray-100 hover:bg-gray-200 my-2 px-6 py-1 cursor-pointer hover:text-blue-500 h-8 rounded-md gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="1em"
+                height="1em"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1"
+                strokeLinecap="round"
+                strokeLinejoin="round">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+              </svg>
+              Reading List
+            </Link>
             {/* <Link href="/me/bookmarks">Reading List</Link> */}
             <p className="font-bold">Connected Accounts</p>
             <button
               onClick={showModal}
-              className="bg-gray-100 hover:bg-gray-200 flex items-center justify-center py-0.5 border hover:text-blue-500 px-4 rounded-md w-full gap-2">
+              className="bg-gray-100 hover:bg-gray-200 flex items-center justify-start py-0.5 border hover:text-blue-500 px-6 rounded-md w-full gap-2">
               {" "}
               <span className="text-xl font-bold">+</span>
               <p>Connect Account</p>
@@ -247,25 +298,6 @@ export default function Profile() {
             )}
             <hr />
             <div className="flex items-center gap-2 justify-between text-sm  py-2 ">
-              <Link
-                href="/me/settings"
-                className="hover:bg-gray-200 border hover:text-blue-600 p-1 w-full rounded-md h-8 flex items-center gap-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round">
-                  <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
-                  <circle cx="12" cy="12" r="3" />
-                </svg>
-                <span>Edit Profile</span>
-              </Link>
-
               <button
                 onClick={() => handleSignOut(user.id)}
                 className="hover:bg-gray-200 hover:text-red-500  p-1 w-full rounded-md h-8  border flex items-center gap-2">
