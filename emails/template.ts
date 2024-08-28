@@ -1,35 +1,128 @@
 export const otpTemplate = (otpCode: string) => `
-  <div style="margin:0px 5px">
-    <div style="background-color:#222; display: flex;justify-content: center;"> <img style="margin:auto" src="https://res.cloudinary.com/dipkbpinx/image/upload/v1723352321/logos/q77qolmtorv0s3f9ypoa.png" width="40" height="40" alt="logo"/></div>
-<h3>Your Tech Tales OTP Verification Code</h3>
-<p>Below is your one time passcode that you need to use to complete your authentication. The verification code will be valid for 5 minutes. Please do not share this code with anyone.</p>
- <h3 style="background-color: #808080; color: #fff; padding:10px 5px; border-radius: 5px; text-align:center"> ${otpCode}</h3>
- <p>If you are having any issues with your account, please don't hesitate to <a title="contact" href="https://techtales.vercel.app/contact">contact us.</a></p>
-    <p>If you didn't request this code, please ignore this email or contact support.</p>
-    <footer style="font-size: 12px; color:#fff; background-color: #808080; padding: 5px; margin: 10px 0px; text-align:center;">
-     <p style="color:#fff"> You have received this message because you have  registered as a user at <span style="color: #fff; text-decoration-line:underline;">techtales.vercel.app</span> or requested to reset your password. This is an automated message, please do not reply to this email.</p>   
-    <table align="center" style="margin: 10px auto;">
-      <tr>
-        <td style="padding: 0 5px;">
-          <a href="https://www.facebook.com/diamond.degesh.3" title="Facebook">
-            <img src="https://res.cloudinary.com/dipkbpinx/image/upload/v1723321841/logos/msdtcjouooehzdrxnhrv.png" alt="Facebook" width="20" height="20" style="border-radius: 50%; background-color: #e5e7eb; padding: 4px;">
-          </a>
-        </td>
-        <td style="padding: 0 5px;">
-          <a href="https://x.com/diamonddegesh" title="Twitter">
-            <img src="https://res.cloudinary.com/dipkbpinx/image/upload/v1723323303/logos/mo5pxgo0ewsv07skdlwl.png" alt="Twitter" width="20" height="20" style="border-radius: 50%; background-color: #e5e7eb; padding: 4px;">
-          </a>
-        </td>
-        <td style="padding: 0 5px;">
-          <a href="https://github.com/Donvine254" title="GitHub">
-            <img src="https://res.cloudinary.com/dipkbpinx/image/upload/v1723321813/logos/d1hxxf2dtrw07h2jqsdw.png" alt="GitHub" width="20" height="20" style="border-radius: 50%; background-color: #e5e7eb; padding: 4px;">
-          </a>
-        </td>
-      </tr>
-    </table>
-      <h2 style="font-size:16px; text-align:center; color:#fff;">&copy; 2024 Tech Tales</h2> 
-    </footer> 
-  </div>
+  <div style="margin: 5px auto; max-width: 768px; padding: 5px 10px">
+      <div
+        style="
+          background-color: #f3f4f5;
+          display: flex;
+          justify-content: center;
+          padding: 5px;
+        ">
+        <h1
+          style="
+            font-size: 1.25rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Roboto', sans-serif;
+            margin: auto;
+          ">
+          TECH
+          <span
+            style="
+              color: white;
+              background-color: #06b6d4;
+              padding-left: 0.125rem;
+              padding-right: 0.125rem;
+              border-radius: 0.375rem;
+            ">
+            TALES
+            <span style="color: #dc2626; font-size: 1.875rem"> . </span>
+          </span>
+        </h1>
+      </div>
+      <h3>Your Tech Tales OTP Verification Code</h3>
+      <p>
+        Below is your one time passcode that you need to use to complete your
+        authentication. The verification code will be valid for 5 minutes.
+        Please do not share this code with anyone.
+      </p>
+      <h3
+        style="
+          background-color: #3b82f6;
+          color: #fff;
+          padding: 10px 5px;
+          border-radius: 5px;
+          text-align: center;
+        ">
+        ${otpCode}
+      </h3>
+      <p>
+        If you are having any issues with your account, please don't hesitate to
+        <a title="contact" href="https://techtales.vercel.app/contact"
+          >contact us.</a
+        >
+      </p>
+      <p>
+        If you didn't request this code, please ignore this email or contact
+        support.
+      </p>
+      <footer
+        style="
+          font-size: 12px;
+          color: #fff;
+          background-color: #3b82f6;
+          padding: 5px;
+          margin: 10px 0px;
+          text-align: center;
+        ">
+        <p
+          style="color: #fff; text-align: center; width: 80%; margin: 5px auto">
+          You have received this message because you have requested to reset
+          your password. This is an automated message, please do not reply to
+          this email.
+        </p>
+        <table align="center" style="margin: 10px auto">
+          <tr>
+            <td style="padding: 0 5px">
+              <a
+                href="https://www.facebook.com/diamond.degesh.3"
+                title="Facebook">
+                <img
+                  src="https://res.cloudinary.com/dipkbpinx/image/upload/v1723321841/logos/msdtcjouooehzdrxnhrv.png"
+                  alt="Facebook"
+                  width="20"
+                  height="20"
+                  style="
+                    border-radius: 50%;
+                    background-color: #e5e7eb;
+                    padding: 4px;
+                  " />
+              </a>
+            </td>
+            <td style="padding: 0 5px">
+              <a href="https://x.com/diamonddegesh" title="Twitter">
+                <img
+                  src="https://res.cloudinary.com/dipkbpinx/image/upload/v1723323303/logos/mo5pxgo0ewsv07skdlwl.png"
+                  alt="Twitter"
+                  width="20"
+                  height="20"
+                  style="
+                    border-radius: 50%;
+                    background-color: #e5e7eb;
+                    padding: 4px;
+                  " />
+              </a>
+            </td>
+            <td style="padding: 0 5px">
+              <a href="https://github.com/Donvine254" title="GitHub">
+                <img
+                  src="https://res.cloudinary.com/dipkbpinx/image/upload/v1723321813/logos/d1hxxf2dtrw07h2jqsdw.png"
+                  alt="GitHub"
+                  width="20"
+                  height="20"
+                  style="
+                    border-radius: 50%;
+                    background-color: #e5e7eb;
+                    padding: 4px;
+                  " />
+              </a>
+            </td>
+          </tr>
+        </table>
+        <h2 style="font-size: 16px; text-align: center; color: #fff">
+          &copy; 2024 Tech Tales
+        </h2>
+      </footer>
+    </div>
 `;
 export const welcomeTemplate = (name: string) => `
   <div style="margin:0px 5px" >
