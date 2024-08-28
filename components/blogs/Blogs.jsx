@@ -96,9 +96,9 @@ export default async function BlogsComponent({ blogs }) {
           </div>
         ))
       ) : (
-        <div className="sm:h-[400px] w-full flex flex-col items-center">
+        <div className="sm:h-[400px] w-full flex flex-col justify-center items-center">
           <Image
-            src="../not-found.svg"
+            src="/not-found.svg"
             alt="not-found"
             width={600}
             height={250}

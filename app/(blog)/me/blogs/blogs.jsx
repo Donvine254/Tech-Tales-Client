@@ -17,9 +17,7 @@ import {
   ShareButton,
 } from "@/components";
 import { formatDate, formatViews } from "@/lib/utils";
-
 import parse from "html-react-parser";
-
 export default function MyBlogsComponent() {
   const navigate = useRouter();
   const [blogs, setBlogs] = useState([]);
@@ -59,8 +57,9 @@ export default function MyBlogsComponent() {
       <SideNav />
       {/* section for published blogs */}
       <section>
-        <h1 className="font-bold underline  md:text-xl">
-          Your Published Blogs
+        <h1 className="font-bold   md:text-xl">
+          <span className="underline">Your Published Blogs</span>{" "}
+          {!loading && <span>&#x28;{publishedBlogs.length}&#x29;</span>}
         </h1>
         {/* <hr className="my-2  border border-blue-500" /> */}
         {loading && (
@@ -103,13 +102,14 @@ export default function MyBlogsComponent() {
                 {/* div for blog tags */}
                 <div className="py-1">
                   {blog.tags ? (
-                    <div className="flex gap-2 flex-wrap text-sm">
+                    <div className="flex gap-1 md:gap-2 flex-wrap text-sm xsm:text-xs">
                       {blog.tags.split(",").map((tag, index) => (
                         <Link
                           key={index}
                           href={`/search?search=${tag.trim()}`}
-                          className="md:px-2 md:py-0.5 text-blue-600 md:bg-transparent md:hover:bg-blue-600 md:hover:text-white cursor-pointer md:border md:border-blue-600 md:rounded-xl ">
-                          #{tag.trim()}
+                          className={` text-blue-500  highlight-tag-${index}`}>
+                          <span>#</span>
+                          {tag.trim()}
                         </Link>
                       ))}
                     </div>
@@ -163,31 +163,41 @@ export default function MyBlogsComponent() {
             </div>
           ))
         ) : (
-          <div className="p-2">
+          <>
             {!loading && (
-              <div>
+              <div className="py-6 my-4 px-2 h-full bg-white border rounded-md text-center">
                 <div className="flex items-center justify-center py-1">
                   <Clipboard />
                 </div>
-                <p className=" font-medium md:text-center leading-loose tracking-wide ">
-                  Looks like you have not authored any blogs yet, Let&apos;s fix
-                  that!
+                <h3 className="font-semibold text-lg leading-loose tracking-wide ">
+                  Looks like you have not authored any blogs yet
+                </h3>
+                <p className="font-medium xsm:mx-2 text-center leading-loose tracking-wide ">
+                  Let&apos;s fix that!{" "}
                   <span>
                     <Link
                       href="/create"
-                      className="text-sky-500 hover:underline">
+                      className="text-blue-500 hover:underline hover:bg-gray-200 ">
                       &nbsp; Create your first blog&#8599;
                     </Link>
                   </span>
                 </p>
+                <p>
+                  Your published content will be visible to other website users
+                  and visitors.{" "}
+                  <a href="/privacy" className="hover:underline text-blue-500">
+                    Learn More
+                  </a>
+                </p>
               </div>
             )}
-          </div>
+          </>
         )}
       </section>
       {/* section for unpublished blogs */}
-      <h1 className="font-bold underline  md:text-xl">
-        Your Unpublished Blogs
+      <h1 className="font-bold  md:text-xl">
+        <span className="underline">Your Unpublished Blogs</span>{" "}
+        {!loading && <span>&#x28;{unpublishedBlogs.length}&#x29;</span>}
       </h1>
       {/* <hr className="my-2  border border-blue-500" /> */}
       {loading && (
@@ -227,13 +237,14 @@ export default function MyBlogsComponent() {
               {/* div for blog tags */}
               <div className="py-1">
                 {blog.tags ? (
-                  <div className="flex gap-2 flex-wrap text-sm">
+                  <div className="flex gap-1 md:gap-2 flex-wrap text-sm xsm:text-xs">
                     {blog.tags.split(",").map((tag, index) => (
                       <Link
                         key={index}
                         href={`/search?search=${tag.trim()}`}
-                        className="md:px-2 md:py-0.5 text-blue-600 md:bg-transparent md:hover:bg-blue-600 md:hover:text-white cursor-pointer md:border md:border-blue-600 md:rounded-xl ">
-                        #{tag.trim()}
+                        className={` text-blue-500  highlight-tag-${index}`}>
+                        <span>#</span>
+                        {tag.trim()}
                       </Link>
                     ))}
                   </div>
@@ -284,19 +295,25 @@ export default function MyBlogsComponent() {
           </div>
         ))
       ) : (
-        <div className="p-2">
+        <>
           {!loading && (
-            <div>
+            <div className="py-6 mt-4 px-2 h-full bg-white border rounded-md text-center">
               <div className="flex items-center justify-center py-1">
                 <Clipboard />
               </div>
-              <p className=" font-medium md:text-center leading-loose tracking-wide ">
-                You have no unpublished content
-                <span></span>
+              <h3 className="font-semibold text-lg leading-loose tracking-wide ">
+                Your have no unpublished articles
+              </h3>
+              <p className="font-medium xsm:mx-2 text-center leading-loose tracking-wide ">
+                Your unpublished content is not visible to other website users
+                and visitors.{" "}
+                <a href="/privacy" className="hover:underline text-blue-500">
+                  Learn More
+                </a>
               </p>
             </div>
           )}
-        </div>
+        </>
       )}
     </div>
   );

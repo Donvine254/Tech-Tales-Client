@@ -194,7 +194,7 @@ export default function Bookmarks() {
                     alt="reading illustration"
                     title="reading illustration"
                     priority
-                    className="bg-[url('https://res.cloudinary.com/dipkbpinx/image/upload/v1724713816/cxf2dejkjxn2qk3ss2wr.avif')] bg-cover bg-no-repeat bg-blend-lighten italic align-middle my-2"
+                    className=" italic align-middle my-2"
                   />
                 </div>
                 <h3 className="font-semibold text-lg leading-loose tracking-wide ">
@@ -212,6 +212,7 @@ export default function Bookmarks() {
                       fill="currentColor"
                       height="1.2em"
                       width="1.2em"
+                      strokeWidth="2"
                       className="focus:outline-none fill-gray-600 ">
                       <path d="M16 2H8a3.003 3.003 0 00-3 3v16.5a.5.5 0 00.75.434l6.25-3.6 6.25 3.6A.5.5 0 0019 21.5V5a3.003 3.003 0 00-3-3zm2 18.635l-5.75-3.312a.51.51 0 00-.5 0L6 20.635V5a2.003 2.003 0 012-2h8a2.003 2.003 0 012 2v15.635z" />
                     </svg>
