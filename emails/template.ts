@@ -434,15 +434,144 @@ export const adminPasswordResetTemplate = (
   email: string,
   password: string
 ) => `
-<div>
-          <h3>Password Reset Notification</h3>
-          <p>Hello ${name},</p>
-          <p>Your password has been reset by the administrator. Please log in and change your password as soon as possible to ensure your account's security.</p>
-          <p>Below are your login details:</p>
-          <div style="background-color: #f0f0f0; color: #333; padding: 5px; border-radius: 5px;"> <p>Email: <strong>${email}</strong></p>
-          <p>Password: <strong>${password}</strong></p></div>
-        <footer style="font-size: 12px; color:#fff; background-color: #3B82F6; padding: 5px;border-radius: 5px; border: 1px solid #3B82F6;font-style: italic; width:fit-content;">
-     <p> This is an automated message, please do not reply to this email</p>
-    </footer> 
-        </div>
+ <div style="margin: 5px auto; max-width: 768px; padding: 5px 10px">
+      <div
+        style="
+          background-color: #f3f4f5;
+          display: flex;
+          justify-content: center;
+          padding: 5px;
+          margin-bottom: 10px;
+        ">
+        <h1
+          style="
+            font-size: 1.25rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Roboto', sans-serif;
+            margin: auto;
+          ">
+          TECH
+          <span
+            style="
+              color: white;
+              background-color: #06b6d4;
+              padding-left: 0.125rem;
+              padding-right: 0.125rem;
+              border-radius: 0.375rem;
+            ">
+            TALES
+            <span style="color: #dc2626; font-size: 1.875rem"> . </span>
+          </span>
+        </h1>
+      </div>
+      <div>
+       <h3 style="font-weight: 600; text-align: center">
+          Password Reset Notification
+        </h3>
+        <p>Hello ${name},</p>
+        <p>
+          Your password has been reset by the administrator. Please
+          <a href="https://techtales.vercel.app/login">log in</a> and change
+          your password as soon as possible to ensure your account's security.
+        </p>
+        <p>Below are your login details:</p>
+        <table
+          style="
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #3b82f6;
+            color: #fff;
+            margin-top: 5px;
+            border-radius: 5px;
+          ">
+          <tr style="border-bottom: 1px solid #fff">
+            <td style="padding: 10px">Email:</td>
+            <td style="padding: 10px; color: #fff !important">
+              <strong>${email}</strong>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 10px">Password:</td>
+            <td style="padding: 10px"><strong>${password}</strong></td>
+          </tr>
+        </table>
+        <p>
+          If you are having any issues with your account, please don't hesitate
+          to
+          <a title="contact" href="https://techtales.vercel.app/contact"
+            >contact us.</a
+          >
+        </p>
+        <p>
+          If you didn't request a password reset, kindly inform us immediately.
+        </p>
+      </div>
+      <footer
+        style="
+          font-size: 12px;
+          color: #fff;
+          background-color: #3b82f6;
+          padding: 5px;
+          margin: 10px 0px;
+          text-align: center;
+        ">
+        <p
+          style="color: #fff; text-align: center; width: 80%; margin: 5px auto">
+          You have received this message because you have requested to reset
+          your password.
+        </p>
+        <table align="center" style="margin: 10px auto">
+          <tr>
+            <td style="padding: 0 5px">
+              <a
+                href="https://www.facebook.com/diamond.degesh.3"
+                title="Facebook">
+                <img
+                  src="https://res.cloudinary.com/dipkbpinx/image/upload/v1723321841/logos/msdtcjouooehzdrxnhrv.png"
+                  alt="Facebook"
+                  width="20"
+                  height="20"
+                  style="
+                    border-radius: 50%;
+                    background-color: #e5e7eb;
+                    padding: 4px;
+                  " />
+              </a>
+            </td>
+            <td style="padding: 0 5px">
+              <a href="https://x.com/diamonddegesh" title="Twitter">
+                <img
+                  src="https://res.cloudinary.com/dipkbpinx/image/upload/v1723323303/logos/mo5pxgo0ewsv07skdlwl.png"
+                  alt="Twitter"
+                  width="20"
+                  height="20"
+                  style="
+                    border-radius: 50%;
+                    background-color: #e5e7eb;
+                    padding: 4px;
+                  " />
+              </a>
+            </td>
+            <td style="padding: 0 5px">
+              <a href="https://github.com/Donvine254" title="GitHub">
+                <img
+                  src="https://res.cloudinary.com/dipkbpinx/image/upload/v1723321813/logos/d1hxxf2dtrw07h2jqsdw.png"
+                  alt="GitHub"
+                  width="20"
+                  height="20"
+                  style="
+                    border-radius: 50%;
+                    background-color: #e5e7eb;
+                    padding: 4px;
+                  " />
+              </a>
+            </td>
+          </tr>
+        </table>
+        <h2 style="font-size: 16px; text-align: center; color: #fff">
+          &copy; 2024 Tech Tales
+        </h2>
+      </footer>
+    </div>
 `;
