@@ -30,7 +30,7 @@ export default function Recommendations({ tags, id }) {
     <div className="my-2">
       {blogs && blogs.length > 0 && (
         <>
-          <h1 className="text-lg md:text-2xl font-segoi my-2">
+          <h1 className="text-lg md:text-2xl my-2">
             Recommended from Tech Tales
           </h1>
 
