@@ -174,9 +174,7 @@ export default function CreateNewBlog() {
       <form
         className="bg-gray-50  border m-auto lg:w-3/4 p-4 md:p-8 rounded-sm relative"
         onSubmit={handleSubmit}>
-        <label
-          htmlFor="title"
-          className="p-2 mt-2 text-xl text-center font-bold ">
+        <label htmlFor="title" className="p-2 mt-2 text-xl  font-bold ">
           Blog Title
         </label>
         {/* div for alert */}
@@ -245,7 +243,6 @@ export default function CreateNewBlog() {
             <span className="font-medium text-gray-800">80</span>
           </p>
         </div>
-
         <TagInput
           setBlogData={setBlogData}
           title={blogData?.title}
@@ -258,19 +255,7 @@ export default function CreateNewBlog() {
               : []
           }
         />
-        <UploadButton setBlog={setBlogData} />
-        {blogData.image ? (
-          <p className="m-2 text-sm">
-            {" "}
-            Blog cover image:{" "}
-            <a
-              href={blogData?.image}
-              target="_blank"
-              className="text-blue-500 hover:underline cursor-pointer">
-              {blogData?.image}
-            </a>
-          </p>
-        ) : null}
+        <UploadButton setBlog={setBlogData} uploadedImage={blogData.image} />
         <DynamicEditor
           data={blogData}
           handleChange={setBlogData}

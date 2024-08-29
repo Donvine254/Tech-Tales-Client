@@ -95,7 +95,7 @@ const TagInput = ({ setBlogData, blogTags, title }) => {
   }
 
   return (
-    <section className="flex flex-wrap items-center gap-2 my-2 border-b relative  ">
+    <section className="flex flex-wrap items-center gap-2 border-b relative  ">
       {blogTags?.map((tag, index) => (
         <div
           key={index}
