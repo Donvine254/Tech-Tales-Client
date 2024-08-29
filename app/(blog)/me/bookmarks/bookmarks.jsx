@@ -65,9 +65,8 @@ export default function Bookmarks() {
   return (
     <div className="w-full min-h-screen mx-auto px-4 md:px-8 md:w-2/3 relative font-poppins">
       <SideNav />
-      {/* section for published blogs */}
       <h1 className="text-lg md:text-2xl font-bold my-2">
-        Reading List ({bookmarks.length})
+        Reading List {!loading && <span>&#x28;{bookmarks.length}&#x29;</span>}
       </h1>
       <section>
         {loading && (

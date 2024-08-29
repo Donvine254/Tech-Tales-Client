@@ -6,10 +6,10 @@ export default function ImageWithFallback({ src, fallbackSrc }) {
     <Image
       src={error ? fallbackSrc : src}
       alt="blog cover image"
-      height={450}
-      width={900}
+      height={720}
+      width={1280}
       priority
-      className="blog-cover-image italic h-auto max-h-full object-contain w-full  mt-2 border-2 "
+      className="blog-cover-image italic h-auto max-h-[450px] object-cover rounded-md w-full  mt-2 border-2 "
       onContextMenu={(e) => e.preventDefault()}
       onError={() => setError(true)}
     />

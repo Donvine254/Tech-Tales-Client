@@ -43,9 +43,9 @@ export default function PreviewModal({ blog }) {
             <Image
               src={blog.image}
               alt="blog-image"
-              height={600}
-              width={900}
-              className="italic w-full"
+              height={720}
+              width={1280}
+              className="italic w-full h-auto object-contain"
             />
           )}
           <h1 className="font-bold xsm:text-xl text-2xl lg:text-3xl from-pink-600  via-purple-600 to-blue-600 bg-gradient-to-r bg-clip-text text-transparent">

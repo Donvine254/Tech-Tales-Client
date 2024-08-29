@@ -2,7 +2,7 @@
 import React, { useState, useRef } from "react";
 import toast from "react-hot-toast";
 import Axios from "axios";
-import Image from "next/image";
+
 import { baseUrl } from "@/lib";
 import secureLocalStorage from "react-secure-storage";
 export default function UploadButton({ setBlog, uploadedImage, blogData }) {
@@ -23,43 +23,118 @@ export default function UploadButton({ setBlog, uploadedImage, blogData }) {
     setImage("");
   }
 
+  // async function handleImageUpload() {
+  //   setIsLoading(true);
+  //   if (
+  //     (image !== "" && image.type === "image/png") ||
+  //     image.type === "image/jpg" ||
+  //     image.type === "image/jpeg" ||
+  //     image.type === "image/webp" ||
+  //     image.type === "image/avif"
+  //   ) {
+  //     const imageUrl = URL.createObjectURL(image);
+  //     const img = new Image();
+  //     img.src = imageUrl;
+  //     alert(img.width + "x" + img.height);
+  //     if (img.width !== 1280 && img.height !== 720) {
+  //       setIsLoading(false);
+  //       toast.error("Image must be exactly 1280x720 pixels for better results");
+  //       return false;
+  //     }
+  //     const newImage = new FormData();
+  //     newImage.append("file", image);
+  //     newImage.append("cloud_name", "dipkbpinx");
+  //     newImage.append("upload_preset", "ekomtspw");
+  //     newImage.append("folder", "Tech_Tales_Blog_Cover_Images");
+  //     try {
+  //       const response = await Axios.post(
+  //         "https://api.cloudinary.com/v1_1/dipkbpinx/image/upload",
+  //         newImage
+  //       );
+  //       const data = await response.data;
+  //       setBlog((prev) => ({
+  //         ...prev,
+  //         image: data?.secure_url,
+  //       }));
+  //       secureLocalStorage.setItem(
+  //         "draft_blog_data__",
+  //         JSON.stringify({ ...blogData, image: data?.secure_url })
+  //       );
+  //       setIsLoading(false);
+  //       toast.success("Uploaded successfully!");
+  //       clearFileInput();
+  //     } catch (error) {
+  //       console.error("Error uploading image:", error);
+  //       setIsLoading(false);
+  //       toast.error("upload failed");
+  //       clearFileInput();
+  //     }
+  //   }
+  // }
+
   async function handleImageUpload() {
     setIsLoading(true);
-    if (
-      (image !== "" && image.type === "image/png") ||
-      image.type === "image/jpg" ||
-      image.type === "image/jpeg" ||
-      image.type === "image/webp" ||
-      image.type === "image/avif"
-    ) {
-      const newImage = new FormData();
-      newImage.append("file", image);
-      newImage.append("cloud_name", "dipkbpinx");
-      newImage.append("upload_preset", "ekomtspw");
-      newImage.append("folder", "Tech_Tales_Blog_Cover_Images");
-      try {
-        const response = await Axios.post(
-          "https://api.cloudinary.com/v1_1/dipkbpinx/image/upload",
-          newImage
-        );
-        const data = await response.data;
-        setBlog((prev) => ({
-          ...prev,
-          image: data?.secure_url,
-        }));
-        secureLocalStorage.setItem(
-          "draft_blog_data__",
-          JSON.stringify({ ...blogData, image: data?.secure_url })
-        );
+    const validTypes = [
+      "image/png",
+      "image/jpg",
+      "image/jpeg",
+      "image/webp",
+      "image/avif",
+    ];
+
+    if (image !== "" && validTypes.includes(image.type)) {
+      const imageUrl = URL.createObjectURL(image);
+      const img = new Image();
+
+      img.onload = async () => {
+        if (img.width !== 1280 || img.height !== 720) {
+          setIsLoading(false);
+          toast.error(
+            "Image must be exactly 1280x720 pixels for better results"
+          );
+          return;
+        }
+
+        const newImage = new FormData();
+        newImage.append("file", image);
+        newImage.append("cloud_name", "dipkbpinx");
+        newImage.append("upload_preset", "ekomtspw");
+        newImage.append("folder", "Tech_Tales_Blog_Cover_Images");
+
+        try {
+          const response = await Axios.post(
+            "https://api.cloudinary.com/v1_1/dipkbpinx/image/upload",
+            newImage
+          );
+          const data = await response.data;
+          setBlog((prev) => ({
+            ...prev,
+            image: data?.secure_url,
+          }));
+          secureLocalStorage.setItem(
+            "draft_blog_data__",
+            JSON.stringify({ ...blogData, image: data?.secure_url })
+          );
+          toast.success("Uploaded successfully!");
+          clearFileInput();
+        } catch (error) {
+          console.error("Error uploading image:", error);
+          toast.error("Upload failed");
+        }
         setIsLoading(false);
-        toast.success("Uploaded successfully!");
-        clearFileInput();
-      } catch (error) {
-        console.error("Error uploading image:", error);
+      };
+
+      img.onerror = () => {
+        toast.error("Invalid image file.");
         setIsLoading(false);
-        toast.error("upload failed");
         clearFileInput();
-      }
+      };
+
+      img.src = imageUrl; // This triggers the image load
+    } else {
+      toast.error("Please select a valid image file.");
+      setIsLoading(false);
+      clearFileInput();
     }
   }
 
@@ -104,10 +179,10 @@ export default function UploadButton({ setBlog, uploadedImage, blogData }) {
               target="_blank"
               rel="noopener noreferrer"
               title="open image in new tab">
-              <Image
+              <img
                 src={uploadedImage}
                 alt="Uploaded"
-                width={167}
+                width={160}
                 height={90}
                 className="object-cover object-center h-[100px] w-[100px] italic"
               />
@@ -138,7 +213,7 @@ export default function UploadButton({ setBlog, uploadedImage, blogData }) {
                 }`}
                 type="file"
                 name="image"
-                title="Use ratio of 1200:648 for best results. Images should be below 5 mbs"
+                title="Use ratio of 1280:720 for best results. Images should be below 5 mbs"
                 ref={fileInputRef}
                 accept="image/*"
                 onChange={handleChange}
@@ -194,6 +269,10 @@ export default function UploadButton({ setBlog, uploadedImage, blogData }) {
               )}
             </button>
           </div>
+          <small className="text-xs text-red-500 md:text-sm ml-2">
+            {" "}
+            Images should be less than 5MB and 1280*720 Pixels
+          </small>
         </div>
       )}
     </>

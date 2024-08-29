@@ -24,7 +24,7 @@ import BlogSummary from "@/components/blogs/blogSummary";
 import { useUserContext } from "@/providers";
 import { Tooltip } from "react-tooltip";
 import Script from "next/script";
-import ImageWithFallback from "../../../../components/blogs/imageWithFallback";
+import ImageWithFallback from "@/components/blogs/imageWithFallback";
 const NoSSRComments = dynamic(() => import("@/components/blogs/Comments"), {
   loading: () => (
     <div className="flex items-center justify-center gap-2 text-xl my-2">
