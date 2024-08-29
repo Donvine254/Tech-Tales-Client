@@ -6,6 +6,7 @@ import MoreFromAuthor from "./blogs/MoreFromAuthor";
 import AudioPlayer from "./ui/AudioPlayer";
 import Comments from "./blogs/Comments";
 import { UserImage } from "./ui/Avatar";
+import ProfileImage from "./ui/ProfileImage";
 import SkeletonBlog from "./blogs/SkeletonBlog";
 import ActionsButton from "./ui/ActionsButton";
 import Loader from "./ui/Loader";
@@ -35,4 +36,5 @@ export {
   AnimatedLikeBtn,
   CookieAlert,
   Recommendations,
+  ProfileImage,
 };

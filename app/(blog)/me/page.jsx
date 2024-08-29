@@ -4,7 +4,6 @@ import { handleSignOut, baseUrl } from "@/lib";
 
 import Image from "next/image";
 import Link from "next/link";
-import Loader from "@/components/ui/Loader";
 import ColorPicker from "@/components/ui/ColorPicker";
 import {
   Clipboard,
@@ -20,8 +19,7 @@ import { useUserContext } from "@/providers";
 import UserStats from "@/components/stats";
 import { formatDate } from "@/lib/utils";
 import toast from "react-hot-toast";
-import { UserImage } from "@/components";
-import { ProfileImage } from "@/components/ui/Avatar";
+import { ProfileImage, Loader } from "@/components";
 export const dynamic = "auto";
 
 export default function Profile() {
