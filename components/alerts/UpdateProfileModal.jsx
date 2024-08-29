@@ -74,7 +74,7 @@ export default function UpdateProfileModal({ user }) {
         const public_id =
           "TECH_TALES_PROFILE_PICTURES/" +
           previousImage.split("/").pop().split(".")[0];
-        const response = await Axios.post(`${baseUrl}/cloudinary`, {
+        const response = await axiosInstance.post(`${baseUrl}/cloudinary`, {
           public_id: public_id,
         });
       } catch (error) {
