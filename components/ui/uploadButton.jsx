@@ -92,6 +92,7 @@ export default function UploadButton({ setBlog, uploadedImage, blogData }) {
           toast.error(
             "Image must be exactly 1280x720 pixels for better results"
           );
+          clearFileInput();
           return;
         }
 
@@ -170,7 +171,11 @@ export default function UploadButton({ setBlog, uploadedImage, blogData }) {
   return (
     <>
       <h2 className="text-xl font-bold">Cover Image</h2>
-
+      {!uploadedImage && (
+        <small className="text-xs text-red-500 md:text-sm">
+          &#128712;Images should be less than 5MB and 1280*720 Pixels
+        </small>
+      )}
       {uploadedImage ? (
         <div className="mb-2">
           <div className="flex items-center gap-4 p-2 ">
@@ -269,10 +274,6 @@ export default function UploadButton({ setBlog, uploadedImage, blogData }) {
               )}
             </button>
           </div>
-          <small className="text-xs text-red-500 md:text-sm ml-2">
-            {" "}
-            Images should be less than 5MB and 1280*720 Pixels
-          </small>
         </div>
       )}
     </>
