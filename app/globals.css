@@ -517,7 +517,8 @@ li {
 .tox .tox-edit-area::before {
   border: 0 !important;
 }
-.tox-promotion {
+.tox-promotion,
+.tox-statusbar__branding {
   display: none !important;
   opacity: 0 !important;
 }
