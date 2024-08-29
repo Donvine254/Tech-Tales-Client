@@ -20,6 +20,8 @@ import { useUserContext } from "@/providers";
 import UserStats from "@/components/stats";
 import { formatDate } from "@/lib/utils";
 import toast from "react-hot-toast";
+import { UserImage } from "@/components";
+import { ProfileImage } from "@/components/ui/Avatar";
 export const dynamic = "auto";
 
 export default function Profile() {
@@ -96,15 +98,7 @@ export default function Profile() {
       </div>
       <div className="w-full min-h-[400px] mx-auto xsm:px-2 sm:px-8 md:w-4/5">
         <div className="px-6 py-4 w-full relative -top-20 rounded-md bg-white">
-          <Image
-            src={user?.picture}
-            height={120}
-            width={120}
-            alt="User Profile"
-            style={{ border: `0.5rem solid ${color}` }}
-            priority
-            className="h-auto max-w-[120px] max-h-[120px] relative -top-20 rounded-full m-auto  italic "
-          />
+          <ProfileImage url={user?.picture} color={color} />
           <div className="-mt-20">
             <p className="text-gray-600 font-semibold  flex items-center justify-center text-lg ">
               <span className="capitalize">{user.username} </span>

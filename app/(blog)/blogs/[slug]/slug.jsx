@@ -89,7 +89,7 @@ export default function Slug({ blog }) {
           {blog.image && (
             <ImageWithFallback
               src={blog.image}
-              fallbackSrc={`https://res.cloudinary.com/dipkbpinx/image/upload/b_rgb:f9efef,e_auto_color,f_auto,q_100/c_fit,g_center,l_text:Arial_60_bold:${blog.title},co_rgb:ffffff,w_2000,x_50,y_-100/v1724694597/lxbbifeejczxxepcdbfo.webp`}
+              fallbackSrc={`https://res.cloudinary.com/dipkbpinx/image/upload/b_rgb:f9efef,e_auto_color,f_auto,q_100/c_fit,g_center,l_text:Arial_60_bold:${blog.title},co_rgb:ffffff,w_2000,x_50,y_-100/v1724694597/Tech_Tales_Blog_Cover_Images/lxbbifeejczxxepcdbfo.webp`}
             />
           )}
           {/* script for printing the blog pages */}
