@@ -1,29 +1,40 @@
 import { NextRequest, NextResponse } from "next/server";
-
-export async function DELETE(req: NextRequest) {
+import * as sha256 from "crypto-js/sha256";
+export async function POST(req: NextRequest) {
+  const { public_id } = await req.json();
+  console.log(public_id);
   try {
-    const formData = await req.formData();
-    console.log(formData);
-    const file = formData.get("file") as Blob | null;
-    const newImage = new FormData();
-    newImage.append("file", file);
-    newImage.append("cloud_name", "dipkbpinx");
-    newImage.append("upload_preset", "ekomtspw");
-
+    const apiKey = process.env.CLOUDINARY_API_KEY;
+    const apiSecret = process.env.CLOUDINARY_API_SECRET;
+    console.log(apiKey, apiSecret);
+    const timestamp = Math.round(new Date().getTime() / 1000).toString();
+    const paramsToSign = `public_id=${public_id}&timestamp=${timestamp}`;
+    const signature = sha256(paramsToSign + apiSecret).toString();
+    const payload = {
+      public_id,
+      timestamp,
+      api_key: apiKey,
+      signature,
+    };
     const response = await fetch(
-      "https://api.cloudinary.com/v1_1/dipkbpinx/image/upload",
+      `https://api.cloudinary.com/v1_1/dipkbpinx/image/destroy`,
       {
         method: "POST",
-        body: newImage,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
       }
     );
-
     const data = await response.json();
-    return NextResponse.json(data);
+    console.log(data);
+    if (data.result === "ok") {
+      return NextResponse.json(data, { status: 200 });
+    }
   } catch (error) {
-    console.error("Error during image upload:", error);
+    console.error(error);
     return NextResponse.json(
-      { error: "Failed to upload image" },
+      { error: "Failed to delete asset" },
       { status: 500 }
     );
   }

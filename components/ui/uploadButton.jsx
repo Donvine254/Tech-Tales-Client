@@ -3,12 +3,12 @@ import React, { useState, useRef } from "react";
 import toast from "react-hot-toast";
 import Axios from "axios";
 import Image from "next/image";
-import * as sha256 from "crypto-js/sha256";
-export default function UploadButton({ setBlog, uploadedImage }) {
+import { baseUrl } from "@/lib";
+import secureLocalStorage from "react-secure-storage";
+export default function UploadButton({ setBlog, uploadedImage, blogData }) {
   const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef(null);
   const [image, setImage] = useState("");
-  //   const uploadPreset = process.env.NEXT_PUBLIC_UPLOAD_PRESET;
   function handleChange(e) {
     const maxAllowedSize = 5 * 1024 * 1024;
     if (e.target.files[0].size > maxAllowedSize) {
@@ -46,6 +46,10 @@ export default function UploadButton({ setBlog, uploadedImage }) {
           ...prev,
           image: data?.secure_url,
         }));
+        secureLocalStorage.setItem(
+          "draft_blog_data__",
+          JSON.stringify({ ...blogData, image: data?.secure_url })
+        );
         setIsLoading(false);
         toast.success("Uploaded successfully!");
         clearFileInput();
@@ -63,24 +67,15 @@ export default function UploadButton({ setBlog, uploadedImage }) {
       ...prev,
       image: "",
     }));
+    secureLocalStorage.setItem(
+      "draft_blog_data__",
+      JSON.stringify({ ...blogData, image: "" })
+    );
     try {
       const public_id = uploadedImage.split("/").pop().split(".")[0];
-      const apiKey = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY;
-      const apiSecret = process.env.NEXT_PUBLIC_CLOUDINARY_API_SECRET;
-      const timestamp = Math.round(new Date().getTime() / 1000).toString();
-      const paramsToSign = `public_id=${public_id}&timestamp=${timestamp}`;
-      const signature = sha256(paramsToSign + apiSecret).toString();
-      const payload = {
-        public_id,
-        timestamp,
-        api_key: apiKey,
-        signature,
-      };
-      const response = await Axios.post(
-        `https://api.cloudinary.com/v1_1/dipkbpinx/image/destroy`,
-        payload
-      );
-      
+      const response = await Axios.post(`${baseUrl}/cloudinary`, {
+        public_id: public_id,
+      });
     } catch (error) {
       console.error(error);
     }

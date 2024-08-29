@@ -255,7 +255,11 @@ export default function CreateNewBlog() {
               : []
           }
         />
-        <UploadButton setBlog={setBlogData} uploadedImage={blogData.image} />
+        <UploadButton
+          setBlog={setBlogData}
+          uploadedImage={blogData.image}
+          blogData={blogData}
+        />
         <DynamicEditor
           data={blogData}
           handleChange={setBlogData}
