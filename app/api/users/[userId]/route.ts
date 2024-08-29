@@ -29,6 +29,7 @@ export async function GET(request: NextRequest, { params }) {
           select: {
             username: true,
             picture: true,
+            handle: true,
           },
         },
         _count: {

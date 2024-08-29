@@ -6,7 +6,7 @@ import { UserImage } from "../ui/Avatar";
 import { formatDate } from "@/lib/utils";
 import { calculateReadingTime, baseUrl } from "@/lib";
 
-export default function MoreFromAuthor({ author, id, blogId }) {
+export default function MoreFromAuthor({ author, id, blogId, handle }) {
   const [blogs, setBlogs] = useState();
   useEffect(() => {
     (async () => {
@@ -32,7 +32,7 @@ export default function MoreFromAuthor({ author, id, blogId }) {
           <h1 className="md:text-xl capitalize">
             View More From {author}{" "}
             <Link
-              href={`/explore/${author.handle}`}
+              href={`/explore/${handle}`}
               className="float-right text-blue-500 hover:underline">
               View All &#8599;
             </Link>

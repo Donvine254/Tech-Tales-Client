@@ -382,6 +382,7 @@ export default function Slug({ blog }) {
         <hr className="my-2 border-blue-500" />
         <MoreFromAuthor
           author={blog?.author.username}
+          handle={blog?.author.handle}
           id={blog?.authorId}
           blogId={blog?.id}
         />
