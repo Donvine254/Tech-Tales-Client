@@ -6,7 +6,6 @@ export async function POST(req: NextRequest) {
   try {
     const apiKey = process.env.CLOUDINARY_API_KEY;
     const apiSecret = process.env.CLOUDINARY_API_SECRET;
-    console.log(apiKey, apiSecret);
     const timestamp = Math.round(new Date().getTime() / 1000).toString();
     const paramsToSign = `public_id=${public_id}&timestamp=${timestamp}`;
     const signature = sha256(paramsToSign + apiSecret).toString();

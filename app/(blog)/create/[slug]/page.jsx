@@ -182,20 +182,7 @@ export default function EditBlog({ params }) {
               : []
           }
         />
-        <UploadButton setBlog={setBlogData} />
-        {blogData.image ? (
-          <p className="m-2 text-sm">
-            {" "}
-            Blog cover image:{" "}
-            <a
-              href={blogData?.image}
-              target="_blank"
-              className="text-blue-500 hover:underline cursor-pointer">
-              {blogData?.image}
-            </a>
-          </p>
-        ) : null}
-
+        <UploadButton setBlog={setBlogData} uploadedImage={blogData.image} />
         <DynamicEditor data={blogData} handleChange={setBlogData} />
 
         <div className="flex gap-2 xsm:items-center xsm:justify-between justify-end md:gap-8 mt-4">

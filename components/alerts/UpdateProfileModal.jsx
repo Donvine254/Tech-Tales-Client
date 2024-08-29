@@ -22,6 +22,7 @@ export default function UpdateProfileModal({ user }) {
     bio: user?.bio ?? "",
     handle: user?.handle ?? "",
   });
+  const previousImage = user?.picture;
   function handleFileChange(e) {
     const maxAllowedSize = 5 * 1024 * 1024;
     if (e.target.files[0].size > maxAllowedSize) {
@@ -56,10 +57,28 @@ export default function UpdateProfileModal({ user }) {
         }));
         setUploading(false);
         toast.success("Uploaded successfully!");
+        deleteImageIfExists();
       } catch (error) {
         console.error("Error uploading image:", error);
         setUploading(false);
         toast.error("upload failed");
+      }
+    }
+  }
+
+  async function deleteImageIfExists() {
+    const cloudinaryBaseUrl =
+      "https://res.cloudinary.com/dipkbpinx/image/upload/";
+    if (previousImage && previousImage.startsWith(cloudinaryBaseUrl)) {
+      try {
+        const public_id =
+          "TECH_TALES_PROFILE_PICTURES/" +
+          previousImage.split("/").pop().split(".")[0];
+        const response = await Axios.post(`${baseUrl}/cloudinary`, {
+          public_id: public_id,
+        });
+      } catch (error) {
+        console.error(error);
       }
     }
   }

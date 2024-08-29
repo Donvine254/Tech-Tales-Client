@@ -73,7 +73,9 @@ export default function UploadButton({ setBlog, uploadedImage, blogData }) {
       JSON.stringify({ ...blogData, image: "" })
     );
     try {
-      const public_id = uploadedImage.split("/").pop().split(".")[0];
+      const public_id =
+        "Tech_Tales_Blog_Cover_Images/" +
+        uploadedImage.split("/").pop().split(".")[0];
       const response = await Axios.post(`${baseUrl}/cloudinary`, {
         public_id: public_id,
       });
