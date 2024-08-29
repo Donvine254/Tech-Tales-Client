@@ -26,10 +26,10 @@ export default function MoreFromAuthor({ author, id, blogId }) {
   }, [id, blogId]);
 
   return (
-    <div>
+    <>
       {blogs && blogs.length > 0 && (
         <>
-          <h1 className="text-lg md:text-2xl capitalize">
+          <h1 className="md:text-xl capitalize">
             View More From {author}{" "}
             <Link
               href={`/explore/${author.handle}`}
@@ -96,6 +96,6 @@ export default function MoreFromAuthor({ author, id, blogId }) {
           </div>
         </>
       )}
-    </div>
+    </>
   );
 }

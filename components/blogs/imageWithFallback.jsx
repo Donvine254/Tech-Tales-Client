@@ -10,6 +10,7 @@ export default function ImageWithFallback({ src, fallbackSrc }) {
       width={900}
       priority
       className="blog-cover-image italic h-auto max-h-full object-contain w-full  mt-2 border-2 "
+      onContextMenu={(e) => e.preventDefault()}
       onError={() => setError(true)}
     />
   );
