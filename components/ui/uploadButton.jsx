@@ -36,6 +36,7 @@ export default function UploadButton({ setBlog, uploadedImage, blogData }) {
       newImage.append("file", image);
       newImage.append("cloud_name", "dipkbpinx");
       newImage.append("upload_preset", "ekomtspw");
+      newImage.append("folder", "Tech_Tales_Blog_Cover_Images");
       try {
         const response = await Axios.post(
           "https://api.cloudinary.com/v1_1/dipkbpinx/image/upload",

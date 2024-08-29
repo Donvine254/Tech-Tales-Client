@@ -43,6 +43,7 @@ export default function UpdateProfileModal({ user }) {
       newImage.append("file", image);
       newImage.append("cloud_name", "dipkbpinx");
       newImage.append("upload_preset", "ekomtspw");
+      newImage.append("folder", "TECH_TALES_PROFILE_PICTURES");
       try {
         const response = await axiosInstance.post(
           "https://api.cloudinary.com/v1_1/dipkbpinx/image/upload",
