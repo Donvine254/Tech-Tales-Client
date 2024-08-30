@@ -17,7 +17,7 @@ export default function ImageWithFallback({ image, title }) {
     }/yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==`;
   return (
     <Image
-      src={error ? fallbackSrc : image.secure_url}
+      src={error ? fallbackSrc : image.secure_url ?? fallbackSrc}
       alt={image.original_filename}
       height={720}
       width={1280}

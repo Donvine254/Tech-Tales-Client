@@ -86,9 +86,7 @@ export default function Slug({ blog }) {
     <div>
       {blog ? (
         <div key={blog.id}>
-          {blog.image && (
-            <ImageWithFallback image={blog.image} title={blog.title} />
-          )}
+          <ImageWithFallback image={blog.image} title={blog.title} />
           {/* script for printing the blog pages */}
           <Script
             src="https://unpkg.com/ink-html/dist/index.js"
