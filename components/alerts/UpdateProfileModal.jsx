@@ -44,7 +44,7 @@ export default function UpdateProfileModal({ user }) {
       newImage.append("file", image);
       newImage.append("cloud_name", "dipkbpinx");
       newImage.append("upload_preset", "ekomtspw");
-      newImage.append("folder", "TECH_TALES_PROFILE_PICTURES");
+      newImage.append("folder", "tech-tales/profile-pictures");
       try {
         const response = await axiosInstance.post(
           "https://api.cloudinary.com/v1_1/dipkbpinx/image/upload",
@@ -63,6 +63,8 @@ export default function UpdateProfileModal({ user }) {
         setUploading(false);
         toast.error("upload failed");
       }
+    } else {
+      toast.error("Invalid image format provided");
     }
   }
 
@@ -72,7 +74,7 @@ export default function UpdateProfileModal({ user }) {
     if (previousImage && previousImage.startsWith(cloudinaryBaseUrl)) {
       try {
         const public_id =
-          "TECH_TALES_PROFILE_PICTURES/" +
+          "tech-tales/profile-pictures" +
           previousImage.split("/").pop().split(".")[0];
         const response = await axiosInstance.post(`${baseUrl}/cloudinary`, {
           public_id: public_id,
@@ -144,14 +146,14 @@ export default function UpdateProfileModal({ user }) {
                 url={URL.createObjectURL(image)}
                 size={80}
                 onClick={handleImageUpload}
-                className="!h-20 !w-20 ring ring-blue-500 ring-offset-1 ring-offset-white italic"
+                className="h-20 w-20 ring ring-blue-500 ring-offset-1 ring-offset-white italic"
               />
             ) : (
               <UserImage
                 url={user?.picture}
                 size={80}
                 onClick={handleImageUpload}
-                className="!h-20 !w-20 ring ring-blue-500 ring-offset-1 ring-offset-white italic"
+                className="h-20 w-20 ring ring-blue-500 ring-offset-1 ring-offset-white italic"
               />
             )}
             <div>

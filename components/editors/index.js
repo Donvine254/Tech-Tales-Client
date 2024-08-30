@@ -41,7 +41,7 @@ export const handleImageUpload = (blobInfo, progress) =>
     formData.append("file", blobInfo.blob(), blobInfo.filename());
     formData.append("cloud_name", "dipkbpinx");
     formData.append("upload_preset", "ekomtspw");
-    formData.append("folder", "Tech_Tales_Blog_Images");
+    formData.append("folder", "tech-tales/blog-images");
 
     xhr.send(formData); // Send the form data with the image file
   });
