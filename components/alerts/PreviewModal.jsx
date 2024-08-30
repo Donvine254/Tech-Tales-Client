@@ -41,8 +41,8 @@ export default function PreviewModal({ blog }) {
         <section className="overflow-auto flex-1 px-5">
           {blog.image && (
             <Image
-              src={blog.image}
-              alt="blog-image"
+              src={blog.image.secure_url}
+              alt={blog.image.original_filename}
               height={720}
               width={1280}
               className="italic w-full h-auto object-contain"

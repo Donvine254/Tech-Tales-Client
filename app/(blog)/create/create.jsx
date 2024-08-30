@@ -26,10 +26,10 @@ export default function CreateNewBlog() {
   let count = 0;
   const [blogData, setBlogData] = useState({
     title: "",
-    image: "",
     body: "",
     slug: "",
     tags: "",
+    image: "",
   });
 
   //function to create slug

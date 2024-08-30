@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import Image from "next/image";
-export default function ImageWithFallback({ src, fallbackSrc }) {
+export default function ImageWithFallback({ image, fallbackSrc }) {
   const [error, setError] = useState(null);
+  console.log(image);
   return (
     <Image
-      src={error ? fallbackSrc : src}
-      alt="blog cover image"
+      src={error ? fallbackSrc : image.secure_url}
+      alt={image.original_filename}
       height={720}
       width={1280}
       priority

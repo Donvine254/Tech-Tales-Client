@@ -23,55 +23,6 @@ export default function UploadButton({ setBlog, uploadedImage, blogData }) {
     setImage("");
   }
 
-  // async function handleImageUpload() {
-  //   setIsLoading(true);
-  //   if (
-  //     (image !== "" && image.type === "image/png") ||
-  //     image.type === "image/jpg" ||
-  //     image.type === "image/jpeg" ||
-  //     image.type === "image/webp" ||
-  //     image.type === "image/avif"
-  //   ) {
-  //     const imageUrl = URL.createObjectURL(image);
-  //     const img = new Image();
-  //     img.src = imageUrl;
-  //     alert(img.width + "x" + img.height);
-  //     if (img.width !== 1280 && img.height !== 720) {
-  //       setIsLoading(false);
-  //       toast.error("Image must be exactly 1280x720 pixels for better results");
-  //       return false;
-  //     }
-  //     const newImage = new FormData();
-  //     newImage.append("file", image);
-  //     newImage.append("cloud_name", "dipkbpinx");
-  //     newImage.append("upload_preset", "ekomtspw");
-  //     newImage.append("folder", "Tech_Tales_Blog_Cover_Images");
-  //     try {
-  //       const response = await Axios.post(
-  //         "https://api.cloudinary.com/v1_1/dipkbpinx/image/upload",
-  //         newImage
-  //       );
-  //       const data = await response.data;
-  //       setBlog((prev) => ({
-  //         ...prev,
-  //         image: data?.secure_url,
-  //       }));
-  //       secureLocalStorage.setItem(
-  //         "draft_blog_data__",
-  //         JSON.stringify({ ...blogData, image: data?.secure_url })
-  //       );
-  //       setIsLoading(false);
-  //       toast.success("Uploaded successfully!");
-  //       clearFileInput();
-  //     } catch (error) {
-  //       console.error("Error uploading image:", error);
-  //       setIsLoading(false);
-  //       toast.error("upload failed");
-  //       clearFileInput();
-  //     }
-  //   }
-  // }
-
   async function handleImageUpload() {
     setIsLoading(true);
     const validTypes = [
@@ -100,7 +51,7 @@ export default function UploadButton({ setBlog, uploadedImage, blogData }) {
         newImage.append("file", image);
         newImage.append("cloud_name", "dipkbpinx");
         newImage.append("upload_preset", "ekomtspw");
-        newImage.append("folder", "Tech_Tales_Blog_Cover_Images");
+        newImage.append("folder", "tech-tales/cover-images");
 
         try {
           const response = await Axios.post(
@@ -108,13 +59,14 @@ export default function UploadButton({ setBlog, uploadedImage, blogData }) {
             newImage
           );
           const data = await response.data;
+          console.log(data);
           setBlog((prev) => ({
             ...prev,
-            image: data?.secure_url,
+            image: data,
           }));
           secureLocalStorage.setItem(
             "draft_blog_data__",
-            JSON.stringify({ ...blogData, image: data?.secure_url })
+            JSON.stringify({ ...blogData, image: data })
           );
           toast.success("Uploaded successfully!");
           clearFileInput();
@@ -149,11 +101,8 @@ export default function UploadButton({ setBlog, uploadedImage, blogData }) {
       JSON.stringify({ ...blogData, image: "" })
     );
     try {
-      const public_id =
-        "Tech_Tales_Blog_Cover_Images/" +
-        uploadedImage.split("/").pop().split(".")[0];
       const response = await Axios.post(`${baseUrl}/cloudinary`, {
-        public_id: public_id,
+        public_id: uploadedImage.public_id,
       });
     } catch (error) {
       console.error(error);
@@ -180,18 +129,28 @@ export default function UploadButton({ setBlog, uploadedImage, blogData }) {
         <div className="mb-2">
           <div className="flex items-center gap-4 p-2 ">
             <a
-              href={uploadedImage}
+              href={uploadedImage.secure_url}
               target="_blank"
               rel="noopener noreferrer"
               title="open image in new tab">
               <img
-                src={uploadedImage}
+                src={uploadedImage.secure_url}
                 alt="Uploaded"
                 width={160}
                 height={90}
                 className="object-cover object-center h-[100px] w-[100px] italic"
               />
             </a>
+            <div className="text-xs md:text-sm flex-1">
+              <p>Name: {uploadedImage.original_filename}</p>
+              <p>
+                Type: {uploadedImage.resource_type}/ {uploadedImage.format}
+              </p>
+              <p>Size: {(uploadedImage.bytes / 1024).toFixed(2)}Kb</p>
+              <p>
+                Dimensions: {uploadedImage.width} / {uploadedImage.height} px
+              </p>
+            </div>
             <button
               type="button"
               onClick={handleImageChange}

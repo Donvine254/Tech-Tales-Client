@@ -88,7 +88,7 @@ export async function generateMetadata({ params }) {
   return customMetaDataGenerator({
     title: blog.title,
     description,
-    ogImage: blog.image,
+    ogImage: blog.image.secure_url,
     keywords: blog.tags.split(","),
     canonicalUrl: `https://techtales.vercel.app/blog/${blog.slug}`,
   });
