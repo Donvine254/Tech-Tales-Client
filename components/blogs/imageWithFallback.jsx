@@ -25,7 +25,7 @@ export default function ImageWithFallback({ image, title }) {
       blurDataURL={rgbDataURL(204, 204, 204)}
       quality={100}
       priority
-      className="blog-cover-image italic h-auto max-h-[450px] object-cover rounded-md w-full  mt-2 border-2  "
+      className="blog-cover-image italic h-auto max-h-[450px] object-cover rounded-md w-full  mt-2 border-2 border-cyan-500 "
       onContextMenu={(e) => e.preventDefault()}
       onError={() => setError(true)}
     />
