@@ -191,7 +191,7 @@ export default function Comments({
           </div>
         </form>
       ) : (
-        <div className="flex flex-col items-center justify-center  gap-2 xsm:gap-1 border rounded-md h-fit min-h-10 px-2 py-4 my-2 bg-blue-100 bg-opacity-50 ">
+        <div className="flex flex-col items-center justify-center  gap-2 xsm:gap-1 border rounded-md h-fit min-h-10 px-2 py-4 my-2 bg-cyan-100 bg-opacity-50 ">
           <h1 className="font-semibold md:text-xl ">
             Please Login or Register to comment
           </h1>
@@ -223,12 +223,12 @@ export default function Comments({
                 />
                 <div className="">
                   <div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 xsm:text-xs xsm:flex-wrap">
                       <p className="font-semibold capitalize">
                         {comment?.author.username}
                       </p>
                       {comment?.authorId === blogAuthorId && (
-                        <button className="bg-cyan-100 text-cyan-500 font-light rounded-md px-1 text-sm xsm:text-[12px] pointer-events-none border border-cyan-500">
+                        <button className="bg-cyan-100 text-cyan-500 font-light rounded-md px-1 text-sm xsm:text-xs pointer-events-none border border-cyan-500">
                           Author
                         </button>
                       )}
