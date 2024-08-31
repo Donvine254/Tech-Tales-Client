@@ -108,7 +108,7 @@ export default function CreateNewBlog() {
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
-    if (blogData.title === "" || blogData.body == "") {
+    if (blogData.body === "" || blogData.image === "") {
       toast.error("Please fill out all the required fields");
       return false;
     }

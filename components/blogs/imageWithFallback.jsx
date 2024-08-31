@@ -18,14 +18,20 @@ export default function ImageWithFallback({ image, title }) {
   return (
     <Image
       src={error ? fallbackSrc : image.secure_url ?? fallbackSrc}
-      alt={image.original_filename}
+      alt={image.original_filename ?? title}
       height={720}
       width={1280}
       placeholder="blur"
       blurDataURL={rgbDataURL(204, 204, 204)}
       quality={100}
       priority
-      className="blog-cover-image italic h-auto max-h-[450px] object-cover rounded-md w-full  mt-2 border-2 border-cyan-500 "
+      style={{
+        backgroundImage: "url('/placeholder-image.webp')",
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+      }}
+      className="blog-cover-image italic h-auto max-h-[450px] object-cover rounded-md w-full  mt-2 border-2 border-cyan-500"
       onContextMenu={(e) => e.preventDefault()}
       onError={() => setError(true)}
     />
