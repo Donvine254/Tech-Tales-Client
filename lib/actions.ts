@@ -104,6 +104,7 @@ export async function updateUserStatus(id: number | string, status: string) {
 }
 
 export async function deleteUser(id: number | string) {
+  let success = false;
   try {
     await prisma.user.update({
       where: {
@@ -113,10 +114,22 @@ export async function deleteUser(id: number | string) {
         deleted: true,
       },
     });
+    success = true;
   } catch (error) {
     console.error(error);
+    success = false;
     throw new Error("an error occurred when updating user details", error);
   } finally {
+    if (success) {
+      await prisma.blog.updateMany({
+        where: {
+          authorId: Number(id),
+        },
+        data: {
+          authorId: 11,
+        },
+      });
+    }
     await prisma.$disconnect();
   }
 }
