@@ -119,6 +119,8 @@ export default function ResetPasswordModal({ user }) {
               onChange={handleChange}
               minLength={8}
               disabled={loading}
+              title="Password must contain at least one letter and one number, and be at least 8 characters long."
+              pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$"
               required
               type={showPassword ? "text" : "password"}
             />

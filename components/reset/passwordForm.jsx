@@ -99,7 +99,7 @@ export default function PasswordForm() {
                   id="password"
                   name="password"
                   placeholder="*******"
-                  pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+                  pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$"
                   title="Password must contain at least one letter and one number, and be at least 8 characters long."
                   value={data.password}
                   onChange={handleChange}
@@ -122,7 +122,7 @@ export default function PasswordForm() {
                   id="confirmPassword"
                   name="confirmPassword"
                   placeholder="*******"
-                  pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+                  pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$"
                   title="Password must contain at least one letter and one number, and be at least 8 characters long."
                   value={data.confirmPassword}
                   minLength={8}
