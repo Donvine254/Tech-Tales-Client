@@ -3,6 +3,7 @@ import Slug from "./slug";
 export const revalidate = 600;
 import prisma from "@/prisma/prisma";
 import { customMetaDataGenerator } from "@/lib/customMetadataGenerator";
+import { redirect } from "next/navigation";
 
 export async function generateStaticParams() {
   try {
@@ -77,10 +78,7 @@ async function getBlogData(slug) {
 export async function generateMetadata({ params }) {
   const blog = await getBlogData(params.slug);
   if (!blog) {
-    return customMetaDataGenerator({
-      title: `${params.slug} | Tech Tales"`,
-      description: "The requested blog could not be found on Tech Tales.",
-    });
+    redirect("/404");
   }
 
   const description = `${blog.body.slice(0, 150)}... Read More`;
@@ -95,8 +93,12 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function BlogsPage({ params }) {
-  let blog = await getBlogData(params.slug);
-
+  const blog = await getBlogData(params.slug);
+  if (!blog) {
+    if (typeof window !== undefined) {
+      window.location.href = "404";
+    }
+  }
   return (
     <div className="w-full mx-auto m-2 min-h-[75%] px-8 xsm:px-4 md:w-4/5 md:mt-10 font-poppins ">
       <SideNav />
