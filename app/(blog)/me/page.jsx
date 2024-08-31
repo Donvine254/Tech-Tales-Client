@@ -134,8 +134,8 @@ export default function Profile() {
                 ? "You have have no bio yet. Update your bio  to let others know who you are, your competencies, and what you do."
                 : user.bio}
             </p>
-            <div className="flex items-center justify-between flex-wrap w-fit gap-4 mx-auto  py-2 text-gray-600 xsm:text-xs">
-              <p className="flex items-center gap-1 flex-1">
+            <div className="flex items-center justify-between flex-wrap w-fit gap-x-4 mx-auto  py-2 text-gray-600 xsm:text-xs">
+              <p className="flex items-center gap-1 flex-1 p-1 hover:bg-gray-200 rounded-md">
                 <svg
                   viewBox="0 0 24 24"
                   fill="currentColor"
@@ -150,7 +150,7 @@ export default function Profile() {
               </p>
               <Link
                 href="/me/settings"
-                className="hover:bg-gray-200 border border-transparent hover:text-blue-600 p-1 w-full rounded-md  flex flex-1 items-center gap-2 justify-center">
+                className="hover:bg-gray-200 border border-transparent hover:text-blue-600 p-1 w-full rounded-md  flex flex-1 items-center gap-2 ">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="1em"
@@ -164,7 +164,7 @@ export default function Profile() {
                   <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
                   <circle cx="12" cy="12" r="3" />
                 </svg>
-                Edit Profile
+                <span className="whitespace-nowrap"> Edit Profile</span>
               </Link>
             </div>
           </div>

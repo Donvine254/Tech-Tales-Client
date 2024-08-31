@@ -45,10 +45,7 @@ export default function CreateNewBlog() {
 
   const hasEntries = Object.entries(blogData).some(
     ([key, value]) =>
-      (key === "title" ||
-        key === "body" ||
-        key === "image" ||
-        key === "tags") &&
+      (key === "title" || key === "body" || key === "tags") &&
       value.trim() !== ""
   );
 
@@ -239,7 +236,7 @@ export default function CreateNewBlog() {
         />
         <div className="text-sm text-gray-600 flex justify-end ">
           <p>
-            {blogData.title.length ?? 0}/
+            {blogData?.title?.length ?? 0}/
             <span className="font-medium text-gray-800">80</span>
           </p>
         </div>
