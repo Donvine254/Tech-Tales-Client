@@ -628,7 +628,7 @@ export const accountDeletionTemplate = (
          
         </p>
         <div style="display:flex; justify-content:center; align-items:center; margin:auto">
-             <a title="Restore My  Account" href=${link} style="padding: 5px 10px; background-color:#f3f4f5; border-radius:8px; text-align:center; margin:auto;"
+             <a title="Restore My  Account" href=${link} style="padding:10px; background-color:#f3f4f5; border-radius:8px; text-align:center; margin:auto;"
             >Restore My  Account</a>
         </div>
           
