@@ -103,7 +103,12 @@ export async function updateUserStatus(id: number | string, status: string) {
   }
 }
 
-export async function deleteUser(id: number | string) {
+export async function deleteUser(
+  id: number | string,
+  username: string,
+  email: string
+) {
+  let success = false;
   try {
     const user = await prisma.user.update({
       where: {
@@ -112,30 +117,33 @@ export async function deleteUser(id: number | string) {
       data: {
         deleted: true,
         status: "DELETED",
-        blogs: {
-          updateMany: {
-            where: { authorId: Number(id) },
-            data: {
-              status: "ARCHIVED",
-            },
-          },
-        },
-        comments: {
-          updateMany: {
-            where: { authorId: Number(id) },
-            data: {
-              status: "HIDDEN",
-            },
-          },
-        },
       },
     });
-    sendDeleteNotificationEmail(user.name, user.email, user.id);
+    await prisma.blog.updateMany({
+      where: {
+        authorId: Number(id),
+      },
+      data: {
+        status: "ARCHIVED",
+      },
+    });
+    await prisma.comment.updateMany({
+      where: {
+        authorId: Number(id),
+      },
+      data: {
+        status: "HIDDEN",
+      },
+    });
+    success = true;
   } catch (error) {
     console.error(error);
 
     throw new Error("an error occurred when updating user details", error);
   } finally {
+    if (success) {
+      await sendDeleteNotificationEmail(username, email, Number(id));
+    }
     await prisma.$disconnect();
   }
 }
@@ -177,7 +185,80 @@ export async function restoreUserAccount(id: number | string) {
         status: "INACTIVE",
       },
     });
+    await prisma.blog.updateMany({
+      where: {
+        authorId: Number(id),
+      },
+      data: {
+        status: "PUBLISHED",
+      },
+    });
+    await prisma.comment.updateMany({
+      where: {
+        authorId: Number(id),
+      },
+      data: {
+        status: "VISIBLE",
+      },
+    });
+
     return user;
+  } catch (error) {
+    console.error(error);
+    throw new Error(error);
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+export async function userAccountSelfRestore(id: number | string) {
+  const threeMonthsAgo = new Date();
+  threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+        id: Number(id),
+      },
+    });
+
+    if (user && user.status === "DELETED") {
+      if (user.updatedAt < threeMonthsAgo) {
+        throw new Error(
+          "The grace period for restoring your account has passed. The account has been permanently deleted."
+        );
+      }
+      await prisma.user.update({
+        where: {
+          id: Number(id),
+        },
+        data: {
+          deleted: false,
+          deactivatedAt: null,
+          status: "INACTIVE",
+        },
+      });
+      await prisma.blog.updateMany({
+        where: {
+          authorId: Number(id),
+        },
+        data: {
+          status: "PUBLISHED",
+        },
+      });
+      await prisma.comment.updateMany({
+        where: {
+          authorId: Number(id),
+        },
+        data: {
+          status: "VISIBLE",
+        },
+      });
+
+      return user;
+    } else if (user && user.status !== "DELETED") {
+      return user;
+    } else {
+      throw new Error("No user with matching email address found");
+    }
   } catch (error) {
     console.error(error);
     throw new Error(error);

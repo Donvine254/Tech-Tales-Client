@@ -84,11 +84,11 @@ export const sendDeleteNotificationEmail = async (
 ) => {
   const encodedEmail = btoa(email.toLowerCase());
   const encodedId = btoa(id.toString());
-  const link = `https://techtales.vercel.app/restore/e=${encodedEmail}&id=${encodedId}`;
+  const link = `https://techtales.vercel.app/restore?e=${encodedEmail}&id=${encodedId}`;
   const secureLink = encodeURI(link);
   try {
     const response = await sendEmail({
-      subject: "Welcome to TechTales 🎉",
+      subject: "Important: Your Tech Tales Account has been Deleted",
       to: email,
       from: sender,
       html: accountDeletionTemplate(name, email, secureLink),

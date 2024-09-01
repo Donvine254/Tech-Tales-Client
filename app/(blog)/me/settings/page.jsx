@@ -107,7 +107,7 @@ export default function Page() {
           const toastId = toast.loading("Processing Request...", {
             position: "bottom-center",
           });
-          await deleteUser(user.id);
+          await deleteUser(user.id, user.username, user.email);
           toast.success("Account deleted successfully");
           clearLocalStorage();
           await fetch(`${baseUrl}/auth/logout`);

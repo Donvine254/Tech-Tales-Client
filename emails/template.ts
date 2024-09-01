@@ -580,7 +580,7 @@ export const accountDeletionTemplate = (
   name: string,
   email: string,
   link: string
-) => {
+) =>
   `<div style="margin: 5px auto; max-width: 768px; padding: 5px 10px">
       <div
         style="
@@ -614,7 +614,7 @@ export const accountDeletionTemplate = (
       </div>
       <div>
        <h3 style="font-weight: 600; text-align: center">
-          Password Reset Notification
+          Account Deletion Notification
         </h3>
         <p>Hello ${name},</p>
       <p> We are writing to inform you that your Tech Tales account associated with the email address ${email} has been marked for deletion. As per your request, your account has been deactivated, and the following actions have been taken: </p>
@@ -627,10 +627,9 @@ export const accountDeletionTemplate = (
           If you deleted your account by mistake or Incase you change your mind, you can click the button below to restore your account.
          
         </p>
-        <div style="display:flex; justify-content:center; align-items:center;">
-             <a title="Restore My  Account" href=${link} style="padding: 5px 10px; background-color:#f3f4f5; border-radius:8px;"
+        <div style="display:flex; justify-content:center; align-items:center; margin:auto">
+             <a title="Restore My  Account" href=${link} style="padding: 5px 10px; background-color:#f3f4f5; border-radius:8px; text-align:center; margin:auto;"
             >Restore My  Account</a>
-
         </div>
           
       </div>
@@ -701,4 +700,3 @@ export const accountDeletionTemplate = (
         </h2>
       </footer>
     </div>`;
-};
