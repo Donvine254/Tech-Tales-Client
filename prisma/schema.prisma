@@ -70,7 +70,7 @@ model Blog {
   slug      String     @unique
   image     Json       @default("{}")
   tags      String?
-  author    User       @relation(fields: [authorId], references: [id])
+  author    User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId  Int
   status    BlogStatus @default(PUBLISHED)
   likes     Int        @default(0)
@@ -87,7 +87,7 @@ model Blog {
 model Comment {
   id        Int           @id @default(autoincrement())
   body      String
-  author    User          @relation(fields: [authorId], references: [id])
+  author    User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId  Int
   blog      Blog          @relation(fields: [blogId], references: [id], onDelete: Cascade)
   blogId    Int

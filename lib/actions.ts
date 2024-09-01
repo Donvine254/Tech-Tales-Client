@@ -148,27 +148,16 @@ export async function deleteUser(
   }
 }
 export async function adminDeleteUser(id: number | string) {
-  let success = false;
   try {
     await prisma.user.delete({
       where: {
         id: Number(id),
       },
     });
-
-    success = true;
   } catch (error) {
     console.error(error);
-    success = false;
     throw new Error("an error when deleting user account", error);
   } finally {
-    if (success) {
-      await prisma.blog.deleteMany({
-        where: {
-          authorId: Number(id),
-        },
-      });
-    }
     await prisma.$disconnect();
   }
 }
