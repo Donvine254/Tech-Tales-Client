@@ -38,9 +38,6 @@ async function getTotalComments() {
 async function getTotalUsers() {
   try {
     const users = await prisma.user.findMany({
-      where: {
-        deleted: false,
-      },
       select: {
         id: true,
         email: true,

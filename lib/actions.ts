@@ -112,6 +112,7 @@ export async function deleteUser(id: number | string) {
       },
       data: {
         deleted: true,
+        status: "DELETED",
       },
     });
     success = true;

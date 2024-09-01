@@ -25,6 +25,7 @@ enum UserStatus {
   INACTIVE
   SUSPENDED
   DEACTIVATED
+  DELETED
 }
 
 enum BlogStatus {
@@ -54,6 +55,7 @@ model User {
   blogs           Blog[]
   comments        Comment[]
   socials         Json?      @default("[]")
+  preferences     Json?      @default("{\"cookies\": false, \"newsletter_subscription\": \"false\", \"email_notifications\": \"false\", \"analytics\": \"false\"}")
   deactivatedAt   DateTime?
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
