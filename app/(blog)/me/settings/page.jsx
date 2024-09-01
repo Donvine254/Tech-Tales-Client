@@ -3,49 +3,54 @@ import { useEffect, useState } from "react";
 import { baseUrl, clearLocalStorage } from "@/lib";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
+import axios from "axios";
 import UpdateProfileModal from "@/components/alerts/UpdateProfileModal";
 import ResetPasswordModal from "@/components/alerts/ResetPasswordModal";
 import { UserImage } from "@/components/ui/Avatar";
 import { deactivateUser, deleteUser } from "@/lib/actions";
-import { getCookie, setCookie } from "@/lib/utils";
+
 import { useUserContext } from "@/providers";
 
 export default function Page() {
   const user = useUserContext();
-  const [acceptCookies, setAcceptCookies] = useState(false);
-  const [subscribed, setSubscribed] = useState(false);
+  const [preferences, setPreferences] = useState({
+    cookies: false,
+    analytics: false,
+    email_notifications: false,
+    newsletter_subscription: false,
+  });
 
   useEffect(() => {
-    const cookieConsent = getCookie("acceptCookies");
-    if (cookieConsent === "true") {
-      setAcceptCookies(true);
+    if (user?.preferences) {
+      setPreferences(user.preferences);
     }
-    const subscribed = getCookie("subscribed");
-    if (subscribed === "true") {
-      setSubscribed(true);
-    }
-  }, []);
+  }, [user]);
 
-  // Handle checkbox change event
-  const handleCheckboxChange = (event) => {
-    const checked = event.target.checked;
-    setAcceptCookies(checked);
-    if (checked) {
-      setCookie("acceptCookies", "true", 30);
-    } else {
-      setCookie("acceptCookies", "", -1);
-    }
+  const handleCheckboxChange = (e) => {
+    const { name, checked } = e.target;
+    const updatedPreferences = { ...preferences, [name]: checked };
+    setPreferences(updatedPreferences);
+    handleSubmit(updatedPreferences);
   };
-  //function to handle subscribing
-  const handleEmailSubscription = (e) => {
-    const checked = e.target.checked;
-    setSubscribed(checked);
-    if (checked) {
-      setCookie("subscribed", "true", 30);
-    } else {
-      setCookie("subscribed", "", -1);
-    }
+
+  const debounce = (func, delay) => {
+    let debounceTimer;
+    return function (...args) {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => func.apply(this, args), delay);
+    };
   };
+
+  const handleSubmit = debounce(async (preferences) => {
+    try {
+      const response = await axios.patch(`${baseUrl}/users/${user.id}`, {
+        preferences: preferences,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }, 1000);
+
   //function to deactivate user account
   function handleDeactivate() {
     Swal.fire({
@@ -141,6 +146,14 @@ export default function Page() {
       console.error("Element with ID 'my_modal_3' not found.");
     }
   }
+
+  if (!user) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="loader"></div>
+      </div>
+    );
+  }
   return (
     <div className="font-poppins flex items-center justify-center m-auto xsm:m-2 md:mt-10 ">
       <div className="bg-gray-50 shadow border rounded-md">
@@ -193,7 +206,13 @@ export default function Page() {
             </p>
           </div>
           <label className="relative inline-flex items-center cursor-pointer">
-            <input type="checkbox" value="" className="sr-only peer" />
+            <input
+              type="checkbox"
+              name="email_notifications"
+              checked={preferences.email_notifications}
+              onChange={handleCheckboxChange}
+              className="sr-only peer"
+            />
             <div className="w-11 h-6 bg-gray-400 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-blue-600"></div>
           </label>
         </div>
@@ -207,10 +226,10 @@ export default function Page() {
           <label className="relative inline-flex items-center cursor-pointer">
             <input
               type="checkbox"
-              value=""
+              name="newsletter_subscription"
+              checked={preferences.newsletter_subscription}
+              onChange={handleCheckboxChange}
               className="sr-only peer"
-              checked={subscribed}
-              onChange={handleEmailSubscription}
             />
             <div className="w-11 h-6 bg-gray-400 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-blue-600"></div>
           </label>
@@ -223,7 +242,13 @@ export default function Page() {
             </p>
           </div>
           <label className="relative inline-flex items-center cursor-pointer">
-            <input type="checkbox" value="" className="sr-only peer" />
+            <input
+              type="checkbox"
+              name="analytics"
+              checked={preferences.analytics}
+              onChange={handleCheckboxChange}
+              className="sr-only peer"
+            />
             <div className="w-11 h-6 bg-gray-400 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-blue-600"></div>
           </label>
         </div>
@@ -237,7 +262,8 @@ export default function Page() {
           <label className="relative inline-flex items-center cursor-pointer">
             <input
               type="checkbox"
-              checked={acceptCookies}
+              name="cookies"
+              checked={preferences.cookies}
               onChange={handleCheckboxChange}
               className="sr-only peer"
             />

@@ -8,6 +8,12 @@ type PatchData = {
   picture?: string;
   bio?: string;
   handle?: string;
+  preferences?: {
+    cookies: boolean;
+    analytics: boolean;
+    email_notifications: boolean;
+    newsletter_subscription: boolean;
+  };
 };
 
 export async function GET(request: NextRequest, { params }) {
@@ -65,7 +71,8 @@ export async function PATCH(req: NextRequest, { params }) {
       { status: 401 }
     );
   }
-  const { username, bio, picture, handle } = (await req.json()) as PatchData;
+  const { username, bio, picture, handle, preferences } =
+    (await req.json()) as PatchData;
 
   try {
     const user = await prisma.user.update({
@@ -77,6 +84,7 @@ export async function PATCH(req: NextRequest, { params }) {
         handle,
         bio,
         picture,
+        preferences,
       },
     });
     // Generate a JWT token

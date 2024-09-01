@@ -15,6 +15,16 @@ async function seedDb() {
   //   },
   //   data: { socials: socials },
   // });
+  await prisma.user.updateMany({
+    data: {
+      preferences: {
+        cookies: true,
+        newsletter_subscription: false,
+        email_notifications: false,
+        analytics: false,
+      },
+    },
+  });
 }
 
 seedDb()
