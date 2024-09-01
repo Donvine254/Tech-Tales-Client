@@ -4,7 +4,7 @@ import UserActionsButton from "./userActions";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import { exportUsersCSV } from "@/lib/utils";
-import { deleteUser } from "@/lib/actions";
+import { adminDeleteUser, restoreUserAccount } from "@/lib/actions";
 import Image from "next/image";
 import AdminUpdateProfileModal from "./ProfileUpdate";
 import AdminRegisterUserModal from "./RegisterUserModal";
@@ -55,7 +55,7 @@ export default function UsersTable({ users }) {
   };
 
   //function to delete users
-  async function handleDeleteUser(username, id) {
+  async function handleDeleteUser(username, id, status) {
     Swal.fire({
       icon: "warning",
       text: `Are you sure you want to delete ${username}? `,
@@ -63,7 +63,7 @@ export default function UsersTable({ users }) {
       confirmButtonText: "Delete",
       showCancelButton: true,
       cancelButtonText: "Nevermind",
-      footer: "Deleted user accounts are automatically deleted after 3 months",
+      footer: "User accounts deleted by admins cannot be restored",
       customClass: {
         confirmButton:
           "px-2 py-1 mx-2 bg-red-500 text-white rounded-md hover:text-white hover:bg-red-500",
@@ -73,10 +73,10 @@ export default function UsersTable({ users }) {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await deleteUser(id);
+          await adminDeleteUser(id);
           toast.success("Account deleted successfully");
           setTotalUsers((prevUsers) =>
-            prevUsers.filter((b) => b.id.toString() !== id.toString())
+            prevUsers.filter((user) => user.id.toString() !== id.toString())
           );
         } catch (error) {
           toast.error("Something went wrong");
@@ -85,6 +85,25 @@ export default function UsersTable({ users }) {
       }
     });
   }
+  //function to restore deleted user accounts
+  async function handleRestoreUser(id) {
+    toast.success("Processing Request");
+    try {
+      const restoredUser = await restoreUserAccount(id);
+
+      setTotalUsers((prevUsers) =>
+        prevUsers.map((user) =>
+          user.id === id ? { ...user, ...restoredUser } : user
+        )
+      );
+
+      toast.success("User account restored successfully");
+    } catch (error) {
+      console.error(error);
+      toast.error("Something went wrong while restoring the user account");
+    }
+  }
+
   //function to show create modal
   const createUser = () => {
     document.getElementById("register_user_modal").showModal();
@@ -222,9 +241,12 @@ export default function UsersTable({ users }) {
                   <td className="px-4 py-2 flex items-center justify-center ">
                     <UserActionsButton
                       user={user}
-                      onDelete={() => handleDeleteUser(user.username, user.id)}
+                      onDelete={() =>
+                        handleDeleteUser(user.username, user.id, user.username)
+                      }
                       onEdit={showUpdateModal}
                       setUsers={setTotalUsers}
+                      onRestore={handleRestoreUser}
                     />
                     <AdminUpdateProfileModal
                       user={user}

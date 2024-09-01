@@ -3,7 +3,7 @@ import nodemailer from "nodemailer";
 import {
   otpTemplate,
   welcomeTemplate,
-  adminPasswordResetTemplate,
+  accountDeletionTemplate,
   adminRegistrationTemplate,
 } from "./template";
 
@@ -69,6 +69,29 @@ export const sendAdminRegistrationEmail = async (
       to: email,
       from: sender,
       html: adminRegistrationTemplate(name, email, password, role),
+    });
+    console.log("Email sent successfully");
+    return { message: "Email sent successfully" };
+  } catch (error) {
+    console.error("Email delivery failed:", error);
+    return { message: "Email delivery failed" };
+  }
+};
+export const sendDeleteNotificationEmail = async (
+  name: string,
+  email: string,
+  id: number
+) => {
+  const encodedEmail = btoa(email.toLowerCase());
+  const encodedId = btoa(id.toString());
+  const link = `https://techtales.vercel.app/restore/e=${encodedEmail}&id=${encodedId}`;
+  const secureLink = encodeURI(link);
+  try {
+    const response = await sendEmail({
+      subject: "Welcome to TechTales 🎉",
+      to: email,
+      from: sender,
+      html: accountDeletionTemplate(name, email, secureLink),
     });
     console.log("Email sent successfully");
     return { message: "Email sent successfully" };

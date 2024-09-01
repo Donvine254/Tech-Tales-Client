@@ -2,7 +2,7 @@
 import prisma from "@/prisma/prisma";
 import { revalidatePath } from "next/cache";
 import { baseUrl } from ".";
-import { sendVerificationEmail } from "@/emails";
+import { sendDeleteNotificationEmail, sendVerificationEmail } from "@/emails";
 
 export async function revalidateBlogs(slug: string) {
   if (slug) {
@@ -104,33 +104,84 @@ export async function updateUserStatus(id: number | string, status: string) {
 }
 
 export async function deleteUser(id: number | string) {
-  let success = false;
   try {
-    await prisma.user.update({
+    const user = await prisma.user.update({
       where: {
         id: Number(id),
       },
       data: {
         deleted: true,
         status: "DELETED",
+        blogs: {
+          updateMany: {
+            where: { authorId: Number(id) },
+            data: {
+              status: "ARCHIVED",
+            },
+          },
+        },
+        comments: {
+          updateMany: {
+            where: { authorId: Number(id) },
+            data: {
+              status: "HIDDEN",
+            },
+          },
+        },
       },
     });
+    sendDeleteNotificationEmail(user.name, user.email, user.id);
+  } catch (error) {
+    console.error(error);
+
+    throw new Error("an error occurred when updating user details", error);
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+export async function adminDeleteUser(id: number | string) {
+  let success = false;
+  try {
+    await prisma.user.delete({
+      where: {
+        id: Number(id),
+      },
+    });
+
     success = true;
   } catch (error) {
     console.error(error);
     success = false;
-    throw new Error("an error occurred when updating user details", error);
+    throw new Error("an error when deleting user account", error);
   } finally {
     if (success) {
-      await prisma.blog.updateMany({
+      await prisma.blog.deleteMany({
         where: {
           authorId: Number(id),
         },
-        data: {
-          authorId: 11,
-        },
       });
     }
+    await prisma.$disconnect();
+  }
+}
+
+export async function restoreUserAccount(id: number | string) {
+  try {
+    const user = await prisma.user.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        deleted: false,
+        deactivatedAt: null,
+        status: "INACTIVE",
+      },
+    });
+    return user;
+  } catch (error) {
+    console.error(error);
+    throw new Error(error);
+  } finally {
     await prisma.$disconnect();
   }
 }
@@ -190,6 +241,8 @@ export async function getBlogData(slug: string) {
   } catch (error) {
     console.error(error);
     return null;
+  } finally {
+    await prisma.$disconnect();
   }
 }
 

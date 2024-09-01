@@ -575,3 +575,130 @@ export const adminPasswordResetTemplate = (
       </footer>
     </div>
 `;
+
+export const accountDeletionTemplate = (
+  name: string,
+  email: string,
+  link: string
+) => {
+  `<div style="margin: 5px auto; max-width: 768px; padding: 5px 10px">
+      <div
+        style="
+          background-color: #f3f4f5;
+          display: flex;
+          justify-content: center;
+          padding: 5px;
+          margin-bottom: 10px;
+        ">
+        <h1
+          style="
+            font-size: 1.25rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Roboto', sans-serif;
+            margin: auto;
+          ">
+          TECH
+          <span
+            style="
+              color: white;
+              background-color: #06b6d4;
+              padding-left: 0.125rem;
+              padding-right: 0.125rem;
+              border-radius: 0.375rem;
+            ">
+            TALES
+            <span style="color: #dc2626; font-size: 1.875rem"> . </span>
+          </span>
+        </h1>
+      </div>
+      <div>
+       <h3 style="font-weight: 600; text-align: center">
+          Password Reset Notification
+        </h3>
+        <p>Hello ${name},</p>
+      <p> We are writing to inform you that your Tech Tales account associated with the email address ${email} has been marked for deletion. As per your request, your account has been deactivated, and the following actions have been taken: </p>
+      <ul>
+        <li> <strong>Blogs:</strong> Your blogs have been archived and are no longer publicly visible. However, they have not been deleted and can be restored if you decide to reactivate your account.</li>
+         <li> <strong>Comments:</strong> Your comments have been hidden but not deleted. They will also be restored if you choose to reactivate your account.</li>
+         <li> <strong>Bookmarks and Reactions:</strong> All your bookmarks and reactions have been permanently deleted.</li>
+      </ul>
+        <p>
+          If you deleted your account by mistake or Incase you change your mind, you can click the button below to restore your account.
+         
+        </p>
+        <div style="display:flex; justify-content:center; align-items:center;">
+             <a title="Restore My  Account" href=${link} style="padding: 5px 10px; background-color:#f3f4f5; border-radius:8px;"
+            >Restore My  Account</a>
+
+        </div>
+          
+      </div>
+      <footer
+        style="
+          font-size: 12px;
+          color: #fff;
+          background-color: #3b82f6;
+          padding: 5px;
+          margin: 10px 0px;
+          text-align: center;
+        ">
+        <p
+          style="color: #fff; text-align: center; width: 80%; margin: 5px auto">
+          You have received this message because you have requested to delete
+          your Account.
+        </p>
+        <table align="center" style="margin: 10px auto">
+          <tr>
+            <td style="padding: 0 5px">
+              <a
+                href="https://www.facebook.com/diamond.degesh.3"
+                title="Facebook">
+                <img
+                  src="https://res.cloudinary.com/dipkbpinx/image/upload/v1723321841/logos/msdtcjouooehzdrxnhrv.png"
+                  alt="Facebook"
+                  width="20"
+                  height="20"
+                  style="
+                    border-radius: 50%;
+                    background-color: #e5e7eb;
+                    padding: 4px;
+                  " />
+              </a>
+            </td>
+            <td style="padding: 0 5px">
+              <a href="https://x.com/diamonddegesh" title="Twitter">
+                <img
+                  src="https://res.cloudinary.com/dipkbpinx/image/upload/v1723323303/logos/mo5pxgo0ewsv07skdlwl.png"
+                  alt="Twitter"
+                  width="20"
+                  height="20"
+                  style="
+                    border-radius: 50%;
+                    background-color: #e5e7eb;
+                    padding: 4px;
+                  " />
+              </a>
+            </td>
+            <td style="padding: 0 5px">
+              <a href="https://github.com/Donvine254" title="GitHub">
+                <img
+                  src="https://res.cloudinary.com/dipkbpinx/image/upload/v1723321813/logos/d1hxxf2dtrw07h2jqsdw.png"
+                  alt="GitHub"
+                  width="20"
+                  height="20"
+                  style="
+                    border-radius: 50%;
+                    background-color: #e5e7eb;
+                    padding: 4px;
+                  " />
+              </a>
+            </td>
+          </tr>
+        </table>
+        <h2 style="font-size: 16px; text-align: center; color: #fff">
+          &copy; 2024 Tech Tales
+        </h2>
+      </footer>
+    </div>`;
+};
