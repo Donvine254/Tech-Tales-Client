@@ -36,8 +36,8 @@ export default function Dashboard({ blogs, users, totalComments }) {
           className=" bg-gray-100 hover:bg-gray-200 p-6 space-y-4 text-center shadow rounded-md hover:-translate-y-1 transition-transform duration-300 cursor-pointer"
           onClick={() => {
             router.push("/admin/dashboard?tab=0");
-          }}>
-         
+          }}
+          title="manage users">
           <div className=" inline-flex items-center justify-center w-full text-cyan-500">
             <svg
               viewBox="0 0 640 512"
@@ -59,7 +59,8 @@ export default function Dashboard({ blogs, users, totalComments }) {
           className=" bg-gray-100 hover:bg-gray-200 p-6 space-y-4 text-center  shadow rounded-md hover:-translate-y-1 transition-transform duration-300 cursor-pointer"
           onClick={() => {
             router.push("/admin/dashboard?tab=1");
-          }}>
+          }}
+          title="manage blogs">
           <div className=" inline-flex items-center justify-center w-full text-cyan-500">
             <svg
               version="1.1"
@@ -113,14 +114,14 @@ export default function Dashboard({ blogs, users, totalComments }) {
           <p className="text-gray-600">Total published blogs.</p>
           <hr />
           <p className="text-gray-600 "> Manage and publish blogs.</p>
-          
         </div>
         {/* third card */}
         <div
           className=" bg-gray-100 hover:bg-gray-200 p-6 space-y-4  shadow rounded-md hover:-translate-y-1 transition-transform duration-300 text-center cursor-pointer"
           onClick={() => {
             router.push("/admin/dashboard?tab=2");
-          }}>
+          }}
+          title="manage comments">
           <div className=" inline-flex items-center justify-center w-full text-cyan-500">
             <svg viewBox="0 0 24 24" fill="currentColor" height="48" width="48">
               <path d="M20 2H4a2 2 0 00-2 2v12a2 2 0 002 2h4v3c0 .55.45 1 1 1h.5c.25 0 .5-.1.7-.29L13.9 18H20c1.11 0 2-.89 2-2V4a2 2 0 00-2-2m-9.53 12L7 10.5l1.4-1.41 2.07 2.08L15.6 6 17 7.41 10.47 14z" />
