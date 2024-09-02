@@ -20,6 +20,7 @@ import UserStats from "@/components/stats";
 import { formatDate } from "@/lib/utils";
 import toast from "react-hot-toast";
 import { ProfileImage, Loader } from "@/components";
+import { Tooltip } from "react-tooltip";
 export const dynamic = "auto";
 
 export default function Profile() {
@@ -182,6 +183,7 @@ export default function Profile() {
                     <Image
                       width={30}
                       height={30}
+                      data-tooltip-id="admin-badge"
                       src="https://res.cloudinary.com/dipkbpinx/image/upload/v1724780586/badges/qkphllyptlbfxsmhihnh.png"
                       alt="admin badge"
                       title="admin"
@@ -193,6 +195,7 @@ export default function Profile() {
                       <Image
                         width={30}
                         height={30}
+                        data-tooltip-id="welcome-badge"
                         src="https://res.cloudinary.com/dipkbpinx/image/upload/v1724781261/badges/ve5jrrevzjft7up36syp.png"
                         alt="welcome badge"
                         title="welcome badge"
@@ -205,6 +208,7 @@ export default function Profile() {
                         width={30}
                         src="https://res.cloudinary.com/dipkbpinx/image/upload/v1724780825/badges/kotckmmr92ph9mayk2ds.webp"
                         height={30}
+                        data-tooltip-id="veteran-badge"
                         alt="veteran badge"
                         title="veteran badge"
                       />
@@ -214,6 +218,7 @@ export default function Profile() {
                       width={30}
                       src="https://res.cloudinary.com/dipkbpinx/image/upload/v1724779829/badges/m0edwdlv6hvbdkvxeevz.svg"
                       height={30}
+                      data-tooltip-id="writing-debut"
                       alt="writing debut"
                       title="writing debut badge"
                     />
@@ -224,10 +229,41 @@ export default function Profile() {
                       src="https://res.cloudinary.com/dipkbpinx/image/upload/v1724779829/badges/q86vokn45db0hfkklpud.svg"
                       height={30}
                       alt="top author"
+                      data-tooltip-id="top-contributor"
                       title="top contributor"
                     />
                   )}
                 </div>
+                <Tooltip
+                  id="admin-badge"
+                  content="admin badge"
+                  style={{ padding: "5px" }}
+                  variant="info"
+                />
+                <Tooltip
+                  id="welcome-badge"
+                  content="welcome badge"
+                  style={{ padding: "5px" }}
+                  variant="info"
+                />
+                <Tooltip
+                  id="veteran-badge"
+                  content="veteran badge"
+                  style={{ padding: "5px" }}
+                  variant="info"
+                />
+                <Tooltip
+                  id="writing-debut"
+                  content="writing debut"
+                  style={{ padding: "5px" }}
+                  variant="info"
+                />
+                <Tooltip
+                  id="top-contributor"
+                  content="top contributor"
+                  style={{ padding: "5px" }}
+                  variant="info"
+                />
               </div>
               <hr />
               <p className="text-gray-700 font-semibold mb-2 ">Manage Blogs</p>

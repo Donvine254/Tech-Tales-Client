@@ -60,10 +60,10 @@ export default function Popup({ setIsOpen }) {
         <div className="px-4 py-1 bg-gradient-to-r from-green-400 via-cyan-500 to-indigo-400 text-white">
           <div className="flex gap-1 md:gap-4 items-center mt-2 mr-2">
             <Image
-              src="https://res.cloudinary.com/dipkbpinx/image/upload/v1719694844/tsxkiwwlzkbvxqsyeawn.png"
+              src="/logo.png"
               height={30}
               width={30}
-              className="italic"
+              className="italic object-cover"
               alt="logo"
             />
 
