@@ -31,7 +31,7 @@ export default function ImageWithFallback({ image, title }) {
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}
-      className="blog-cover-image italic h-auto max-h-[450px] object-cover rounded-md w-full  mt-2 border-2 border-cyan-500"
+      className="blog-cover-image italic h-auto max-h-[450px]  rounded-md w-full  mt-2 border-2 border-cyan-500"
       onContextMenu={(e) => e.preventDefault()}
       onError={() => setError(true)}
     />
