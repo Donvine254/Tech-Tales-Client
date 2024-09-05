@@ -40,15 +40,8 @@ export default function Slug({ blog }) {
   const [commentCount, setCommentCount] = useState(blog?.comments.length ?? 0);
   const [copied, setCopied] = useState(false);
   const [showPlayButton, setShowPlayButton] = useState(false);
-  const router = useRouter();
 
   const user = useUserContext();
-
-  useEffect(() => {
-    if (!blog) {
-      router.replace("/not-found?referrer=blog-not-found");
-    }
-  }, [blog, router]);
 
   //function to pop-up user card
   function handleMouseEnter() {

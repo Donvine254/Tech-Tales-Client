@@ -78,7 +78,7 @@ async function getBlogData(slug) {
 export async function generateMetadata({ params }) {
   const blog = await getBlogData(params.slug);
   if (!blog) {
-    redirect("/404");
+    redirect("/not-found");
   }
 
   const description = `${blog.body.slice(0, 150)}... Read More`;
@@ -95,9 +95,7 @@ export async function generateMetadata({ params }) {
 export default async function BlogsPage({ params }) {
   const blog = await getBlogData(params.slug);
   if (!blog) {
-    if (typeof window !== undefined) {
-      window.location.href = "404";
-    }
+    redirect("/not-found");
   }
   return (
     <div className="w-full mx-auto m-2 min-h-[75%] px-8 xsm:px-4 md:w-4/5 md:mt-10 font-poppins ">
