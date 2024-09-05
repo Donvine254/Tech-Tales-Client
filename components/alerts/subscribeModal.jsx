@@ -47,7 +47,7 @@ export default function SubscribeModal() {
   return (
     <dialog
       id="subscription_form"
-      className="backdrop-blur-sm backdrop-blue-500 rounded-md font-segoi  max-w-md xsm:mx-2 ">
+      className="backdrop-blur-3xl backdrop-brightness-150 rounded-md font-segoi  max-w-md xsm:mx-2  modal">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -64,7 +64,7 @@ export default function SubscribeModal() {
         <path d="m6 6 12 12" />
         <title>Close</title>
       </svg>
-      <div className="px-2 py-1 bg-gradient-to-r from-green-400 via-cyan-400 to-indigo-400 text-white space-y-2">
+      <div className="px-2 py-2 bg-gradient-to-r from-green-400 via-cyan-400 to-indigo-400 text-white space-y-2">
         <h1 className="font-bold xsm:text-base text-2xl lg:text-3xl text-center ">
           Join our Newsletter
         </h1>

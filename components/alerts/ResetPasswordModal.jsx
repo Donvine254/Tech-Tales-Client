@@ -71,13 +71,17 @@ export default function ResetPasswordModal({ user }) {
   return (
     <dialog
       id="password_reset_modal"
-      className="backdrop-blur-sm backdrop-blue-500 rounded-md font-segoi  max-w-md xsm:mx-2">
-      <div className="px-2 py-1 bg-gradient-to-r from-green-400 via-cyan-400 to-indigo-400 text-white">
+      className="modal rounded-md  max-w-md xsm:mx-2">
+      <div className="px-6 py-2 bg-gradient-to-r from-green-400 via-cyan-400 to-indigo-400 text-white">
         <h1 className="font-bold xsm:text-base text-2xl text-center ">
           Reset Your Password
         </h1>
-        <div className="flex items-center justify-center gap-1">
-          <svg viewBox="0 0 24 24" fill="currentColor" height="1em" width="1em">
+        <div className="flex items-center align-middle justify-center gap-1">
+          <svg
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            height="1.2em"
+            width="1.2em">
             <path d="M12 2C6.579 2 2 6.579 2 12s4.579 10 10 10 10-4.579 10-10S17.421 2 12 2zm0 5c1.727 0 3 1.272 3 3s-1.273 3-3 3c-1.726 0-3-1.272-3-3s1.274-3 3-3zm-5.106 9.772c.897-1.32 2.393-2.2 4.106-2.2h2c1.714 0 3.209.88 4.106 2.2C15.828 18.14 14.015 19 12 19s-3.828-.86-5.106-2.228z" />
           </svg>
           <span>{user?.email}</span>
@@ -87,7 +91,7 @@ export default function ResetPasswordModal({ user }) {
         <div>
           <div className="space-y-2">
             <label className="font-semibold" htmlFor="current-password">
-              Current Password
+              Current Password *
             </label>
             <input
               className={`flex bg-background text-base disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-1 border border-gray-300 rounded-md ${
@@ -106,7 +110,7 @@ export default function ResetPasswordModal({ user }) {
           </div>
           <div className="space-y-2">
             <label className="font-semibold" htmlFor="new-password">
-              New Password
+              New Password *
             </label>
             <input
               className={`flex bg-background text-base disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-1 border border-gray-300 rounded-md ${
@@ -127,7 +131,7 @@ export default function ResetPasswordModal({ user }) {
           </div>
           <div className="space-y-2">
             <label className="font-semibold" htmlFor="confirm-password">
-              Confirm Password
+              Confirm Password *
             </label>
             <input
               className={`flex bg-background text-base disabled:cursor-not-allowed disabled:opacity-50 w-full px-3 py-1 border border-gray-300 rounded-md ${
@@ -162,8 +166,7 @@ export default function ResetPasswordModal({ user }) {
                 content="click here to suggest a strong password"
                 id="suggest-password"
                 variant="info"
-                place="bottom"
-                style={{ padding: "4px", fontSize: "12px" }}
+                style={{ padding: "4px" }}
               />
               Suggest Password
             </span>

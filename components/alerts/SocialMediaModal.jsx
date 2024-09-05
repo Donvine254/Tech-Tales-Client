@@ -55,7 +55,7 @@ const SocialMediaModal = ({ user }) => {
   return (
     <dialog
       id="social_media_modal"
-      className="rounded-md max-w-[400px] m-auto xsm:mx-5  backdrop-blur-sm shadow-md">
+      className="rounded-md max-w-[400px] modal m-auto xsm:mx-5 shadow-md">
       <div className="relative ">
         <div className="px-2 py-1 bg-gradient-to-r from-green-400 via-cyan-400 to-indigo-400 text-white space-y-2">
           <h3 className="text-2xl  font-semibold  text-center">

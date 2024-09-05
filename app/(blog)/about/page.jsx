@@ -5,6 +5,7 @@ import SubscribeModal, {
   SubscribeButton,
 } from "@/components/alerts/subscribeModal";
 import Link from "next/link";
+import Image from "next/image";
 export default function page() {
   return (
     <section className="font-poppins md:mt-8">
@@ -40,12 +41,13 @@ export default function page() {
         </h2>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-2 md:gap-4 ">
           <div className=" border bg-gray-50 shadow xsm:w-full sm:py-6 lg:py-2 lg:px-4 p-2">
-            <img
-              src="https://res.cloudinary.com/dipkbpinx/image/upload/v1704933173/badwfrnlys9ldszthtb7.jpg"
+            <Image
+              src="https://res.cloudinary.com/dipkbpinx/image/upload/v1704933173/tech-tales/profile-pictures/tj9r6trvxzkprzdyyrqe.jpg"
               width="150"
               height="150"
               alt="Founder"
-              className="mx-auto ring ring-offset-0 ring-cyan-500 aspect-square overflow-hidden rounded-full object-cover"
+              quality={100}
+              className="mx-auto ring ring-offset-0 ring-cyan-500 overflow-hidden rounded-full object-cover italic bg-[#ccc]"
             />
             <p className="text-center font-bold">Donvine Mugendi</p>
             <p className="text-center">Fullstack software developer</p>
@@ -87,7 +89,7 @@ export default function page() {
         </div>
       </section>
       <section className=" p-4 my-2 md:w-3/4 mx-auto">
-        <div className="grid gap-2 sm:px-5 md:gap-4 md:grid-cols-2">
+        <div className="grid gap-2 sm:px-5 md:gap-6 md:grid-cols-2">
           <div className="space-y-2 ">
             <h2 className="font-bold md:leading-loose text-start text-xl md:text-3xl tracking-wide">
               Our Mission
