@@ -57,7 +57,7 @@ export default async function BlogsComponent({ blogs }) {
                 )}
               </div>
               <article className="text-sm sm:text-base md:text-[18px] leading-8 md:pb-1 line-clamp-2  overflow-hidden trimmed-blog-body ">
-                {blog ? parse(blog.body) : blog.body}
+                {blog ? parse(blog.body.substring(0, 200)) : blog.body}
               </article>
             </div>
             {/* start of flex div for actions */}
