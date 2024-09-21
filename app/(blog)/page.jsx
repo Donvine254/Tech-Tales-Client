@@ -77,7 +77,7 @@ export default async function HomePage() {
                   )}
                 </div>
                 <article className="text-sm sm:text-base md:text-[18px] leading-8 line-clamp-2 md:pb-1 overflow-hidden trimmed-blog-body ">
-                  {blog ? parse(blog.body) : blog.body}
+                  {blog ? parse(blog.body.substring(0, 400)) : blog.body}
                 </article>
               </div>
               {/* beginning of actions button div */}

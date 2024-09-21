@@ -118,7 +118,7 @@ export default function MyBlogsComponent() {
                   )}
                 </div>
                 <article className="text-sm sm:text-base md:text-[18px] leading-8 line-clamp-2 md:pb-1 trimmed-blog-body ">
-                  {blog.body ? parse(blog.body) : blog.body}
+                  {blog.body ? parse(blog.body.substring(0, 400)) : blog.body}
                 </article>
               </div>
               {/* beginning div for actions buttons */}
@@ -253,7 +253,7 @@ export default function MyBlogsComponent() {
                 )}
               </div>
               <article className="text-sm sm:text-base md:text-xl leading-8 line-clamp-2 md:pb-1 trimmed-blog-body ">
-                {blog.body ? parse(blog.body) : blog.body}
+                {blog.body ? parse(blog.body.substring(0, 400)) : blog.body}
               </article>
             </div>
             <div className="flex items-center justify-between py-2 ">

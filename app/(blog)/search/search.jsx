@@ -92,7 +92,7 @@ export default function SearchPage() {
                     )}
                   </div>
                   <article className="text-sm sm:text-base md:text-[18px] leading-8 line-clamp-2 md:py-1 overflow-hidden trimmed-blog-body ">
-                    {blog ? parse(blog.body.substring(0, 200)) : blog.body}
+                    {blog ? parse(blog.body.substring(0, 400)) : blog.body}
                   </article>
                 </div>
                 {/* beginning of actions button */}
