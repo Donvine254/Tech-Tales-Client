@@ -110,17 +110,55 @@ export default function BlogSummary({ body, show, id }) {
           {showButton && (
             <div className="mx-auto sm:w-1/2 md:w-1/3 p-4">
               <button
-                className="py-1 w-full bg-gradient-to-r from-blue-400 via-green-400 to-purple-400 shadow shadow-purple-400 text-white relative rounded-full hover:shadow-lg hover:shadow-purple-400 hover:-translate-y-1 transition-transform duration-300"
+                className="py-1 w-full bg-gradient-to-r from-blue-400 via-green-400 to-purple-400 shadow shadow-purple-400 text-white relative rounded-full hover:shadow-lg hover:shadow-purple-400 hover:-translate-y-1 transition-transform duration-300 min-w-[200px]"
                 onClick={getBlogSummary}
                 disabled={loading}
                 data-tooltip-id="generate-summary">
                 {loading ? (
                   <span className="flex items-center justify-center">
-                    <span className="animate-spin mr-2">✨</span> Generating...
-                    <span className="animate-spin ml-2">✨</span>
+                    <svg
+                      fill="#F9C23C"
+                      stroke="#F9C23C"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      viewBox="0 0 24 24"
+                      height="1.4em"
+                      width="1.4em"
+                      className="animate-spin mr-2">
+                      <path d="M12 3l-1.9 5.8a2 2 0 01-1.287 1.288L3 12l5.8 1.9a2 2 0 011.288 1.287L12 21l1.9-5.8a2 2 0 011.287-1.288L21 12l-5.8-1.9a2 2 0 01-1.288-1.287z" />
+                    </svg>
+                    Generating...
+                    <svg
+                      viewBox="0 0 512 512"
+                      fill="#F9C23C"
+                      height="1.4em"
+                      width="1.4em"
+                      className="animate-spin mr-2">
+                      <path d="M208 512l-52.38-139.62L16 320l139.62-52.38L208 128l52.38 139.62L400 320l-139.62 52.38zM88 176l-23.57-64.43L0 88l64.43-23.57L88 0l23.57 64.43L176 88l-64.43 23.57zM400 256l-31.11-80.89L288 144l80.89-31.11L400 32l31.11 80.89L512 144l-80.89 31.11z" />
+                    </svg>
                   </span>
                 ) : (
-                  <span>✨ Generate Summary ✨</span>
+                  <span className="flex items-center justify-center">
+                    <svg
+                      fill="#F9C23C"
+                      stroke="#F9C23C"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      viewBox="0 0 24 24"
+                      height="1.2em"
+                      width="1.2em">
+                      <path d="M12 3l-1.9 5.8a2 2 0 01-1.287 1.288L3 12l5.8 1.9a2 2 0 011.288 1.287L12 21l1.9-5.8a2 2 0 011.287-1.288L21 12l-5.8-1.9a2 2 0 01-1.288-1.287z" />
+                    </svg>{" "}
+                    Generate Summary
+                    <svg
+                      viewBox="0 0 512 512"
+                      fill="#F9C23C"
+                      height="1.4em"
+                      width="1.4em">
+                      <path d="M208 512l-52.38-139.62L16 320l139.62-52.38L208 128l52.38 139.62L400 320l-139.62 52.38zM88 176l-23.57-64.43L0 88l64.43-23.57L88 0l23.57 64.43L176 88l-64.43 23.57zM400 256l-31.11-80.89L288 144l80.89-31.11L400 32l31.11 80.89L512 144l-80.89 31.11z" />
+                    </svg>
+                  </span>
                 )}
                 <span className="text-white bg-green-400 text-xs px-2 rounded-sm absolute top-[-10px] right-2">
                   BETA

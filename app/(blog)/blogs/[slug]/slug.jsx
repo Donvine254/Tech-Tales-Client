@@ -12,7 +12,6 @@ import {
   Recommendations,
 } from "@/components";
 import parse from "html-react-parser";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { calculateReadingTime } from "@/lib";

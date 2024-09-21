@@ -104,7 +104,7 @@ export default function Profile() {
               <>
                 {user.role === "admin" ? (
                   <Image
-                    src="https://res.cloudinary.com/dipkbpinx/image/upload/v1723863889/logos/on4c9g21udqs4oqrucdo.png"
+                    src="https://res.cloudinary.com/dipkbpinx/image/upload/v1723863889/badges/on4c9g21udqs4oqrucdo.png"
                     width={18}
                     height={18}
                     className="h-auto w-auto max-w-[18px] "
