@@ -92,7 +92,10 @@ export default function CommentEditor({
                       {
                         type: "htmlpanel",
                         name: "gifDisplay",
-                        html: '<div id="gifGrid" class="gif-grid-container"></div>', // Placeholder for GIF grid
+                        html: `<div>
+                                <p style="display:flex; justify-items:center; align-items:center; font-size: 14px; color: #888; gap:5px;">Powered By <img src="/giphy-logo.svg" width="50" alt="giphy-attribution" style="width:50px;"/></p>
+                              <div id="gifGrid" class="gif-grid-container"></div>
+                              </div>`, // Placeholder for GIF grid
                       },
                     ],
                   },
@@ -106,6 +109,7 @@ export default function CommentEditor({
                       text: "Close",
                     },
                   ],
+
                   onSubmit: function (api) {
                     const data = api.getData();
                     const searchQuery = data.gifSearch;
