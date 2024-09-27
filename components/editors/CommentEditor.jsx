@@ -119,7 +119,7 @@ export default function CommentEditor({
                       const giphyApiKey = process.env.NEXT_PUBLIC_GIPHY_API_KEY;
                       const searchApiUrl = `https://api.giphy.com/v1/gifs/search?api_key=${giphyApiKey}&q=${encodeURIComponent(
                         searchQuery
-                      )}&limit=10`;
+                      )}&limit=20&rating=g`;
 
                       // Fetch GIFs based on the search query
                       fetch(searchApiUrl)
@@ -161,9 +161,9 @@ export default function CommentEditor({
                 const randomTerm = ["funny", "cat", "dance"][
                   Math.floor(Math.random() * 3)
                 ];
-                const randomApiUrl = `https://api.giphy.com/v1/gifs/search?q=${randomTerm}&api_key=${giphyApiKey}&limit=50&offset=${Math.floor(
+                const randomApiUrl = `https://api.giphy.com/v1/gifs/trending?api_key=${giphyApiKey}&limit=50&offset=${Math.floor(
                   Math.random() * 100
-                )}`;
+                )}&rating=g`;
 
                 fetch(randomApiUrl)
                   .then((response) => response.json())
