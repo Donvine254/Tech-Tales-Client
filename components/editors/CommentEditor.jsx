@@ -129,7 +129,7 @@ export default function CommentEditor({
                             json.data.forEach((gif) => {
                               const gifUrl = gif.images.fixed_height.url;
                               const gifElement = `<div style="margin: 5px;">
-                <img src="${gifUrl}" style="cursor:pointer; object-fit: cover;" onclick="window.insertGif('${gifUrl}')" />
+                <img src="${gifUrl}" style="cursor:pointer; object-fit: cover;"  onclick="window.insertGif('${gifUrl}')" />
               </div>`;
                               gifGrid.innerHTML += gifElement;
                             });
