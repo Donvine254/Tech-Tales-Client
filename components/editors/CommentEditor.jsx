@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { handleImageUpload } from "./index";
-import toast from "react-hot-toast";
+
 export default function CommentEditor({
   data,
   handleChange,
@@ -59,6 +59,7 @@ export default function CommentEditor({
             "emoticons",
             "fullscreen",
             "insertdatetime",
+            "gif",
           ],
           toolbar:
             "bold italic underline forecolor|numlist bullist|blockquote link image|gif emoticons",
@@ -66,128 +67,6 @@ export default function CommentEditor({
             "@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap'); body { font-family: Poppins; height: 'auto'; overflow: 'hidden';  }",
           image_advtab: true,
           images_upload_handler: handleImageUpload,
-          setup: (editor) => {
-            editor.ui.registry.addIcon(
-              "gif",
-              `<svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M3 7h6v2H3v6h4v-2H5v-2h4v6H1V7h2zm14 0h6v2h-6v2h4v2h-4v4h-2V7h2zm-4 0h-2v10h2V7z" fill="#000000"/>
-</svg>`
-            );
-            editor.ui.registry.addButton("gif", {
-              icon: "gif",
-              tooltip: "Insert a GIF",
-              onAction: function () {
-                window.insertGif = insertGif;
-                // Open the modal to search for GIFs
-                editor.windowManager.open({
-                  title: "Insert a GIF",
-                  body: {
-                    type: "panel",
-                    items: [
-                      {
-                        type: "input",
-                        name: "gifSearch",
-                        label: "Search GIFs",
-                      },
-                      {
-                        type: "htmlpanel",
-                        name: "gifDisplay",
-                        html: `<div>
-                                <p style="display:flex; justify-content:flex-end; align-items:center; font-size: 14px; color: #888; gap:5px;">Powered By <img src="/giphy-logo.svg" width="50" alt="giphy-attribution" style="width:50px;"/></p>
-                              <div id="gifGrid" class="gif-grid-container">
-                              <p style="color: #888;">Loading...</p>
-                              </div>
-                              </div>`, // Placeholder for GIF grid
-                      },
-                    ],
-                  },
-                  buttons: [
-                    {
-                      type: "submit",
-                      text: "Search",
-                    },
-                    {
-                      type: "cancel",
-                      text: "Close",
-                    },
-                  ],
-
-                  onSubmit: function (api) {
-                    const data = api.getData();
-                    const searchQuery = data.gifSearch;
-                    // Helper function to insert the selected GIF
-
-                    if (searchQuery) {
-                      const giphyApiKey = process.env.NEXT_PUBLIC_GIPHY_API_KEY;
-                      const searchApiUrl = `https://api.giphy.com/v1/gifs/search?api_key=${giphyApiKey}&q=${encodeURIComponent(
-                        searchQuery
-                      )}&limit=20&rating=g`;
-
-                      // Fetch GIFs based on the search query
-                      fetch(searchApiUrl)
-                        .then((response) => response.json())
-                        .then((json) => {
-                          let gifGrid = document.getElementById("gifGrid");
-                          gifGrid.innerHTML = ""; // Clear any previous GIFs
-
-                          if (json.data.length > 0) {
-                            // Display search results
-                            json.data.forEach((gif) => {
-                              const gifUrl = gif.images.fixed_height.url;
-                              const gifElement = `<div style="margin: 5px;">
-                <img src="${gifUrl}" style="cursor:pointer; object-fit: cover; width: 150px; height: 150px;"  onclick="window.insertGif('${gifUrl}')" />
-              </div>`;
-                              gifGrid.innerHTML += gifElement;
-                            });
-                          } else {
-                            gifGrid.innerHTML =
-                              "<p>No GIFs found for that search term.</p>";
-                          }
-                        })
-                        .catch((error) => {
-                          console.error(
-                            "Error fetching search results:",
-                            error
-                          );
-                          toast.error(
-                            "Error fetching search results. Please try again."
-                          );
-                        });
-                    } else {
-                      toast.error("Please enter a search term.");
-                    }
-                  },
-                });
-
-                const giphyApiKey = process.env.NEXT_PUBLIC_GIPHY_API_KEY;
-                const randomTerm = ["funny", "cat", "dance"][
-                  Math.floor(Math.random() * 3)
-                ];
-                const randomApiUrl = `https://api.giphy.com/v1/gifs/trending?api_key=${giphyApiKey}&limit=50&offset=${Math.floor(
-                  Math.random() * 100
-                )}&rating=g`;
-
-                fetch(randomApiUrl)
-                  .then((response) => response.json())
-                  .then((json) => {
-                    console.log(json);
-                    let gifGrid = document.getElementById("gifGrid");
-                    gifGrid.innerHTML = "";
-                    json.data.forEach((gif) => {
-                      const gifUrl = gif.images.fixed_height.url;
-                      const gifElement = `<div style="margin: 5px;">
-                <img src="${gifUrl}" style="cursor:pointer; width: 150px; height: 150px; object-fit: cover;" onclick="window.insertGif('${gifUrl}')" />
-              </div>`;
-                      gifGrid.innerHTML += gifElement;
-                    });
-                  })
-                  .catch((error) => {
-                    console.error("Error fetching random GIFs:", error);
-                    toast.error("Error loading random GIFs.");
-                  });
-              },
-            });
-          },
         }}
       />
       <div
