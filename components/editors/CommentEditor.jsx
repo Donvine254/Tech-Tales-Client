@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { handleImageUpload } from "./index";
+import toast from "react-hot-toast";
 export default function CommentEditor({
   data,
   handleChange,
@@ -91,7 +92,7 @@ export default function CommentEditor({
                       {
                         type: "htmlpanel",
                         name: "gifDisplay",
-                        html: '<div id="gifGrid" style="display: flex; flex-wrap: wrap;justify-content:center; align-items:center; width:100%; gap:10px;"></div>', // Placeholder for GIF grid
+                        html: '<div id="gifGrid" class="gif-grid-container"></div>', // Placeholder for GIF grid
                       },
                     ],
                   },
@@ -128,7 +129,7 @@ export default function CommentEditor({
                             json.data.forEach((gif) => {
                               const gifUrl = gif.images.fixed_height.url;
                               const gifElement = `<div style="margin: 5px;">
-                <img src="${gifUrl}" style="cursor:pointer; width: 150px; height: 150px; object-fit: cover;" onclick="window.insertGif('${gifUrl}')" />
+                <img src="${gifUrl}" style="cursor:pointer; object-fit: cover;" onclick="window.insertGif('${gifUrl}')" />
               </div>`;
                               gifGrid.innerHTML += gifElement;
                             });
@@ -142,12 +143,12 @@ export default function CommentEditor({
                             "Error fetching search results:",
                             error
                           );
-                          alert(
+                          toast.error(
                             "Error fetching search results. Please try again."
                           );
                         });
                     } else {
-                      alert("Please enter a search term.");
+                      toast.error("Please enter a search term.");
                     }
                   },
                 });
@@ -176,7 +177,7 @@ export default function CommentEditor({
                   })
                   .catch((error) => {
                     console.error("Error fetching random GIFs:", error);
-                    alert("Error loading random GIFs.");
+                    toast.error("Error loading random GIFs.");
                   });
               },
             });

@@ -525,3 +525,11 @@ li {
   display: none !important;
   opacity: 0 !important;
 }
+.gif-grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+}
