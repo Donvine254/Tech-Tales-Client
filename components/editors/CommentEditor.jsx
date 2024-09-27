@@ -94,7 +94,9 @@ export default function CommentEditor({
                         name: "gifDisplay",
                         html: `<div>
                                 <p style="display:flex; justify-content:flex-end; align-items:center; font-size: 14px; color: #888; gap:5px;">Powered By <img src="/giphy-logo.svg" width="50" alt="giphy-attribution" style="width:50px;"/></p>
-                              <div id="gifGrid" class="gif-grid-container"></div>
+                              <div id="gifGrid" class="gif-grid-container">
+                              <p style="color: #888;">Loading...</p>
+                              </div>
                               </div>`, // Placeholder for GIF grid
                       },
                     ],
