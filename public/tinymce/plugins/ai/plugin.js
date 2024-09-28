@@ -8,8 +8,7 @@ tinymce.PluginManager.add("ai", function (editor, url) {
           {
             type: "htmlpanel",
             name: "responsePanel",
-            html: `<div id="ai-response-container" style="padding: 10px; max-height:250px; overflow-y:scroll;"> 
-            </div>`,
+            html: `<div id="ai-response-container" style="padding: 10px; max-height:250px; overflow-y:scroll;"> </div>`,
           },
           {
             type: "input",
@@ -36,6 +35,8 @@ tinymce.PluginManager.add("ai", function (editor, url) {
           alert("Kindly enter a prompt first!");
           return false;
         }
+        const result = document.getElementById("ai-response-container");
+        result.innerHTML += `<div style="background-color: #f1f2f3; padding: 10px; border-radius: 5px;display:flex; justify-content:center; align-items:center;flex-direction: column;"><svg xmlns="http://www.w3.org/2000/svg" style=" margin: auto;background: none;display: block; shape-rendering: auto;"width="50px"height="50px"viewBox="0 0 100 100"preserveAspectRatio="xMidYMid"><circle cx="50"cy="50"fill="none" stroke="#888"stroke-width="8"r="35" stroke-dasharray="164.93361431346415 56.97787143782138"><animateTransform attributeName="transform"type="rotate" repeatCount="indefinite"dur="1s"values="0 50 50;360 50 50"keyTimes="0;1"></animateTransform></circle> </svg><p style="text-align: center">Generating....</p></div>`;
         fetch("http://localhost:3000/api/gemini", {
           method: "POST",
           headers: {
@@ -53,7 +54,6 @@ tinymce.PluginManager.add("ai", function (editor, url) {
                <button id="insert-btn" style="background-color: #006CE7; color: white; padding: 5px 12px; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px;">Insert</button>
             <button style="background-color: #f2f3f4; color: black; padding: 5px 12px; border: none; border-radius: 4px; cursor: not-allowed;" disabled>Stop </button>
             </div>`;
-            const result = document.getElementById("ai-response-container");
             result.style.border = "1px solid gray";
             result.style.borderRadius = "5px";
             result.innerHTML = aiResponse;
