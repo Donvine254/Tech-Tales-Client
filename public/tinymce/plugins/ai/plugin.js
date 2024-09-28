@@ -36,7 +36,7 @@ tinymce.PluginManager.add("ai", function (editor, url) {
           return false;
         }
         const result = document.getElementById("ai-response-container");
-        result.innerHTML += `<div style="background-color: #f1f2f3; padding: 10px; border-radius: 5px;display:flex; justify-content:center; align-items:center;flex-direction: column;"><svg xmlns="http://www.w3.org/2000/svg" style=" margin: auto;background: none;display: block; shape-rendering: auto;"width="50px"height="50px"viewBox="0 0 100 100"preserveAspectRatio="xMidYMid"><circle cx="50"cy="50"fill="none" stroke="#888"stroke-width="8"r="35" stroke-dasharray="164.93361431346415 56.97787143782138"><animateTransform attributeName="transform"type="rotate" repeatCount="indefinite"dur="1s"values="0 50 50;360 50 50"keyTimes="0;1"></animateTransform></circle> </svg><p style="text-align: center">Generating....</p></div>`;
+        result.innerHTML += `<div style="background-color:#f9fafb; opacity:0.5; padding: 10px; border-radius: 5px;display:flex; justify-content:center; align-items:center;flex-direction: column;"><svg xmlns="http://www.w3.org/2000/svg" style=" margin: auto;background: none;display: block; shape-rendering: auto;"width="50px"height="50px"viewBox="0 0 100 100"preserveAspectRatio="xMidYMid"><circle cx="50"cy="50"fill="none" stroke="#888"stroke-width="8"r="35" stroke-dasharray="164.93361431346415 56.97787143782138"><animateTransform attributeName="transform"type="rotate" repeatCount="indefinite"dur="1s"values="0 50 50;360 50 50"keyTimes="0;1"></animateTransform></circle> </svg><p style="text-align: center">Generating....</p></div>`;
         fetch("https://techtales.vercel.app/api/gemini", {
           method: "POST",
           headers: {
@@ -65,13 +65,12 @@ tinymce.PluginManager.add("ai", function (editor, url) {
           })
           .catch((error) => {
             console.error("Error fetching AI response:", error);
-            alert("Failed to fetch AI response.");
+            result.innerHTML = `<p style="color:red;">Failed to generate response. Try again later or check the error below. ${error}</p>`;
           });
         api.setData({ prompt: "" });
       },
     });
   };
-
   editor.ui.registry.addButton("ai", {
     icon: "ai",
     tooltip: "Ask AI",
