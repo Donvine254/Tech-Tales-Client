@@ -191,7 +191,10 @@ export default function Comments({
           </div>
         </form>
       ) : (
-        <div className="flex flex-col items-center justify-center  gap-2 xsm:gap-1 border rounded-md h-fit min-h-10 px-2 py-4 my-2 bg-cyan-100 bg-opacity-50 ">
+        <div className="flex flex-col items-center justify-center  gap-2 xsm:gap-1 border-2 rounded-md h-fit min-h-10 px-2 py-4 my-2 bg-gray-100  border-cyan-400 ">
+          <svg viewBox="0 0 512 512" fill="#3b82f6" height="3em" width="3em">
+            <path d="M368 192h-16v-80a96 96 0 10-192 0v80h-16a64.07 64.07 0 00-64 64v176a64.07 64.07 0 0064 64h224a64.07 64.07 0 0064-64V256a64.07 64.07 0 00-64-64zm-48 0H192v-80a64 64 0 11128 0z" />
+          </svg>
           <h1 className="font-semibold md:text-xl ">
             Please Login or Register to comment
           </h1>
@@ -199,7 +202,7 @@ export default function Comments({
             <Link
               href={`/login?post_login_redirect_url=blogs/${slug}#write-comment`}
               scroll
-              className="px-6 py-1 rounded-md border bg-gray-300 hover:bg-black hover:text-white xsm:w-full text-center">
+              className="px-6 py-1 rounded-md border bg-white border-blue-500 hover:bg-black hover:text-white xsm:w-full text-center">
               Login
             </Link>
             <Link
@@ -243,7 +246,9 @@ export default function Comments({
                           <div className="online-indicator">
                             <span className="blink"></span>
                           </div>
-                          <span className="text-green-500">online</span>
+                          <span className="text-green-500 xsm:hidden">
+                            online
+                          </span>
                         </div>
                       )}
                     </div>

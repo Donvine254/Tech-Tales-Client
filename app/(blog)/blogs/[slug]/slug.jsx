@@ -139,7 +139,7 @@ export default function Slug({ blog }) {
           </div>
           <div className="flex items-center justify-between xsm:gap-2 md:gap-4  py-2 border-y border-slate-300  my-1">
             <Link
-              href="#comments"
+              href="#actions"
               className="text-base  inline-flex items-center gap-1"
               data-tooltip-id="comments">
               <Comment size={20} className="stroke-none fill-gray-400" />
