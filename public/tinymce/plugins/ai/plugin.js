@@ -8,7 +8,12 @@ tinymce.PluginManager.add("ai", function (editor, url) {
           {
             type: "htmlpanel",
             name: "responsePanel",
-            html: `<div id="ai-response-container" style="padding: 10px; max-height:250px; overflow-y:scroll;"> </div>`,
+            html: `<div id="ai-response-container" style="max-height:250px; overflow-y:scroll;"> </div>`,
+          },
+          {
+            type: "htmlpanel",
+            name: "responseButtons",
+            html: `<div id="response-buttons" style="padding: 10px 0; display:none;"> <button id="insert-btn" style="background-color: #006CE7; color: white; padding: 5px 12px; border: none; border-radius: 4px; cursor: pointer">Insert</button> </div>`,
           },
           {
             type: "input",
@@ -36,7 +41,13 @@ tinymce.PluginManager.add("ai", function (editor, url) {
           return false;
         }
         const result = document.getElementById("ai-response-container");
-        result.innerHTML += `<div style="background-color:#f9fafb; opacity:0.5; padding: 10px; border-radius: 5px;display:flex; justify-content:center; align-items:center;flex-direction: column;"><svg xmlns="http://www.w3.org/2000/svg" style=" margin: auto;background: none;display: block; shape-rendering: auto;"width="50px"height="50px"viewBox="0 0 100 100"preserveAspectRatio="xMidYMid"><circle cx="50"cy="50"fill="none" stroke="#888"stroke-width="8"r="35" stroke-dasharray="164.93361431346415 56.97787143782138"><animateTransform attributeName="transform"type="rotate" repeatCount="indefinite"dur="1s"values="0 50 50;360 50 50"keyTimes="0;1"></animateTransform></circle> </svg><p style="text-align: center">Generating....</p></div>`;
+        const responseBtns = document.getElementById("response-buttons");
+        result.innerHTML = `<div id="loading-indicator" style="width:100%; display:flex; flex-direction:column; gap:0.5rem;">
+    <div class="loading-bar" style="height:11px; width:100%; border-radius: 0.135rem; background: linear-gradient(to right, #4285f4, #242424,#4285f4); animation: gradientAnimation 3s linear infinite;"></div>
+    <div class="loading-bar" style="height:11px; width:100%; border-radius: 0.135rem; background: linear-gradient(to right, #4285f4, #242424,#4285f4); animation: gradientAnimation 3s linear infinite;"></div>
+    <div class="loading-bar" style="height:11px; width:100%; border-radius: 0.135rem; background: linear-gradient(to right, #4285f4, #242424,#4285f4); animation: gradientAnimation 3s linear infinite;"></div>
+    <div class="loading-bar" style="height:11px; width:70%; border-radius: 0.135rem; background: linear-gradient(to right, #4285f4, #242424,#4285f4); animation: gradientAnimation 3s linear infinite;"></div>
+  </div>`;
         fetch("https://techtales.vercel.app/api/gemini", {
           method: "POST",
           headers: {
@@ -50,13 +61,12 @@ tinymce.PluginManager.add("ai", function (editor, url) {
         })
           .then((response) => response.json())
           .then((responseData) => {
-            const aiResponse = `<div style="margin-bottom:5px;">${responseData.message}
-               <button id="insert-btn" style="background-color: #006CE7; color: white; padding: 5px 12px; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px;">Insert</button>
-            <button style="background-color: #f2f3f4; color: black; padding: 5px 12px; border: none; border-radius: 4px; cursor: not-allowed;" disabled>Stop </button>
+            const aiResponse = `<div style="margin-bottom:5px;padding: 10px;">${responseData.message}
             </div>`;
-            result.style.border = "1px solid gray";
+            result.style.border = "1px solid #f2f3f4";
             result.style.borderRadius = "5px";
             result.innerHTML = aiResponse;
+            responseBtns.style.display = "block";
             document
               .getElementById("insert-btn")
               .addEventListener("click", () => {
