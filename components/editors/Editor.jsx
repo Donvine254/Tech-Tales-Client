@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { handleImageUpload } from "./index";
 import secureLocalStorage from "react-secure-storage";
 import { codeSampleLanguages } from "@/constants";
+import PrismLoader from "../ui/prismLoader";
 export default function App({ data, handleChange, onFocus }) {
   const editorRef = useRef(null);
   const log = () => {
@@ -109,8 +110,10 @@ export default function App({ data, handleChange, onFocus }) {
             input.click();
           },
           codesample_languages: codeSampleLanguages,
+          codesample_global_prismjs: true,
         }}
       />
+      <PrismLoader />
     </div>
   );
 }
