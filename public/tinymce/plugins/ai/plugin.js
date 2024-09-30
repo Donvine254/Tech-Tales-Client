@@ -13,7 +13,7 @@ tinymce.PluginManager.add("ai", function (editor, url) {
           {
             type: "htmlpanel",
             name: "responseButtons",
-            html: `<div id="response-buttons" style="display:flex; margin:10px 0; flex-wrap:wrap;justify-content:space-between;align-items:center"><div><button id="insert-btn" style="background-color: #006CE7; color: white; padding: 5px 12px; border: none; border-radius: 4px; cursor: pointer;"> Insert</button> <button id="retry-btn" style="background-color: #f4f5f6; padding: 5px 12px; border: none; border-radius: 4px; cursor: pointer; margin-left:10px;">Try Again</button></div><p style="font-size:12px;">AI responses can be inaccurate</p></div`,
+            html: `<div id="response-buttons" style="display:none; margin:10px 0; flex-wrap:wrap;justify-content:space-between;align-items:center"><div><button id="insert-btn" style="background-color: #006CE7; color: white; padding: 5px 12px; border: none; border-radius: 4px; cursor: pointer;"> Insert</button> <button id="retry-btn" style="background-color: #f4f5f6; padding: 5px 12px; border: none; border-radius: 4px; cursor: pointer; margin-left:10px;">Try Again</button></div><p style="font-size:12px;">AI responses can be inaccurate</p></div`,
           },
           {
             type: "input",
@@ -68,7 +68,7 @@ tinymce.PluginManager.add("ai", function (editor, url) {
             result.style.border = "1px solid #f2f3f4";
             result.style.borderRadius = "5px";
             result.innerHTML = aiResponse;
-            responseBtns.style.display = "block";
+            responseBtns.style.display = "flex";
             document
               .getElementById("insert-btn")
               .addEventListener("click", () => {
@@ -93,6 +93,7 @@ tinymce.PluginManager.add("ai", function (editor, url) {
   editor.ui.registry.addButton("ai", {
     icon: "ai",
     tooltip: "Ask AI",
+    shortcut:"meta+J",
     onAction: function () {
       openDialog();
     },
