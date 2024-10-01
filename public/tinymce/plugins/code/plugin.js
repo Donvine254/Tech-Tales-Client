@@ -5,7 +5,7 @@ tinymce.PluginManager.add("code", (editor) => {
     const customDialog = document.createElement("dialog");
     customDialog.id = "customDialog";
     customDialog.style.width = "100%";
-    customDialog.style.height = "80%";
+    customDialog.style.height = "85%";
     customDialog.style.backgroundColor = "#fff";
     customDialog.style.border = "1px solid #ccc";
     customDialog.style.zIndex = "10000";
@@ -82,9 +82,9 @@ tinymce.PluginManager.add("code", (editor) => {
       const aceEditor = ace.edit("editor");
       const currentTheme = aceEditor.getTheme();
       aceEditor.setTheme(
-        currentTheme === "ace/theme/monokai"
-          ? "ace/theme/tomorrow"
-          : "ace/theme/monokai"
+        currentTheme === "ace/theme/tomorrow"
+          ? "ace/theme/tomorrow_night"
+          : "ace/theme/tomorrow"
       );
     });
     formatBtn.addEventListener("click", () => {
