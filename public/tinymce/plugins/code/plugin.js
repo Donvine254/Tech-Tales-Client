@@ -13,13 +13,13 @@ tinymce.PluginManager.add("code", (editor) => {
     <div id="format-btns">
   <button id="saveCode" class="dialog-btn" style="border-radius:5px;padding:5px 10px;border:none;cursor:pointer;background-color: #006ce7;
   color: white;">Save</button>
-  <button id="format" class="dialog-btn" style="margin-left:8px;border-radius:5px;padding:5px 10px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:2px"  onmouseover="this.style.backgroundColor='#006ce7'; this.style.color='white';" 
+  <button id="format" class="dialog-btn" style="margin-left:8px;border-radius:5px;padding:5px 10px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:2px;background-color:#e5e7eb;"  onmouseover="this.style.backgroundColor='#006ce7'; this.style.color='white';" 
 onmouseout="this.style.backgroundColor=''; this.style.color='';"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-zap"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg>Format Code</button>
 </div>
 <div id="font-size-btns">
   <button id="theme" class="dialog-btn" style="margin-left:8px;border-radius:5px;padding:5px 10px;border:none;cursor:pointer;background-color:#222; color:#fff;">Dark Theme</button>
-  <button id="increaseFontBtn" class="dialog-btn" title="Increase font size" style="margin-left:8px;border-radius:5px;padding:5px 10px;border:none;cursor:pointer;background-color:#f4f5f6">T+</button>
-  <button id="decreaseFontBtn" class="dialog-btn" title="Decrease font size" style="margin-left:8px;border-radius:5px;padding:5px 10px;border:none;cursor:pointer;background-color:#f4f5f6">T-</button>
+  <button id="increaseFontBtn" class="dialog-btn" title="Increase font size" style="margin-left:8px;border-radius:5px;padding:5px 10px;border:none;cursor:pointer;background-color:#e5e7eb;">T+</button>
+  <button id="decreaseFontBtn" class="dialog-btn" title="Decrease font size" style="margin-left:8px;border-radius:5px;padding:5px 10px;border:none;cursor:pointer;background-color:#e5e7eb;">T-</button>
 </div>
   </div>
 </dialog>
