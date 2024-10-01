@@ -20,6 +20,17 @@ export default function App({ data, handleChange, onFocus }) {
 
   return (
     <div>
+      <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ext-beautify.js"
+        type="text/javascript"
+        charset="utf-8"
+        async></script>
+      <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.36.2/ace.min.js"
+        integrity="sha512-xylzfb6LZn1im1ge493MNv0fISAU4QkshbKz/jVh6MJFAlZ6T1NRDJa0ZKb7ECuhSTO7fVy8wkXkT95/f4R4nA=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+        async></script>
       <Editor
         tinymceScriptSrc="/tinymce/tinymce.min.js"
         licenseKey="gpl"
@@ -82,9 +93,9 @@ export default function App({ data, handleChange, onFocus }) {
             "pageembed",
           ],
           toolbar:
-            "undo redo | blocks | fontfamily | bold italic forecolor underline| align numlist bullist indent| link image table media pageembed| backcolor  emoticons codesample blockquote| ai removeformat",
+            "undo redo | blocks | fontfamily | bold italic forecolor underline| align numlist bullist indent| link image table media pageembed| backcolor  emoticons codesample blockquote| ai code removeformat",
           menu: {
-            tools: { title: "Tools", items: "ai pageembed code wordcount" },
+            tools: { title: "Tools", items: "ai pageembed  wordcount" },
           },
           content_style:
             "@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap'); body { font-family: 'Segoe UI'; height: 'auto'; overflow: 'hidden'; }",
