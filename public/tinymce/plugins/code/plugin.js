@@ -1,113 +1,98 @@
 tinymce.PluginManager.add("code", (editor) => {
-  // Function to create and show the custom dialog
   const createCustomDialog = () => {
-    // Create the dialog element
-    const customDialog = document.createElement("dialog");
-    customDialog.id = "customDialog";
-    customDialog.style.width = "100%";
-    customDialog.style.height = "85%";
-    customDialog.style.backgroundColor = "#fff";
-    customDialog.style.border = "1px solid #ccc";
-    customDialog.style.zIndex = "10000";
-    customDialog.style.borderRadius = "8px";
-    customDialog.style.padding = "5px 10px";
-    customDialog.style.fontFamily = "Segoe UI";
-    //create header
-    const headerDiv = document.createElement("div");
-    headerDiv.style.display = "flex";
-    headerDiv.style.justifyContent = "space-between";
-    headerDiv.style.alignItems = "center";
-    //create title paragraph
-    const titleParagraph = document.createElement("p");
-    titleParagraph.style.fontSize = "1.5rem";
-    titleParagraph.style.marginBottom = "5px";
-    titleParagraph.textContent = "Source Code";
-    headerDiv.appendChild(titleParagraph);
-    customDialog.appendChild(headerDiv);
-    //create close button
-    const closeButton = document.createElement("button");
-    closeButton.style.padding = "0.25rem";
-    closeButton.style.cursor = "pointer";
-    closeButton.style.fontSize = "1.5rem";
-    closeButton.style.zIndex = "50";
-    closeButton.style.backgroundColor = "transparent";
-    closeButton.style.outline = "none";
-    closeButton.style.border = "none";
-    closeButton.textContent = "x";
-    closeButton.setAttribute("title", "Close");
+    const dialogHTML = `
+     <dialog id="customDialog" style="width:100%;height:85%;background-color:#fff;border:1px solid #ccc;border-radius:8px;padding:5px 10px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;">
+    <p style="font-size:1.2rem;font-family:Poppins;font-weight:normal;color:#696969">
+      Source Code
+    </p>
+    <button id="closeDialogBtn" style="padding:0.25rem;cursor:pointer;font-size:1.5rem;z-index:50;background-color:transparent;outline:none;border:none;" title="Close" onmouseenter="this.style.color='#ef4444';" onmouseleave="this.style.color='#222';"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg></button>
+  </div>
+  <div id="editor" style="width:99%;height:400px;max-height:75%;padding:5px;scroll-behavior:smooth;border-radius:5px;border:2px solid #006ce7;margin-bottom:10px;"></div>
+  <div style="display:inline-flex; flex-wrap:wrap; gap:10px; align-items:center;">
+    <div id="format-btns">
+  <button id="saveCode" class="dialog-btn" style="border-radius:5px;padding:5px 10px;border:none;cursor:pointer;background-color: #006ce7;
+  color: white;">Save</button>
+  <button id="format" class="dialog-btn" style="margin-left:8px;border-radius:5px;padding:5px 10px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:2px"  onmouseover="this.style.backgroundColor='#006ce7'; this.style.color='white';" 
+onmouseout="this.style.backgroundColor=''; this.style.color='';"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-zap"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg>Format Code</button>
+</div>
+<div id="font-size-btns">
+  <button id="theme" class="dialog-btn" style="margin-left:8px;border-radius:5px;padding:5px 10px;border:none;cursor:pointer;background-color:#222; color:#fff;">Dark Theme</button>
+  <button id="increaseFontBtn" class="dialog-btn" title="Increase font size" style="margin-left:8px;border-radius:5px;padding:5px 10px;border:none;cursor:pointer;">T+</button>
+  <button id="decreaseFontBtn" class="dialog-btn" title="Decrease font size" style="margin-left:8px;border-radius:5px;padding:5px 10px;border:none;cursor:pointer;">T-</button>
+</div>
+  </div>
+</dialog>
+    `;
 
-    closeButton.onmouseover = function () {
-      closeButton.style.color = "#ef4444";
-    };
+    document.body.insertAdjacentHTML("beforeend", dialogHTML);
 
-    closeButton.onmouseout = function () {
-      closeButton.style.fill = "none";
-      closeButton.style.backgroundColor = "transparent";
-      closeButton.style.color = "currentColor";
-    };
-    closeButton.onclick = () => {
-      closeCustomDialog();
-    };
-    headerDiv.appendChild(closeButton);
-    const editorDiv = document.createElement("div");
-    editorDiv.id = "editor";
-    editorDiv.style.width = "99%";
-    editorDiv.style.height = "400px";
-    editorDiv.style.maxHeight = "75%";
-    editorDiv.style.padding = "5px";
-    editorDiv.style.scrollBehavior = "smooth";
-    editorDiv.style.borderRadius = "5px";
-    editorDiv.style.border = "2px solid #006ce7";
-    editorDiv.style.marginBottom = "10px";
-    // Create buttons
-    const createButton = (id, text) => {
-      const button = document.createElement("button");
-      button.id = id;
-      button.textContent = text;
-      button.className = "dialog-btn";
-      button.style.marginLeft = "8px";
-      button.style.borderRadius = "5px";
-      button.style.padding = "5px 10px";
-      button.style.border = "none";
-      button.style.marginTop = "5px";
-      button.style.cursor = "pointer";
-      return button;
-    };
-    const formatBtn = createButton("format", "Format Code");
-    const themeBtn = createButton("theme", "Dark/Light Theme");
-    const saveBtn = createButton("saveCode", "Save");
-    const closeBtn = createButton("closeDialog", "Close");
-    // Add event listeners to buttons
-    themeBtn.addEventListener("click", () => {
+    // Add event listeners to the buttons
+    const toggleTheme = () => {
       const aceEditor = ace.edit("editor");
       const currentTheme = aceEditor.getTheme();
-      aceEditor.setTheme(
-        currentTheme === "ace/theme/tomorrow"
-          ? "ace/theme/tomorrow_night"
-          : "ace/theme/tomorrow"
-      );
-    });
-    formatBtn.addEventListener("click", () => {
+      const themeButton = document.getElementById("theme");
+
+      if (currentTheme === "ace/theme/tomorrow") {
+        aceEditor.setTheme("ace/theme/tomorrow_night");
+        themeButton.textContent = "Light Theme";
+        themeButton.style.backgroundColor = "#f2f3f4";
+        themeButton.style.color = "#333";
+      } else {
+        aceEditor.setTheme("ace/theme/tomorrow");
+        themeButton.textContent = "Dark Theme";
+        themeButton.style.backgroundColor = "#222";
+        themeButton.style.color = "#fff";
+      }
+    };
+    document
+      .getElementById("increaseFontBtn")
+      .addEventListener("click", increaseFontSize);
+    document
+      .getElementById("decreaseFontBtn")
+      .addEventListener("click", decreaseFontSize);
+    document.getElementById("theme").addEventListener("click", toggleTheme);
+    document.getElementById("format").addEventListener("click", () => {
       ace.config.loadModule("ace/ext/beautify", function (beautify) {
         beautify.beautify(ace.edit("editor").session);
       });
     });
-    saveBtn.addEventListener("click", () => {
+
+    document.getElementById("saveCode").addEventListener("click", () => {
       const aceEditor = ace.edit("editor");
       editor.setContent(aceEditor.getValue());
       closeCustomDialog();
     });
-    closeBtn.addEventListener("click", closeCustomDialog);
-    customDialog.appendChild(editorDiv);
-    customDialog.appendChild(formatBtn);
-    customDialog.appendChild(themeBtn);
-    customDialog.appendChild(saveBtn);
-    customDialog.appendChild(closeBtn);
-    document.body.appendChild(customDialog);
+
+    document
+      .getElementById("closeDialogBtn")
+      .addEventListener("click", closeCustomDialog);
   };
-  const showCustomDialog = () => {
+
+  //function to increase font size
+  const minFontSize = 10;
+  const maxFontSize = 26;
+  let fontSize = 12;
+  const increaseFontSize = () => {
     const aceEditor = ace.edit("editor");
-    document.body.style.overflow = "hidden";
+    if (fontSize < maxFontSize) {
+      fontSize += 2;
+      aceEditor.setFontSize(fontSize);
+    }
+  };
+
+  const decreaseFontSize = () => {
+    const aceEditor = ace.edit("editor");
+    if (fontSize > minFontSize) {
+      fontSize -= 2;
+      aceEditor.setFontSize(fontSize);
+    }
+  };
+
+  // Function to show the dialog
+  const showCustomDialog = () => {
+    ace.require("ace/ext/language_tools");
+    const aceEditor = ace.edit("editor");
     aceEditor.session.setMode("ace/mode/html");
     aceEditor.setOptions({
       wrap: true,
@@ -124,15 +109,18 @@ tinymce.PluginManager.add("code", (editor) => {
       foldStyle: "markbegin",
       showFoldWidgets: true,
       fontSize: "14px",
+      tabSize: 2,
       theme: "ace/theme/tomorrow",
     });
     aceEditor.setValue(editor.getContent({ source_code: true }));
     document.getElementById("customDialog").showModal();
   };
+
+  // Function to close the dialog
   const closeCustomDialog = () => {
     document.getElementById("customDialog").close();
-    document.body.style.overflow = "";
   };
+
   createCustomDialog();
   editor.ui.registry.addButton("code", {
     icon: "sourcecode",
