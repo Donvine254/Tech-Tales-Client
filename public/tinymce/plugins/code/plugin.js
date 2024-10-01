@@ -18,8 +18,8 @@ onmouseout="this.style.backgroundColor=''; this.style.color='';"><svg xmlns="htt
 </div>
 <div id="font-size-btns">
   <button id="theme" class="dialog-btn" style="margin-left:8px;border-radius:5px;padding:5px 10px;border:none;cursor:pointer;background-color:#222; color:#fff;">Dark Theme</button>
-  <button id="increaseFontBtn" class="dialog-btn" title="Increase font size" style="margin-left:8px;border-radius:5px;padding:5px 10px;border:none;cursor:pointer;">T+</button>
-  <button id="decreaseFontBtn" class="dialog-btn" title="Decrease font size" style="margin-left:8px;border-radius:5px;padding:5px 10px;border:none;cursor:pointer;">T-</button>
+  <button id="increaseFontBtn" class="dialog-btn" title="Increase font size" style="margin-left:8px;border-radius:5px;padding:5px 10px;border:none;cursor:pointer;background-color:#f4f5f6">T+</button>
+  <button id="decreaseFontBtn" class="dialog-btn" title="Decrease font size" style="margin-left:8px;border-radius:5px;padding:5px 10px;border:none;cursor:pointer;background-color:#f4f5f6">T-</button>
 </div>
   </div>
 </dialog>
