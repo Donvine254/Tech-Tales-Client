@@ -19,7 +19,7 @@ tinymce.PluginManager.add("gif", (editor, url) => {
             type: "htmlpanel",
             name: "gifDisplay",
             html: `<div><p style="display:flex; justify-content:flex-end; align-items:center; font-size: 14px; color: #888; gap:5px;">Powered By <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Giphy-logo.svg" width="50" alt="giphy-attribution" style="width:50px;"/></p><div id="gifGrid" class="gif-grid-container" style="display: grid; grid-template-columns: repeat(2, 1fr); justify-content: center; align-items: center; width: 100%; gap: 10px;">
- <p style="color: #888;">Loading...</p>
+ <p style="color: #888;width:100%; text-align: center;">Loading...</p>
  </div> </div>`, // Placeholder for GIF grid
           },
         ],
@@ -50,9 +50,9 @@ tinymce.PluginManager.add("gif", (editor, url) => {
               gifGrid.innerHTML = ""; // Clear any previous GIFs
               if (json.data.length > 0) {
                 // Display search results
-                json.data.forEach((gif) => {
+                json.data.forEach((gif, index) => {
                   const gifUrl = gif.images.fixed_height.url;
-                  const gifElement = `<div style="margin: 5px;"><img src="${gifUrl}" style="cursor:pointer; object-fit: cover; width: 150px; height: 150px;" onclick="insertGif('${gifUrl}')"/></div>`;
+                  const gifElement = `<div style="margin:5px"><img src="${gifUrl}" key="${index}" id="${index}"style="cursor:pointer; object-fit: cover; width: 150px; height: 150px;" onclick="insertGif(event,'${gifUrl}')"/></div>`;
                   gifGrid.innerHTML += gifElement;
                 });
               } else {
@@ -85,12 +85,11 @@ tinymce.PluginManager.add("gif", (editor, url) => {
       fetch(randomApiUrl)
         .then((response) => response.json())
         .then((json) => {
-          console.log(json);
           let gifGrid = document.getElementById("gifGrid");
           gifGrid.innerHTML = "";
-          json.data.forEach((gif) => {
+          json.data.forEach((gif, index) => {
             const gifUrl = gif.images.fixed_height.url;
-            const gifElement = `<div style="margin: 5px;"><img src="${gifUrl}" style="cursor:pointer; width: 150px; height: 150px; object-fit: cover;" onclick="insertGif('${gifUrl}')" /></div>`;
+            const gifElement = `<div style="margin:5px"><img src="${gifUrl}" key="${index}" id="${index}"style="cursor:pointer; object-fit: cover; width: 150px; height: 150px;" onclick="insertGif(event,'${gifUrl}')"/></div>`;
             gifGrid.innerHTML += gifElement;
           });
         })
@@ -100,11 +99,10 @@ tinymce.PluginManager.add("gif", (editor, url) => {
         });
     },
   });
-  /* Adds a menu item, which can then be included in any menu via the menu/menubar configuration */
   editor.ui.registry.addMenuItem("gif", {
     text: "GIF plugin",
+    icon: "gif",
     onAction: () => {
-      /* Open window */
       openDialog();
     },
   });
@@ -116,7 +114,10 @@ tinymce.PluginManager.add("gif", (editor, url) => {
     }),
   };
 });
-insertGif = (gifUrl) => {
-  tinymce.activeEditor.insertContent(`<img src="${gifUrl}" alt="GIF" />`);
+insertGif = (event, gifUrl) => {
+  event.preventDefault();
+  tinymce.activeEditor.insertContent(
+    `<img src="${gifUrl}" alt="GIF" role="presentation" loading="lazy" />`
+  );
   tinymce.activeEditor.windowManager.close();
 };
