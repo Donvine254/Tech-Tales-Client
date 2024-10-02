@@ -91,32 +91,31 @@ onmouseout="this.style.backgroundColor='#e5e7eb'; this.style.color='#222';"><svg
 
   // Function to show the dialog
   const showCustomDialog = () => {
-    ace.require("ace/ext/language_tools");
-    const aceEditor = ace.edit("editor");
-    aceEditor.session.setMode("ace/mode/html");
-    aceEditor.setOptions({
-      wrap: true,
-      indentedSoftWrap: false,
-      selectionStyle: "text",
-      enableAutoIndent: true,
-      behavioursEnabled: false,
-      showLineNumbers: true,
-      showPrintMargin: false,
-      enableBasicAutocompletion: true,
-      enableSnippets: true,
-      enableLiveAutocompletion: true,
-      autoScrollEditorIntoView: true,
-      foldStyle: "markbegin",
-      showFoldWidgets: true,
-      fontSize: "14px",
-      tabSize: 2,
-      theme: "ace/theme/tomorrow",
+    ace.config.loadModule("ace/ext/language_tools", function () {
+      const aceEditor = ace.edit("editor");
+      aceEditor.session.setMode("ace/mode/html");
+      aceEditor.setOptions({
+        wrap: true,
+        indentedSoftWrap: false,
+        enableAutoIndent: true,
+        selectionStyle: "text",
+        behavioursEnabled: true,
+        showLineNumbers: true,
+        showPrintMargin: false,
+        enableBasicAutocompletion: true,
+        enableSnippets: true,
+        enableLiveAutocompletion: true,
+        autoScrollEditorIntoView: true,
+        foldStyle: "markbegin",
+        showFoldWidgets: true,
+        fontSize: "14px",
+        tabSize: 2,
+        theme: "ace/theme/tomorrow",
+      });
+      aceEditor.setValue(editor.getContent({ source_code: true }));
     });
-    aceEditor.setValue(editor.getContent({ source_code: true }));
     document.getElementById("customDialog").showModal();
   };
-
-  // Function to close the dialog
   const closeCustomDialog = () => {
     document.getElementById("customDialog").close();
   };
@@ -125,11 +124,18 @@ onmouseout="this.style.backgroundColor='#e5e7eb'; this.style.color='#222';"><svg
   editor.ui.registry.addButton("code", {
     icon: "sourcecode",
     tooltip: "Source code",
+    shortcut: "meta+Space",
     onAction: showCustomDialog,
   });
   editor.ui.registry.addMenuItem("code", {
     text: "Source Code",
     icon: "sourcecode",
     onAction: showCustomDialog,
+  });
+  editor.on("keydown", function (e) {
+    if (e.key === " " && (e.ctrlKey || e.metaKey)) {
+      e.preventDefault();
+      document.getElementById("customDialog").showModal();
+    }
   });
 });
