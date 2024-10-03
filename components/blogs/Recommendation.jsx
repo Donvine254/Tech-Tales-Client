@@ -7,18 +7,30 @@ import { UserImage, ShareButton, Bookmark } from "@/components";
 import { formatDate, formatViews } from "@/lib/utils";
 import { calculateReadingTime, baseUrl } from "@/lib";
 import { Graph, Comment, Like } from "@/assets";
-import {getCookie, setCookie} from "@/lib/utils"
+import { getCookie, setCookie } from "@/lib/utils";
 
 export default function Recommendations({ tags, id }) {
   const [blogs, setBlogs] = useState(null);
 
   useEffect(() => {
+    let history = getCookie("history");
+    let historySet = [];
+    if (!history) {
+      historySet.push(id);
+      setCookie("history", JSON.stringify(historySet));
+    } else {
+      historySet = JSON.parse(history);
+      if (Array.isArray(historySet) && !historySet.includes(id)) {
+        historySet.push(id);
+      }
+      setCookie("history", JSON.stringify(historySet));
+    }
     (async () => {
       try {
         const response = await axios.post(`${baseUrl}/recommendations`, {
           tags: tags,
           blogId: id,
-          viewedBlogs: [],
+          viewedBlogs: historySet,
         });
         const data = response.data;
         setBlogs(data);
