@@ -256,7 +256,7 @@ tinymce.PluginManager.add("advcodesample", (editor) => {
     document
       .getElementById("language")
       .addEventListener("click", switchLanguage);
-    //submitting the code sample
+      //submitting the code sample
     document.getElementById("saveBtn").addEventListener("click", () => {
       const aceEditor = ace.edit("codesample");
       const languageInput = document.getElementById("language");
@@ -265,7 +265,6 @@ tinymce.PluginManager.add("advcodesample", (editor) => {
       editor.insertContent(
         `<pre class="language-${language}"><code>${codeContent}</code></pre>`
       );
-      document.getElementById("escape-textarea").remove();
       closeCustomDialog();
     });
 
