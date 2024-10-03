@@ -7,18 +7,20 @@ import { UserImage, ShareButton, Bookmark } from "@/components";
 import { formatDate, formatViews } from "@/lib/utils";
 import { calculateReadingTime, baseUrl } from "@/lib";
 import { Graph, Comment, Like } from "@/assets";
+import {getCookie, setCookie} from "@/lib/utils"
 
 export default function Recommendations({ tags, id }) {
   const [blogs, setBlogs] = useState(null);
+
   useEffect(() => {
     (async () => {
       try {
         const response = await axios.post(`${baseUrl}/recommendations`, {
           tags: tags,
           blogId: id,
+          viewedBlogs: [],
         });
         const data = response.data;
-
         setBlogs(data);
       } catch (error) {
         console.error(error);
