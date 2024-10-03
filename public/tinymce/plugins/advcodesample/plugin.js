@@ -141,7 +141,7 @@ tinymce.PluginManager.add("advcodesample", (editor) => {
                   cursor: pointer;
                   background-color: #006ce7;
                   color: white;
-                  height:32px;
+                 
                 ">
                 Save
               </button>
@@ -156,7 +156,6 @@ tinymce.PluginManager.add("advcodesample", (editor) => {
                   display: inline-flex;
                   align-items: center;
                   gap: 2px;
-                  height:32px;
                   background-color: #e5e7eb;
                 "
                 onmouseover="this.style.backgroundColor='#006ce7'; this.style.color='white';"
@@ -188,7 +187,6 @@ tinymce.PluginManager.add("advcodesample", (editor) => {
                   cursor: pointer;
                   background-color: #222;
                   color: #fff;
-                  height:32px;
                 ">
                 Dark Theme
               </button>
@@ -202,7 +200,6 @@ tinymce.PluginManager.add("advcodesample", (editor) => {
                   border: none;
                   cursor: pointer;
                   background-color: #e5e7eb;
-                  height:32px;
                 ">
                 T+
               </button>
@@ -216,7 +213,6 @@ tinymce.PluginManager.add("advcodesample", (editor) => {
                   border: none;
                   cursor: pointer;
                   background-color: #e5e7eb;
-                  height:32px;
                 ">
                 T-
               </button>
@@ -260,6 +256,7 @@ tinymce.PluginManager.add("advcodesample", (editor) => {
     document
       .getElementById("language")
       .addEventListener("click", switchLanguage);
+    //submitting the code sample
     document.getElementById("saveBtn").addEventListener("click", () => {
       const aceEditor = ace.edit("codesample");
       const languageInput = document.getElementById("language");
@@ -268,6 +265,7 @@ tinymce.PluginManager.add("advcodesample", (editor) => {
       editor.insertContent(
         `<pre class="language-${language}"><code>${codeContent}</code></pre>`
       );
+      document.getElementById("escape-textarea").remove();
       closeCustomDialog();
     });
 
@@ -278,6 +276,7 @@ tinymce.PluginManager.add("advcodesample", (editor) => {
   //function to escape html
   function escapeHTML(html) {
     const text = document.createElement("textarea");
+    text.id = "escape-textarea";
     text.textContent = html;
     return text.innerHTML;
   }
@@ -303,7 +302,6 @@ tinymce.PluginManager.add("advcodesample", (editor) => {
   function switchLanguage(event) {
     const aceEditor = ace.edit("codesample");
     const selectedLanguage = event.target.value;
-    console.log(selectedLanguage);
     aceEditor.session.setMode(`ace/mode/${selectedLanguage}`);
   }
 
@@ -331,9 +329,7 @@ tinymce.PluginManager.add("advcodesample", (editor) => {
         tabSize: 2,
         theme: "ace/theme/tomorrow",
       });
-      aceEditor.setValue(editor.getContent({ source_code: true }));
     });
-
     document.getElementById("advcodesampleDialog").showModal();
   };
 
@@ -345,7 +341,7 @@ tinymce.PluginManager.add("advcodesample", (editor) => {
   editor.ui.registry.addButton("advcodesample", {
     icon: "code-sample",
     tooltip: "Insert/Edit Code Sample",
-    shortcut: "meta+alt+c",
+    shortcut: "meta+Alt+C",
     onAction: showCustomDialog,
   });
   editor.ui.registry.addMenuItem("advcodesample", {
