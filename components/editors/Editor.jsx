@@ -21,9 +21,10 @@ export default function App({ data, handleChange, onFocus }) {
   return (
     <div>
       <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ext-beautify.js"
-        type="text/javascript"
-        charset="utf-8"
+        src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.9.6/ext-beautify.min.js"
+        integrity="sha512-uXfi0GwpQZcHIhGOMMHeNYtBSjt7qDXjXHmjShWSp+RWMSmjdy69N7M/pufinvQLv6rSYlpbSXqSnLRzWE952w=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
         async></script>
       <script
         src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.9.6/ace.js"
@@ -85,13 +86,11 @@ export default function App({ data, handleChange, onFocus }) {
             "anchor",
             "searchreplace",
             "visualblocks",
-            "code",
-            "codesample",
+            "advcodesample",
             "emoticons",
             "insertdatetime",
             "media",
             "table",
-            "code",
             "help",
             "wordcount",
             "autoresize",
@@ -100,9 +99,11 @@ export default function App({ data, handleChange, onFocus }) {
             "quickbars",
             "pageembed",
             "importword",
+            "code",
+            "codesample",
           ],
           toolbar:
-            "undo redo| blocks | fontfamily | bold italic forecolor underline| align numlist bullist indent| link image table media pageembed| backcolor  emoticons codesample blockquote| code ai importword removeformat",
+            "undo redo| blocks | fontfamily | bold italic forecolor underline| align numlist bullist indent| link image table media pageembed| backcolor  emoticons advcodesample blockquote| code ai importword removeformat",
           menu: {
             tools: {
               title: "Tools",
