@@ -30,8 +30,10 @@ export default function App({ data, handleChange, onFocus }) {
         type="text/javascript"
         async></script>
       <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.9.6/ext-language_tools.min.js'"
-        type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.9.6/ext-language_tools.min.js"
+        integrity="sha512-yszTJ9Ko+JGmUNZYpHStWpMg2rSXrh2WjSSZGydzpHY+qOS/3nSgA+hBHUK3RvLhfjycKL8XWEmfUCZod/mEqA=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
         async></script>
       <script
         src="https://unpkg.com/mammoth/mammoth.browser.min.js"
