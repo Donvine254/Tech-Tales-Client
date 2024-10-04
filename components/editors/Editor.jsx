@@ -23,8 +23,8 @@ export default function App({ data, handleChange, onFocus }) {
       <script
         src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.9.6/ext-beautify.min.js"
         integrity="sha512-uXfi0GwpQZcHIhGOMMHeNYtBSjt7qDXjXHmjShWSp+RWMSmjdy69N7M/pufinvQLv6rSYlpbSXqSnLRzWE952w=="
-        crossorigin="anonymous"
-        referrerpolicy="no-referrer"
+        crossOrigin="anonymous"
+        referrerPolicy="no-referrer"
         async></script>
       <script
         src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.9.6/ace.js"
@@ -33,8 +33,8 @@ export default function App({ data, handleChange, onFocus }) {
       <script
         src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.9.6/ext-language_tools.min.js"
         integrity="sha512-yszTJ9Ko+JGmUNZYpHStWpMg2rSXrh2WjSSZGydzpHY+qOS/3nSgA+hBHUK3RvLhfjycKL8XWEmfUCZod/mEqA=="
-        crossorigin="anonymous"
-        referrerpolicy="no-referrer"
+        crossOrigin="anonymous"
+        referrerPolicy="no-referrer"
         async></script>
       <script
         src="https://unpkg.com/mammoth/mammoth.browser.min.js"

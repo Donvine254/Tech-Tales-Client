@@ -64,10 +64,11 @@ tinymce.PluginManager.add("advcodesample", (editor) => {
                 background-color: transparent;
                 outline: none;
                 border: none;
+                color:currentColor;
               "
               title="Close"
               onmouseenter="this.style.color='#ef4444';"
-              onmouseleave="this.style.color='#222';">
+              onmouseleave="this.style.color='currentColor';">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -84,7 +85,7 @@ tinymce.PluginManager.add("advcodesample", (editor) => {
             </button>
           </div>
           <div style="margin: 0">
-            <p style="color: #696969; margin: 0; line-height: 1">Language</p>
+            <p style="opacity:0.8; margin: 0; line-height: 1">Select Language</p>
             <select
               id="language"
               style="
@@ -95,8 +96,9 @@ tinymce.PluginManager.add("advcodesample", (editor) => {
                 border-radius: 8px;
                 margin: 5px 0;
                 border: 1px solid #ccc;
+                background-color:#f4f5f6;
               "
-              onfocus="this.style.border='2px solid #006ce7'; this.style.outline='none';"
+              onfocus="this.style.border='1px solid #006ce7'; this.style.outline='none';"
               onblur="this.style.border='1px solid #ccc';">
               ${languages
                 .map(
@@ -170,7 +172,7 @@ tinymce.PluginManager.add("advcodesample", (editor) => {
                   stroke-width="2"
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  class="lucide lucide-zap">
+                  >
                   <path
                     d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg>
       Format Code
@@ -200,6 +202,7 @@ tinymce.PluginManager.add("advcodesample", (editor) => {
                   border: none;
                   cursor: pointer;
                   background-color: #e5e7eb;
+                   color:#222;
                 ">
                 T+
               </button>
@@ -213,6 +216,7 @@ tinymce.PluginManager.add("advcodesample", (editor) => {
                   border: none;
                   cursor: pointer;
                   background-color: #e5e7eb;
+                  color:#222;
                 ">
                 T-
               </button>
@@ -228,17 +232,26 @@ tinymce.PluginManager.add("advcodesample", (editor) => {
       const aceEditor = ace.edit("codesample");
       const currentTheme = aceEditor.getTheme();
       const themeButton = document.getElementById("themeBtn");
-
+      const modal = document.getElementById("advcodesampleDialog");
+      const selectInput = document.getElementById("language");
       if (currentTheme === "ace/theme/tomorrow") {
         aceEditor.setTheme("ace/theme/tomorrow_night");
         themeButton.textContent = "Light Theme";
         themeButton.style.backgroundColor = "#f2f3f4";
         themeButton.style.color = "#333";
+        modal.style.backgroundColor = "#2E2E2E";
+        modal.style.color = "#fff";
+        selectInput.style.backgroundColor = "#2E2E2E";
+        selectInput.style.color = "#fff";
       } else {
         aceEditor.setTheme("ace/theme/tomorrow");
         themeButton.textContent = "Dark Theme";
         themeButton.style.backgroundColor = "#222";
         themeButton.style.color = "#fff";
+        modal.style.backgroundColor = "#fff";
+        modal.style.color = "black";
+        selectInput.style.backgroundColor = "#f4f5f6";
+        selectInput.style.color = "black";
       }
     };
     document
@@ -256,7 +269,7 @@ tinymce.PluginManager.add("advcodesample", (editor) => {
     document
       .getElementById("language")
       .addEventListener("click", switchLanguage);
-      //submitting the code sample
+    //submitting the code sample
     document.getElementById("saveBtn").addEventListener("click", () => {
       const aceEditor = ace.edit("codesample");
       const languageInput = document.getElementById("language");
