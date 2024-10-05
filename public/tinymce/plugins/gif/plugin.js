@@ -13,8 +13,8 @@ tinymce.PluginManager.add("gif", (editor, url) => {
           {
             type: "htmlpanel",
             name: "gifDisplay",
-            html: `<div><form><input type="search" placeholder="Search GIFs..." name="gifSearch" id="gifSearch" style="width:100%; border-radius:5px; padding: 8px 5px; border: 1px solid #ccc" onmouseover="this.style.borderColor='#006ce7';" onmouseout="this.style.borderColor='#ccc';"/>
-            <p style="display:flex; justify-content:flex-end; align-items:center; font-size: 14px; color: #888; gap:5px;">Powered By <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Giphy-logo.svg" width="50" alt="giphy-attribution" style="width:50px;"/></p></form><div id="loader" style="display:flex; align-items-center;justify-content:center; flex-direction:column;gap:10px;"> <svg xmlns="http://www.w3.org/2000/svg" style="margin: auto; background: none; display: block;" width="30px" height="30px" viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" stroke-width="8" stroke="#888" stroke-dasharray="164 56" fill="none" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50"/> </circle></svg> <p style="color: #888;text-align:center;">Loading GIFs...</p></div><div id="gifGrid" class="gif-grid-container" style="display: grid; grid-template-columns: repeat(3,1fr); justify-content: center; align-items: center; max-width: 100%; max-height: 100vh; gap: 10px; overflow-x:clip;"></div> </div>`,
+            html: `<div><search><input type="search" placeholder="Search GIFs..." name="gifSearch" id="gifSearch" style="width:100%; border-radius:5px; padding: 8px 5px; border: 1px solid #ccc" onmouseover="this.style.borderColor='#006ce7';" onmouseout="this.style.borderColor='#ccc';"/>
+            <p style="display:flex; justify-content:flex-end; align-items:center; font-size: 14px; color: #888; gap:5px;">Powered By <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Giphy-logo.svg" width="50" alt="giphy-attribution" style="width:50px;"/></p></search><div id="loader" style="display:flex; align-items-center;justify-content:center; flex-direction:column;gap:10px;"> <svg xmlns="http://www.w3.org/2000/svg" style="margin: auto; background: none; display: block;" width="30px" height="30px" viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" stroke-width="8" stroke="#888" stroke-dasharray="164 56" fill="none" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50"/> </circle></svg> <p style="color: #888;text-align:center;">Loading GIFs...</p></div><div id="gifGrid" class="gif-grid-container" style="display: grid; grid-template-columns: repeat(3,1fr); justify-content: center; align-items: center; max-width: 100%; max-height: 100vh; gap: 10px; overflow-x:clip;"></div> </div>`,
           },
         ],
       },
@@ -72,7 +72,9 @@ tinymce.PluginManager.add("gif", (editor, url) => {
       `<img src="${gifUrl}" alt="GIF" role="presentation" loading="lazy" />`
     );
     editor.windowManager.close();
-    editor.setProgressState(false);
+    setTimeout(() => {
+      editor.setProgressState(false);
+    }, 100);
   };
   editor.ui.registry.addIcon(
     "gif",
@@ -111,12 +113,3 @@ tinymce.PluginManager.add("gif", (editor, url) => {
     },
   });
 });
-insertGif = (event, gifUrl) => {
-  event.preventDefault();
-  tinymce.activeEditor.setProgressState(true);
-  tinymce.activeEditor.insertContent(
-    `<img src="${gifUrl}" alt="GIF" role="presentation" loading="lazy" />`
-  );
-  tinymce.activeEditor.windowManager.close();
-  tinymce.activeEditor.setProgressState(false);
-};
