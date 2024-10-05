@@ -13,8 +13,8 @@ tinymce.PluginManager.add("gif", (editor, url) => {
           {
             type: "htmlpanel",
             name: "gifDisplay",
-            html: `<div><search><input type="search" placeholder="Search GIFs..." name="gifSearch" id="gifSearch" style="width:100%; border-radius:5px; padding: 8px 5px; border: 1px solid #ccc" onmouseover="this.style.borderColor='#006ce7';" onmouseout="this.style.borderColor='#ccc';"/>
-            <p style="display:flex; justify-content:flex-end; align-items:center; font-size: 14px; color: #888; gap:5px;">Powered By <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Giphy-logo.svg" width="50" alt="giphy-attribution" style="width:50px;"/></p></search><div id="loader" style="display:flex; align-items-center;justify-content:center; flex-direction:column;gap:10px;"> <svg xmlns="http://www.w3.org/2000/svg" style="margin: auto; background: none; display: block;" width="30px" height="30px" viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" stroke-width="8" stroke="#888" stroke-dasharray="164 56" fill="none" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50"/> </circle></svg> <p style="color: #888;text-align:center;">Loading GIFs...</p></div><div id="gifGrid" class="gif-grid-container" style="display: grid; grid-template-columns: repeat(3,1fr); justify-content: center; align-items: center; max-width: 100%; max-height: 100vh; gap: 10px; overflow-x:clip;"></div> </div>`,
+            html: `<div><form><input type="search" placeholder="Search GIFs..." name="gifSearch" id="gifSearch" style="width:100%; border-radius:5px; padding: 8px 5px; border: 1px solid #ccc" onmouseover="this.style.borderColor='#006ce7';" onmouseout="this.style.borderColor='#ccc';"/>
+            <p style="display:flex; justify-content:flex-end; align-items:center; font-size: 14px; color: #888; gap:5px;">Powered By <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Giphy-logo.svg" width="50" alt="giphy-attribution" style="width:50px;"/></p></form><div id="loader" style="display:flex; align-items-center;justify-content:center; flex-direction:column;gap:10px;"> <svg xmlns="http://www.w3.org/2000/svg" style="margin: auto; background: none; display: block;" width="30px" height="30px" viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" stroke-width="8" stroke="#888" stroke-dasharray="164 56" fill="none" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50"/> </circle></svg> <p style="color: #888;text-align:center;">Loading GIFs...</p></div><div id="gifGrid" class="gif-grid-container" style="display: grid; grid-template-columns: repeat(3,1fr); justify-content: center; align-items: center; max-width: 100%; max-height: 100vh; gap: 10px; overflow-x:clip;"></div> </div>`,
           },
         ],
       },
@@ -45,7 +45,7 @@ tinymce.PluginManager.add("gif", (editor, url) => {
                 // Display search results
                 json.data.forEach((gif, index) => {
                   const gifUrl = gif.images.fixed_height.url;
-                  const gifElement = `<div style="position: relative; width: 100%; padding-top: 100%; border:1px solid #222; background-image: url('https://res.cloudinary.com/dipkbpinx/image/upload/v1727994385/illustrations/simx3zvhnukfaaix2isp.gif'); background-position:center; background-repeat:no-repeat; background-size: contain;" onclick="insertGif(event, '${gifUrl}')"> 
+                  const gifElement = `<div style="position: relative; width: 100%; padding-top: 100%; border:1px solid #ccc; background-image: url('https://res.cloudinary.com/dipkbpinx/image/upload/v1727994385/illustrations/simx3zvhnukfaaix2isp.gif'); background-position:center; background-repeat:no-repeat; background-size: contain;" onclick="insertGif(event, '${gifUrl}')"> 
     <img src="${gifUrl}" key="${index}" id="${index}" style="cursor:pointer; object-fit: cover; position: absolute; top: 0; left: 0; width: 100%; height: 100%;" />
 </div>`;
                   gifGrid.innerHTML += gifElement;
@@ -65,6 +65,15 @@ tinymce.PluginManager.add("gif", (editor, url) => {
         /* Insert content when the window form is submitted */
       },
     });
+  insertGif = (event, gifUrl) => {
+    event.preventDefault();
+    editor.setProgressState(true);
+    editor.insertContent(
+      `<img src="${gifUrl}" alt="GIF" role="presentation" loading="lazy" />`
+    );
+    editor.windowManager.close();
+    editor.setProgressState(false);
+  };
   editor.ui.registry.addIcon(
     "gif",
     `<svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 7h6v2H3v6h4v-2H5v-2h4v6H1V7h2zm14 0h6v2h-6v2h4v2h-4v4h-2V7h2zm-4 0h-2v10h2V7z" fill="#000000"/></svg>`
@@ -83,7 +92,7 @@ tinymce.PluginManager.add("gif", (editor, url) => {
           gifGrid.innerHTML = "";
           json.data.forEach((gif, index) => {
             const gifUrl = gif.images.fixed_height.url;
-            const gifElement = `<div style="position: relative; width: 100%; padding-top: 100%; border:1px solid #222; background-image: url('https://res.cloudinary.com/dipkbpinx/image/upload/v1727994385/illustrations/simx3zvhnukfaaix2isp.gif'); background-position:center; background-repeat:no-repeat; background-size: contain;" onclick="insertGif(event, '${gifUrl}')"> <img src="${gifUrl}" key="${index}" id="${index}" style="cursor:pointer; object-fit: cover; position: absolute; top: 0; left: 0; width: 100%; height: 100%;" /></div>`;
+            const gifElement = `<div style="position: relative; width: 100%; padding-top: 100%; border:1px solid #ccc; background-image: url('https://res.cloudinary.com/dipkbpinx/image/upload/v1727994385/illustrations/simx3zvhnukfaaix2isp.gif'); background-position:center; background-repeat:no-repeat; background-size: contain;" onclick="insertGif(event, '${gifUrl}')"> <img src="${gifUrl}" key="${index}" id="${index}" style="cursor:pointer; object-fit: cover; position: absolute; top: 0; left: 0; width: 100%; height: 100%;" /></div>`;
             gifGrid.innerHTML += gifElement;
             document.getElementById("loader").innerHTML = "";
           });
