@@ -27,7 +27,7 @@ tinymce.PluginManager.add("advcodesample", (editor) => {
       .map((lang) => `<option value="${lang.value}">${lang.text}</option>`)
       .join(
         ""
-      )} </select></div> </div> <div id="editorContainer" style="height: 65%; margin: 5px 0; padding: 5px 0;"></div> <div style=" display: flex; flex-wrap: wrap; gap: 10px; align-items: center; max-width: 100%; padding: 10px; justify-content: space-between; box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2), 0 2px 5px rgba(0, 0, 0, 0.2); border-radius:8px; "> <div id="font-size-btns" style=" display: flex; gap: 10px; align-items: center; flex-wrap: wrap; "> <button id="themeBtn" class="dialog-btn" style=" border-radius: 5px; padding: 8px 10px; border: none; cursor: pointer; background-color: #2e2e2e; color: white; "> Dark Theme </button> <button id="fontPlusBtn" class="dialog-btn" title="Increase font size" style=" border-radius: 5px; padding: 8px 10px; border: none; cursor: pointer; background-color: #e5e7eb; color: #222; "> T+ </button> <button id="fontMinusBtn" class="dialog-btn" title="Decrease font size" style=" border-radius: 5px; padding: 8px 10px; border: none; cursor: pointer; background-color: #e5e7eb; color: #222; "> T- </button> </div> <div id="format-btns" style=" display: flex; gap: 10px; align-items: center; flex-wrap: wrap;"> <button id="cancelBtn" class="dialog-btn" style=" border-radius: 5px; padding: 8px 10px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 2px; background-color: #e5e7eb; color: #222;" onmouseover="this.style.backgroundColor='#006ce7'; this.style.color='white';" onmouseout="this.style.backgroundColor='#e5e7eb'; this.style.color='#222';"> Cancel </button> <button id="saveBtn" class="dialog-btn" style=" border-radius: 5px; padding: 8px 10px; border: none; cursor: pointer; background-color: #006ce7; color: white; "> Save </button> </div> </div> </dialog>`;
+      )} </select></div> </div> <div id="editorContainer" style="height: 65%; margin: 5px 0; padding: 5px 0;"></div> <div style=" display: flex; flex-wrap: wrap; gap: 10px; align-items: center; max-width: 100%; padding: 10px; justify-content: space-between; box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2), 0 2px 5px rgba(0, 0, 0, 0.2); border-radius:8px; "> <div id="font-size-btns" style=" display: flex; gap: 10px; align-items: center; flex-wrap: wrap; "> <button id="themeBtn" class="dialog-btn" style=" border-radius: 5px; padding: 8px 10px; border: none; cursor: pointer; background-color: #2e2e2e; color: white; " title="toggle theme"> Dark Theme </button> <button id="fontPlusBtn" class="dialog-btn" title="Increase font size" style=" border-radius: 5px; padding: 8px 10px; border: none; cursor: pointer; background-color: #e5e7eb; color: #222; "> T+ </button> <button id="fontMinusBtn" class="dialog-btn" title="Decrease font size" style=" border-radius: 5px; padding: 8px 10px; border: none; cursor: pointer; background-color: #e5e7eb; color: #222; "> T- </button> </div> <div id="format-btns" style=" display: flex; gap: 10px; align-items: center; flex-wrap: wrap;"> <button id="cancelBtn" class="dialog-btn" style=" border-radius: 5px; padding: 8px 10px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 2px; background-color: #e5e7eb; color: #222;" onmouseover="this.style.backgroundColor='#006ce7'; this.style.color='white';" onmouseout="this.style.backgroundColor='#e5e7eb'; this.style.color='#222';" title="close"> Cancel </button> <button id="saveBtn" class="dialog-btn" style=" border-radius: 5px; padding: 8px 10px; border: none; cursor: pointer; background-color: #006ce7; color: white;" title="save code"> Save </button> </div> </div> </dialog>`;
     document.body.insertAdjacentHTML("beforeend", dialogHTML);
     //initialize the monaco editor
     let currentTheme = "vs-light";
@@ -63,7 +63,6 @@ tinymce.PluginManager.add("advcodesample", (editor) => {
     const fontMinusBtn = document.getElementById("fontMinusBtn");
     const languageSelect = document.getElementById("language");
     const themeBtn = document.getElementById("themeBtn");
-    const saveBtn = document.getElementById("saveBtn");
     const undoBtn = document.getElementById("undoBtn");
     const redoBtn = document.getElementById("redoBtn");
     //function to toggle theme
@@ -145,34 +144,28 @@ tinymce.PluginManager.add("advcodesample", (editor) => {
     //   console.log(event);
     // });
     //save code
-    saveBtn.addEventListener("click", () => {
-      saveCodeSample();
-    });
+
     function escapeHTML(html) {
       const text = document.createElement("textarea");
       text.id = "escape-textarea";
       text.textContent = html;
       return text.innerHTML;
     }
-
-    function saveCodeSample() {
-      saveBtn.addEventListener("click", () => {
-        const codeContent = monacoEditor.getValue().trim();
-        if (!codeContent) {
-          closeCodeSampleDialog();
-          return;
-        }
-        const language = languageSelect.value;
-        editor.insertContent(
-          `<pre class="language-${language}"><code>${escapeHTML(
-            codeContent
-          )}</code></pre>`
-        );
-        monacoEditor.setValue("");
+    document.getElementById("saveBtn").addEventListener("click", () => {
+      const codeContent = monacoEditor.getValue().trim();
+      if (!codeContent) {
         closeCodeSampleDialog();
-      });
-    }
-
+        return;
+      }
+      const language = languageSelect.value;
+      editor.insertContent(
+        `<pre class="language-${language}"><code>${escapeHTML(
+          codeContent
+        )}</code></pre>`
+      );
+      monacoEditor.setValue("");
+      closeCodeSampleDialog();
+    });
     //close dialog
     function closeCodeSampleDialog() {
       const dialog = document.getElementById("advcodesample");
