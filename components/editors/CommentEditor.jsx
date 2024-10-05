@@ -22,10 +22,7 @@ export default function CommentEditor({
       console.log(editorRef.current.getContent());
     }
   };
-  const insertGif = (gifUrl) => {
-    editorRef.current.insertContent(`<img src="${gifUrl}" alt="GIF" />`);
-    editorRef.current.windowManager.close();
-  };
+ 
 
   return (
     <div className="flex-1  flex-grow" id="write-comment">
