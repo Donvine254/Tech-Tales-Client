@@ -11,12 +11,6 @@ tinymce.PluginManager.add("gif", (editor, url) => {
         type: "panel",
         items: [
           {
-            type: "input",
-            name: "gifSearch",
-            inputMode: "search",
-            label: "Search GIFs",
-          },
-          {
             type: "htmlpanel",
             name: "gifDisplay",
             html: `<div><search><input type="search" placeholder="Search GIFs..." name="gifSearch" id="gifSearch" style="width:100%; border-radius:5px; padding: 8px 5px; border: 1px solid #ccc" onmouseover="this.style.borderColor='#006ce7';" onmouseout="this.style.borderColor='#ccc';"/>
