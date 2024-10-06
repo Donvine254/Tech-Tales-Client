@@ -1,5 +1,5 @@
 const giphyApiKey = "kyOZdQ3OjsRHw1o8kp34h6FRvzyP3Div";
-const randomApiUrl = `https://api.giphy.com/v1/gifs/trending?api_key=${giphyApiKey}&limit=50&offset=${Math.floor(
+const randomApiUrl = `https://api.giphy.com/v1/gifs/trending?api_key=${giphyApiKey}&limit=60&offset=${Math.floor(
   Math.random() * 100
 )}&rating=g`;
 
