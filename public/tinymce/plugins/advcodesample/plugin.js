@@ -20,6 +20,8 @@ const languages = [
   { text: "YAML", value: "yaml" },
   { text: "PowerShell", value: "powershell" },
 ];
+//declare global monacoEditor
+let monacoEditor;
 //code for the plugin
 tinymce.PluginManager.add("advcodesample", (editor) => {
   const createCustomDialog = () => {
@@ -31,7 +33,7 @@ tinymce.PluginManager.add("advcodesample", (editor) => {
     document.body.insertAdjacentHTML("beforeend", dialogHTML);
     //initialize the monaco editor
     let currentTheme = "vs-light";
-    const monacoEditor = monaco.editor.create(
+    monacoEditor = monaco.editor.create(
       document.getElementById("editorContainer"),
       {
         value: null,
@@ -182,6 +184,9 @@ tinymce.PluginManager.add("advcodesample", (editor) => {
   const showCustomDialog = () => {
     createCustomDialog();
     document.getElementById("advcodesample").showModal();
+    setTimeout(() => {
+      monacoEditor.focus();
+    }, 100);
   };
   //icons
   editor.ui.registry.addIcon(
