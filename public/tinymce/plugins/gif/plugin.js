@@ -18,7 +18,7 @@ tinymce.PluginManager.add("gif", (editor, url) => {
             html: `<div>
            <form onsubmit="handleSubmit(event)">
     <div style="display:flex; align-items:center; gap: 0;">
-        <input type="search" placeholder="Search GIFs..." name="gifSearch" id="gifSearch" style="width:100%; border-radius:5px 0 0 5px; padding: 8px 5px; border: 1px solid #006ce7" onmouseover="this.style.borderColor='#00308F';" onmouseout="this.style.borderColor='#006ce7';"/><button style="background-color: #006ce7; color:white; padding: 8px 10px; outline:none; border:1px solid #006ce7; border-radius:0 5px 5px 0; cursor:pointer;" id="searchBtn" onclick="handleSubmit(event)" title="search" type="submit">Search</button>
+        <input type="search" placeholder="Search GIFs..." name="gifSearch" id="gifSearch" style="width:100%; border-radius:5px 0 0 5px; padding: 8px 5px; border: 1px solid #006ce7" onmouseover="this.style.borderColor='#00308F';" onmouseout="this.style.borderColor='#006ce7';" autofocus/><button style="background-color: #006ce7; color:white; padding: 8px 10px; outline:none; border:1px solid #006ce7; border-radius:0 5px 5px 0; cursor:pointer;" id="searchBtn" onclick="handleSubmit(event)" title="search" type="submit">Search</button>
     </div>
     <p style="display:flex; justify-content:flex-end; align-items:center; font-size: 14px; color: #888; gap:5px;">
         Powered By <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Giphy-logo.svg" width="50" alt="giphy-attribution" style="width:50px;"/>
