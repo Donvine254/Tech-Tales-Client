@@ -96,8 +96,7 @@ tinymce.PluginManager.add("gif", (editor, url) => {
           gifGrid.innerHTML = "";
           json.data.forEach((gif, index) => {
             const gifUrl = gif.images.fixed_height.url;
-            const gifElement = `<div style="position: relative; width: 100%; padding-top: 100%; border:1px solid #ccc; background-image: url('https://res.cloudinary.com/dipkbpinx/image/upload/v1727994385/illustrations/simx3zvhnukfaaix2isp.gif'); background-position:center; background-repeat:no-repeat; background-size: contain;" onclick="insertGif(event, '${gifUrl}')"><img src="${gifUrl}" key="${index}" id="${index}" style="cursor:pointer; object-fit: cover; position: absolute; top: 0; left: 0; width: 100%; height: 100%;" />
-</div>`;
+            const gifElement = `<div style="position: relative; width: 100%; padding-top: 100%; border:1px solid #ccc; background-image: url('https://res.cloudinary.com/dipkbpinx/image/upload/v1727994385/illustrations/simx3zvhnukfaaix2isp.gif'); background-position:center; background-repeat:no-repeat; background-size: contain;" onclick="insertGif('${gifUrl}')"><img src="${gifUrl}" key="${index}" id="${index}" style="cursor:pointer; object-fit: cover; position: absolute; top: 0; left: 0; width: 100%; height: 100%;" /></div>`;
             gifGrid.innerHTML += gifElement;
             document.getElementById("loader").innerHTML = "";
           });
