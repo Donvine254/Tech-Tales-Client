@@ -30,6 +30,67 @@ const MonacoLoader = () => {
             );
           },
         };
+        monaco.languages.registerCompletionItemProvider("html", {
+          triggerCharacters: [">"],
+          provideCompletionItems: (model, position) => {
+            const codePre = model.getValueInRange({
+              startLineNumber: position.lineNumber,
+              startColumn: 1,
+              endLineNumber: position.lineNumber,
+              endColumn: position.column,
+            });
+            const tag = codePre.match(/.*<(\w+)>$/)?.[1];
+             const isSelfClosing = (tag) =>
+          [
+            "area",
+            "base",
+            "br",
+            "col",
+            "command",
+            "embed",
+            "hr",
+            "img",
+            "input",
+            "keygen",
+            "link",
+            "meta",
+            "param",
+            "source",
+            "track",
+            "wbr",
+            "circle",
+            "ellipse",
+            "line",
+            "path",
+            "polygon",
+            "polyline",
+            "rect",
+            "stop",
+            "use",
+          ].includes(tag);
+            if (!tag || isSelfClosing(tag)) {
+              return;
+            }
+            const word = model.getWordUntilPosition(position);
+            return {
+              suggestions: [
+                {
+                  label: `</${tag}>`,
+                  kind: monaco.languages.CompletionItemKind.EnumMember,
+                  insertText: `$1</${tag}>`,
+                  insertTextRules:
+                    monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+                  range: {
+                    startLineNumber: position.lineNumber,
+                    endLineNumber: position.lineNumber,
+                    startColumn: word.startColumn,
+                    endColumn: word.endColumn,
+                  },
+                },
+              ],
+            };
+          },
+        });
       }
     };
 
