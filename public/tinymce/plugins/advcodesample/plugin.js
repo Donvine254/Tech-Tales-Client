@@ -196,8 +196,8 @@ tinymce.PluginManager.add("advcodesample", (editor) => {
     onAction: showCustomDialog,
   });
   editor.ui.registry.addMenuItem("advcodesample", {
-    text: "Insert/Edit Code Sample",
-    icon: "code-sample",
+    text: "Insert Code Sample",
+    icon: "advcode-sample",
     onAction: showCustomDialog,
   });
 });

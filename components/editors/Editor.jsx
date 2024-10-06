@@ -93,7 +93,7 @@ export default function App({ data, handleChange, onFocus }) {
           menu: {
             tools: {
               title: "Tools",
-              items: "ai wordcount help",
+              items: "ai advcodesample wordcount help",
             },
           },
 
