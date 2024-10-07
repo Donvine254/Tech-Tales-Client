@@ -38,11 +38,9 @@ export default function UploadButton({ setBlog, uploadedImage, blogData }) {
       const img = new Image();
 
       img.onload = async () => {
-        if (img.width !== 1280 || img.height !== 720) {
+        if (img.width < 1280 || img.height < 720) {
           setIsLoading(false);
-          toast.error(
-            "Image must be exactly 1280x720 pixels for better results"
-          );
+          toast.error("Image must be at least 1280x720px for better results");
           clearFileInput();
           return;
         }
@@ -122,12 +120,13 @@ export default function UploadButton({ setBlog, uploadedImage, blogData }) {
       <h2 className="text-xl font-bold">Cover Image</h2>
       {!uploadedImage && (
         <small className="text-xs text-red-500 md:text-sm">
-          &#128712;Images should be less than 5MB and 1280*720 Pixels
+          &#128712;Images should be less than 5MB and at least 1280*720px or
+          16:9 Aspect Ratio
         </small>
       )}
       {uploadedImage ? (
         <div className="mb-2">
-          <div className="flex items-center gap-4 p-2 ">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 py-2">
             <a
               href={uploadedImage.secure_url}
               target="_blank"
@@ -138,31 +137,49 @@ export default function UploadButton({ setBlog, uploadedImage, blogData }) {
                 alt="Uploaded"
                 width={160}
                 height={90}
-                className="object-cover object-center h-[100px] w-[100px] italic"
+                className="object-contain object-center h-[90px] w-[160px] italic"
               />
             </a>
-            <div className="text-xs md:text-sm flex-1">
-              <p>Name: {uploadedImage.original_filename}</p>
-              <p>
+            <div className="text-xs md:text-sm flex-auto">
+              <p className="whitespace-nowrap">
+                Name: {uploadedImage.original_filename}
+              </p>
+              <p className="whitespace-nowrap">
                 Type: {uploadedImage.resource_type}/ {uploadedImage.format}
               </p>
-              <p>Size: {(uploadedImage.bytes / 1024).toFixed(2)}Kb</p>
-              <p>
+              <p className="whitespace-nowrap">
+                Size: {(uploadedImage.bytes / 1024).toFixed(2)}Kb
+              </p>
+              <p className="whitespace-nowrap">
                 Dimensions: {uploadedImage.width} / {uploadedImage.height} px
               </p>
+              {/* <p className="whitespace-nowrap">
+                Image Url:{" "}
+                <a
+                  href={uploadedImage.secure_url}
+                  target="_blank"
+                  rel="noopener"
+                  referrerPolicy="noopener"
+                  title={uploadedImage.original_filename}
+                  className="text-blue-500 hover:underline">
+                  Click here
+                </a>
+              </p> */}
             </div>
-            <button
-              type="button"
-              onClick={handleImageChange}
-              className="py-1 border hover:text-white hover:bg-blue-500 px-4 rounded-md">
-              Change
-            </button>
-            <button
-              type="button"
-              onClick={handleRemoveImage}
-              className="text-red-500 font-semibold">
-              Remove
-            </button>
+            <div className="flex items-center gap-x-2 xsm:gap-x-6">
+              <button
+                type="button"
+                onClick={handleImageChange}
+                className="py-1 border border-[#ccc] hover:text-white hover:bg-blue-500 xsm:text-blue-500 xsm:border-none px-4 xsm:p-0  rounded-md font-semibold">
+                Change
+              </button>
+              <button
+                type="button"
+                onClick={handleRemoveImage}
+                className="text-red-500 font-semibold">
+                Remove
+              </button>
+            </div>
           </div>
         </div>
       ) : (
