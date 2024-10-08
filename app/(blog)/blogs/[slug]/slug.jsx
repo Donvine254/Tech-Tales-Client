@@ -81,9 +81,7 @@ export default function Slug({ blog }) {
           <ImageWithFallback image={blog.image} title={blog.title} />
           {/* script for printing the blog pages */}
           <Script
-            src="https://unpkg.com/ink-html/dist/index.js"
-            async
-            defer></Script>
+            src="https://unpkg.com/ink-html/dist/index.js"></Script>
           <div className="block gap-5 items-center py-4">
             <div className="flex gap-2 md:gap-2 lg:gap-3 items-center">
               <div
