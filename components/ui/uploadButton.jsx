@@ -120,8 +120,8 @@ export default function UploadButton({ setBlog, uploadedImage, blogData }) {
       <h2 className="text-xl font-bold">Cover Image</h2>
       {!uploadedImage && (
         <small className="text-xs text-red-500 md:text-sm">
-          &#128712;Images should be less than 5MB and at least 1280*720px or
-          16:9 Aspect Ratio
+          🛈 Images should be less than 5MB and at least 1280*720px or 16:9
+          Aspect Ratio
         </small>
       )}
       {uploadedImage ? (
