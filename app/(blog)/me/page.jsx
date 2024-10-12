@@ -4,6 +4,7 @@ import { handleSignOut, baseUrl } from "@/lib";
 
 import Image from "next/image";
 import Link from "next/link";
+import Script from "next/script";
 import ColorPicker from "@/components/ui/ColorPicker";
 import {
   Clipboard,
@@ -26,10 +27,10 @@ export const dynamic = "auto";
 export default function Profile() {
   const user = useUserContext();
   const [blogs, setBlogs] = useState([]);
+  const [topAuthor, setTopAuthor] = useState(null);
   const [pinnedBlogs, setPinnedBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [color, setColor] = useState("#65DDF0");
-  //use state to store user socials, or just set the user in context
   // Fetch blogs when user data changes
   const fetchBlogs = useCallback(async () => {
     try {
@@ -46,13 +47,31 @@ export default function Profile() {
     }
   }, []);
 
+  const getTopAuthor = useCallback(async () => {
+    try {
+      const res = await fetch(`${baseUrl}/analytics/top-author`);
+      const data = await res.json();
+      setTopAuthor(data);
+      if (user && user.id === data.authorId) {
+        toast.success("Congratulations! You are the top author");
+        confetti({
+          particleCount: 1000,
+          spread: 70,
+        });
+      }
+    } catch (error) {
+      console.error("Could not get the top author", error);
+    }
+  }, [user]);
+
   useEffect(() => {
     fetchBlogs();
+    getTopAuthor();
     const currentColor = getCookie("selected_color");
     if (currentColor) {
       setColor(currentColor);
     }
-  }, [fetchBlogs]);
+  }, [fetchBlogs, getTopAuthor]);
 
   if (!user) {
     return (
@@ -88,6 +107,7 @@ export default function Profile() {
 
   return (
     <section className="font-poppins md:mt-10">
+      <Script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.2/tsparticles.confetti.bundle.min.js"></Script>
       <div
         className="w-full  lg:min-h-[180px] min-h-[150px] p-6"
         style={{
@@ -228,9 +248,32 @@ export default function Profile() {
                       width={30}
                       src="https://res.cloudinary.com/dipkbpinx/image/upload/v1724779829/badges/q86vokn45db0hfkklpud.svg"
                       height={30}
-                      alt="top author"
-                      data-tooltip-id="top-contributor"
-                      title="top contributor"
+                      alt="Notable contributor"
+                      data-tooltip-id="notable-contributor"
+                      title="notable contributor"
+                    />
+                  )}
+                  {topAuthor && topAuthor.authorId === user.id && (
+                    <Image
+                      width={30}
+                      src="https://res.cloudinary.com/dipkbpinx/image/upload/v1728757940/badges/nwczihvezgmn1pdxkfs4.svg"
+                      height={30}
+                      alt="Top Author"
+                      data-tooltip-id="top-author"
+                      title="top-author"
+                      onMouseOver={(e) => {
+                        const rect = e.target.getBoundingClientRect();
+                        const x =
+                          (rect.left + rect.right) / 2 / window.innerWidth;
+                        const y =
+                          (rect.top + rect.bottom) / 2 / window.innerHeight;
+
+                        confetti({
+                          particleCount: 100,
+                          spread: 70,
+                          origin: { x, y },
+                        });
+                      }}
                     />
                   )}
                 </div>
@@ -259,8 +302,14 @@ export default function Profile() {
                   variant="info"
                 />
                 <Tooltip
-                  id="top-contributor"
-                  content="top contributor"
+                  id="top-author"
+                  content="top author"
+                  style={{ padding: "5px" }}
+                  variant="info"
+                />
+                <Tooltip
+                  id="notable-contributor"
+                  content="notable contributor"
                   style={{ padding: "5px" }}
                   variant="info"
                 />

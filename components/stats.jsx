@@ -23,11 +23,19 @@ export default function UserStats({ blogs }) {
 
       {/* Total Views */}
       <div
-        className={`rounded-lg border shadow-sm flex-1 px-6 py-4 min-w-[200px] bg-white ${
+        className={`rounded-lg border shadow-sm flex-1 px-6 py-4 min-w-[200px] bg-white cursor-pointer ${
           totalViews > 1000
             ? "bg-[url('https://res.cloudinary.com/dipkbpinx/image/upload/v1724713816/cxf2dejkjxn2qk3ss2wr.avif')] bg-no-repeat bg-cover"
             : ""
-        }`}>
+        }`}
+        onClick={() => {
+          totalViews > 1000
+            ? confetti({
+                particleCount: 100,
+                spread: 70,
+              })
+            : null;
+        }}>
         <p className="text-2xl font-bold">{formatViews(totalViews)}</p>
         <p className="text-extralight text-gray-500 inline-flex items-center gap-1">
           <IconEye size={16} />

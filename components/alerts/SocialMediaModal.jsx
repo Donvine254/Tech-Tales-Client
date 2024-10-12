@@ -56,8 +56,8 @@ const SocialMediaModal = ({ user }) => {
     <dialog
       id="social_media_modal"
       className="rounded-md max-w-[400px] modal m-auto xsm:mx-5 shadow-md">
-      <div className="relative ">
-        <div className="px-2 py-1 bg-gradient-to-r from-green-400 via-cyan-400 to-indigo-400 text-white space-y-2">
+      <div className="relative">
+        <div className="px-6 py-4 bg-gradient-to-r from-green-400 via-cyan-400 to-indigo-400 text-white space-y-2">
           <h3 className="text-2xl  font-semibold  text-center">
             Update Your Social Profile
           </h3>
@@ -68,21 +68,21 @@ const SocialMediaModal = ({ user }) => {
         </div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
+          width="30"
+          height="30"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="hover:fill-red-500 hover:bg-gray-100 p-1 rounded-md hover:text-red-500 cursor-pointer z-50 absolute top-0 right-0"
+          className="hover:fill-red-500 p-1 rounded-md hover:text-red-500 cursor-pointer z-50 absolute top-0 right-0"
           onClick={handleClose}>
           <path d="M18 6 6 18" />
           <path d="m6 6 12 12" />
           <title>Close</title>
         </svg>
-        <section id="benefits" className="p-2">
+        <section id="benefits" className="px-6 py-2">
           <ul className="subscribe-form">
             <li>Build your own social community</li>
             <li>Share your content and ideas with a broader audience</li>
@@ -90,10 +90,10 @@ const SocialMediaModal = ({ user }) => {
           </ul>
         </section>
         <form
-          className=" py-4 bg-[#f8f9fa] p-2 rounded-md mb-4 mx-4 border"
+          className="bg-[#f4f5f6] py-4 px-2 rounded-md mb-4 mx-6 border"
           method="dialog"
           onSubmit={handleSubmit}>
-          <div className="space-y-1">
+          <div className="space-y-2">
             <label
               className="capitalize font-semibold text-gray-600"
               htmlFor="platform">
@@ -112,7 +112,7 @@ const SocialMediaModal = ({ user }) => {
                   platform: e.target.value,
                 }))
               }>
-              <option value="" disabled selected hidden>
+              <option value="" disabled hidden>
                 Select Platform
               </option>
               <option value="facebook">Facebook</option>
@@ -125,7 +125,7 @@ const SocialMediaModal = ({ user }) => {
             </select>
           </div>
 
-          <div className="space-y-1">
+          <div className="space-y-2">
             <label
               className="capitalize font-semibold text-gray-600"
               htmlFor="url">
