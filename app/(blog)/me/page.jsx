@@ -12,6 +12,7 @@ import {
   GithubIcon,
   NewTwitterIcon,
   Comment,
+  IconEye,
 } from "@/assets";
 import { calculateReadingTime } from "@/lib";
 import { getCookie } from "@/lib/utils";
@@ -349,6 +350,16 @@ export default function Profile() {
                 My Blogs
               </Link>
               <Link
+                href="/me/replies"
+                className="w-full flex items-center justify-start border bg-gray-100 hover:bg-gray-200 my-2 px-6 py-1 cursor-pointer hover:text-blue-500 h-8 rounded-md gap-2 group">
+                <Comment
+                  size="16"
+                  className="text-gray-500 group-hover:text-blue-500"
+                />
+                Replies
+              </Link>
+              <p className="font-bold">Activity</p>
+              <Link
                 href="/me/bookmarks"
                 className="w-full flex items-center justify-start border bg-gray-100 hover:bg-gray-200 my-2 px-6 py-1 cursor-pointer hover:text-blue-500 h-8 rounded-md gap-2">
                 <svg
@@ -366,7 +377,15 @@ export default function Profile() {
                 </svg>
                 Reading List
               </Link>
-
+              <Link
+                href="/me/history"
+                className="w-full flex items-center justify-start border bg-gray-100 hover:bg-gray-200 my-2 px-6 py-1 cursor-pointer hover:text-blue-500 h-8 rounded-md gap-2 group">
+                <IconEye
+                  size="16"
+                  className="text-gray-500 group-hover:text-blue-500"
+                />
+                History
+              </Link>
               <hr />
               <p className="font-bold">Connected Accounts</p>
               <button

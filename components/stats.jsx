@@ -53,7 +53,21 @@ export default function UserStats({ blogs }) {
       </div>
 
       {/* Total Likes */}
-      <div className="rounded-lg border shadow-sm flex-1 px-6 py-4 min-w-[200px] bg-white">
+      <div
+        className="rounded-lg border shadow-sm flex-1 px-6 py-4 min-w-[200px] bg-white cursor-pointer"
+        onMouseOver={(e) => {
+          const rect = e.target.getBoundingClientRect();
+          const x = (rect.left + rect.right) / 2 / window.innerWidth;
+          const y = (rect.top + rect.bottom) / 2 / window.innerHeight;
+
+          confetti({
+            particleCount: totalLikes,
+            spread: 70,
+            origin: { x, y },
+            shapes: ["hearts"],
+            scalar: 3,
+          });
+        }}>
         <p className="text-2xl font-bold">{formatViews(totalLikes)}</p>
         <p className="text-extralight text-gray-500 inline-flex items-center gap-1">
           {" "}
