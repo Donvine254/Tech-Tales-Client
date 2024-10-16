@@ -22,16 +22,20 @@ export default function UserCard({ author }) {
   return (
     <div className=" bg-slate-50 absolute border shadow w-fit rounded-md xsm:w-full min-w-[250px] z-50">
       <div className="flex items-center gap-2 bg-gradient-to-t from-gray-50 via-gray-100 to-cyan-400 w-full rounded-t-md px-4 py-2 border-b ">
-        <Image
-          src={author.picture}
-          width={48}
-          height={48}
-          alt={author.username}
-          className="h-10 w-10 md:h-12 md:w-12 rounded-full cursor-pointer"
-        />
+        <Link href={`/explore/${author.handle}`}>
+          <Image
+            src={author.picture}
+            width={48}
+            height={48}
+            alt={author.username}
+            className="h-10 w-10 md:h-12 md:w-12 rounded-full cursor-pointer"
+          />
+        </Link>
         <div className="capitalize font-bold text-lg ">
           <p className="w-full flex items-center">
-            <span className="">{author.username}</span>
+            <Link href={`/explore/${author.handle}`} className="">
+              {author.username}
+            </Link>
 
             {author.role === "admin" ? (
               <Image
