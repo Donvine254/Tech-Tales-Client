@@ -1,17 +1,13 @@
 import { BlogsComponent } from "@/components";
 import Image from "next/image";
-import { formatDate } from "@/lib/utils";
-import {
-  Facebook,
-  GithubIcon,
-  NewTwitterIcon,
-  IconEdit,
-  Comment,
-} from "@/assets";
-
+import { formatDate, formatViews } from "@/lib/utils";
+import { Facebook, GithubIcon, NewTwitterIcon, Comment, Graph } from "@/assets";
+import { baseUrl } from "@/lib";
 const color = "#01142d";
 
 export default async function Explore({ blogs, user }) {
+  const totalViews = blogs.reduce((sum, blog) => sum + blog.views, 0);
+  const totalLikes = blogs.reduce((sum, blog) => sum + blog.likes, 0);
   function getSocialUrl(platform) {
     return (
       user?.socials?.find((social) => social.platform === platform)?.url || null
@@ -25,6 +21,13 @@ export default async function Explore({ blogs, user }) {
   const instagramUrl = getSocialUrl("instagram");
   const youtubeUrl = getSocialUrl("youtube");
   const tiktokUrl = getSocialUrl("tiktok");
+
+  const getTopAuthor = async () => {
+    const res = await fetch(`${baseUrl}/analytics/top-author`);
+    const data = await res.json();
+    return user.id === data.authorId;
+  };
+  let isTopAuthor = (await getTopAuthor()) || false;
 
   return (
     <section className="md:mt-10 font-poppins">
@@ -87,7 +90,7 @@ export default async function Explore({ blogs, user }) {
                 ? "You have have no bio yet. Update your bio  to let others know who you are, your competencies, and what you do."
                 : user.bio}
             </p>
-            <p className="flex items-center justify-center gap-1 flex-1 p-1 hover:bg-gray-200 rounded-md">
+            <p className="flex items-center justify-center gap-1 flex-1 p-1 rounded-md">
               <svg
                 viewBox="0 0 24 24"
                 fill="currentColor"
@@ -160,16 +163,15 @@ export default async function Explore({ blogs, user }) {
                       title="notable contributor"
                     />
                   )}
-                  {/* {topAuthor && topAuthor.authorId === user.id && (
+                  {isTopAuthor && (
                     <Image
                       width={30}
                       src="https://res.cloudinary.com/dipkbpinx/image/upload/v1728757940/badges/nwczihvezgmn1pdxkfs4.svg"
                       height={30}
                       alt="Top Author"
-                      data-tooltip-id="top-author"
                       title="top-author"
                     />
-                  )} */}
+                  )}
                 </div>
               </div>
               <hr />
@@ -245,19 +247,43 @@ export default async function Explore({ blogs, user }) {
                 </div>
               )}
               <hr />
-              <div className="py-2">
-                <div className="rounded-lg border shadow-sm flex-1 px-6 py-4 min-w-[200px] bg-white">
-                  <p className="text-2xl font-bold">{user._count.blogs}</p>
-                  <p className="text-extralight text-gray-500 inline-flex items-center ">
-                    <IconEdit />
-                    Total Authored Blogs
+              <p className="font-bold">Activity</p>
+              <div className="space-y-2 py-2">
+                <div className="flex items-center gap-2 font-extralight text-gray-600 ">
+                  <svg
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1}
+                    viewBox="0 0 24 24"
+                    height="24"
+                    width="24">
+                    <path d="M8 21h12a2 2 0 002-2v-2H10v2a2 2 0 11-4 0V5a2 2 0 10-4 0v3h4" />
+                    <path d="M19 17V5a2 2 0 00-2-2H4M15 8h-5M15 12h-5" />
+                  </svg>
+                  <p className="">{user._count.blogs} Total Authored Posts</p>
+                </div>
+                <div className="flex items-center gap-2 font-extralight text-gray-600 ">
+                  <Graph size="24" />
+                  <p className="">
+                    {formatViews(totalViews)} Total Post Impressions
                   </p>
                 </div>
-                <div className="rounded-lg border shadow-sm flex-1 px-6 py-4 min-w-[200px] bg-white">
-                  <p className="text-2xl font-bold">{user._count.comments}</p>
-                  <p className="text-extralight text-gray-500 inline-flex items-center gap-1">
-                    <Comment size={16} />
-                    Total Authored comments
+                <div className="flex items-center gap-2 font-extralight text-gray-600 ">
+                  <svg
+                    fill="currentColor"
+                    viewBox="0 0 16 16"
+                    height="24"
+                    width="24">
+                    <path d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 01.176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                  </svg>
+                  <p className="">{formatViews(totalLikes)} Total Post Likes</p>
+                </div>
+                <div className="flex items-center gap-2 font-extralight text-gray-600 ">
+                  <Comment size="24" />
+                  <p className="">
+                    {user._count.comments} Total Authored comments
                   </p>
                 </div>
               </div>
