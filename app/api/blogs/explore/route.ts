@@ -12,6 +12,31 @@ export async function POST(req: NextRequest, res: NextResponse) {
   }
 
   try {
+    const user = await prisma.user.findFirst({
+      where: {
+        handle: handle,
+      },
+      select: {
+        id: true,
+        username: true,
+        handle: true,
+        picture: true,
+        bio: true,
+        role: true,
+        createdAt: true,
+        socials: true,
+        _count: {
+          select: {
+            comments: true,
+            blogs: true,
+          },
+        },
+      },
+      cacheStrategy: { ttl: 60 },
+    });
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
     const blogs = await prisma.blog.findMany({
       where: {
         author: {
@@ -36,7 +61,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
       },
     });
 
-    return NextResponse.json(blogs, { status: 200 });
+    return NextResponse.json({ user, blogs }, { status: 200 });
   } catch (error) {
     console.error("Error fetching blogs:", error);
 

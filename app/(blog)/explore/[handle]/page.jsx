@@ -31,6 +31,7 @@ export async function generateStaticParams() {
 }
 
 export default async function page({ params }) {
+  //get the user data so i can render user public profile template
   async function fetchBlog() {
     try {
       const response = await fetch(`${baseUrl}/blogs/explore`, {
@@ -42,7 +43,6 @@ export default async function page({ params }) {
         next: { revalidate: 600 },
       });
       const data = await response.json();
-
       return data;
     } catch (error) {
       console.error(error);
@@ -50,11 +50,12 @@ export default async function page({ params }) {
     }
   }
 
-  let blogs = await fetchBlog();
+  // let blogs = await fetchBlog();
+  let {user, blogs} = await fetchBlog()
 
   return (
     <section className="md:mt-10">
-      <Explore blogs={blogs} />
+      <Explore blogs={blogs} user={user} />
     </section>
   );
 }
