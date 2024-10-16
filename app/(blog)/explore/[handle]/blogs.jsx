@@ -1,7 +1,16 @@
-import { BlogsComponent } from "@/components";
 import Image from "next/image";
+import Link from "next/link";
 import { formatDate, formatViews } from "@/lib/utils";
-import { Facebook, GithubIcon, NewTwitterIcon, Comment, Graph } from "@/assets";
+import { calculateReadingTime } from "@/lib";
+import { Bookmark, ShareButton } from "@/components";
+import {
+  Facebook,
+  GithubIcon,
+  NewTwitterIcon,
+  Comment,
+  Graph,
+  Like,
+} from "@/assets";
 import { baseUrl } from "@/lib";
 const color = "#01142d";
 
@@ -247,7 +256,7 @@ export default async function Explore({ blogs, user }) {
                 </div>
               )}
               <hr />
-              <p className="font-bold">Activity</p>
+              <p className="font-bold">Statistics</p>
               <div className="space-y-2 py-2">
                 <div className="flex items-center gap-2 font-extralight text-gray-600 ">
                   <svg
@@ -291,7 +300,103 @@ export default async function Explore({ blogs, user }) {
           </div>
           {/* second card */}
           <div className="lg:w-2/3 p-6 space-y-2 bg-gray-50 border shadow rounded-md">
-            <BlogsComponent blogs={blogs} />
+            {blogs && blogs.length > 0 && (
+              <div>
+                {blogs.map((blog) => (
+                  <div key={blog.id}>
+                    <div className="p-2 mt-5 border rounded-md shadow">
+                      <div className="flex gap-2 xsm:items-center py-2">
+                        <Image
+                          className="h-5 w-5 rounded-full md:h-8 md:w-8 cursor-pointer "
+                          src={user.picture}
+                          width="32"
+                          height="32"
+                          title="User Profile Photo"
+                          alt="user profile avatar"
+                          referrerPolicy="no-referrer"
+                        />
+                        <div className="">
+                          <p className="text-sm xsm:text-xs capitalize">
+                            {user.username}
+                          </p>
+                          <p className="text-sm xsm:text-xs xsm:mb-0">
+                            <time dateTime={blog?.createdAt}>
+                              {formatDate(blog.createdAt)} {""}
+                            </time>
+                            &#x2022; &#128337;{calculateReadingTime(blog.body)}{" "}
+                            min
+                          </p>
+                        </div>
+                      </div>
+                      <Link
+                        href={`/blogs/${blog.slug}`}
+                        className={`hover:underline ${
+                          blog.status !== "PUBLISHED"
+                            ? "pointer-events-none cursor-not-allowed  text-gray-400"
+                            : ""
+                        }`}
+                        prefetch>
+                        <span className="font-semibold xsm:text-sm  py-1 text-gray-700 hover:text-blue-500 ">
+                          {blog.title}
+                        </span>
+                      </Link>
+
+                      <div className="flex gap-2 flex-wrap text-sm">
+                        {blog.tags.split(",").map((tag, index) => (
+                          <Link
+                            key={index}
+                            href={`/search?search=${tag.trim()}`}
+                            className={` text-blue-500  highlight-tag-${index}`}>
+                            <span>#</span>
+                            {tag.trim()}
+                          </Link>
+                        ))}
+                      </div>
+                      <div className="flex items-center justify-between xsm:gap-2 md:gap-4 py-2 text-sm xsm:text-xs">
+                        <Link
+                          href={`/blogs/${blog.slug}`}
+                          className="inline-flex items-center gap-x-1 ">
+                          <Comment
+                            size={16}
+                            className="stroke-none fill-gray-400"
+                          />
+                          <span>{blog?._count?.comments}</span>
+                        </Link>
+                        <Link
+                          href={`/blogs/${blog.slug}`}
+                          prefetch
+                          className="inline-flex items-center gap-x-0.5  ">
+                          <Like
+                            className="stroke-gray-400 fill-none"
+                            size={16}
+                          />
+                          <span className="">{blog.likes}</span>
+                        </Link>
+                        <Link
+                          href={`/blogs/${blog.slug}`}
+                          prefetch
+                          className="inline-flex xsm:items-center  sm:items-start gap-x-0.5 ">
+                          <Graph
+                            className="stroke-gray-500 fill-none "
+                            size={16}
+                          />
+                          <p className=" sm:align-text-bottom  xsm:pt-1.5">
+                            {formatViews(blog.views)}
+                          </p>
+                        </Link>
+                        <ShareButton
+                          size={16}
+                          className="h-[16px] w-[16px] text-gray-500"
+                          title={blog.title}
+                          slug={blog.slug}
+                        />
+                        <Bookmark blogId={blog.id} size={16} />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
