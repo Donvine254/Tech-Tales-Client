@@ -95,15 +95,12 @@ export default async function Explore({ blogs, user }) {
                 )}
               </>
             </p>
-            <p className="text-gray-700 mb-1 break-words text-sm text-center">
-              {user.email}
-            </p>
             <p className="xsm:text-xs text-center max-w-md mx-auto">
               {user?.bio === "This user has no bio"
-                ? "You have have no bio yet. Update your bio  to let others know who you are, your competencies, and what you do."
+                ? "Hey, I have not updated my bio yet. Let's chat in the comments."
                 : user.bio}
             </p>
-            <p className="flex items-center justify-center gap-1 flex-1 p-1 rounded-md">
+            <p className="flex items-center justify-center gap-1 flex-1 p-1 rounded-md xsm:text-xs">
               <svg
                 viewBox="0 0 24 24"
                 fill="currentColor"
@@ -263,8 +260,8 @@ export default async function Explore({ blogs, user }) {
               )}
               <hr />
               <p className="font-bold">Statistics</p>
-              <div className="space-y-2 py-2">
-                <div className="flex items-center gap-2 font-extralight text-gray-600 ">
+              <div className="space-y-2  divide-y-2 divide-dotted">
+                <div className="flex items-center gap-2 font-extralight hover:text-blue-500 xsm:text-xs ">
                   <svg
                     fill="none"
                     stroke="currentColor"
@@ -279,7 +276,7 @@ export default async function Explore({ blogs, user }) {
                   </svg>
                   <p className="">{user._count.blogs} Authored Posts</p>
                 </div>
-                <div className="flex items-center gap-2 font-extralight text-gray-600 ">
+                <div className="flex items-center gap-2 font-extralight hover:text-blue-500 xsm:text-xs ">
                   <svg
                     fill="currentColor"
                     viewBox="0 0 16 16"
@@ -290,7 +287,7 @@ export default async function Explore({ blogs, user }) {
                   </svg>
                   <p className="">{formatViews(totalViews)} Post Impressions</p>
                 </div>
-                <div className="flex items-center gap-2 font-extralight text-gray-600 ">
+                <div className="flex items-center gap-2 font-extralight hover:text-blue-500 xsm:text-xs  ">
                   <svg
                     viewBox="0 0 512 512"
                     fill="currentColor"
@@ -307,7 +304,7 @@ export default async function Explore({ blogs, user }) {
                   </svg>
                   <p className="">{formatViews(totalLikes)} Post Reactions</p>
                 </div>
-                <div className="flex items-center gap-2 font-extralight text-gray-600 ">
+                <div className="flex items-center gap-2 font-extralight hover:text-blue-500 xsm:text-xs  ">
                   <svg
                     viewBox="0 0 24 24"
                     fill="currentColor"
