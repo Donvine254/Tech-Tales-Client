@@ -16,9 +16,15 @@ export default function Bookmark({ blogId, size = 24 }) {
 
   useEffect(() => {
     const localStorageData = secureLocalStorage.getItem("bookmarked_blogs");
-    const bookmarkedBlogs = localStorageData
-      ? JSON.parse(localStorageData)
-      : {};
+    let bookmarkedBlogs = {};
+
+    if (localStorageData) {
+      try {
+        bookmarkedBlogs = JSON.parse(localStorageData);
+      } catch (error) {
+        console.error("Error parsing bookmarked blogs data:", error);
+      }
+    }
     setIsBookmarked(!!bookmarkedBlogs[blogId]);
   }, [blogId]);
 

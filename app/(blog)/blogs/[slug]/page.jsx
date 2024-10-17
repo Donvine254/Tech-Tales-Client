@@ -43,6 +43,7 @@ async function getBlogData(slug) {
             bio: true,
             role: true,
             socials: true,
+            branding: true,
           },
         },
         comments: {

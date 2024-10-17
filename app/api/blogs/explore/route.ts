@@ -43,6 +43,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         author: {
           handle: handle,
         },
+        status: "PUBLISHED",
       },
       include: {
         author: {
