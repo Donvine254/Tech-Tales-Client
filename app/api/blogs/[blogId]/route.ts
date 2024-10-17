@@ -15,6 +15,7 @@ export async function GET(req: NextRequest, { params }) {
           select: {
             username: true,
             picture: true,
+            branding: true,
           },
         },
         _count: {

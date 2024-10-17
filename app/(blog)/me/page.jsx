@@ -5,7 +5,6 @@ import { handleSignOut, baseUrl } from "@/lib";
 import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
-import ColorPicker from "@/components/ui/ColorPicker";
 import {
   Clipboard,
   Facebook,
@@ -31,7 +30,6 @@ export default function Profile() {
   const [topAuthor, setTopAuthor] = useState(null);
   const [pinnedBlogs, setPinnedBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [color, setColor] = useState("#65DDF0");
   // Fetch blogs when user data changes
   const fetchBlogs = useCallback(async () => {
     try {
@@ -68,10 +66,6 @@ export default function Profile() {
   useEffect(() => {
     fetchBlogs();
     getTopAuthor();
-    const currentColor = getCookie("selected_color");
-    if (currentColor) {
-      setColor(currentColor);
-    }
   }, [fetchBlogs, getTopAuthor]);
 
   if (!user) {
@@ -112,13 +106,13 @@ export default function Profile() {
       <div
         className="w-full  lg:min-h-[180px] min-h-[150px] p-6"
         style={{
-          backgroundColor: color,
+          backgroundColor: user.branding,
         }}>
-        <ColorPicker setColor={setColor} color={color} />
+        {/* <ColorPicker setColor={setColor} color={color} /> */}
       </div>
       <div className="w-full min-h-[400px] mx-auto xsm:px-2 sm:px-8 md:w-4/5">
         <div className="px-6 py-4 w-full relative -top-20 rounded-md bg-white">
-          <ProfileImage url={user?.picture} color={color} />
+          <ProfileImage url={user?.picture} color={user.branding} />
           <div className="-mt-20">
             <p className="text-gray-600 font-semibold  flex items-center justify-center text-lg ">
               <span className="capitalize">{user.username} </span>

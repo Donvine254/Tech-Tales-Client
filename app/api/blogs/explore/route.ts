@@ -23,6 +23,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         picture: true,
         bio: true,
         role: true,
+        branding: true,
         createdAt: true,
         socials: true,
         _count: {

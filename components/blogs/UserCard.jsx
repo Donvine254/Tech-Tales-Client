@@ -4,6 +4,9 @@ import Link from "next/link";
 
 export default function UserCard({ author }) {
   // function to get author social media links
+
+  console.log(author);
+
   function getSocialUrl(platform) {
     return (
       author.socials?.find((social) => social.platform === platform)?.url ||
@@ -21,7 +24,10 @@ export default function UserCard({ author }) {
 
   return (
     <div className=" bg-slate-50 absolute border shadow w-fit rounded-md xsm:w-full min-w-[250px] z-50">
-      <div className="flex items-center gap-2 bg-gradient-to-t from-gray-50 via-gray-100 to-cyan-400 w-full rounded-t-md px-4 py-2 border-b ">
+      <div
+        className={`flex items-center gap-2 bg-gradient-to-t from-gray-50 via-gray-100 to-[${
+          author.branding ?? "#01142d"
+        }] w-full rounded-t-md px-4 py-2 border-b`}>
         <Link href={`/explore/${author.handle}`}>
           <Image
             src={author.picture}

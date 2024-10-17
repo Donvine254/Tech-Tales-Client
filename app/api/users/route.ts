@@ -46,6 +46,7 @@ export async function GET(req: NextRequest) {
         status: true,
         picture: true,
         handle: true,
+        branding: true,
         bio: true,
         _count: {
           select: {

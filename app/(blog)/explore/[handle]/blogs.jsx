@@ -13,7 +13,6 @@ import {
 } from "@/assets";
 import { baseUrl } from "@/lib";
 import { redirect } from "next/navigation";
-const color = "#01142d";
 
 export default async function Explore({ blogs, user }) {
   if (!user) {
@@ -47,7 +46,7 @@ export default async function Explore({ blogs, user }) {
       <div
         className="w-full  lg:min-h-[180px] min-h-[150px] p-6"
         style={{
-          backgroundColor: color,
+          backgroundColor: user.branding,
         }}></div>
       <div className="w-full min-h-[400px] mx-auto xsm:px-2 sm:px-8 md:w-4/5">
         <div className="px-6 py-4 w-full relative -top-20 rounded-md bg-white">
@@ -61,7 +60,7 @@ export default async function Explore({ blogs, user }) {
             height={120}
             width={120}
             alt={user.username}
-            style={{ border: `0.5rem solid ${color}` }}
+            style={{ border: `0.5rem solid ${user.branding}` }}
             priority
             className="w-[120px] h-[120px] relative -top-20 rounded-full m-auto  italic "
             referrerPolicy="no-referrer"

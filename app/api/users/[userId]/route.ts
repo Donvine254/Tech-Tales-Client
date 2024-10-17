@@ -8,6 +8,7 @@ type PatchData = {
   picture?: string;
   bio?: string;
   handle?: string;
+  branding?: string;
   preferences?: {
     cookies: boolean;
     analytics: boolean;
@@ -36,6 +37,7 @@ export async function GET(request: NextRequest, { params }) {
             username: true,
             picture: true,
             handle: true,
+            branding: true,
           },
         },
         _count: {
@@ -71,7 +73,7 @@ export async function PATCH(req: NextRequest, { params }) {
       { status: 401 }
     );
   }
-  const { username, bio, picture, handle, preferences } =
+  const { username, bio, picture, handle, preferences, branding } =
     (await req.json()) as PatchData;
 
   try {
@@ -85,6 +87,7 @@ export async function PATCH(req: NextRequest, { params }) {
         bio,
         picture,
         preferences,
+        branding,
       },
     });
     // Generate a JWT token
