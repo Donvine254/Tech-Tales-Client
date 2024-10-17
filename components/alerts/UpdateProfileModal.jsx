@@ -21,6 +21,7 @@ export default function UpdateProfileModal({ user }) {
     username: user?.username,
     bio: user?.bio ?? "",
     handle: user?.handle ?? "",
+    branding: user?.branding ?? "#01142d",
   });
   const previousImage = user?.picture;
   function handleFileChange(e) {
@@ -258,6 +259,70 @@ export default function UpdateProfileModal({ user }) {
               <span className="text-sm">{data?.bio?.length ?? 0}/150</span>
             </p>
           </div>
+          {/* <div className="">
+            <label className="font-semibold" htmlFor="branding">
+              Branding
+            </label>
+            <input
+              className="flex h-8 w-full border-b border-green-500 bg-transparent focus:outline-none py-2 invalid:border-red-500"
+              id="branding"
+              name="branding"
+              type="color"
+              value={data.branding}
+              onChange={(e) => {
+                setData((prev) => ({
+                  ...prev, 
+                  branding: e.target.value, 
+                }));
+              }}
+            />
+            <p className="text-xs text-gray-600">
+              Brand color used for backgrounds, borders etc.
+            </p>
+          </div> */}
+          <div className="space-y-2">
+            <label className="font-semibold block" htmlFor="branding">
+              Branding
+            </label>
+            <div className="relative flex items-center">
+              <input
+                className="flex h-8 py-2 w-full border border-green-500 bg-transparent focus:outline-none px-10 rounded-md"
+                id="branding"
+                name="branding"
+                type="text"
+                value={data.branding}
+                onChange={(e) => {
+                  setData((prev) => ({
+                    ...prev,
+                    branding: e.target.value,
+                  }));
+                }}
+                placeholder="#000000"
+              />
+              <input
+                className="absolute left-0 h-full w-8 opacity-0 cursor-pointer"
+                id="colorPicker"
+                name="colorPicker"
+                type="color"
+                onChange={(e) => {
+                  setData((prev) => ({
+                    ...prev,
+                    branding: e.target.value,
+                  }));
+                }}
+              />
+              <div
+                className="absolute left-0 h-6 ml-1 rounded-md w-8 bg-transparent cursor-pointer"
+                style={{ backgroundColor: data.branding || "#000000" }}
+                title="pick color"
+                onClick={() => document.getElementById("colorPicker").click()}
+              />
+            </div>
+            <p className="text-xs text-gray-600">
+              Brand color used for backgrounds, borders etc.
+            </p>
+          </div>
+
           {error && (
             <div className=" bg-red-100 border-red-300 p-1 rounded-md text-center">
               <p className="text-red-600 text-sm">{error}</p>
