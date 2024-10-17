@@ -51,7 +51,7 @@ export default async function page({ params }) {
   }
 
   // let blogs = await fetchBlog();
-  let {user, blogs} = await fetchBlog()
+  let { user, blogs } = await fetchBlog();
 
   return (
     <section className="md:mt-10">

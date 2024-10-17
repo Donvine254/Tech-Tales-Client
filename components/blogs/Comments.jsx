@@ -12,6 +12,7 @@ import { formatDate } from "@/lib/utils";
 import toast from "react-hot-toast";
 import parse from "html-react-parser";
 import { updateCommentStatus } from "@/lib/actions";
+import { Tooltip } from "react-tooltip";
 
 const DynamicEditor = dynamic(
   () => import("@/components/editors/CommentEditor"),
@@ -271,11 +272,20 @@ export default function Comments({
                       )}
                       {comment.author.status === "ACTIVE" && (
                         <div>
-                          <div className="online-indicator">
+                          <div
+                            className="online-indicator"
+                            title="this user is online"
+                            data-tooltip-id="online">
                             <span className="blink"></span>
                           </div>
                         </div>
                       )}
+                      <Tooltip
+                        id="online"
+                        content="This user is online"
+                        style={{ padding: "5px" }}
+                        variant="info"
+                      />
                     </div>
                     <p className="font-light text-sm xsm:text-xs">
                       <span>Published on</span>{" "}

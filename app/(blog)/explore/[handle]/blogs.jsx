@@ -12,11 +12,15 @@ import {
   Like,
 } from "@/assets";
 import { baseUrl } from "@/lib";
+import { redirect } from "next/navigation";
 const color = "#01142d";
 
 export default async function Explore({ blogs, user }) {
-  const totalViews = blogs.reduce((sum, blog) => sum + blog.views, 0);
-  const totalLikes = blogs.reduce((sum, blog) => sum + blog.likes, 0);
+  if (!user) {
+    redirect("/");
+  }
+  const totalViews = blogs?.reduce((sum, blog) => sum + blog.views, 0);
+  const totalLikes = blogs?.reduce((sum, blog) => sum + blog.likes, 0);
   function getSocialUrl(platform) {
     return (
       user?.socials?.find((social) => social.platform === platform)?.url || null
@@ -185,7 +189,7 @@ export default async function Explore({ blogs, user }) {
               </div>
               <hr />
               <p className="font-bold">Socials</p>
-              {user.socials && user.socials.length > 0 && (
+              {user.socials && user.socials.length > 0 ? (
                 <div className="flex items-center space-y-1 my-2  gap-4  flex-wrap ">
                   {facebookUrl && (
                     <a href={facebookUrl} target="_blank" title="facebook">
@@ -254,6 +258,8 @@ export default async function Explore({ blogs, user }) {
                     </a>
                   )}
                 </div>
+              ) : (
+                <p>This user has no socials</p>
               )}
               <hr />
               <p className="font-bold">Statistics</p>
@@ -271,13 +277,7 @@ export default async function Explore({ blogs, user }) {
                     <path d="M8 21h12a2 2 0 002-2v-2H10v2a2 2 0 11-4 0V5a2 2 0 10-4 0v3h4" />
                     <path d="M19 17V5a2 2 0 00-2-2H4M15 8h-5M15 12h-5" />
                   </svg>
-                  <p className="">{user._count.blogs} Total Authored Posts</p>
-                </div>
-                <div className="flex items-center gap-2 font-extralight text-gray-600 ">
-                  <Graph size="24" />
-                  <p className="">
-                    {formatViews(totalViews)} Total Post Impressions
-                  </p>
+                  <p className="">{user._count.blogs} Authored Posts</p>
                 </div>
                 <div className="flex items-center gap-2 font-extralight text-gray-600 ">
                   <svg
@@ -285,15 +285,37 @@ export default async function Explore({ blogs, user }) {
                     viewBox="0 0 16 16"
                     height="24"
                     width="24">
-                    <path d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 01.176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                    <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 011.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0114.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 011.172 8z" />
+                    <path d="M8 5.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM4.5 8a3.5 3.5 0 117 0 3.5 3.5 0 01-7 0z" />
                   </svg>
-                  <p className="">{formatViews(totalLikes)} Total Post Likes</p>
+                  <p className="">{formatViews(totalViews)} Post Impressions</p>
                 </div>
                 <div className="flex items-center gap-2 font-extralight text-gray-600 ">
-                  <Comment size="24" />
-                  <p className="">
-                    {user._count.comments} Total Authored comments
-                  </p>
+                  <svg
+                    viewBox="0 0 512 512"
+                    fill="currentColor"
+                    height="24"
+                    width="24">
+                    <path
+                      fill="none"
+                      stroke="currentColor"
+                      strokeMiterlimit={10}
+                      strokeWidth={10}
+                      d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z"
+                    />
+                    <path d="M256 360a16 16 0 01-9-2.78c-39.3-26.68-56.32-45-65.7-56.41-20-24.37-29.58-49.4-29.3-76.5.31-31.06 25.22-56.33 55.53-56.33 20.4 0 35 10.63 44.1 20.41a6 6 0 008.72 0c9.11-9.78 23.7-20.41 44.1-20.41 30.31 0 55.22 25.27 55.53 56.33.28 27.1-9.31 52.13-29.3 76.5-9.38 11.44-26.4 29.73-65.7 56.41A16 16 0 01256 360z" />
+                  </svg>
+                  <p className="">{formatViews(totalLikes)} Post Reactions</p>
+                </div>
+                <div className="flex items-center gap-2 font-extralight text-gray-600 ">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    height="24"
+                    width="24">
+                    <path d="M9 22c-.55 0-1-.45-1-1v-3H4a2 2 0 01-2-2V4a2 2 0 012-2h16a2 2 0 012 2v12c0 1.11-.89 2-2 2h-6.1l-3.7 3.71c-.2.19-.45.29-.7.29H9m1-6v3.08L13.08 16H20V4H4v12h6m5.84-7.8l-1.01 1.01-2.07-2.03 1.01-1.02c.2-.21.54-.22.78 0l1.29 1.25c.21.21.22.55 0 .79M8 11.91l4.17-4.19 2.07 2.08-4.16 4.2H8v-2.09z" />
+                  </svg>
+                  <p className="">{user._count.comments} Comments written</p>
                 </div>
               </div>
             </div>
