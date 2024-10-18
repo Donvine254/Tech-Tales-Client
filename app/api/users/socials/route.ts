@@ -62,3 +62,42 @@ export async function PATCH(req: NextRequest) {
     await prisma.$disconnect();
   }
 }
+
+export async function POST(req: NextRequest) {
+  const { userId, platform } = await req.json();
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { socials: true },
+    });
+
+    if (!user) {
+      return NextResponse.json(
+        { error: "Record to delete not found" },
+        { status: 409 }
+      );
+    }
+    const updatedSocials = (user.socials || []).filter(
+      (social: any) => social.platform !== platform
+    );
+
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        socials: updatedSocials,
+      },
+    });
+
+    const token = jwt.sign(updatedUser, process.env.JWT_SECRET, {
+      expiresIn: "8h",
+    });
+    const response = NextResponse.json(user, { status: 201 });
+    response.cookies.set("token", token, { httpOnly: true });
+    return response;
+  } catch (error) {
+    console.error("Error deleting social:", error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  } finally {
+    await prisma.$disconnect();
+  }
+}

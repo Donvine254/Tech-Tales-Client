@@ -1,6 +1,5 @@
-import React from "react";
 
-export default function DeleteButton({ handleClick = null }) {
+export default function DeleteButton({ handleClick }) {
   return (
     <svg
       viewBox="0 0 512 512"

@@ -1,10 +1,11 @@
 "use client";
 import React, { useEffect, useState, useCallback } from "react";
-import { handleSignOut, baseUrl } from "@/lib";
-
 import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { handleSignOut, baseUrl } from "@/lib";
 import {
   Clipboard,
   Facebook,
@@ -19,7 +20,6 @@ import { useUserContext } from "@/providers";
 import UserStats from "@/components/stats";
 import DeleteButton from "@/components/ui/deleteButton";
 import { formatDate } from "@/lib/utils";
-import toast from "react-hot-toast";
 import { ProfileImage, Loader } from "@/components";
 import { Tooltip } from "react-tooltip";
 export const dynamic = "auto";
@@ -82,13 +82,13 @@ export default function Profile() {
     );
   }
 
-  const facebookUrl = getSocialUrl("facebook");
-  const linkedinUrl = getSocialUrl("linkedin");
-  const githubUrl = getSocialUrl("github");
-  const twitterUrl = getSocialUrl("x");
-  const instagramUrl = getSocialUrl("instagram");
-  const youtubeUrl = getSocialUrl("youtube");
-  const tiktokUrl = getSocialUrl("tiktok");
+  let facebookUrl = getSocialUrl("facebook");
+  let linkedinUrl = getSocialUrl("linkedin");
+  let githubUrl = getSocialUrl("github");
+  let twitterUrl = getSocialUrl("x");
+  let instagramUrl = getSocialUrl("instagram");
+  let youtubeUrl = getSocialUrl("youtube");
+  let tiktokUrl = getSocialUrl("tiktok");
 
   //function to show modals
   const showModal = () => {
@@ -99,7 +99,22 @@ export default function Profile() {
       console.log("modal not found");
     }
   };
-
+  //function to delete social account
+  async function deleteSocialAccount(platform) {
+    try {
+      await axios.post(`${baseUrl}/users/socials`, {
+        platform: platform,
+        userId: user.id,
+      });
+      toast.success(`${platform} account deleted successfully!`);
+      if (typeof window !== "undefined") {
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to delete social account");
+    }
+  }
   return (
     <section className="font-poppins md:mt-10">
       <Script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.2/tsparticles.confetti.bundle.min.js"></Script>
@@ -400,9 +415,10 @@ export default function Profile() {
                         <Facebook size={24} />
                       </a>
                       <DeleteButton
-                        handleClick={() =>
-                          toast.success("You deleted this account")
-                        }
+                        handleClick={() => {
+                          deleteSocialAccount("facebook");
+                          facebookUrl = null;
+                        }}
                       />
                     </span>
                   )}
@@ -421,9 +437,10 @@ export default function Profile() {
                         </svg>
                       </a>
                       <DeleteButton
-                        handleClick={() =>
-                          toast.success("You deleted this account")
-                        }
+                        handleClick={() => {
+                          deleteSocialAccount("linkedin");
+                          linkedinUrl = null;
+                        }}
                       />
                     </span>
                   )}
@@ -435,9 +452,10 @@ export default function Profile() {
                         <GithubIcon size={24} />
                       </a>
                       <DeleteButton
-                        handleClick={() =>
-                          toast.success("You deleted this account")
-                        }
+                        handleClick={() => {
+                          deleteSocialAccount("github");
+                          githubUrl = null;
+                        }}
                       />
                     </span>
                   )}
@@ -448,9 +466,10 @@ export default function Profile() {
                         <NewTwitterIcon size={24} />
                       </a>
                       <DeleteButton
-                        handleClick={() =>
-                          toast.success("You deleted this account")
-                        }
+                        handleClick={() => {
+                          deleteSocialAccount("twitter");
+                          twitterUrl = null;
+                        }}
                       />
                     </span>
                   )}
@@ -466,9 +485,10 @@ export default function Profile() {
                         </svg>
                       </a>
                       <DeleteButton
-                        handleClick={() =>
-                          toast.success("You deleted this account")
-                        }
+                        handleClick={() => {
+                          deleteSocialAccount("instagram");
+                          instagramUrl = null;
+                        }}
                       />
                     </span>
                   )}
@@ -484,9 +504,10 @@ export default function Profile() {
                         </svg>
                       </a>
                       <DeleteButton
-                        handleClick={() =>
-                          toast.success("You deleted this account")
-                        }
+                        handleClick={() => {
+                          deleteSocialAccount("youtube");
+                          youtubeUrl = null;
+                        }}
                       />
                     </span>
                   )}
@@ -502,9 +523,10 @@ export default function Profile() {
                         </svg>
                       </a>
                       <DeleteButton
-                        handleClick={() =>
-                          toast.success("You deleted this account")
-                        }
+                        handleClick={() => {
+                          deleteSocialAccount("tiktok");
+                          tiktokUrl = null;
+                        }}
                       />
                     </span>
                   )}
