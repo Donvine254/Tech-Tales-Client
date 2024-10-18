@@ -107,9 +107,9 @@ export default function Profile() {
         userId: user.id,
       });
       toast.success(`${platform} account deleted successfully!`);
-      if (typeof window !== "undefined") {
-        window.location.reload();
-      }
+      // if (typeof window !== "undefined") {
+      //   window.location.reload();
+      // }
     } catch (error) {
       console.error(error);
       toast.error("Failed to delete social account");
@@ -405,7 +405,7 @@ export default function Profile() {
               {user.socials && user.socials.length > 0 ? (
                 <div className="flex items-center space-y-1 my-2  gap-4  flex-wrap ">
                   {facebookUrl && (
-                    <span className="relative group">
+                    <span className="relative group" id="facebook-link">
                       <a
                         href={facebookUrl}
                         target="_blank"
@@ -417,14 +417,14 @@ export default function Profile() {
                       <DeleteButton
                         handleClick={() => {
                           deleteSocialAccount("facebook");
-                          facebookUrl = null;
+                          document.getElementById("facebook-link").remove();
                         }}
                       />
                     </span>
                   )}
 
                   {linkedinUrl && (
-                    <span className="relative group">
+                    <span className="relative group" id="linkedin-link">
                       <a href={linkedinUrl} target="_blank" title="linkedin">
                         {" "}
                         <svg
@@ -439,14 +439,14 @@ export default function Profile() {
                       <DeleteButton
                         handleClick={() => {
                           deleteSocialAccount("linkedin");
-                          linkedinUrl = null;
+                          document.getElementById("linkedin-link").remove();
                         }}
                       />
                     </span>
                   )}
 
                   {githubUrl && (
-                    <span className="relative group">
+                    <span className="relative group" id="github-link">
                       <a href={githubUrl} target="_blank" title="github">
                         {" "}
                         <GithubIcon size={24} />
@@ -454,27 +454,27 @@ export default function Profile() {
                       <DeleteButton
                         handleClick={() => {
                           deleteSocialAccount("github");
-                          githubUrl = null;
+                          document.getElementById("github-link").remove();
                         }}
                       />
                     </span>
                   )}
 
                   {twitterUrl && (
-                    <span className="relative group">
+                    <span className="relative group" id="twitter-link">
                       <a href={twitterUrl} target="_blank" title="twitter">
                         <NewTwitterIcon size={24} />
                       </a>
                       <DeleteButton
                         handleClick={() => {
                           deleteSocialAccount("twitter");
-                          twitterUrl = null;
+                          document.getElementById("twitter-link").remove();
                         }}
                       />
                     </span>
                   )}
                   {instagramUrl && (
-                    <span className="relative group">
+                    <span className="relative group" id="instagram-link">
                       <a href={instagramUrl} target="_blank" title="instagram">
                         <svg
                           viewBox="0 0 1024 1024"
@@ -487,13 +487,13 @@ export default function Profile() {
                       <DeleteButton
                         handleClick={() => {
                           deleteSocialAccount("instagram");
-                          instagramUrl = null;
+                          document.getElementById("instagram-link").remove();
                         }}
                       />
                     </span>
                   )}
                   {youtubeUrl && (
-                    <span className="relative group">
+                    <span className="relative group" id="youtube-link">
                       <a href={youtubeUrl} target="_blank" title="youtube">
                         <svg
                           viewBox="0 0 512 512"
@@ -506,13 +506,13 @@ export default function Profile() {
                       <DeleteButton
                         handleClick={() => {
                           deleteSocialAccount("youtube");
-                          youtubeUrl = null;
+                          document.getElementById("youtube-link").remove();
                         }}
                       />
                     </span>
                   )}
                   {tiktokUrl && (
-                    <span className="relative group">
+                    <span className="relative group" id="tiktok-link">
                       <a href={tiktokUrl} target="_blank" title="tiktok">
                         <svg
                           viewBox="0 0 448 512"
@@ -525,7 +525,7 @@ export default function Profile() {
                       <DeleteButton
                         handleClick={() => {
                           deleteSocialAccount("tiktok");
-                          tiktokUrl = null;
+                          document.getElementById("tiktok-link").remove();
                         }}
                       />
                     </span>
