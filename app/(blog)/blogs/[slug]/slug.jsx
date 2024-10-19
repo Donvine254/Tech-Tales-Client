@@ -144,9 +144,12 @@ export default function Slug({ blog }) {
           <div className="flex items-center justify-between xsm:gap-2 md:gap-4  py-2 border-y border-slate-300  my-1">
             <Link
               href="#actions"
-              className="text-base  inline-flex items-center gap-1"
+              className="text-base  inline-flex items-center gap-1 px-1 rounded-md hover:text-blue-500 hover:bg-blue-100 group"
               data-tooltip-id="comments">
-              <Comment size={20} className="stroke-none fill-gray-400" />
+              <Comment
+                size={20}
+                className="stroke-none fill-gray-400 group-hover:fill-blue-500"
+              />
               <span> {commentCount}</span>
               <Tooltip
                 id="comments"
@@ -156,11 +159,11 @@ export default function Slug({ blog }) {
               />
             </Link>
             <Link
-              className="inline-flex items-center gap-0.5 "
+              className="inline-flex items-center gap-0.5 px-1 rounded-md hover:bg-red-50 hover:text-red-500 group"
               href="#actions"
               data-tooltip-id="blog-likes">
               <Like
-                className="stroke-gray-400 fill-none"
+                className="stroke-gray-400 fill-none group-hover:stroke-red-500"
                 size={20}
                 title="likes"
               />
@@ -173,9 +176,12 @@ export default function Slug({ blog }) {
               />
             </Link>
             <p
-              className="inline-flex items-center gap-0.5"
+              className="inline-flex items-center gap-0.5 px-1 rounded-md hover:bg-green-100 hover:text-green-500 group"
               data-tooltip-id="blog-views">
-              <Graph className="stroke-gray-500 fill-none" size={20} />
+              <Graph
+                className="stroke-gray-500 fill-none group-hover:stroke-green-500"
+                size={20}
+              />
               <Tooltip
                 id="blog-views"
                 content="Number of times this blog has been seen by readers"
@@ -190,7 +196,7 @@ export default function Slug({ blog }) {
               height="20"
               width="20"
               onClick={() => setShowPlayButton(!showPlayButton)}
-              className="stroke-gray-300 fill-none"
+              className="stroke-gray-300 fill-none hover:text-cyan-500 hover:-translate-y-1 transition-transform duration-300"
               data-tooltip-id="play-blog">
               <path
                 fill="currentColor"
@@ -209,8 +215,9 @@ export default function Slug({ blog }) {
             />
             <button
               onClick={() => handleSharing(blog.title, blog.slug)}
-              data-tooltip-id="share-blog">
-              <Share size={20} />
+              data-tooltip-id="share-blog"
+              className=" hover:-translate-y-1 transition-transform duration-300 group">
+              <Share size={20} className="group-hover:stroke-green-500" />
               <Tooltip
                 id="share-blog"
                 content="Share this blog with others"

@@ -1,15 +1,14 @@
 "use client";
 import { useState, useEffect } from "react";
-import { calculateReadingTime, baseUrl } from "@/lib";
-import { UserImage } from "@/components/ui/Avatar";
 import { useSearchParams } from "next/navigation";
-import Axios from "axios";
+import Link from "next/link";
+import { calculateReadingTime, baseUrl } from "@/lib";
+import { formatDate, formatViews } from "@/lib/utils";
+import { UserImage } from "@/components/ui/Avatar";
+import { Bookmark, SideNav, ShareButton } from "@/components";
 import { Comment, Like, Graph } from "@/assets";
 import parse from "html-react-parser";
-import { Bookmark, SideNav, ShareButton } from "@/components";
-
-import Link from "next/link";
-import { formatDate } from "@/lib/utils";
+import Axios from "axios";
 
 export default function SearchPage() {
   const [blogs, setBlogs] = useState([]);
@@ -99,29 +98,38 @@ export default function SearchPage() {
                 <div className="flex items-center justify-between xsm:gap-2 md:gap-4 py-2 ">
                   <Link
                     href={`/blogs/${blog.slug}`}
-                    className="text-base xsm:text-xs inline-flex items-center gap-x-1 ">
-                    <Comment size={20} className="stroke-none fill-gray-400" />
+                    className="text-base xsm:text-xs inline-flex items-center gap-x-1 group hover:text-blue-500 hover:bg-blue-100 px-1 rounded-md ">
+                    <Comment
+                      size={20}
+                      className="stroke-none fill-gray-400 group-hover:fill-blue-500"
+                    />
                     <span>{blog?._count?.comments}</span>
                   </Link>
                   <Link
                     href={`/blogs/${blog.slug}`}
                     prefetch
-                    className="inline-flex items-center gap-x-0.5  ">
-                    <Like className="stroke-gray-400 fill-none" size={20} />
+                    className="inline-flex items-center gap-x-0.5 group hover:text-red-500 hover:bg-red-100 px-1 rounded-md  ">
+                    <Like
+                      className="stroke-gray-400 fill-none group-hover:stroke-red-500 "
+                      size={20}
+                    />
                     <span className="text-base xsm:text-xs">{blog.likes}</span>
                   </Link>
                   <Link
                     href={`/blogs/${blog.slug}`}
                     prefetch
-                    className="inline-flex xsm:items-center  sm:items-start gap-x-0.5 ">
-                    <Graph className="stroke-gray-500 fill-none " size={20} />
+                    className="inline-flex xsm:items-center  sm:items-start gap-x-0.5 group hover:text-green-500 hover:bg-green-100 px-1 rounded-md">
+                    <Graph
+                      className="stroke-gray-500 fill-none group-hover:stroke-green-500"
+                      size={20}
+                    />
                     <p className="text-base xsm:text-xs sm:align-text-bottom  xsm:pt-1.5">
-                      {blog.views}
+                      {formatViews(blog.views)}
                     </p>
                   </Link>
                   <ShareButton
                     size={20}
-                    className="h-[20px] w-[20px] text-gray-500"
+                    className="h-[20px] w-[20px] fill-gray-500 "
                     title={blog.title}
                     slug={blog.slug}
                   />

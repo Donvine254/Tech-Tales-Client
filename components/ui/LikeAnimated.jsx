@@ -92,7 +92,7 @@ export default function AnimatedLikeBtn({ blogId, setLikes, likes }) {
     <div className="placement">
       <div
         style={{ backgroundPosition: liked ? "right" : "left" }}
-        className="heart"
+        className="heart hover:-translate-y-1 transition-transform duration-300 hover:text-red-500"
         onClick={handleLikeClick}
         onMouseDown={playSoundEffect}
         data-tooltip-id="favorite">
