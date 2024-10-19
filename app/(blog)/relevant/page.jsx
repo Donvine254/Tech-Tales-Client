@@ -27,7 +27,7 @@ async function getBlogs() {
       orderBy: {
         views: "desc",
       },
-      take: 6,
+      take: 10,
       cacheStrategy: { ttl: 360 },
     });
     return blogs;

@@ -23,7 +23,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
       orderBy: {
         likes: "desc",
       },
-      take: 5,
+      take: 10,
     });
 
     return NextResponse.json(blogs, { status: 200 });

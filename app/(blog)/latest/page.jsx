@@ -29,7 +29,7 @@ async function getBlogs() {
       orderBy: {
         createdAt: "desc",
       },
-      take: 5,
+      take: 10,
     });
     return blogs;
   } catch (error) {
