@@ -97,7 +97,7 @@ export default function Bookmark({ blogId, size = 24 }) {
           fill="currentColor"
           height={size}
           width={size}
-          className={`bookmark-icon focus:outline-none  hover:scale-110 ${
+          className={`bookmark-icon focus:outline-none  hover:scale-110 hover:stroke-cyan-500 ${
             isClicked ? "bookmark-icon-clicked" : ""
           }`}
           onClick={handleClick}
