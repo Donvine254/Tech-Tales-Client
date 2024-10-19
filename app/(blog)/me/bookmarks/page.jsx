@@ -1,6 +1,6 @@
 import Bookmarks from "./bookmarks";
 export const metadata = {
-  title: "My Blogs - Tech Tales",
+  title: "My Bookmarks - Tech Tales",
 };
 
 export default async function Page() {

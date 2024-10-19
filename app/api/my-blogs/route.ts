@@ -55,7 +55,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
     await prisma.$disconnect();
   }
 }
-
+//route to get bookmarked blogs
 export async function POST(req: NextRequest, res: NextResponse) {
   const userData = await decodeUserToken(req);
 
