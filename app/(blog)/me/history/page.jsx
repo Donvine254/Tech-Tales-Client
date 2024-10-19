@@ -1,5 +1,3 @@
-"use client";
-import React from "react";
 import History from "./history";
 export const metadata = {
   title: "History - Tech Tales",

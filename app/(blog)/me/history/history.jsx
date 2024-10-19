@@ -3,66 +3,67 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Comment, Graph, Like } from "@/assets";
 import { baseUrl, calculateReadingTime } from "@/lib";
-import { SideNav, UserImage, SkeletonBlog, ShareButton } from "@/components";
+import {
+  SideNav,
+  UserImage,
+  SkeletonBlog,
+  ShareButton,
+  Bookmark,
+} from "@/components";
 import { formatDate, formatViews } from "@/lib/utils";
-import secureLocalStorage from "react-secure-storage";
 import parse from "html-react-parser";
 import { Tooltip } from "react-tooltip";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import { getCookie, setCookie } from "@/lib/utils";
 
-export default function Bookmarks() {
+export default function History() {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    const readingHistory = getCookie("history")
+    const readingHistory = getCookie("history");
+    const historyArray = JSON.parse(readingHistory);
+    if (!historyArray) {
+      setHistory(null);
+      return;
+    }
     (async () => {
       try {
-        if (bookmarkedBlogs && bookmarkedBlogIds.length > 0) {
+        if (readingHistory && readingHistory.length > 0) {
           const response = await fetch(`${baseUrl}/my-blogs`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ blogIds: bookmarkedBlogIds }),
+            body: JSON.stringify({ blogIds: historyArray }),
           });
           const data = await response.json();
-          setBookmarks(data);
+          setHistory(data);
           setLoading(false);
         } else {
           setLoading(false);
         }
       } catch (error) {
-        console.error("Error fetching bookmarked blogs:", error);
+        console.error("Error fetching reading history:", error);
         setLoading(false);
       }
     })();
   }, []);
-  function removeBookmark(id) {
-    const localStorageData = secureLocalStorage.getItem("bookmarked_blogs");
-    const bookmarkedBlogs = localStorageData
-      ? JSON.parse(localStorageData)
-      : {};
-    if (bookmarkedBlogs[id]) {
-      delete bookmarkedBlogs[id];
-      secureLocalStorage.setItem(
-        "bookmarked_blogs",
-        JSON.stringify(bookmarkedBlogs)
-      );
-    }
-    setBookmarks((prevBookmarks) =>
-      prevBookmarks.filter((bookmark) => bookmark.id !== id)
-    );
-    toast.success("Bookmark removed");
+  function clearHistory() {
+    //setcookie without the history
   }
 
   return (
     <div className="w-full min-h-screen mx-auto px-4 md:px-8 md:w-2/3 relative font-poppins">
       <SideNav />
-      <h1 className="text-lg md:text-2xl font-bold my-2">
-        Reading List {!loading && <span>&#x28;{bookmarks.length}&#x29;</span>}
-      </h1>
+      <div className="flex items-center gap-4">
+        <button className="px-6 py-1 font-bold my-2 bg-gray-300 hover:bg-blue-100 hover:text-blue-500 border hover:border-blue-500 rounded-md">
+          Reading History
+        </button>
+        <button className="px-6 py-1 font-bold my-2  bg-transparent hover:bg-blue-500 hover:text-white rounded-md">
+          Search History
+        </button>
+      </div>
       <section>
         {loading && (
           <div>
@@ -73,8 +74,8 @@ export default function Bookmarks() {
               ))}
           </div>
         )}
-        {bookmarks && bookmarks.length > 0 ? (
-          bookmarks.map((blog) => (
+        {history && history.length > 0 ? (
+          history.map((blog) => (
             <div
               key={blog.id}
               className="bg-gray-50 my-4 p-4 rounded-md border shadow hover:bg-[#fefefe]">
@@ -153,25 +154,7 @@ export default function Bookmarks() {
                   title={blog.title}
                   slug={blog.slug}
                 />
-                <svg
-                  fill="#06b6d4"
-                  viewBox="0 0 16 16"
-                  height="20"
-                  width="20"
-                  data-tooltip-id="bookmark"
-                  onClick={() => removeBookmark(blog.id)}
-                  className="hover:scale-115  fill-cyan-500 hover:fill-red-500 focus:outline-none outline-0 transition-all ease-in-out delay-75">
-                  <path
-                    fillRule="evenodd"
-                    d="M2 15.5V2a2 2 0 012-2h8a2 2 0 012 2v13.5a.5.5 0 01-.74.439L8 13.069l-5.26 2.87A.5.5 0 012 15.5zM6.854 5.146a.5.5 0 10-.708.708L7.293 7 6.146 8.146a.5.5 0 10.708.708L8 7.707l1.146 1.147a.5.5 0 10.708-.708L8.707 7l1.147-1.146a.5.5 0 00-.708-.708L8 6.293 6.854 5.146z"
-                  />
-                </svg>
-                <Tooltip
-                  id="bookmark"
-                  content="Remove this blog from bookmarks"
-                  variant="info"
-                  style={{ padding: "2px", fontSize: "12px" }}
-                />
+                <Bookmark />
               </div>
               {/* end of flex div */}
             </div>
@@ -194,9 +177,15 @@ export default function Bookmarks() {
                 <h3 className="font-semibold text-lg leading-loose tracking-wide ">
                   Your reading history is empty
                 </h3>
-                <p className="font-medium  leading-loose tracking-wide ">
-                  Blogs that you have read will appear here
+                <p className="font-medium  leading-loose max-w-md text-center mx-auto ">
+                  Go back to your feed and read posts that spark your interest.
+                  Each post you read will be listed here.
                 </p>
+                <Link
+                  href="/top"
+                  className="px-6 mt-2 py-1.5 rounded-md bg-gray-200 border-blue-500 text-blue-500 hover:bg-blue-100">
+                  Read Blogs
+                </Link>
               </div>
             )}
           </>
