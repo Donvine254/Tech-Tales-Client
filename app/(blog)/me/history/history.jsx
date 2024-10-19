@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Comment, Graph, Like } from "@/assets";
 import { baseUrl, calculateReadingTime } from "@/lib";
 import {
   SideNav,
@@ -10,9 +9,7 @@ import {
   ShareButton,
   Bookmark,
 } from "@/components";
-import { formatDate, formatViews } from "@/lib/utils";
-import parse from "html-react-parser";
-import { Tooltip } from "react-tooltip";
+import { formatViews } from "@/lib/utils";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import { getCookie, setCookie } from "@/lib/utils";
@@ -22,9 +19,15 @@ export default function History() {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const readingHistory = getCookie("history");
+    if (!readingHistory) {
+      setHistory(null);
+      setLoading(false);
+      return;
+    }
     const historyArray = JSON.parse(readingHistory);
     if (!historyArray) {
       setHistory(null);
+      setLoading(false);
       return;
     }
     (async () => {
@@ -38,7 +41,6 @@ export default function History() {
             body: JSON.stringify({ blogIds: historyArray }),
           });
           const data = await response.json();
-          console.log(data);
           setHistory(data);
           setLoading(false);
         } else {
@@ -51,19 +53,48 @@ export default function History() {
     })();
   }, []);
   function clearHistory() {
-    //setcookie without the history
+    setCookie("history", JSON.stringify([]), -1);
+    setHistory([]);
+    toast.success("Reading history cleared");
+  }
+  function removeFromHistory(id) {
+    const cookie = getCookie("history");
+    const historySet = JSON.parse(cookie);
+    const index = historySet.indexOf(id);
+    if (index !== -1) {
+      historySet.splice(index, 1);
+    }
+    setCookie("history", JSON.stringify(historySet));
+    setHistory(() => history.filter((item) => item.id !== id));
+    toast.success("Blog removed from history");
   }
 
   return (
     <div className="w-full min-h-screen mx-auto px-4 md:px-8 lg:w-2/3 relative font-poppins">
       <SideNav />
-      <h3 className="px-6 py-1 font-bold my-2 bg-gray-300 hover:bg-blue-100 hover:text-blue-500 max-w-fit border hover:border-blue-500 rounded-md xsm:text-sm">
-        Reading History
-      </h3>
-      {/* <button className="px-6 py-1 font-bold my-2  bg-transparent hover:bg-blue-500 hover:text-white rounded-md xsm:text-sm">
-          Search History
-        </button> */}
-
+      <div className="inline-flex justify-between items-center w-full">
+        <h3 className="px-6 py-1 font-bold my-2 bg-gray-300 hover:bg-blue-100 hover:text-blue-500 max-w-fit border hover:border-blue-500 rounded-md xsm:text-sm">
+          Reading History
+        </h3>
+        {history && history.length > 0 && (
+          <button
+            className="px-6 py-1 font-bold my-2 hover:text-red-500 max-w-fit border-none xsm:text-sm flex items-center gap-1 outline-none"
+            title="clear history"
+            onClick={clearHistory}>
+            <svg
+              viewBox="0 0 1024 1024"
+              fill="currentColor"
+              height="1em"
+              width="1em">
+              <defs>
+                <style />
+              </defs>
+              <path d="M899.1 869.6l-53-305.6H864c14.4 0 26-11.6 26-26V346c0-14.4-11.6-26-26-26H618V138c0-14.4-11.6-26-26-26H432c-14.4 0-26 11.6-26 26v182H160c-14.4 0-26 11.6-26 26v192c0 14.4 11.6 26 26 26h17.9l-53 305.6c-.3 1.5-.4 3-.4 4.4 0 14.4 11.6 26 26 26h723c1.5 0 3-.1 4.4-.4 14.2-2.4 23.7-15.9 21.2-30zM204 390h272V182h72v208h272v104H204V390zm468 440V674c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v156H416V674c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v156H202.8l45.1-260H776l45.1 260H672z" />
+            </svg>
+            Clear ({history.length})
+          </button>
+        )}
+      </div>
       <section>
         {loading && (
           <div>
@@ -83,7 +114,7 @@ export default function History() {
                 <a
                   href={`/blogs/${blog.slug}`}
                   rel="noopener noreferrer"
-                  className="relative">
+                  className="relative xsm:mb-4">
                   <img
                     src={blog.image.secure_url}
                     alt={blog.slug}
@@ -108,7 +139,7 @@ export default function History() {
                   </Link>
                   <div className="py-1">
                     {blog.tags ? (
-                      <div className="flex gap-1 md:gap-2 flex-wrap text-sm xsm:text-xs">
+                      <div className="flex gap-1 md:gap-2 flex-wrap text-sm xsm:justify-between xsm:text-xs">
                         {blog.tags.split(",").map((tag, index) => (
                           <Link
                             key={index}
@@ -126,13 +157,9 @@ export default function History() {
                   <div className="flex items-center justify-between xsm:gap-2 md:gap-4 py-2 text-sm xsm:text-xs">
                     <div className="flex justify-between gap-4">
                       <p className="">
-                        {calculateReadingTime(blog.body)} min{" "}
-                        <span className="xsm:hidden">read</span>
+                        {calculateReadingTime(blog.body)} min read
                       </p>
-                      <p>
-                        &#x2022; {formatViews(blog.views)}{" "}
-                        <span className="xsm:hidden">views</span>
-                      </p>
+                      <p>&#x2022; {formatViews(blog.views)} views</p>
                     </div>
                     <div className="flex justify-end items-center gap-4">
                       <ShareButton
@@ -147,7 +174,8 @@ export default function History() {
                         viewBox="0 0 24 24"
                         height="24"
                         width="24"
-                        className="text-gray-500 hover:text-red-500  rounded-full p-0.5 hover:bg-red-100">
+                        className="text-gray-500 hover:text-red-500  rounded-full p-0.5 hover:bg-red-100"
+                        onClick={() => removeFromHistory(blog.id)}>
                         <title>Remove Post</title>
                         <path
                           fill="currentColor"
@@ -185,7 +213,7 @@ export default function History() {
                 <Link
                   href="/top"
                   className="px-6 mt-2 py-1.5 rounded-md bg-gray-200 border-blue-500 text-blue-500 hover:bg-blue-100">
-                  Read Blogs
+                  Explore Blogs
                 </Link>
               </div>
             )}
