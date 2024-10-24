@@ -327,6 +327,7 @@ export default function Comments({
                       ) : blogAuthorId == user?.id && user?.role !== "admin" ? (
                         <>
                           {/* second scenario where the current user is the author of the blog but not an admin*/}
+                          {/* add reply button */}
                           <button
                             className="flex items-center gap-2 text-sm   hover:text-white border border-white px-1 py-0.5 rounded-md hover:bg-blue-500"
                             title="hide comment"
@@ -389,6 +390,7 @@ export default function Comments({
                         user?.role === "admin" ? (
                         <>
                           {/* third scenario where the comment where the comment does not belong to the current user, and the the user is admin */}
+                          {/* add reply button */}
                           <button
                             className="flex items-center gap-2 text-sm   hover:text-white border px-1 py-0.5 rounded-md hover:bg-blue-500"
                             title="hide comment"

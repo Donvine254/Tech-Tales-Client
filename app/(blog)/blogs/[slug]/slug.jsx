@@ -10,6 +10,7 @@ import {
   UserImage,
   AnimatedLikeBtn,
   Recommendations,
+  ShareButton,
 } from "@/components";
 import parse from "html-react-parser";
 import Link from "next/link";
@@ -213,18 +214,12 @@ export default function Slug({ blog }) {
               variant="info"
               style={{ padding: "2px", fontSize: "12px" }}
             />
-            <button
-              onClick={() => handleSharing(blog.title, blog.slug)}
-              data-tooltip-id="share-blog"
-              className=" hover:-translate-y-1 transition-transform duration-300 group">
-              <Share size={20} className="group-hover:stroke-green-500" />
-              <Tooltip
-                id="share-blog"
-                content="Share this blog with others"
-                variant="info"
-                style={{ padding: "2px", fontSize: "12px" }}
-              />
-            </button>
+
+            <ShareButton
+              slug={blog.slug}
+              title={blog.title}
+              className=" hover:-translate-y-1 transition-transform duration-300 "
+            />
             <Bookmark blogId={blog.id} size={20} />
           </div>
           {/* div for playing the blog */}
@@ -270,12 +265,12 @@ export default function Slug({ blog }) {
               Like what you see? Share with a Friend
             </h1>
             <div className="flex items-center xsm:justify-between xsm:w-full  xsm:gap-2 xsm:py-2 gap-4">
-              <button
-                onClick={() => handleSharing(blog.title, blog.slug)}
-                className="bg-[#f3f6f9]  rounded-md flex items-center justify-center h-8 px-1 py-0  border-2 border-blue-300 focus:outline-none hover:bg-[#e4ebf2;] hover:shadow gap-1 hover:-translate-y-1 transition-transform duration-300"
-                title="more">
-                <Share size={20} /> share
-              </button>
+              <ShareButton
+                slug={blog.slug}
+                title={blog.title}
+                size={20}
+                variant="button"
+              />
               <button
                 onClick={handleCopying}
                 title="copy link"

@@ -56,10 +56,11 @@ model User {
   comments        Comment[]
   socials         Json?      @default("[]")
   preferences     Json?      @default("{\"cookies\": true, \"newsletter_subscription\": false, \"email_notifications\": false, \"analytics\": false}")
-  branding         String?    @default("#01142d")
+  branding        String?    @default("#01142d")
   deactivatedAt   DateTime?
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
+  Response        Response[]
 
   @@index(fields: [handle, email, username])
 }
@@ -92,11 +93,26 @@ model Comment {
   authorId  Int
   blog      Blog          @relation(fields: [blogId], references: [id], onDelete: Cascade)
   blogId    Int
+  responses Response[]
   status    CommentStatus @default(VISIBLE)
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
 
   @@index([blogId, authorId])
+}
+
+model Response {
+  id        Int           @id @default(autoincrement())
+  body      String
+  author    User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId  Int
+  comment   Comment       @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  commentId Int
+  status    CommentStatus @default(VISIBLE)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([commentId, authorId])
 }
 
 model Favorite {
