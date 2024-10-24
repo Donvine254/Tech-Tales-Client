@@ -45,7 +45,7 @@ export const metaobject = {
     card: "summary_large_image",
     title: "Tech Tales",
     description:
-      "ech Tales: A blog for tech students and professionals to share coding solutions, enhance learning, and practice blogging.",
+      "Tech Tales: A blog for tech students and professionals to share coding solutions, enhance learning, and practice blogging.",
     creator: "@diamonddegesh",
     images: ["https://techtales.vercel.app/logo.png"],
   },
