@@ -15,9 +15,9 @@ import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 const NoSSRNavbar = dynamic(() => import("@/components/Navbar"), {
   ssr: false,
 });
-// export const metadata = {
-//   ...metaobject,
-// };
+export const metadata = {
+  ...metaobject,
+};
 
 export default function RootLayout({ children }) {
   return (
