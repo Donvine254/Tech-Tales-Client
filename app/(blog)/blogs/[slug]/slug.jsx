@@ -271,6 +271,8 @@ export default function Slug({ blog }) {
                 slug={blog.slug}
                 title={blog.title}
                 size={20}
+                id={blog.id}
+                image={blog.image.secure_url}
                 variant="button"
               />
               <button
