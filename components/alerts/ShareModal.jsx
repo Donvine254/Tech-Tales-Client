@@ -1,8 +1,12 @@
 "use client";
+import { useState } from "react";
 import { handleSharing } from "@/lib/utils";
-import { Copy, NewTwitterIcon, Whatsapp } from "@/assets";
+import { NewTwitterIcon, Whatsapp } from "@/assets";
 import toast from "react-hot-toast";
 export default function ShareModal({ slug, title }) {
+  const [copied, setCopied] = useState(false);
+  const [showQrModal, setShowQrModal] = useState(false);
+  const [qrCode, setQrCode] = useState("");
   const blogUrl = `https://techtales.vercel.app/blogs/${slug}`;
   // Function to open the share dialog for Facebook
   const shareOnFacebook = () => {
@@ -34,6 +38,17 @@ export default function ShareModal({ slug, title }) {
     const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${blogUrl}`;
     window.open(linkedinUrl, "_blank", "width=600,height=400");
   };
+  // Function to share on Pinterest
+  const shareOnPinterest = (title) => {
+    const mediaUrl = "https://res.cloudinary.com/dipkbpinx/image/upload/v1729798081/tech-tales/cover-images/mfwulmwqff0uxojc3sra.jpg"; // Replace with the actual image URL
+    const pinterestUrl = `https://www.pinterest.com/pin/create/button/?url=${encodeURIComponent(
+      blogUrl
+    )}&media=${encodeURIComponent(mediaUrl)}&description=${encodeURIComponent(
+      title
+    )}`;
+
+    window.open(pinterestUrl, "_blank", "width=600,height=400");
+  };
 
   // Function to share on Telegram
   const shareOnTelegram = () => {
@@ -51,14 +66,30 @@ export default function ShareModal({ slug, title }) {
   };
   // Function to copy the blog link to the clipboard
   const copyBlogLink = async () => {
+    setCopied(true);
     try {
-      await navigator.clipboard.writeText(blogUrl);
-      toast.success("Link copied to clipboard");
+      navigator.clipboard.writeText(blogUrl);
+      setTimeout(() => {
+        setCopied(false);
+      }, 3000);
     } catch (err) {
       console.error("Copy to clipboard failed:", err);
+      setCopied(false);
       toast.error("Failed to copy link to clipboard");
     }
   };
+
+  const generateQRCode = async () => {
+    const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(
+      blogUrl
+    )}`;
+    setQrCode(qrCodeUrl);
+    setShowQrModal(true); // Show QR modal
+  };
+  const closeQrModal = () => {
+    setShowQrModal(false);
+  };
+  //function to close modal
   const closeShareModal = () => {
     const shareModal = document.getElementById("shareModal");
     if (shareModal) {
@@ -70,36 +101,82 @@ export default function ShareModal({ slug, title }) {
   return (
     <dialog
       id="shareModal"
-      className="rounded-md  border inset-0 modal duration-300 ease-in-out backdrop-blur-3xl backdrop-brightness-150  max-w-sm xsm:mx-2">
-      <div className="flex items-center justify-between w-full p-6">
-        <h1 className="md:text-xl">Share Post</h1>
-        <svg
-          fill="none"
-          viewBox="0 0 24 24"
-          height="24"
-          width="24"
-          className="hover:text-red-500 "
-          onClick={closeShareModal}>
-          <path
-            fill="currentColor"
-            d="M6.225 4.811a1 1 0 00-1.414 1.414L10.586 12 4.81 17.775a1 1 0 101.414 1.414L12 13.414l5.775 5.775a1 1 0 001.414-1.414L13.414 12l5.775-5.775a1 1 0 00-1.414-1.414L12 10.586 6.225 4.81z"
-          />
-        </svg>
+      className="rounded-md  border inset-0 modal duration-300 ease-in-out backdrop-blur-3xl backdrop-brightness-150  max-w-sm xsm:mx-2 relative">
+      <div className=" w-full p-6">
+        <div className="flex items-center justify-between">
+          <h1 className="md:text-xl">Share Post</h1>
+          <svg
+            fill="none"
+            viewBox="0 0 24 24"
+            height="24"
+            width="24"
+            className="hover:text-red-500 "
+            onClick={closeShareModal}>
+            <path
+              fill="currentColor"
+              d="M6.225 4.811a1 1 0 00-1.414 1.414L10.586 12 4.81 17.775a1 1 0 101.414 1.414L12 13.414l5.775 5.775a1 1 0 001.414-1.414L13.414 12l5.775-5.775a1 1 0 00-1.414-1.414L12 10.586 6.225 4.81z"
+            />
+          </svg>
+        </div>
+        <div className="flex items-center justify-between mt-4">
+          <p className="text-sm xsm:text-xs max-w-[75%]  flex items-center gap-2 ">
+            <img src="/logo.png" alt="logo" width="20" height="20" />
+            <span
+              style={{ textOverflow: "ellipsis" }}
+              className="truncate"
+              title={title}>
+              {title}
+            </span>
+          </p>
+          <button
+            className="flex items-center gap-1 text-sm xsm:text-xs outline-none hover:bg-gray-200 px-0.5"
+            onClick={copyBlogLink}>
+            {copied ? (
+              <>
+                <svg
+                  fill="none"
+                  viewBox="0 0 15 15"
+                  height="1em"
+                  width="1em"
+                  className="text-green-500">
+                  <path
+                    fill="currentColor"
+                    fillRule="evenodd"
+                    d="M14.707 3L5.5 12.207.293 7 1 6.293l4.5 4.5 8.5-8.5.707.707z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                Copied!
+              </>
+            ) : (
+              <>
+                {" "}
+                <svg
+                  viewBox="0 0 512 512"
+                  fill="currentColor"
+                  height="1em"
+                  width="1em"
+                  className="text-blue-500">
+                  <path
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={36}
+                    d="M208 352h-64a96 96 0 010-192h64M304 160h64a96 96 0 010 192h-64M163.29 256h187.42"
+                  />
+                </svg>
+                Copy Link
+              </>
+            )}
+          </button>
+        </div>
       </div>
       <hr />
       {/* Copy Link */}
-      <div className="p-6 flex flex-wrap xsm:gap-4 gap-5 items-center">
-        <div className="flex flex-col">
-          <button
-            onClick={copyBlogLink}
-            className="p-2 flex items-center justify-center hover:bg-gray-100 rounded-xl w-12 h-12 bg-gray-200 border-none outline-none">
-            <Copy className="stroke-2" size={30} />
-          </button>
-          <small>Copy Link</small>
-        </div>
-
+      <div className="py-6 px-3 grid grid-cols-4 gap-4 items-center justify-center">
         {/* Facebook */}
-        <div className="flex flex-col">
+        <div className="flex flex-col items-center">
           <button
             className="flex items-center justify-center rounded-xl bg-[#3B5998] w-12 h-12 text-white hover:shadow-blue-600 hover:shadow-2xl "
             onClick={shareOnFacebook}>
@@ -171,7 +248,7 @@ export default function ShareModal({ slug, title }) {
           <small>Reddit</small>
         </div>
         {/* linkedin */}
-        <div className="flex flex-col">
+        <div className="flex flex-col items-center">
           <button
             className="flex items-center justify-center rounded-xl bg-[#0077B5] w-12 h-12 text-white hover:shadow-[#0077B5] hover:shadow-2xl"
             title="linkedin"
@@ -182,6 +259,18 @@ export default function ShareModal({ slug, title }) {
             </svg>
           </button>
           <small>Linkedin</small>
+        </div>
+        {/* pinterest */}
+        <div className="flex flex-col items-center">
+          <button
+            className="flex items-center justify-center rounded-xl bg-[#E60023] w-12 h-12 text-white hover:shadow-[#E60023] hover:shadow-2xl"
+            title="pinterest"
+            onClick={shareOnPinterest}>
+            <svg viewBox="0 0 24 24" fill="currentColor" height="30" width="30">
+              <path d="M5.077 9.457c0-.778.136-1.513.404-2.199a5.63 5.63 0 011.121-1.802 7.614 7.614 0 011.644-1.329 7.513 7.513 0 012.002-.844 8.57 8.57 0 012.185-.281c1.139 0 2.199.241 3.182.721a6.021 6.021 0 012.391 2.094c.614.915.919 1.95.919 3.104 0 .692-.068 1.369-.207 2.031a8.28 8.28 0 01-.646 1.913 6.605 6.605 0 01-1.082 1.617 4.723 4.723 0 01-1.568 1.114 4.962 4.962 0 01-2.045.417c-.489 0-.977-.115-1.459-.346-.482-.23-.828-.546-1.036-.951-.073.281-.173.687-.306 1.218-.128.53-.214.872-.252 1.027-.04.154-.114.411-.222.767a5.183 5.183 0 01-.281.769l-.344.674a7.98 7.98 0 01-.498.838c-.181.262-.405.575-.672.935l-.149.053-.099-.108c-.107-1.133-.162-1.811-.162-2.035 0-.663.079-1.407.235-2.233.153-.825.395-1.862.72-3.109.325-1.246.511-1.979.561-2.196-.229-.467-.345-1.077-.345-1.827 0-.599.187-1.16.562-1.688.376-.526.851-.789 1.427-.789.441 0 .783.146 1.028.439.246.292.366.66.366 1.109 0 .476-.158 1.165-.476 2.066-.318.902-.476 1.575-.476 2.022 0 .453.162.832.486 1.129a1.68 1.68 0 001.179.449c.396 0 .763-.09 1.104-.271a2.46 2.46 0 00.849-.733 6.123 6.123 0 001.017-2.225c.096-.422.17-.823.216-1.2.049-.379.07-.737.07-1.077 0-1.247-.396-2.219-1.183-2.915-.791-.696-1.821-1.042-3.088-1.042-1.441 0-2.646.466-3.611 1.401-.966.932-1.452 2.117-1.452 3.554 0 .317.048.623.139.919.089.295.186.53.291.704.104.171.202.338.291.492.09.154.137.264.137.33 0 .202-.053.465-.16.79-.111.325-.242.487-.4.487-.015 0-.077-.011-.185-.034a2.21 2.21 0 01-.979-.605 3.17 3.17 0 01-.659-1.022 6.986 6.986 0 01-.352-1.169 4.884 4.884 0 01-.132-1.153z" />
+            </svg>
+          </button>
+          <small>Pinterest</small>
         </div>
         {/* email */}
         <div className="flex flex-col items-center">
@@ -194,6 +283,28 @@ export default function ShareModal({ slug, title }) {
             </svg>
           </button>
           <small>Email</small>
+        </div>
+
+        {/* QR Code Generator */}
+        <div className="flex flex-col items-center">
+          <button
+            onClick={generateQRCode}
+            className="flex items-center justify-center rounded-xl w-12 h-12 bg-gray-200 hover:bg-gray-100">
+            <svg
+              viewBox="0 0 512 512"
+              fill="currentColor"
+              height="30"
+              width="30">
+              <title>Generate QR Code</title>
+              <path d="M344 336 H408 A8 8 0 0 1 416 344 V408 A8 8 0 0 1 408 416 H344 A8 8 0 0 1 336 408 V344 A8 8 0 0 1 344 336 z" />
+              <path d="M280 272 H328 A8 8 0 0 1 336 280 V328 A8 8 0 0 1 328 336 H280 A8 8 0 0 1 272 328 V280 A8 8 0 0 1 280 272 z" />
+              <path d="M424 416 H472 A8 8 0 0 1 480 424 V472 A8 8 0 0 1 472 480 H424 A8 8 0 0 1 416 472 V424 A8 8 0 0 1 424 416 z" />
+              <path d="M440 272 H472 A8 8 0 0 1 480 280 V312 A8 8 0 0 1 472 320 H440 A8 8 0 0 1 432 312 V280 A8 8 0 0 1 440 272 z" />
+              <path d="M280 432 H312 A8 8 0 0 1 320 440 V472 A8 8 0 0 1 312 480 H280 A8 8 0 0 1 272 472 V440 A8 8 0 0 1 280 432 z" />
+              <path d="M448 32H304a32 32 0 00-32 32v144a32 32 0 0032 32h144a32 32 0 0032-32V64a32 32 0 00-32-32zm-32 136a8 8 0 01-8 8h-64a8 8 0 01-8-8v-64a8 8 0 018-8h64a8 8 0 018 8zM208 32H64a32 32 0 00-32 32v144a32 32 0 0032 32h144a32 32 0 0032-32V64a32 32 0 00-32-32zm-32 136a8 8 0 01-8 8h-64a8 8 0 01-8-8v-64a8 8 0 018-8h64a8 8 0 018 8zM208 272H64a32 32 0 00-32 32v144a32 32 0 0032 32h144a32 32 0 0032-32V304a32 32 0 00-32-32zm-32 136a8 8 0 01-8 8h-64a8 8 0 01-8-8v-64a8 8 0 018-8h64a8 8 0 018 8z" />
+            </svg>
+          </button>
+          <small>QR Code</small>
         </div>
         {/* open webshare API */}
         <div className="flex flex-col items-center">
@@ -213,6 +324,29 @@ export default function ShareModal({ slug, title }) {
           <small>More..</small>
         </div>
       </div>
+      {/* QR Code Modal */}
+      {showQrModal && (
+        <div
+          id="qrModal"
+          className="rounded-md bg-white h-fit absolute left-0 right-0 top-0 bottom-0 m-auto w-fit border z-50 shadow-gray-500 shadow-2xl ">
+          <h6 className="text-base px-4 pt-2">Scan QR Code</h6>
+          <div className="space-y-2 p-4 ">
+            <img
+              src={qrCode}
+              alt="QR Code"
+              height="250"
+              width="250"
+              className=""
+            />
+            <button
+              onClick={closeQrModal}
+              title="cancel"
+              className="bg-gray-200 hover:bg-gray-100 hover:text-red-500 px-6 py-1 rounded-md">
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </dialog>
   );
 }
