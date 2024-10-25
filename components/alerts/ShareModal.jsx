@@ -102,7 +102,7 @@ export default function ShareModal({ slug, title }) {
   return (
     <dialog
       id="shareModal"
-      className="rounded-md  border inset-0 modal duration-300 ease-in-out backdrop-blur-3xl backdrop-brightness-150  max-w-sm xsm:mx-2 relative">
+      className="rounded-md  border inset-0 modal duration-300 ease-in-out backdrop-blur-3xl backdrop-brightness-150 xsm:max-w-[98%] max-w-sm xsm:mx-2 relative">
       <div className=" w-full p-6">
         <div className="flex items-center justify-between">
           <h1 className="md:text-xl">Share Post</h1>
