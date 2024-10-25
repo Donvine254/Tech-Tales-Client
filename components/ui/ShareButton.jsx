@@ -7,10 +7,12 @@ export default function ShareButton({
   className,
   slug,
   title,
+  image,
+  blogId,
   variant,
 }) {
   const showShareModal = () => {
-    const shareModal = document.getElementById("shareModal");
+    const shareModal = document.getElementById(`shareModal-${blogId}`);
     if (shareModal) {
       shareModal.showModal();
     }
@@ -43,7 +45,7 @@ export default function ShareButton({
         variant="info"
         style={{ padding: "2px", fontSize: "12px" }}
       />
-      <ShareModal slug={slug} title={title} />
+      <ShareModal slug={slug} title={title} image={image} blogId={blogId} />
     </div>
   );
 }

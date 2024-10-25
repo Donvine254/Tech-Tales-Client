@@ -98,6 +98,8 @@ export default async function BlogsComponent({ blogs }) {
                 className="h-[20px] w-[20px] fill-gray-500 "
                 title={blog.title}
                 slug={blog.slug}
+                blogId={blog.id}
+                image={blog.image.secure_url}
               />
               <Bookmark blogId={blog.id} size={20} />
             </div>

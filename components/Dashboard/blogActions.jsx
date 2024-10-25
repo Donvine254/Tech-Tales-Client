@@ -39,7 +39,7 @@ export default function BlogActionsButton({
 
   //function to handleSharing
   const showShareModal = () => {
-    const shareModal = document.getElementById("shareModal");
+    const shareModal = document.getElementById(`shareModal-${blog.id}`);
     if (shareModal) {
       shareModal.showModal();
     }
@@ -137,7 +137,7 @@ export default function BlogActionsButton({
               <span>Delete Blog</span>
             </button>
           </div>
-          <ShareModal slug={blog.slug} title={blog.title} />
+          <ShareModal slug={blog.slug} title={blog.title} blogId={blog.id} />
         </div>
       )}
     </div>

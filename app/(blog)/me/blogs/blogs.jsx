@@ -150,6 +150,8 @@ export default function MyBlogsComponent() {
                   className="h-[20px] w-[20px] text-gray-500"
                   title={blog.title}
                   slug={blog.slug}
+                  blogId={blog.id}
+                  image={blog.image.secure_url}
                 />
                 <ActionsButton
                   onDelete={() => handleDelete(blog.id, blog.slug)}

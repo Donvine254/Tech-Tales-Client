@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Comment, Share } from "@/assets";
+import { Comment } from "@/assets";
 import {
   Bookmark,
   UserCard,
@@ -16,7 +16,7 @@ import parse from "html-react-parser";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { calculateReadingTime } from "@/lib";
-import { formatDate, formatViews, handleSharing } from "@/lib/utils";
+import { formatDate, formatViews } from "@/lib/utils";
 import { Like, Graph } from "@/assets";
 import PrismLoader from "@/components/ui/prismLoader";
 import dynamic from "next/dynamic";
@@ -218,6 +218,8 @@ export default function Slug({ blog }) {
             <ShareButton
               slug={blog.slug}
               title={blog.title}
+              image={blog.image.secure_url}
+              blogId={blog.id}
               className=" hover:-translate-y-1 transition-transform duration-300 "
             />
             <Bookmark blogId={blog.id} size={20} />

@@ -3,11 +3,12 @@ import { useState } from "react";
 import { handleSharing } from "@/lib/utils";
 import { NewTwitterIcon, Whatsapp } from "@/assets";
 import toast from "react-hot-toast";
-export default function ShareModal({ slug, title }) {
+export default function ShareModal({ slug, title, image, blogId }) {
   const [copied, setCopied] = useState(false);
   const [showQrModal, setShowQrModal] = useState(false);
   const [qrCode, setQrCode] = useState("");
-  const blogUrl = `https://techtales.vercel.app/blogs/${slug}`;
+  const url = `https://techtales.vercel.app/blogs/${slug}`;
+  const blogUrl = encodeURIComponent(url);
   // Function to open the share dialog for Facebook
   const shareOnFacebook = () => {
     const facebookUrl = `https://www.facebook.com/sharer.php?u=${blogUrl}`;
@@ -16,7 +17,7 @@ export default function ShareModal({ slug, title }) {
 
   // Function to open the share dialog for Twitter
   const shareOnTwitter = () => {
-    const twitterUrl = `https://twitter.com/intent/tweet?url=${blogUrl}&text=${slug}`;
+    const twitterUrl = `https://twitter.com/intent/tweet?url=${blogUrl}&text=${title}`;
     window.open(twitterUrl, "_blank", "width=600,height=400");
   };
 
@@ -38,13 +39,18 @@ export default function ShareModal({ slug, title }) {
     const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${blogUrl}`;
     window.open(linkedinUrl, "_blank", "width=600,height=400");
   };
+  //function to share on instapaper
+  const shareOnInstapaper = () => {
+    const instapaperUrl = `https://www.instapaper.com/edit?url=${blogUrl}&title=${encodeURIComponent(
+      title
+    )}`;
+    window.open(instapaperUrl, "_blank", "width=600,height=400");
+  };
   // Function to share on Pinterest
-  const shareOnPinterest = (title) => {
-    const mediaUrl =
-      "https://res.cloudinary.com/dipkbpinx/image/upload/v1729798081/tech-tales/cover-images/mfwulmwqff0uxojc3sra.jpg"; // Replace with the actual image URL
+  const shareOnPinterest = () => {
     const pinterestUrl = `https://www.pinterest.com/pin/create/button/?url=${encodeURIComponent(
       blogUrl
-    )}&media=${encodeURIComponent(mediaUrl)}&description=${encodeURIComponent(
+    )}&media=${encodeURIComponent(image)}&description=${encodeURIComponent(
       title
     )}`;
 
@@ -92,7 +98,7 @@ export default function ShareModal({ slug, title }) {
   };
   //function to close modal
   const closeShareModal = () => {
-    const shareModal = document.getElementById("shareModal");
+    const shareModal = document.getElementById(`shareModal-${blogId}`);
     if (shareModal) {
       shareModal.close();
     } else {
@@ -101,7 +107,7 @@ export default function ShareModal({ slug, title }) {
   };
   return (
     <dialog
-      id="shareModal"
+      id={`shareModal-${blogId}`}
       className="rounded-md  border inset-0 modal duration-300 ease-in-out backdrop-blur-3xl backdrop-brightness-150 xsm:max-w-[98%] max-w-sm xsm:mx-2 relative">
       <div className=" w-full p-6">
         <div className="flex items-center justify-between">
@@ -130,7 +136,7 @@ export default function ShareModal({ slug, title }) {
             </span>
           </p>
           <button
-            className="flex items-center gap-1 text-sm xsm:text-xs outline-none hover:bg-gray-200 px-0.5"
+            className="flex items-center gap-1 text-sm xsm:text-xs outline-none hover:bg-gray-200 px-1 whitespace-nowrap xsm:bg-gray-200"
             onClick={copyBlogLink}>
             {copied ? (
               <>
@@ -167,7 +173,7 @@ export default function ShareModal({ slug, title }) {
                     d="M208 352h-64a96 96 0 010-192h64M304 160h64a96 96 0 010 192h-64M163.29 256h187.42"
                   />
                 </svg>
-                Copy Link
+                Copy <span className="xsm:hidden">Link</span>
               </>
             )}
           </button>
@@ -261,6 +267,18 @@ export default function ShareModal({ slug, title }) {
           </button>
           <small>Linkedin</small>
         </div>
+        {/* instapaper */}
+        <div className="flex flex-col items-center">
+          <button
+            className="flex items-center justify-center rounded-xl bg-gray-800 w-12 h-12 text-white hover:shadow-gray-900 hover:shadow-2xl"
+            title="instapaper"
+            onClick={shareOnInstapaper}>
+            <svg viewBox="0 0 24 24" fill="currentColor" height="30" width="30">
+              <path d="M14.766 20.259c0 1.819.271 2.089 2.934 2.292V24H6.301v-1.449c2.666-.203 2.934-.473 2.934-2.292V3.708c0-1.784-.27-2.089-2.934-2.292V0h11.398v1.416c-2.662.203-2.934.506-2.934 2.292v16.551z" />
+            </svg>
+          </button>
+          <small>Instapaper</small>
+        </div>
         {/* pinterest */}
         <div className="flex flex-col items-center">
           <button
@@ -276,7 +294,7 @@ export default function ShareModal({ slug, title }) {
         {/* email */}
         <div className="flex flex-col items-center">
           <button
-            className="flex items-center justify-center rounded-xl bg-gray-200 hover:bg-gray-300 w-12 h-12 text-gray-700"
+            className="flex items-center justify-center rounded-xl  w-12 h-12 bg-gray-700 hover:bg-gray-600  text-white"
             title="email"
             onClick={shareViaEmail}>
             <svg viewBox="0 0 24 24" fill="currentColor" height="30" width="30">

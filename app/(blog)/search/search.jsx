@@ -131,6 +131,8 @@ export default function SearchPage() {
                     size={20}
                     className="h-[20px] w-[20px] fill-gray-500 "
                     title={blog.title}
+                    blogId={blog.id}
+                    image={blog.image.secure_url}
                     slug={blog.slug}
                   />
                   <Bookmark blogId={blog.id} size={20} />

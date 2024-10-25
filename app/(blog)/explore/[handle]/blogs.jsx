@@ -407,6 +407,8 @@ export default async function Explore({ blogs, user }) {
                           className="h-[16px] w-[16px] text-gray-500"
                           title={blog.title}
                           slug={blog.slug}
+                          blogId={blog.id}
+                          image={blog.image.secure_url}
                         />
                         <Bookmark blogId={blog.id} size={16} />
                       </div>
