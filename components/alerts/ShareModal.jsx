@@ -40,7 +40,8 @@ export default function ShareModal({ slug, title }) {
   };
   // Function to share on Pinterest
   const shareOnPinterest = (title) => {
-    const mediaUrl = "https://res.cloudinary.com/dipkbpinx/image/upload/v1729798081/tech-tales/cover-images/mfwulmwqff0uxojc3sra.jpg"; // Replace with the actual image URL
+    const mediaUrl =
+      "https://res.cloudinary.com/dipkbpinx/image/upload/v1729798081/tech-tales/cover-images/mfwulmwqff0uxojc3sra.jpg"; // Replace with the actual image URL
     const pinterestUrl = `https://www.pinterest.com/pin/create/button/?url=${encodeURIComponent(
       blogUrl
     )}&media=${encodeURIComponent(mediaUrl)}&description=${encodeURIComponent(
@@ -174,7 +175,7 @@ export default function ShareModal({ slug, title }) {
       </div>
       <hr />
       {/* Copy Link */}
-      <div className="py-6 px-3 grid grid-cols-4 gap-4 items-center justify-center">
+      <div className="py-6 px-3 grid grid-cols-4 xsm:grid-cols-3 gap-4 items-center justify-center">
         {/* Facebook */}
         <div className="flex flex-col items-center">
           <button
