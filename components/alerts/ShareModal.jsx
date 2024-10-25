@@ -7,8 +7,7 @@ export default function ShareModal({ slug, title, image, blogId }) {
   const [copied, setCopied] = useState(false);
   const [showQrModal, setShowQrModal] = useState(false);
   const [qrCode, setQrCode] = useState("");
-  const url = `https://techtales.vercel.app/blogs/${slug}`;
-  const blogUrl = encodeURIComponent(url);
+  const blogUrl = `https://techtales.vercel.app/blogs/${slug}`;
   // Function to open the share dialog for Facebook
   const shareOnFacebook = () => {
     const facebookUrl = `https://www.facebook.com/sharer.php?u=${blogUrl}`;
@@ -41,9 +40,9 @@ export default function ShareModal({ slug, title, image, blogId }) {
   };
   //function to share on instapaper
   const shareOnInstapaper = () => {
-    const instapaperUrl = `https://www.instapaper.com/edit?url=${blogUrl}&title=${encodeURIComponent(
-      title
-    )}`;
+    const instapaperUrl = `https://www.instapaper.com/edit?url=${encodeURIComponent(
+      blogUrl
+    )}&title=${encodeURIComponent(title)}`;
     window.open(instapaperUrl, "_blank", "width=600,height=400");
   };
   // Function to share on Pinterest
