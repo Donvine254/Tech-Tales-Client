@@ -323,6 +323,16 @@ export default function Profile() {
                 />
               </div>
               <hr />
+              {/* skills */}
+              <p className="text-gray-700 font-semibold mb-2 ">
+                Skills/ Languages
+              </p>
+              <p className="bg-gray-200 p-1 my-2 rounded-sm text-blue-600">
+                {user.skills === "Living life"
+                  ? "You have not updated your skills"
+                  : user.skills}
+              </p>
+              <hr />
               <p className="text-gray-700 font-semibold mb-2 ">Manage Blogs</p>
               {user.role === "admin" && (
                 <div className="w-full flex items-center justify-start border bg-gray-100 hover:bg-gray-200 my-2 px-6 py-1 cursor-pointer hover:text-blue-500 h-8 rounded-md gap-2">

@@ -21,6 +21,7 @@ export default function UpdateProfileModal({ user }) {
     username: user?.username,
     bio: user?.bio ?? "",
     handle: user?.handle ?? "",
+    skills: user?.skills ?? "",
     branding: user?.branding ?? "#01142d",
   });
   const previousImage = user?.picture;
@@ -140,7 +141,7 @@ export default function UpdateProfileModal({ user }) {
             Update Profile Information
           </h3>
         </div>
-        <div className="p-6 space-y-4">
+        <div className="p-6 space-y-2">
           <div className="flex items-center gap-4  ">
             {image ? (
               <UserImage
@@ -259,27 +260,36 @@ export default function UpdateProfileModal({ user }) {
               <span className="text-sm">{data?.bio?.length ?? 0}/150</span>
             </p>
           </div>
-          {/* <div className="">
-            <label className="font-semibold" htmlFor="branding">
-              Branding
+          <div className="">
+            <label className="font-semibold my-1" htmlFor="Bio">
+              Skills / Languages
             </label>
-            <input
-              className="flex h-8 w-full border-b border-green-500 bg-transparent focus:outline-none py-2 invalid:border-red-500"
-              id="branding"
-              name="branding"
-              type="color"
-              value={data.branding}
+            <textarea
+              className="w-full border border-green-500 focus:outline-none p-2 invalid:border-red-500 rounded-md overflow-auto h-auto"
+              id="skills"
+              name="skills"
+              rows={1}
+              value={data.skills}
+              minLength={2}
+              maxLength={200}
+              spellCheck={true}
+              autoComplete="on"
+              autoCorrect="on"
+              onKeyUp={(e) => {
+                e.target.style.height = "auto";
+                e.target.style.height = `${e.target.scrollHeight}px`;
+              }}
               onChange={(e) => {
                 setData((prev) => ({
-                  ...prev, 
-                  branding: e.target.value, 
+                  ...prev,
+                  skills: e.target.value,
                 }));
               }}
             />
-            <p className="text-xs text-gray-600">
-              Brand color used for backgrounds, borders etc.
-            </p>
-          </div> */}
+            <small className="text-xs text-gray-600 flex items-center justify-between gap-4">
+              Appears on your Profile page and next to your articles.
+            </small>
+          </div>
           <div className="space-y-2">
             <label className="font-semibold block" htmlFor="branding">
               Branding

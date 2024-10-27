@@ -24,6 +24,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         bio: true,
         role: true,
         branding: true,
+        skills: true,
         createdAt: true,
         socials: true,
         _count: {

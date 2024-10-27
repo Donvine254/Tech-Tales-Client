@@ -26,7 +26,7 @@ export default function UserCard({ author }) {
         style={{
           backgroundImage: `linear-gradient(to top, #f9fafb, #f3f4f6, ${author.branding})`,
         }}>
-        <Link href={`/explore/${author.handle}`}>
+        <Link href={`/explore/${author.handle}`} prefetch>
           <Image
             src={author.picture}
             width={48}
@@ -37,7 +37,7 @@ export default function UserCard({ author }) {
         </Link>
         <div className="capitalize font-bold text-lg ">
           <p className="w-full flex items-center">
-            <Link href={`/explore/${author.handle}`} className="">
+            <Link href={`/explore/${author.handle}`} className="" prefetch>
               {author.username}
             </Link>
 

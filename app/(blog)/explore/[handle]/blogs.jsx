@@ -184,6 +184,14 @@ export default async function Explore({ blogs, user }) {
                 </div>
               </div>
               <hr />
+              {/* skills */}
+              <p className="text-gray-700 font-semibold mb-2 ">
+                Skills/ Languages
+              </p>
+              <p className="bg-gray-200 p-1 my-2 rounded-sm text-blue-600">
+                {user.skills ?? "I have not updated my skills yet."}
+              </p>
+              <hr />
               <p className="font-bold">Socials</p>
               {user.socials && user.socials.length > 0 ? (
                 <div className="flex items-center space-y-1 my-2  gap-4  flex-wrap ">
