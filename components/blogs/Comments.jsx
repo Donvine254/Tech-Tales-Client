@@ -32,9 +32,11 @@ export default function Comments({
   user,
 }) {
   const [newComment, setNewComment] = useState("");
+  const [response, setResponse] = useState("");
   const [commentToEdit, setCommentToEdit] = useState(null);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [replyingToCommentId, setReplyingToCommentId] = useState(null);
   const [length, setLength] = useState(0);
   const [isSorted, setIsSorted] = useState(false);
 
@@ -140,6 +142,10 @@ export default function Comments({
     }
   };
 
+  async function handleReply(e) {
+    e.preventDefault();
+  }
+
   return (
     <div className=" px-2 ">
       <div className="flex flex-wrap items-center gap-2">
@@ -220,11 +226,13 @@ export default function Comments({
           comments.map((comment) => (
             <div className="py-1 font-poppins " key={comment.id}>
               <div className="flex gap-4">
+                {/* first child */}
                 <UserImage
                   url={comment.author.picture}
                   className={`ring-2 ring-offset-2 ring-"cyan-400"
                    italic `}
                 />
+                {/* second child */}
                 <div className="">
                   <div>
                     <div className="flex items-center gap-1 xsm:text-xs xsm:flex-wrap">
@@ -307,7 +315,7 @@ export default function Comments({
                         <>
                           {/* first scenario where the comment belongs to the user */}
                           <button
-                            className="flex items-center gap-2 text-sm   hover:text-white border   px-1 py-0.5 rounded-md hover:bg-blue-500"
+                            className="flex items-center gap-2 text-sm   hover:text-white px-1 py-0.5 rounded-md hover:bg-blue-500"
                             title="edit comment"
                             onClick={() => editComment(comment)}>
                             <Edit size={14} />
@@ -315,7 +323,7 @@ export default function Comments({
                           </button>
 
                           <button
-                            className="flex items-center gap-2 text-sm  hover:text-white border   px-1 py-0.5 rounded-md hover:bg-red-500"
+                            className="flex items-center gap-2 text-sm  hover:text-white px-1 py-0.5 rounded-md hover:bg-red-500"
                             title="delete comment"
                             onClick={() =>
                               deleteComment(comment.id, setComments)
@@ -327,9 +335,23 @@ export default function Comments({
                       ) : blogAuthorId == user?.id && user?.role !== "admin" ? (
                         <>
                           {/* second scenario where the current user is the author of the blog but not an admin*/}
-                          {/* add reply button */}
                           <button
-                            className="flex items-center gap-2 text-sm   hover:text-white border border-white px-1 py-0.5 rounded-md hover:bg-blue-500"
+                            className="flex items-center gap-2 text-sm   hover:text-white  px-1 py-0.5 rounded-md hover:bg-blue-500"
+                            title="reply"
+                            onClick={() => setReplyingToCommentId(comment.id)}>
+                            <svg
+                              fill="currentColor"
+                              viewBox="0 0 16 16"
+                              height="14"
+                              width="14"
+                              className="cursor-pointer text-gray-600">
+                              <path d="M6.598 5.013a.144.144 0 01.202.134V6.3a.5.5 0 00.5.5c.667 0 2.013.005 3.3.822.984.624 1.99 1.76 2.595 3.876-1.02-.983-2.185-1.516-3.205-1.799a8.74 8.74 0 00-1.921-.306 7.404 7.404 0 00-.798.008h-.013l-.005.001h-.001L7.3 9.9l-.05-.498a.5.5 0 00-.45.498v1.153c0 .108-.11.176-.202.134L2.614 8.254a.503.503 0 00-.042-.028.147.147 0 010-.252.499.499 0 00.042-.028l3.984-2.933zM7.8 10.386c.068 0 .143.003.223.006.434.02 1.034.086 1.7.271 1.326.368 2.896 1.202 3.94 3.08a.5.5 0 00.933-.305c-.464-3.71-1.886-5.662-3.46-6.66-1.245-.79-2.527-.942-3.336-.971v-.66a1.144 1.144 0 00-1.767-.96l-3.994 2.94a1.147 1.147 0 000 1.946l3.994 2.94a1.144 1.144 0 001.767-.96v-.667z" />
+                            </svg>
+                            <span>reply</span>
+                          </button>
+
+                          <button
+                            className="flex items-center gap-2 text-sm   hover:text-white px-1 py-0.5 rounded-md hover:bg-blue-500"
                             title="hide comment"
                             onClick={() =>
                               hideOrFlagComment("HIDDEN", comment.id)
@@ -365,7 +387,7 @@ export default function Comments({
                           </button>
 
                           <button
-                            className="flex items-center gap-2 text-sm  hover:text-white border px-1 py-0.5 rounded-md hover:bg-red-500"
+                            className="flex items-center gap-2 text-sm  hover:text-white px-1 py-0.5 rounded-md hover:bg-red-500"
                             title="report as offensive/inappropriate"
                             onClick={() =>
                               hideOrFlagComment("FLAGGED", comment.id)
@@ -390,9 +412,23 @@ export default function Comments({
                         user?.role === "admin" ? (
                         <>
                           {/* third scenario where the comment where the comment does not belong to the current user, and the the user is admin */}
-                          {/* add reply button */}
+
                           <button
-                            className="flex items-center gap-2 text-sm   hover:text-white border px-1 py-0.5 rounded-md hover:bg-blue-500"
+                            className="flex items-center gap-2 text-sm   hover:text-white  px-1 py-0.5 rounded-md hover:bg-blue-500 group"
+                            title="reply"
+                            onClick={() => setReplyingToCommentId(comment.id)}>
+                            <svg
+                              fill="currentColor"
+                              viewBox="0 0 16 16"
+                              height="14"
+                              width="14"
+                              className="cursor-pointer text-gray-600 group-hover:text-white">
+                              <path d="M6.598 5.013a.144.144 0 01.202.134V6.3a.5.5 0 00.5.5c.667 0 2.013.005 3.3.822.984.624 1.99 1.76 2.595 3.876-1.02-.983-2.185-1.516-3.205-1.799a8.74 8.74 0 00-1.921-.306 7.404 7.404 0 00-.798.008h-.013l-.005.001h-.001L7.3 9.9l-.05-.498a.5.5 0 00-.45.498v1.153c0 .108-.11.176-.202.134L2.614 8.254a.503.503 0 00-.042-.028.147.147 0 010-.252.499.499 0 00.042-.028l3.984-2.933zM7.8 10.386c.068 0 .143.003.223.006.434.02 1.034.086 1.7.271 1.326.368 2.896 1.202 3.94 3.08a.5.5 0 00.933-.305c-.464-3.71-1.886-5.662-3.46-6.66-1.245-.79-2.527-.942-3.336-.971v-.66a1.144 1.144 0 00-1.767-.96l-3.994 2.94a1.147 1.147 0 000 1.946l3.994 2.94a1.144 1.144 0 001.767-.96v-.667z" />
+                            </svg>
+                            <span>reply</span>
+                          </button>
+                          <button
+                            className="flex items-center gap-2 text-sm   hover:text-white  px-1 py-0.5 rounded-md hover:bg-blue-500 group"
                             title="hide comment"
                             onClick={() =>
                               hideOrFlagComment("HIDDEN", comment.id)
@@ -401,7 +437,8 @@ export default function Comments({
                               viewBox="0 0 64 64"
                               fill="currentColor"
                               height="14"
-                              width="14">
+                              width="14"
+                              className="group-hover:text-white">
                               <path
                                 fill="none"
                                 stroke="currentColor"
@@ -428,7 +465,7 @@ export default function Comments({
                           </button>
 
                           <button
-                            className="flex items-center gap-2 text-sm  hover:text-white border px-1 py-0.5 rounded-md hover:bg-red-500"
+                            className="flex items-center gap-2 text-sm  hover:text-white  px-1 py-0.5 rounded-md hover:bg-red-500 group"
                             title="report as offensive/inappropriate"
                             onClick={() =>
                               hideOrFlagComment("FLAGGED", comment.id)
@@ -437,7 +474,8 @@ export default function Comments({
                               viewBox="0 0 64 64"
                               fill="currentColor"
                               height="14"
-                              width="14">
+                              width="14"
+                              className="group-hover:text-white">
                               <path
                                 fill="none"
                                 stroke="currentColor"
@@ -449,7 +487,7 @@ export default function Comments({
                             <span>Flag</span>
                           </button>
                           <button
-                            className="flex items-center gap-2 text-sm  hover:text-white border px-1 py-0.5 rounded-md hover:bg-red-500"
+                            className="flex items-center gap-2 text-sm  hover:text-white  px-1 py-0.5 rounded-md hover:bg-red-500 "
                             title="delete comment"
                             onClick={() =>
                               deleteComment(comment.id, setComments)
@@ -459,7 +497,38 @@ export default function Comments({
                           </button>
                         </>
                       ) : null}{" "}
+                      {/* add a div for responses, such appear below the clicked comment */}
                     </div>
+                  )}
+                  {replyingToCommentId === comment.id && (
+                    <form className="mt-1" id="response-form">
+                      <textarea
+                        value={response}
+                        onChange={(e) => setResponse(e.target.value)}
+                        placeholder="Write your reply..."
+                        className="w-full p-2 text-sm border rounded-md h-auto focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        maxLength={200}
+                        minLength={5}
+                        rows={3}
+                        autoFocus
+                      />
+                      <div className="mt-2 flex space-x-2 justify-end">
+                        <button
+                          onClick={() => handleReply(comment.id)}
+                          disabled={response.length < 5}
+                          title="submit response"
+                          className="px-3 py-1 text-sm border-2 border-blue-500 rounded-md bg-blue-500 disabled:bg-transparent disabled:border-gray-800 disabled:text-gray-800 disabled:cursor-not-allowed disabled:pointer-events-none text-white hover:bg-blue-600 focus:outline-none  ">
+                          Submit
+                        </button>
+                        <button
+                          onClick={() => setReplyingToCommentId(null)}
+                          title="cancel"
+                          type="reset"
+                          className="px-3 py-1 text-sm text-gray-600 bg-transparent rounded-md border-2 border-green-500 hover:border-red-500 focus:outline-none ">
+                          Cancel
+                        </button>
+                      </div>
+                    </form>
                   )}
                 </div>
               </div>

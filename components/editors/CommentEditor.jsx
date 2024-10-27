@@ -22,7 +22,6 @@ export default function CommentEditor({
       console.log(editorRef.current.getContent());
     }
   };
- 
 
   return (
     <div className="flex-1  flex-grow" id="write-comment">
@@ -95,7 +94,7 @@ export default function CommentEditor({
                   Update
                 </button>
                 <button
-                  type="button"
+                  type="reset"
                   onClick={undoEditing}
                   className="border-2  border-green-500 hover:border-red-500 px-6 py-0.5 rounded-md">
                   Cancel
