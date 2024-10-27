@@ -50,17 +50,18 @@ model User {
   status          UserStatus @default(ACTIVE)
   picture         String?
   handle          String     @unique
+  skills          String?    @default("Living life")
   deleted         Boolean    @default(false)
   favorites       Favorite[]
   blogs           Blog[]
   comments        Comment[]
+  responses       Response[]
   socials         Json?      @default("[]")
   preferences     Json?      @default("{\"cookies\": true, \"newsletter_subscription\": false, \"email_notifications\": false, \"analytics\": false}")
   branding        String?    @default("#01142d")
   deactivatedAt   DateTime?
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
-  Response        Response[]
 
   @@index(fields: [handle, email, username])
 }
