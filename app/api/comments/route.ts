@@ -106,6 +106,16 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
             role: true,
           },
         },
+        responses: {
+          include: {
+            author: {
+              select: {
+                username: true,
+                picture: true,
+              },
+            },
+          },
+        },
       },
     });
 

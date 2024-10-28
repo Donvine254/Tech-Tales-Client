@@ -39,7 +39,7 @@ export default function Comments({
   const [replyingToCommentId, setReplyingToCommentId] = useState(null);
   const [length, setLength] = useState(0);
   const [isSorted, setIsSorted] = useState(false);
-
+  console.log(comments);
   //function to play notification sound
   function playSoundEffect() {
     if (typeof Audio !== "undefined" && Audio) {
@@ -154,6 +154,7 @@ export default function Comments({
     try {
       const result = await Axios.post(`${baseUrl}/comments/${commentId}`, data);
       setResponse("");
+      setReplyingToCommentId(null);
       setComments((prevComments) =>
         prevComments.map((comment) =>
           comment.id === commentId
@@ -166,6 +167,7 @@ export default function Comments({
       );
     } catch (error) {
       console.error("Error posting reply:", error);
+      toast.error("Failed to post response");
     }
   }
 
@@ -332,7 +334,7 @@ export default function Comments({
                     {comment.body ? parse(comment.body) : comment.body}
                   </div>
                   {user && (
-                    <div className="py-1 flex items-center gap-4">
+                    <div className="py-1 flex items-center gap-4 flex-wrap">
                       {" "}
                       {user && comment.authorId === user.id ? (
                         <>
@@ -507,7 +509,7 @@ export default function Comments({
                                 d="M12 0v64M12 6h41l-6 12 6 12H12"
                               />
                             </svg>
-                            <span>Flag</span>
+                            <span className="xsm:hidden">Flag</span>
                           </button>
                           <button
                             className="flex items-center gap-2 text-sm  hover:text-white  px-1 py-0.5 rounded-md hover:bg-red-500 "
@@ -516,13 +518,14 @@ export default function Comments({
                               deleteComment(comment.id, setComments)
                             }>
                             <Trash size={14} />
-                            <span> Delete</span>
+                            <span className="xsm:hidden"> Delete</span>
                           </button>
                         </>
                       ) : null}{" "}
-                      {/* add a div for responses, such appear below the clicked comment */}
                     </div>
                   )}
+
+                  {/* div for replying */}
                   {replyingToCommentId === comment.id && (
                     <form className="mt-1" id="response-form">
                       <textarea
@@ -559,6 +562,38 @@ export default function Comments({
                       </div>
                     </form>
                   )}
+                  {/* div for responses */}
+                  {comment.responses &&
+                    comment.responses.length > 0 &&
+                    comment.responses.map((response, index) => (
+                      <div
+                        key={response.id}
+                        className={`flex items-start gap-4 text-sm xsm:text-xs my-1 p-3  ${
+                          index === 0 ? "border-l-2  border-gray-400" : ""
+                        }`}>
+                        {/* User Picture */}
+                        <Image
+                          src={response.author.picture}
+                          alt={response.author.username}
+                          className="w-8 h-8 rounded-full mt-2 ring-2 ring-offset-2 ring-pink-600 self-start"
+                          height="32"
+                          width="32"
+                        />
+                        <div className="flex flex-col bg-gray-50 rounded-lg text-sm  border shadow p-3">
+                          <div className="flex items-center gap-2">
+                            <span className="font-semibold capitalize">
+                              {response.author.username}
+                            </span>
+                            <span className=" text-gray-500">
+                              &#x2022; {formatDate(response.createdAt)}
+                            </span>
+                          </div>
+                          <div id="comment-body" className="mt-1">
+                            {response.body}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                 </div>
               </div>
             </div>

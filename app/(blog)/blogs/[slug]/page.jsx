@@ -59,6 +59,16 @@ async function getBlogData(slug) {
                 status: true,
               },
             },
+            responses: {
+              include: {
+                author: {
+                  select: {
+                    username: true,
+                    picture: true,
+                  },
+                },
+              },
+            },
           },
           orderBy: {
             createdAt: "desc",
