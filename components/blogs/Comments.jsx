@@ -579,14 +579,14 @@ export default function Comments({
                           height="32"
                           width="32"
                         />
-                        <div className="flex flex-col bg-gray-50 rounded-lg text-sm  border shadow p-3">
-                          <div className="flex items-center gap-2">
+                        <div className="flex flex-col bg-zinc-100 rounded-lg text-sm  border shadow p-3">
+                          <div className="flex items-center flex-wrap gap-x-2">
                             <span className="font-semibold capitalize">
                               {response.author.username}
                             </span>
-                            <span className=" text-gray-500">
+                            <small className=" text-gray-500">
                               &#x2022; {formatDate(response.createdAt)}
-                            </span>
+                            </small>
                           </div>
                           <div id="comment-body" className="mt-1">
                             {response.body}
