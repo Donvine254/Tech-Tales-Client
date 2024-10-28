@@ -44,7 +44,9 @@ export default function Recommendations({ tags, id }) {
     <div className="my-2">
       {blogs && blogs.length > 0 && (
         <>
-          <h1 className="md:text-xl my-2">Recommended from Tech Tales</h1>
+          <h1 className="md:text-xl xsm:text-sm my-2">
+            Recommended from Tech Tales
+          </h1>
 
           {blogs.map((blog) => (
             <div

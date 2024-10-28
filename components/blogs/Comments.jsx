@@ -542,12 +542,14 @@ export default function Comments({
 
                   {/* div for replying */}
                   {replyingToCommentId === comment.id && (
-                    <form className="mt-1" id="response-form">
+                    <form
+                      className="mt-1"
+                      id="response-form text-sm xsm:text-xs">
                       <textarea
                         value={response}
                         onChange={(e) => setResponse(e.target.value)}
                         placeholder="Write your reply..."
-                        className="w-full p-2 text-sm border rounded-md h-auto focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full p-2 text-base border rounded-md h-auto focus:outline-none focus:ring-2 focus:ring-blue-500"
                         autoCorrect="on"
                         autoComplete="true"
                         spellCheck="true"
@@ -583,7 +585,7 @@ export default function Comments({
                     comment.responses.map((response, index) => (
                       <div
                         key={response.id}
-                        className={`flex items-start gap-4 text-sm xsm:text-xs my-1 p-3  ${
+                        className={`flex items-start gap-4 text-sm xsm:text-xs my-1 p-3 xsm:p-2 xsm:gap-2 ${
                           index === 0 ? "border-l-2  border-gray-400" : ""
                         }`}>
                         {/* User Picture */}
@@ -596,10 +598,10 @@ export default function Comments({
                         />
                         <div className="flex flex-col bg-zinc-100 rounded-lg text-sm  border shadow p-3">
                           <div className="flex items-center flex-wrap gap-x-2">
-                            <span className="font-semibold capitalize">
+                            <p className="font-semibold capitalize xsm:text-xs ">
                               {response.author.username}
-                            </span>
-                            <small className=" text-gray-500">
+                            </p>
+                            <small className=" text-gray-700">
                               &#x2022; {formatDate(response.createdAt)}
                             </small>
                           </div>
