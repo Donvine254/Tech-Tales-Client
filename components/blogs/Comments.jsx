@@ -142,8 +142,31 @@ export default function Comments({
     }
   };
 
-  async function handleReply(e) {
+  async function handleReply(e, commentId) {
     e.preventDefault();
+    toast.success("Processing");
+    const data = {
+      body: response,
+      authorId: user.id,
+      commentId: commentId,
+    };
+
+    try {
+      const result = await Axios.post(`${baseUrl}/comments/${commentId}`, data);
+      setResponse("");
+      setComments((prevComments) =>
+        prevComments.map((comment) =>
+          comment.id === commentId
+            ? {
+                ...comment,
+                responses: [...(comment.responses || []), result.data],
+              }
+            : comment
+        )
+      );
+    } catch (error) {
+      console.error("Error posting reply:", error);
+    }
   }
 
   return (
@@ -507,6 +530,9 @@ export default function Comments({
                         onChange={(e) => setResponse(e.target.value)}
                         placeholder="Write your reply..."
                         className="w-full p-2 text-sm border rounded-md h-auto focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        autoCorrect="on"
+                        autoComplete="true"
+                        spellCheck="true"
                         maxLength={200}
                         minLength={5}
                         rows={3}
@@ -514,14 +540,17 @@ export default function Comments({
                       />
                       <div className="mt-2 flex space-x-2 justify-end">
                         <button
-                          onClick={() => handleReply(comment.id)}
+                          onClick={(e) => handleReply(e, comment.id)}
                           disabled={response.length < 5}
                           title="submit response"
                           className="px-3 py-1 text-sm border-2 border-blue-500 rounded-md bg-blue-500 disabled:bg-transparent disabled:border-gray-800 disabled:text-gray-800 disabled:cursor-not-allowed disabled:pointer-events-none text-white hover:bg-blue-600 focus:outline-none  ">
                           Submit
                         </button>
                         <button
-                          onClick={() => setReplyingToCommentId(null)}
+                          onClick={() => {
+                            setReplyingToCommentId(null);
+                            setResponse("");
+                          }}
                           title="cancel"
                           type="reset"
                           className="px-3 py-1 text-sm text-gray-600 bg-transparent rounded-md border-2 border-green-500 hover:border-red-500 focus:outline-none ">
