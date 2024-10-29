@@ -30,7 +30,7 @@ export default function MoreFromAuthor({ author, id, blogId, handle }) {
       {blogs && blogs.length > 0 && (
         <>
           <h1 className="md:text-xl xsm:text-sm capitalize">
-            View More From {author}{" "}
+            More From {author}{" "}
             <Link
               href={`/explore/${handle}`}
               className="float-right text-blue-500 hover:underline">

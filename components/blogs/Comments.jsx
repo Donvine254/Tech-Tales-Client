@@ -39,7 +39,7 @@ export default function Comments({
   const [replyingToCommentId, setReplyingToCommentId] = useState(null);
   const [length, setLength] = useState(0);
   const [isSorted, setIsSorted] = useState(false);
-  console.log(comments);
+  const [isExpanded, setIsExpanded] = useState(true);
   //function to play notification sound
   function playSoundEffect() {
     if (typeof Audio !== "undefined" && Audio) {
@@ -551,12 +551,16 @@ export default function Comments({
                         placeholder="Write your reply..."
                         className="w-full p-2 text-base border rounded-md h-auto focus:outline-none focus:ring-2 focus:ring-blue-500"
                         autoCorrect="on"
-                        autoComplete="true"
-                        spellCheck="true"
+                        autoComplete={true}
+                        spellCheck={true}
                         maxLength={200}
                         minLength={5}
-                        rows={3}
+                        rows={2}
                         autoFocus
+                        onKeyUp={(e) => {
+                          e.target.style.height = "auto";
+                          e.target.style.height = `${e.target.scrollHeight}px`;
+                        }}
                       />
                       <div className="mt-2 flex space-x-2 justify-end">
                         <button
@@ -583,32 +587,67 @@ export default function Comments({
                   {comment.responses &&
                     comment.responses.length > 0 &&
                     comment.responses.map((response, index) => (
-                      <div
-                        key={response.id}
-                        className={`flex items-start gap-4 text-sm xsm:text-xs my-1 p-3 xsm:p-2 xsm:gap-2 ${
-                          index === 0 ? "border-l-2  border-gray-400" : ""
-                        }`}>
-                        {/* User Picture */}
-                        <Image
-                          src={response.author.picture}
-                          alt={response.author.username}
-                          className="w-8 h-8 rounded-full mt-2 ring-2 ring-offset-2 ring-pink-600 self-start"
-                          height="32"
-                          width="32"
-                        />
-                        <div className="flex flex-col bg-zinc-100 rounded-lg text-sm  border shadow p-3">
-                          <div className="flex items-center flex-wrap gap-x-2">
-                            <p className="font-semibold capitalize xsm:text-xs ">
-                              {response.author.username}
+                      <div key={response.id} className="relative">
+                        {isExpanded ? (
+                          <div
+                            className={`flex items-start gap-4 text-sm xsm:text-xs my-1 p-3 xsm:p-2 xsm:gap-2 relative ${
+                              index === 0 ? "border-l-2  border-gray-400" : ""
+                            }`}>
+                            {/* User Picture */}
+                            <Image
+                              src={response.author.picture}
+                              alt={response.author.username}
+                              className="w-8 h-8 rounded-full mt-2 ring-2 ring-offset-2 ring-pink-600 self-start"
+                              height="32"
+                              width="32"
+                            />
+                            <div className="flex flex-col bg-zinc-100 rounded-lg text-sm  border shadow p-3">
+                              <div className="flex items-center flex-wrap gap-x-2">
+                                <p className="font-semibold capitalize xsm:text-xs ">
+                                  {response.author.username}
+                                </p>
+                                <small className=" text-gray-700">
+                                  &#x2022; {formatDate(response.createdAt)}
+                                </small>
+                              </div>
+                              <div id="comment-body" className="mt-1">
+                                {response.body}
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <div
+                            className={`bg-zinc-100 rounded-lg text-sm  border shadow p-2 ${
+                              index !== 0 ? "hidden" : ""
+                            }`}>
+                            <p>
+                              <span className="capitalize">
+                                {response.author.username}
+                              </span>{" "}
+                              + {comment.responses.length} replies
                             </p>
-                            <small className=" text-gray-700">
-                              &#x2022; {formatDate(response.createdAt)}
-                            </small>
                           </div>
-                          <div id="comment-body" className="mt-1">
-                            {response.body}
-                          </div>
-                        </div>
+                        )}
+                        {index === 0 && (
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                            height="1em"
+                            width="1em"
+                            onClick={() => setIsExpanded(!isExpanded)}
+                            className="absolute left-[-25px] top-0 bottom-0 my-auto cursor-pointer">
+                            <title>
+                              {isExpanded ? "Hide replies" : "Show replies"}
+                            </title>
+                            <path
+                              d={
+                                isExpanded
+                                  ? "M12 7.59L7.05 2.64 5.64 4.05 12 10.41l6.36-6.36-1.41-1.41L12 7.59zM5.64 19.95l1.41 1.41L12 16.41l4.95 4.95 1.41-1.41L12 13.59l-6.36 6.36z"
+                                  : "M12 19.24l-4.95-4.95-1.41 1.42L12 22.07l6.36-6.36-1.41-1.42L12 19.24zM5.64 8.29l1.41 1.42L12 4.76l4.95 4.95 1.41-1.42L12 1.93 5.64 8.29z"
+                              }
+                            />
+                          </svg>
+                        )}
                       </div>
                     ))}
                 </div>
