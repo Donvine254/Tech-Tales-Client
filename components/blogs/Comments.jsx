@@ -1,7 +1,7 @@
 "use client";
 
 import { baseUrl, deleteComment, patchComment } from "@/lib";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Axios from "axios";
 import { Edit, Trash } from "@/assets";
 import { UserImage, Loader } from "@/components";
@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 import parse from "html-react-parser";
 import { updateCommentStatus } from "@/lib/actions";
 import { Tooltip } from "react-tooltip";
+import Script from "next/script";
 
 const DynamicEditor = dynamic(
   () => import("@/components/editors/CommentEditor"),
@@ -49,7 +50,25 @@ export default function Comments({
       sound.play();
     }
   }
+  //effect to connect the comments
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     const commentAvatars = document.querySelectorAll(".comment-avatar");
+  //     const responseAvatars = document.querySelectorAll(".response-avatar");
 
+  //     commentAvatars.forEach((commentAvatar, index) => {
+  //       const responseAvatar = responseAvatars[index];
+
+  //       if (responseAvatar) {
+  //         new LeaderLine(commentAvatar, responseAvatar, {
+  //           path: "fluid",
+  //           color: "gray",
+  //           size: 1,
+  //         });
+  //       }
+  //     });
+  //   }
+  // }, []);
   //function to submit comment form
   async function handleSubmit(e) {
     e.preventDefault();
@@ -255,7 +274,8 @@ export default function Comments({
                 <UserImage
                   url={comment.author.picture}
                   className={`ring-2 ring-offset-2 ring-"cyan-400"
-                   italic `}
+                   italic comment-avatar`}
+                  id="start"
                 />
                 {/* second child */}
                 <div className="">
@@ -597,7 +617,7 @@ export default function Comments({
                             <Image
                               src={response.author.picture}
                               alt={response.author.username}
-                              className="w-8 h-8 rounded-full mt-2 ring-2 ring-offset-2 ring-pink-600 self-start"
+                              className="w-8 h-8 rounded-full mt-2 ring-2 ring-offset-2 ring-pink-600 self-start response-avatar"
                               height="32"
                               width="32"
                             />
@@ -635,11 +655,10 @@ export default function Comments({
                             height="1em"
                             width="1em"
                             onClick={() => {
-                              setExpandedComment(
-                                (prev) =>
-                                  prev.includes(comment.id)
-                                    ? prev.filter((id) => id !== comment.id) 
-                                    : [...prev, comment.id] 
+                              setExpandedComment((prev) =>
+                                prev.includes(comment.id)
+                                  ? prev.filter((id) => id !== comment.id)
+                                  : [...prev, comment.id]
                               );
                             }}
                             className="absolute left-[-25px] top-0 bottom-0 my-auto cursor-pointer">

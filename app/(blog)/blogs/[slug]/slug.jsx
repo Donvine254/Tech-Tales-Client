@@ -82,6 +82,12 @@ export default function Slug({ blog }) {
           <ImageWithFallback image={blog.image} title={blog.title} />
           {/* script for printing the blog pages */}
           <Script src="https://unpkg.com/ink-html/dist/index.js"></Script>
+          {/* script for leaderline */}
+          <Script
+            src="https://cdnjs.cloudflare.com/ajax/libs/leader-line/1.0.7/leader-line.min.js"
+            integrity="sha512-0dNdzMjpT6pJdFGF1DwybFCfm3K/lzHhxaMXC/92J9/DZujHlqYFqmhTOAoD0o+LkeEsVK2ar/ESs7/Q2B6wJg=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></Script>
           <div className="block gap-5 items-center py-4">
             <div className="flex gap-2 md:gap-2 lg:gap-3 items-center">
               <div
