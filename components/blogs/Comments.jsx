@@ -39,7 +39,7 @@ export default function Comments({
   const [replyingToCommentId, setReplyingToCommentId] = useState(null);
   const [length, setLength] = useState(0);
   const [isSorted, setIsSorted] = useState(false);
-  const [expandedComment, setExpandedComment] = useState(null);
+  const [expandedComment, setExpandedComment] = useState([]);
   //function to play notification sound
   function playSoundEffect() {
     if (typeof Audio !== "undefined" && Audio) {
@@ -588,7 +588,7 @@ export default function Comments({
                     comment.responses.length > 0 &&
                     comment.responses.map((response, index) => (
                       <div key={response.id} className="relative">
-                        {expandedComment !== comment.id ? (
+                        {!expandedComment.includes(comment.id) ? (
                           <div
                             className={`flex items-start gap-4 text-sm xsm:text-xs my-1 p-3 xsm:p-2 xsm:gap-2 relative ${
                               index === 0 ? "border-l-2  border-gray-400" : ""
@@ -635,21 +635,22 @@ export default function Comments({
                             height="1em"
                             width="1em"
                             onClick={() => {
-                              if (expandedComment === comment.id) {
-                                setExpandedComment(null);
-                              } else {
-                                setExpandedComment(comment.id);
-                              }
+                              setExpandedComment(
+                                (prev) =>
+                                  prev.includes(comment.id)
+                                    ? prev.filter((id) => id !== comment.id) 
+                                    : [...prev, comment.id] 
+                              );
                             }}
                             className="absolute left-[-25px] top-0 bottom-0 my-auto cursor-pointer">
                             <title>
-                              {expandedComment !== comment.id
+                              {!expandedComment.includes(comment.id)
                                 ? "Hide replies"
                                 : "Show replies"}
                             </title>
                             <path
                               d={
-                                expandedComment !== comment.id
+                                !expandedComment.includes(comment.id)
                                   ? "M12 7.59L7.05 2.64 5.64 4.05 12 10.41l6.36-6.36-1.41-1.41L12 7.59zM5.64 19.95l1.41 1.41L12 16.41l4.95 4.95 1.41-1.41L12 13.59l-6.36 6.36z"
                                   : "M12 19.24l-4.95-4.95-1.41 1.42L12 22.07l6.36-6.36-1.41-1.42L12 19.24zM5.64 8.29l1.41 1.42L12 4.76l4.95 4.95 1.41-1.42L12 1.93 5.64 8.29z"
                               }
