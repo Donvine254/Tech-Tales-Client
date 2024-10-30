@@ -191,7 +191,7 @@ export default function Comments({
   }
 
   return (
-    <div className=" px-2 ">
+    <div className="">
       <div className="flex flex-wrap items-center gap-2">
         <h1 className="text-bold text-xl md:text-2xl py-2 font-bold">
           Comments ({commentCount})

@@ -390,9 +390,6 @@ export default function Slug({ blog }) {
           blogId={blog?.id}
         />
       </div>
-
-      {/* <Recommendations tags={blog.tags} id={blog?.id} /> */}
-
       <Recommendations tags={blog.tags} id={blog.id} />
       <div id="print-div" style={{ display: "none" }}>
         <h1 className="text-xl font-bold">{blog.title}</h1>
