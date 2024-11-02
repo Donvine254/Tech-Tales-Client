@@ -1,7 +1,7 @@
 "use client";
 
 import { baseUrl, deleteComment, patchComment } from "@/lib";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Axios from "axios";
 import { Edit, Trash } from "@/assets";
 import { UserImage, Loader } from "@/components";
@@ -13,7 +13,7 @@ import toast from "react-hot-toast";
 import parse from "html-react-parser";
 import { updateCommentStatus } from "@/lib/actions";
 import { Tooltip } from "react-tooltip";
-import Script from "next/script";
+import Response from "./Responses";
 
 const DynamicEditor = dynamic(
   () => import("@/components/editors/CommentEditor"),
@@ -40,7 +40,6 @@ export default function Comments({
   const [replyingToCommentId, setReplyingToCommentId] = useState(null);
   const [length, setLength] = useState(0);
   const [isSorted, setIsSorted] = useState(false);
-  const [expandedComment, setExpandedComment] = useState([]);
   //function to play notification sound
   function playSoundEffect() {
     if (typeof Audio !== "undefined" && Audio) {
@@ -50,26 +49,6 @@ export default function Comments({
       sound.play();
     }
   }
-  //effect to connect the comments
-  // useEffect(() => {
-  //   if (typeof window !== "undefined") {
-  //     const commentAvatars = document.querySelectorAll(".comment-avatar");
-  //     const responseAvatars = document.querySelectorAll(".response-avatar");
-
-  //     commentAvatars.forEach((commentAvatar, index) => {
-  //       const responseAvatar = responseAvatars[index];
-
-  //       if (responseAvatar) {
-  //         new LeaderLine(commentAvatar, responseAvatar, {
-  //           path: "fluid",
-  //           color: "gray",
-  //           size: 1,
-  //         });
-  //       }
-  //     });
-  //   }
-  // }, []);
-  //function to submit comment form
   async function handleSubmit(e) {
     e.preventDefault();
     if (newComment.length <= 10) {
@@ -542,20 +521,34 @@ export default function Comments({
                           </button>
                         </>
                       ) : (
-                        <button
-                          className="flex items-center gap-2 text-sm   hover:text-white  px-1 py-0.5 rounded-md hover:bg-blue-500 group border border-gray-400"
-                          title="reply"
-                          onClick={() => setReplyingToCommentId(comment.id)}>
-                          <svg
-                            fill="currentColor"
-                            viewBox="0 0 16 16"
-                            height="14"
-                            width="14"
-                            className="cursor-pointer text-gray-600 group-hover:text-white">
-                            <path d="M6.598 5.013a.144.144 0 01.202.134V6.3a.5.5 0 00.5.5c.667 0 2.013.005 3.3.822.984.624 1.99 1.76 2.595 3.876-1.02-.983-2.185-1.516-3.205-1.799a8.74 8.74 0 00-1.921-.306 7.404 7.404 0 00-.798.008h-.013l-.005.001h-.001L7.3 9.9l-.05-.498a.5.5 0 00-.45.498v1.153c0 .108-.11.176-.202.134L2.614 8.254a.503.503 0 00-.042-.028.147.147 0 010-.252.499.499 0 00.042-.028l3.984-2.933zM7.8 10.386c.068 0 .143.003.223.006.434.02 1.034.086 1.7.271 1.326.368 2.896 1.202 3.94 3.08a.5.5 0 00.933-.305c-.464-3.71-1.886-5.662-3.46-6.66-1.245-.79-2.527-.942-3.336-.971v-.66a1.144 1.144 0 00-1.767-.96l-3.994 2.94a1.147 1.147 0 000 1.946l3.994 2.94a1.144 1.144 0 001.767-.96v-.667z" />
-                          </svg>
-                          <span>reply</span>
-                        </button>
+                        <>
+                          <button
+                            className="flex items-center gap-1 text-sm   hover:text-white  px-1 py-0.5 rounded-md hover:bg-blue-500 group "
+                            title="reply"
+                            onClick={() => setReplyingToCommentId(comment.id)}>
+                            <svg
+                              fill="currentColor"
+                              viewBox="0 0 16 16"
+                              height="14"
+                              width="14"
+                              className="cursor-pointer text-gray-600 group-hover:text-white">
+                              <path d="M6.598 5.013a.144.144 0 01.202.134V6.3a.5.5 0 00.5.5c.667 0 2.013.005 3.3.822.984.624 1.99 1.76 2.595 3.876-1.02-.983-2.185-1.516-3.205-1.799a8.74 8.74 0 00-1.921-.306 7.404 7.404 0 00-.798.008h-.013l-.005.001h-.001L7.3 9.9l-.05-.498a.5.5 0 00-.45.498v1.153c0 .108-.11.176-.202.134L2.614 8.254a.503.503 0 00-.042-.028.147.147 0 010-.252.499.499 0 00.042-.028l3.984-2.933zM7.8 10.386c.068 0 .143.003.223.006.434.02 1.034.086 1.7.271 1.326.368 2.896 1.202 3.94 3.08a.5.5 0 00.933-.305c-.464-3.71-1.886-5.662-3.46-6.66-1.245-.79-2.527-.942-3.336-.971v-.66a1.144 1.144 0 00-1.767-.96l-3.994 2.94a1.147 1.147 0 000 1.946l3.994 2.94a1.144 1.144 0 001.767-.96v-.667z" />
+                            </svg>
+                            <span>Reply</span>
+                          </button>
+                          <button className="text-sm hover:text-white  px-1 py-0.5 rounded-md hover:bg-red-400 flex items-center gap-1">
+                            <svg
+                              viewBox="0 0 24 24"
+                              fill="currentColor"
+                              height="14"
+                              width="14"
+                              className="group-hover:text-red-500">
+                              <path fill="none" d="M0 0h24v24H0z" />
+                              <path d="M4 20v-6a8 8 0 1116 0v6h1v2H3v-2h1zm2 0h12v-6a6 6 0 10-12 0v6zm5-18h2v3h-2V2zm8.778 2.808l1.414 1.414-2.12 2.121-1.415-1.414 2.121-2.121zM2.808 6.222l1.414-1.414 2.121 2.12L4.93 8.344 2.808 6.222zM7 14a5 5 0 015-5v2a3 3 0 00-3 3H7z" />
+                            </svg>
+                            Report Abuse
+                          </button>
+                        </>
                       )}
                     </div>
                   )}
@@ -607,76 +600,12 @@ export default function Comments({
                   {comment.responses &&
                     comment.responses.length > 0 &&
                     comment.responses.map((response, index) => (
-                      <div key={response.id} className="relative">
-                        {!expandedComment.includes(comment.id) ? (
-                          <div
-                            className={`flex items-start gap-4 text-sm xsm:text-xs my-1 p-3 xsm:p-2 xsm:gap-2 relative ${
-                              index === 0 ? "border-l-2  border-gray-400" : ""
-                            }`}>
-                            {/* User Picture */}
-                            <Image
-                              src={response.author.picture}
-                              alt={response.author.username}
-                              className="w-8 h-8 rounded-full mt-2 ring-2 ring-offset-2 ring-pink-600 self-start response-avatar"
-                              height="32"
-                              width="32"
-                            />
-                            <div className="flex flex-col bg-zinc-100 rounded-lg text-sm  border shadow p-3">
-                              <div className="flex items-center flex-wrap gap-x-2">
-                                <p className="font-semibold capitalize xsm:text-xs ">
-                                  {response.author.username}
-                                </p>
-                                <small className=" text-gray-700">
-                                  &#x2022; {formatDate(response.createdAt)}
-                                </small>
-                              </div>
-                              <div id="comment-body" className="mt-1">
-                                {response.body}
-                              </div>
-                            </div>
-                          </div>
-                        ) : (
-                          <div
-                            className={`bg-slate-50 rounded-r-xl xsm:text-sm rounded-bl-xl text-sm  border shadow p-2 my-1 w-fit ${
-                              index !== 0 ? "hidden" : ""
-                            }`}>
-                            <p>
-                              <span className="capitalize">
-                                {response.author.username}
-                              </span>{" "}
-                              + {comment.responses.length} replies
-                            </p>
-                          </div>
-                        )}
-                        {index === 0 && (
-                          <svg
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                            height="1em"
-                            width="1em"
-                            onClick={() => {
-                              setExpandedComment((prev) =>
-                                prev.includes(comment.id)
-                                  ? prev.filter((id) => id !== comment.id)
-                                  : [...prev, comment.id]
-                              );
-                            }}
-                            className="absolute left-[-25px] top-0 bottom-0 my-auto cursor-pointer">
-                            <title>
-                              {!expandedComment.includes(comment.id)
-                                ? "Hide replies"
-                                : "Show replies"}
-                            </title>
-                            <path
-                              d={
-                                !expandedComment.includes(comment.id)
-                                  ? "M12 7.59L7.05 2.64 5.64 4.05 12 10.41l6.36-6.36-1.41-1.41L12 7.59zM5.64 19.95l1.41 1.41L12 16.41l4.95 4.95 1.41-1.41L12 13.59l-6.36 6.36z"
-                                  : "M12 19.24l-4.95-4.95-1.41 1.42L12 22.07l6.36-6.36-1.41-1.42L12 19.24zM5.64 8.29l1.41 1.42L12 4.76l4.95 4.95 1.41-1.42L12 1.93 5.64 8.29z"
-                              }
-                            />
-                          </svg>
-                        )}
-                      </div>
+                      <Response
+                        response={response}
+                        key={response.id}
+                        index={index}
+                        user={user}
+                      />
                     ))}
                 </div>
               </div>

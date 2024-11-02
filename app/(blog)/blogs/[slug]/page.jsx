@@ -65,6 +65,7 @@ async function getBlogData(slug) {
                   select: {
                     username: true,
                     picture: true,
+                    role: true,
                   },
                 },
               },
