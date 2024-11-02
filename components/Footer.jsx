@@ -18,42 +18,50 @@ export default function Footer() {
         </Link>
         <Link
           href="/about"
+          target="_blank"
           class="text-gray-700 hover:text-cyan-400 hover:underline mr-2">
           • About
         </Link>
         <Link
           href="/contact"
+          target="_blank"
           class="text-gray-700 hover:text-cyan-400 hover:underline mr-2">
           • Contact Us
         </Link>
         <Link
           href="/community"
+          target="_blank"
           class="text-gray-700 hover:text-cyan-400 hover:underline mr-2">
           • Community Guidelines
         </Link>
         <Link
           href="/privacy"
+          target="_blank"
           class="text-gray-700 hover:text-cyan-400 hover:underline mr-2">
           • Privacy Policy
         </Link>
         <Link
           href="/terms"
+          target="_blank"
           class="text-gray-700 hover:text-cyan-400 hover:underline mr-2">
           • Terms of Use
         </Link>
         <a
           href="/api"
+          target="_blank"
           class="text-gray-700 hover:text-cyan-400 hover:underline mr-2">
-          API
+          • API
         </a>
         <Link
           href="/docs"
+          target="_blank"
           class="text-gray-700 hover:text-cyan-400 hover:underline mr-2">
           • Docs
         </Link>
 
         <a
-          href="/features"
+          href="https://github.com/Donvine254/Tech-Tales-Client/discussions/2"
+          target="_blank"
           class="text-gray-700 hover:text-cyan-400 hover:underline">
           • Feature Requests
         </a>
