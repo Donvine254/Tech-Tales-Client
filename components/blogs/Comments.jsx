@@ -605,6 +605,7 @@ export default function Comments({
                         key={response.id}
                         index={index}
                         user={user}
+                        blogAuthorId={blogAuthorId}
                       />
                     ))}
                 </div>

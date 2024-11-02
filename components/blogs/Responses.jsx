@@ -1,7 +1,15 @@
 import { useState } from "react";
 import { formatDate } from "@/lib/utils";
 import Image from "next/image";
-export default function Response({ response, key, index, user }) {
+
+import {
+  DeleteButton,
+  FlagButton,
+  HideButton,
+  EditButton,
+  ReportAbuseBtn,
+} from "../ui/Buttons";
+export default function Response({ response, key, index, user, blogAuthorId }) {
   const [isExpanded, setIsExpanded] = useState([]);
   return (
     <div
@@ -45,16 +53,44 @@ export default function Response({ response, key, index, user }) {
                 {response.body}
               </div>
             </div>
-            <div
-              id="response-actions"
-              className="flex items-center gap-2 text-sm mt-1">
-                {/* render the buttons based on the user role, we are getting the user as prop. We have 4 scenarios. The first scenario is where the logged in user is the author of the response, in this case we show the edit and delete buttons. The second scenario is where the logged in user is the author of the blog but not the author of the response. In this case we show the flag and hide buttons. The third scenario is when the logged in user is the author of the blog but also an admin, in which case we show the deleter, flag and hide buttons. The last scenario is where the logged in user is not the author of the response, not the author of the blog and not an admin. In this case we show report abuse button. Render the buttons dynamically instead of using endless if statements*/}
-              <button>Edit</button>
-              <button>Delete</button>
-              <button>Report Abuse</button>
-              <button>Flag</button>
-              <button>Hide</button>
-            </div>
+            {user && (
+              <div
+                id="response-actions"
+                className="flex items-center gap-2 text-sm mt-1">
+                {/* scenario 1 */}
+                {user?.id == response.authorId ? (
+                  <>
+                    <EditButton />
+                    <DeleteButton />
+                  </>
+                ) : (
+                  <>
+                    {/* scenario 2 */}
+                    {blogAuthorId == user?.id && user?.role !== "admin" ? (
+                      <>
+                        <FlagButton />
+                        <HideButton />
+                      </>
+                    ) : (
+                      // scenario 3
+                      <>
+                        {user.role === "admin" ? (
+                          <>
+                            <FlagButton />
+                            <HideButton />
+                            <DeleteButton />
+                          </>
+                        ) : (
+                          <>
+                            <ReportAbuseBtn />
+                          </>
+                        )}
+                      </>
+                    )}
+                  </>
+                )}
+              </div>
+            )}
           </div>
         </>
       ) : (
