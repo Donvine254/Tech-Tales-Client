@@ -68,10 +68,13 @@ export default function Footer() {
       </div>
       <p class="mt-3">
         Built with{" "}
-        <a href="https://nextjs.org/" class="text-cyan-500 hover:underline">
-          Next Js ❤️
+        <a
+          href="https://nextjs.org/"
+          target="_blank"
+          class="text-cyan-500 hover:underline font-medium">
+          Next Js
         </a>{" "}
-        by Donvine
+        ❤️ by Donvine
       </p>
       <hr className="border-2 shadow my-2" />
       <div className="flex justify-between flex-wrap items-center gap-2">
