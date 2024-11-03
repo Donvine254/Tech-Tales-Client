@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { formatDate } from "@/lib/utils";
 import Image from "next/image";
-
+import parse from "html-react-parser";
 import {
   DeleteBtn,
   FlagButton,
@@ -48,7 +48,7 @@ export default function Response({ response, key, index, user, blogAuthorId }) {
                 </small>
               </div>
               <div id="comment-body" className="mt-1">
-                {response.body}
+                {parse(response.body) ?? response.body}
               </div>
             </div>
             {user && (

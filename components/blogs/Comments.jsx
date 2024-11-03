@@ -13,6 +13,7 @@ import parse from "html-react-parser";
 import { updateCommentStatus } from "@/lib/actions";
 import { Tooltip } from "react-tooltip";
 import Response from "./Responses";
+// import ResponseEditor from "@/components/editors/ResponseEditor";
 import {
   DeleteBtn,
   FlagButton,
@@ -27,7 +28,12 @@ const DynamicEditor = dynamic(
     loading: () => <Loader size={60} />,
   }
 );
-
+const ResponseEditor = dynamic(
+  () => import("@/components/editors/ResponseEditor"),
+  {
+    loading: () => <Loader size={30} />,
+  }
+);
 export default function Comments({
   blogId,
   slug,
@@ -45,6 +51,7 @@ export default function Comments({
   const [isEditing, setIsEditing] = useState(false);
   const [replyingToCommentId, setReplyingToCommentId] = useState(null);
   const [length, setLength] = useState(0);
+  const [isDisabled, setIsDisabled] = useState(true);
   const [isSorted, setIsSorted] = useState(false);
   //function to play notification sound
   function playSoundEffect() {
@@ -416,29 +423,16 @@ export default function Comments({
                     <form
                       className="mt-1"
                       id="response-form text-sm xsm:text-xs">
-                      <textarea
-                        value={response}
-                        onChange={(e) => setResponse(e.target.value)}
-                        placeholder="Write your reply..."
-                        className="w-full p-2 text-base border rounded-md h-auto focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        autoCorrect="on"
-                        autoComplete={true}
-                        spellCheck={true}
-                        maxLength={200}
-                        minLength={5}
-                        rows={2}
-                        autoFocus
-                        onKeyUp={(e) => {
-                          e.target.style.height = "auto";
-                          e.target.style.height = `${e.target.scrollHeight}px`;
-                        }}
+                      <ResponseEditor
+                        handleChange={setResponse}
+                        disable={setIsDisabled}
                       />
                       <div className="mt-2 flex space-x-2 justify-end">
                         <button
                           onClick={(e) => handleReply(e, comment.id)}
-                          disabled={response.length < 5}
+                          disabled={isDisabled}
                           title="submit response"
-                          className="px-3 py-1 text-sm border-2 border-blue-500 rounded-md bg-blue-500 disabled:bg-transparent disabled:border-gray-800 disabled:text-gray-800 disabled:cursor-not-allowed disabled:pointer-events-none text-white hover:bg-blue-600 focus:outline-none  ">
+                          className="px-3 py-1 text-sm border-2 border-blue-500 rounded-md bg-blue-500 disabled:bg-transparent disabled:border-gray-800 disabled:text-gray-800 disabled:cursor-not-allowed text-white hover:bg-blue-600 focus:outline-none  ">
                           Submit
                         </button>
                         <button
