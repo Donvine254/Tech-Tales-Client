@@ -11,7 +11,7 @@ export const EditButton = (handleClick) => (
   </button>
 );
 
-export const HideButton = (handleClick) => {
+export const HideButton = (handleClick) => (
   <button
     onClick={handleClick}
     className="flex items-center gap-2 text-sm   hover:text-white px-1 py-0.5 rounded-md hover:bg-blue-500"
@@ -40,8 +40,8 @@ export const HideButton = (handleClick) => {
       />
     </svg>
     <span>Hide</span>
-  </button>;
-};
+  </button>
+);
 
 export const FlagButton = (handleClick) => (
   <button
@@ -62,16 +62,16 @@ export const FlagButton = (handleClick) => (
   </button>
 );
 
-export const DeleteButton = (handleClick) => {
+export const DeleteBtn = (handleClick) => (
   <button
     onClick={handleClick}
     className="flex items-center gap-2 text-sm  hover:text-white px-1 py-0.5 rounded-md hover:bg-red-500"
     title="delete comment">
     {" "}
     <Trash size={14} />
-    <span> Delete</span>
-  </button>;
-};
+    <span className="xsm:hidden"> Delete</span>
+  </button>
+);
 
 export const ReportAbuseBtn = () => (
   <button className="text-sm hover:text-white  px-1 py-0.5 rounded-md hover:bg-red-400 flex items-center gap-1">

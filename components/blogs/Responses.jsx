@@ -3,14 +3,14 @@ import { formatDate } from "@/lib/utils";
 import Image from "next/image";
 
 import {
-  DeleteButton,
+  DeleteBtn,
   FlagButton,
   HideButton,
   EditButton,
   ReportAbuseBtn,
 } from "../ui/Buttons";
 export default function Response({ response, key, index, user, blogAuthorId }) {
-  const [isExpanded, setIsExpanded] = useState([]);
+  const [isExpanded, setIsExpanded] = useState(false);
   return (
     <div
       className={`flex items-start gap-4 text-sm xsm:text-xs my-1 p-2 xsm:p-2 xsm:gap-2 ${
@@ -61,7 +61,7 @@ export default function Response({ response, key, index, user, blogAuthorId }) {
                 {user?.id == response.authorId ? (
                   <>
                     <EditButton />
-                    <DeleteButton />
+                    <DeleteBtn />
                   </>
                 ) : (
                   <>
@@ -78,7 +78,7 @@ export default function Response({ response, key, index, user, blogAuthorId }) {
                           <>
                             <FlagButton />
                             <HideButton />
-                            <DeleteButton />
+                            <DeleteBtn />
                           </>
                         ) : (
                           <>
