@@ -58,29 +58,31 @@ export default function Response({ response, key, index, user, blogAuthorId }) {
                 {/* scenario 1 */}
                 {user?.id == response.authorId ? (
                   <>
-                    <EditButton />
-                    <DeleteBtn />
+                    <EditButton handleClick={() => alert("clicked")} />
+                    <DeleteBtn handleClick={() => alert("clicked")} />
                   </>
                 ) : (
                   <>
                     {/* scenario 2 */}
                     {blogAuthorId == user?.id && user?.role !== "admin" ? (
                       <>
-                        <HideButton />
-                        <FlagButton />
+                        <HideButton handleClick={() => alert("clicked")} />
+                        <FlagButton handleClick={() => alert("clicked")} />
                       </>
                     ) : (
                       // scenario 3
                       <>
                         {user.role === "admin" ? (
                           <>
-                            <HideButton />
-                            <FlagButton />
-                            <DeleteBtn />
+                            <HideButton handleClick={() => alert("clicked")} />
+                            <FlagButton handleClick={() => alert("clicked")} />
+                            <DeleteBtn handleClick={() => alert("clicked")} />
                           </>
                         ) : (
                           <>
-                            <ReportAbuseBtn />
+                            <ReportAbuseBtn
+                              handleClick={() => alert("clicked")}
+                            />
                           </>
                         )}
                       </>
