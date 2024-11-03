@@ -33,7 +33,7 @@ export default function Response({ response, key, index, user, blogAuthorId }) {
             height="1em"
             width="1em"
             onClick={() => setIsExpanded(false)}
-            className="cursor-pointer  rounded-full absolute top-0 bottom-0 left-4 my-auto">
+            className="cursor-pointer  rounded-full absolute top-[40px] my-2 left-4 hover:text-cyan-600  ">
             <title>Hide Reply</title>
             <path d="M12 19.24l-4.95-4.95-1.41 1.42L12 22.07l6.36-6.36-1.41-1.42L12 19.24zM5.64 8.29l1.41 1.42L12 4.76l4.95 4.95 1.41-1.42L12 1.93 5.64 8.29z" />
           </svg>
