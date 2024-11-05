@@ -555,7 +555,7 @@ li {
 /* styling for table of contents tinymce editor */
 .mce-toc {
   border: 1px solid gray;
-  background-color: #ceeff3;
+  background-color: #e2f4f6;
   opacity: 0.8;
   padding: 5px;
   border-radius: 8px;
@@ -567,12 +567,12 @@ li {
 
 .mce-toc ul {
   line-height: 1;
-  margin-left: 4px;
+  margin-left: 5px;
   list-style: none !important;
 }
 .mce-toc ul li {
   line-height: 1;
-  margin-left: 4px;
+  margin-left: 5px;
   list-style: none !important;
 }
 .mce-toc li a {
