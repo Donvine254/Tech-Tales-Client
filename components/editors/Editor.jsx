@@ -87,6 +87,7 @@ export default function App({ data, handleChange, onFocus }) {
             "importword",
             "code",
             "codesample",
+            "tableofcontents"
           ],
           toolbar:
             "undo redo| blocks | fontfamily | bold italic forecolor underline| align numlist bullist indent| link image table media pageembed| backcolor  emoticons advcodesample blockquote| code ai importword removeformat",

@@ -9,7 +9,14 @@ import {
   EditButton,
   ReportAbuseBtn,
 } from "../ui/Buttons";
-export default function Response({ response, key, index, user, blogAuthorId }) {
+export default function Response({
+  response,
+  key,
+  index,
+  user,
+  blogAuthorId,
+  handleEditing,
+}) {
   const [isExpanded, setIsExpanded] = useState(true);
   return (
     <div
@@ -58,7 +65,7 @@ export default function Response({ response, key, index, user, blogAuthorId }) {
                 {/* scenario 1 */}
                 {user?.id == response.authorId ? (
                   <>
-                    <EditButton handleClick={() => alert("clicked")} />
+                    <EditButton handleClick={() => handleEditing(response)} />
                     <DeleteBtn handleClick={() => alert("clicked")} />
                   </>
                 ) : (

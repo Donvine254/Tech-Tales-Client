@@ -548,8 +548,38 @@ li {
   background-color: #f5f5f5;
 }
 
-
 #editor-header button[disabled] {
   opacity: 0.5;
   cursor: not-allowed;
+}
+/* styling for table of contents tinymce editor */
+.mce-toc {
+  border: 1px solid gray;
+  background-color: #ceeff3;
+  opacity: 0.8;
+  padding: 5px;
+  border-radius: 8px;
+}
+
+.mce-toc h2 {
+  margin: 4px;
+}
+
+.mce-toc ul {
+  line-height: 1;
+  margin-left: 4px;
+  list-style: none !important;
+}
+.mce-toc ul li {
+  line-height: 1;
+  margin-left: 4px;
+  list-style: none !important;
+}
+.mce-toc li a {
+  text-decoration: none;
+  color: black;
+}
+.mce-toc li a:hover {
+  text-decoration: underline;
+  color: #0000ff;
 }
