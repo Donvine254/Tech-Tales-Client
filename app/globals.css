@@ -555,12 +555,16 @@ li {
 /* styling for table of contents tinymce editor */
 /* Override styles for .mce-toc */
 #toc ul,
-#toc ol {
+.mce-toc ul,
+#toc ol,
+.mce-toc ol {
   list-style: none !important;
   padding: 0 !important;
 }
 #toc ul li,
-#toc ol li {
+.mce-toc ul li,
+#toc ol li,
+.mce-toc ol li {
   list-style: none !important;
 }
 .mce-toc {
