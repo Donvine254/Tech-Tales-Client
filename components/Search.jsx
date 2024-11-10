@@ -92,6 +92,11 @@ export const Search = () => {
     input.value = option.trim();
     input.focus();
     setShowComboOptions(false);
+    setTimeout(() => {
+      if (option !== "" && option) {
+        router.replace(`/search?search=${option.trim()}`);
+      }
+    }, 10);
   };
 
   return (
@@ -151,9 +156,24 @@ export const Search = () => {
                       className={`${
                         option === "No Results Found"
                           ? "p-2 text-[#999] cursor-not-allowed pointer-events-none"
-                          : "p-2 cursor-pointer hover:bg-[##f0f0f0]"
+                          : "p-2 cursor-pointer hover:bg-gray-200 hover:text-blue-500 flex items-center gap-2"
                       }`}
                       onClick={() => handleComboSearch(option)}>
+                      <svg
+                        fill="none"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={1}
+                        viewBox="0 0 24 24"
+                        height="1em"
+                        width="1em"
+                        className={`${
+                          option === "No Results Found" ? "hidden" : ""
+                        }`}>
+                        <path d="M19 11 A8 8 0 0 1 11 19 A8 8 0 0 1 3 11 A8 8 0 0 1 19 11 z" />
+                        <path d="M21 21l-4.35-4.35" />
+                      </svg>{" "}
                       {option}
                     </div>
                   ))}
