@@ -144,7 +144,7 @@ export const Search = () => {
             style={{ padding: "4px" }}
           />
           <SearchIcon className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600" />
-          <div ref={optionsContainerRef}>
+          {/* <div ref={optionsContainerRef}>
             {showComboOptions && (
               <div
                 className="absolute top-full left-0 right-0 border border-gray-300 max-h-[250px] max-w-[400px] mx-auto mt-2 overflow-y-auto bg-white block rounded-lg z-50"
@@ -177,6 +177,59 @@ export const Search = () => {
                       {option}
                     </div>
                   ))}
+              </div>
+            )}
+          </div> */}
+          <div ref={optionsContainerRef}>
+            {showComboOptions && (
+              <div
+                className="absolute top-full left-0 right-0 border border-gray-300 max-h-[250px] max-w-[400px] mx-auto mt-2 overflow-y-auto bg-white block rounded-lg z-50"
+                id="options-container">
+                {comboOptions &&
+                  comboOptions.map((option, index) => {
+                    const searchValue =
+                      document.getElementById("combobox-input")?.value || "";
+
+                    // Use regular expression to create a case-insensitive match
+                    const regex = new RegExp(`(${searchValue})`, "gi");
+                    const highlightedOption = option.replace(
+                      regex,
+                      `<mark>$1</mark>`
+                    );
+
+                    return (
+                      <div
+                        key={index}
+                        className={`${
+                          option === "No Results Found"
+                            ? "p-2 text-[#999] cursor-not-allowed pointer-events-none"
+                            : "p-2 cursor-pointer hover:bg-gray-200 hover:text-blue-500 flex items-center gap-2"
+                        }`}
+                        onClick={() => handleComboSearch(option)}>
+                        <svg
+                          fill="none"
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={1}
+                          viewBox="0 0 24 24"
+                          height="1em"
+                          width="1em"
+                          className={`${
+                            option === "No Results Found" ? "hidden" : ""
+                          }`}>
+                          <path d="M19 11 A8 8 0 0 1 11 19 A8 8 0 0 1 3 11 A8 8 0 0 1 19 11 z" />
+                          <path d="M21 21l-4.35-4.35" />
+                        </svg>{" "}
+                        {/* Render highlighted option as HTML */}
+                        <span
+                          dangerouslySetInnerHTML={{
+                            __html: highlightedOption,
+                          }}
+                        />
+                      </div>
+                    );
+                  })}
               </div>
             )}
           </div>
