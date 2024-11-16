@@ -1,7 +1,8 @@
 "use client";
 import { useEffect } from "react";
 import Prism from "prismjs";
-import "prismjs/themes/prism.css";
+// import "prismjs/themes/prism.css";
+import "prismjs/themes/prism-okaidia.css";
 import "prismjs/components/prism-markup-templating.js";
 import "prismjs/components/prism-typescript";
 import "prismjs/components/prism-java";

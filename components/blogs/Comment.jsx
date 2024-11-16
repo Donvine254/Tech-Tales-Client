@@ -37,6 +37,7 @@ export default function Comment({
   const [isEditing, setIsEditing] = useState(false);
   const [responseToEdit, setResponseToEdit] = useState(null);
   const [newResponse, setNewResponse] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
   async function handleReply(e) {
     e.preventDefault();
     toast.success("Processing");
@@ -92,12 +93,24 @@ export default function Comment({
     <div className="py-1 font-poppins " key={key}>
       <div className="flex gap-4">
         {/* first child */}
-        <UserImage
-          url={comment.author.picture}
-          className={`ring-2 ring-offset-2 ring-"cyan-400"
+        <>
+          <UserImage
+            url={comment.author.picture}
+            className={`ring-2 ring-offset-2 ring-"cyan-400"
                    italic comment-avatar`}
-          id="start"
-        />
+            id="start"
+          />
+          <svg
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            height="1em"
+            width="1em"
+            onClick={() => setIsExpanded(true)}
+            className="cursor-pointer">
+            <title>Show Reply</title>
+            <path d="M12 7.59L7.05 2.64 5.64 4.05 12 10.41l6.36-6.36-1.41-1.41L12 7.59zM5.64 19.95l1.41 1.41L12 16.41l4.95 4.95 1.41-1.41L12 13.59l-6.36 6.36z" />
+          </svg>
+        </>
         {/* second child */}
         <div className="">
           <div>
