@@ -2,76 +2,76 @@ import Link from "next/link";
 import { GithubIcon, NewTwitterIcon } from "@/assets";
 export default function Footer() {
   return (
-    <footer class=" text-center p-5  max-w-7xl w-full mx-auto m-2 divide-blue-500 bg-[#f4f3f2] border shadow xsm:text-xs">
+    <footer className=" text-center p-5  max-w-7xl w-full mx-auto m-2 divide-blue-500 bg-[#f4f3f2] border shadow xsm:text-xs">
       <p>
-        <a href="/" class="text-cyan-500 font-medium hover:underline">
+        <a href="/" className="text-cyan-500 font-medium hover:underline">
           Tech Tales
         </a>{" "}
         ― An inclusive social network blog for tech enthusiasts and
         professionals to share, learn and grow.
       </p>
-      <div class="mt-3">
+      <div className="mt-3">
         <Link
           href="/"
-          class="text-gray-700 hover:text-cyan-400 hover:underline mr-2">
+          className="text-gray-700 hover:text-cyan-400 hover:underline mr-2">
           • Home
         </Link>
         <Link
           href="/about"
           target="_blank"
-          class="text-gray-700 hover:text-cyan-400 hover:underline mr-2">
+          className="text-gray-700 hover:text-cyan-400 hover:underline mr-2">
           • About
         </Link>
         <Link
           href="/contact"
           target="_blank"
-          class="text-gray-700 hover:text-cyan-400 hover:underline mr-2">
+          className="text-gray-700 hover:text-cyan-400 hover:underline mr-2">
           • Contact Us
         </Link>
         <Link
           href="/community"
           target="_blank"
-          class="text-gray-700 hover:text-cyan-400 hover:underline mr-2">
+          className="text-gray-700 hover:text-cyan-400 hover:underline mr-2">
           • Community Guidelines
         </Link>
         <Link
           href="/privacy"
           target="_blank"
-          class="text-gray-700 hover:text-cyan-400 hover:underline mr-2">
+          className="text-gray-700 hover:text-cyan-400 hover:underline mr-2">
           • Privacy Policy
         </Link>
         <Link
           href="/terms"
           target="_blank"
-          class="text-gray-700 hover:text-cyan-400 hover:underline mr-2">
+          className="text-gray-700 hover:text-cyan-400 hover:underline mr-2">
           • Terms of Use
         </Link>
         <a
           href="/api"
           target="_blank"
-          class="text-gray-700 hover:text-cyan-400 hover:underline mr-2">
+          className="text-gray-700 hover:text-cyan-400 hover:underline mr-2">
           • API
         </a>
         <Link
           href="/docs"
           target="_blank"
-          class="text-gray-700 hover:text-cyan-400 hover:underline mr-2">
+          className="text-gray-700 hover:text-cyan-400 hover:underline mr-2">
           • Docs
         </Link>
 
         <a
           href="https://github.com/Donvine254/Tech-Tales-Client/discussions/2"
           target="_blank"
-          class="text-gray-700 hover:text-cyan-400 hover:underline">
+          className="text-gray-700 hover:text-cyan-400 hover:underline">
           • Feature Requests
         </a>
       </div>
-      <p class="mt-3">
+      <p className="mt-3">
         Built with{" "}
         <a
           href="https://nextjs.org/"
           target="_blank"
-          class="text-cyan-500 hover:underline font-medium">
+          className="text-cyan-500 hover:underline font-medium">
           Next Js
         </a>{" "}
         ❤️ by Donvine
