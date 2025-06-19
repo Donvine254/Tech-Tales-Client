@@ -23,6 +23,7 @@ export const getBlogs = unstable_cache(
       orderBy: {
         createdAt: "desc",
       },
+      take: 9,
     });
 
     return blogs;

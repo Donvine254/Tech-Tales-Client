@@ -19,7 +19,9 @@ export default function BlogHero({ post }: { post: BlogWithUser }) {
             fill
             className="object-cover transition-transform duration-300  group-hover:brightness-120 filter"
           />
-
+          <span className="px-3 py-1 bg-white/20 rounded-full text-sm font-medium backdrop-blur-sm absolute top-4 left-4 z-10 text-orange-600 dark:text-gray-50 shadow-lg">
+            🔥 Trending
+          </span>
           {/* Enhanced gradient overlay for better text readability */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20" />
           <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/30" />
@@ -32,7 +34,7 @@ export default function BlogHero({ post }: { post: BlogWithUser }) {
                 className="bg-blue-600 hover:bg-blue-700 text-white w-fit shadow-lg text-base capitalize hover:underline">
                 <Link href={`/search?q=${post.tags?.split(",")[0]}`}>
                   {" "}
-                  {post.tags?.split(",")[0] || "General"}
+                  # {post.tags?.split(",")[0] || "General"}
                 </Link>
               </Badge>
               <Link href={`/blog/${post.slug}`}>

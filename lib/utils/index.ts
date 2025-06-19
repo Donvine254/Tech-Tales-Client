@@ -27,3 +27,8 @@ export function formatViews(views: number) {
     return `${formattedViews}M`;
   }
 }
+
+export function validateEmail(email: string) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}

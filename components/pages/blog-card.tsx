@@ -24,7 +24,7 @@ interface BlogCardProps extends BlogWithUser {
 const BlogCard = ({ blog }: { blog: BlogCardProps }) => {
   const image = blog.image as { secure_url?: string };
   return (
-    <article className="group bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden hover:border-gray-200 hover:-translate-y-1 flex flex-col">
+    <article className="group bg-muted dark:bg-accent rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden  hover:border-gray-200 hover:-translate-y-1 flex flex-col">
       <div className="aspect-[16/9] bg-gradient-to-br from-cyan-100 to-blue-100 relative overflow-hidden">
         <Image
           src={image?.secure_url || "/placeholder-image.webp"}
@@ -38,7 +38,7 @@ const BlogCard = ({ blog }: { blog: BlogCardProps }) => {
           <Link href={`/search?q=${blog.tags?.split(",")[0]}`}>
             {" "}
             <span className="px-3 py-1 bg-blue-500 backdrop-blur-sm text-white text-xs font-semibold rounded-full hover:underline transition-colors capitalize">
-              {blog?.tags?.split(",")[0] || "General"}
+              # {blog?.tags?.split(",")[0] || "General"}
             </span>
           </Link>
         </div>
@@ -59,10 +59,10 @@ const BlogCard = ({ blog }: { blog: BlogCardProps }) => {
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
-            <span className="font-bold text-gray-700 text-sm capitalize">
+            <span className="font-bold text-accent-foreground text-sm capitalize">
               {blog.author.username}
             </span>
-            <div className="flex items-center space-x-3 text-xs text-gray-500">
+            <div className="flex items-center space-x-3 text-xs text-accent-foreground">
               <div className="flex items-center space-x-1">
                 <Calendar className="h-3 w-3" />
                 <span>
@@ -82,12 +82,12 @@ const BlogCard = ({ blog }: { blog: BlogCardProps }) => {
           </div>
         </div>
         <Link href={`/blog/${blog.slug}`} className="group">
-          <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors line-clamp-2 leading-tight hover:underline hover:underline-offset-4">
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors line-clamp-2 leading-tight hover:underline hover:underline-offset-4">
             {blog.title}
           </h3>
         </Link>
 
-        <article className="text-xs sm:text-sm leading-8 md:pb-1 line-clamp-2 text-gray-800  overflow-hidden trimmed-blog-body ">
+        <article className="text-xs sm:text-sm leading-8 md:pb-1 line-clamp-2 text-accent-foreground  overflow-hidden trimmed-blog-body ">
           {blog ? parse(blog.body.substring(0, 400)) : "Loading..."}
         </article>
 
@@ -105,26 +105,26 @@ const BlogCard = ({ blog }: { blog: BlogCardProps }) => {
 
         {/* Action Buttons */}
 
-        <div className="mt-auto pt-4 border-t border-gray-200 flex items-center justify-between">
+        <div className="mt-auto pt-4 border-t border-gray-300 dark:border-gray-500 flex items-center justify-between text-accent-foreground">
           <div className="flex items-center space-x-4">
-            <button className="flex items-center space-x-1 text-gray-500 hover:text-cyan-600 transition-colors">
+            <button className="flex items-center space-x-1 hover:text-cyan-600 transition-colors">
               <MessageSquare className="h-4 w-4" />
               <span className="text-sm">{blog._count.comments}</span>
             </button>
-            <button className="flex items-center space-x-1 text-gray-500 hover:text-red-500 transition-colors">
+            <button className="flex items-center space-x-1 hover:text-red-500 transition-colors">
               <Heart className="h-4 w-4" />
               <span className="text-sm">{blog.likes}</span>
             </button>
-            <button className="flex items-center space-x-1 text-gray-500 hover:text-cyan-600 transition-colors">
+            <button className="flex items-center space-x-1 hover:text-cyan-600 transition-colors">
               <ChartNoAxesColumn className="h-4 w-4" />
               <span className="text-sm">{formatViews(blog.views)}</span>
             </button>
           </div>
           <div className="flex items-center space-x-2">
-            <button className="p-1 text-gray-500 hover:text-cyan-600 transition-colors">
+            <button className="p-1  hover:text-cyan-600 transition-colors">
               <Share className="h-4 w-4" />
             </button>
-            <button className="p-1 text-gray-500 hover:text-cyan-600 transition-colors">
+            <button className="p-1  hover:text-cyan-600 transition-colors">
               <Bookmark className="h-4 w-4" />
             </button>
           </div>
