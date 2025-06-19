@@ -1,0 +1,135 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+enum Role {
+  user
+  admin
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+  DEACTIVATED
+  DELETED
+}
+
+enum BlogStatus {
+  PUBLISHED
+  UNPUBLISHED
+  ARCHIVED
+}
+
+enum CommentStatus {
+  VISIBLE
+  FLAGGED
+  HIDDEN
+}
+
+model User {
+  id              Int        @id @default(autoincrement())
+  username        String     @unique
+  email           String     @unique
+  password_digest String
+  role            Role       @default(user)
+  bio             String?    @default("This user has no bio")
+  status          UserStatus @default(ACTIVE)
+  picture         String?
+  handle          String     @unique
+  skills          String?    @default("Living life")
+  deleted         Boolean    @default(false)
+  favorites       Favorite[]
+  blogs           Blog[]
+  comments        Comment[]
+  responses       Response[]
+  socials         Json?      @default("[]")
+  preferences     Json?      @default("{\"cookies\": true, \"newsletter_subscription\": false, \"email_notifications\": false, \"analytics\": false}")
+  branding        String?    @default("#01142d")
+  deactivatedAt   DateTime?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  @@index(fields: [handle, email, username])
+}
+
+model Blog {
+  id        Int        @id @default(autoincrement())
+  title     String
+  body      String
+  slug      String     @unique
+  image     Json       @default("{}")
+  tags      String?
+  author    User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId  Int
+  status    BlogStatus @default(PUBLISHED)
+  likes     Int        @default(0)
+  views     Int        @default(0)
+  audio     String?
+  comments  Comment[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Favorite  Favorite[]
+
+  @@index([slug, authorId])
+}
+
+model Comment {
+  id        Int           @id @default(autoincrement())
+  body      String
+  author    User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId  Int
+  blog      Blog          @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  blogId    Int
+  responses Response[]
+  status    CommentStatus @default(VISIBLE)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([blogId, authorId])
+}
+
+model Response {
+  id        Int           @id @default(autoincrement())
+  body      String
+  author    User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId  Int
+  comment   Comment       @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  commentId Int
+  status    CommentStatus @default(VISIBLE)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([commentId, authorId])
+}
+
+model Favorite {
+  id     Int  @id @default(autoincrement())
+  userId Int
+  blogId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  blog   Blog @relation(fields: [blogId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, blogId])
+  @@index([userId, blogId])
+}
+
+model OTP {
+  id        Int      @id @default(autoincrement())
+  email     String
+  code      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
