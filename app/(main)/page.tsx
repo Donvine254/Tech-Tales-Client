@@ -1,12 +1,23 @@
 import Hero from "@/components/pages/hero";
 import prisma from "@/prisma/prisma";
-
+import { BlogWithUser } from "@/types";
 
 export default async function Home() {
-  const blog = await prisma.blog.findFirst();
+  const blog = (await prisma.blog.findFirst({
+    include: {
+      author: {
+        select: {
+          username: true,
+          picture: true,
+        },
+      },
+    },
+  })) as BlogWithUser;
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <Hero post={blog} />
+    <div className="min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+      <div className="w-full h-screen mb-4">
+        <Hero post={blog} />
+      </div>
     </div>
   );
 }

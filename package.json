@@ -4,9 +4,16 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "prisma generate --no-engine && next build",
     "start": "next start",
-    "lint": "next lint"
+    "postinstall": "prisma generate --no-engine",
+    "postbuild": "next-sitemap --config next-sitemap.config.js",
+    "lint": "next lint",
+    "db-seed": "prisma db seed"
+  },
+  
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.10.1",
