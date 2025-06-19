@@ -3,7 +3,7 @@ import Hero from "@/components/pages/hero";
 import { getBlogs } from "@/lib/actions/blogs";
 import prisma from "@/prisma/prisma";
 import { BlogWithUser } from "@/types";
-
+import Link from "next/link";
 export default async function Home() {
   const blog = (await prisma.blog.findMany({
     where: {
@@ -34,9 +34,13 @@ export default async function Home() {
           <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-50">
             Latest Articles
           </h2>
-          <button className="text-cyan-600 hover:text-cyan-700 font-medium transition-colors">
-            View All →
-          </button>
+
+          <Link href="/latest" passHref>
+            {" "}
+            <button className="text-cyan-600 hover:text-cyan-700 font-medium transition-colors">
+              View All →
+            </button>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

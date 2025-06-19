@@ -13,7 +13,7 @@ export default function Hero({ post }: { post: BlogWithUser[] }) {
       {/* Right: Stack two HeroCards vertically */}
       <div>
         {post.length > 2 &&
-          post.slice(1).map((p) => <HeroCard key={p.id} post={p} />)}
+          post.slice(1).map((p, index) => <HeroCard key={p.id} post={p} className={index === 1 ? "border-t-2" : ""}/>)}
       </div>
     </div>
   );

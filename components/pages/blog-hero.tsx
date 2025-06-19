@@ -29,8 +29,11 @@ export default function BlogHero({ post }: { post: BlogWithUser }) {
             <div className="space-y-4">
               <Badge
                 variant="secondary"
-                className="bg-blue-600 hover:bg-blue-700 text-white w-fit shadow-lg text-lg capitalize">
-                {post.tags?.split(",")[0] || "General"}
+                className="bg-blue-600 hover:bg-blue-700 text-white w-fit shadow-lg text-base capitalize hover:underline">
+                <Link href={`/search?q=${post.tags?.split(",")[0]}`}>
+                  {" "}
+                  {post.tags?.split(",")[0] || "General"}
+                </Link>
               </Badge>
               <Link href={`/blog/${post.slug}`}>
                 <h2 className="text-3xl md:text-4xl font-bold drop-shadow-2xl text-shadow-lg line-clamp-2 hover:underline hover:underline-offset-4 transition-all duration-300">
