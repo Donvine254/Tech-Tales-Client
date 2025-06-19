@@ -1,6 +1,6 @@
 export type BlogStatus = "DRAFT" | "PUBLISHED" | "ARCHIVED";
 export type CommentStatus = "VISIBLE" | "HIDDEN";
-
+export type UserRole = "USER" | "ADMIN";
 export interface Blog {
   id: number;
   title: string;
@@ -15,8 +15,8 @@ export interface Blog {
   views: number;
   audio?: string;
   comments: Comment[];
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date | string;
+  updatedAt: Date | string;
   Favorite: Favorite[];
 }
 
@@ -65,10 +65,9 @@ export interface User {
   name: string;
   email: string;
   image?: string;
-  bio?: string;
-  createdAt: string;
-  updatedAt: string;
-  blogs: Blog[];
-  comments: Comment[];
-  favorites: Favorite[];
+  role: UserRole; // Adjust this to match your enum/roles
+  blogs?: Blog[];
+  comments?: Comment[];
+  responses?: Response[];
+  favorites?: Favorite[];
 }
