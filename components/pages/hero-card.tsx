@@ -6,12 +6,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { BlogWithUser } from "@/types";
 export default function HeroCard({ post }: { post: BlogWithUser }) {
+  const image = post.image as { secure_url?: string };
   return (
     <Link href={`/blog/${post.slug}`} className="group block">
       <article className="relative overflow-hidden  bg-card shadow-md hover:shadow-lg transition-all duration-300 group-hover:brightness-110 filter">
         <div className="aspect-video relative">
           <Image
-            src={post?.image?.secure_url || "/placeholder-image.webp"}
+            src={image?.secure_url || "/placeholder-image.webp"}
             alt={post.title}
             fill
             className="object-cover transition-transform duration-300 group-hover:brightness-120 filter"

@@ -2,7 +2,6 @@ import { Blog, User } from "@/app/generated/prisma";
 
 export interface BlogWithUser extends Blog {
   author: Pick<User, "username" | "picture">;
-  image: { secure_url: string } | null;
 }
 
 // export type BlogStatus = "DRAFT" | "PUBLISHED" | "ARCHIVED";

@@ -8,12 +8,13 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function BlogHero({ post }: { post: BlogWithUser }) {
+  const image = post.image as { secure_url?: string };
   return (
     <div className="group block">
       <article className="relative overflow-hidden bg-card  shadow-lg hover:shadow-xl transition-all duration-300 group-hover:brightness-110 filter">
         <div className="aspect-video relative">
           <Image
-            src={post?.image?.secure_url || "/placeholder-image.webp"}
+            src={image?.secure_url || "/placeholder-image.webp"}
             alt={post.title}
             fill
             className="object-cover transition-transform duration-300  group-hover:brightness-120 filter"
