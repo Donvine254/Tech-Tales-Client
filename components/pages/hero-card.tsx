@@ -39,11 +39,13 @@ export default function HeroCard({ post }: { post: BlogWithUser }) {
                     <AvatarImage
                       src={post.author.picture ?? "/placeholder-image.webp"}
                     />
-                    <AvatarFallback className="text-xs">
+                    <AvatarFallback className="text-xs capitalize">
                       {post.author.username}
                     </AvatarFallback>
                   </Avatar>
-                  <span className="text-shadow">{post.author.username}</span>
+                  <span className="text-shadow capitalize">
+                    {post.author.username}
+                  </span>
                 </div>
                 <span>•</span>
                 <div className="flex items-center gap-1 text-shadow overflow-ellipsis">
