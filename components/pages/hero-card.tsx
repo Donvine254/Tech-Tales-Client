@@ -8,13 +8,13 @@ import { BlogWithUser } from "@/types";
 export default function HeroCard({ post }: { post: BlogWithUser }) {
   return (
     <Link href={`/blog/${post.slug}`} className="group block">
-      <article className="relative overflow-hidden rounded-xl bg-card border shadow-md hover:shadow-lg transition-all duration-300 group-hover:scale-[1.02]">
+      <article className="relative overflow-hidden  bg-card shadow-md hover:shadow-lg transition-all duration-300 group-hover:brightness-110 filter">
         <div className="aspect-video relative">
           <Image
             src={post?.image?.secure_url || "/placeholder-image.webp"}
             alt={post.title}
             fill
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            className="object-cover transition-transform duration-300 group-hover:brightness-120 filter"
           />
           {/* Enhanced gradient overlay for better text readability */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20" />
