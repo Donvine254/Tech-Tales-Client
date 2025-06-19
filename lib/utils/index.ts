@@ -10,3 +10,20 @@ export function calculateReadingTime(blog: string) {
   const readingTime = Math.ceil(words / 265);
   return readingTime;
 }
+
+export function formatViews(views: number) {
+  if (views < 1000) {
+    return views.toString();
+  } else if (views >= 1000 && views < 1000000) {
+    const formattedViews = (views / 1000).toFixed(views % 1000 === 0 ? 0 : 1);
+    return `${formattedViews}K`;
+  } else if (views >= 500000) {
+    const formattedViews = (views / 1000000).toFixed(1);
+    return `${formattedViews}M`;
+  } else if (views >= 1000000) {
+    const formattedViews = (views / 1000000).toFixed(
+      views % 1000000 === 0 ? 0 : 1
+    );
+    return `${formattedViews}M`;
+  }
+}

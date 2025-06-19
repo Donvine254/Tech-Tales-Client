@@ -1,16 +1,16 @@
 import {
   Calendar,
   Clock,
-  MessageCircle,
   Heart,
   Share,
   Bookmark,
   ChartNoAxesColumn,
+  MessageSquare,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
-import { calculateReadingTime } from "@/lib/utils";
+import { calculateReadingTime, formatViews } from "@/lib/utils";
 import { BlogWithUser } from "@/types";
 import parse from "html-react-parser";
 import Link from "next/link";
@@ -108,7 +108,7 @@ const BlogCard = ({ blog }: { blog: BlogCardProps }) => {
         <div className="mt-auto pt-4 border-t border-gray-200 flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <button className="flex items-center space-x-1 text-gray-500 hover:text-cyan-600 transition-colors">
-              <MessageCircle className="h-4 w-4" />
+              <MessageSquare className="h-4 w-4" />
               <span className="text-sm">{blog._count.comments}</span>
             </button>
             <button className="flex items-center space-x-1 text-gray-500 hover:text-red-500 transition-colors">
@@ -117,7 +117,7 @@ const BlogCard = ({ blog }: { blog: BlogCardProps }) => {
             </button>
             <button className="flex items-center space-x-1 text-gray-500 hover:text-cyan-600 transition-colors">
               <ChartNoAxesColumn className="h-4 w-4" />
-              <span className="text-sm">{blog.views}</span>
+              <span className="text-sm">{formatViews(blog.views)}</span>
             </button>
           </div>
           <div className="flex items-center space-x-2">
