@@ -50,13 +50,13 @@ export default async function Home() {
         </div>
       </section>
       {/* newsletter section */}
-      <section className="bg-white border-t border-gray-200">
+      <section className="text-accent-foreground border-t border-gray-200 dark:border-gray-400 mt-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center max-w-2xl mx-auto">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl font-bold  mb-4">
               Stay Updated with TechTales
             </h2>
-            <p className="text-gray-600 mb-8">
+            <p className=" mb-8">
               Get the latest articles, tutorials, and tech insights delivered
               straight to your inbox. Join over 10,000 developers who trust
               TechTales for quality content.
@@ -65,9 +65,9 @@ export default async function Home() {
               <input
                 type="email"
                 placeholder="Enter your email"
-                 name="email"
-                        autoComplete="email"
-                        pattern="^[A-Za-z0- 9._+\-']+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$"
+                name="email"
+                autoComplete="email"
+                pattern="^[A-Za-z0- 9._+\-']+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$"
                 className="[&:not(:placeholder-shown):invalid]:border-destructive flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                 minLength={5}
                 required
