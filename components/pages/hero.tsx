@@ -4,6 +4,8 @@ import HeroCard from "./hero-card";
 
 export default function Hero({ post }: { post: BlogWithUser[] }) {
   return (
+    // TODO: Turn this into a carousel in small screens
+    //       and a grid in larger screens
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-0.5 max-w-7xl mx-auto">
       {/* Left: BlogHero takes full height of right column */}
       <div className="lg:col-span-2">

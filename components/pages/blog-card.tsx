@@ -2,7 +2,6 @@ import {
   Calendar,
   Clock,
   Heart,
-  Share,
   Bookmark,
   ChartNoAxesColumn,
   MessageSquare,
@@ -14,6 +13,7 @@ import { calculateReadingTime, formatViews } from "@/lib/utils";
 import { BlogWithUser } from "@/types";
 import parse from "html-react-parser";
 import Link from "next/link";
+import { ShareModal } from "../modals/share-modal";
 
 interface BlogCardProps extends BlogWithUser {
   _count: {
@@ -121,9 +121,11 @@ const BlogCard = ({ blog }: { blog: BlogCardProps }) => {
             </button>
           </div>
           <div className="flex items-center space-x-2">
-            <button className="p-1 cursor-pointer  hover:text-cyan-600 transition-colors">
-              <Share className="h-4 w-4" />
-            </button>
+            <ShareModal
+              slug={blog.slug}
+              title={blog.title}
+              image={image?.secure_url ?? "/placeholder-image.webp"}
+            />
             <button className="p-1  hover:text-cyan-600 transition-colors">
               <Bookmark className="h-4 w-4" />
             </button>

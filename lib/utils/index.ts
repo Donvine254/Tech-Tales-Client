@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
+import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -31,4 +32,21 @@ export function formatViews(views: number) {
 export function validateEmail(email: string) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
+}
+
+export async function handleSharing(title: string, slug: string) {
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: `${title}`,
+        text: "See this interesting blog i found on Techtales!",
+        url: `https://techtales.vercel.app/blogs/${slug}`,
+      });
+    } catch (error) {
+      toast.error("Something went wrong");
+      console.error("Error sharing content:", error);
+    }
+  } else {
+    toast.error("Web Share API not supported in this browser.");
+  }
 }

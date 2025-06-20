@@ -4,6 +4,7 @@ import "../globals.css";
 import { ThemeProvider } from "next-themes";
 import Footer from "@/components/custom/footer";
 import ScrollIndicator from "@/components/custom/scroll-indicator";
+import { Toaster } from "@/components/ui/sonner";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -36,6 +37,7 @@ export default function RootLayout({
           <main>{children}</main>
           <Footer />
           <ScrollIndicator />
+          <Toaster richColors closeButton />
         </ThemeProvider>
       </body>
     </html>
