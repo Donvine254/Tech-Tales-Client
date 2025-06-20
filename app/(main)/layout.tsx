@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import { ThemeProvider } from "next-themes";
-import Footer from "@/components/ui/footer";
+import Footer from "@/components/custom/footer";
+import ScrollIndicator from "@/components/custom/scroll-indicator";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -34,6 +35,7 @@ export default function RootLayout({
           disableTransitionOnChange>
           <main>{children}</main>
           <Footer />
+          <ScrollIndicator />
         </ThemeProvider>
       </body>
     </html>

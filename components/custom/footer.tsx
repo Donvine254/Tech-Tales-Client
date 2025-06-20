@@ -1,10 +1,11 @@
 import { BookOpen } from "lucide-react";
-import { ThemeToggle } from "./theme-toggle";
+
 import Link from "next/link";
+import { ThemeToggle } from "./theme-toggle";
 
 const Footer = () => {
   return (
-    <footer className="bg-accent/20 text-muted-foreground dark:bg-gray-900 dark:text-gray-300 border-t border-gray-200 dark:border-gray-700">
+    <footer className="bg-accent/20 text-muted-foreground dark:bg-gray-900 dark:text-gray-300 border-t border-gray-200 dark:border-gray-700 shadow-2xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Logo and Description */}
@@ -18,9 +19,20 @@ const Footer = () => {
             <p className=" mb-6 max-w-md">
               Your go-to source for the latest in technology, web development,
               and digital innovation. Join our community of developers and tech
-              enthusiasts.
+              enthusiasts.{" "}
+              <span className="inline-block">
+                Built with{" "}
+                <a
+                  href="https://nextjs.org/"
+                  target="_blank"
+                  className="text-blue-500 hover:underline font-medium">
+                  Next Js
+                </a>{" "}
+                ❤️ by Donvine
+              </span>
             </p>
-            <div className="flex space-x-4">
+
+            <div className="flex space-x-4 items-center justify-center sm:justify-start">
               <Link
                 href="https://www.facebook.com"
                 className=""
@@ -69,67 +81,83 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Categories */}
-          <div>
-            <h3 className="font-semibold mb-4">Categories</h3>
-            <ul className="space-y-3 text-gray-400">
+          <div className="text-center sm:text-start">
+            <h3 className="font-semibold mb-4">Resources</h3>
+            <ul className="space-y-3 ">
               <li>
-                <a href="#" className="hover:text-white transition-colors">
-                  Web Development
+                <a
+                  href="/about"
+                  className="hover:text-blue-500 hover:underline transition-colors">
+                  About
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors">
-                  Artificial Intelligence
+                <a
+                  href="/contact"
+                  className="hover:text-blue-500 hover:underline transition-colors">
+                  Contact Us
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors">
-                  Mobile Apps
+                <a
+                  href="/community"
+                  className="hover:text-blue-500 hover:underline transition-colors">
+                  Community Guidelines
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors">
-                  DevOps
+                <a
+                  href="https://github.com/Donvine254/Tech-Tales-Client/discussions/2"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-blue-500 hover:underline transition-colors">
+                  Feature Requests
                 </a>
               </li>
             </ul>
           </div>
 
-          {/* Resources */}
-          <div>
-            <h3 className="font-semibold mb-4">Resources</h3>
-            <ul className="space-y-3 text-gray-400">
+          {/* Support */}
+          <div className="text-center sm:text-start">
+            <h3 className="font-semibold mb-4">Support</h3>
+            <ul className="space-y-3 ">
               <li>
-                <a href="#" className="hover:text-white transition-colors">
-                  About
+                <a
+                  href="/terms"
+                  className="hover:text-blue-500 hover:underline transition-colors">
+                  Privacy Policy
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors">
-                  Contact
+                <a
+                  href="/terms"
+                  className="hover:text-blue-500 hover:underline transition-colors">
+                  Terms of Use
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors">
-                  Newsletter
+                <a
+                  href="/api"
+                  className="hover:text-blue-500 hover:underline transition-colors">
+                  API
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors">
-                  RSS Feed
+                <a
+                  href="/docs"
+                  className="hover:text-blue-500 hover:underline transition-colors">
+                  Docs
                 </a>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-gray-800 dark:border-gray-700 mt-8 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="border-t  border-gray-200 dark:border-gray-700 mt-4 pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className=" text-center sm:text-left">
             &copy; {new Date().getFullYear()} Tech Tales. All rights reserved.
           </p>
           <div className="flex items-center space-x-3">
-            <span className=" text-sm">Theme</span>
             <ThemeToggle />
           </div>
         </div>
