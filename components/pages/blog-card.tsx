@@ -81,7 +81,7 @@ const BlogCard = ({ blog }: { blog: BlogCardProps }) => {
             </div>
           </div>
         </div>
-        <Link href={`/blog/${blog.slug}`} className="group">
+        <Link href={`/blog/${blog.slug}`} className="group" title={blog.title}>
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors line-clamp-2 leading-tight hover:underline hover:underline-offset-4">
             {blog.title}
           </h3>
@@ -121,7 +121,7 @@ const BlogCard = ({ blog }: { blog: BlogCardProps }) => {
             </button>
           </div>
           <div className="flex items-center space-x-2">
-            <button className="p-1  hover:text-cyan-600 transition-colors">
+            <button className="p-1 cursor-pointer  hover:text-cyan-600 transition-colors">
               <Share className="h-4 w-4" />
             </button>
             <button className="p-1  hover:text-cyan-600 transition-colors">

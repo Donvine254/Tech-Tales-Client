@@ -61,16 +61,23 @@ export default async function Home() {
               straight to your inbox. Join over 10,000 developers who trust
               TechTales for quality content.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+            <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                 name="email"
+                        autoComplete="email"
+                        pattern="^[A-Za-z0- 9._+\-']+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$"
+                className="[&:not(:placeholder-shown):invalid]:border-destructive flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                minLength={5}
+                required
               />
-              <button className="px-6 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-lg font-semibold hover:shadow-lg transition-all duration-200 hover:scale-105 cursor-pointer">
+              <button
+                type="submit"
+                className="px-6 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-lg font-semibold hover:shadow-lg transition-all duration-200 hover:scale-105 cursor-pointer">
                 Subscribe
               </button>
-            </div>
+            </form>
           </div>
         </div>
       </section>
