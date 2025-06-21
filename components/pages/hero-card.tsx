@@ -56,11 +56,11 @@ export default function HeroCard({
                 </Link>
               </Badge>
             )}
-
-            <h3 className="text-xl font-bold leading-tight line-clamp-2 drop-shadow-xl text-shadow-lg">
-              {post.title}
-            </h3>
-
+            <Link href={`/blog/${post.slug}`}>
+              <h3 className="text-xl font-bold leading-tight line-clamp-2 drop-shadow-xl text-shadow-lg hover:underline hover:underline-offset-4 transition-all duration-300">
+                {post.title}
+              </h3>
+            </Link>
             <div className="flex items-center gap-3 text-sm text-gray-100 drop-shadow-lg">
               <div className="flex items-center gap-2">
                 <Avatar className="w-6 h-6 ring-1 ring-white/20">
