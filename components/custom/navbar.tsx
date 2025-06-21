@@ -53,24 +53,28 @@ const Navbar = () => {
           {/* Right side - conditional rendering based on login state */}
           <div className="flex items-center space-x-4">
             {/* Search icon - hidden on small screens */}
-            <Button
-              variant="outline"
-              className="hidden md:block p-2 text-gray-500 dark:text-accent-foreground hover:text-blue-600 cursor-pointer transition-colors"
-              title="search articles">
-              <Search className="h-5 w-5" />
-            </Button>
+            <Link href="/search" passHref>
+              <Button
+                variant="outline"
+                className="hidden md:block p-2 text-gray-500 dark:text-accent-foreground hover:text-blue-600 cursor-pointer transition-colors"
+                title="search articles">
+                <Search className="h-5 w-5" />
+              </Button>
+            </Link>
 
             {isLoggedIn ? (
               // Logged in state
               <>
                 {/* Create Blog button - hidden on small screens */}
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  className="hidden md:flex bg-gradient-to-r from-cyan-600 to-blue-600 text-white cursor-pointer ">
-                  <Edit className="h-4 w-4 mr-2" />
-                  Create Blog
-                </Button>
+                <Link href="/create" passHref>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    className="hidden md:flex bg-gradient-to-r from-cyan-600 to-blue-600 text-white cursor-pointer ">
+                    <Edit className="h-4 w-4 mr-2" />
+                    Create Blog
+                  </Button>
+                </Link>
                 <UserDropdown onLogout={handleLogout} isLoggedIn={true} />
               </>
             ) : (

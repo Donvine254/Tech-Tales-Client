@@ -7,7 +7,6 @@ import {
   Menu,
   CircleUserRound,
 } from "lucide-react";
-import { useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,8 +25,6 @@ interface UserDropdownProps {
 }
 
 const UserDropdown = ({ onLogout, onLogin, isLoggedIn }: UserDropdownProps) => {
-  const [searchValue, setSearchValue] = useState("");
-
   // Mock user data
   const user = {
     name: "Sarah Chen",
@@ -76,16 +73,12 @@ const UserDropdown = ({ onLogout, onLogin, isLoggedIn }: UserDropdownProps) => {
 
             {/* Search - only visible on small screens */}
             <div className="md:hidden p-2">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-primary" />
-                <input
-                  type="search"
-                  placeholder="Search articles..."
-                  value={searchValue}
-                  onChange={(e) => setSearchValue(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 text-sm bg-input border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
-                />
-              </div>
+              <Link href="/search" passHref>
+                <button className="w-full relative pl-10 pr-4 py-2 text-left text-sm bg-input border border-input rounded-lg text-muted-foreground hover:ring-2 hover:ring-cyan-500 focus:outline-none">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-primary" />
+                  Search articles...
+                </button>
+              </Link>
             </div>
 
             {/* Create Blog - only visible on small screens */}
@@ -185,16 +178,12 @@ const UserDropdown = ({ onLogout, onLogin, isLoggedIn }: UserDropdownProps) => {
           <>
             {/* Search - mobile only */}
             <div className="p-2">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-primary" />
-                <input
-                  type="search"
-                  placeholder="Search articles..."
-                  value={searchValue}
-                  onChange={(e) => setSearchValue(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 text-sm bg-input border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
-                />
-              </div>
+              <Link href="/search" passHref>
+                <button className="w-full relative pl-10 pr-4 py-2 text-left text-sm bg-input border border-input rounded-lg text-muted-foreground hover:ring-2 hover:ring-cyan-500 focus:outline-none">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-primary" />
+                  Search articles...
+                </button>
+              </Link>
             </div>
             <DropdownMenuSeparator />
 
