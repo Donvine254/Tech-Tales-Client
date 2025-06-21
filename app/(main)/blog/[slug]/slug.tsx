@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Script from "next/script";
 import parse from "html-react-parser";
 import BlogImage from "@/components/ui/blog-image";
@@ -22,8 +23,9 @@ type Props = {
 };
 
 export default function Slug({ blog }: Props) {
+  const [showPlayButton, setShowPlayButton] = useState(false);
   return (
-    <div>
+    <div className="w-full mx-auto m-2 min-h-[75%] px-8 xsm:px-4 max-w-4xl md:mt-4">
       <Script src="https://unpkg.com/ink-html/dist/index.js"></Script>
 
       <BlogImage image={blog.image} title={blog.title} />
@@ -114,7 +116,9 @@ export default function Slug({ blog }: Props) {
           <ChartNoAxesColumn className="h-4 w-4" />
           <span className="text-sm">{formatViews(blog.views)}</span>
         </button>
-        <button className="p-1 hover:text-cyan-600 transition-colors">
+        <button
+          className="p-1 hover:text-cyan-600 transition-colors"
+          onClick={() => setShowPlayButton(!showPlayButton)}>
           <svg
             fill="none"
             viewBox="0 0 24 24"
@@ -144,10 +148,7 @@ export default function Slug({ blog }: Props) {
         ✨ Generate a summary of this story
       </Button> */}
       {/* Audio Player */}
-      <AudioPlayer
-        audioUrl={`https://utfs.io/f/d3cb8e79-6000-4453-b933-fe0e1ed7720e-3sqahx.net).m4a`}
-        blogText={blog.body}
-      />
+      {showPlayButton && <AudioPlayer audioUrl={blog?.audio} />}
       {/* blog body */}
       <article
         className="leading-8 md:leading-10 subpixel-antialiased blog-body max-w-none mt-4 prose prose-slate dark:prose-invert prose-headings:font-semibold prose-headings:text-gray-900 dark:prose-headings:text-gray-50 prose-a:text-blue-600 hover:prose-a:text-blue-800 prose-a:underline-offset-4 prose-img:rounded-lg prose-img:shadow-lg prose-img:border prose-img:border-gray-200 dark:prose-img:border-gray-700 prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800 prose-pre:rounded-lg prose-pre:p-4"

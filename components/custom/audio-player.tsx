@@ -7,18 +7,21 @@ import { Play, Pause, RotateCcw, RotateCw } from "lucide-react";
 
 interface AudioPlayerProps {
   audioUrl?: string;
-  blogText?: string;
 }
 
-export default function AudioPlayer({ audioUrl, blogText }: AudioPlayerProps) {
+export default function AudioPlayer({ audioUrl }: AudioPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(326); // 5:26 in seconds
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
-
+  const [blogText, setBlogText] = useState("");
   const audioRef = useRef<HTMLAudioElement>(null);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
+  useEffect(() => {
+    const blogElement = document.getElementById("blog-body");
+    setBlogText(blogElement?.textContent ?? "");
+  }, []);
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.playbackRate = playbackSpeed;
@@ -66,6 +69,7 @@ export default function AudioPlayer({ audioUrl, blogText }: AudioPlayerProps) {
         setIsPlaying(false);
       } else {
         const utterance = new SpeechSynthesisUtterance(blogText);
+        utterance.lang = "en-US";
         utterance.rate = playbackSpeed;
         utterance.onend = () => setIsPlaying(false);
         utterance.onerror = () => setIsPlaying(false);
@@ -109,7 +113,7 @@ export default function AudioPlayer({ audioUrl, blogText }: AudioPlayerProps) {
   const SoundWave = () => {
     const bars = Array.from({ length: 5 }, (_, i) => i);
     return (
-      <div className="flex items-center gap-1 h-8">
+      <div className="flex items-center gap-1 h-8 overflow-hidden">
         {bars.map((bar) => (
           <div
             key={bar}
@@ -128,7 +132,7 @@ export default function AudioPlayer({ audioUrl, blogText }: AudioPlayerProps) {
   };
 
   return (
-    <div className="w-full bg-accent/90 border border-gray-200 dark:border-gray-400/50 rounded-lg shadow-sm">
+    <div className="w-full bg-white dark:bg-accent brightness-150 filter border border-gray-200 dark:border-gray-400/50 rounded-lg shadow">
       {/* Main player controls */}
       <div className="flex items-center gap-4 p-2">
         {/* Play/Pause button */}
@@ -159,23 +163,23 @@ export default function AudioPlayer({ audioUrl, blogText }: AudioPlayerProps) {
           variant="ghost"
           size="sm"
           onClick={toggleSpeed}
-          className="text-primary cursor-pointer hover:bg-gray-100 px-3 py-1 rounded-full ">
+          className="text-primary cursor-pointer hover:bg-accent/90 px-3 py-1 rounded-full ">
           {playbackSpeed}x
         </Button>
 
         {/* Skip backward 10s */}
         <div
           onClick={skipBackward}
-          className="h-10 w-10 rounded-full hover:bg-gray-100 flex items-center justify-center cursor-pointer relative">
-          <RotateCcw className="h-8 w-8 text-muted-foreground" />
+          className="h-10 w-10 rounded-full hover:bg-accent/90 flex items-center justify-center cursor-pointer relative">
+          <RotateCcw className="h-8 w-8" strokeWidth={1} />
           <span className="absolute text-xs font-bold text-primary">10</span>
         </div>
 
         {/* Skip forward 30s */}
         <div
           onClick={skipForward}
-          className="h-10 w-10 rounded-full hover:bg-gray-100 flex items-center justify-center cursor-pointer relative">
-          <RotateCw className="h-8 w-8 text-muted-foreground" />
+          className="h-10 w-10 rounded-full hover:bg-accent/90 flex items-center justify-center cursor-pointer relative">
+          <RotateCw className="h-8 w-8" strokeWidth={1} />
           <span className="absolute text-xs font-bold text-primary">30</span>
         </div>
         {/* Time display */}
@@ -185,35 +189,37 @@ export default function AudioPlayer({ audioUrl, blogText }: AudioPlayerProps) {
       </div>
 
       {/* Progress bar */}
-      <div className="px-4 pb-4">
+      <div>
         <Slider
           value={[currentTime]}
           max={duration}
           step={1}
           onValueChange={handleProgressChange}
-          className="w-full [&>span:first-child]:h-1 [&>span:first-child]:bg-gray-300 [&_[role=slider]]:bg-gray-700 dark:[&_[role=slider]]:bg-cyan-700  [&_[role=slider]]:w-3 [&_[role=slider]]:h-3 [&_[role=slider]]:border-0 [&>span:first-child_span]:bg-gray-700 dark:[&>span:first-child_span]:bg-cyan-500 [&_[role=slider]:focus-visible]:ring-0 [&_[role=slider]:focus-visible]:ring-offset-0"
+          className="w-full [&>span:first-child]:h-1 [&>span:first-child]:bg-gray-500 [&_[role=slider]]:hidden  [&_[role=slider]]:w-3 [&_[role=slider]]:h-3 [&_[role=slider]]:border-0 [&>span:first-child_span]:bg-gray-900 dark:[&>span:first-child_span]:bg-cyan-500 [&_[role=slider]:focus-visible]:ring-0 [&_[role=slider]:focus-visible]:ring-offset-0"
         />
       </div>
 
       {/* Hidden audio element for future integration */}
-      <audio
-        ref={audioRef}
-        className="hidden"
-        onLoadedMetadata={() => {
-          if (audioRef.current) {
-            setDuration(Math.floor(audioRef.current.duration));
-          }
-        }}
-        onTimeUpdate={() => {
-          if (audioRef.current) {
-            setCurrentTime(Math.floor(audioRef.current.currentTime));
-          }
-        }}
-        onPlay={() => setIsPlaying(true)}
-        onPause={() => setIsPlaying(false)}
-        onEnded={() => setIsPlaying(false)}>
-        <source src={audioUrl} type="audio/m4a" />
-      </audio>
+      {audioUrl && (
+        <audio
+          ref={audioRef}
+          className="hidden"
+          onLoadedMetadata={() => {
+            if (audioRef.current) {
+              setDuration(Math.floor(audioRef.current.duration));
+            }
+          }}
+          onTimeUpdate={() => {
+            if (audioRef.current) {
+              setCurrentTime(Math.floor(audioRef.current.currentTime));
+            }
+          }}
+          onPlay={() => setIsPlaying(true)}
+          onPause={() => setIsPlaying(false)}
+          onEnded={() => setIsPlaying(false)}>
+          <source src={audioUrl} type="audio/x-m4a" />
+        </audio>
+      )}
     </div>
   );
 }
