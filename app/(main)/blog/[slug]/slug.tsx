@@ -5,6 +5,7 @@ import BlogImage from "@/components/ui/blog-image";
 import { calculateReadingTime } from "@/lib/utils";
 import { Calendar, Clock } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Link from "next/link";
 type Props = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   blog: Record<string, any>;
@@ -67,9 +68,27 @@ export default function Slug({ blog }: Props) {
         </div>
       </div>
       {/* Blog title */}
-      <h1 className="text-xl md:text-2xl lg:text-3xl font-bold  mb-4">
+      <h1 className="text-xl md:text-2xl lg:text-3xl font-bold mb-2">
         {blog.title}{" "}
       </h1>
+      {/* blog tags */}
+      <div className="py-1">
+        {blog.tags ? (
+          <div className="flex space-x-2 items-center flex-wrap">
+            {blog.tags.split(",").map((tag: string, index: number) => (
+              <Link
+                key={index}
+                href={`/search?q=${tag.trim()}`}
+                className={`md:px-2 md:py-0 text-blue-600 md:bg-transparent    md:border border-transparent md:rounded-full hover:underline  text-sm  highlight-link-${index}`}>
+                <span>#</span>
+                {tag.trim()}
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <></>
+        )}
+      </div>
     </div>
   );
 }
