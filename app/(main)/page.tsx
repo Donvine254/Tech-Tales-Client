@@ -6,7 +6,7 @@ import prisma from "@/prisma/prisma";
 import { BlogWithUser } from "@/types";
 import Link from "next/link";
 export default async function Home() {
-  const blog = (await prisma.blog.findMany({
+  const featuredBlogs = (await prisma.blog.findMany({
     where: {
       status: "PUBLISHED",
     },
@@ -21,14 +21,14 @@ export default async function Home() {
     orderBy: {
       views: "desc",
     },
-    take: 3,
+    take: 10,
   })) as BlogWithUser[];
   const blogPosts = await getBlogs();
 
   return (
     <div className="min-h-screen p-2 md:p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)] bg-muted/90 dark:bg-gray-900/90">
       <section className="w-full max-w-7xl mx-auto mb-4">
-        <Hero post={blog} />
+        <Hero posts={featuredBlogs} />
       </section>
       <section className="max-w-7xl mx-auto ">
         <div className="flex items-center justify-between mb-8">

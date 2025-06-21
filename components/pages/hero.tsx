@@ -1,22 +1,10 @@
 import { BlogWithUser } from "@/types";
-import BlogHero from "./blog-hero";
-import HeroCard from "./hero-card";
+import { BlogCarousel } from "./carousel";
 
-export default function Hero({ post }: { post: BlogWithUser[] }) {
+export default function Hero({ posts }: { posts: BlogWithUser[] }) {
   return (
-    // TODO: Turn this into a carousel in small screens
-    //       and a grid in larger screens
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-0.5 max-w-7xl mx-auto">
-      {/* Left: BlogHero takes full height of right column */}
-      <div className="lg:col-span-2">
-        <BlogHero post={post[0]} />
-      </div>
-
-      {/* Right: Stack two HeroCards vertically */}
-      <div>
-        {post.length > 2 &&
-          post.slice(1).map((p) => <HeroCard key={p.id} post={p} />)}
-      </div>
-    </div>
+    <section>
+      <BlogCarousel posts={posts} />
+    </section>
   );
 }
