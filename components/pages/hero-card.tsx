@@ -21,7 +21,7 @@ export default function HeroCard({
     <article
       className={cn(
         "relative overflow-hidden  bg-card shadow-md hover:shadow-lg transition-all duration-300 group-hover:brightness-110 filter group block",
-        isMobile && "min-h-[500px]",
+        isMobile && "min-h-[80vh]",
         className
       )}>
       <div className={cn(!isMobile ? "aspect-video relative" : "")}>
@@ -35,11 +35,10 @@ export default function HeroCard({
           alt={post.title}
           fill
           className={cn(
-            isMobile ? "object-scale-down" : "object-cover",
+            isMobile ? "object-cover object-center h-full" : "object-cover",
             "transition-transform duration-300 group-hover:brightness-120 filter"
           )}
         />
-
         {/* Enhanced gradient overlay for better text readability */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/30" />
