@@ -122,66 +122,68 @@ export function ShareModal({
             <Share className="h-4 w-4" />
           </button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px] md:max-w-fit">
+        <DialogContent className="">
           <DialogHeader>
-            <DialogTitle className="md:text-xl">Share Post</DialogTitle>
+            <DialogTitle className="text-start md:text-xl">
+              Share Post
+            </DialogTitle>
             <DialogDescription />
-            <div className="flex items-center justify-between mt-4 w-full">
-              <p className="text-sm xsm:text-xs max-w-[75%]  flex items-center gap-2 ">
-                <img src="/logo.png" alt="logo" width="20" height="20" />
-                <span
-                  style={{ textOverflow: "ellipsis" }}
-                  className="truncate"
-                  title={title}>
-                  {title}
-                </span>
-              </p>
-              <button
-                className="flex items-center gap-1 text-sm xsm:text-xs outline-none hover:bg-gray-200 dark:hover:text-gray-900 px-1 whitespace-nowrap xsm:bg-gray-200 rounded-sm shadow-sm hover:shadow-md transition-colors duration-200 ease-in-out"
-                onClick={copyBlogLink}>
-                {copied ? (
-                  <>
-                    <svg
-                      fill="none"
-                      viewBox="0 0 15 15"
-                      height="1em"
-                      width="1em"
-                      className="text-green-500">
-                      <path
-                        fill="currentColor"
-                        fillRule="evenodd"
-                        d="M14.707 3L5.5 12.207.293 7 1 6.293l4.5 4.5 8.5-8.5.707.707z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Copied!
-                  </>
-                ) : (
-                  <>
-                    {" "}
-                    <svg
-                      viewBox="0 0 512 512"
-                      fill="currentColor"
-                      height="1em"
-                      width="1em"
-                      className="text-blue-500">
-                      <path
-                        fill="none"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={36}
-                        d="M208 352h-64a96 96 0 010-192h64M304 160h64a96 96 0 010 192h-64M163.29 256h187.42"
-                      />
-                    </svg>
-                    Copy <span className="xsm:hidden">Link</span>
-                  </>
-                )}
-              </button>
-            </div>
           </DialogHeader>
+          <div className="flex items-center justify-between  @container">
+            <p className="text-xs md:text-sm max-w-[75%]  flex items-center gap-2">
+              <img src="/logo.png" alt="logo" width="20" height="20" />
+              <span
+                style={{ textOverflow: "ellipsis" }}
+                className="truncate"
+                title={title}>
+                {title}
+              </span>
+            </p>
+            <button
+              className="flex items-center gap-1 text-xs sm:text-sm hover:bg-gray-200 dark:hover:text-gray-900 px-1 whitespace-nowrap bg-muted rounded-sm shadow-sm hover:shadow-md transition-colors duration-200 ease-in-out"
+              onClick={copyBlogLink}>
+              {copied ? (
+                <>
+                  <svg
+                    fill="none"
+                    viewBox="0 0 15 15"
+                    height="1em"
+                    width="1em"
+                    className="text-green-500">
+                    <path
+                      fill="currentColor"
+                      fillRule="evenodd"
+                      d="M14.707 3L5.5 12.207.293 7 1 6.293l4.5 4.5 8.5-8.5.707.707z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  Copied!
+                </>
+              ) : (
+                <>
+                  {" "}
+                  <svg
+                    viewBox="0 0 512 512"
+                    fill="currentColor"
+                    height="1em"
+                    width="1em"
+                    className="text-blue-500">
+                    <path
+                      fill="none"
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={36}
+                      d="M208 352h-64a96 96 0 010-192h64M304 160h64a96 96 0 010 192h-64M163.29 256h187.42"
+                    />
+                  </svg>
+                  Copy <span className="hidden sm:block">Link</span>
+                </>
+              )}
+            </button>
+          </div>
           <hr />
-          <div className="py-4 grid grid-cols-4 xsm:grid-cols-3 gap-4 items-center justify-center outline shadow">
+          <div className="py-4 grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-4 items-center outline shadow">
             {/* Facebook */}
             <div className="flex flex-col items-center">
               <button
