@@ -195,7 +195,7 @@ export default function AudioPlayer({ audioUrl }: AudioPlayerProps) {
           max={duration}
           step={1}
           onValueChange={handleProgressChange}
-          className="w-full [&>span:first-child]:h-1 [&>span:first-child]:bg-gray-500 [&_[role=slider]]:hidden  [&_[role=slider]]:w-3 [&_[role=slider]]:h-3 [&_[role=slider]]:border-0 [&>span:first-child_span]:bg-gray-900 dark:[&>span:first-child_span]:bg-cyan-500 [&_[role=slider]:focus-visible]:ring-0 [&_[role=slider]:focus-visible]:ring-offset-0"
+          className="w-[99%] mx-auto [&>span:first-child]:h-1 [&>span:first-child]:bg-gray-500  [&_[role=slider]]:hidden  [&_[role=slider]]:w-3 [&_[role=slider]]:h-3 [&_[role=slider]]:border-0 [&>span:first-child_span]:bg-gray-900 dark:[&>span:first-child_span]:bg-cyan-500 [&_[role=slider]:focus-visible]:ring-0 [&_[role=slider]:focus-visible]:ring-offset-0"
         />
       </div>
 
