@@ -1,5 +1,5 @@
 import BlogCard from "@/components/pages/blog-card";
-import Hero from "@/components/pages/hero";
+import { BlogCarousel } from "@/components/pages/carousel";
 import Newsletter from "@/components/pages/newsletter";
 import { getBlogs } from "@/lib/actions/blogs";
 import prisma from "@/prisma/prisma";
@@ -27,8 +27,8 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen p-2 md:p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)] bg-muted/90 dark:bg-gray-900/90">
-      <section className="w-full max-w-7xl mx-auto mb-4">
-        <Hero posts={featuredBlogs} />
+      <section className="w-full max-w-7xl mx-auto  mb-4">
+        <BlogCarousel posts={featuredBlogs} />
       </section>
       <section className="max-w-7xl mx-auto ">
         <div className="flex items-center justify-between mb-8">
