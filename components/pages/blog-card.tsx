@@ -26,14 +26,17 @@ const BlogCard = ({ blog }: { blog: BlogCardProps }) => {
   return (
     <article className="group bg-white dark:bg-accent rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden  hover:border-gray-200 hover:-translate-y-1 flex flex-col">
       <div className="aspect-[16/9] bg-gradient-to-br from-cyan-100 to-blue-100 relative overflow-hidden">
-        <Image
-          src={image?.secure_url || "/placeholder-image.webp"}
-          alt={blog.title}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          priority
-          className="w-full h-full object-cover transition-transform duration-500"
-        />
+        <Link href={`/blog/${blog.slug}`} className="group" title={blog.title}>
+          <Image
+            src={image?.secure_url || "/placeholder-image.webp"}
+            alt={blog.title}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            priority
+            className="w-full h-full object-cover transition-transform duration-500"
+          />
+        </Link>
+
         <div className="absolute top-2 left-2">
           <Link href={`/search?q=${blog.tags?.split(",")[0]}`}>
             {" "}
