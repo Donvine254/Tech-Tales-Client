@@ -1,5 +1,5 @@
 "use client";
-import { Search, BookOpen, User, Edit } from "lucide-react";
+import { Search, BookOpen, CircleUserRound, Edit } from "lucide-react";
 import UserDropdown from "./user-dropdown";
 import { Button } from "../ui/button";
 import { useState } from "react";
@@ -65,9 +65,9 @@ const Navbar = () => {
               <>
                 {/* Create Blog button - hidden on small screens */}
                 <Button
-                  variant="outline"
+                  variant="secondary"
                   size="sm"
-                  className="hidden md:flex border-cyan-200 text-cyan-700 hover:bg-cyan-50 hover:text-cyan-800">
+                  className="hidden md:flex bg-gradient-to-r from-cyan-600 to-blue-600 text-white cursor-pointer ">
                   <Edit className="h-4 w-4 mr-2" />
                   Create Blog
                 </Button>
@@ -80,10 +80,10 @@ const Navbar = () => {
                 <Button
                   variant="secondary"
                   size="sm"
-                  className="hidden md:flex  bg-gradient-to-r from-cyan-600 to-blue-600 text-white"
+                  className="hidden md:flex gap-1 items-center bg-gradient-to-r from-cyan-600 to-blue-600 text-white"
                   onClick={handleLogin}>
-                  <User className="h-4 w-4 mr-2" />
-                  Login
+                  <CircleUserRound className="h-4 w-4 " />
+                  Login/Register
                 </Button>
 
                 {/* Mobile Menu Button */}
