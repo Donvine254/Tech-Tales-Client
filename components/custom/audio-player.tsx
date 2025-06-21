@@ -113,7 +113,7 @@ export default function AudioPlayer({ audioUrl }: AudioPlayerProps) {
   const SoundWave = () => {
     const bars = Array.from({ length: 5 }, (_, i) => i);
     return (
-      <div className="flex items-center gap-1 h-8 overflow-hidden">
+      <div className="hidden sm:flex items-center gap-1 h-8 overflow-hidden">
         {bars.map((bar) => (
           <div
             key={bar}
@@ -134,7 +134,7 @@ export default function AudioPlayer({ audioUrl }: AudioPlayerProps) {
   return (
     <div className="w-full bg-white dark:bg-accent brightness-150 filter border border-gray-200 dark:border-gray-400/50 rounded-lg shadow">
       {/* Main player controls */}
-      <div className="flex items-center gap-4 p-2">
+      <div className="flex items-center justify-between gap-4 p-2">
         {/* Play/Pause button */}
         <Button
           variant="ghost"
@@ -152,7 +152,7 @@ export default function AudioPlayer({ audioUrl }: AudioPlayerProps) {
         <SoundWave />
 
         {/* Title */}
-        <div className="flex-1 text-center">
+        <div className="hidden md:block flex-1 text-center">
           <span className="text-muted-foreground font-medium">
             Listen to article
           </span>
