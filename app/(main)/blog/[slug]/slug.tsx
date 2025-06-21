@@ -144,7 +144,10 @@ export default function Slug({ blog }: Props) {
         ✨ Generate a summary of this story
       </Button> */}
       {/* Audio Player */}
-      <AudioPlayer audioUrl={blog?.audio} blogText={blog.body} />
+      <AudioPlayer
+        audioUrl={`https://utfs.io/f/d3cb8e79-6000-4453-b933-fe0e1ed7720e-3sqahx.net).m4a`}
+        blogText={blog.body}
+      />
       {/* blog body */}
       <article
         className="leading-8 md:leading-10 subpixel-antialiased blog-body max-w-none mt-4 prose prose-slate dark:prose-invert prose-headings:font-semibold prose-headings:text-gray-900 dark:prose-headings:text-gray-50 prose-a:text-blue-600 hover:prose-a:text-blue-800 prose-a:underline-offset-4 prose-img:rounded-lg prose-img:shadow-lg prose-img:border prose-img:border-gray-200 dark:prose-img:border-gray-700 prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800 prose-pre:rounded-lg prose-pre:p-4"
