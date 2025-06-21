@@ -2,7 +2,6 @@ import {
   Calendar,
   Clock,
   Heart,
-  Bookmark,
   ChartNoAxesColumn,
   MessageSquare,
 } from "lucide-react";
@@ -14,6 +13,7 @@ import { BlogWithUser } from "@/types";
 import parse from "html-react-parser";
 import Link from "next/link";
 import { ShareModal } from "../modals/share-modal";
+import Bookmark from "../custom/bookmark";
 
 interface BlogCardProps extends BlogWithUser {
   _count: {
@@ -129,9 +129,7 @@ const BlogCard = ({ blog }: { blog: BlogCardProps }) => {
               title={blog.title}
               image={image?.secure_url ?? "/placeholder-image.webp"}
             />
-            <button className="p-1  hover:text-cyan-600 transition-colors">
-              <Bookmark className="h-4 w-4" />
-            </button>
+            <Bookmark blogId={blog.id} />
           </div>
         </div>
       </div>

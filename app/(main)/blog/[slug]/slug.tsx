@@ -4,7 +4,6 @@ import parse from "html-react-parser";
 import BlogImage from "@/components/ui/blog-image";
 import { calculateReadingTime, formatViews } from "@/lib/utils";
 import {
-  Bookmark,
   Calendar,
   ChartNoAxesColumn,
   Clock,
@@ -15,6 +14,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 import { ShareModal } from "@/components/modals/share-modal";
 import PrismLoader from "@/components/custom/prism-loader";
+import Bookmark from "@/components/custom/bookmark";
+import AudioPlayer from "@/components/custom/audio-player";
 type Props = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   blog: Record<string, any>;
@@ -117,8 +118,8 @@ export default function Slug({ blog }: Props) {
           <svg
             fill="none"
             viewBox="0 0 24 24"
-            height="16"
-            width="16"
+            height="1rem"
+            width="1rem"
             className="fill-none  hover:-translate-y-1 transition-transform duration-300 h-4 w-4"
             data-tooltip-id="play-blog">
             <path
@@ -136,14 +137,14 @@ export default function Slug({ blog }: Props) {
           title={blog.title}
           image={blog.image?.secure_url ?? "/placeholder-image.webp"}
         />
-        <button className="p-1  hover:text-cyan-600 transition-colors">
-          <Bookmark className="h-4 w-4" />
-        </button>
+        <Bookmark blogId={blog.id} />
       </div>
       {/* summary button */}
       {/* <Button className="text-green-500 bg-green-50 py-1 text-xs md:text-sm">
         ✨ Generate a summary of this story
       </Button> */}
+      {/* Audio Player */}
+      <AudioPlayer />
       {/* blog body */}
       <article
         className="leading-8 md:leading-10 subpixel-antialiased blog-body max-w-none mt-4 prose prose-slate dark:prose-invert prose-headings:font-semibold prose-headings:text-gray-900 dark:prose-headings:text-gray-50 prose-a:text-blue-600 hover:prose-a:text-blue-800 prose-a:underline-offset-4 prose-img:rounded-lg prose-img:shadow-lg prose-img:border prose-img:border-gray-200 dark:prose-img:border-gray-700 prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800 prose-pre:rounded-lg prose-pre:p-4"
