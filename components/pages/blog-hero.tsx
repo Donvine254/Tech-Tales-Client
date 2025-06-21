@@ -50,12 +50,12 @@ export default function BlogHero({ post }: { post: BlogWithUser }) {
                     />
                     <AvatarFallback>{post.author.username}</AvatarFallback>
                   </Avatar>
-                  <span className="font-medium text-shadow capitalize">
+                  <span className="font-medium text-shadow capitalize whitespace-nowrap overflow-ellipsis">
                     {post.author.username}
                   </span>
                 </div>
                 <span>•</span>
-                <div className="flex items-center gap-1 text-shadow">
+                <div className="flex items-center gap-1 text-shadow whitespace-nowrap overflow-ellipsis">
                   {" "}
                   <Calendar className="h-4 w-4" />{" "}
                   <span>
@@ -67,7 +67,7 @@ export default function BlogHero({ post }: { post: BlogWithUser }) {
                   </span>
                 </div>
                 <span>•</span>
-                <div className="flex items-center gap-1 text-shadow">
+                <div className="flex items-center gap-1 text-shadow whitespace-nowrap overflow-ellipsis">
                   <Clock className="w-4 h-4" />
                   <span>{calculateReadingTime(post.body)} min read</span>
                 </div>

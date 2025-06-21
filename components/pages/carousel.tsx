@@ -51,7 +51,7 @@ export function BlogCarousel({ posts }: BlogCarouselProps) {
   };
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto min-h-max">
       {isMobile ? (
         <div>
           <div className="relative" {...swipeHandlers}>

@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { BlogWithUser } from "@/types";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function HeroCard({
   post,
@@ -15,18 +16,28 @@ export default function HeroCard({
   className?: string;
 }) {
   const image = post.image as { secure_url?: string };
+  const isMobile = useIsMobile();
   return (
     <article
       className={cn(
         "relative overflow-hidden  bg-card shadow-md hover:shadow-lg transition-all duration-300 group-hover:brightness-110 filter group block",
+        isMobile && "min-h-[500px]",
         className
       )}>
-      <div className="aspect-video relative">
+      <div className={cn(!isMobile ? "aspect-video relative" : "")}>
+        {isMobile && (
+          <span className="px-3 py-1 bg-white/20 rounded-full text-sm font-medium backdrop-blur-sm absolute top-4 left-4 z-10 text-orange-600 dark:text-gray-50 shadow-lg">
+            🔥 Trending
+          </span>
+        )}
         <Image
           src={image?.secure_url || "/placeholder-image.webp"}
           alt={post.title}
           fill
-          className="object-cover transition-transform duration-300 group-hover:brightness-120 filter"
+          className={cn(
+            isMobile ? "object-scale-down" : "object-cover",
+            "transition-transform duration-300 group-hover:brightness-120 filter"
+          )}
         />
 
         {/* Enhanced gradient overlay for better text readability */}
@@ -38,14 +49,14 @@ export default function HeroCard({
           <div className="space-y-3">
             <Badge
               variant="secondary"
-              className="bg-blue-600 hover:bg-blue-700 text-white w-fit shadow-lg capitalize hover:underline">
+              className="bg-blue-600 hover:bg-blue-700 text-white w-fit shadow-lg capitalize hover:underline text-xs lg:text-base">
               <Link href={`/search?q=${post.tags?.split(",")[0]}`}>
                 {" "}
                 # {post.tags?.split(",")[0] || "General"}
               </Link>
             </Badge>
 
-            <h3 className="text-xl  font-bold leading-tight line-clamp-2 drop-shadow-xl text-shadow-lg">
+            <h3 className="text-xl font-bold leading-tight line-clamp-2 drop-shadow-xl text-shadow-lg">
               {post.title}
             </h3>
 
@@ -55,16 +66,16 @@ export default function HeroCard({
                   <AvatarImage
                     src={post.author.picture ?? "/placeholder-image.webp"}
                   />
-                  <AvatarFallback className="text-xs capitalize">
+                  <AvatarFallback className="text-xs capitalize ">
                     {post.author.username}
                   </AvatarFallback>
                 </Avatar>
-                <span className="text-shadow capitalize">
+                <span className="text-shadow capitalize whitespace-nowrap overflow-ellipsis">
                   {post.author.username}
                 </span>
               </div>
               <span>•</span>
-              <div className="flex items-center gap-1 text-shadow overflow-ellipsis">
+              <div className="flex items-center gap-1 text-shadow whitespace-nowrap overflow-ellipsis">
                 {" "}
                 <Calendar className="h-4 w-4" />{" "}
                 <span>
