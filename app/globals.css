@@ -139,13 +139,13 @@
   @apply text-xl md:text-2xl lg:text-[2rem] my-2 font-bold;
 }
 .blog-body h2 {
-  @apply text-lg my-1 font-bold;
+  @apply text-lg md:text-xl my-2 font-bold;
 }
 .blog-body h3,
 .blog-body h4,
 .blog-body h5,
 .blog-body h6 {
-  @apply font-bold my-1;
+  @apply font-bold my-2;
 }
 .blog-body p {
   @apply my-3.5;
@@ -154,7 +154,7 @@
   background-color: #f5f2f0;
   font-family: monospace;
   border-radius: 5px;
-  color: #990069;
+  color: #fb2c36;
   padding: 0px 5px;
   text-decoration-line: none !important;
   font-size: 14px !important;
@@ -208,7 +208,7 @@
 }
 
 #comment-body ul {
-  @apply xsm:!pl-4 !pl-6 md:!pl-8;
+  @apply !pl-4 sm:!pl-6 md:!pl-8;
 }
 #comment-body a {
   @apply text-blue-500 cursor-pointer hover:underline break-words whitespace-pre-wrap;
@@ -221,7 +221,7 @@
   border-radius: 8px;
 }
 #comment-body img {
-  @apply xsm:max-w-full xsm:max-h-40 xsm:h-auto w-auto;
+  @apply max-w-full max-h-40 h-auto sm:w-auto;
 }
 
 #blog-body img {

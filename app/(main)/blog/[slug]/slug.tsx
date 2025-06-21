@@ -14,7 +14,6 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 import { ShareModal } from "@/components/modals/share-modal";
-import { Button } from "@/components/ui/button";
 import PrismLoader from "@/components/custom/prism-loader";
 type Props = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -118,9 +117,9 @@ export default function Slug({ blog }: Props) {
           <svg
             fill="none"
             viewBox="0 0 24 24"
-            height="20"
-            width="20"
-            className="fill-none  hover:-translate-y-1 transition-transform duration-300"
+            height="16"
+            width="16"
+            className="fill-none  hover:-translate-y-1 transition-transform duration-300 h-4 w-4"
             data-tooltip-id="play-blog">
             <path
               fill="currentColor"
@@ -147,7 +146,7 @@ export default function Slug({ blog }: Props) {
       </Button> */}
       {/* blog body */}
       <article
-        className="leading-8 md:leading-10 subpixel-antialiased blog-body max-w-none mt-4"
+        className="leading-8 md:leading-10 subpixel-antialiased blog-body max-w-none mt-4 prose prose-slate dark:prose-invert prose-headings:font-semibold prose-headings:text-gray-900 dark:prose-headings:text-gray-50 prose-a:text-blue-600 hover:prose-a:text-blue-800 prose-a:underline-offset-4 prose-img:rounded-lg prose-img:shadow-lg prose-img:border prose-img:border-gray-200 dark:prose-img:border-gray-700 prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800 prose-pre:rounded-lg prose-pre:p-4"
         id="blog-body">
         <PrismLoader />
         {blog.body ? parse(blog.body) : "Loading..."}
