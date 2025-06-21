@@ -50,3 +50,11 @@ export async function handleSharing(title: string, slug: string) {
     toast.error("Web Share API not supported in this browser.");
   }
 }
+
+export const formatDate = (dateString: string | Date) => {
+  return new Date(dateString).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+};
