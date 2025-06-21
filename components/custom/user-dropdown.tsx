@@ -27,10 +27,10 @@ interface UserDropdownProps {
 const UserDropdown = ({ onLogout, onLogin, isLoggedIn }: UserDropdownProps) => {
   // Mock user data
   const user = {
-    name: "Sarah Chen",
-    email: "sarah.chen@example.com",
+    name: "Donvine Mugendi",
+    email: "donvinemugendi@gmail.com",
     image:
-      "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=100&h=100&fit=crop&auto=format",
+      "https://res.cloudinary.com/dipkbpinx/image/upload/v1725023835/tech-tales/profile-pictures/sct04wqrx4xf6ltx4dxo.png",
   };
 
   return (
@@ -39,7 +39,7 @@ const UserDropdown = ({ onLogout, onLogin, isLoggedIn }: UserDropdownProps) => {
         {isLoggedIn ? (
           // Logged in state - show avatar and chevron
           <>
-            <Avatar className="h-8 w-8">
+            <Avatar className="h-8 w-8 ring-2 ring-cyan-500 ring-offset-2">
               <AvatarImage src={user.image} alt={user.name} />
               <AvatarFallback>
                 {user.name
@@ -167,10 +167,10 @@ const UserDropdown = ({ onLogout, onLogin, isLoggedIn }: UserDropdownProps) => {
             </Link>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              className="cursor-pointer text-red-500 "
+              className="cursor-pointer text-red-500 hover:bg-destructive/90 focus:bg-destructive/90 hover:text-white group"
               onClick={onLogout}>
-              <LogOut className="mr-2 h-4 w-4 text-red-500" />
-              <span>Sign Out</span>
+              <LogOut className="mr-2 h-4 w-4 text-red-500 group-hover:text-white" />
+              <span className="group-hover:text-white">Sign Out</span>
             </DropdownMenuItem>
           </>
         ) : (
@@ -235,7 +235,7 @@ const UserDropdown = ({ onLogout, onLogin, isLoggedIn }: UserDropdownProps) => {
             <DropdownMenuItem
               className="cursor-pointer hover:bg-blue-50 text-blue-700 font-medium text-center flex items-center justify-center gap-2 w-full my-2 border border-blue-200 dark:border-none rounded-lg dark:bg-blue-500 dark:text-white dark:hover:bg-blue-600"
               onClick={onLogin}>
-              <CircleUserRound className="h-4 w-4 text-blue-500 dark:text-white" />
+              <CircleUserRound className="h-4 w-4 text-blue-500 dark:text-white " />
               <span>Login/Register</span>
             </DropdownMenuItem>
           </>
