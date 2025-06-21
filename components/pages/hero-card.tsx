@@ -7,7 +7,7 @@ import Link from "next/link";
 import { BlogWithUser } from "@/types";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
-
+import parse from "html-react-parser";
 export default function HeroCard({
   post,
   className,
@@ -35,7 +35,7 @@ export default function HeroCard({
           alt={post.title}
           fill
           className={cn(
-            isMobile ? "object-cover object-center h-full" : "object-cover",
+            isMobile ? "object-scale-down object-top" : "object-cover",
             "transition-transform duration-300 group-hover:brightness-120 filter"
           )}
         />
@@ -46,14 +46,16 @@ export default function HeroCard({
         {/* Content overlay */}
         <div className="absolute inset-0 p-6 flex flex-col justify-end text-white">
           <div className="space-y-3">
-            <Badge
-              variant="secondary"
-              className="bg-blue-600 hover:bg-blue-700 text-white w-fit shadow-lg capitalize hover:underline text-xs lg:text-base">
-              <Link href={`/search?q=${post.tags?.split(",")[0]}`}>
-                {" "}
-                # {post.tags?.split(",")[0] || "General"}
-              </Link>
-            </Badge>
+            {!isMobile && (
+              <Badge
+                variant="secondary"
+                className="bg-blue-600 hover:bg-blue-700 text-white w-fit shadow-lg capitalize hover:underline text-xs">
+                <Link href={`/search?q=${post.tags?.split(",")[0]}`}>
+                  {" "}
+                  # {post.tags?.split(",")[0] || "General"}
+                </Link>
+              </Badge>
+            )}
 
             <h3 className="text-xl font-bold leading-tight line-clamp-2 drop-shadow-xl text-shadow-lg">
               {post.title}
@@ -85,12 +87,24 @@ export default function HeroCard({
                   })}
                 </span>
               </div>
-              {/* <span>•</span>
-                <div className="flex items-center gap-1 text-shadow">
-                  <Clock className="w-4 h-4" />
-                  <span>{calculateReadingTime(post.body)} min read</span>
-                </div> */}
             </div>
+            {isMobile && (
+              <>
+                <article className="text-xs sm:text-sm leading-8 md:pb-1 line-clamp-3 sm:line-clamp-2 text-white  overflow-hidden trimmed-blog-body ">
+                  {post ? parse(post.body.substring(0, 400)) : "Loading..."}
+                </article>
+                <div className="flex flex-wrap gap-2 my-4 overflow-ellipsis">
+                  {post?.tags?.split(",").map((tag: string, index: number) => (
+                    <Badge
+                      key={index}
+                      variant="secondary"
+                      className="text-xs bg-blue-500 text-white hover:bg-cyan-100 cursor-pointer transition-colors hover:underline capitalize">
+                      <Link href={`/search?q=${tag}`}># {tag}</Link>
+                    </Badge>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
