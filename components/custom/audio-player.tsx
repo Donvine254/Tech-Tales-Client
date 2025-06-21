@@ -5,17 +5,40 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Play, Pause, RotateCcw, RotateCw } from "lucide-react";
 
-export default function AudioPlayer() {
+interface AudioPlayerProps {
+  audioUrl?: string;
+  blogText?: string;
+}
+
+export default function AudioPlayer({ audioUrl, blogText }: AudioPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(326); // 5:26 in seconds
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
+
   const audioRef = useRef<HTMLAudioElement>(null);
+  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.playbackRate = playbackSpeed;
+    }
+    if (utteranceRef.current) {
+      utteranceRef.current.rate = playbackSpeed;
+    }
+  }, [playbackSpeed]);
+
+  // Cleanup speech synthesis on unmount
+  useEffect(() => {
+    return () => {
+      speechSynthesis.cancel();
+    };
+  }, []);
 
   // Simulate audio progress
   useEffect(() => {
     let interval: NodeJS.Timeout;
-    if (isPlaying) {
+    if (!audioUrl && isPlaying) {
       interval = setInterval(() => {
         setCurrentTime((prev) => {
           if (prev >= duration) {
@@ -27,10 +50,30 @@ export default function AudioPlayer() {
       }, 1000 / playbackSpeed);
     }
     return () => clearInterval(interval);
-  }, [isPlaying, duration, playbackSpeed]);
+  }, [isPlaying, duration, playbackSpeed, audioUrl]);
 
   const togglePlayPause = () => {
-    setIsPlaying(!isPlaying);
+    if (audioUrl) {
+      if (!audioRef.current) return;
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+    } else if (blogText) {
+      if (isPlaying) {
+        speechSynthesis.cancel();
+        setIsPlaying(false);
+      } else {
+        const utterance = new SpeechSynthesisUtterance(blogText);
+        utterance.rate = playbackSpeed;
+        utterance.onend = () => setIsPlaying(false);
+        utterance.onerror = () => setIsPlaying(false);
+        utteranceRef.current = utterance;
+        speechSynthesis.speak(utterance);
+        setIsPlaying(true);
+      }
+    }
   };
 
   const skipBackward = () => {
@@ -55,7 +98,11 @@ export default function AudioPlayer() {
   };
 
   const handleProgressChange = (value: number[]) => {
-    setCurrentTime(value[0]);
+    const newTime = value[0];
+    if (audioRef.current) {
+      audioRef.current.currentTime = newTime;
+    }
+    setCurrentTime(newTime);
   };
 
   // Sound wave animation component
@@ -161,11 +208,11 @@ export default function AudioPlayer() {
           if (audioRef.current) {
             setCurrentTime(Math.floor(audioRef.current.currentTime));
           }
-        }}>
-        <source
-          src="https://utfs.io/f/d3cb8e79-6000-4453-b933-fe0e1ed7720e-3sqahx.net).m4a"
-          type="audio/m4a"
-        />
+        }}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+        onEnded={() => setIsPlaying(false)}>
+        <source src={audioUrl} type="audio/m4a" />
       </audio>
     </div>
   );
