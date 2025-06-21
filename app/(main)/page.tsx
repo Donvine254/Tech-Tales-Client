@@ -25,13 +25,13 @@ export default async function Home() {
   const blogPosts = await getBlogs();
 
   return (
-    <div className="min-h-screen p-2 md:p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+    <div className="min-h-screen p-2 md:p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)] bg-muted/90 dark:bg-gray-900/90">
       <section className="w-full max-w-7xl mx-auto mb-4">
         <Hero post={blog} />
       </section>
       <section className="max-w-7xl mx-auto ">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-50">
+          <h2 className="text-lg md:text-2xl font-bold text-gray-900 dark:text-gray-50">
             Latest Articles
           </h2>
           <Link href="/latest" passHref>
@@ -50,7 +50,7 @@ export default async function Home() {
         </div>
       </section>
       {/* newsletter section */}
-      <section className="text-accent-foreground border-t border-gray-200 dark:border-gray-400 mt-8">
+      <section className="text-accent-foreground border-t border-gray-200 dark:border-gray-500 mt-4 ">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center max-w-2xl mx-auto">
             <h2 className="text-3xl font-bold  mb-4">

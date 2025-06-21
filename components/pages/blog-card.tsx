@@ -24,7 +24,7 @@ interface BlogCardProps extends BlogWithUser {
 const BlogCard = ({ blog }: { blog: BlogCardProps }) => {
   const image = blog.image as { secure_url?: string };
   return (
-    <article className="group bg-muted dark:bg-accent rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden  hover:border-gray-200 hover:-translate-y-1 flex flex-col">
+    <article className="group bg-white dark:bg-accent rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden  hover:border-gray-200 hover:-translate-y-1 flex flex-col">
       <div className="aspect-[16/9] bg-gradient-to-br from-cyan-100 to-blue-100 relative overflow-hidden">
         <Image
           src={image?.secure_url || "/placeholder-image.webp"}
