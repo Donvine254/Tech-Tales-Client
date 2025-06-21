@@ -2,10 +2,20 @@ import React from "react";
 import Script from "next/script";
 import parse from "html-react-parser";
 import BlogImage from "@/components/ui/blog-image";
-import { calculateReadingTime } from "@/lib/utils";
-import { Calendar, Clock } from "lucide-react";
+import { calculateReadingTime, formatViews } from "@/lib/utils";
+import {
+  Bookmark,
+  Calendar,
+  ChartNoAxesColumn,
+  Clock,
+  Heart,
+  MessageSquare,
+} from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
+import { ShareModal } from "@/components/modals/share-modal";
+import { Button } from "@/components/ui/button";
+import PrismLoader from "@/components/custom/prism-loader";
 type Props = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   blog: Record<string, any>;
@@ -79,7 +89,8 @@ export default function Slug({ blog }: Props) {
               <Link
                 key={index}
                 href={`/search?q=${tag.trim()}`}
-                className={`md:px-2 md:py-0 text-blue-600 md:bg-transparent    md:border border-transparent md:rounded-full hover:underline  text-sm  highlight-link-${index}`}>
+                title={tag}
+                className={`md:px-2 md:py-0 text-blue-600 md:bg-transparent    md:border border-transparent md:rounded-full  text-sm  highlight-link-${index}`}>
                 <span>#</span>
                 {tag.trim()}
               </Link>
@@ -89,6 +100,58 @@ export default function Slug({ blog }: Props) {
           <></>
         )}
       </div>
+      {/* Actions buttons */}
+      <div className="flex items-center justify-between xsm:gap-2 md:gap-4  py-2 border-y border-slate-300 my-2">
+        <button className="flex items-center space-x-1 hover:text-cyan-600 transition-colors">
+          <MessageSquare className="h-4 w-4" />
+          <span className="text-sm">{blog?.comments?.length ?? 0}</span>
+        </button>
+        <button className="flex items-center space-x-1 hover:text-red-500 transition-colors">
+          <Heart className="h-4 w-4" />
+          <span className="text-sm">{blog.likes}</span>
+        </button>
+        <button className="flex items-center space-x-1 hover:text-cyan-600 transition-colors">
+          <ChartNoAxesColumn className="h-4 w-4" />
+          <span className="text-sm">{formatViews(blog.views)}</span>
+        </button>
+        <button className="p-1 hover:text-cyan-600 transition-colors">
+          <svg
+            fill="none"
+            viewBox="0 0 24 24"
+            height="20"
+            width="20"
+            className="fill-none  hover:-translate-y-1 transition-transform duration-300"
+            data-tooltip-id="play-blog">
+            <path
+              fill="currentColor"
+              fillRule="evenodd"
+              d="M12 21a9 9 0 100-18 9 9 0 000 18zm0 2c6.075 0 11-4.925 11-11S18.075 1 12 1 1 5.925 1 12s4.925 11 11 11z"
+              clipRule="evenodd"
+            />
+            <title>Listen to this blog</title>
+            <path fill="currentColor" d="M16 12l-6 4.33V7.67L16 12z" />
+          </svg>
+        </button>
+        <ShareModal
+          slug={blog.slug}
+          title={blog.title}
+          image={blog.image?.secure_url ?? "/placeholder-image.webp"}
+        />
+        <button className="p-1  hover:text-cyan-600 transition-colors">
+          <Bookmark className="h-4 w-4" />
+        </button>
+      </div>
+      {/* summary button */}
+      {/* <Button className="text-green-500 bg-green-50 py-1 text-xs md:text-sm">
+        ✨ Generate a summary of this story
+      </Button> */}
+      {/* blog body */}
+      <article
+        className="leading-8 md:leading-10 subpixel-antialiased blog-body max-w-none mt-4"
+        id="blog-body">
+        <PrismLoader />
+        {blog.body ? parse(blog.body) : "Loading..."}
+      </article>
     </div>
   );
 }
