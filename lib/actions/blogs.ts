@@ -30,60 +30,38 @@ export const getBlogs = unstable_cache(
   { revalidate: 600 }
 );
 
-export const getLatestBlogs = unstable_cache(
-  async () => {
-    const latestBlogs = await prisma.blog.findMany({
-      where: {
-        status: "PUBLISHED",
-      },
-      include: {
-        author: {
-          select: {
-            username: true,
-            picture: true,
+const createBlogFetcher = (
+  orderByField: "createdAt" | "views" | "likes",
+  cacheKey: string
+) =>
+  unstable_cache(
+    async () => {
+      return await prisma.blog.findMany({
+        where: {
+          status: "PUBLISHED",
+        },
+        include: {
+          author: {
+            select: {
+              username: true,
+              picture: true,
+            },
+          },
+          _count: {
+            select: {
+              comments: true,
+            },
           },
         },
-        _count: {
-          select: {
-            comments: true,
-          },
+        orderBy: {
+          [orderByField]: "desc",
         },
-      },
-      orderBy: { createdAt: "desc" },
-      take: 10,
-    });
-
-    return latestBlogs;
-  },
-  ["latest"],
-  { revalidate: 600 }
-);
-
-export const getTrendingBlogs = unstable_cache(
-  async () => {
-    const trendingBlogs = await prisma.blog.findMany({
-      where: {
-        status: "PUBLISHED",
-      },
-      include: {
-        author: {
-          select: {
-            username: true,
-            picture: true,
-          },
-        },
-        _count: {
-          select: {
-            comments: true,
-          },
-        },
-      },
-      orderBy: { likes: "desc" },
-      take: 10,
-    });
-
-    return trendingBlogs;
-  },
-  ["latest"],
-  { revalidate: 600 }
-);
+        take: 10,
+      });
+    },
+    [cacheKey],
+    { revalidate: 600 }
+  );
+export const getLatestBlogs = createBlogFetcher("createdAt", "latest");
+export const getTrendingBlogs = createBlogFetcher("views", "trending");
+export const getFeaturedBlogs = createBlogFetcher("likes", "featured");

@@ -1,11 +1,11 @@
 import React from "react";
 import Newsletter from "@/components/pages/newsletter";
 import BlogCard from "@/components/pages/blog-card";
-import { getTrendingBlogs } from "@/lib/actions/blogs";
+import { getFeaturedBlogs } from "@/lib/actions/blogs";
 import FeaturedCard from "@/components/pages/featured-card";
 import { Crown } from "lucide-react";
 export default async function page() {
-  const trendingBlogs = await getTrendingBlogs();
+  const featuredBlogs = await getFeaturedBlogs();
   return (
     <div className="min-h-screen p-2 md:p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)] bg-muted/90 dark:bg-gray-900/90">
       <div className="w-full max-w-7xl mx-auto mb-4">
@@ -25,12 +25,12 @@ export default async function page() {
         </div>
         {/* Featured Card */}
         <hr className="border-3 my-2" />
-        <FeaturedCard blog={trendingBlogs[0]} variant="featured" />
+        <FeaturedCard blog={featuredBlogs[0]} variant="featured" />
       </div>
       <section className="max-w-7xl mx-auto ">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {trendingBlogs &&
-            trendingBlogs?.slice(1).map((post, index: number) => (
+          {featuredBlogs &&
+            featuredBlogs?.slice(1).map((post, index: number) => (
               <div key={index} className="relative">
                 {index < 4 && (
                   <div className="absolute -top-2 -right-2 z-20">
