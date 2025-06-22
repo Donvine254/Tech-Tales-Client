@@ -8,7 +8,7 @@ const CookieAlert = () => {
 
   useEffect(() => {
     if (!getCookie("acceptCookies")) {
-      setTimeout(() => setShow(true), 2000);
+      setTimeout(() => setShow(true), 4000);
     }
   }, []);
 
