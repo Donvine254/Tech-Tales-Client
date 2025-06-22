@@ -7,7 +7,13 @@ import parse from "html-react-parser";
 import { Calendar, Clock } from "lucide-react";
 import { calculateReadingTime } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-export default function FeaturedCard({ blog }: { blog: BlogWithUser }) {
+import BlogCard from "./blog-card";
+interface BlogCardProps extends BlogWithUser {
+  _count: {
+    comments: number;
+  };
+}
+export default function FeaturedCard({ blog }: { blog: BlogCardProps }) {
   const image = blog.image as { secure_url?: string };
   return (
     <div className="w-full">
@@ -22,9 +28,9 @@ export default function FeaturedCard({ blog }: { blog: BlogWithUser }) {
               fill
               className="w-full h-full object-cover transition-transform duration-500"
             />
-            {/* Dark gradient overlay for image */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10" />
           </Link>
+          {/* Dark gradient overlay for image */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10" />
         </div>
         {/* Right Content Section */}
         <div className="w-1/2 relative p-6 md:p-8 bg-background">
@@ -89,40 +95,9 @@ export default function FeaturedCard({ blog }: { blog: BlogWithUser }) {
           </div>
         </div>
       </div>
-
       {/* Mobile Layout */}
-      <div className="md:hidden overflow-hidden bg-white shadow-xl rounded-lg">
-        <div className="relative">
-          <Image
-            src="/placeholder.svg?height=250&width=400"
-            alt="Blog post featured image"
-            width={400}
-            height={250}
-            className="w-full h-48 object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-          <Badge
-            variant="secondary"
-            className="absolute top-4 left-4 bg-blue-100 text-blue-800">
-            Technology
-          </Badge>
-        </div>
-        <div className="p-6 space-y-3">
-          <h2 className="text-xl font-bold text-gray-900 leading-tight">
-            The Future of Web Development: Trends and Technologies Shaping
-            Tomorrow
-          </h2>
-          <p className="text-gray-600 text-sm leading-relaxed">
-            Discover the latest trends in web development, from AI-powered tools
-            to new frameworks that are revolutionizing how we build digital
-            experiences.
-          </p>
-          <div className="flex items-center text-xs text-gray-500 space-x-3">
-            <span>5 min read</span>
-            <span>•</span>
-            <span>Dec 22, 2024</span>
-          </div>
-        </div>
+      <div className="md:hidden">
+        <BlogCard blog={blog} />
       </div>
     </div>
   );

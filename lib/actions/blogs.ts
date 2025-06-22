@@ -50,7 +50,7 @@ export const getLatestBlogs = unstable_cache(
         },
       },
       orderBy: { createdAt: "desc" },
-      take: 9,
+      take: 10,
     });
 
     return latestBlogs;
