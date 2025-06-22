@@ -2,7 +2,6 @@ import React from "react";
 import Newsletter from "@/components/pages/newsletter";
 import BlogCard from "@/components/pages/blog-card";
 import { getLatestBlogs } from "@/lib/actions/blogs";
-import { Clock } from "lucide-react";
 import FeaturedCard from "@/components/pages/featured-card";
 export default async function page() {
   const latestBlogs = await getLatestBlogs();
@@ -12,7 +11,15 @@ export default async function page() {
         <div className="text-center py-4">
           <div className="flex items-center justify-center mb-4">
             <div className="bg-gradient-to-r from-cyan-600 to-blue-600 p-3 rounded-full">
-              <Clock className="h-8 w-8 text-white" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                width="2rem"
+                height="2rem">
+                <path
+                  fill="currentColor"
+                  d="M3 6c0-1.1.9-2 2-2h8l4-4h2v16h-2l-4-4H5a2 2 0 0 1-2-2H1V6zm8 9v5H8l-1.67-5H5v-2h8v2z"></path>
+              </svg>
             </div>
           </div>
           <h1 className="text-lg mb-2 md:mb-4 md:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-gray-50">
