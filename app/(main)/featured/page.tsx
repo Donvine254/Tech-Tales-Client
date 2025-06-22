@@ -4,6 +4,13 @@ import BlogCard from "@/components/pages/blog-card";
 import { getFeaturedBlogs } from "@/lib/actions/blogs";
 import FeaturedCard from "@/components/pages/featured-card";
 import { Crown } from "lucide-react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Featured Stories | Tech Tales",
+  description: "Explore our top-picked tech stories curated just for you.",
+};
+
 export default async function page() {
   const featuredBlogs = await getFeaturedBlogs();
   return (
@@ -24,7 +31,7 @@ export default async function page() {
           </p>
         </div>
         {/* Featured Card */}
-        <hr className="border-3 my-2" />
+        <hr className="border-2 my-2" />
         <FeaturedCard blog={featuredBlogs[0]} variant="featured" />
       </div>
       <section className="max-w-7xl mx-auto ">

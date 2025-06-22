@@ -3,6 +3,13 @@ import Newsletter from "@/components/pages/newsletter";
 import BlogCard from "@/components/pages/blog-card";
 import { getLatestBlogs } from "@/lib/actions/blogs";
 import FeaturedCard from "@/components/pages/featured-card";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Latest Posts | Tech Tales",
+  description: "Stay updated with the newest stories in the world of tech.",
+};
+
 export default async function page() {
   const latestBlogs = await getLatestBlogs();
   return (
@@ -31,7 +38,7 @@ export default async function page() {
           </p>
         </div>
         {/* Featured Card */}
-        <hr className="border-3 my-2" />
+        <hr className="border-2 my-2" />
         <FeaturedCard blog={latestBlogs[0]} variant="latest" />
       </div>
       <section className="max-w-7xl mx-auto ">

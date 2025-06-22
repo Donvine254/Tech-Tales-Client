@@ -4,6 +4,13 @@ import BlogCard from "@/components/pages/blog-card";
 import { getTrendingBlogs } from "@/lib/actions/blogs";
 import FeaturedCard from "@/components/pages/featured-card";
 import { TrendingUp } from "lucide-react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Trending Now | Tech Tales",
+  description: "See what stories are capturing the tech world's attention.",
+};
+
 export default async function page() {
   const trendingBlogs = await getTrendingBlogs();
   return (
@@ -24,7 +31,7 @@ export default async function page() {
           </p>
         </div>
         {/* Featured Card */}
-        <hr className="border-3 my-2" />
+        <hr className="border-2 my-2" />
         <FeaturedCard blog={trendingBlogs[0]} variant="trending" />
       </div>
       <section className="max-w-7xl mx-auto ">
