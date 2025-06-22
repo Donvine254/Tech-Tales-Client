@@ -5,30 +5,27 @@ import { getBlogs } from "@/lib/actions/blogs";
 import prisma from "@/prisma/prisma";
 import { BlogWithUser } from "@/types";
 import Link from "next/link";
+
+//get featured blogs
+const featuredBlogs = await prisma.$queryRaw<BlogWithUser[]>`
+  SELECT b.*, json_build_object('username', u.username, 'picture', u.picture) AS author
+  FROM "Blog" b
+  JOIN "User" u ON b."authorId" = u.id
+  WHERE b.status = 'PUBLISHED'
+  ORDER BY RANDOM()
+  LIMIT 10;
+`;
 export default async function Home() {
-  const featuredBlogs = (await prisma.blog.findMany({
-    where: {
-      status: "PUBLISHED",
-    },
-    include: {
-      author: {
-        select: {
-          username: true,
-          picture: true,
-        },
-      },
-    },
-    orderBy: {
-      views: "desc",
-    },
-    take: 10,
-  })) as BlogWithUser[];
   const blogPosts = await getBlogs();
 
   return (
     <div className="min-h-screen p-2 md:p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)] bg-muted/90 dark:bg-gray-900/90">
       <section className="w-full max-w-7xl mx-auto  mb-4">
-        <BlogCarousel posts={featuredBlogs} />
+        {featuredBlogs && featuredBlogs.length > 0 ? (
+          <BlogCarousel posts={featuredBlogs} />
+        ) : (
+          <p>No featured blogs available.</p>
+        )}
       </section>
       <section className="max-w-7xl mx-auto ">
         <div className="flex items-center justify-between mb-8">
