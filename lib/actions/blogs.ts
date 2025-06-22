@@ -20,14 +20,41 @@ export const getBlogs = unstable_cache(
           },
         },
       },
-      orderBy: {
-        createdAt: "desc",
-      },
+
       take: 18,
     });
 
     return blogs;
   },
   ["blogs"],
+  { revalidate: 600 }
+);
+
+export const getLatestBlogs = unstable_cache(
+  async () => {
+    const latestBlogs = await prisma.blog.findMany({
+      where: {
+        status: "PUBLISHED",
+      },
+      include: {
+        author: {
+          select: {
+            username: true,
+            picture: true,
+          },
+        },
+        _count: {
+          select: {
+            comments: true,
+          },
+        },
+      },
+      orderBy: { createdAt: "desc" },
+      take: 9,
+    });
+
+    return latestBlogs;
+  },
+  ["latest"],
   { revalidate: 600 }
 );
