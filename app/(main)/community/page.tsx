@@ -293,7 +293,7 @@ export default function page() {
             </p>
 
             <a
-              href="mailto:community@techtales.com"
+              href="mailto:support@techtales.vercel.app"
               className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold rounded-lg hover:bg-cyan-700 hover:scale-y-105 transition-colors">
               <MessageSquare className="h-5 w-5 mr-2" />
               Contact Support
