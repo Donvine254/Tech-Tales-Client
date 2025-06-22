@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 
-const ScrollIndicator = () => {
+const ScrollButton = () => {
   const [showButton, setShowButton] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
 
@@ -73,4 +73,4 @@ const ScrollIndicator = () => {
   );
 };
 
-export default ScrollIndicator;
+export default ScrollButton;

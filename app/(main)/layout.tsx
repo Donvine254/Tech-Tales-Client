@@ -3,10 +3,11 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import { ThemeProvider } from "next-themes";
 import Footer from "@/components/custom/footer";
-import ScrollIndicator from "@/components/custom/scroll-indicator";
+import ScrollButton from "@/components/custom/scroll-button";
 import { Toaster } from "@/components/ui/sonner";
 import Navbar from "@/components/custom/navbar";
 import { metaobject } from "@/lib/metadata";
+import CookieAlert from "@/components/custom/cookie";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -40,7 +41,8 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
-          <ScrollIndicator />
+          <CookieAlert />
+          <ScrollButton />
           <Toaster richColors closeButton />
         </ThemeProvider>
       </body>
