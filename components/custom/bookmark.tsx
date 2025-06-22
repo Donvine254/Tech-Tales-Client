@@ -44,7 +44,7 @@ export default function Bookmark({ blogId }: { blogId: number }) {
           width="1.25rem"
           height="1.25rem"
           strokeWidth={1.5}
-          className="cursor-pointer hover:text-cyan-600 transition-color"
+          className="cursor-pointer font-bold hover:text-cyan-600 transition-color"
           onClick={handleBookmark}>
           <title>Add to bookmarks</title>
           <path
@@ -58,7 +58,7 @@ export default function Bookmark({ blogId }: { blogId: number }) {
           width="1.25rem"
           height="1.25rem"
           strokeWidth={1.5}
-          className="cursor-pointer hover:text-red-500 transition-color"
+          className="cursor-pointer font-bold hover:text-red-500 transition-color"
           onClick={handleBookmark}>
           <title>Remove from bookmarks</title>
           <path

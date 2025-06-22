@@ -92,7 +92,7 @@ export default function Slug({ blog }: Props) {
                 key={index}
                 href={`/search?q=${tag.trim()}`}
                 title={tag}
-                className={`md:px-2 md:py-0 text-blue-600 md:bg-transparent    md:border border-transparent md:rounded-full  text-sm  highlight-link-${index}`}>
+                className={`md:px-2 md:py-0 text-blue-500 dark:text-cyan-500 md:bg-transparent    md:border border-transparent md:rounded-full  text-sm  highlight-link-${index}`}>
                 <span>#</span>
                 {tag.trim()}
               </Link>
@@ -104,15 +104,22 @@ export default function Slug({ blog }: Props) {
       </div>
       {/* Actions buttons */}
       <div className="flex items-center justify-between xsm:gap-2 md:gap-4  py-2 border-y border-slate-300 my-2">
-        <button className="flex items-center space-x-1 hover:text-cyan-600 transition-colors">
+        <a
+          href="#comments"
+          className="flex items-center space-x-1 hover:text-cyan-600 transition-colors"
+          title="jump to comments">
           <MessageSquare className="h-4 w-4" />
           <span className="text-sm">{blog?.comments?.length ?? 0}</span>
-        </button>
-        <button className="flex items-center space-x-1 hover:text-red-500 transition-colors">
+        </a>
+        <button
+          className="flex items-center space-x-1 hover:text-red-500 transition-colors"
+          title="blog likes">
           <Heart className="h-4 w-4" />
           <span className="text-sm">{blog.likes}</span>
         </button>
-        <button className="flex items-center space-x-1 hover:text-cyan-600 transition-colors">
+        <button
+          className="flex items-center space-x-1 hover:text-cyan-600 transition-colors"
+          title="blog views">
           <ChartNoAxesColumn className="h-4 w-4" />
           <span className="text-sm">{formatViews(blog.views)}</span>
         </button>

@@ -160,9 +160,10 @@
   font-size: 14px !important;
 }
 .blog-body a {
-  color: #1e40af;
+  color: #06b6d4;
   text-decoration-line: underline;
 }
+
 .blog-body p:first-child {
   margin-top: 0;
 }
@@ -188,6 +189,7 @@
   width: 100%;
   white-space: pre-wrap;
   line-height: normal;
+  color: #000;
   font-size: 15px !important;
   background-color: #f2f2f2 !important;
   padding: 1em;
@@ -211,7 +213,7 @@
   @apply !pl-4 sm:!pl-6 md:!pl-8;
 }
 #comment-body a {
-  @apply text-blue-500 cursor-pointer hover:underline break-words whitespace-pre-wrap;
+  @apply text-cyan-500 cursor-pointer hover:underline break-words whitespace-pre-wrap;
 }
 
 #comment-body img {
@@ -232,6 +234,7 @@
 blockquote {
   background: #f9f9f9;
   border-left: 10px solid #ccc;
+  color: #000;
   margin: 1.5em 10px;
   padding: 0.5em 10px;
   quotes: "\201C""\201D""\2018""\2019";
