@@ -7,7 +7,7 @@ const CookieAlert = () => {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    if (!getCookie("acceptCookies")) {
+    if (!getCookie("__accept_cookies")) {
       setTimeout(() => setShow(true), 4000);
     }
   }, []);
@@ -21,7 +21,7 @@ const CookieAlert = () => {
   };
 
   const acceptCookies = () => {
-    setCookie("acceptCookies", true, 60);
+    setCookie("__accept_cookies", true, 60);
     toggleClass();
   };
 

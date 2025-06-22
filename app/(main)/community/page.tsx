@@ -106,10 +106,10 @@ export default function page() {
           {guidelines.map((guideline, index) => (
             <div
               key={index}
-              className="rounded-lg border bg-accent shadow-sm hover:shadow-lg transition-shadow duration-300">
+              className="rounded-lg border bg-white dark:bg-accent shadow-2xl hover:shadow-lg transition-shadow duration-300">
               <div className="flex flex-col space-y-1.5 p-6 text-center">
                 <div className="flex justify-center mb-4">
-                  <div className="bg-gradient-to-r from-cyan-100 to-blue-100 p-3 rounded-full">
+                  <div className="bg-blue-50 p-3 rounded-full">
                     <guideline.icon className="h-8 w-8 text-blue-500" />
                   </div>
                 </div>
@@ -294,7 +294,7 @@ export default function page() {
 
             <a
               href="mailto:support@techtales.vercel.app"
-              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold rounded-lg hover:bg-cyan-700 hover:scale-y-105 transition-colors">
+              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold rounded-lg hover:bg-cyan-700 hover:scale-110 transition-all duration-200">
               <MessageSquare className="h-5 w-5 mr-2" />
               Contact Support
             </a>
