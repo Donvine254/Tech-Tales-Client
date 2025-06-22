@@ -41,15 +41,14 @@ export default function Bookmark({ blogId }: { blogId: number }) {
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
-          width="1.25rem"
-          height="1.25rem"
-          strokeWidth={1.5}
+          width="1.15rem"
+          height="1.15rem"
           className="cursor-pointer font-bold hover:text-cyan-600 transition-color"
           onClick={handleBookmark}>
           <title>Add to bookmarks</title>
           <path
             fill="currentColor"
-            d="M6 19.5V5.616q0-.691.463-1.153T7.616 4H13v1H7.616q-.231 0-.424.192T7 5.616V17.95l5-2.15l5 2.15V11h1v8.5l-6-2.577zM7 5h6zm10 4V7h-2V6h2V4h1v2h2v1h-2v2z"></path>
+            d="M5 21V5q0-.825.588-1.412T7 3h6v2H7v12.95l5-2.15l5 2.15V11h2v10l-7-3zM7 5h6zm10 4V7h-2V5h2V3h2v2h2v2h-2v2z"></path>
         </svg>
       ) : (
         <svg
@@ -58,12 +57,12 @@ export default function Bookmark({ blogId }: { blogId: number }) {
           width="1.25rem"
           height="1.25rem"
           strokeWidth={1.5}
-          className="cursor-pointer font-bold hover:text-red-500 transition-color"
+          className="cursor-pointer  text-cyan-500 hover:text-red-500 transition-color"
           onClick={handleBookmark}>
           <title>Remove from bookmarks</title>
           <path
-            fill="oklch(60.9% 0.126 221.723)"
-            d="m10.95 13.289l4.239-4.239l-.714-.708l-3.525 3.544l-1.425-1.424l-.713.713zM6 19.5V5.616q0-.691.463-1.153T7.616 4h8.769q.69 0 1.153.463T18 5.616V19.5l-6-2.577z"></path>
+            fill="currentColor"
+            d="m10.95 14l4.95-4.95l-1.425-1.4l-3.525 3.525L9.525 9.75L8.1 11.175zM5 21V5q0-.825.588-1.412T7 3h10q.825 0 1.413.588T19 5v16l-7-3z"></path>
         </svg>
       )}
     </>

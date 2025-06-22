@@ -4,11 +4,13 @@ import UserDropdown from "./user-dropdown";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 const Navbar = () => {
   // Mock login state - you can replace this with actual authentication logic
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Set to false to see logged-out state
-
+  const pathname = usePathname();
   const handleLogin = () => {
     setIsLoggedIn(true);
   };
@@ -37,18 +39,30 @@ const Navbar = () => {
           <nav className="hidden md:flex items-center space-x-8">
             <Link
               href="/latest"
-              className="text-gray-700 dark:text-accent-foreground hover:text-blue-600 transition-colors font-medium">
+              className={cn(
+                "text-gray-700 dark:text-accent-foreground  hover:text-blue-600 transition-colors font-medium",
+                pathname.startsWith("/latest") &&
+                  "text-blue-600 dark:text-blue-500 underline underline-offset-4 font-bold"
+              )}>
               Latest
             </Link>
             <Link
               href="/trending"
-              className="text-gray-700 dark:text-accent-foreground  hover:text-blue-600 transition-colors font-medium">
+              className={cn(
+                "text-gray-700 dark:text-accent-foreground  hover:text-blue-600 transition-colors font-medium",
+                pathname.startsWith("/trending") &&
+                  "text-blue-600 dark:text-blue-500 underline underline-offset-4 font-bold"
+              )}>
               Trending
             </Link>
             <Link
-              href="/top"
-              className="text-gray-700 dark:text-accent-foreground  hover:text-blue-600 transition-colors font-medium">
-              Top
+              href="/featured"
+              className={cn(
+                "text-gray-700 dark:text-accent-foreground  hover:text-blue-600 transition-colors font-medium",
+                pathname.startsWith("/featured") &&
+                  "text-blue-600 dark:text-blue-500 underline underline-offset-4 font-bold"
+              )}>
+              Featured
             </Link>
           </nav>
 
