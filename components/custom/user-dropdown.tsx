@@ -110,7 +110,7 @@ const UserDropdown = ({ onLogout, onLogin, isLoggedIn }: UserDropdownProps) => {
                 <span>Featured Stories</span>
               </DropdownMenuItem>
             </Link>
-            <Link href="/top" passHref>
+            <Link href="/trending" passHref>
               <DropdownMenuItem className="cursor-pointer hover:text-blue-500 dark:hover:bg-blue-500 dark:hover:text-white group">
                 <svg
                   viewBox="0 0 448 512"

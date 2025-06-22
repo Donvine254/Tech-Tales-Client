@@ -58,3 +58,32 @@ export const getLatestBlogs = unstable_cache(
   ["latest"],
   { revalidate: 600 }
 );
+
+export const getTrendingBlogs = unstable_cache(
+  async () => {
+    const trendingBlogs = await prisma.blog.findMany({
+      where: {
+        status: "PUBLISHED",
+      },
+      include: {
+        author: {
+          select: {
+            username: true,
+            picture: true,
+          },
+        },
+        _count: {
+          select: {
+            comments: true,
+          },
+        },
+      },
+      orderBy: { likes: "desc" },
+      take: 10,
+    });
+
+    return trendingBlogs;
+  },
+  ["latest"],
+  { revalidate: 600 }
+);

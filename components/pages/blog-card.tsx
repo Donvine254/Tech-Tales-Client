@@ -95,7 +95,7 @@ const BlogCard = ({ blog }: { blog: BlogCardProps }) => {
         </article>
 
         {/* Tags */}
-        <div className="flex flex-wrap gap-2 mb-4 overflow-ellipsis">
+        <div className="flex flex-wrap gap-2 mb-4">
           {blog?.tags?.split(",").map((tag: string, index: number) => (
             <Badge
               key={index}
