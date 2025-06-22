@@ -6,6 +6,7 @@ import Footer from "@/components/custom/footer";
 import ScrollIndicator from "@/components/custom/scroll-indicator";
 import { Toaster } from "@/components/ui/sonner";
 import Navbar from "@/components/custom/navbar";
+import { metaobject } from "@/lib/metadata";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -17,8 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Tech Tales",
-  description: "Enrich your mind with tech stories.",
+  ...metaobject,
 };
 
 export default function RootLayout({
