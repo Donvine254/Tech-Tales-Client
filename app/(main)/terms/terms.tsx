@@ -72,10 +72,10 @@ const Terms = () => {
       </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {/* Table of Contents - Sticky Sidebar */}
           <div className="lg:col-span-1">
-            <div className="lg:sticky lg:top-24 bg-blue-400 rounded-lg border border-border p-4 text-white">
+            <div className="md:sticky md:top-20 lg:top-24 bg-blue-400 rounded-lg border border-border p-4 text-white">
               <h3 className="text-lg font-semibold mb-3">Table of Contents</h3>
               <nav className="space-y-1">
                 {sections.map((section, index) => (
@@ -95,7 +95,7 @@ const Terms = () => {
           </div>
 
           {/* Content */}
-          <div className="lg:col-span-3">
+          <div className="md:col-span-2 lg:col-span-3">
             <div className="bg-card rounded-lg border border-border divide-y divide-border">
               {/* Acceptance of Terms */}
               <section id="acceptance" className="p-8">
