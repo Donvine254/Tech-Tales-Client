@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import { Metadata } from "next";
 export const metadata: Metadata = {
-  title: "Latest Posts | Tech Tales",
+  title: "Community Guidelines | Tech Tales",
   description: "Stay updated with the newest stories in the world of tech.",
 };
 
@@ -72,26 +72,27 @@ export default function page() {
   ];
 
   return (
-    <div className="min-h-screen p-2 md:p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)] bg-muted/90 dark:bg-gray-900/90">
+    <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="w-full max-w-7xl mx-auto ">
-        <div className="text-center py-4">
-          <div className="flex items-center justify-center mb-6">
-            <div className="bg-gradient-to-r from-purple-600 to-cyan-600 p-3 rounded-full">
-              <Users className="h-8 w-8 text-white" />
+      <section className="bg-muted border-b border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="text-center py-4">
+            <div className="flex items-center justify-center mb-6">
+              <div className="bg-gradient-to-r from-purple-600 to-cyan-600 p-3 rounded-full">
+                <Users className="h-8 w-8 text-white" />
+              </div>
             </div>
+            <h1 className="text-lg mb-4 md:mb-6 md:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-gray-50">
+              Community Guidelines
+            </h1>
+            <p className="text-sm sm:text-lg mx-auto text-primary/90 max-w-2xl leading-relaxed">
+              Our community thrives when everyone feels safe, respected, and
+              valued. These guidelines help us maintain a positive environment
+              for learning and sharing.
+            </p>
           </div>
-          <h1 className="text-lg mb-2 md:mb-4 md:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-gray-50">
-            Community Guidelines
-          </h1>
-          <p className="text-sm sm:text-lg mx-auto text-primary/90 max-w-2xl leading-relaxed">
-            Our community thrives when everyone feels safe, respected, and
-            valued. These guidelines help us maintain a positive environment for
-            learning and sharing.
-          </p>
         </div>
       </section>
-      <hr className="border-2 my-2" />
       {/* Core Values */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
         <div className="text-center mb-12">
