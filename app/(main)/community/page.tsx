@@ -74,8 +74,8 @@ export default function page() {
   return (
     <div className="min-h-screen p-2 md:p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)] bg-muted/90 dark:bg-gray-900/90">
       {/* Hero Section */}
-      <section className="w-full max-w-7xl mx-auto">
-        <div className="text-center">
+      <section className="w-full max-w-7xl mx-auto ">
+        <div className="text-center py-4">
           <div className="flex items-center justify-center mb-6">
             <div className="bg-gradient-to-r from-purple-600 to-cyan-600 p-3 rounded-full">
               <Users className="h-8 w-8 text-white" />
@@ -85,9 +85,9 @@ export default function page() {
             Community Guidelines
           </h1>
           <p className="text-sm sm:text-lg mx-auto text-primary/90 max-w-2xl leading-relaxed">
-            Welcome to TechTales! Our community thrives when everyone feels
-            safe, respected, and valued. These guidelines help us maintain a
-            positive environment for learning and sharing.
+            Our community thrives when everyone feels safe, respected, and
+            valued. These guidelines help us maintain a positive environment for
+            learning and sharing.
           </p>
         </div>
       </section>
@@ -106,7 +106,7 @@ export default function page() {
           {guidelines.map((guideline, index) => (
             <div
               key={index}
-              className="rounded-lg border bg-white dark:bg-accent shadow-2xl hover:shadow-lg transition-shadow duration-300">
+              className="rounded-lg border bg-white dark:bg-accent/80 shadow-2xl hover:shadow-lg transition-shadow duration-300">
               <div className="flex flex-col space-y-1.5 p-6 text-center">
                 <div className="flex justify-center mb-4">
                   <div className="bg-blue-50 p-3 rounded-full">
@@ -117,7 +117,7 @@ export default function page() {
                   {guideline.title}
                 </h3>
               </div>
-              <div className="p-6 pt-0 text-muted-foreground">
+              <div className="p-6 pt-0 text-muted-foreground dark:text-gray-100">
                 <p className="mb-4">{guideline.description}</p>
                 <ul className="space-y-2">
                   {guideline.details.map((detail, idx) => (
