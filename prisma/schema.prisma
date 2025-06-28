@@ -43,6 +43,8 @@ model User {
   id              Int        @id @default(autoincrement())
   username        String     @unique
   email           String     @unique
+  email_verified  Boolean    @default(false)
+  provider        String     @default("email")
   password_digest String
   role            Role       @default(user)
   bio             String?    @default("This user has no bio")
