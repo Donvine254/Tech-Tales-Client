@@ -95,16 +95,18 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                                     <Github />
                                     <span className="sr-only">Login with Github</span>
                                 </Button>
-                                <Button variant="outline" className="w-full hover:bg-blue-100 dark:hover:bg-white " title="login with meta">
+                                <Button variant="outline" className="w-full hover:bg-blue-100 dark:hover:bg-white " title="login with meta" onClick={() => {
+                                    toast.info("upcoming feature!")
+                                }}>
                                     <Meta />
                                     <span className="sr-only">Login with Meta</span>
                                 </Button>
                             </div>
                             <div className="text-center text-sm">
                                 Don&apos;t have an account?{" "}
-                                <a href="#" className="underline underline-offset-4">
+                                <Link href="/register" className="underline underline-offset-4">
                                     Sign up
-                                </a>
+                                </Link>
                             </div>
                         </div>
                     </form>
