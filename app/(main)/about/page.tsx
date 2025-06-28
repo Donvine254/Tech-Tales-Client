@@ -185,7 +185,7 @@ const About = () => {
                                 </Button>
                                 <Button
                                     variant="outline"
-                                    className="hover:bg-green-500 w-full items-center"
+                                    className="hover:bg-green-500 hover:text-white w-full items-center"
                                     title="whatsapp"
                                     asChild
                                 >
