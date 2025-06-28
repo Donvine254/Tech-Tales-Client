@@ -9,7 +9,8 @@ import Link from "next/link"
 import { Github, Google, Meta } from "@/assets/svg"
 import { useState } from "react"
 import { Loader2 } from "lucide-react"
-
+import { GoogleReCaptcha } from "react-google-recaptcha-v3";
+import { toast } from "sonner"
 
 type FormStatus = 'pending' | 'loading' | 'success' | 'error';
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
@@ -18,6 +19,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
         password: "",
     });
     const [status, setStatus] = useState<FormStatus>('pending');
+    const [token, setToken] = useState<string | null>(null);
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setformData((prevData) => ({
@@ -28,7 +30,12 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
     // function to login
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
+        if (!token) {
+            toast.error("Kindly complete the recaptcha challenge");
+            return;
+        }
         setStatus("loading")
+        // TODO: Add login logic here
     }
     return (
         <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -66,6 +73,11 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                                 </div>
                                 <Input id="password" name="password" value={formData.password} disabled={status === "loading"} onChange={handleChange} type="password" required minLength={4} placeholder="********" />
                             </div>
+                            <GoogleReCaptcha
+                                onVerify={(token) => {
+                                    setToken(token);
+                                }}
+                            />
                             <Button type="submit" className="w-full hover:bg-blue-500 hover:text-white" disabled={status === "loading"}>
                                 {status === "loading" ? <Loader2 className="animate-spin h-4 w-4" /> : "Login"}
                             </Button>

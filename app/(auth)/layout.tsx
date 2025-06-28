@@ -4,6 +4,8 @@ import "../globals.css";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/sonner";
 import { metaobject } from "@/lib/metadata";
+import { GoogleContextProviders } from "@/providers/google";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,7 +36,10 @@ export default function LoginLayout({
           enableSystem
           disableTransitionOnChange>
           <main>
-            {children}
+            <GoogleContextProviders
+            >
+              {children}
+            </GoogleContextProviders>
           </main>
           <Toaster richColors closeButton />
         </ThemeProvider>
