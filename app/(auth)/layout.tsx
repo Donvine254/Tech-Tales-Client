@@ -2,12 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import { ThemeProvider } from "next-themes";
-import Footer from "@/components/layout/footer";
-import ScrollButton from "@/components/custom/scroll-button";
 import { Toaster } from "@/components/ui/sonner";
-import Navbar from "@/components/layout/navbar";
 import { metaobject } from "@/lib/metadata";
-import CookieAlert from "@/components/custom/cookie";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -22,7 +19,7 @@ export const metadata: Metadata = {
   ...metaobject,
 };
 
-export default function RootLayout({
+export default function LoginLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -37,12 +34,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange>
           <main>
-            <Navbar />
             {children}
           </main>
-          <Footer />
-          <CookieAlert />
-          <ScrollButton />
           <Toaster richColors closeButton />
         </ThemeProvider>
       </body>

@@ -1,6 +1,6 @@
 "use client";
 import { Search, BookOpen, CircleUserRound, Edit } from "lucide-react";
-import UserDropdown from "./user-dropdown";
+import UserDropdown from "../custom/user-dropdown";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import Link from "next/link";
@@ -42,7 +42,7 @@ const Navbar = () => {
               className={cn(
                 "text-gray-700 dark:text-accent-foreground  hover:text-blue-600 transition-colors font-medium",
                 pathname.startsWith("/latest") &&
-                  "text-blue-600 dark:text-blue-500 underline underline-offset-4 font-bold"
+                "text-blue-600 dark:text-blue-500 underline underline-offset-4 font-bold"
               )}>
               Latest
             </Link>
@@ -51,7 +51,7 @@ const Navbar = () => {
               className={cn(
                 "text-gray-700 dark:text-accent-foreground  hover:text-blue-600 transition-colors font-medium",
                 pathname.startsWith("/trending") &&
-                  "text-blue-600 dark:text-blue-500 underline underline-offset-4 font-bold"
+                "text-blue-600 dark:text-blue-500 underline underline-offset-4 font-bold"
               )}>
               Trending
             </Link>
@@ -60,7 +60,7 @@ const Navbar = () => {
               className={cn(
                 "text-gray-700 dark:text-accent-foreground  hover:text-blue-600 transition-colors font-medium",
                 pathname.startsWith("/featured") &&
-                  "text-blue-600 dark:text-blue-500 underline underline-offset-4 font-bold"
+                "text-blue-600 dark:text-blue-500 underline underline-offset-4 font-bold"
               )}>
               Featured
             </Link>

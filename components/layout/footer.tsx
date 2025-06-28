@@ -1,7 +1,7 @@
 import { BookOpen } from "lucide-react";
 
 import Link from "next/link";
-import { ThemeToggle } from "./theme-toggle";
+import { ThemeToggle } from "../custom/theme-toggle";
 
 const Footer = () => {
   return (
