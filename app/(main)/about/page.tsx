@@ -1,4 +1,4 @@
-import { Users, Target, Heart, Zap, Mail, MessageCircle, Info, UserCircle } from "lucide-react";
+import { Users, Target, Heart, Zap, Mail, Info, UserCircle, MessageSquare } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import SubscriptionModal from "@/components/modals/subscription-modal";
@@ -119,7 +119,7 @@ const About = () => {
                                                 className="hover:bg-green-500 w-full cursor-pointer"
                                                 title="whatsapp"
                                             >
-                                                <MessageCircle className="h-4 w-4" />
+                                                <MessageSquare className="h-4 w-4" />
                                                 Let&apos;s Chat
                                             </Button>
                                         </Link>
@@ -178,27 +178,27 @@ const About = () => {
                                 passionate about making tech accessible to everyone.
                             </p>
                             <div className="flex space-x-3">
-                                <Link href="mailto:donvinemugendi@gmail.com" passHref className="w-full">
-                                    <Button className="bg-blue-600 hover:bg-blue-700 w-full text-white cursor-pointer">
-                                        <Mail className="h-4 w-4" />
-                                        Hire Me
-                                    </Button>
-                                </Link>
-                                <Link
-                                    href="https://api.whatsapp.com/send?phone=254702018079&text=Hello%2C%20I%20want%20more%20information%20about%20tech%20tales%F0%9F%98%8A"
-                                    passHref
-                                    className="w-full"
-                                    target="_blank"
+
+                                <Button className="bg-blue-600 hover:bg-blue-700 w-full text-white cursor-pointer" asChild>
+                                    <Link href="mailto:donvinemugendi@gmail.com" >   <Mail className="h-4 w-4" />
+                                        Hire Me</Link>
+                                </Button>
+                                <Button
+                                    variant="outline"
+                                    className="hover:bg-green-500 w-full items-center"
+                                    title="whatsapp"
+                                    asChild
                                 >
-                                    <Button
-                                        variant="outline"
-                                        className="hover:bg-green-500 w-full cursor-pointer"
-                                        title="whatsapp"
-                                    >
-                                        <MessageCircle className="h-4 w-4" />
-                                        Let&apos;s Chat
-                                    </Button>
-                                </Link>
+                                    <Link
+                                        href="https://api.whatsapp.com/send?phone=254702018079&text=Hello%2C%20I%20want%20more%20information%20about%20tech%20tales%F0%9F%98%8A"
+                                        passHref
+                                        className="w-full"
+                                        target="_blank"
+                                    ><MessageSquare className="h-4 w-4" />
+                                        Let&apos;s Chat</Link>
+
+                                </Button>
+
                             </div>
                         </div>
                     </div>
