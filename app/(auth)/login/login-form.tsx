@@ -11,6 +11,7 @@ import { useState } from "react"
 import { Loader2 } from "lucide-react"
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import { toast } from "sonner"
+import { validateRecaptcha } from "@/lib/actions/captcha"
 
 type FormStatus = 'pending' | 'loading' | 'success' | 'error';
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
@@ -29,12 +30,13 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
     };
     // function to login
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault()
-        if (!token) {
+        e.preventDefault();
+
+        if (!token || !(await validateRecaptcha(token))) {
             toast.error("Kindly complete the recaptcha challenge");
             return;
         }
-        setStatus("loading")
+        setStatus("loading");
         // TODO: Add login logic here
     }
     return (
