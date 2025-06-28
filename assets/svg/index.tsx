@@ -1,6 +1,6 @@
 import { SVGProps } from "react";
 
-export function Google(props: SVGProps<SVGSVGElement>) {
+export function GoogleIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -28,7 +28,7 @@ export function Google(props: SVGProps<SVGSVGElement>) {
 }
 
 
-export function Github(props: SVGProps<SVGSVGElement>) {
+export function GithubIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -45,7 +45,7 @@ export function Github(props: SVGProps<SVGSVGElement>) {
   )
 }
 
-export function Meta(props: SVGProps<SVGSVGElement>) {
+export function MetaIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

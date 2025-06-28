@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Image from "next/image"
 import Link from "next/link"
-import { Github, Google, Meta } from "@/assets/svg"
+import { GithubIcon, GoogleIcon, MetaIcon } from "@/assets/svg"
 import { useState } from "react"
 import { Loader2 } from "lucide-react"
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
@@ -88,17 +88,17 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                             </div>
                             <div className="grid grid-cols-3 gap-4">
                                 <Button variant="outline" className="w-full hover:bg-blue-100 dark:hover:bg-white" title="login with google">
-                                    <Google />
+                                    <GoogleIcon />
                                     <span className="sr-only">Login with Google</span>
                                 </Button>
                                 <Button variant="outline" className="w-full hover:bg-black hover:text-white dark:hover:text-black dark:hover:bg-white" title="login with github">
-                                    <Github />
+                                    <GithubIcon />
                                     <span className="sr-only">Login with Github</span>
                                 </Button>
                                 <Button variant="outline" className="w-full hover:bg-blue-100 dark:hover:bg-white " title="login with meta" onClick={() => {
                                     toast.info("upcoming feature!")
                                 }}>
-                                    <Meta />
+                                    <MetaIcon />
                                     <span className="sr-only">Login with Meta</span>
                                 </Button>
                             </div>
