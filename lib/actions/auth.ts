@@ -9,6 +9,7 @@ export async function authenticateSSOLogin(email: string) {
   try {
     const user = await prisma.user.findUnique({
       where: { email: email },
+      //   add provider here to check whether this is valid SSO login
     });
     if (!user) {
       return { success: false, error: "User not found" };
@@ -17,8 +18,8 @@ export async function authenticateSSOLogin(email: string) {
       userId: user.id,
       email: user.email,
       role: user.role,
-      username:user.username,
-      picture: user.picture
+      username: user.username,
+      picture: user.picture,
     })
       .setProtectedHeader({ alg: "HS256" })
       .setExpirationTime("8h")
@@ -28,7 +29,7 @@ export async function authenticateSSOLogin(email: string) {
       maxAge: 8 * 60 * 60,
       sameSite: "strict",
     });
-    return { success: true, message: "User updated successfully" };
+    return { success: true, message: "Logged in successfully" };
   } catch (error) {
     console.error(error);
     return { success: false, error: "Something went wrong" };

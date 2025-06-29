@@ -6,12 +6,14 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Image from "next/image"
 import Link from "next/link"
-import { GithubIcon, GoogleIcon, MetaIcon } from "@/assets/icons"
+import { GithubIcon, MetaIcon } from "@/assets/icons"
 import { useState } from "react"
 import { Loader2 } from "lucide-react"
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import { toast } from "sonner"
 import { validateRecaptcha } from "@/lib/actions/captcha"
+import GoogleAuthButton from "@/components/auth/google"
+import { useRouter } from "next/navigation"
 
 type FormStatus = 'pending' | 'loading' | 'success' | 'error';
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
@@ -21,6 +23,9 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
     });
     const [status, setStatus] = useState<FormStatus>('pending');
     const [token, setToken] = useState<string | null>(null);
+    const router = useRouter()
+    const origin_url = "/"
+    //function to handle change
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setformData((prevData) => ({
@@ -87,11 +92,8 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                                 <span className="relative z-10 bg-background  px-2 text-muted-foreground">Or continue with</span>
                             </div>
                             <div className="grid grid-cols-3 gap-4">
-                                <Button variant="outline" className="w-full hover:bg-blue-100 dark:hover:bg-white" title="login with google">
-                                    <GoogleIcon />
-                                    <span className="sr-only">Login with Google</span>
-                                </Button>
-                                <Button variant="outline" className="w-full hover:bg-black hover:text-white dark:hover:text-black dark:hover:bg-white" title="login with github">
+                                <GoogleAuthButton router={router} origin_url={origin_url} />
+                                <Button variant="outline" className="w-full hover:bg-black hover:text-white dark:hover:text-black dark:hover:bg-white" title="login with github" type="button">
                                     <GithubIcon />
                                     <span className="sr-only">Login with Github</span>
                                 </Button>
