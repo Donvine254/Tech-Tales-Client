@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Image from "next/image"
 import Link from "next/link"
-import { GithubIcon, MetaIcon } from "@/assets/icons"
+import { MetaIcon } from "@/assets/icons"
 import { useEffect, useState } from "react"
 import { Loader2 } from "lucide-react"
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
@@ -16,6 +16,7 @@ import GoogleAuthButton from "@/components/auth/google"
 import { authenticateUserLogin } from "@/lib/actions/auth"
 import { useRouter } from "next/navigation"
 import { getCookie } from "@/lib/cookie"
+import GithubButton from "@/components/auth/github"
 
 
 type FormStatus = 'pending' | 'loading' | 'success' | 'error';
@@ -127,10 +128,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                             </div>
                             <div className="grid grid-cols-3 gap-4">
                                 <GoogleAuthButton setStatus={setStatus} origin_url={originUrl} />
-                                <Button variant="outline" className="w-full hover:bg-black hover:text-white dark:hover:text-black dark:hover:bg-white" title="login with github" type="button">
-                                    <GithubIcon />
-                                    <span className="sr-only">Login with Github</span>
-                                </Button>
+                                <GithubButton router={router} />
                                 <Button variant="outline" className="w-full hover:bg-blue-100 dark:hover:bg-white " title="login with meta" onClick={() => {
                                     toast.info("upcoming feature!")
                                 }}>
