@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { deleteSession } from "@/lib/actions/session";
 import { toast } from "sonner";
 import { useSession } from "@/providers/session";
+import { setCookie } from "@/lib/cookie";
 
 const Navbar = () => {
   const { session, setSession } = useSession();
@@ -22,7 +23,8 @@ const Navbar = () => {
   }
   // trim the pathname
   async function handleLogin() {
-    router.push(`/login?post_login_redirect_url=${pathname}`)
+    setCookie("post_login_redirect", pathname, 1);
+    router.push('/login')
   }
 
   return (

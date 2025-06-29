@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label"
 import Image from "next/image"
 import Link from "next/link"
 import { GithubIcon, MetaIcon } from "@/assets/icons"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Loader2 } from "lucide-react"
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import { toast } from "sonner"
@@ -15,6 +15,7 @@ import { validateRecaptcha } from "@/lib/actions/captcha"
 import GoogleAuthButton from "@/components/auth/google"
 import { authenticateUserLogin } from "@/lib/actions/auth"
 import { useRouter } from "next/navigation"
+import { getCookie } from "@/lib/cookie"
 
 
 type FormStatus = 'pending' | 'loading' | 'success' | 'error';
@@ -26,7 +27,17 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
     const [status, setStatus] = useState<FormStatus>('pending');
     const [token, setToken] = useState<string | null>(null);
     const router = useRouter()
-    const origin_url = "/"
+    const [originUrl, setOriginUrl] = useState("/")
+
+    //useEffect to read the cookie
+    useEffect(() => {
+        setOriginUrl(getCookie("post_login_redirect"))
+        // delete the cookie
+        document.cookie = "post_login_redirect=; Max-Age=0; path=/; SameSite=Lax";
+    }, [])
+
+
+
     //function to handle change
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -38,14 +49,11 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
     // function to login
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-
         if (!token || !(await validateRecaptcha(token))) {
             toast.error("Kindly complete the reCAPTCHA challenge");
             return;
         }
-
         setStatus("loading");
-
         try {
             // Get IP address from external API
             const ip = await fetch("https://api.ipify.org?format=json")
@@ -61,7 +69,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
             if (response.success) {
                 toast.success(response.message);
                 setStatus("success");
-                router.replace(origin_url);
+                router.replace(originUrl);
             } else {
                 toast.error(response.message);
                 setStatus("error");
@@ -120,7 +128,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                                 <span className="relative z-10 bg-background  px-2 text-muted-foreground">Or continue with</span>
                             </div>
                             <div className="grid grid-cols-3 gap-4">
-                                <GoogleAuthButton setStatus={setStatus} origin_url={origin_url} />
+                                <GoogleAuthButton setStatus={setStatus} origin_url={originUrl} />
                                 <Button variant="outline" className="w-full hover:bg-black hover:text-white dark:hover:text-black dark:hover:bg-white" title="login with github" type="button">
                                     <GithubIcon />
                                     <span className="sr-only">Login with Github</span>
