@@ -12,6 +12,7 @@ import { GoogleContextProviders } from "@/providers/google";
 import { SessionProvider } from "@/providers/session";
 import { getSession } from "@/lib/actions/session";
 import { Session } from "@/types";
+import { GoogleOneTapLogin } from "@/components/auth/google";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -31,6 +32,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await getSession() as Session
   return (
     <>
       <html lang="en" suppressHydrationWarning>
@@ -43,9 +45,10 @@ export default async function RootLayout({
             disableTransitionOnChange>
 
             <main>
-              <SessionProvider initialSession={await getSession() as Session}>
+              <SessionProvider initialSession={session}>
                 <GoogleContextProviders
                 >
+                  <GoogleOneTapLogin session={session} />
                   <Navbar />
                   {children}
                 </GoogleContextProviders>
