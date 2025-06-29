@@ -218,10 +218,8 @@ const About = () => {
                             <Link href="/login"> <UserCircle className="h-4 w-4" />  Sign Up</Link>
                         </Button>
                         <SubscriptionModal
-
                         />
                     </div>
-
                 </div>
             </section>
 
