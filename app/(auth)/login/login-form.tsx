@@ -36,8 +36,6 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
         document.cookie = "post_login_redirect=; Max-Age=0; path=/; SameSite=Lax";
     }, [])
 
-
-
     //function to handle change
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
