@@ -34,6 +34,7 @@ export default function Bookmark({ blogId }: { blogId: number }) {
   const handleBookmark = () => {
     if (!session) {
       toast.info("Login to bookmark blogs")
+      return
     }
     const updatedValue = !isBookmarked;
     setIsBookmarked(updatedValue);
