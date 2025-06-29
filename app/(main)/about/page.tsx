@@ -137,7 +137,7 @@ const About = () => {
                 <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12">Our Values</h2>
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {values.map((value, index) => (
-                        <div key={index} className="bg-background dark:bg-accent p-6 rounded-xl shadow-lg text-center hover:shadow-xl transition-shadow">
+                        <div key={index} className="bg-background dark:bg-accent p-6 rounded-xl shadow-lg text-center hover:shadow-xl transition-shadow border">
                             <div className="flex justify-center mb-4">
                                 <div className="bg-blue-50 p-3 rounded-full ">
                                     <value.icon className="h-8 w-8 text-blue-500" />

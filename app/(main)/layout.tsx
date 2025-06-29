@@ -8,11 +8,11 @@ import { Toaster } from "@/components/ui/sonner";
 import Navbar from "@/components/layout/navbar";
 import { metaobject } from "@/lib/metadata";
 import CookieAlert from "@/components/custom/cookie";
-import { GoogleContextProviders } from "@/providers/google";
 import { SessionProvider } from "@/providers/session";
 import { getSession } from "@/lib/actions/session";
 import { Session } from "@/types";
 import { GoogleOneTapLogin } from "@/components/auth/google";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -46,12 +46,12 @@ export default async function RootLayout({
 
             <main>
               <SessionProvider initialSession={session}>
-                <GoogleContextProviders
+                <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
                 >
                   <GoogleOneTapLogin session={session} />
                   <Navbar />
                   {children}
-                </GoogleContextProviders>
+                </GoogleOAuthProvider>
               </SessionProvider>
             </main>
             <Footer />
