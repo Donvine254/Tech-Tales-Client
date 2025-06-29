@@ -8,11 +8,17 @@ const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
 export async function GET(req: NextRequest) {
   const url = new URL(req.url);
   const code = url.searchParams.get("code");
-  console.log(code);
   if (!code) {
-    return NextResponse.redirect("/login?error=missing_token");
+    return NextResponse.redirect(
+      "http://localhost:3000/login?error=missing_token"
+    );
   }
   const userInfo = await fetchUserInfo(code);
+  if (!userInfo) {
+    return NextResponse.redirect(
+      "http://localhost:3000/login?error=missing_email"
+    );
+  }
   console.log(userInfo);
   //   step-1: find the user in db
   const user = await prisma.user.findUnique({
@@ -46,7 +52,9 @@ export async function GET(req: NextRequest) {
     return response;
   } else {
     // when there is no user
-    return NextResponse.redirect("http://localhost:3000/login");
+    return NextResponse.redirect(
+      "http://localhost:3000/login?error=missing_user"
+    );
   }
 }
 
@@ -85,6 +93,9 @@ async function fetchUserInfo(code: string) {
       },
     });
     const userInfo = await response.json();
+    if (!userInfo || !userInfo.email) {
+      return null;
+    }
     return userInfo;
   }
 }

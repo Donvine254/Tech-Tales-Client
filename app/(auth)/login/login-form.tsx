@@ -128,8 +128,8 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                             </div>
                             <div className="grid grid-cols-3 gap-4">
                                 <GoogleAuthButton setStatus={setStatus} origin_url={originUrl} />
-                                <GithubButton router={router} />
-                                <Button variant="outline" className="w-full hover:bg-blue-100 dark:hover:bg-white " title="login with meta" onClick={() => {
+                                <GithubButton router={router} setStatus={setStatus} />
+                                <Button variant="outline" type="button" className="w-full hover:bg-blue-100 dark:hover:bg-white " title="login with meta" onClick={() => {
                                     toast.info("upcoming feature!")
                                 }}>
                                     <MetaIcon />
