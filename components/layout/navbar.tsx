@@ -2,22 +2,36 @@
 import { Search, BookOpen, CircleUserRound, Edit } from "lucide-react";
 import UserDropdown from "../custom/user-dropdown";
 import { Button } from "../ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { deleteSession, getSession } from "@/lib/actions/session";
+import { Session } from "@/types";
+import { toast } from "sonner";
 
 const Navbar = () => {
-  // Mock login state - you can replace this with actual authentication logic
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Set to false to see logged-out state
-  const pathname = usePathname();
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-  };
+  const [session, setSession] = useState<Session | null>(null);
+  const router = useRouter();
+  const pathname = usePathname()
+  useEffect(() => {
+    (async () => {
+      const session = await getSession() as Session;
+      setSession(session);
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-  };
+    })();
+  }, []);
+  async function handleLogout() {
+    const id = toast.loading("Processing logout request...")
+    await deleteSession()
+    toast.dismiss(id)
+    setSession(null)
+    toast.success("Logged out successfully")
+  }
+  // trim the pathname
+  async function handleLogin() {
+    router.push(`/login?post_login_redirect_url=${pathname}`)
+  }
 
   return (
     <header className="sticky top-0 z-50 bg-white/90 dark:bg-accent/80 backdrop-blur-md border-b border-gray-200/50 dark:border-gray-700/50 shadow-sm transition-all duration-300">
@@ -79,7 +93,7 @@ const Navbar = () => {
               </Button>
             </Link>
 
-            {isLoggedIn ? (
+            {session ? (
               // Logged in state
               <>
                 {/* Create Blog button - hidden on small screens */}
@@ -92,7 +106,7 @@ const Navbar = () => {
                     Create Blog
                   </Button>
                 </Link>
-                <UserDropdown onLogout={handleLogout} isLoggedIn={true} />
+                <UserDropdown onLogout={handleLogout} session={session} />
               </>
             ) : (
               // Logged out state
@@ -109,7 +123,7 @@ const Navbar = () => {
 
                 {/* Mobile Menu Button */}
                 <div className="md:hidden">
-                  <UserDropdown onLogin={handleLogin} isLoggedIn={false} />
+                  <UserDropdown onLogin={handleLogin} session={session} />
                 </div>
               </>
             )}

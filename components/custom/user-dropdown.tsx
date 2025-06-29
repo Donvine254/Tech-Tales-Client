@@ -17,32 +17,26 @@ import {
 } from "../ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import Link from "next/link";
+import { Session } from "@/types";
 
 interface UserDropdownProps {
   onLogout?: () => void;
   onLogin?: () => void;
-  isLoggedIn: boolean;
+  session: Session | null;
 }
 
-const UserDropdown = ({ onLogout, onLogin, isLoggedIn }: UserDropdownProps) => {
-  // Mock user data
-  const user = {
-    name: "Donvine Mugendi",
-    email: "donvinemugendi@gmail.com",
-    image:
-      "https://res.cloudinary.com/dipkbpinx/image/upload/v1725023835/tech-tales/profile-pictures/sct04wqrx4xf6ltx4dxo.png",
-  };
+const UserDropdown = ({ onLogout, onLogin, session }: UserDropdownProps) => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
-        {isLoggedIn ? (
+      <DropdownMenuTrigger className="flex items-center space-x-2 hover:opacity-80 transition-opacity outline-0">
+        {session ? (
           // Logged in state - show avatar and chevron
           <>
             <Avatar className="h-8 w-8 ring-2 ring-cyan-500 ring-offset-2">
-              <AvatarImage src={user.image} alt={user.name} />
+              <AvatarImage src={session.picture} alt={session.username} />
               <AvatarFallback>
-                {user.name
+                {session.username
                   .split(" ")
                   .map((n) => n[0])
                   .join("")}
@@ -58,14 +52,14 @@ const UserDropdown = ({ onLogout, onLogin, isLoggedIn }: UserDropdownProps) => {
       <DropdownMenuContent
         className="w-72 bg-white dark:bg-accent border border-gray-200 shadow-lg"
         align="end">
-        {isLoggedIn ? (
+        {session ? (
           // Logged in dropdown content
           <>
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">{user.name}</p>
+                <p className="text-sm font-medium leading-none">{session.username}</p>
                 <p className="text-xs leading-none text-muted-foreground">
-                  {user.email}
+                  {session.email}
                 </p>
               </div>
             </DropdownMenuLabel>

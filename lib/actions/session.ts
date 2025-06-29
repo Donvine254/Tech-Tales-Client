@@ -7,12 +7,10 @@ const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
 export const getSession = async () => {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
-
   if (!token) {
     console.warn("No token found");
     return null;
   }
-
   try {
     const { payload } = await jose.jwtVerify(token, JWT_SECRET);
     return payload;
@@ -24,3 +22,8 @@ export const getSession = async () => {
     return null;
   }
 };
+
+export async function deleteSession() {
+  const cookieStore = await cookies();
+  cookieStore.delete("token");
+}
