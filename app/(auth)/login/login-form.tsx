@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Image from "next/image"
 import Link from "next/link"
-import { GithubIcon, GoogleIcon, MetaIcon } from "@/assets/svg"
+import { GithubIcon, GoogleIcon, MetaIcon } from "@/assets/icons"
 import { useState } from "react"
 import { Loader2 } from "lucide-react"
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
