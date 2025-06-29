@@ -8,6 +8,10 @@ import { Toaster } from "@/components/ui/sonner";
 import Navbar from "@/components/layout/navbar";
 import { metaobject } from "@/lib/metadata";
 import CookieAlert from "@/components/custom/cookie";
+import { GoogleContextProviders } from "@/providers/google";
+import { SessionProvider } from "@/providers/session";
+import { getSession } from "@/lib/actions/session";
+import { Session } from "@/types";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -22,30 +26,38 @@ export const metadata: Metadata = {
   ...metaobject,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange>
-          <main>
-            <Navbar />
-            {children}
-          </main>
-          <Footer />
-          <CookieAlert />
-          <ScrollButton />
-          <Toaster richColors closeButton />
-        </ThemeProvider>
-      </body>
-    </html>
+    <>
+      <html lang="en" suppressHydrationWarning>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange>
+
+            <main>
+              <SessionProvider initialSession={await getSession() as Session}>
+                <GoogleContextProviders
+                >
+                  <Navbar />
+                  {children}
+                </GoogleContextProviders>
+              </SessionProvider>
+            </main>
+            <Footer />
+            <CookieAlert />
+            <ScrollButton />
+            <Toaster richColors closeButton />
+          </ThemeProvider>
+        </body>
+      </html>
+    </>
   );
 }

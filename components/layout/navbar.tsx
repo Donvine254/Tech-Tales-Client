@@ -2,25 +2,17 @@
 import { Search, BookOpen, CircleUserRound, Edit } from "lucide-react";
 import UserDropdown from "../custom/user-dropdown";
 import { Button } from "../ui/button";
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { deleteSession, getSession } from "@/lib/actions/session";
-import { Session } from "@/types";
+import { deleteSession } from "@/lib/actions/session";
 import { toast } from "sonner";
+import { useSession } from "@/providers/session";
 
 const Navbar = () => {
-  const [session, setSession] = useState<Session | null>(null);
+  const { session, setSession } = useSession();
   const router = useRouter();
   const pathname = usePathname()
-  useEffect(() => {
-    (async () => {
-      const session = await getSession() as Session;
-      setSession(session);
-
-    })();
-  }, []);
   async function handleLogout() {
     const id = toast.loading("Processing logout request...")
     await deleteSession()
