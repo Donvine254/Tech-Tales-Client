@@ -53,8 +53,6 @@ export async function authenticateUserLogin(
     );
     if (!isPasswordValid) {
       return { success: false, message: "Wrong password, try again" };
-      // call ip limiter and add one attempt
-      //rateLimitByIp(ip)
     }
     //step-4: auth success: create cookie
     await createAndSetAuthTokenCookie(user);

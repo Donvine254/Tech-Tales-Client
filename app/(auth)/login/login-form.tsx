@@ -13,6 +13,8 @@ import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import { toast } from "sonner"
 import { validateRecaptcha } from "@/lib/actions/captcha"
 import GoogleAuthButton from "@/components/auth/google"
+import { authenticateUserLogin } from "@/lib/actions/auth"
+import { useRouter } from "next/navigation"
 
 
 type FormStatus = 'pending' | 'loading' | 'success' | 'error';
@@ -23,6 +25,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
     });
     const [status, setStatus] = useState<FormStatus>('pending');
     const [token, setToken] = useState<string | null>(null);
+    const router = useRouter()
     const origin_url = "/"
     //function to handle change
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,11 +40,37 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
         e.preventDefault();
 
         if (!token || !(await validateRecaptcha(token))) {
-            toast.error("Kindly complete the recaptcha challenge");
+            toast.error("Kindly complete the reCAPTCHA challenge");
             return;
         }
+
         setStatus("loading");
-        // TODO: Add login logic here
+
+        try {
+            // Get IP address from external API
+            const ip = await fetch("https://api.ipify.org?format=json")
+                .then((res) => res.json())
+                .then((data) => data.ip);
+
+            const response = await authenticateUserLogin(
+                formData.email,
+                formData.password,
+                ip
+            );
+
+            if (response.success) {
+                toast.success(response.message);
+                setStatus("success");
+                router.replace(origin_url);
+            } else {
+                toast.error(response.message);
+                setStatus("error");
+            }
+        } catch (error) {
+            console.error("Login error:", error);
+            toast.error("Unexpected error occurred");
+            setStatus("error");
+        }
     }
     return (
         <div className={cn("flex flex-col gap-6", className)} {...props}>
