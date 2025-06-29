@@ -117,9 +117,8 @@ export default function AudioPlayer({ audioUrl }: AudioPlayerProps) {
         {bars.map((bar) => (
           <div
             key={bar}
-            className={`w-1 bg-primary rounded-full transition-all duration-150 ${
-              isPlaying ? "animate-pulse" : ""
-            }`}
+            className={`w-1 bg-primary rounded-full transition-all duration-150 ${isPlaying ? "animate-pulse" : ""
+              }`}
             style={{
               height: isPlaying ? `${Math.random() * 20 + 10}px` : "8px",
               animationDelay: `${bar * 100}ms`,
@@ -140,7 +139,7 @@ export default function AudioPlayer({ audioUrl }: AudioPlayerProps) {
           variant="ghost"
           size="icon"
           onClick={togglePlayPause}
-          className="h-12 w-12 rounded-full hover:bg-gray-100 dark:hover:bg-gray-400">
+          className="h-12 w-12 rounded-full hover:bg-gray-100 dark:hover:bg-gray-400 dark:hover:text-gray-950">
           {isPlaying ? (
             <Pause className="h-10 w-10 fill-current" />
           ) : (
