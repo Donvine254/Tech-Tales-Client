@@ -35,7 +35,7 @@ const UserDropdown = ({ onLogout, onLogin, session }: UserDropdownProps) => {
           <>
             <Avatar className="h-8 w-8 ring-2 ring-cyan-500 ring-offset-2">
               <AvatarImage src={session.picture} alt={session.username} />
-              <AvatarFallback>
+              <AvatarFallback className="capitalize">
                 {session.username
                   .split(" ")
                   .map((n) => n[0])
@@ -57,7 +57,7 @@ const UserDropdown = ({ onLogout, onLogin, session }: UserDropdownProps) => {
           <>
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">{session.username}</p>
+                <p className="text-sm font-medium leading-none capitalize">{session.username}</p>
                 <p className="text-xs leading-none text-muted-foreground">
                   {session.email}
                 </p>
