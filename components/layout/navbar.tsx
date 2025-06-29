@@ -15,11 +15,31 @@ const Navbar = () => {
   const router = useRouter();
   const pathname = usePathname()
   async function handleLogout() {
-    const id = toast.loading("Processing logout request...")
-    await deleteSession()
-    toast.dismiss(id)
-    setSession(null)
-    toast.success("Logged out successfully")
+    const id = toast("Are you sure you want to sign out?", {
+      position: "top-center",
+      duration: 10000,
+      action: {
+        label: "Sign out",
+        onClick: async () => {
+          toast.dismiss(id);
+          const loadingId = toast.loading("Processing logout request...");
+          try {
+            await deleteSession();
+            setSession(null);
+            toast.success("Logged out successfully");
+          } catch (error) {
+            console.log(error)
+            toast.error("Failed to log out");
+          } finally {
+            toast.dismiss(loadingId);
+          }
+        },
+      },
+      cancel: {
+        label: "Cancel",
+        onClick: () => toast.dismiss(id),
+      },
+    });
   }
   // trim the pathname
   async function handleLogin() {
