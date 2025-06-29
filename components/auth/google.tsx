@@ -118,7 +118,7 @@ export function GoogleOneTapLogin({ session }: { session: any | null }) {
             console.log("Prompt moment notification:", notification);
         },
         auto_select: true,
-        use_fedcm_for_prompt: false,
+        use_fedcm_for_prompt: true,
     });
 
     return null;
