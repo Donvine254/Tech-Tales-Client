@@ -27,6 +27,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "html-react-parser": "^5.2.5",
+    "jose": "^6.0.11",
     "lucide-react": "^0.518.0",
     "next": "15.3.4",
     "next-sitemap": "^4.2.3",
