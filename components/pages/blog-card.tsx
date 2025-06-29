@@ -54,7 +54,7 @@ const BlogCard = ({ blog }: { blog: BlogCardProps }) => {
               src={blog.author.picture ?? "/placeholder-image.webp"}
               alt={blog.author.username}
             />
-            <AvatarFallback className="bg-gradient-to-r from-cyan-100 to-blue-100 text-cyan-700 text-sm">
+            <AvatarFallback className="bg-gradient-to-r from-cyan-100 to-blue-100 text-cyan-700 text-sm capitalize">
               {blog.author.username
                 .split(" ")
                 .map((n) => n[0])

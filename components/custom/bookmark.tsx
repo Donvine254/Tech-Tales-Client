@@ -1,11 +1,14 @@
 "use client";
 import { toast } from "sonner";
 import { useState, useEffect } from "react";
-// TODO: Modify to check whether the user is logged in or not
-// import { useUser } from "@/hooks/use-user";
+import { useSession } from "@/providers/session";
 export default function Bookmark({ blogId }: { blogId: number }) {
+  const { session } = useSession();
   const [isBookmarked, setIsBookmarked] = useState(false);
   useEffect(() => {
+    if (!session) {
+      return
+    }
     const localStorageData = localStorage.getItem("bookmarked_blogs");
     let bookmarkedBlogs: Record<number, boolean> = {};
 
@@ -17,7 +20,7 @@ export default function Bookmark({ blogId }: { blogId: number }) {
       }
     }
     setIsBookmarked(!!bookmarkedBlogs[blogId]);
-  }, [blogId]);
+  }, [blogId, session]);
 
   const updateLocalStorage = (blogId: number, value: boolean) => {
     const localStorageData = localStorage.getItem("bookmarked_blogs");
@@ -29,6 +32,9 @@ export default function Bookmark({ blogId }: { blogId: number }) {
   };
 
   const handleBookmark = () => {
+    if (!session) {
+      toast.info("Login to bookmark blogs")
+    }
     const updatedValue = !isBookmarked;
     setIsBookmarked(updatedValue);
     updateLocalStorage(blogId, updatedValue);

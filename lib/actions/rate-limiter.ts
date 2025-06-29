@@ -1,4 +1,3 @@
-"use server";
 const rateLimitMap = new Map<
   string,
   { count: number; lastReset: number; suspendedUntil: number | null }
