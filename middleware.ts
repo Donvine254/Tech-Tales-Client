@@ -45,13 +45,15 @@ export async function middleware(request: NextRequest) {
   }
 
   if (isProtectedPath && !userData) {
-    const redirectPath = path.slice(1);
-    return NextResponse.redirect(
-      new URL(`/login?post_login_redirect_url=${redirectPath}`, request.nextUrl)
-    );
+    const response = NextResponse.redirect(new URL("/login", request.url));
+    response.cookies.set("post_login_redirect", path, {
+      httpOnly: true,
+      sameSite: "lax",
+      path: "/",
+    });
   } else if (userData && isPublicPath) {
     //prevent users from visiting login page if they are already logged in
-    return NextResponse.redirect(new URL("/", request.nextUrl));
+    return NextResponse.redirect(new URL("/", request.url));
   }
 }
 
