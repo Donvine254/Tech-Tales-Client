@@ -3,26 +3,20 @@ import { useGoogleLogin, useGoogleOneTapLogin } from "@react-oauth/google";
 import { toast } from "sonner";
 import { GoogleIcon } from "@/assets/icons";
 import { authenticateSSOLogin } from "@/lib/actions/auth";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 
 type Props = {
-    router: AppRouterInstance;
     origin_url: string;
+    setStatus: React.Dispatch<React.SetStateAction<FormStatus>>;
 };
-const GoogleAuthButton = ({ router, origin_url }: Props) => {
-    const handleGoogleLogin = useGoogleLogin({
-        flow: "implicit",
-        onSuccess: (tokenResponse) => {
-            loginGoogleUsers(tokenResponse.access_token);
-        },
-        onError: (error) => {
-            console.error("Login Failed:", error);
-            toast.error(error.error_description || "Something went wrong");
-        },
-    });
+type FormStatus = 'pending' | 'loading' | 'success' | 'error';
+const GoogleAuthButton = ({ origin_url, setStatus }: Props) => {
+    const router = useRouter()
+    //function to login google users
     async function loginGoogleUsers(access_token: string) {
+        setStatus("loading")
         try {
             const response = await fetch(
                 "https://www.googleapis.com/oauth2/v3/userinfo",
@@ -47,6 +41,7 @@ const GoogleAuthButton = ({ router, origin_url }: Props) => {
                         `/login/account_not_found?referrer=google&token=${access_token}`
                     );
                 }
+                setStatus("error")
                 toast.error(result.error);
                 return false;
             }
@@ -56,6 +51,17 @@ const GoogleAuthButton = ({ router, origin_url }: Props) => {
             toast.error(error.message || "something went wrong");
         }
     }
+    //function to handle google login button click
+    const handleGoogleLogin = useGoogleLogin({
+        flow: "implicit",
+        onSuccess: (tokenResponse) => {
+            loginGoogleUsers(tokenResponse.access_token);
+        },
+        onError: (error) => {
+            console.error("Login Failed:", error);
+            toast.error(error.error_description || "Something went wrong");
+        },
+    });
 
     return (
         <Button variant="outline" className="w-full hover:bg-blue-100 dark:hover:bg-white" title="login with google" onClick={() => handleGoogleLogin()} type="button">
