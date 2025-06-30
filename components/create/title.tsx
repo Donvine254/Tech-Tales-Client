@@ -28,7 +28,7 @@ export const TitleSection: React.FC<TitleSectionProps> = ({
         }
     };
     return (
-        <div className="bg-card rounded-2xl shadow-sm border border-border p-6 hover:shadow-md transition-all duration-300">
+        <div className="bg-card  rounded-2xl shadow-sm border border-border p-6 hover:shadow-md transition-all duration-300">
             <div className="flex items-center space-x-3 mb-4">
                 <div className="p-2 bg-blue-100 rounded-lg">
                     <Sparkles className="h-5 w-5 text-blue-600" />

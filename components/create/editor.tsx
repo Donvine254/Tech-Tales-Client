@@ -3,11 +3,17 @@ import { Editor } from '@tinymce/tinymce-react';
 import { Editor as TinyMCEEditor } from 'tinymce'
 import Script from "next/script";
 import PrismLoader from "@/components/custom/prism-loader";
-import { FileText } from 'lucide-react';
+import { FileText, HelpCircle } from 'lucide-react';
 import { BlogData } from "@/types";
 import { codeSampleLanguages } from "@/constants";
 import { handleImageUpload } from "@/lib/helpers/handle-image-upload";
-
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { useTheme } from "next-themes";
 interface EditorSectionProps {
     data: BlogData;
     onChange: React.Dispatch<React.SetStateAction<BlogData>>;
@@ -18,6 +24,7 @@ export const EditorSection: React.FC<EditorSectionProps> = ({
     onChange
 }) => {
     const editorRef = useRef<TinyMCEEditor | null>(null);
+    const { theme } = useTheme()
     const handleEditorChange = () => {
         if (editorRef.current) {
             const newContent = editorRef.current?.getContent();
@@ -39,7 +46,19 @@ export const EditorSection: React.FC<EditorSectionProps> = ({
                         <div className="p-2 bg-blue-100 rounded-lg">
                             <FileText className="h-5 w-5 text-blue-600" />
                         </div>
-                        <h2 className="text-lg font-semibold text-primary">Tell Your Story</h2>
+                        <label htmlFor='body' className="font-semibold text-primary flex items-center gap-2">
+                            Write Your Blog
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <HelpCircle className="h-4 w-4" />
+                                    </TooltipTrigger>
+                                    <TooltipContent className="max-w-72 text-sm" side="bottom">
+                                        <p>Click Alt+0 to view editor help commands</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+                        </label>
                     </div>
                     <div className="flex items-center space-x-4 text-sm">
                         <div className="flex items-center space-x-2 px-3 py-1 bg-green-50 rounded-full">
@@ -56,7 +75,7 @@ export const EditorSection: React.FC<EditorSectionProps> = ({
                     licenseKey="gpl"
                     onInit={(evt, editor) => (editorRef.current = editor)}
                     initialValue={data.body}
-                    onEditorChange={handleEditorChange}
+                    onChange={handleEditorChange}
                     init={{
                         toolbar_mode: "sliding",
                         menubar: true,
@@ -65,6 +84,12 @@ export const EditorSection: React.FC<EditorSectionProps> = ({
                         autocomplete: true,
                         toolbar_sticky: true,
                         toolbar_sticky_offset: 75,
+                        skin: theme === "dark"
+                            ? "oxide-dark"
+                            : "oxide",
+                        content_css: theme === "dark"
+                            ? "dark"
+                            : "default",
                         placeholder: "Start by writing or pasting (Ctrl + V) text here....",
                         browser_spellcheck: true,
                         contextmenu: false,

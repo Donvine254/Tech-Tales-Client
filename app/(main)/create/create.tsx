@@ -47,7 +47,7 @@ export default function Create() {
             <div className="lg:col-span-2 space-y-6"> <TitleSection title={blogData.title} onTitleChange={handleTitleChange} status={formStatus} />
                 <EditorSection data={blogData} onChange={setBlogData} />
             </div>
-            <CoverImageSection image={blogData.image} onImageChange={(data) => setBlogData((prev: BlogData) => ({ ...prev, image: data }))} />
+            <div className="max-h-max"><CoverImageSection image={blogData.image} onImageChange={(data) => setBlogData((prev: BlogData) => ({ ...prev, image: data }))} /></div>
         </div>
 
 

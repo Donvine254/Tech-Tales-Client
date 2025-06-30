@@ -349,3 +349,21 @@ blockquote p {
   transform: translateY(0%);
   transition-delay: 1000ms;
 }
+
+/* styling for tinymce editor */
+/* hide toolbar in small devices */
+@media screen and (max-width: 680px) {
+  .tox-menubar {
+    display: none !important;
+  }
+}
+
+.tox .tox-edit-area::before {
+  border: 0 !important;
+}
+
+.tox-promotion,
+.tox-statusbar__branding {
+  display: none !important;
+  opacity: 0 !important;
+}
