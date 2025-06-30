@@ -12,3 +12,4 @@ export type Session = {
   userId: number;
   username: string;
 };
+export type FormStatus = "pending" | "loading" | "success" | "error";

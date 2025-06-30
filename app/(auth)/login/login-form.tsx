@@ -17,9 +17,8 @@ import { authenticateUserLogin } from "@/lib/actions/auth"
 import { useRouter } from "next/navigation"
 import { getCookie } from "@/lib/cookie"
 import GithubButton from "@/components/auth/github"
+import { FormStatus } from "@/types"
 
-
-type FormStatus = 'pending' | 'loading' | 'success' | 'error';
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
     const [formData, setformData] = useState({
         email: "",
