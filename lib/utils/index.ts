@@ -58,3 +58,26 @@ export const formatDate = (dateString: string | Date) => {
     day: "numeric",
   });
 };
+
+export function slugify(blogTitle: string) {
+  return blogTitle
+    .toLowerCase()
+    .replace(/[^\w-]/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+//function to generate password
+export function generatePassword() {
+  let pass = "";
+  const str =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "abcdefghijklmnopqrstuvwxyz0123456789@#$";
+
+  for (let i = 1; i <= 9; i++) {
+    const char = Math.floor(Math.random() * str.length + 1);
+
+    pass += str.charAt(char);
+  }
+
+  return pass;
+}
