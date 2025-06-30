@@ -1,7 +1,9 @@
 "use client"
 import { TitleSection } from "@/components/create/title";
 import { slugify } from "@/lib/utils";
+import { useSession } from "@/providers/session";
 import { FormStatus } from "@/types";
+import { redirect } from "next/navigation";
 import { useState } from "react";
 
 interface BlogData {
@@ -21,6 +23,11 @@ export default function Create() {
         image: "",
         audioUrl: "",
     });
+    const { session } = useSession()
+    // To be deleted
+    if (!session) {
+        redirect("/")
+    }
     const [formStatus, setFormStatus] = useState<FormStatus>("pending")
     //function to create slug
     const handleTitleChange = (value: string) => {
@@ -36,8 +43,7 @@ export default function Create() {
         setFormStatus("loading")
 
     }
-    return <form className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16" onSubmit={handleSubmit}>
-
+    return <form className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" onSubmit={handleSubmit}>
         <TitleSection title={blogData.title} onTitleChange={handleTitleChange} status={formStatus} />
     </form>
 }

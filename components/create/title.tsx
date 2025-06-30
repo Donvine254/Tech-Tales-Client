@@ -43,8 +43,14 @@ export const TitleSection: React.FC<TitleSectionProps> = ({
                 spellCheck="true"
                 disabled={status === "loading"}
                 placeholder="What's your story about?"
-                className="w-full text-2xl font-bold border-none outline-none placeholder-gray-300 bg-transparent resize-none"
+                className="w-full text-2xl font-bold border-none outline-none placeholder-gray-300 dark:placeholder-gray-600 bg-transparent resize-none"
             />
+            <div className="text-xs text-muted-foreground flex justify-end ">
+                <p>
+                    {title?.length ?? 0}/
+                    <span className="font-medium text-muted-foreground">80</span>
+                </p>
+            </div>
             {showTitleTips && (
                 <div className="mt-4 p-4 bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-200 dark:border-blue-800 dark:from-blue-900 dark:to-cyan-900 rounded-xl relative">
                     <button
