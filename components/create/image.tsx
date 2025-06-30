@@ -8,7 +8,8 @@ import {
 } from "@/components/ui/tooltip";
 import { toast } from 'sonner';
 import { CoverImage } from '@/types';
-import { uploadToCloudinary, validateImage } from '@/lib/helpers/cloudinary';
+import { deleteCloudinaryImage, uploadToCloudinary, validateImage } from '@/lib/helpers/cloudinary';
+import { cn } from '@/lib/utils';
 
 interface CoverImageProps {
     image: CoverImage;
@@ -33,7 +34,7 @@ export const CoverImageSection: React.FC<CoverImageProps> = ({ image, onImageCha
 
     };
 
-    const handleRemoveImage = () => {
+    const handleRemoveImage = async () => {
         if (fileInputRef.current) {
             fileInputRef.current.value = '';
         }
@@ -41,6 +42,7 @@ export const CoverImageSection: React.FC<CoverImageProps> = ({ image, onImageCha
             secure_url: "",
             public_id: ""
         });
+        await deleteCloudinaryImage(image.public_id)
     };
 
     async function handleFileUpload(file: File) {
@@ -107,7 +109,7 @@ export const CoverImageSection: React.FC<CoverImageProps> = ({ image, onImageCha
                         alt="Cover preview"
                         className="w-full h-48 aspect-video object-cover rounded-xl border border-border"
                     />
-                    <div className="absolute group-hover:bg-black/30  inset-0  transition-all duration-200 rounded-xl flex items-center justify-center">
+                    <div className={cn("absolute group-hover:bg-black/30  inset-0  transition-all duration-200 rounded-xl flex items-center justify-center", isUploading ? "bg-black/30" : "")}>
                         {/* when submitting, replace this button with a loader and hide it */}
                         {!isUploading ? <button
                             onClick={handleRemoveImage}

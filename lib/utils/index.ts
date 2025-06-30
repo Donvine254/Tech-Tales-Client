@@ -8,8 +8,8 @@ export function cn(...inputs: ClassValue[]) {
 
 export const baseUrl =
   process.env.NODE_ENV === "development"
-    ? "http://localhost:3000/api"
-    : "https://techtales.vercel.app/api";
+    ? "http://localhost:3000"
+    : "https://techtales.vercel.app";
 
 export function calculateReadingTime(blog: string) {
   const textContent = blog.replace(/<\/?[^>]+(>|$)/g, "");
