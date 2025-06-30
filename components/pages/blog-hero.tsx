@@ -11,7 +11,7 @@ export default function BlogHero({ post }: { post: BlogWithUser }) {
   const image = post.image as { secure_url?: string };
   return (
     <div className="group block">
-      <article className="relative overflow-hidden bg-card  shadow-lg hover:shadow-xl transition-all duration-300 group-hover:brightness-110 filter">
+      <article className="relative overflow-hidden bg-card  shadow-lg hover:shadow-xl transition-all duration-300 group-hover:brightness-110 filter blog">
         <div className="aspect-video relative">
           <Image
             src={image?.secure_url || "/placeholder-image.webp"}
@@ -38,7 +38,7 @@ export default function BlogHero({ post }: { post: BlogWithUser }) {
                 </Link>
               </Badge>
               <Link href={`/blog/${post.slug}`}>
-                <h2 className="text-3xl md:text-4xl font-bold drop-shadow-2xl text-shadow-lg line-clamp-2 hover:underline hover:underline-offset-4 transition-all duration-300">
+                <h2 className="drop-shadow-2xl text-shadow-lg line-clamp-2 hover:underline hover:underline-offset-4 transition-all duration-300">
                   {post.title}
                 </h2>
               </Link>

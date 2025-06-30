@@ -22,7 +22,7 @@ export default function FeaturedCard({
 }) {
   const image = blog.image as { secure_url?: string };
   return (
-    <div className="w-full">
+    <div className="w-full blog">
       {/* Desktop Layout */}
       <div className="hidden md:flex overflow-hidden shadow-xl hover:shadow-2xl transition-shadow duration-300 rounded-lg border">
         {/* Left Image Section */}
@@ -78,7 +78,7 @@ export default function FeaturedCard({
             {/* Title */}
             <Link href={`/blog/${blog.slug}`}>
               <h2
-                className="text-3xl md:text-4xl font-bold drop-shadow-lg line-clamp-2 hover:underline hover:text-blue-500 hover:underline-offset-4 transition-all duration-300"
+                className="font-bold drop-shadow-lg line-clamp-2 hover:underline hover:text-blue-500 hover:underline-offset-4 transition-all duration-300"
                 title={blog.title}>
                 {blog.title}
               </h2>

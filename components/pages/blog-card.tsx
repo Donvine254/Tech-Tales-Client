@@ -24,7 +24,7 @@ interface BlogCardProps extends BlogWithUser {
 const BlogCard = ({ blog }: { blog: BlogCardProps }) => {
   const image = blog.image as { secure_url?: string };
   return (
-    <article className="group bg-white dark:bg-accent rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden  hover:border-gray-200 hover:-translate-y-1 flex flex-col">
+    <article className="group bg-white dark:bg-accent rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden  hover:border-gray-200 hover:-translate-y-1 flex flex-col blog">
       <div className="aspect-[16/9] bg-gradient-to-br from-cyan-100 to-blue-100 relative overflow-hidden">
         <Link href={`/blog/${blog.slug}`} className="group" title={blog.title}>
           <Image
@@ -85,11 +85,10 @@ const BlogCard = ({ blog }: { blog: BlogCardProps }) => {
           </div>
         </div>
         <Link href={`/blog/${blog.slug}`} className="group" title={blog.title}>
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors line-clamp-2 leading-tight hover:underline hover:underline-offset-4">
+          <h3 className=" text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors line-clamp-2 leading-tight hover:underline hover:underline-offset-4">
             {blog.title}
           </h3>
         </Link>
-
         <article className="text-xs sm:text-sm leading-8 md:pb-1 line-clamp-2 text-accent-foreground  overflow-hidden trimmed-blog-body ">
           {blog ? parse(blog.body.substring(0, 400)) : "Loading..."}
         </article>

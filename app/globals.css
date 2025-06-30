@@ -1,8 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
-
 @theme {
   --breakpoint-xs: 30rem;
   --breakpoint-2xl: 100rem;
@@ -82,6 +84,31 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --font-sans: "Geist Sans", "Inter", system-ui, sans-serif;
+  --font-serif: "Spectral", "Newsreader", serif;
+  --font-mono: "Geist Mono", monospace;
+
+  /* Typography scale using clamp(min, preferred, max) */
+  --fs-h1: clamp(2rem, 5vw + 1rem, 1.95rem); /* ~30.8px */
+  --lh-h1: clamp(2.25rem, 5vw + 1.2rem, 2.24rem);
+
+  --fs-h2: clamp(1.5rem, 4vw + 1rem, 1.7rem); /* ~27px */
+  --lh-h2: clamp(2rem, 4vw + 1rem, 2.1rem);
+
+  --fs-h3: clamp(1.25rem, 3vw + 0.5rem, 1.5rem);
+  --lh-h3: clamp(1.75rem, 3vw + 0.8rem, 1.8rem);
+
+  --fs-h4: clamp(1.125rem, 2.5vw + 0.5rem, 1.25rem);
+  --lh-h4: clamp(1.5rem, 2.5vw + 0.6rem, 1.6rem);
+
+  --fs-h5: clamp(1rem, 2vw + 0.5rem, 1.125rem);
+  --lh-h5: clamp(1.5rem, 2vw + 0.5rem, 1.5rem);
+
+  --fs-h6: clamp(0.875rem, 1.5vw + 0.5rem, 1rem);
+  --lh-h6: clamp(1.25rem, 1.5vw + 0.5rem, 1.4rem);
+
+  --fs-p: clamp(1rem, 1.5vw + 0.05rem, 1.5rem); /* ~18px max */
+  --lh-p: clamp(1.6rem, 1.5vw + 0.5rem, 1.8rem);
 }
 
 .dark {
@@ -123,33 +150,43 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
-  }
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-semibold;
+    @apply bg-background text-foreground scroll-smooth;
   }
 }
 /* styling for blog body */
-.blog-body h1 {
-  @apply text-xl md:text-2xl lg:text-[2rem] my-2 font-bold;
+.blog h1 {
+  font-size: var(--fs-h1);
+  line-height: var(--lh-h1);
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-kerning: auto;
 }
-.blog-body h2 {
-  @apply text-lg md:text-xl my-2 font-bold;
+
+.blog h2 {
+  font-size: var(--fs-h2);
+  line-height: var(--lh-h2);
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-kerning: auto;
 }
-.blog-body h3,
-.blog-body h4,
-.blog-body h5,
-.blog-body h6 {
-  @apply font-bold my-2;
+
+.blog h3,
+.blog h4,
+.blog h5,
+.blog h6 {
+  font-family: var(--font-sans);
+  font-kerning: auto;
+  font-weight: 600;
 }
-.blog-body p {
-  @apply my-3.5;
+
+.blog p {
+  font-size: var(--fs-p);
+  line-height: var(--lh-p);
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-kerning: auto;
 }
+
 .blog-body p code {
   background-color: #f5f2f0;
   font-family: monospace;
@@ -164,13 +201,6 @@
   text-decoration-line: underline;
 }
 
-.blog-body p:first-child {
-  margin-top: 0;
-}
-
-.blog-body p:last-child {
-  margin-bottom: 0;
-}
 .blog-body pre code {
   line-height: normal;
   font-size: 15px !important;
