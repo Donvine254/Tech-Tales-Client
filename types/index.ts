@@ -13,3 +13,9 @@ export type Session = {
   username: string;
 };
 export type FormStatus = "pending" | "loading" | "success" | "error";
+
+export type CoverImage = {
+  secure_url: string;
+  public_id: string;
+  [key: string]: number | string | boolean | unknown[];
+};

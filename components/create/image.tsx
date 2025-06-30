@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { HelpCircle, ImageIcon, Upload, X } from 'lucide-react';
+import { HelpCircle, ImageIcon, Loader2, Upload, X } from 'lucide-react';
 import {
     Tooltip,
     TooltipContent,
@@ -7,102 +7,64 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { toast } from 'sonner';
-
-interface ImageValidation {
-    isValid: boolean;
-    width: number;
-    height: number;
-    size: number;
-    aspectRatio: number;
-}
+import { CoverImage } from '@/types';
+import { uploadToCloudinary, validateImage } from '@/lib/helpers/cloudinary';
 
 interface CoverImageProps {
-    image: string;
-    onImageChange: (url: string) => void;
+    image: CoverImage;
+    onImageChange: (data: CoverImage) => void;
 }
 
-const validateImage = (file: File): Promise<ImageValidation> => {
-    return new Promise((resolve) => {
-        const img = new window.Image();
-        const url = URL.createObjectURL(file);
-
-        img.onload = () => {
-            const width = img.naturalWidth;
-            const height = img.naturalHeight;
-            const size = file.size;
-            const aspectRatio = width / height;
-
-            let isValid = true;
-
-            // Check size
-            if (size > 5 * 1024 * 1024) {
-                toast.error('Image must be less than 5MB');
-                isValid = false;
-            }
-
-            // Check minimum dimensions
-            if (width < 1280 || height < 720) {
-                toast.error('Image must be at least 1280x720px');
-                isValid = false;
-            }
-
-            // Check aspect ratio (16:9)
-            const targetRatio = 16 / 9;
-            const tolerance = 0.1;
-            if (Math.abs(aspectRatio - targetRatio) > tolerance) {
-                toast.error('Image should have approximately 16:9 aspect ratio');
-                isValid = false;
-            }
-
-            URL.revokeObjectURL(url);
-
-            resolve({
-                isValid,
-                width,
-                height,
-                size,
-                aspectRatio,
-            });
-        };
-
-        img.onerror = () => {
-            URL.revokeObjectURL(url);
-            toast.error('Invalid image file');
-            resolve({
-                isValid: false,
-                width: 0,
-                height: 0,
-                size: 0,
-                aspectRatio: 0,
-            });
-        };
-
-        img.src = url;
-    });
-};
-// when i upload this in cloudinary, the image will be an object not a url
 export const CoverImageSection: React.FC<CoverImageProps> = ({ image, onImageChange }) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const [previewImage, setPreviewImage] = useState(image || "")
-
+    const [isUploading, setIsUploading] = useState<boolean>(false)
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file) return
         const result = await validateImage(file)
-        if (result.isValid) {
-            const url = URL.createObjectURL(file);
-            setPreviewImage(url)
-            onImageChange(url);
-        } else fileInputRef.current = null;
+        if (!result.isValid) return
+        const url = URL.createObjectURL(file);
+        onImageChange({
+            secure_url: url,
+            public_id: crypto.randomUUID()
+        })
+        // Upload the image here
+        handleFileUpload(file)
+
     };
 
     const handleRemoveImage = () => {
         if (fileInputRef.current) {
             fileInputRef.current.value = '';
         }
-        onImageChange('');
-        setPreviewImage("")
+        onImageChange({
+            secure_url: "",
+            public_id: ""
+        });
     };
+
+    async function handleFileUpload(file: File) {
+        setIsUploading(true)
+        try {
+            const res = await uploadToCloudinary(file)
+            if (res.success && res.data) {
+                toast.success("Image uploaded successfully")
+                onImageChange(res.data)
+                if (fileInputRef.current) {
+                    (fileInputRef.current as HTMLInputElement).value = "";
+                }
+            } else {
+
+                toast.error("Upload failed, try again.");
+            }
+            setIsUploading(false)
+        } catch (error) {
+            console.error(error)
+            setIsUploading(false)
+            toast.error("Something went wrong.");
+        }
+
+    }
 
     return (
         // remember to remove max-w-md and my-4
@@ -126,7 +88,7 @@ export const CoverImageSection: React.FC<CoverImageProps> = ({ image, onImageCha
                 </label>
             </div>
 
-            {!image ? (
+            {!image.secure_url ? (
                 <div
                     onClick={() => fileInputRef.current?.click()}
                     className="border-2 border-dashed border-border rounded-xl p-6 text-center hover:border-blue-300 hover:bg-blue-50 dark:hover:bg-blue-500 dark:hover:border-blue-100 transition-all duration-200 cursor-pointer group min-h-48"
@@ -141,19 +103,29 @@ export const CoverImageSection: React.FC<CoverImageProps> = ({ image, onImageCha
                 <div className="relative group">
                     {/* eslint-disable */}
                     <img
-                        src={previewImage}
+                        src={image.secure_url}
                         alt="Cover preview"
-                        className="w-full h-48 aspect-video object-cover rounded-xl border border-border bg-blend-overlay"
+                        className="w-full h-48 aspect-video object-cover rounded-xl border border-border"
                     />
-                    <div className="absolute bg-black/50  group-hover:bg-opacity-3 inset-0 group-hover:bg-opacity-30 transition-all duration-200 rounded-xl flex items-center justify-center">
+                    <div className="absolute group-hover:bg-black/30  inset-0  transition-all duration-200 rounded-xl flex items-center justify-center">
                         {/* when submitting, replace this button with a loader and hide it */}
-                        <button
+                        {!isUploading ? <button
                             onClick={handleRemoveImage}
                             title="change/remove"
-                            className="opacity-0 group-hover:opacity-100 transition-all duration-200 p-3 bg-red-500 hover:bg-red-600 text-white rounded-full shadow-lg transform scale-90 group-hover:scale-100 cursor-pointer"
+                            className="opacity-0 group-hover:opacity-100 transition-all duration-200 p-3 bg-red-500 hover:bg-red-600 text-white rounded-full shadow-lg transform scale-90 group-hover:scale-100 cursor-pointer w-12 h-12"
                         >
                             <X className="h-6 w-6" />
+                        </button> : <div className="flex flex-col items-center space-y-2"> <button
+                            onClick={handleRemoveImage}
+                            title="uploading.."
+                            disabled
+                            className="group-hover:opacity-100 transition-all duration-200 p-3 w-12 h-12 bg-gray-100  text-green-500 rounded-full shadow-lg transform scale-90 group-hover:scale-100 inline-flex items-center justify-center"
+                        >
+                            <Loader2 className="h-8 w-8 animate-spin" />
                         </button>
+                            <span>Uploading..</span>
+                        </div>}
+
                     </div>
                 </div>
             )}
@@ -161,7 +133,7 @@ export const CoverImageSection: React.FC<CoverImageProps> = ({ image, onImageCha
             <input
                 ref={fileInputRef}
                 type="file"
-                accept="image/*"
+                accept="image/jpeg,image/png,image/webp,image/avif"
                 onChange={handleFileChange}
                 className="hidden"
             />

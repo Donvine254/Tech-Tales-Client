@@ -3,7 +3,7 @@ import { CoverImageSection } from "@/components/create/image";
 import { TitleSection } from "@/components/create/title";
 import { slugify } from "@/lib/utils";
 import { useSession } from "@/providers/session";
-import { FormStatus } from "@/types";
+import { CoverImage, FormStatus } from "@/types";
 import { redirect } from "next/navigation";
 import { useState } from "react";
 
@@ -12,7 +12,7 @@ interface BlogData {
     body: string;
     slug: string;
     tags: string;
-    image: string;
+    image: CoverImage;
     audioUrl?: string | null;
 }
 export default function Create() {
@@ -21,7 +21,10 @@ export default function Create() {
         body: "",
         slug: "",
         tags: "",
-        image: "",
+        image: {
+            secure_url: "",
+            public_id: ""
+        },
         audioUrl: "",
     });
     const { session } = useSession()
@@ -48,7 +51,7 @@ export default function Create() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Main Editor Column */}
             <div className="lg:col-span-2 space-y-6"> <TitleSection title={blogData.title} onTitleChange={handleTitleChange} status={formStatus} /></div>
-            <CoverImageSection image={blogData.image} onImageChange={(url) => setBlogData((prev: BlogData) => ({ ...prev, image: url }))} />
+            <CoverImageSection image={blogData.image} onImageChange={(data) => setBlogData((prev: BlogData) => ({ ...prev, image: data }))} />
         </div>
 
 
