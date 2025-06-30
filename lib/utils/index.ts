@@ -5,6 +5,12 @@ import { twMerge } from "tailwind-merge";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+export const baseUrl =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:3000/api"
+    : "https://techtales.vercel.app/api";
+
 export function calculateReadingTime(blog: string) {
   const textContent = blog.replace(/<\/?[^>]+(>|$)/g, "");
   const words = textContent.trim().split(/\s+/).length;

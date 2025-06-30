@@ -1,5 +1,6 @@
 import { CoverImage } from "@/types";
 import { toast } from "sonner";
+import { baseUrl } from "../utils";
 
 export async function uploadToCloudinary(image: File) {
   const newImage = new FormData();
@@ -29,7 +30,7 @@ export async function uploadToCloudinary(image: File) {
 
 export async function deleteCloudinaryImage(publicId: string) {
   try {
-    await fetch(`/api/cloudinary`, {
+    await fetch(`${baseUrl}/api/cloudinary`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
