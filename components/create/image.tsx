@@ -80,7 +80,7 @@ const validateImage = (file: File): Promise<ImageValidation> => {
         img.src = url;
     });
 };
-
+// when i upload this in cloudinary, the image will be an object not a url
 export const CoverImageSection: React.FC<CoverImageProps> = ({ image, onImageChange }) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [previewImage, setPreviewImage] = useState(image || "")
@@ -93,7 +93,7 @@ export const CoverImageSection: React.FC<CoverImageProps> = ({ image, onImageCha
             const url = URL.createObjectURL(file);
             setPreviewImage(url)
             onImageChange(url);
-        }
+        } else fileInputRef.current = null;
     };
 
     const handleRemoveImage = () => {
