@@ -19,3 +19,11 @@ export type CoverImage = {
   public_id: string;
   [key: string]: number | string | boolean | unknown[];
 };
+export interface BlogData {
+  title: string;
+  body: string;
+  slug: string;
+  tags: string;
+  image: CoverImage;
+  audioUrl?: string | null;
+}

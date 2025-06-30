@@ -1,1 +1,0 @@
-//cdn link https://cdn.jsdelivr.net/gh/Donvine254/Tech-Tales-Client/public/tinymce/tinymce.min.js

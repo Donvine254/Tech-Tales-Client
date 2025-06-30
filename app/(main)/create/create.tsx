@@ -1,20 +1,14 @@
 "use client"
+import { EditorSection } from "@/components/create/editor";
 import { CoverImageSection } from "@/components/create/image";
 import { TitleSection } from "@/components/create/title";
 import { slugify } from "@/lib/utils";
 import { useSession } from "@/providers/session";
-import { CoverImage, FormStatus } from "@/types";
+import { BlogData, FormStatus } from "@/types";
 import { redirect } from "next/navigation";
 import { useState } from "react";
 
-interface BlogData {
-    title: string;
-    body: string;
-    slug: string;
-    tags: string;
-    image: CoverImage;
-    audioUrl?: string | null;
-}
+
 export default function Create() {
     const [blogData, setBlogData] = useState<BlogData>({
         title: "",
@@ -50,7 +44,9 @@ export default function Create() {
     return <form className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Main Editor Column */}
-            <div className="lg:col-span-2 space-y-6"> <TitleSection title={blogData.title} onTitleChange={handleTitleChange} status={formStatus} /></div>
+            <div className="lg:col-span-2 space-y-6"> <TitleSection title={blogData.title} onTitleChange={handleTitleChange} status={formStatus} />
+                <EditorSection data={blogData} onChange={setBlogData} />
+            </div>
             <CoverImageSection image={blogData.image} onImageChange={(data) => setBlogData((prev: BlogData) => ({ ...prev, image: data }))} />
         </div>
 

@@ -72,8 +72,8 @@ export const CoverImageSection: React.FC<CoverImageProps> = ({ image, onImageCha
         // remember to remove max-w-md and my-4
         <div className="bg-card rounded-2xl shadow-sm border border-border p-6 hover:shadow-md transition-all duration-300">
             <div className="flex items-center space-x-3 mb-4">
-                <div className="p-2 bg-cyan-100 rounded-lg">
-                    <ImageIcon className="h-5 w-5 text-cyan-600" />
+                <div className="p-2 bg-blue-100 rounded-lg">
+                    <ImageIcon className="h-5 w-5 text-blue-600" />
                 </div>
                 <label htmlFor='image' className="font-semibold text-primary flex items-center gap-2">
                     Cover Image
