@@ -106,7 +106,7 @@ export const CoverImageSection: React.FC<CoverImageProps> = ({ image, onImageCha
 
     return (
         // remember to remove max-w-md and my-4
-        <div className="bg-card rounded-2xl shadow-sm border border-border my-4 p-6 hover:shadow-md transition-all duration-300 max-w-md">
+        <div className="bg-card rounded-2xl shadow-sm border border-border p-6 hover:shadow-md transition-all duration-300">
             <div className="flex items-center space-x-3 mb-4">
                 <div className="p-2 bg-cyan-100 rounded-lg">
                     <ImageIcon className="h-5 w-5 text-cyan-600" />
@@ -129,7 +129,7 @@ export const CoverImageSection: React.FC<CoverImageProps> = ({ image, onImageCha
             {!image ? (
                 <div
                     onClick={() => fileInputRef.current?.click()}
-                    className="border-2 border-dashed border-border rounded-xl p-6 text-center hover:border-blue-300 hover:bg-blue-50 dark:hover:bg-blue-500 dark:hover:border-blue-100 transition-all duration-200 cursor-pointer group"
+                    className="border-2 border-dashed border-border rounded-xl p-6 text-center hover:border-blue-300 hover:bg-blue-50 dark:hover:bg-blue-500 dark:hover:border-blue-100 transition-all duration-200 cursor-pointer group min-h-48"
                 >
                     <div className="p-3 bg-gray-100 group-hover:bg-blue-100 rounded-full w-fit mx-auto mb-3 transition-colors">
                         <Upload className="h-6 w-6 text-gray-400 group-hover:text-cyan-500 transition-colors" />
@@ -143,7 +143,7 @@ export const CoverImageSection: React.FC<CoverImageProps> = ({ image, onImageCha
                     <img
                         src={previewImage}
                         alt="Cover preview"
-                        className="w-full h-48 object-cover rounded-xl border border-border bg-blend-overlay"
+                        className="w-full h-48 aspect-video object-cover rounded-xl border border-border bg-blend-overlay"
                     />
                     <div className="absolute bg-black/50  group-hover:bg-opacity-3 inset-0 group-hover:bg-opacity-30 transition-all duration-200 rounded-xl flex items-center justify-center">
                         {/* when submitting, replace this button with a loader and hide it */}
