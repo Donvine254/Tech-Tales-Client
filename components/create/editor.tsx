@@ -14,6 +14,7 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useTheme } from "next-themes";
+import MonacoLoader from "../custom/monaco-loader";
 interface EditorSectionProps {
     data: BlogData;
     onChange: React.Dispatch<React.SetStateAction<BlogData>>;
@@ -79,7 +80,7 @@ export const EditorSection: React.FC<EditorSectionProps> = ({
                     </div>
                 </div>
             </div>
-            <div className="p-6">
+            <div className="p-2 sm:p-4 md:p-6">
                 <Editor
                     tinymceScriptSrc="/tinymce/tinymce.min.js"
                     licenseKey="gpl"
@@ -138,7 +139,7 @@ export const EditorSection: React.FC<EditorSectionProps> = ({
                             "tableofcontents"
                         ],
                         toolbar:
-                            "undo redo| blocks | fontfamily | bold italic forecolor underline| align numlist bullist indent| link image table media pageembed| backcolor  emoticons advcodesample blockquote| code ai importword removeformat",
+                            "undo redo| blocks | bold italic forecolor underline| align numlist bullist indent| link image table media pageembed| backcolor  emoticons advcodesample blockquote| code ai importword removeformat",
                         menu: {
                             tools: {
                                 title: "Tools",
@@ -178,6 +179,7 @@ export const EditorSection: React.FC<EditorSectionProps> = ({
                 />
             </div>
             <PrismLoader />
+            <MonacoLoader />
         </div>
     );
 };

@@ -367,3 +367,8 @@ blockquote p {
   display: none !important;
   opacity: 0 !important;
 }
+#advcodesample,
+#modal,
+.modal {
+  margin: auto auto;
+}
