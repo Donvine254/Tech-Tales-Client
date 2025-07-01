@@ -1,9 +1,10 @@
+"use client"
 import React, { useRef } from "react";
-import { Editor } from '@tinymce/tinymce-react';
+import dynamic from 'next/dynamic';
 import { Editor as TinyMCEEditor } from 'tinymce'
 import Script from "next/script";
 import PrismLoader from "@/components/custom/prism-loader";
-import { FileText, HelpCircle } from 'lucide-react';
+import { FileText, HelpCircle, Loader2 } from 'lucide-react';
 import { BlogData } from "@/types";
 import { codeSampleLanguages } from "@/constants";
 import { handleImageUpload } from "@/lib/helpers/handle-image-upload";
@@ -18,7 +19,15 @@ interface EditorSectionProps {
     data: BlogData;
     onChange: React.Dispatch<React.SetStateAction<BlogData>>;
 }
-
+const Editor = dynamic(() => import('@tinymce/tinymce-react').then(mod => mod.Editor), {
+    ssr: false,
+    loading: () => (
+        <div className="min-h-[500px] flex flex-col gap-x-5 items-center justify-center bg-gray-500/10">
+            <Loader2 className="h-10 w-10 text-blue-500 animate-spin" />
+            <p>Loading Editor...</p>
+        </div>
+    )
+});
 export const EditorSection: React.FC<EditorSectionProps> = ({
     data,
     onChange
@@ -61,19 +70,20 @@ export const EditorSection: React.FC<EditorSectionProps> = ({
                         </label>
                     </div>
                     <div className="flex items-center space-x-4 text-sm">
-                        <div className="flex items-center space-x-2 px-3 py-1 bg-green-50 rounded-full">
-                            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                            <span className="text-green-700 font-medium">Auto-saving</span>
+                        <div className="flex items-center space-x-2 px-3 py-1 md:bg-green-50 rounded-full">
+                            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" title="auto-save"></div>
+                            <span className="text-green-700 font-medium hidden md:block">Auto-saving</span>
                         </div>
                     </div>
                 </div>
             </div>
-
             <div className="p-6">
                 <Editor
                     tinymceScriptSrc="/tinymce/tinymce.min.js"
                     licenseKey="gpl"
-                    onInit={(evt, editor) => (editorRef.current = editor)}
+                    onInit={(evt, editor) => {
+                        editorRef.current = editor;
+                    }}
                     initialValue={data.body}
                     onChange={handleEditorChange}
                     init={{
@@ -162,12 +172,9 @@ export const EditorSection: React.FC<EditorSectionProps> = ({
                         codesample_languages: codeSampleLanguages,
                         codesample_global_prismjs: true,
                     }}
-
-
                 />
             </div>
             <PrismLoader />
-
         </div>
     );
 };
