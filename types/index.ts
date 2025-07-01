@@ -26,4 +26,5 @@ export interface BlogData {
   tags: string;
   image: CoverImage;
   audioUrl?: string | null;
+  authorId: number | null;
 }

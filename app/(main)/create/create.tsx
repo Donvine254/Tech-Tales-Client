@@ -10,18 +10,20 @@ import { useState } from "react";
 
 
 export default function Create() {
+    const { session } = useSession()
     const [blogData, setBlogData] = useState<BlogData>({
         title: "",
         body: "",
         slug: "",
         tags: "",
+        authorId: session?.userId || null,
         image: {
             secure_url: "",
             public_id: ""
         },
         audioUrl: "",
     });
-    const { session } = useSession()
+
     // To be deleted
     if (!session) {
         redirect("/")
