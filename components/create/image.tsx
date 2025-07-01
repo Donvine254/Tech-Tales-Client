@@ -83,7 +83,7 @@ export const CoverImageSection: React.FC<CoverImageProps> = ({ image, onImageCha
                                 <HelpCircle className="h-4 w-4" />
                             </TooltipTrigger>
                             <TooltipContent className="max-w-72 text-sm" side="bottom">
-                                <p>Images should be 16:9 • Min 1280x720 • Max 5MB</p>
+                                <p>Images should be 16:9, Min 1280x720 Max 5MB</p>
                             </TooltipContent>
                         </Tooltip>
                     </TooltipProvider>
