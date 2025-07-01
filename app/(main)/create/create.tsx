@@ -5,9 +5,9 @@ import { TitleSection } from "@/components/create/title";
 import { slugify } from "@/lib/utils";
 import { useSession } from "@/providers/session";
 import { BlogData, FormStatus } from "@/types";
-import { redirect } from "next/navigation";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
+const AUTO_SAVE_INTERVAL = 2000
 
 export default function Create() {
     const { session } = useSession()
@@ -23,12 +23,46 @@ export default function Create() {
         },
         audioUrl: "",
     });
-
-    // To be deleted
-    if (!session) {
-        redirect("/")
-    }
     const [formStatus, setFormStatus] = useState<FormStatus>("pending")
+    const previousDataRef = useRef<string>("");
+    //load-saved draft data
+    useEffect(() => {
+        const saved = localStorage.getItem("blog-draft");
+        if (saved) {
+            try {
+                const parsed = JSON.parse(saved);
+                setBlogData(parsed);
+            } catch (err) {
+                console.error("Failed to load saved draft:", err);
+            }
+        }
+    }, []);
+
+    //auto-save function
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const dataStr = JSON.stringify(blogData);
+            // Check if blog has content
+            if (!hasEntries(blogData)) return;
+            // Only save if changed
+            if (previousDataRef.current !== dataStr) {
+                previousDataRef.current = dataStr;
+                localStorage.setItem("blog-draft", dataStr);
+                console.log("Draft auto-saved");
+            }
+        }, AUTO_SAVE_INTERVAL);
+
+        return () => clearInterval(interval);
+    }, [blogData]);
+    //check if the form has entries
+    const hasEntries = (data: BlogData) => {
+        return (
+            data.title.trim() !== "" ||
+            data.body.trim() !== "" ||
+            data.tags.trim() !== "" ||
+            data.image.secure_url.trim() !== ""
+        );
+    };
     //function to create slug
     const handleTitleChange = (value: string) => {
         setBlogData(prevData => ({
@@ -37,7 +71,6 @@ export default function Create() {
             slug: slugify(value),
         }));
     };
-
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
         setFormStatus("loading")
