@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import Script from "next/script";
 import PrismLoader from "@/components/custom/prism-loader";
 import { FileText, HelpCircle, Loader2 } from 'lucide-react';
-import { BlogData } from "@/types";
+import { BlogData, FormStatus } from "@/types";
 import { codeSampleLanguages } from "@/constants";
 import { handleImageUpload } from "@/lib/helpers/handle-image-upload";
 import {
@@ -17,6 +17,7 @@ import { useTheme } from "next-themes";
 interface EditorSectionProps {
     data: BlogData;
     onChange: React.Dispatch<React.SetStateAction<BlogData>>;
+    formStatus: FormStatus
 }
 const Editor = dynamic(() => import('@tinymce/tinymce-react').then(mod => mod.Editor), {
     ssr: false,
@@ -29,7 +30,8 @@ const Editor = dynamic(() => import('@tinymce/tinymce-react').then(mod => mod.Ed
 });
 export const EditorSection: React.FC<EditorSectionProps> = ({
     data,
-    onChange
+    onChange,
+    formStatus
 }) => {
     // eslint-disable-next-line
     const editorRef = useRef<any | null>(null);
@@ -84,6 +86,7 @@ export const EditorSection: React.FC<EditorSectionProps> = ({
                     onInit={(evt, editor) => {
                         editorRef.current = editor;
                     }}
+                    disabled={formStatus === "loading"}
                     initialValue={data.body}
                     onChange={handleEditorChange}
                     init={{
