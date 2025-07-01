@@ -1,10 +1,10 @@
 import BlogCard from "@/components/pages/blog-card";
 import { BlogCarousel } from "@/components/pages/carousel";
+import CategoryFilters from "@/components/pages/category-filters";
 import Newsletter from "@/components/pages/newsletter";
 import { getBlogs } from "@/lib/actions/blogs";
 import prisma from "@/prisma/prisma";
 import { BlogWithUser } from "@/types";
-import Link from "next/link";
 
 //get featured blogs
 const featuredBlogs = await prisma.$queryRaw<BlogWithUser[]>`
@@ -28,18 +28,7 @@ export default async function Home() {
         )}
       </section>
       <section className="max-w-7xl mx-auto ">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-lg md:text-2xl font-bold text-gray-900 dark:text-gray-50">
-            Latest Articles
-          </h2>
-          <Link href="/latest" passHref>
-            {" "}
-            <button className="text-blue-500 hover:text-blue-600 hover:underline font-medium transition-colors cursor-pointer">
-              View All →
-            </button>
-          </Link>
-        </div>
-
+        <CategoryFilters />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {blogPosts &&
             blogPosts.map((post, index: number) => (
