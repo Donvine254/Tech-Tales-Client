@@ -48,7 +48,6 @@ export default function Create() {
             if (previousDataRef.current !== dataStr) {
                 previousDataRef.current = dataStr;
                 localStorage.setItem("blog-draft", dataStr);
-                console.log("Draft auto-saved");
             }
         }, AUTO_SAVE_INTERVAL);
 

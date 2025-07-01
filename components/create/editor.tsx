@@ -1,7 +1,6 @@
 "use client"
 import React, { useRef } from "react";
 import dynamic from 'next/dynamic';
-import { Editor as TinyMCEEditor } from 'tinymce'
 import Script from "next/script";
 import PrismLoader from "@/components/custom/prism-loader";
 import { FileText, HelpCircle, Loader2 } from 'lucide-react';
@@ -32,7 +31,8 @@ export const EditorSection: React.FC<EditorSectionProps> = ({
     data,
     onChange
 }) => {
-    const editorRef = useRef<TinyMCEEditor | null>(null);
+    // eslint-disable-next-line
+    const editorRef = useRef<any | null>(null);
     const { theme } = useTheme()
     const handleEditorChange = () => {
         if (editorRef.current) {
