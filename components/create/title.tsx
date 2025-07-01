@@ -22,7 +22,7 @@ export const TitleSection: React.FC<TitleSectionProps> = ({
     const [hasFocused, setHasFocused] = useState(false);
 
     const handleFocus = () => {
-        if (!hasFocused) {
+        if (!hasFocused && !title) {
             setShowTitleTips(true);
             setHasFocused(true);
         }

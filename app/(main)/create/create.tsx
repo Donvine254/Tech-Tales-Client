@@ -5,9 +5,9 @@ import { TitleSection } from "@/components/create/title";
 import { slugify } from "@/lib/utils";
 import { useSession } from "@/providers/session";
 import { BlogData, FormStatus } from "@/types";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 
-const AUTO_SAVE_INTERVAL = 2000
+const AUTO_SAVE_INTERVAL = 2000 //Auto-save after every 2 seconds
 
 export default function Create() {
     const { session } = useSession()
@@ -63,6 +63,30 @@ export default function Create() {
             data.image.secure_url.trim() !== ""
         );
     };
+    //prevent users from closing page with unsaved changes'
+    useEffect(() => {
+        if (hasEntries(blogData) && formStatus !== "success") {
+            window.addEventListener("beforeunload", handleBeforeUnload);
+        }
+        return () => {
+            window.removeEventListener("beforeunload", handleBeforeUnload);
+        }
+        // eslint-disable-next-line
+    }, [blogData, formStatus])
+    //handle before unload function
+    const handleBeforeUnload = useCallback(
+        (e: BeforeUnloadEvent) => {
+            e.preventDefault();
+            if (hasEntries(blogData) && formStatus !== "success") {
+                const message =
+                    "You have unsaved changes. Are you sure you want to leave?";
+                e.returnValue = message;
+                return message;
+            } else return null;
+        },
+        [blogData, formStatus]
+    );
+
     //function to create slug
     const handleTitleChange = (value: string) => {
         setBlogData(prevData => ({
@@ -77,12 +101,12 @@ export default function Create() {
 
     }
     return <form className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" onSubmit={handleSubmit}>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative">
             {/* Main Editor Column */}
             <div className="lg:col-span-2 space-y-6"> <TitleSection title={blogData.title} onTitleChange={handleTitleChange} status={formStatus} />
                 <EditorSection data={blogData} onChange={setBlogData} />
             </div>
-            <div className="max-h-max"><CoverImageSection image={blogData.image} onImageChange={(data) => setBlogData((prev: BlogData) => ({ ...prev, image: data }))} /></div>
+            <div className="max-h-max lg:sticky lg:top-20"><CoverImageSection image={blogData.image} onImageChange={(data) => setBlogData((prev: BlogData) => ({ ...prev, image: data }))} /></div>
         </div>
 
 
