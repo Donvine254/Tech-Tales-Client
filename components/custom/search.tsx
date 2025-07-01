@@ -59,14 +59,21 @@ export default function SearchBar({ className }: { className: string }) {
             </Button>
             <CommandDialog open={open} onOpenChange={setOpen} className="dark:bg-gray-900">
                 <DialogTitle />
-                <CommandInput placeholder="Search articles..." value={query}
+                <CommandInput placeholder="Search articles..." value={query} className="truncate text-ellipsis"
                     onValueChange={setQuery} onKeyDown={(e) => {
                         if (e.key === "Enter" && query.trim()) {
                             handleSearch(query);
                         }
                     }} />
                 <CommandList>
-                    <CommandEmpty>No results found.</CommandEmpty>
+                    <CommandEmpty className="p-2">
+                        <Button variant="outline" className=" cursor-pointer w-full relative flex items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none bg-accent capitalize border-none"
+                            onClick={() => {
+                                handleSearch(query.trim());
+                            }}> <Search className="mr-2 h-4 w-4" />
+                            <span className="truncate text-ellipsis">{query.trim()}</span>
+                            <MoveUpRight className="ml-auto h-4 w-4" /></Button>
+                    </CommandEmpty>
                     <CommandGroup heading="Actions">
                         {categories.map((cat) => (
                             <CommandItem

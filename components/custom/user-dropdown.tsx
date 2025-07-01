@@ -65,18 +65,8 @@ const UserDropdown = ({ onLogout, onLogin, session }: UserDropdownProps) => {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-
             {/* Search - only visible on small screens */}
-            {/* <div className="md:hidden p-2">
-              <Link href="/search" passHref>
-                <button className="w-full relative pl-10 pr-4 py-2 text-left text-sm bg-input border border-input rounded-lg text-muted-foreground hover:ring-2 hover:ring-cyan-500 focus:outline-none">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-primary" />
-                  Search articles...
-                </button>
-              </Link>
-            </div> */}
             <SearchBar className="md:hidden p-2" />
-
             {/* Create Blog - only visible on small screens */}
             <div className="md:hidden">
               <Link href="/create" passHref>
