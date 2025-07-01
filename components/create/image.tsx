@@ -109,7 +109,7 @@ export const CoverImageSection: React.FC<CoverImageProps> = ({ image, onImageCha
                         alt="Cover preview"
                         className="w-full h-48 aspect-video object-cover rounded-xl border border-border"
                     />
-                    <div className={cn("absolute group-hover:bg-black/30  inset-0  transition-all duration-200 rounded-xl flex items-center justify-center", isUploading ? "bg-black/30" : "")}>
+                    <div className={cn("absolute bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity  inset-0  duration-200 rounded-xl flex items-center justify-center", isUploading ? "opacity-100" : "")}>
                         {/* when submitting, replace this button with a loader and hide it */}
                         {!isUploading ? <button
                             onClick={handleRemoveImage}
