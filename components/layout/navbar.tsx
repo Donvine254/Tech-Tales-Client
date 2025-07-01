@@ -1,5 +1,5 @@
 "use client";
-import { Search, BookOpen, CircleUserRound, Edit } from "lucide-react";
+import { BookOpen, CircleUserRound, Edit } from "lucide-react";
 import UserDropdown from "../custom/user-dropdown";
 import { Button } from "../ui/button";
 import Link from "next/link";
@@ -9,6 +9,7 @@ import { deleteSession } from "@/lib/actions/session";
 import { toast } from "sonner";
 import { useSession } from "@/providers/session";
 import { setCookie } from "@/lib/cookie";
+import SearchBar from "../custom/search";
 
 const Navbar = () => {
   const { session, setSession } = useSession();
@@ -97,16 +98,7 @@ const Navbar = () => {
           {/* Right side - conditional rendering based on login state */}
           <div className="flex items-center space-x-4">
             {/* Search icon - hidden on small screens */}
-            <Link href="/search" passHref>
-              <Button
-                variant="outline"
-                className="hidden p-2 text-gray-500 dark:text-accent-foreground hover:text-blue-600 cursor-pointer transition-colors md:flex items-center gap-1"
-                title="search articles">
-                <Search className="h-5 w-5" />
-                <span>Ctrl+K</span>
-              </Button>
-            </Link>
-
+            <SearchBar className="hidden md:block" />
             {session ? (
               // Logged in state
               <>

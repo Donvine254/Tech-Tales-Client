@@ -13,9 +13,11 @@ import {
 } from "@/components/ui/command";
 import { DialogTitle } from "../ui/dialog";
 import { categories } from "@/constants";
+import { Button } from "../ui/button";
 
-export function SearchBar() {
+export default function SearchBar({ className }: { className: string }) {
     const [open, setOpen] = React.useState(false);
+    const [query, setQuery] = React.useState("");
     const router = useRouter();
 
     React.useEffect(() => {
@@ -35,28 +37,41 @@ export function SearchBar() {
         command();
     }, []);
 
+    const handleSearch = React.useCallback((term: string) => {
+        if (term.trim()) {
+            router.push(`/search?q=${encodeURIComponent(term.trim())}`)
+            setOpen(false);
+            setQuery("");
+        }
+    }, [router]);
     return (
-        <>
-            <button
+        <div className={className}>
+            <Button
+                variant="outline"
                 onClick={() => setOpen(true)}
-                className="relative flex items-center max-w-xs w-full px-3 py-2 rounded-md border border-input bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer group">
-                <Search className="h-4 w-4 text-gray-500 dark:group-hover:text-white mr-2" />
-                <span className="text-sm text-gray-500 dark:group-hover:text-white  flex-grow text-left">
+                className="w-full md:max-w-min p-2 text-gray-500 dark:text-accent-foreground hover:text-blue-600 cursor-pointer transition-colors md:flex items-center gap-2 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 group"
+                title="search articles">
+                <Search className="h-5 w-5 dark:group-hover:text-white" />
+                <span className="md:hidden lg:block text-sm text-gray-500 dark:group-hover:text-white flex-grow text-left">
                     Search...
                 </span>
-                <span className="text-sm text-muted-foreground dark:group-hover:text-white ">
-                    ⌘+K
-                </span>
-            </button>
-            <CommandDialog open={open} onOpenChange={setOpen}>
+                <span>Ctrl+K</span>
+            </Button>
+            <CommandDialog open={open} onOpenChange={setOpen} className="dark:bg-gray-900">
                 <DialogTitle />
-                <CommandInput placeholder="Search articles..." />
+                <CommandInput placeholder="Search articles..." value={query}
+                    onValueChange={setQuery} onKeyDown={(e) => {
+                        if (e.key === "Enter" && query.trim()) {
+                            handleSearch(query);
+                        }
+                    }} />
                 <CommandList>
                     <CommandEmpty>No results found.</CommandEmpty>
                     <CommandGroup heading="Actions">
                         {categories.map((cat) => (
                             <CommandItem
                                 key={cat.value}
+                                className="hover:text-blue-500 cursor-pointer"
                                 onSelect={() => {
                                     runCommand(() => {
                                         router.push(`/search?q=${cat.value.trim()}`)
@@ -70,6 +85,6 @@ export function SearchBar() {
                     </CommandGroup>
                 </CommandList>
             </CommandDialog>
-        </>
+        </div>
     );
 }
