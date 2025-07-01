@@ -20,6 +20,11 @@ export const categories = [
   { value: "host", label: "Web Hosting" },
   { value: "jwt", label: "Web Security" },
   { value: "technology", label: "Technology" },
+  { value: "api", label: "API Development" },
+  { value: "ai regulation", label: "AI regulation" },
+  { value: "nodejs", label: "Node Js" },
+  { value: "frontend", label: "Frontend" },
+  { value: "prisma", label: "Prisma" },
 ];
 
 export const options = [
