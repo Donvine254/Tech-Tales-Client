@@ -33,7 +33,7 @@ const UserDropdown = ({ onLogout, onLogin, session }: UserDropdownProps) => {
         {session ? (
           // Logged in state - show avatar and chevron
           <>
-            <Avatar className="h-8 w-8 ring-2 ring-cyan-500 ring-offset-2">
+            <Avatar className="h-8 w-8 ring-2 ring-cyan-500 ring-offset-2 cursor-pointer">
               <AvatarImage src={session.picture} alt={session.username} />
               <AvatarFallback className="capitalize">
                 {session.username
@@ -42,7 +42,7 @@ const UserDropdown = ({ onLogout, onLogin, session }: UserDropdownProps) => {
                   .join("")}
               </AvatarFallback>
             </Avatar>
-            <ChevronDown className="h-4 w-4 text-gray-600 dark:text-white" />
+            <ChevronDown className="h-4 w-4 cursor-pointer text-gray-600 dark:text-white" />
           </>
         ) : (
           // Logged out state - show menu icon for mobile
