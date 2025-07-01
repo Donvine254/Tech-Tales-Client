@@ -152,7 +152,7 @@ export default function SearchBar({ className }: { className: string }) {
                                     });
                                 }}>
                                 <Search className="mr-2 h-4 w-4" />
-                                <span>{cat.label}</span>
+                                <span className="truncate text-ellipsis">{cat.label}</span>
                                 <MoveUpRight className="ml-auto h-4 w-4" />
                             </CommandItem>
                         ))}
