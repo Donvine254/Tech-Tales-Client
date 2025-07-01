@@ -20,7 +20,7 @@ export default function HeroCard({
   return (
     <article
       className={cn(
-        "relative overflow-hidden  bg-card shadow-md hover:shadow-lg transition-all duration-300 group-hover:brightness-110 filter group block blog",
+        "relative overflow-hidden  bg-card shadow-md hover:shadow-lg transition-all duration-300 group-hover:brightness-110 filter group block",
         isMobile && "min-h-[80vh]",
         className
       )}>
@@ -57,7 +57,7 @@ export default function HeroCard({
               </Badge>
             )}
             <Link href={`/blog/${post.slug}`}>
-              <h3 className="leading-tight line-clamp-2 drop-shadow-xl text-shadow-lg hover:underline hover:underline-offset-4 transition-all duration-300">
+              <h3 className="leading-tight line-clamp-2 drop-shadow-xl text-shadow-lg hover:underline hover:underline-offset-4 transition-all duration-300 my-3 font-bold">
                 {post.title}
               </h3>
             </Link>

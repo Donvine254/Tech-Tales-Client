@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 export const metaobject: Metadata = {
-  title: "Tech Tales",
+  title: "Tech Tales | Code Tutorials, AI Guides & Dev Tips",
   description:
     "Tech Tales is a dynamic blogging platform for tech students, developers, and professionals to explore programming insights, share real-world coding solutions, and engage in continuous learning. From JavaScript and AI to modern web development frameworks, this community-driven blog is your go-to resource for tutorials, best practices, and thought leadership in tech.",
   // Basic metadata
@@ -25,7 +25,7 @@ export const metaobject: Metadata = {
 
   // Open Graph metadata
   openGraph: {
-    title: "Tech Tales",
+    title: "Tech Tales | Code Tutorials, AI Guides & Dev Tips",
     description:
       "Tech Tales is a dynamic blogging platform for tech students, developers, and professionals to explore programming insights, share real-world coding solutions, and engage in continuous learning. From JavaScript and AI to modern web development frameworks, this community-driven blog is your go-to resource for tutorials, best practices, and thought leadership in tech.",
     url: "https://techtales.vercel.app",
@@ -33,7 +33,7 @@ export const metaobject: Metadata = {
     images: [
       {
         // replace this with url to og-image
-        url: "https://techtales.vercel.app/logo.png",
+        url: "https://techtales.vercel.app/og-image.png",
         width: 1200,
         height: 630,
         alt: "Tech Tales",
@@ -46,7 +46,7 @@ export const metaobject: Metadata = {
   // Twitter metadata
   twitter: {
     card: "summary_large_image",
-    title: "Tech Tales",
+    title: "Tech Tales | Code Tutorials, AI Guides & Dev Tips",
     description:
       "Tech Tales is a dynamic blogging platform for tech students, developers, and professionals to explore programming insights, share real-world coding solutions, and engage in continuous learning. From JavaScript and AI to modern web development frameworks, this community-driven blog is your go-to resource for tutorials, best practices, and thought leadership in tech.",
     creator: "@diamonddegesh",
