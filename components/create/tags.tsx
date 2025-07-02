@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { X, Hash, HelpCircle, RefreshCw, Wand2 } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { toast } from "sonner"
+import { baseUrl } from "@/lib/utils"
 interface TagsSectionProps {
     tags: string[]
     title: string,
@@ -64,7 +66,33 @@ export const TagsSection: React.FC<TagsSectionProps> = ({ tags, title, onTagsCha
     }
     // function to generate tags with AI
     async function generateAITags() {
+        if (!title.trim()) {
+            toast.error("Kindly write a title first");
+            return false;
+        }
         setIsGeneratingTags(true)
+        try {
+            const requestData = {
+                message:
+                    "Based on the following blog title, generate exactly four relevant tags that best describe its content and topics. Return them as a single comma-separated string in this format: 'tag1,tag2,tag3,tag4'. Do not include any explanation or introductory text—only the tags.",
+                body: title,
+            };
+            const res = await fetch(`${baseUrl}/api/gemini`, {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(requestData),
+            })
+            if (res.ok) {
+                const data = await res.json()
+                onTagsChange(data.split(","))
+            }
+        } catch (error) {
+            console.log(error)
+            toast.error("something went wrong")
+        }
     }
 
     return (
