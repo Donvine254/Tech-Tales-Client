@@ -1,4 +1,5 @@
 "use client"
+import ActionButtons from "@/components/create/action-buttons";
 import { EditorSection } from "@/components/create/editor";
 import { CoverImageSection } from "@/components/create/image";
 import { TagsSection } from "@/components/create/tags";
@@ -106,6 +107,7 @@ export default function Create() {
             <div className="lg:col-span-2 space-y-6">
                 <TitleSection title={blogData.title} onTitleChange={handleTitleChange} status={formStatus} />
                 <EditorSection data={blogData} onChange={setBlogData} formStatus={formStatus} />
+                <ActionButtons data={blogData} hasEntries={hasEntries} />
             </div>
             <div className="max-h-max space-y-5">
                 <CoverImageSection image={blogData.image} onImageChange={(data) => setBlogData((prev: BlogData) => ({ ...prev, image: data }))} />
