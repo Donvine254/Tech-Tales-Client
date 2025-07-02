@@ -1,6 +1,7 @@
 "use client"
 import { EditorSection } from "@/components/create/editor";
 import { CoverImageSection } from "@/components/create/image";
+import { TagsSection } from "@/components/create/tags";
 import { TitleSection } from "@/components/create/title";
 import { slugify } from "@/lib/utils";
 import { useSession } from "@/providers/session";
@@ -105,7 +106,10 @@ export default function Create() {
             <div className="lg:col-span-2 space-y-6"> <TitleSection title={blogData.title} onTitleChange={handleTitleChange} status={formStatus} />
                 <EditorSection data={blogData} onChange={setBlogData} formStatus={formStatus} />
             </div>
-            <div className="max-h-max lg:sticky lg:top-20"><CoverImageSection image={blogData.image} onImageChange={(data) => setBlogData((prev: BlogData) => ({ ...prev, image: data }))} /></div>
+            <div className="max-h-max space-y-5"><CoverImageSection image={blogData.image} onImageChange={(data) => setBlogData((prev: BlogData) => ({ ...prev, image: data }))} />
+                <TagsSection tags={blogData.tags.split(",").filter(Boolean)}
+                    onTagsChange={(tags) => setBlogData({ ...blogData, tags: tags.join(",") })} disabled={formStatus == "loading"} />
+            </div>
         </div>
 
 
