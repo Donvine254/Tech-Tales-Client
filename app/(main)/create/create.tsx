@@ -107,7 +107,7 @@ export default function Create() {
                 <EditorSection data={blogData} onChange={setBlogData} formStatus={formStatus} />
             </div>
             <div className="max-h-max space-y-5"><CoverImageSection image={blogData.image} onImageChange={(data) => setBlogData((prev: BlogData) => ({ ...prev, image: data }))} />
-                <TagsSection tags={blogData.tags.split(",").filter(Boolean)}
+                <TagsSection tags={(blogData.tags || "").split(",").filter(Boolean)}
                     onTagsChange={(tags) => setBlogData({ ...blogData, tags: tags.join(",") })} disabled={formStatus == "loading"} />
             </div>
         </div>
