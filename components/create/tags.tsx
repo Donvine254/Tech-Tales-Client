@@ -87,11 +87,15 @@ export const TagsSection: React.FC<TagsSectionProps> = ({ tags, title, onTagsCha
             })
             if (res.ok) {
                 const data = await res.json()
-                onTagsChange(data.split(","))
+                onTagsChange(data.message.split(","))
+            } else {
+                toast.error("something went wrong")
             }
         } catch (error) {
             console.log(error)
             toast.error("something went wrong")
+        } finally {
+            setIsGeneratingTags(false)
         }
     }
 
