@@ -34,12 +34,12 @@ export default function ActionButtons({ data, hasEntries }: Props) {
         toast.info("function not implemented")
     }
     return (
-        <div className="flex items-center flex-wrap justify-between sm:flex-row gap-3 px-6 py-4 bg-card rounded-2xl shadow-2xl border border-border p-6 hover:shadow-md transition-all duration-300">
+        <div className="flex items-center flex-wrap md:justify-between gap-3 px-6 py-4 bg-card rounded-2xl shadow-2xl border border-border p-6 hover:shadow-md transition-all duration-300">
             <Button
                 variant="outline"
                 disabled={!hasEntries(data)}
                 // onClick={handlePreview}
-                className="flex items-center gap-2 hover:bg-slate-50 bg-white/90 backdrop-blur-sm shadow-lg border-slate-200 px-4 py-2"
+                className="flex items-center gap-2 hover:bg-slate-50  backdrop-blur-sm shadow-lg  px-4 py-2"
             >
                 <Eye className="w-4 h-4" />
                 Preview
@@ -48,15 +48,16 @@ export default function ActionButtons({ data, hasEntries }: Props) {
                 onClick={clearDraft}
                 disabled={!hasEntries(data)}
                 variant="outline"
-                className="flex items-center gap-2 bg-white/90 backdrop-blur-sm shadow-lg border-slate-200 text-red-600 hover:text-red-700 hover:bg-red-50 px-4 py-2"
+                className="flex items-center gap-2  backdrop-blur-sm shadow-lg  text-red-600 hover:text-red-700 hover:bg-red-50 px-4 py-2"
             >
                 <X className="w-4 h-4" />
                 Clear Draft
             </Button>
             <Button
                 onClick={handleSave}
+                disabled={!hasEntries(data)}
                 variant="outline"
-                className="flex items-center gap-2 bg-white/90 backdrop-blur-sm shadow-lg border-slate-200 px-4 py-2"
+                className="flex items-center gap-2  backdrop-blur-sm shadow-lg  px-4 py-2"
             >
                 <Save className="w-4 h-4" />
                 Save Draft
