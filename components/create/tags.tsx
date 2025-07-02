@@ -118,28 +118,27 @@ export const TagsSection: React.FC<TagsSectionProps> = ({ tags, title, onTagsCha
                         </Tooltip>
                     </TooltipProvider>
                 </label>
-                {title.trim() && tags.length < 4 && (
-                    <TooltipProvider>
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <button
-                                    onClick={generateAITags}
-                                    disabled={isGeneratingTags}
-                                    className="ml-auto p-2 bg-gradient-to-r from-blue-500 to-cyan-500 cursor-pointer text-white rounded-lg hover:from-blue-600 hover:to-cyan-600 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg">
-                                    {isGeneratingTags ? (
-                                        <RefreshCw className="h-4 w-4 animate-spin" />
-                                    ) : (
-                                        <Wand2 className="h-4 w-4" />
-                                    )}
-                                </button>
-                            </TooltipTrigger>
-                            <TooltipContent className="max-w-72 text-sm" side="bottom" data-state="delayed-open">
-                                <p className="text-xs">Auto Generate Tags with AI</p>
-                            </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
 
-                )}
+                <TooltipProvider>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <button
+                                onClick={generateAITags}
+                                disabled={!title.trim() || isGeneratingTags || tags.length === 4}
+                                className="ml-auto p-2 bg-gradient-to-r from-blue-500 to-cyan-500 cursor-pointer text-white rounded-lg hover:from-blue-600 hover:to-cyan-600 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg">
+                                {isGeneratingTags ? (
+                                    <RefreshCw className="h-4 w-4 animate-spin" />
+                                ) : (
+                                    <Wand2 className="h-4 w-4" />
+                                )}
+                            </button>
+                        </TooltipTrigger>
+                        <TooltipContent className="max-w-72 text-sm" side="bottom" data-state="delayed-open">
+                            <p className="text-xs">Auto Generate Tags with AI</p>
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
+
             </div>
             <div className="space-y-4">
                 {/* Tags Display */}
@@ -186,6 +185,6 @@ export const TagsSection: React.FC<TagsSectionProps> = ({ tags, title, onTagsCha
                     </Button>
                 </div>
             </div>
-        </Card>
+        </Card >
     )
 }
