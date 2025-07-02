@@ -103,15 +103,15 @@ export default function Create() {
     return <form className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-8" onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative">
             {/* Main Editor Column */}
-            <div className="lg:col-span-2 space-y-6"> <TitleSection title={blogData.title} onTitleChange={handleTitleChange} status={formStatus} />
+            <div className="lg:col-span-2 space-y-6">
+                <TitleSection title={blogData.title} onTitleChange={handleTitleChange} status={formStatus} />
                 <EditorSection data={blogData} onChange={setBlogData} formStatus={formStatus} />
             </div>
-            <div className="max-h-max space-y-5"><CoverImageSection image={blogData.image} onImageChange={(data) => setBlogData((prev: BlogData) => ({ ...prev, image: data }))} />
+            <div className="max-h-max space-y-5">
+                <CoverImageSection image={blogData.image} onImageChange={(data) => setBlogData((prev: BlogData) => ({ ...prev, image: data }))} />
                 <TagsSection tags={(blogData.tags || "").split(",").filter(Boolean)}
                     onTagsChange={(tags) => setBlogData({ ...blogData, tags: tags.join(",") })} disabled={formStatus == "loading"} />
             </div>
         </div>
-
-
     </form>
 }

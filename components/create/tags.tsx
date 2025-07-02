@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { X, Hash, HelpCircle } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { Badge } from "../ui/badge"
 interface TagsSectionProps {
     tags: string[]
     onTagsChange: (tags: string[]) => void
@@ -86,19 +87,19 @@ export const TagsSection: React.FC<TagsSectionProps> = ({ tags, onTagsChange, di
                 {/* Tags Display */}
                 <div className="flex flex-wrap gap-2 min-h-[2rem]">
                     {tags.map((tag, index) => (
-                        <Button
+                        <Badge
                             key={index}
                             variant="outline"
-                            className=""
+                            className="group cursor-pointer"
                             onClick={() => handleTagClick(tag, index)}
                         >
                             {tag}
-                            <X className="w-3 h-3 cursor-pointer hover:text-red-500" onClick={(e) => {
+                            <X className="w-3 h-3 group-hover:text-red-500" onClick={(e) => {
                                 e.stopPropagation()
                                 removeTag(index)
                             }} />
 
-                        </Button>
+                        </Badge>
                     ))}
                     {tags.length === 0 && <span className="text-muted-foreground text-sm italic">No tags added yet</span>}
                 </div>
