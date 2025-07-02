@@ -5,16 +5,17 @@ import { useRef, useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { X, Hash, HelpCircle } from "lucide-react"
+import { X, Hash, HelpCircle, RefreshCw, Wand2 } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { Badge } from "../ui/badge"
 interface TagsSectionProps {
     tags: string[]
+    title: string,
     onTagsChange: (tags: string[]) => void
     disabled?: boolean
 }
-export const TagsSection: React.FC<TagsSectionProps> = ({ tags, onTagsChange, disabled = false }) => {
+export const TagsSection: React.FC<TagsSectionProps> = ({ tags, title, onTagsChange, disabled = false }) => {
     const [currentTag, setCurrentTag] = useState("")
+    const [isGeneratingTags, setIsGeneratingTags] = useState<boolean>(false)
     const inputRef = useRef<HTMLInputElement>(null)
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === "Enter" || e.key === ",") {
@@ -31,7 +32,7 @@ export const TagsSection: React.FC<TagsSectionProps> = ({ tags, onTagsChange, di
         if (value.includes(",")) {
             const newTags = value
                 .split(",")
-                .map((tag) => tag.trim())
+                .map((tag) => tag.toLowerCase().trim())
                 .filter((tag) => tag)
             newTags.forEach((tag) => addTag(tag))
             setCurrentTag("")
@@ -61,6 +62,10 @@ export const TagsSection: React.FC<TagsSectionProps> = ({ tags, onTagsChange, di
         }, 10)
 
     }
+    // function to generate tags with AI
+    async function generateAITags() {
+        setIsGeneratingTags(true)
+    }
 
     return (
         <Card className="bg-card rounded-2xl shadow-sm border border-border p-6 hover:shadow-md transition-all duration-300">
@@ -81,14 +86,36 @@ export const TagsSection: React.FC<TagsSectionProps> = ({ tags, onTagsChange, di
                         </Tooltip>
                     </TooltipProvider>
                 </label>
-                <span className="text-sm text-muted-foreground ml-auto font-medium">{tags.length}/4</span>
+                {title.trim() && tags.length < 4 && (
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <button
+                                    onClick={generateAITags}
+                                    disabled={isGeneratingTags}
+                                    className="ml-auto p-2 bg-gradient-to-r from-blue-500 to-cyan-500 cursor-pointer text-white rounded-lg hover:from-blue-600 hover:to-cyan-600 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg">
+                                    {isGeneratingTags ? (
+                                        <RefreshCw className="h-4 w-4 animate-spin" />
+                                    ) : (
+                                        <Wand2 className="h-4 w-4" />
+                                    )}
+                                </button>
+                            </TooltipTrigger>
+                            <TooltipContent className="max-w-72 text-sm" side="bottom" data-state="delayed-open">
+                                <p className="text-xs">Auto Generate Tags with AI</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+
+                )}
             </div>
             <div className="space-y-4">
                 {/* Tags Display */}
                 <div className="flex flex-wrap gap-2 min-h-[2rem]">
                     {tags.map((tag, index) => (
-                        <Badge
+                        <Button
                             key={index}
+                            size={"sm"}
                             variant="outline"
                             className="group cursor-pointer"
                             onClick={() => handleTagClick(tag, index)}
@@ -99,7 +126,7 @@ export const TagsSection: React.FC<TagsSectionProps> = ({ tags, onTagsChange, di
                                 removeTag(index)
                             }} />
 
-                        </Badge>
+                        </Button>
                     ))}
                     {tags.length === 0 && <span className="text-muted-foreground text-sm italic">No tags added yet</span>}
                 </div>
@@ -121,7 +148,7 @@ export const TagsSection: React.FC<TagsSectionProps> = ({ tags, onTagsChange, di
                         type="button"
                         onClick={() => addTag(currentTag.trim())}
                         disabled={disabled || !currentTag.trim() || tags.length >= 4}
-                        className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 px-4"
+                        className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 dark:text-white hover:to-blue-700 px-4"
                     >
                         Add
                     </Button>

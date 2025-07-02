@@ -33,23 +33,31 @@ export const TitleSection: React.FC<TitleSectionProps> = ({
                 <div className="p-2 bg-blue-100 rounded-lg">
                     <Sparkles className="h-5 w-5 text-blue-600" />
                 </div>
-                <label htmlFor="title" className="text-lg font-semibold flex items-center gap-2 text-primary">Your Blog Title
-                    <TooltipProvider>
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <HelpCircle className="h-4 w-4" />
-                            </TooltipTrigger>
-                            <TooltipContent
-                                className="max-w-72 text-sm"
-                                side="bottom"
-                                data-state="delayed-open">
-                                <p>
-                                    Choose a clear and compelling title. Keep it within 80 characters.
-                                </p>
-                            </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
-                </label>
+                <div className="flex w-full justify-between items-center">
+                    <label
+                        htmlFor="title"
+                        className="text-lg font-semibold flex items-center gap-2 text-primary"
+                    >
+                        Your Blog Title
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <HelpCircle className="h-4 w-4" />
+                                </TooltipTrigger>
+                                <TooltipContent
+                                    className="max-w-72 text-sm"
+                                    side="bottom"
+                                    data-state="delayed-open"
+                                >
+                                    <p>Choose a clear and compelling title. Keep it within 80 characters.</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
+                    </label>
+                    <span className="text-sm text-muted-foreground font-medium">
+                        {title?.length ?? 0}/<span className="font-medium text-muted-foreground">80</span>
+                    </span>
+                </div>
             </div>
             <input
                 type="text"
@@ -66,12 +74,6 @@ export const TitleSection: React.FC<TitleSectionProps> = ({
                 placeholder="What's your blog about?"
                 className="w-full text-2xl font-bold border-none outline-none placeholder-gray-300 dark:placeholder-gray-600 bg-transparent resize-none"
             />
-            <div className="text-xs text-muted-foreground flex justify-end ">
-                <p>
-                    {title?.length ?? 0}/
-                    <span className="font-medium text-muted-foreground">80</span>
-                </p>
-            </div>
             {showTitleTips && (
                 <div className="mt-4 p-4 bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-200 dark:border-blue-800 dark:from-blue-900 dark:to-cyan-900 rounded-xl relative">
                     <button
