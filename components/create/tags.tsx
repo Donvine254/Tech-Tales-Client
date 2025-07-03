@@ -3,7 +3,7 @@
 import type React from "react";
 import { useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { X, Hash, HelpCircle, RefreshCw, Wand2 } from "lucide-react";
 import {
@@ -13,18 +13,19 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { toast } from "sonner";
-import { baseUrl } from "@/lib/utils";
+import { baseUrl, cn } from "@/lib/utils";
+import { FormStatus } from "@/types";
 interface TagsSectionProps {
   tags: string[];
   title: string;
   onTagsChange: (tags: string[]) => void;
-  disabled?: boolean;
+  status: FormStatus;
 }
 export const TagsSection: React.FC<TagsSectionProps> = ({
   tags,
   title,
   onTagsChange,
-  disabled = false,
+  status,
 }) => {
   const [currentTag, setCurrentTag] = useState("");
   const [isGeneratingTags, setIsGeneratingTags] = useState<boolean>(false);
@@ -165,15 +166,26 @@ export const TagsSection: React.FC<TagsSectionProps> = ({
         {/* Tags Display */}
         <div className="flex flex-wrap gap-2 min-h-[2rem]">
           {tags.map((tag, index) => (
-            <Button
+            <div
               key={index}
-              size={"sm"}
-              variant="outline"
-              className="group cursor-pointer"
-              onClick={() => handleTagClick(tag, index)}>
-              {tag}
-              <X className="w-3 h-3 group-hover:text-red-500" />
-            </Button>
+              className={cn(
+                buttonVariants({ variant: "outline", size: "sm" }),
+                "group cursor-pointer inline-flex items-center"
+              )}>
+              <span
+                onClick={() => handleTagClick(tag, index)}
+                className="cursor-text">
+                {tag}
+              </span>
+              <button
+                onClick={() => {
+                  removeTag(index);
+                }}
+                title="remove tag"
+                className="cursor-pointer group">
+                <X className="w-3 h-3 ml-1 group-hover:text-red-500" />
+              </button>
+            </div>
           ))}
           {tags.length === 0 && (
             <span className="text-muted-foreground text-sm italic">
@@ -192,13 +204,15 @@ export const TagsSection: React.FC<TagsSectionProps> = ({
             maxLength={15}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
-            disabled={disabled || tags.length >= 4}
+            disabled={tags.length >= 4 || status === "loading"}
             className="border-slate-200 focus:border-blue-400 text-base bg-transparent"
           />
           <Button
             type="button"
             onClick={() => addTag(currentTag.trim())}
-            disabled={disabled || !currentTag.trim() || tags.length >= 4}
+            disabled={
+              status === "loading" || !currentTag.trim() || tags.length >= 4
+            }
             className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 dark:text-white hover:to-blue-700 px-4">
             Add
           </Button>

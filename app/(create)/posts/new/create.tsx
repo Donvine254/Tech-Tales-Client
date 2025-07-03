@@ -29,6 +29,12 @@ export default function Create() {
     updatedAt: null,
   });
   const [formStatus, setFormStatus] = useState<FormStatus>("pending");
+  const [tagList, setTagList] = useState<string[]>(
+    (blogData.tags || "")
+      .split(",")
+      .map((t) => t.trim())
+      .filter(Boolean)
+  );
   const previousDataRef = useRef<string>("");
   //load-saved draft data
   useEffect(() => {
@@ -164,7 +170,7 @@ export default function Create() {
                 onTagsChange={(tags) =>
                   setBlogData({ ...blogData, tags: tags.join(",") })
                 }
-                disabled={formStatus === "loading"}
+                status={formStatus}
               />
             </div>
             {/* Image & Tags in one row for md screens only */}
@@ -177,12 +183,16 @@ export default function Create() {
               />
 
               <TagsSection
-                tags={(blogData.tags || "").split(",").filter(Boolean)}
+                tags={tagList}
                 title={blogData.title}
-                onTagsChange={(tags) =>
-                  setBlogData({ ...blogData, tags: tags.join(",") })
-                }
-                disabled={formStatus === "loading"}
+                onTagsChange={(newTags) => {
+                  setTagList(newTags);
+                  setBlogData((prev) => ({
+                    ...prev,
+                    tags: newTags.join(","),
+                  }));
+                }}
+                status={formStatus}
               />
             </div>
 
@@ -210,7 +220,7 @@ export default function Create() {
                 onTagsChange={(tags) =>
                   setBlogData({ ...blogData, tags: tags.join(",") })
                 }
-                disabled={formStatus === "loading"}
+                status={formStatus}
               />
               {/* Future: Audio input goes here */}
             </div>
