@@ -39,7 +39,7 @@ export const TagsSection: React.FC<TagsSectionProps> = ({
       removeTag(tags.length - 1);
     }
   };
-
+  const inputDisabled = tags.length >= 4 || status === "loading";
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     if (value.includes(",")) {
@@ -204,7 +204,7 @@ export const TagsSection: React.FC<TagsSectionProps> = ({
             maxLength={15}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
-            disabled={tags.length >= 4 || status === "loading"}
+            disabled={inputDisabled}
             className="border-slate-200 focus:border-blue-400 text-base bg-transparent"
           />
           <Button
