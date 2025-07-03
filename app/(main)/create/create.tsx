@@ -157,7 +157,7 @@ export default function Create() {
                         onChange={setBlogData}
                         formStatus={formStatus}
                     />
-                    <ActionButtons data={blogData} hasEntries={hasEntries} />
+                    <ActionButtons data={blogData} hasEntries={hasEntries} onPublish={handleSubmit} disabled={formStatus === "loading"} />
                 </div>
 
                 {/* Sticky Right Sidebar on large screens only */}
