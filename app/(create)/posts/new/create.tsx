@@ -1,6 +1,7 @@
 "use client";
 import { EditorSection } from "@/components/create/editor";
 import { CoverImageSection } from "@/components/create/image";
+import { PreviewDialog } from "@/components/create/preview-modal";
 import { TagsSection } from "@/components/create/tags";
 import { TitleSection } from "@/components/create/title";
 import { EditorNavbar } from "@/components/layout/editor-navbar";
@@ -34,6 +35,7 @@ export default function Create() {
       .map((t) => t.trim())
       .filter(Boolean)
   );
+  const [previewOpen, setPreviewOpen] = useState(false);
   const previousDataRef = useRef<string>("");
   //load-saved draft data
   useEffect(() => {
@@ -136,10 +138,18 @@ export default function Create() {
     e.preventDefault();
     setFormStatus("loading");
   }
+  //function to show preview modal
+  const handlePreview = () => {
+    if (!hasEntries(blogData)) {
+      toast.error("Write something to see a preview");
+      return;
+    }
+    setPreviewOpen(true);
+  };
   return (
     <section>
       <EditorNavbar
-        onPreview={() => toast.info("upcoming feature")}
+        onPreview={handlePreview}
         onPublish={handleSubmit}
         lastSaved={blogData.updatedAt ?? new Date()}
         disabled={!hasAllEntries(blogData) || formStatus === "loading"}
@@ -224,6 +234,11 @@ export default function Create() {
             </div>
           </div>
         </div>
+        <PreviewDialog
+          open={previewOpen}
+          onOpenChange={setPreviewOpen}
+          blog={blogData}
+        />
       </form>
     </section>
   );
