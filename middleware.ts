@@ -9,7 +9,7 @@ export async function middleware(request: NextRequest) {
   const isProtectedPath =
     path.startsWith("/me") ||
     path.startsWith("/my-blogs") ||
-    path.startsWith("/blog/new") ||
+    path.startsWith("/posts") ||
     path.startsWith("/admin") ||
     path.startsWith("/api");
 
@@ -62,7 +62,8 @@ export const config = {
     "/",
     "/login",
     "/register",
-    "/blog/new",
+    "/posts/new",
+    "/posts/:path*",
     "/register",
     "/callback",
     "/api",
