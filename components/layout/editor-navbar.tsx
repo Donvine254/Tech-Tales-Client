@@ -67,7 +67,11 @@ export const EditorNavbar = ({
         <div className="flex items-center gap-2">
           {/* Desktop view (md and up) */}
           <div className="hidden md:flex items-center gap-2">
-            <Button variant="outline" size="sm" onClick={onPreview}>
+            <Button
+              variant="outline"
+              size="sm"
+              className="cursor-pointer"
+              onClick={onPreview}>
               <Eye className="w-4 h-4" />
               Preview
             </Button>
@@ -75,7 +79,7 @@ export const EditorNavbar = ({
               onClick={() => onPublish}
               size="sm"
               disabled={disabled}
-              className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white  shadow-lg px-4 py-2">
+              className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white cursor-pointer  shadow-lg px-4 py-2">
               <Sparkles className="w-4 h-4" />
               <span className="">Publish</span>
             </Button>
@@ -85,15 +89,24 @@ export const EditorNavbar = ({
           <div className="md:hidden">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button size="sm" className="gap-2">
+                <Button size="sm" className="gap-2 cursor-pointer">
                   Continue
                   <ChevronRight className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="bg-popover">
-                <DropdownMenuItem onClick={onPreview}>Preview</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => onPublish}>
-                  Publish
+              <DropdownMenuContent align="end" className="bg-popover space-y-2">
+                <DropdownMenuItem
+                  onClick={onPreview}
+                  className="cursor-pointer bg-secondary">
+                  {" "}
+                  <Eye className="w-4 h-4 mr-1" />
+                  Preview
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => onPublish}
+                  disabled={disabled}
+                  className="flex items-center bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white cursor-pointer">
+                  <Sparkles className="w-4 h-4 text-white" /> Publish
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
