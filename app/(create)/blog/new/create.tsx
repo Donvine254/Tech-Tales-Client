@@ -1,5 +1,5 @@
 "use client";
-import ActionButtons from "@/components/create/action-buttons";
+// import ActionButtons from "@/components/create/action-buttons";
 import { EditorSection } from "@/components/create/editor";
 import { CoverImageSection } from "@/components/create/image";
 import { TagsSection } from "@/components/create/tags";
@@ -160,7 +160,7 @@ export default function Create() {
                             onChange={setBlogData}
                             formStatus={formStatus}
                         />
-                        <ActionButtons data={blogData} hasEntries={hasEntries} onPublish={handleSubmit} disabled={formStatus === "loading"} />
+                        {/* <ActionButtons data={blogData} hasEntries={hasEntries} onPublish={handleSubmit} disabled={formStatus === "loading"} /> */}
                     </div>
 
                     {/* Sticky Right Sidebar on large screens only */}
