@@ -66,6 +66,15 @@ export default function Create() {
             data.image.secure_url.trim() !== ""
         );
     };
+    //check if all entries are there
+    const hasAllEntries = (data: BlogData): boolean => {
+        return (
+            data.title.trim() !== "" &&
+            data.body.trim() !== "" &&
+            data.tags.trim() !== "" &&
+            data.image.secure_url.trim() !== ""
+        );
+    };
     //prevent users from closing page with unsaved changes'
     useEffect(() => {
         if (hasEntries(blogData) && formStatus !== "success") {
@@ -104,7 +113,7 @@ export default function Create() {
     }
     return (
         <section>
-            <EditorNavbar onPreview={() => toast.info("upcoming feature")} onPublish={handleSubmit} />
+            <EditorNavbar onPreview={() => toast.info("upcoming feature")} onPublish={handleSubmit} disabled={!hasAllEntries(blogData) || formStatus === "loading"} />
             <form
                 className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-6"
                 onSubmit={handleSubmit}
