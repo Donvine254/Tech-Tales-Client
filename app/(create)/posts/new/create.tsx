@@ -26,6 +26,7 @@ export default function Create() {
       public_id: "",
     },
     audioUrl: null,
+    updatedAt: null,
   });
   const [formStatus, setFormStatus] = useState<FormStatus>("pending");
   const previousDataRef = useRef<string>("");
@@ -35,7 +36,7 @@ export default function Create() {
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        setBlogData(parsed);
+        setBlogData({ ...parsed, updatedAt: new Date() });
       } catch (err) {
         console.error("Failed to load saved draft:", err);
       }
@@ -107,7 +108,7 @@ export default function Create() {
       if (isSaveShortcut) {
         e.preventDefault();
         e.stopPropagation();
-        const dataStr = JSON.stringify(blogData);
+        const dataStr = JSON.stringify({ ...blogData, updatedAt: new Date() });
         localStorage.setItem("blog-draft", dataStr);
         toast.success("Draft saved successfully");
       }
@@ -135,6 +136,7 @@ export default function Create() {
       <EditorNavbar
         onPreview={() => toast.info("upcoming feature")}
         onPublish={handleSubmit}
+        lastSaved={blogData.updatedAt ?? new Date()}
         disabled={!hasAllEntries(blogData) || formStatus === "loading"}
       />
       <form

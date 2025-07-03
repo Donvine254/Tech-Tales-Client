@@ -17,18 +17,21 @@ import Link from "next/link";
 interface EditorNavbarProps {
   onPreview?: () => void;
   onPublish: (e: React.FormEvent<HTMLFormElement>) => void;
-  lastSaved?: Date;
+  lastSaved: Date;
   disabled: boolean;
 }
 
 export const EditorNavbar = ({
   onPreview,
   onPublish,
-  lastSaved = new Date(),
+  lastSaved,
   disabled,
 }: EditorNavbarProps) => {
   const formatSaveTime = (date: Date) => {
-    return `Last saved: ${date.toLocaleTimeString()}`;
+    return `Last saved: ${date.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    })}`;
   };
 
   return (
@@ -43,7 +46,6 @@ export const EditorNavbar = ({
               Back
             </Link>
           </Button>
-
           {/* Draft status */}
           <Tooltip>
             <TooltipTrigger asChild>
@@ -73,7 +75,7 @@ export const EditorNavbar = ({
               onClick={() => onPublish}
               size="sm"
               disabled={disabled}
-              className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700  shadow-lg px-4 py-2">
+              className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white  shadow-lg px-4 py-2">
               <Sparkles className="w-4 h-4" />
               <span className="">Publish</span>
             </Button>
