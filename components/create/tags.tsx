@@ -178,10 +178,12 @@ export const TagsSection: React.FC<TagsSectionProps> = ({
                 {tag}
               </span>
               <button
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   removeTag(index);
                 }}
                 title="remove tag"
+                type="button"
                 className="cursor-pointer group">
                 <X className="w-3 h-3 ml-1 group-hover:text-red-500" />
               </button>
