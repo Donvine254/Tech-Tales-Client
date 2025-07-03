@@ -60,7 +60,7 @@ export const TagsSection: React.FC<TagsSectionProps> = ({
     }
     setCurrentTag("");
   };
-
+  // cause all inputs to become not focusable
   const removeTag = (index: number) => {
     const updatedTags = tags.filter((_, i) => i !== index);
     onTagsChange(updatedTags);
@@ -172,13 +172,7 @@ export const TagsSection: React.FC<TagsSectionProps> = ({
               className="group cursor-pointer"
               onClick={() => handleTagClick(tag, index)}>
               {tag}
-              <X
-                className="w-3 h-3 group-hover:text-red-500"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  removeTag(index);
-                }}
-              />
+              <X className="w-3 h-3 group-hover:text-red-500" />
             </Button>
           ))}
           {tags.length === 0 && (
