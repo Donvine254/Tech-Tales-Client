@@ -14,7 +14,7 @@ import SearchBar from "../custom/search";
 const Navbar = () => {
   const { session, setSession } = useSession();
   const router = useRouter();
-  const pathname = usePathname()
+  const pathname = usePathname();
   async function handleLogout() {
     const id = toast("Are you sure you want to sign out?", {
       position: "top-center",
@@ -29,7 +29,7 @@ const Navbar = () => {
             setSession(null);
             toast.success("Logged out successfully");
           } catch (error) {
-            console.log(error)
+            console.log(error);
             toast.error("Failed to log out");
           } finally {
             toast.dismiss(loadingId);
@@ -45,7 +45,7 @@ const Navbar = () => {
   // trim the pathname
   async function handleLogin() {
     setCookie("post_login_redirect", pathname, 1);
-    router.push('/login')
+    router.push("/login");
   }
 
   return (
@@ -71,7 +71,7 @@ const Navbar = () => {
               className={cn(
                 "text-gray-700 dark:text-accent-foreground  hover:text-blue-600 transition-colors font-medium",
                 pathname.startsWith("/latest") &&
-                "text-blue-600 dark:text-blue-500 underline underline-offset-4 font-bold"
+                  "text-blue-600 dark:text-blue-500 underline underline-offset-4 font-bold"
               )}>
               Latest
             </Link>
@@ -80,7 +80,7 @@ const Navbar = () => {
               className={cn(
                 "text-gray-700 dark:text-accent-foreground  hover:text-blue-600 transition-colors font-medium",
                 pathname.startsWith("/trending") &&
-                "text-blue-600 dark:text-blue-500 underline underline-offset-4 font-bold"
+                  "text-blue-600 dark:text-blue-500 underline underline-offset-4 font-bold"
               )}>
               Trending
             </Link>
@@ -89,7 +89,7 @@ const Navbar = () => {
               className={cn(
                 "text-gray-700 dark:text-accent-foreground  hover:text-blue-600 transition-colors font-medium",
                 pathname.startsWith("/featured") &&
-                "text-blue-600 dark:text-blue-500 underline underline-offset-4 font-bold"
+                  "text-blue-600 dark:text-blue-500 underline underline-offset-4 font-bold"
               )}>
               Featured
             </Link>
@@ -103,7 +103,7 @@ const Navbar = () => {
               // Logged in state
               <>
                 {/* Create Blog button - hidden on small screens */}
-                <Link href="/blog/new" passHref>
+                <Link href="/posts/new" passHref>
                   <Button
                     variant="secondary"
                     size="sm"

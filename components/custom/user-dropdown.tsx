@@ -26,7 +26,6 @@ interface UserDropdownProps {
 }
 
 const UserDropdown = ({ onLogout, onLogin, session }: UserDropdownProps) => {
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="flex items-center space-x-2 hover:opacity-80 transition-opacity outline-0">
@@ -57,7 +56,9 @@ const UserDropdown = ({ onLogout, onLogin, session }: UserDropdownProps) => {
           <>
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none capitalize">{session.username}</p>
+                <p className="text-sm font-medium leading-none capitalize">
+                  {session.username}
+                </p>
                 <p className="text-xs leading-none text-muted-foreground">
                   {session.email}
                 </p>
@@ -68,7 +69,7 @@ const UserDropdown = ({ onLogout, onLogin, session }: UserDropdownProps) => {
             <SearchBar className="md:hidden p-2" />
             {/* Create Blog - only visible on small screens */}
             <div className="md:hidden">
-              <Link href="/blog/new" passHref>
+              <Link href="/posts/new" passHref>
                 <DropdownMenuItem className="cursor-pointer hover:text-blue-500 dark:hover:bg-blue-500 dark:hover:text-white group">
                   <svg
                     viewBox="0 0 693 1000"

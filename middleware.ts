@@ -51,6 +51,7 @@ export async function middleware(request: NextRequest) {
       sameSite: "lax",
       path: "/",
     });
+    return response;
   } else if (userData && isPublicPath) {
     //prevent users from visiting login page if they are already logged in
     return NextResponse.redirect(new URL("/", request.url));
