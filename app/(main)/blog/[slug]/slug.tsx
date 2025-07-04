@@ -35,6 +35,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import AnimatedLikeButton from "@/components/custom/like-button";
 type Props = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   blog: Record<string, any>;
@@ -121,7 +122,7 @@ export default function Slug({ blog }: Props) {
           )}
         </div>
         {/* Actions buttons */}
-        <div className="flex items-center justify-between xsm:gap-2 md:gap-4  py-2 border-y border-slate-300 my-2">
+        <div className="flex items-center justify-between xsm:gap-2 md:gap-4  py-2 border-y border-border my-2">
           <Tooltip>
             <TooltipTrigger asChild>
               <a
@@ -213,7 +214,7 @@ export default function Slug({ blog }: Props) {
         </article>
         {/* Bottom buttons */}
 
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between border-b border-border">
           <div className="flex items-center gap-2 xsm:gap-2 md:gap-4">
             <Tooltip>
               <TooltipTrigger asChild>
@@ -229,19 +230,7 @@ export default function Slug({ blog }: Props) {
                 <p>{blog?.comments?.length ?? 0} Comments</p>
               </TooltipContent>
             </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button
-                  className="flex items-center space-x-1 hover:text-red-500 transition-colors cursor-pointer group"
-                  title="blog likes">
-                  <Heart className="h-4 w-4 group-hover:fill-red-500" />
-                  <span className="text-sm">{blog.likes}</span>
-                </button>
-              </TooltipTrigger>
-              <TooltipContent className="max-w-72 text-sm" side="bottom">
-                <p>{blog.likes} Likes</p>
-              </TooltipContent>
-            </Tooltip>
+            <AnimatedLikeButton initialLikes={blog.likes} size={30} />
           </div>
           {/* second div */}
           <div className="flex items-center gap-2 xsm:gap-2 md:gap-4">
@@ -278,6 +267,7 @@ export default function Slug({ blog }: Props) {
             </DropdownMenu>
           </div>
         </div>
+        {/* comments section */}
       </TooltipProvider>
     </div>
   );
