@@ -149,28 +149,28 @@ export const PreviewDialog = ({
         {/* Content */}
         {/* Phone Frame */}
         {activeTab === "mobile" && (
-          <div className="flex-1 pt-2 flex items-center justify-center bg-muted hidden md:block  w-full h-full overflow-hidden">
+          <div className="flex-1 pt-2 items-center justify-center bg-muted hidden md:flex  w-full h-full overflow-hidden">
             <div className="w-[375px] h-[812px] mt-auto pb-auto bg-black rounded-[40px] p-2 shadow-2xl overflow-hidden mx-auto">
               {/* Screen */}
-              <div className="w-full h-full bg-white rounded-[32px] overflow-y-hidden relative">
+              <div className="w-full h-full bg-white dark:bg-accent/50 rounded-[32px] overflow-y-hidden relative">
                 {/* Status Bar */}
-                <div className="absolute top-0 left-0 right-0 h-11 bg-white shadow  z-10 flex items-center justify-between px-6 text-black text-sm font-medium">
+                <div className="absolute top-0 left-0 right-0 h-11 bg-white dark:bg-accent shadow  z-10 flex items-center justify-between px-6 text-primary text-sm font-medium">
                   <span>{getCurrentTime()}</span>
-                  <div className="w-20 h-6 bg-black rounded-full"></div>
+                  <div className="w-20 h-6 bg-black dark:bg-gray-950 rounded-full"></div>
                   <div className="flex items-center gap-1">
                     {/* network bars */}
                     <div className="flex items-end space-x-0.5 ml-1">
-                      <div className="w-1 h-1 bg-black rounded-sm"></div>
-                      <div className="w-1 h-2 bg-black rounded-sm"></div>
-                      <div className="w-1 h-3 bg-black rounded-sm"></div>
-                      <div className="w-1 h-4 bg-black rounded-sm"></div>
+                      <div className="w-1 h-1 bg-black dark:bg-white rounded-sm"></div>
+                      <div className="w-1 h-2 bg-black dark:bg-white rounded-sm"></div>
+                      <div className="w-1 h-3 bg-black dark:bg-white rounded-sm"></div>
+                      <div className="w-1 h-4 bg-black dark:bg-white rounded-sm"></div>
                     </div>
                     {/* battery */}
                     <div className="flex items-center">
                       {/* Battery body */}
-                      <div className="w-8 h-4 border-2 border-black rounded-sm flex bg-green-500 items-center p-0"></div>
+                      <div className="w-8 h-4 border-2 border-black dark:border-white rounded-sm flex bg-green-500 items-center p-0"></div>
                       {/* Battery tip */}
-                      <div className="w-1 h-2 bg-black ml-0.5 rounded-sm"></div>
+                      <div className="w-1 h-2 bg-primary ml-0.5 rounded-sm"></div>
                     </div>
                   </div>
                 </div>
@@ -182,7 +182,7 @@ export const PreviewDialog = ({
         )}
 
         {activeTab === "desktop" && (
-          <div className="h-full hidden md:block overflow-y-hidden w-full flex flex-col items-center justify-center">
+          <div className="h-full hidden md:flex overflow-y-hidden w-full flex-col items-center justify-center">
             <div className="mx-auto w-full max-w-[95%] h-[812px] mt-auto pb-auto bg-white rounded-lg shadow-2xl overflow-hidden">
               {/* Browser Chrome - Now using static positioning */}
               <div className="h-12 bg-gray-100 border-b border-gray-200 flex items-center px-4 gap-3 flex-shrink-0">
