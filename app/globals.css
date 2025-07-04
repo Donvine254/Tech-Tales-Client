@@ -205,25 +205,22 @@
   line-height: normal;
   font-size: 15px !important;
 }
+/* Styles for pre elements that contain code */
 .blog-body pre:has(code) {
-  border-radius: 8px !important;
-  width: 100%;
-  overflow-x: auto;
-  line-height: normal;
-  font-size: 15px !important;
-  border: 1px solid #ccc !important;
+  @apply rounded-lg w-full overflow-x-auto leading-normal text-[15px] border border-gray-300;
 }
 
+.dark .blog-body pre:has(code) {
+  @apply border-gray-700 bg-gray-900 text-gray-100;
+}
+
+/* Styles for pre elements that do NOT contain code */
 .blog-body pre:not(:has(code)) {
-  border-radius: 8px !important;
-  width: 100%;
-  white-space: pre-wrap;
-  line-height: normal;
-  color: #000;
-  font-size: 15px !important;
-  background-color: #f2f2f2 !important;
-  padding: 1em;
-  border: 1px solid #ccc !important;
+  @apply rounded-lg w-full whitespace-pre-wrap leading-normal text-black text-[15px] bg-gray-100 p-4 border border-gray-300;
+}
+
+.dark .blog-body pre:not(:has(code)) {
+  @apply text-gray-100 bg-gray-800 border-gray-700;
 }
 
 #blog-body ul,
