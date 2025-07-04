@@ -14,6 +14,12 @@ import parse from "html-react-parser";
 import Link from "next/link";
 import { ShareModal } from "../modals/share-modal";
 import Bookmark from "../custom/bookmark";
+import {
+  Tooltip,
+  TooltipProvider,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface BlogCardProps extends BlogWithUser {
   _count: {
@@ -109,18 +115,41 @@ const BlogCard = ({ blog }: { blog: BlogCardProps }) => {
 
         <div className="mt-auto pt-4 border-t border-gray-300 dark:border-gray-500 flex items-center justify-between text-accent-foreground">
           <div className="flex items-center space-x-4">
-            <button className="flex items-center space-x-1 hover:text-cyan-600 transition-colors">
-              <MessageSquare className="h-4 w-4" />
-              <span className="text-sm">{blog._count.comments}</span>
-            </button>
-            <button className="flex items-center space-x-1 hover:text-red-500 transition-colors">
-              <Heart className="h-4 w-4" />
-              <span className="text-sm">{blog.likes}</span>
-            </button>
-            <button className="flex items-center space-x-1 hover:text-cyan-600 transition-colors">
-              <ChartNoAxesColumn className="h-4 w-4" />
-              <span className="text-sm">{formatViews(blog.views)}</span>
-            </button>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button className="flex items-center space-x-1 hover:text-cyan-600 transition-colors cursor-pointer">
+                    <MessageSquare className="h-4 w-4" />
+                    <span className="text-sm">{blog._count.comments}</span>
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent className="max-w-72 text-sm" side="bottom">
+                  <p>Blog Comments</p>
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button className="flex items-center space-x-1 hover:text-red-500 transition-colors cursor-pointer group">
+                    <Heart className="h-4 w-4 group-hover:fill-red-500" />
+                    <span className="text-sm">{blog.likes}</span>
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent className="max-w-72 text-sm" side="bottom">
+                  <p>Blog Likes</p>
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button className="flex items-center space-x-1 hover:text-cyan-600 transition-colors cursor-pointer">
+                    <ChartNoAxesColumn className="h-4 w-4" />
+                    <span className="text-sm">{formatViews(blog.views)}</span>
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent className="max-w-72 text-sm" side="bottom">
+                  <p>Blog Views</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
           <div className="flex items-center space-x-2">
             <ShareModal
