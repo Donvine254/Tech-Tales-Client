@@ -16,7 +16,6 @@ export async function generateStaticParams() {
     const slugArray = slugs.map((slugObj) => ({
       slug: slugObj.slug,
     }));
-    console.log(slugArray);
     return slugArray;
   } catch (error) {
     console.error("Error fetching blog data:", error);
