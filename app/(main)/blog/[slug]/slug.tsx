@@ -271,6 +271,10 @@ export default function Slug({ blog }: Props) {
                 <DropdownMenuItem className="flex items-center cursor-pointer">
                   <Eye className="h-4 w-4 mr-2" /> View more from author
                 </DropdownMenuItem>
+                {/* TODO: Only show edit to admin or blog author */}
+                {/* <DropdownMenuItem className="flex items-center cursor-pointer">
+                  <Pencil className="h-4 w-4 mr-2" /> Edit blog
+                </DropdownMenuItem> */}
                 <DropdownMenuItem className="flex items-center cursor-pointer text-destructive hover:bg-destructive hover:text-destructive-foreground group">
                   <ShieldBan className="h-4 w-4 mr-2 text-destructive group-hover:text-destructive-foreground" />{" "}
                   Report this blog
