@@ -197,7 +197,7 @@ export const PreviewDialog = ({
                 <div className="flex-1 mx-4">
                   <div className="bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm text-gray-600 flex items-center gap-2">
                     <LockIcon className="h-4 w-4 text-muted-foreground" />
-                    <span>{`https://techtales.vercel.app/blog/${blog.slug}`}</span>
+                    <span className="whitespace-nowrap truncate text-ellipsis">{`https://techtales.vercel.app/blog/${blog.slug}`}</span>
                     <div className="ml-auto w-4 h-4 bg-gray-300 rounded"></div>
                   </div>
                 </div>
