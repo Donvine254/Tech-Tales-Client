@@ -282,7 +282,7 @@ export default function Slug({ blog }: Props) {
         {/* comments section */}
       </TooltipProvider>
       {/* print div: hidden */}
-      <div id="print-div" style={{ display: "none" }}>
+      <div id="print-div" style={{ display: "none" }} className="blog prose">
         <h1 className="text-xl font-bold">{blog.title}</h1>
         <p className="italic">
           By {blog.author.username} published on{" "}
