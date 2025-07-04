@@ -1,7 +1,7 @@
 import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BlogData } from "@/types";
-import { Calendar, Clock, LockIcon } from "lucide-react";
+import { Calendar, Clock, LockIcon, Plus } from "lucide-react";
 import parse from "html-react-parser";
 import PrismLoader from "../custom/prism-loader";
 import Image from "next/image";
@@ -183,9 +183,9 @@ export const PreviewDialog = ({
 
         {activeTab === "desktop" && (
           <div className="h-full hidden md:flex overflow-y-hidden w-full flex-col items-center justify-center">
-            <div className="mx-auto w-full max-w-[95%] h-[812px] mt-auto pb-auto bg-white rounded-lg shadow-2xl overflow-hidden">
+            <div className="mx-auto w-full max-w-[95%] h-[812px] mt-auto pb-auto bg-white dark:bg-accent/90 rounded-lg shadow-2xl overflow-hidden">
               {/* Browser Chrome - Now using static positioning */}
-              <div className="h-12 bg-gray-100 border-b border-gray-200 flex items-center px-4 gap-3 flex-shrink-0">
+              <div className="h-12 bg-gray-100 dark:bg-accent border-b border-border flex items-center px-4 gap-3 flex-shrink-0">
                 {/* Traffic Lights */}
                 <div className="flex gap-2">
                   <div className="w-3 h-3 bg-red-500 rounded-full"></div>
@@ -195,17 +195,16 @@ export const PreviewDialog = ({
 
                 {/* Address Bar */}
                 <div className="flex-1 mx-4">
-                  <div className="bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm text-gray-600 flex items-center gap-2">
+                  <div className="bg-white dark:bg-gray-600 border border-border rounded-md px-3 py-1.5 text-sm text-muted-foreground flex items-center gap-2 w-fit mx-auto">
                     <LockIcon className="h-4 w-4 text-muted-foreground" />
                     <span className="whitespace-nowrap truncate text-ellipsis">{`https://techtales.vercel.app/blog/${blog.slug}`}</span>
-                    <div className="ml-auto w-4 h-4 bg-gray-300 rounded"></div>
                   </div>
                 </div>
 
                 {/* Browser Controls */}
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 bg-gray-300 rounded"></div>
-                  <div className="w-6 h-6 bg-gray-300 rounded"></div>
+
+                <div className="flex items-center justify-center">
+                  <Plus className="text-muted-foreground" />
                 </div>
               </div>
 
@@ -219,7 +218,7 @@ export const PreviewDialog = ({
           </div>
         )}
         {/* mobile view */}
-        <div className="md:hidden w-full h-[calc(100%-48px)] overflow-y-auto overflow-x-hidden">
+        <div className="md:hidden w-full h-[calc(100%-48px)] overflow-y-auto overflow-x-hidden bg-white dark:bg-accent/90">
           <div className="max-w-4xl mx-auto">
             <BlogBody />
           </div>
