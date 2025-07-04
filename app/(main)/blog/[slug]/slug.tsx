@@ -121,7 +121,7 @@ export default function Slug({ blog }: Props) {
               </a>
             </TooltipTrigger>
             <TooltipContent className="max-w-72 text-sm" side="bottom">
-              <p>Blog Comments</p>
+              <p>{blog?.comments?.length ?? 0} Comments</p>
             </TooltipContent>
           </Tooltip>
           <Tooltip>
@@ -134,7 +134,7 @@ export default function Slug({ blog }: Props) {
               </button>
             </TooltipTrigger>
             <TooltipContent className="max-w-72 text-sm" side="bottom">
-              <p>Blog Likes</p>
+              <p>{blog.likes} Likes</p>
             </TooltipContent>
           </Tooltip>
           <Tooltip>
@@ -147,7 +147,7 @@ export default function Slug({ blog }: Props) {
               </button>
             </TooltipTrigger>
             <TooltipContent className="max-w-72 text-sm" side="bottom">
-              <p>Blog Views</p>
+              <p>{formatViews(blog.views)} Views</p>
             </TooltipContent>
           </Tooltip>
           <Tooltip>

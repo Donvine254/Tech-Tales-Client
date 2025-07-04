@@ -124,7 +124,7 @@ const BlogCard = ({ blog }: { blog: BlogCardProps }) => {
                   </button>
                 </TooltipTrigger>
                 <TooltipContent className="max-w-72 text-sm" side="bottom">
-                  <p>Blog Comments</p>
+                  <p>{blog._count.comments} Comments</p>
                 </TooltipContent>
               </Tooltip>
               <Tooltip>
@@ -135,7 +135,7 @@ const BlogCard = ({ blog }: { blog: BlogCardProps }) => {
                   </button>
                 </TooltipTrigger>
                 <TooltipContent className="max-w-72 text-sm" side="bottom">
-                  <p>Blog Likes</p>
+                  <p>{blog.likes} Likes</p>
                 </TooltipContent>
               </Tooltip>
               <Tooltip>
@@ -146,7 +146,7 @@ const BlogCard = ({ blog }: { blog: BlogCardProps }) => {
                   </button>
                 </TooltipTrigger>
                 <TooltipContent className="max-w-72 text-sm" side="bottom">
-                  <p>Blog Views</p>
+                  <p>{formatViews(blog.views)} Views</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
