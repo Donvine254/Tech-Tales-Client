@@ -27,7 +27,6 @@ export default function Slug({ blog }: Props) {
   return (
     <div className="w-full mx-auto m-2 min-h-[75%] px-8 xsm:px-4 max-w-4xl md:mt-4 blog">
       <Script src="https://unpkg.com/ink-html/dist/index.js"></Script>
-
       <BlogImage image={blog.image} title={blog.title} />
       {/* Author Information - Moved to top */}
       <div className="flex items-center space-x-3 mb-4 mt-4">

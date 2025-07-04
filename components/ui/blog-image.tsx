@@ -33,7 +33,7 @@ export default function BlogImage({
       quality={100}
       priority
       style={{
-        backgroundImage: "url('/placeholder-image.webp')",
+        backgroundImage: "url('/placeholder.svg')",
         backgroundPosition: "center",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
