@@ -7,13 +7,16 @@ import { calculateReadingTime, formatViews } from "@/lib/utils";
 import {
   Calendar,
   ChartNoAxesColumn,
+  CircleUserRound,
   Clock,
   Eye,
   Heart,
+  LockIcon,
   MessageSquare,
   MessageSquareText,
   MoreHorizontal,
   Printer,
+  ShieldAlertIcon,
   ShieldBan,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -284,7 +287,55 @@ export default function Slug({ blog }: Props) {
           </div>
         </div>
         {/* comments section */}
+        <div className="my-2">
+          <div className="py-2 md:py-4 flex items-center justify-between gap-4">
+            <h2 className="text-muted-foreground text-lg md:text-2xl lg:text-3xl font-serif font-bold">
+              Comments ({blog?.comments?.length ?? 0})
+            </h2>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link
+                  href="/community"
+                  target="_blank"
+                  className="hover:text-cyan-600 transition-colors cursor-pointer">
+                  <ShieldAlertIcon className="h-6 w-6" />
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent className="max-w-72 text-sm" side="bottom">
+                view community guidelines
+              </TooltipContent>
+            </Tooltip>
+          </div>
+          {/* Not logged in state */}
+          <div className="flex flex-col items-center justify-center gap-4 border rounded-xl h-fit min-h-16 px-6 py-8 my-4 bg-card shadow-lg dark:shadow-gray-900/20">
+            {/* Lock Icon with improved styling */}
+            <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-500/50">
+              <LockIcon />
+            </div>
+            {/* Heading with better typography */}
+            <div className="text-center space-y-2">
+              <h2 className="font-bold text-xl md:text-2xl text-gray-900 dark:text-white">
+                Login Required
+              </h2>
+              <p className="text-muted-foreground text-sm">
+                Please sign in to leave a comment
+              </p>
+            </div>
+
+            {/* Single Login Button */}
+            <Button
+              variant="secondary"
+              size="sm"
+              asChild
+              className="flex gap-1 items-center bg-gradient-to-r from-cyan-600 to-blue-600 text-white">
+              <Link href="/login" scroll>
+                <CircleUserRound className="h-4 w-4 " /> Login/Register
+              </Link>
+            </Button>
+          </div>
+        </div>
       </TooltipProvider>
+
       {/* print div: hidden */}
       <div id="print-div" style={{ display: "none" }} className="blog prose">
         <h1 className="text-xl font-bold">{blog.title}</h1>
