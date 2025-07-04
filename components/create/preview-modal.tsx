@@ -128,7 +128,7 @@ export const PreviewDialog = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="rounded-2xl shadow-2xl w-full min-w-[98%] max-w-7xl h-[90vh] p-0 gap-0">
         {/* Header */}
-        <DialogHeader className="border-b p-2 w-full border-border">
+        <DialogHeader className="border-b p-2 w-full border-border hidden md:block">
           <Tabs
             defaultValue="account"
             className="flex items-center justify-center">
@@ -149,7 +149,7 @@ export const PreviewDialog = ({
         {/* Content */}
         {/* Phone Frame */}
         {activeTab === "mobile" && (
-          <div className="flex-1 pt-2 flex items-center justify-center bg-muted  w-full h-full overflow-hidden">
+          <div className="flex-1 pt-2 flex items-center justify-center bg-muted hidden md:block  w-full h-full overflow-hidden">
             <div className="w-[375px] h-[812px] mt-auto pb-auto bg-black rounded-[40px] p-2 shadow-2xl overflow-hidden mx-auto">
               {/* Screen */}
               <div className="w-full h-full bg-white rounded-[32px] overflow-y-hidden relative">
@@ -182,7 +182,7 @@ export const PreviewDialog = ({
         )}
 
         {activeTab === "desktop" && (
-          <div className="h-full overflow-y-hidden w-full flex flex-col items-center justify-center">
+          <div className="h-full hidden md:block overflow-y-hidden w-full flex flex-col items-center justify-center">
             <div className="mx-auto w-full max-w-[95%] h-[812px] mt-auto pb-auto bg-white rounded-lg shadow-2xl overflow-hidden">
               {/* Browser Chrome - Now using static positioning */}
               <div className="h-12 bg-gray-100 border-b border-gray-200 flex items-center px-4 gap-3 flex-shrink-0">
@@ -218,6 +218,12 @@ export const PreviewDialog = ({
             </div>
           </div>
         )}
+        {/* mobile view */}
+        <div className="md:hidden w-full h-[calc(100%-48px)] overflow-y-auto overflow-x-hidden">
+          <div className="max-w-4xl mx-auto">
+            <BlogBody />
+          </div>
+        </div>
       </DialogContent>
     </Dialog>
   );
