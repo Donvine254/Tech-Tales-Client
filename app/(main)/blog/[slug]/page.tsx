@@ -2,6 +2,30 @@ import React from "react";
 import prisma from "@/prisma/prisma";
 import { redirect } from "next/navigation";
 import Slug from "./slug";
+
+export async function generateStaticParams() {
+  try {
+    const slugs = await prisma.blog.findMany({
+      where: {
+        status: "PUBLISHED",
+      },
+      select: {
+        slug: true,
+      },
+    });
+    const slugArray = slugs.map((slugObj) => ({
+      slug: slugObj.slug,
+    }));
+    console.log(slugArray);
+    return slugArray;
+  } catch (error) {
+    console.error("Error fetching blog data:", error);
+    return [];
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
 async function getData(slug: string) {
   "use server";
   try {
