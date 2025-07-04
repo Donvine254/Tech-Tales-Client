@@ -17,6 +17,12 @@ import { ShareModal } from "@/components/modals/share-modal";
 import PrismLoader from "@/components/custom/prism-loader";
 import Bookmark from "@/components/custom/bookmark";
 import AudioPlayer from "@/components/custom/audio-player";
+import { TooltipProvider } from "@radix-ui/react-tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 type Props = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   blog: Record<string, any>;
@@ -103,45 +109,74 @@ export default function Slug({ blog }: Props) {
       </div>
       {/* Actions buttons */}
       <div className="flex items-center justify-between xsm:gap-2 md:gap-4  py-2 border-y border-slate-300 my-2">
-        <a
-          href="#comments"
-          className="flex items-center space-x-1 hover:text-cyan-600 transition-colors"
-          title="jump to comments">
-          <MessageSquare className="h-4 w-4" />
-          <span className="text-sm">{blog?.comments?.length ?? 0}</span>
-        </a>
-        <button
-          className="flex items-center space-x-1 hover:text-red-500 transition-colors"
-          title="blog likes">
-          <Heart className="h-4 w-4" />
-          <span className="text-sm">{blog.likes}</span>
-        </button>
-        <button
-          className="flex items-center space-x-1 hover:text-cyan-600 transition-colors"
-          title="blog views">
-          <ChartNoAxesColumn className="h-4 w-4" />
-          <span className="text-sm">{formatViews(blog.views)}</span>
-        </button>
-        <button
-          className="p-1 hover:text-cyan-600 transition-colors"
-          onClick={() => setShowPlayButton(!showPlayButton)}>
-          <svg
-            fill="none"
-            viewBox="0 0 24 24"
-            height="1rem"
-            width="1rem"
-            className="fill-none  hover:-translate-y-1 transition-transform duration-300 h-4 w-4"
-            data-tooltip-id="play-blog">
-            <path
-              fill="currentColor"
-              fillRule="evenodd"
-              d="M12 21a9 9 0 100-18 9 9 0 000 18zm0 2c6.075 0 11-4.925 11-11S18.075 1 12 1 1 5.925 1 12s4.925 11 11 11z"
-              clipRule="evenodd"
-            />
-            <title>Listen to this blog</title>
-            <path fill="currentColor" d="M16 12l-6 4.33V7.67L16 12z" />
-          </svg>
-        </button>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <a
+                href="#comments"
+                className="flex items-center space-x-1 hover:text-cyan-600 transition-colors cursor-pointer"
+                title="jump to comments">
+                <MessageSquare className="h-4 w-4" />
+                <span className="text-sm">{blog?.comments?.length ?? 0}</span>
+              </a>
+            </TooltipTrigger>
+            <TooltipContent className="max-w-72 text-sm" side="bottom">
+              <p>Blog Comments</p>
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                className="flex items-center space-x-1 hover:text-red-500 transition-colors cursor-pointer group"
+                title="blog likes">
+                <Heart className="h-4 w-4 group-hover:fill-red-500" />
+                <span className="text-sm">{blog.likes}</span>
+              </button>
+            </TooltipTrigger>
+            <TooltipContent className="max-w-72 text-sm" side="bottom">
+              <p>Blog Likes</p>
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                className="flex items-center space-x-1 hover:text-cyan-600 transition-colors cursor-pointer"
+                title="blog views">
+                <ChartNoAxesColumn className="h-4 w-4" />
+                <span className="text-sm">{formatViews(blog.views)}</span>
+              </button>
+            </TooltipTrigger>
+            <TooltipContent className="max-w-72 text-sm" side="bottom">
+              <p>Blog Views</p>
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                className="p-1 hover:text-cyan-600 transition-colors"
+                onClick={() => setShowPlayButton(!showPlayButton)}>
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  height="1rem"
+                  width="1rem"
+                  className="fill-none  hover:-translate-y-1 transition-transform duration-300 h-4 w-4"
+                  data-tooltip-id="play-blog">
+                  <path
+                    fill="currentColor"
+                    fillRule="evenodd"
+                    d="M12 21a9 9 0 100-18 9 9 0 000 18zm0 2c6.075 0 11-4.925 11-11S18.075 1 12 1 1 5.925 1 12s4.925 11 11 11z"
+                    clipRule="evenodd"
+                  />
+                  <path fill="currentColor" d="M16 12l-6 4.33V7.67L16 12z" />
+                </svg>
+              </button>
+            </TooltipTrigger>
+            <TooltipContent className="max-w-72 text-sm" side="bottom">
+              <p>Listen to this blog</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
         <ShareModal
           slug={blog.slug}
           title={blog.title}
