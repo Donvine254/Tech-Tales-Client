@@ -17,9 +17,9 @@ import { ShareModal } from "@/components/modals/share-modal";
 import PrismLoader from "@/components/custom/prism-loader";
 import Bookmark from "@/components/custom/bookmark";
 import AudioPlayer from "@/components/custom/audio-player";
-import { TooltipProvider } from "@radix-ui/react-tooltip";
 import {
   Tooltip,
+  TooltipProvider,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
