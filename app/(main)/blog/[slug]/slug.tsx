@@ -43,6 +43,16 @@ type Props = {
 
 export default function Slug({ blog }: Props) {
   const [showPlayButton, setShowPlayButton] = useState(false);
+  //function to print contents
+  const handlePrint = async () => {
+    //eslint-disable-next-line
+    const print = (window as any).inkHtml;
+    if (typeof print === "function") {
+      print(document.getElementById("print-div"));
+    } else {
+      console.error("inkHtml is not loaded.");
+    }
+  };
   return (
     <div className="w-full mx-auto m-2 min-h-[75%] px-8 xsm:px-4 max-w-4xl md:mt-4 blog">
       <Script src="https://unpkg.com/ink-html/dist/index.js"></Script>
@@ -252,7 +262,9 @@ export default function Slug({ blog }: Props) {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="bg-popover space-y-2">
-                <DropdownMenuItem className="cursor-pointer bg-secondary">
+                <DropdownMenuItem
+                  className="cursor-pointer bg-secondary"
+                  onClick={handlePrint}>
                   {" "}
                   <Printer className="h-4 w-4 mr-2" /> Print this blog
                 </DropdownMenuItem>
@@ -269,6 +281,19 @@ export default function Slug({ blog }: Props) {
         </div>
         {/* comments section */}
       </TooltipProvider>
+      {/* print div: hidden */}
+      <div id="print-div" style={{ display: "none" }}>
+        <h1 className="text-xl font-bold">{blog.title}</h1>
+        <p className="italic">
+          By {blog.author.username} published on{" "}
+          {new Date(blog.createdAt).toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+          })}
+        </p>
+        <div className="blog-body">{parse(blog.body)}</div>
+      </div>
     </div>
   );
 }

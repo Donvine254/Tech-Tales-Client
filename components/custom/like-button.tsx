@@ -31,17 +31,21 @@ export default function AnimatedLikeButton({
 }: AnimatedLikeButtonProps) {
   const [liked, setLiked] = useState(initialLiked);
   const [likes, setLikes] = useState(initialLikes);
-
+  // TODO: update favoriting functionality
   const handleToggle = () => {
     const newLiked = !liked;
     const newLikes = newLiked ? likes + 1 : likes - 1;
-    toast.success("blog added to favorites");
-    playSoundEffect();
+    if (newLiked) {
+      toast.success("Blog added to favorites");
+      playSoundEffect();
+    } else {
+      toast.info("Blog removed from favorites");
+    }
+
     setLiked(newLiked);
     setLikes(newLikes);
     onLikeChange?.(newLiked, newLikes);
   };
-
   return (
     <div className="flex items-center text-sm">
       <TooltipProvider>
@@ -119,7 +123,7 @@ export default function AnimatedLikeButton({
             </div>
           </TooltipTrigger>
           <TooltipContent className="max-w-72 text-sm" side="bottom">
-            <p>Add blog to favorites</p>
+            <p>{!liked ? "Add" : "Remove"} blog to favorites</p>
           </TooltipContent>
         </Tooltip>
         <span className="">{likes}</span>
