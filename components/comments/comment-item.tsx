@@ -71,39 +71,43 @@ export const CommentItem: React.FC<Props> = ({
         {/* Comment Content */}
         <div className="flex-1 min-w-0">
           {/* Author Info */}
-          <div className="flex items-start  justify-between mb-2 ">
-            <div className="flex flex-col space-y-1">
+          <div className="flex items-start justify-between mb-2 w-full">
+            {/* Left: Author info */}
+            <div className="flex flex-col space-y-1 min-w-0">
               <div className="flex items-center space-x-2">
-                <h4 className="font-semibold capitalize">
+                <h5 className="font-semibold capitalize truncate text-ellipsis whitespace-nowrap">
                   {comment.author.username}
-                </h4>
+                </h5>
                 {blogAuthorId === comment.authorId && (
-                  <Badge className="bg-blue-100 text-blue-500">
-                    {" "}
-                    <Feather className="h-4 w-4" />
+                  <Badge className="bg-blue-100 font-semibold text-blue-500">
+                    <Feather className="h-4 w-4 mr-1" />
                     Author
                   </Badge>
                 )}
                 {comment.author.role === "admin" && (
-                  <Badge className="bg-purple-100 text-purple-500">
-                    <Crown className="h-4 w-4" />
+                  <Badge className="bg-purple-100 font-semibold text-purple-500">
+                    <Crown className="h-4 w-4 mr-1" />
                     Admin
                   </Badge>
                 )}
               </div>
+
               <div className="flex items-center space-x-2 text-sm text-muted-foreground font-semibold">
                 <span>{formatDate(comment.createdAt)}</span>
-                {comment.updatedAt && (
-                  <span className="text-xs text-muted-foreground">
-                    (edited)
-                  </span>
-                )}
+                {comment.updatedAt &&
+                  new Date(comment.updatedAt).getTime() !==
+                    new Date(comment.createdAt).getTime() && (
+                    <span className="text-xs text-muted-foreground">
+                      (Edited)
+                    </span>
+                  )}
               </div>
             </div>
-            {/* Actions Dropdown */}
+
+            {/* Right: Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost">
+                <Button variant="ghost" size="icon">
                   <MoreHorizontal className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
@@ -138,6 +142,7 @@ export const CommentItem: React.FC<Props> = ({
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
+
           {/* Comment Body */}
           <article
             className="p-3 rounded-r-xl xsm:text-sm rounded-bl-xl border shadow bg-card text-xs md:text-sm mb-2"
@@ -190,7 +195,7 @@ export const CommentItem: React.FC<Props> = ({
       {comment.responses &&
         comment.responses.length > 0 &&
         !repliesCollapsed && (
-          <div className="ml-12">
+          <div className="ml-6 sm:ml-12">
             {comment.responses.map((response) => (
               <div key={response.id} className="flex space-x-4">
                 {/* User Avatar */}
@@ -212,39 +217,43 @@ export const CommentItem: React.FC<Props> = ({
                 {/* Response Content */}
                 <div className="flex-1 min-w-0">
                   {/* Author Info */}
-                  <div className="flex items-start justify-between mb-2">
-                    <div className="flex flex-col space-y-1">
+                  <div className="flex items-start justify-between mb-2 w-full">
+                    {/* Left: Author info */}
+                    <div className="flex flex-col space-y-1 min-w-0">
                       <div className="flex items-center space-x-2">
-                        <h4 className="font-semibold capitalize">
+                        <h5 className="font-semibold capitalize truncate text-ellipsis whitespace-nowrap">
                           {response.author.username}
-                        </h4>
+                        </h5>
                         {blogAuthorId === response.authorId && (
-                          <Badge className="bg-blue-100 text-blue-500">
-                            <Feather className="h-4 w-4" />
+                          <Badge className="bg-blue-100 font-semibold text-blue-500">
+                            <Feather className="h-4 w-4 mr-1" />
                             Author
                           </Badge>
                         )}
                         {response.author.role === "admin" && (
-                          <Badge className="bg-purple-100 text-purple-500">
-                            <Crown className="h-4 w-4" />
+                          <Badge className="bg-purple-100 font-semibold text-purple-500">
+                            <Crown className="h-4 w-4 mr-1" />
                             Admin
                           </Badge>
                         )}
                       </div>
+
                       <div className="flex items-center space-x-2 text-sm text-muted-foreground font-semibold">
                         <span>{formatDate(response.createdAt)}</span>
-                        {response.updatedAt && (
-                          <span className="text-xs text-muted-foreground">
-                            (edited)
-                          </span>
-                        )}
+                        {response.updatedAt &&
+                          new Date(response.updatedAt).getTime() !==
+                            new Date(response.createdAt).getTime() && (
+                            <span className="text-xs text-muted-foreground">
+                              (edited)
+                            </span>
+                          )}
                       </div>
                     </div>
 
-                    {/* Actions Dropdown */}
+                    {/* Right: Dropdown */}
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost">
+                        <Button variant="ghost" size="icon">
                           <MoreHorizontal className="h-4 w-4" />
                         </Button>
                       </DropdownMenuTrigger>
@@ -277,6 +286,7 @@ export const CommentItem: React.FC<Props> = ({
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
+
                   {/* Response Body */}
                   <article
                     className="p-3 rounded-r-xl xsm:text-sm rounded-bl-xl border shadow bg-card text-xs md:text-sm mb-2"
