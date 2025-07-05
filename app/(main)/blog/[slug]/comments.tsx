@@ -1,3 +1,4 @@
+import { CommentItem } from "@/components/comments/comment-item";
 import { CommentEditor } from "@/components/comments/editor";
 import { Button } from "@/components/ui/button";
 import {
@@ -28,6 +29,7 @@ export default function Comments({
   comments = [],
   session,
   setComments,
+  blogAuthorId
 }: Props) {
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
 
@@ -106,6 +108,18 @@ export default function Comments({
             {sortOrder === "newest" ? "Newest First" : "Oldest First"}
           </span>
         </Button>
+      </div>
+      <div className="space-y-6">
+        {comments &&
+          comments.length > 0 &&
+          comments.map((c) => (
+            <CommentItem
+              key={c.id}
+              comment={c}
+              session={session}
+              blogAuthorId={blogAuthorId}
+            />
+          ))}
       </div>
       {/* Add comments here */}
     </div>

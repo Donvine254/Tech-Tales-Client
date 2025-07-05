@@ -244,13 +244,7 @@
 }
 
 #comment-body img {
-  max-height: 200px;
-  width: auto;
-  height: auto;
-  border-radius: 8px;
-}
-#comment-body img {
-  @apply max-w-full max-h-40 h-auto sm:w-auto;
+  @apply max-w-full max-h-20 rounded-md h-auto sm:w-auto;
 }
 
 #blog-body img {
