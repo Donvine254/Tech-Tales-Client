@@ -8,7 +8,13 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-export default function Bookmark({ blogId }: { blogId: number }) {
+export default function Bookmark({
+  blogId,
+  size = 16,
+}: {
+  blogId: number;
+  size?: number;
+}) {
   const { session } = useSession();
   const [isBookmarked, setIsBookmarked] = useState(false);
   useEffect(() => {
@@ -56,8 +62,8 @@ export default function Bookmark({ blogId }: { blogId: number }) {
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
-              width="1.15rem"
-              height="1.15rem"
+              width={size}
+              height={size}
               className="cursor-pointer font-bold hover:text-cyan-600 transition-color"
               onClick={handleBookmark}>
               <path
@@ -75,8 +81,8 @@ export default function Bookmark({ blogId }: { blogId: number }) {
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
-              width="1.25rem"
-              height="1.25rem"
+              width={size}
+              height={size}
               strokeWidth={1.5}
               className="cursor-pointer  text-cyan-500 hover:text-red-500 transition-color"
               onClick={handleBookmark}>

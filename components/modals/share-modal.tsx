@@ -22,10 +22,12 @@ export function ShareModal({
   slug,
   title,
   image,
+  size = 16,
 }: {
   slug: string;
   title: string;
   image: string;
+  size?: number;
 }) {
   const [copied, setCopied] = useState(false);
   const [showQrModal, setShowQrModal] = useState(false);
@@ -124,7 +126,10 @@ export function ShareModal({
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Share className="h-4 w-4  cursor-pointer  hover:text-cyan-600 transition-colors" />
+              <Share
+                className="cursor-pointer  hover:text-cyan-600 transition-colors"
+                size={size}
+              />
             </TooltipTrigger>
             <TooltipContent className="max-w-72 text-sm" side="bottom">
               <p>Share this blog</p>
@@ -152,7 +157,8 @@ export function ShareModal({
             </span>
           </p>
           <button
-            className="flex items-center gap-1 text-xs sm:text-sm hover:bg-accent cursor-pointer dark:hover:text-gray-900 px-1 whitespace-nowrap bg-muted rounded-sm shadow-sm hover:shadow-md transition-colors duration-200 ease-in-out" title="copy link"
+            className="flex items-center gap-1 text-xs sm:text-sm hover:bg-accent cursor-pointer dark:hover:text-gray-900 px-1 whitespace-nowrap bg-muted rounded-sm shadow-sm hover:shadow-md transition-colors duration-200 ease-in-out"
+            title="copy link"
             onClick={copyBlogLink}>
             {copied ? (
               <>
@@ -444,7 +450,6 @@ export function ShareModal({
           </div>
         )}
       </DialogContent>
-
-    </Dialog >
+    </Dialog>
   );
 }

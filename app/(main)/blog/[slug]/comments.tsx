@@ -19,8 +19,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { setCookie } from "@/lib/cookie";
-import { usePathname } from "next/navigation";
-import { useRouter } from "next/router";
+import { usePathname, useRouter } from "next/navigation";
 type Props = {
   blogId: number;
   blogAuthorId: number;
@@ -58,9 +57,8 @@ export default function Comments({
     <div className="my-2" id="comments">
       <div className="py-2 md:py-4 flex items-center justify-between gap-4">
         <h3 className="text-lg md:text-2xl font-serif font-semibold bg-gradient-to-r from-gray-400 to-gray-700 dark:from-gray-300 dark:to-gray-500 bg-clip-text text-transparent">
-          Comments ({comments?.length ?? 0})
+          Responses ({comments?.length ?? 0})
         </h3>
-
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>

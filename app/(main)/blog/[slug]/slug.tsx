@@ -230,7 +230,7 @@ export default function Slug({ blog }: Props) {
         </article>
         {/* Bottom buttons */}
 
-        <div className="flex items-center justify-between border-b border-border">
+        <div className="flex items-center justify-between border-y border-border shadow-2xl my-2">
           <div className="flex items-center gap-2 xsm:gap-2 md:gap-4">
             <Tooltip>
               <TooltipTrigger asChild>
@@ -238,7 +238,7 @@ export default function Slug({ blog }: Props) {
                   href="#comments"
                   className="flex items-center space-x-1 hover:text-cyan-600 transition-colors cursor-pointer"
                   title="jump to comments">
-                  <MessageSquareText className="h-4 w-4" />
+                  <MessageSquareText className="h-6 w-6" />
                   <span className="text-sm">{blog?.comments?.length ?? 0}</span>
                 </a>
               </TooltipTrigger>
@@ -249,7 +249,7 @@ export default function Slug({ blog }: Props) {
             <AnimatedLikeButton
               initialLikes={blog.likes}
               blogId={blog.id}
-              size={30}
+              size={40}
             />
           </div>
           {/* second div */}
@@ -257,18 +257,19 @@ export default function Slug({ blog }: Props) {
             <ShareModal
               slug={blog.slug}
               title={blog.title}
+              size={22}
               image={blog.image?.secure_url ?? "/placeholder.svg"}
             />
-            <Bookmark blogId={blog.id} />
+            <Bookmark blogId={blog.id} size={24} />
             {/* More actions dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="cursor-pointer"
+                  className="cursor-pointer "
                   title="more actions">
-                  <MoreHorizontal className="h-4 w-4" />
+                  <MoreHorizontal className="h-6 w-6" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="bg-popover space-y-2">
