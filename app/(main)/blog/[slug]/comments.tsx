@@ -18,6 +18,9 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { setCookie } from "@/lib/cookie";
+import { usePathname } from "next/navigation";
+import { useRouter } from "next/router";
 type Props = {
   blogId: number;
   blogAuthorId: number;
@@ -33,7 +36,8 @@ export default function Comments({
   blogAuthorId,
 }: Props) {
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
-
+  const pathname = usePathname();
+  const router = useRouter();
   const toggleSortOrder = () => {
     const newOrder = sortOrder === "newest" ? "oldest" : "newest";
     const sorted = [...comments].sort((a, b) =>
@@ -44,6 +48,12 @@ export default function Comments({
     setSortOrder(newOrder);
     setComments(sorted);
   };
+  // redirect user back to the page after login
+
+  function handleLogin() {
+    setCookie("post_login_redirect", pathname, 1);
+    router.push("/login");
+  }
   return (
     <div className="my-2" id="comments">
       <div className="py-2 md:py-4 flex items-center justify-between gap-4">
@@ -91,11 +101,9 @@ export default function Comments({
           <Button
             variant="secondary"
             size="sm"
-            asChild
+            onClick={handleLogin}
             className="flex gap-1 items-center bg-gradient-to-r from-cyan-600 to-blue-600 text-white">
-            <Link href="/login" scroll>
-              <CircleUserRound className="h-4 w-4 " /> Login/Register
-            </Link>
+            <CircleUserRound className="h-4 w-4 " /> Login/Register
           </Button>
         </div>
       )}

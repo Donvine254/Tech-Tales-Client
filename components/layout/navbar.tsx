@@ -43,7 +43,7 @@ const Navbar = () => {
     });
   }
   // trim the pathname
-  async function handleLogin() {
+  function handleLogin() {
     setCookie("post_login_redirect", pathname, 1);
     router.push("/login");
   }
