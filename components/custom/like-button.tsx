@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import {
   Tooltip,
@@ -9,28 +9,74 @@ import {
   TooltipTrigger,
 } from "../ui/tooltip";
 import { useSession } from "@/providers/session";
+import { Favorite } from "@prisma/client";
+import { getFavoriteBlogs } from "@/lib/actions/favorites";
 
 interface AnimatedLikeButtonProps {
   initialLikes?: number;
-  initialLiked?: boolean;
+  blogId: number;
   size?: number;
   onLikeChange?: (liked: boolean, likes: number) => void;
+}
+const FAVORITES_KEY = "user-favorite-blogs";
+
+function getCachedFavorites(): number[] | null {
+  const raw =
+    typeof window !== "undefined" && localStorage.getItem(FAVORITES_KEY);
+  return raw ? JSON.parse(raw) : null;
+}
+
+function setCachedFavorites(favs: number[]) {
+  localStorage.setItem(FAVORITES_KEY, JSON.stringify(favs));
+}
+
+function addToCache(blogId: number) {
+  const current = getCachedFavorites() || [];
+  if (!current.includes(blogId)) {
+    setCachedFavorites([...current, blogId]);
+  }
+}
+
+function removeFromCache(blogId: number) {
+  const current = getCachedFavorites() || [];
+  setCachedFavorites(current.filter((id) => id !== blogId));
 }
 
 export default function AnimatedLikeButton({
   initialLikes = 0,
-  initialLiked = false,
+  blogId,
   size = 24,
   onLikeChange,
 }: AnimatedLikeButtonProps) {
-  const [liked, setLiked] = useState(initialLiked);
+  const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(initialLikes);
   const { session } = useSession();
-
   //Initialize sound
   const sound = new Audio();
   sound.src =
     "https://utfs.io/f/d74018ac-813d-452c-9414-4aa1ee4fb595-ry5vyc.mp3";
+
+  // Use Effect to check favorite blogs
+  useEffect(() => {
+    if (!session) return;
+
+    const cached = getCachedFavorites();
+    if (cached) {
+      setLiked(cached.includes(blogId));
+    } else {
+      (async () => {
+        try {
+          const result = await getFavoriteBlogs(session.userId); // should return Favorite[] or blog IDs
+          const ids = result.map((f: Favorite) => f.blogId);
+          setCachedFavorites(ids);
+          setLiked(ids.includes(blogId));
+        } catch (err) {
+          console.error("Failed to load favorite blogs", err);
+        }
+      })();
+    }
+  }, [session, blogId]);
+
   // TODO: update favoriting functionality
   const handleToggle = () => {
     if (!session) {
@@ -41,9 +87,13 @@ export default function AnimatedLikeButton({
     const newLikes = newLiked ? likes + 1 : likes - 1;
     if (newLiked) {
       toast.success("Blog added to favorites");
+      addToCache(blogId);
       sound.play();
+      // call api to add
     } else {
       toast.info("Blog removed from favorites");
+      removeFromCache(blogId);
+      //  call api to remove
     }
 
     setLiked(newLiked);
