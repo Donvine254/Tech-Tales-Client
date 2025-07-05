@@ -1,3 +1,4 @@
+import { CommentEditor } from "@/components/comments/editor";
 import { Button } from "@/components/ui/button";
 import {
   TooltipProvider,
@@ -42,7 +43,9 @@ export default function Comments({ comments = [], session }: Props) {
         </TooltipProvider>
       </div>
       {/* Not logged in state */}
-      {!session && (
+      {session ? (
+        <CommentEditor session={session} initialData="" isReply={false} />
+      ) : (
         <div className="flex flex-col items-center justify-center gap-4 border rounded-xl h-fit min-h-16 px-6 py-8 my-4 bg-card shadow-lg dark:shadow-gray-900/20">
           {/* Lock Icon with improved styling */}
           <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-500/50">

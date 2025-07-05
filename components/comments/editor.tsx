@@ -1,0 +1,121 @@
+import React, { useState, useRef } from "react";
+import { Editor } from "@tinymce/tinymce-react";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Session } from "@/types";
+import { handleImageUpload } from "@/lib/helpers/handle-image-upload";
+import { useTheme } from "next-themes";
+import { Button } from "../ui/button";
+import { toast } from "sonner";
+
+interface CommentEditorProps {
+  session: Session;
+  initialData?: string;
+  isReply?: boolean;
+}
+
+export const CommentEditor: React.FC<CommentEditorProps> = ({
+  session,
+  initialData = "",
+  isReply = false,
+}) => {
+  const [isInputFocused, setIsInputFocused] = useState(false);
+  const [body, setBody] = useState(initialData);
+  const [length, setLength] = useState(0);
+  const { theme } = useTheme();
+  //   eslint-disable-next-line
+  const editorRef = useRef<any>(null);
+  const handleChange = (content: string) => {
+    setBody(content);
+  };
+  return (
+    <div className={`${isReply ? "ml-12" : ""}`}>
+      <div className="flex space-x-4">
+        {/* User Avatar */}
+        <div className="flex-shrink-0">
+          <Avatar className="h-12 w-12 ring-2 ring-cyan-500 ring-offset-2">
+            <AvatarImage
+              src={session.picture ?? "/placeholder.svg"}
+              alt={session.username}
+            />
+            <AvatarFallback className="bg-gradient-to-r from-cyan-100 to-blue-100 text-cyan-700 text-sm">
+              {session.username
+                .split(" ")
+                .map((n: string) => n[0])
+                .join("")}
+            </AvatarFallback>
+          </Avatar>
+        </div>
+
+        {/* Editor Section */}
+        <div className="flex-1 space-y-2">
+          <div className="bg-gray-50 border border-gray-200 rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent transition-all duration-200">
+            <Editor
+              tinymceScriptSrc="/tinymce/tinymce.min.js"
+              licenseKey="gpl"
+              disabled={length > 500}
+              onInit={(evt, editor) => (editorRef.current = editor)}
+              initialValue={body}
+              onChange={() => handleChange(editorRef.current.getContent())}
+              onFocus={() => setIsInputFocused(true)}
+              onKeyUp={() =>
+                setLength(
+                  editorRef.current.getContent({ format: "text" }).length
+                )
+              }
+              init={{
+                min_height: 50,
+                toolbar_location: "bottom",
+                toolbar_mode: "sliding",
+                menubar: false,
+                statusbar: false,
+                placeholder: "Share your thoughts about this article...",
+                browser_spellcheck: true,
+                autocomplete: true,
+                plugins: [
+                  "autolink",
+                  "lists",
+                  "link",
+                  "image",
+                  "autoresize",
+                  "emoticons",
+                  "fullscreen",
+                  "insertdatetime",
+                  "gif",
+                ],
+                toolbar:
+                  "bold italic underline|numlist bullist|blockquote link image|gif emoticons",
+                image_advtab: true,
+                images_upload_handler: handleImageUpload,
+                skin: theme === "dark" ? "oxide-dark" : "oxide",
+                content_css: theme === "dark" ? "dark" : "default",
+                branding: false,
+              }}
+            />
+          </div>
+          {/* Character Count and Action Buttons */}
+          {isInputFocused && (
+            <div className="flex items-center justify-end gap-2 md:gap-4 py-1">
+              {/* Action Buttons */}
+              <div className="flex items-center space-x-2">
+                <Button
+                  size="sm"
+                  onClick={() => setIsInputFocused(false)}
+                  variant="outline">
+                  Cancel
+                </Button>
+                <Button
+                  onClick={() => toast.info("upcoming feature")}
+                  disabled={!body.trim() || length > 500}
+                  size="sm"
+                  variant="default"
+                  className="hover:bg-blue-500 hover:text-white">
+                  {isReply ? "Reply" : "Respond"}
+                </Button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
