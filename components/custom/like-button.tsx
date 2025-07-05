@@ -8,6 +8,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip";
+import { useSession } from "@/providers/session";
 
 interface AnimatedLikeButtonProps {
   initialLikes?: number;
@@ -16,13 +17,6 @@ interface AnimatedLikeButtonProps {
   onLikeChange?: (liked: boolean, likes: number) => void;
 }
 
-//function to play audio
-function playSoundEffect() {
-  const sound = new Audio();
-  sound.src =
-    "https://utfs.io/f/d74018ac-813d-452c-9414-4aa1ee4fb595-ry5vyc.mp3";
-  sound.play();
-}
 export default function AnimatedLikeButton({
   initialLikes = 0,
   initialLiked = false,
@@ -31,13 +25,23 @@ export default function AnimatedLikeButton({
 }: AnimatedLikeButtonProps) {
   const [liked, setLiked] = useState(initialLiked);
   const [likes, setLikes] = useState(initialLikes);
+  const { session } = useSession();
+
+  //Initialize sound
+  const sound = new Audio();
+  sound.src =
+    "https://utfs.io/f/d74018ac-813d-452c-9414-4aa1ee4fb595-ry5vyc.mp3";
   // TODO: update favoriting functionality
   const handleToggle = () => {
+    if (!session) {
+      toast.info("Login to add blog to favorites");
+      return;
+    }
     const newLiked = !liked;
     const newLikes = newLiked ? likes + 1 : likes - 1;
     if (newLiked) {
       toast.success("Blog added to favorites");
-      playSoundEffect();
+      sound.play();
     } else {
       toast.info("Blog removed from favorites");
     }

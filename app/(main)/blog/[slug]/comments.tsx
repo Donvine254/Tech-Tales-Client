@@ -45,7 +45,7 @@ export default function Comments({
     setComments(sorted);
   };
   return (
-    <div className="my-2">
+    <div className="my-2" id="comments">
       <div className="py-2 md:py-4 flex items-center justify-between gap-4">
         <h3 className="text-lg md:text-2xl font-serif font-semibold bg-gradient-to-r from-gray-400 to-gray-700 dark:from-gray-300 dark:to-gray-500 bg-clip-text text-transparent">
           Comments ({comments?.length ?? 0})
