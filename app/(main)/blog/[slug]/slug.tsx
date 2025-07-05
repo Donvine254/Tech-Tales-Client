@@ -317,8 +317,8 @@ export default function Slug({ blog }: Props) {
               <h2 className="font-bold text-xl md:text-2xl text-gray-900 dark:text-white">
                 Login Required
               </h2>
-              <p className="text-muted-foreground text-sm">
-                Please sign in to leave a comment
+              <p className="text-muted-foreground text-sm max-w-2xl">
+              Login to share your thoughts, ask questions, and engage with other readers in the comments.
               </p>
             </div>
 

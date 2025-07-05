@@ -165,10 +165,13 @@ export const PreviewDialog = ({
                       <div className="w-1 h-3 bg-black dark:bg-white rounded-sm"></div>
                       <div className="w-1 h-4 bg-black dark:bg-white rounded-sm"></div>
                     </div>
+                    <p>5G</p>
                     {/* battery */}
                     <div className="flex items-center">
                       {/* Battery body */}
-                      <div className="w-8 h-4 border-2 border-black dark:border-white rounded-sm flex bg-green-500 items-center p-0"></div>
+                      <div className="w-8 h-4 border-2 border-black dark:border-white rounded-sm flex bg-white dark:bg-black items-center justify-center text-primary text-xs p-0">
+                        96
+                      </div>
                       {/* Battery tip */}
                       <div className="w-1 h-2 bg-primary ml-0.5 rounded-sm"></div>
                     </div>
