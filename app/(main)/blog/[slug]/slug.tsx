@@ -7,17 +7,14 @@ import { calculateReadingTime, formatViews } from "@/lib/utils";
 import {
   Calendar,
   ChartNoAxesColumn,
-  CircleUserRound,
   Clock,
   Eye,
   Heart,
-  LockIcon,
   MessageSquare,
   MessageSquareText,
   MoreHorizontal,
   Pencil,
   Printer,
-  ShieldAlertIcon,
   ShieldBan,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -41,6 +38,8 @@ import {
 import { Button } from "@/components/ui/button";
 import AnimatedLikeButton from "@/components/custom/like-button";
 import { useSession } from "@/providers/session";
+import Comments from "./comments";
+import { CommentData } from "@/types";
 type Props = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   blog: Record<string, any>;
@@ -49,7 +48,7 @@ type Props = {
 export default function Slug({ blog }: Props) {
   const { session } = useSession();
   const [showPlayButton, setShowPlayButton] = useState(false);
-  const [comments, setComments] = useState(blog?.comments ?? []);
+  const [comments, setComments] = useState<CommentData[]>(blog?.comments ?? []);
   //function to print contents
   const handlePrint = async () => {
     //eslint-disable-next-line
@@ -296,54 +295,13 @@ export default function Slug({ blog }: Props) {
           </div>
         </div>
         {/* comments section */}
-        <div className="my-2">
-          <div className="py-2 md:py-4 flex items-center justify-between gap-4">
-            <h2 className="text-muted-foreground text-lg md:text-2xl lg:text-3xl font-serif font-bold">
-              Comments ({blog?.comments?.length ?? 0})
-            </h2>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link
-                  href="/community"
-                  target="_blank"
-                  className="hover:text-cyan-600 transition-colors cursor-pointer">
-                  <ShieldAlertIcon className="h-6 w-6" />
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent className="max-w-72 text-sm" side="bottom">
-                view community guidelines
-              </TooltipContent>
-            </Tooltip>
-          </div>
-          {/* Not logged in state */}
-          <div className="flex flex-col items-center justify-center gap-4 border rounded-xl h-fit min-h-16 px-6 py-8 my-4 bg-card shadow-lg dark:shadow-gray-900/20">
-            {/* Lock Icon with improved styling */}
-            <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-500/50">
-              <LockIcon />
-            </div>
-            {/* Heading with better typography */}
-            <div className="text-center space-y-2">
-              <h2 className="font-bold text-xl md:text-2xl text-gray-900 dark:text-white">
-                Login Required
-              </h2>
-              <p className="text-muted-foreground text-sm max-w-2xl">
-                Login to share your thoughts, ask questions, and engage with
-                other readers in the comments.
-              </p>
-            </div>
-
-            {/* Single Login Button */}
-            <Button
-              variant="secondary"
-              size="sm"
-              asChild
-              className="flex gap-1 items-center bg-gradient-to-r from-cyan-600 to-blue-600 text-white">
-              <Link href="/login" scroll>
-                <CircleUserRound className="h-4 w-4 " /> Login/Register
-              </Link>
-            </Button>
-          </div>
-        </div>
+        <Comments
+          comments={comments}
+          session={session}
+          setComments={setComments}
+          blogId={blog.id}
+          blogAuthorId={blog.authorId}
+        />
       </TooltipProvider>
 
       {/* print div: hidden */}
