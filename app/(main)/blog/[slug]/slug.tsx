@@ -246,7 +246,11 @@ export default function Slug({ blog }: Props) {
                 <p>{comments?.length ?? 0} Comments</p>
               </TooltipContent>
             </Tooltip>
-            <AnimatedLikeButton initialLikes={blog.likes} size={30} />
+            <AnimatedLikeButton
+              initialLikes={blog.likes}
+              blogId={blog.id}
+              size={30}
+            />
           </div>
           {/* second div */}
           <div className="flex items-center gap-2 xsm:gap-2 md:gap-4">

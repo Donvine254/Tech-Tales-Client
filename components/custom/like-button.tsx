@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import {
@@ -52,10 +50,14 @@ export default function AnimatedLikeButton({
   const [likes, setLikes] = useState(initialLikes);
   const { session } = useSession();
   //Initialize sound
-  const sound = new Audio();
-  sound.src =
-    "https://utfs.io/f/d74018ac-813d-452c-9414-4aa1ee4fb595-ry5vyc.mp3";
+  const [sound, setSound] = useState<HTMLAudioElement | null>(null);
 
+  useEffect(() => {
+    const sfx = new Audio(
+      "https://utfs.io/f/d74018ac-813d-452c-9414-4aa1ee4fb595-ry5vyc.mp3"
+    );
+    setSound(sfx);
+  }, []);
   // Use Effect to check favorite blogs
   useEffect(() => {
     if (!session) return;
@@ -88,7 +90,7 @@ export default function AnimatedLikeButton({
     if (newLiked) {
       toast.success("Blog added to favorites");
       addToCache(blogId);
-      sound.play();
+      sound?.play();
       // call api to add
     } else {
       toast.info("Blog removed from favorites");
