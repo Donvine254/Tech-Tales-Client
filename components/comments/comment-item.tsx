@@ -11,7 +11,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   ChevronDown,
   ChevronUp,
+  Crown,
   Edit2,
+  Feather,
   Flag,
   MoreHorizontal,
   Reply,
@@ -24,12 +26,13 @@ type Props = {
   blogAuthorId: number;
 };
 import parse from "html-react-parser";
+import { toast } from "sonner";
 export const CommentItem: React.FC<Props> = ({
   comment,
   session,
   blogAuthorId,
 }: Props) => {
-  const [repliesCollapsed, setRepliesCollapsed] = useState(false);
+  const [repliesCollapsed, setRepliesCollapsed] = useState(true);
   const formatDate = (date: Date) => {
     const now = new Date();
     const diffInHours = Math.floor(
@@ -75,11 +78,16 @@ export const CommentItem: React.FC<Props> = ({
                   {comment.author.username}
                 </h4>
                 {blogAuthorId === comment.authorId && (
-                  <Badge className="bg-blue-100 text-blue-500">🔏Author</Badge>
+                  <Badge className="bg-blue-100 text-blue-500">
+                    {" "}
+                    <Feather className="h-4 w-4" />
+                    Author
+                  </Badge>
                 )}
                 {comment.author.role === "admin" && (
                   <Badge className="bg-purple-100 text-purple-500">
-                    💎Admin
+                    <Crown className="h-4 w-4" />
+                    Admin
                   </Badge>
                 )}
               </div>
@@ -117,7 +125,11 @@ export const CommentItem: React.FC<Props> = ({
                       <Reply className="h-4 w-4 mr-2" />
                       Reply
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="text-red-600 focus:text-red-600">
+                    <DropdownMenuItem
+                      className="text-red-600 focus:text-red-600"
+                      onClick={() =>
+                        toast.info("Thank you helping keep our community safe")
+                      }>
                       <Flag className="h-4 w-4 mr-2" />
                       Report
                     </DropdownMenuItem>
@@ -147,7 +159,7 @@ export const CommentItem: React.FC<Props> = ({
               </Button>
             }
             {/* Collapse/Expand Replies Button */}
-            {comment.responses && (
+            {comment.responses && comment.responses.length > 0 && (
               <Button
                 size="sm"
                 variant="ghost"
@@ -175,23 +187,107 @@ export const CommentItem: React.FC<Props> = ({
       {/* add reply editor here */}
 
       {/* Replies */}
-      {/* {hasReplies && !repliesCollapsed && (
-        <div className="mt-6 space-y-6">
-          {comment.replies!.map((reply) => (
-            <CommentItem
-              key={reply.id}
-              comment={reply}
-              currentUser={currentUser}
-              blogAuthorId={blogAuthorId}
-              onReply={onReply}
-              onEdit={onEdit}
-              onDelete={onDelete}
-              isReply={true}
-              parentId={comment.id}
-            />
-          ))}
-        </div>
-      )} */}
+      {comment.responses &&
+        comment.responses.length > 0 &&
+        !repliesCollapsed && (
+          <div className="ml-12">
+            {comment.responses.map((response) => (
+              <div key={response.id} className="flex space-x-4">
+                {/* User Avatar */}
+                <div className="flex-shrink-0">
+                  <Avatar className="h-8 w-8 ring-2 ring-cyan-500 ring-offset-2">
+                    <AvatarImage
+                      src={response.author.picture ?? "/placeholder.svg"}
+                      alt={response.author.username}
+                    />
+                    <AvatarFallback className="bg-gradient-to-r from-cyan-100 to-blue-100 text-cyan-700 text-sm">
+                      {response.author.username
+                        .split(" ")
+                        .map((n: string) => n[0])
+                        .join("")}
+                    </AvatarFallback>
+                  </Avatar>
+                </div>
+
+                {/* Response Content */}
+                <div className="flex-1 min-w-0">
+                  {/* Author Info */}
+                  <div className="flex items-start justify-between mb-2">
+                    <div className="flex flex-col space-y-1">
+                      <div className="flex items-center space-x-2">
+                        <h4 className="font-semibold capitalize">
+                          {response.author.username}
+                        </h4>
+                        {blogAuthorId === response.authorId && (
+                          <Badge className="bg-blue-100 text-blue-500">
+                            <Feather className="h-4 w-4" />
+                            Author
+                          </Badge>
+                        )}
+                        {response.author.role === "admin" && (
+                          <Badge className="bg-purple-100 text-purple-500">
+                            <Crown className="h-4 w-4" />
+                            Admin
+                          </Badge>
+                        )}
+                      </div>
+                      <div className="flex items-center space-x-2 text-sm text-muted-foreground font-semibold">
+                        <span>{formatDate(response.createdAt)}</span>
+                        {response.updatedAt && (
+                          <span className="text-xs text-muted-foreground">
+                            (edited)
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Actions Dropdown */}
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost">
+                          <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="w-32">
+                        {session?.userId === response.authorId ? (
+                          <>
+                            <DropdownMenuItem>
+                              <Edit2 className="h-4 w-4 mr-2" />
+                              Edit
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className="text-red-600 focus:text-red-600">
+                              <Trash2 className="h-4 w-4 mr-2" />
+                              Delete
+                            </DropdownMenuItem>
+                          </>
+                        ) : (
+                          <>
+                            <DropdownMenuItem
+                              className="text-red-600 focus:text-red-600"
+                              onClick={() =>
+                                toast.info(
+                                  "Thank you helping keep our community safe"
+                                )
+                              }>
+                              <Flag className="h-4 w-4 mr-2" />
+                              Report
+                            </DropdownMenuItem>
+                          </>
+                        )}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                  {/* Response Body */}
+                  <article
+                    className="p-3 rounded-r-xl xsm:text-sm rounded-bl-xl border shadow bg-card text-xs md:text-sm mb-2"
+                    id="comment-body">
+                    {response.body ? parse(response.body) : response.body}
+                  </article>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
     </div>
   );
 };

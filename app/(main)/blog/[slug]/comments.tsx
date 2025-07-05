@@ -1,3 +1,5 @@
+"use client";
+import React, { useState } from "react";
 import { CommentItem } from "@/components/comments/comment-item";
 import { CommentEditor } from "@/components/comments/editor";
 import { Button } from "@/components/ui/button";
@@ -15,8 +17,7 @@ import {
   ShieldAlertIcon,
 } from "lucide-react";
 import Link from "next/link";
-import React, { useState } from "react";
-
+import Image from "next/image";
 type Props = {
   blogId: number;
   blogAuthorId: number;
@@ -57,7 +58,7 @@ export default function Comments({
                 href="/community"
                 target="_blank"
                 className="hover:text-cyan-600 transition-colors cursor-pointer">
-                <ShieldAlertIcon className="h-6 w-6" />
+                <ShieldAlertIcon className="h-6 w-6 text-muted-foreground/90" />
               </Link>
             </TooltipTrigger>
             <TooltipContent className="max-w-72 text-sm" side="bottom">
@@ -100,19 +101,20 @@ export default function Comments({
       )}
       {/* Add a sort button here */}
       <div className="space-y-4 border-b flex items-center justify-end py-2 my-4 border-border">
-        <Button
-          onClick={toggleSortOrder}
-          variant="ghost"
-          className="hover:bg-blue-500 hover:text-white">
-          <ArrowUpDown className="h-4 w-4" />
-          <span>
-            {sortOrder === "newest" ? "Newest First" : "Oldest First"}
-          </span>
-        </Button>
+        {comments && comments.length > 0 && (
+          <Button
+            onClick={toggleSortOrder}
+            variant="ghost"
+            className="hover:bg-blue-500 hover:text-white">
+            <ArrowUpDown className="h-4 w-4" />
+            <span>
+              {sortOrder === "newest" ? "Newest First" : "Oldest First"}
+            </span>
+          </Button>
+        )}
       </div>
       <div className="space-y-2">
-        {comments &&
-          comments.length > 0 &&
+        {comments && comments.length > 0 ? (
           comments.map((c) => (
             <CommentItem
               key={c.id}
@@ -120,7 +122,22 @@ export default function Comments({
               session={session}
               blogAuthorId={blogAuthorId}
             />
-          ))}
+          ))
+        ) : (
+          <div className="flex flex-col items-center justify-center gap-1 p-2 my-2">
+            <Image
+              src="/conversation.svg"
+              alt="conversation-starter"
+              height={150}
+              width={150}
+              className="italic w-auto max-w-[150px] "
+            />
+            <p className="font-semibold md:text-lg">
+              This thread is open to discussion
+            </p>
+            <p className="text-xs">✨ Be the first to comment ✨</p>
+          </div>
+        )}
       </div>
       {/* Add comments here */}
     </div>
