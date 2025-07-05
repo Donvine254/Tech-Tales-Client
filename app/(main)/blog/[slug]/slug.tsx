@@ -40,6 +40,7 @@ import AnimatedLikeButton from "@/components/custom/like-button";
 import { useSession } from "@/providers/session";
 import Comments from "./comments";
 import { CommentData } from "@/types";
+import BlogSummaryGenerator from "@/components/pages/summary";
 type Props = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   blog: Record<string, any>;
@@ -216,11 +217,8 @@ export default function Slug({ blog }: Props) {
         {/* Audio Player */}
         {showPlayButton && <AudioPlayer audioUrl={blog?.audio} />}
         {/* summary button */}
-        <Button
-          variant="outline"
-          className="text-green-500 bg-green-50 border border-green-500 py-1 text-xs md:text-sm mt-2 hover:bg-green-500 hover:text-white">
-          ✨ Generate a summary of this story
-        </Button>
+        <BlogSummaryGenerator title={blog.title} blogId={blog.id} />
+
         {/* blog body */}
         <article
           className="leading-8 prose lg:prose-lg prose-headings:mt-8 prose-p:mt-4 md:leading-10 subpixel-antialiased blog-body max-w-none mt-4 prose-slate dark:prose-invert prose-headings:font-semibold prose-headings:text-gray-900 dark:prose-headings:text-gray-50 prose-a:text-blue-600 hover:prose-a:text-blue-800 prose-a:underline-offset-4 prose-img:rounded-lg prose-img:shadow-lg prose-img:border prose-img:border-gray-200 dark:prose-img:border-gray-700 prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800 prose-pre:rounded-lg prose-pre:p-4"
