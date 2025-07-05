@@ -94,8 +94,19 @@ export const CommentEditor: React.FC<CommentEditorProps> = ({
           </div>
           {/* Character Count and Action Buttons */}
           {isInputFocused && (
-            <div className="flex items-center justify-end gap-2 md:gap-4 py-1">
+            <div className="flex items-center justify-between gap-2 md:gap-4 py-1">
               {/* Action Buttons */}
+              <p className="p-0 text-xs">
+                <span
+                  className={`${
+                    length > 500 ? "text-red-500" : ""
+                  }text-xs md:text-sm`}>
+                  {length}
+                </span>
+                <span className="text-xs md:text-sm text-muted-foreground">
+                  /500 words
+                </span>
+              </p>
               <div className="flex items-center space-x-2">
                 <Button
                   size="sm"

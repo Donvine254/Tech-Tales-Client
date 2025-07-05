@@ -8,7 +8,7 @@ import {
 } from "../ui/tooltip";
 import { useSession } from "@/providers/session";
 import { Favorite } from "@prisma/client";
-import { getFavoriteBlogs } from "@/lib/actions/favorites";
+import { getFavoriteBlogs, handleBlogLiking } from "@/lib/actions/favorites";
 
 interface AnimatedLikeButtonProps {
   initialLikes?: number;
@@ -48,6 +48,7 @@ export default function AnimatedLikeButton({
 }: AnimatedLikeButtonProps) {
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(initialLikes);
+  const [isProcessing, setIsProcessing] = useState(false);
   const { session } = useSession();
   //Initialize sound
   const [sound, setSound] = useState<HTMLAudioElement | null>(null);
@@ -80,27 +81,38 @@ export default function AnimatedLikeButton({
   }, [session, blogId]);
 
   // TODO: update favoriting functionality
-  const handleToggle = () => {
+  const handleToggle = async () => {
     if (!session) {
       toast.info("Login to add blog to favorites");
       return;
     }
+    if (isProcessing) return; // Prevent double-click spam
+    setIsProcessing(true);
     const newLiked = !liked;
     const newLikes = newLiked ? likes + 1 : likes - 1;
-    if (newLiked) {
-      toast.success("Blog added to favorites");
-      addToCache(blogId);
-      sound?.play();
-      // call api to add
-    } else {
-      toast.info("Blog removed from favorites");
-      removeFromCache(blogId);
-      //  call api to remove
+    try {
+      setLiked(newLiked);
+      setLikes(newLikes);
+      onLikeChange?.(newLiked, newLikes);
+      if (newLiked) {
+        toast.success("Blog added to favorites");
+        addToCache(blogId);
+        sound?.play();
+        await handleBlogLiking(blogId, session.userId, "LIKE");
+      } else {
+        toast.info("Blog removed from favorites");
+        removeFromCache(blogId);
+        await handleBlogLiking(blogId, session.userId, "DISLIKE");
+      }
+    } catch (error) {
+      console.error("Error toggling favorite:", error);
+      toast.error("Something went wrong. Please try again.");
+      // Revert state on error
+      setLiked(!newLiked);
+      setLikes(newLiked ? likes : likes + 1);
+    } finally {
+      setIsProcessing(false);
     }
-
-    setLiked(newLiked);
-    setLikes(newLikes);
-    onLikeChange?.(newLiked, newLikes);
   };
   return (
     <div className="flex items-center text-sm">
@@ -112,6 +124,7 @@ export default function AnimatedLikeButton({
                 type="checkbox"
                 id="checkbox"
                 checked={liked}
+                disabled={isProcessing}
                 onChange={handleToggle}
               />
               <label htmlFor="checkbox">

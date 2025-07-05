@@ -78,18 +78,21 @@ export const CommentItem: React.FC<Props> = ({
                 <h5 className="font-semibold capitalize truncate text-ellipsis whitespace-nowrap">
                   {comment.author.username}
                 </h5>
-                {blogAuthorId === comment.authorId && (
-                  <Badge className="bg-blue-100 font-semibold text-blue-500">
+                {blogAuthorId === comment.authorId ? (
+                  <Badge
+                    title="author"
+                    className="bg-blue-100 font-semibold text-blue-500">
                     <Feather className="h-4 w-4 mr-1" />
-                    Author
+                    <span className="hidden sm:block">Author</span>
                   </Badge>
-                )}
-                {comment.author.role === "admin" && (
-                  <Badge className="bg-purple-100 font-semibold text-purple-500">
+                ) : comment.author.role === "admin" ? (
+                  <Badge
+                    className="bg-purple-100 font-semibold text-purple-500"
+                    title="admin">
                     <Crown className="h-4 w-4 mr-1" />
-                    Admin
+                    <span className="hidden sm:block">Admin</span>
                   </Badge>
-                )}
+                ) : null}
               </div>
 
               <div className="flex items-center space-x-2 text-sm text-muted-foreground font-semibold">
@@ -224,18 +227,21 @@ export const CommentItem: React.FC<Props> = ({
                         <h5 className="font-semibold capitalize truncate text-ellipsis whitespace-nowrap">
                           {response.author.username}
                         </h5>
-                        {blogAuthorId === response.authorId && (
-                          <Badge className="bg-blue-100 font-semibold text-blue-500">
+                        {blogAuthorId === response.authorId ? (
+                          <Badge
+                            title="author"
+                            className="bg-blue-100 font-semibold text-blue-500">
                             <Feather className="h-4 w-4 mr-1" />
-                            Author
+                            <span className="hidden sm:block">Author</span>
                           </Badge>
-                        )}
-                        {response.author.role === "admin" && (
-                          <Badge className="bg-purple-100 font-semibold text-purple-500">
+                        ) : response.author.role === "admin" ? (
+                          <Badge
+                            className="bg-purple-100 font-semibold text-purple-500"
+                            title="admin">
                             <Crown className="h-4 w-4 mr-1" />
-                            Admin
+                            <span className="hidden sm:block">Admin</span>
                           </Badge>
-                        )}
+                        ) : null}
                       </div>
 
                       <div className="flex items-center space-x-2 text-sm text-muted-foreground font-semibold">
