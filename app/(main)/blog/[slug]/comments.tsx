@@ -7,9 +7,14 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { CommentData, Session } from "@/types";
-import { CircleUserRound, LockIcon, ShieldAlertIcon } from "lucide-react";
+import {
+  ArrowUpDown,
+  CircleUserRound,
+  LockIcon,
+  ShieldAlertIcon,
+} from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 
 type Props = {
   blogId: number;
@@ -19,7 +24,23 @@ type Props = {
   session: Session | null;
 };
 
-export default function Comments({ comments = [], session }: Props) {
+export default function Comments({
+  comments = [],
+  session,
+  setComments,
+}: Props) {
+  const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
+
+  const toggleSortOrder = () => {
+    const newOrder = sortOrder === "newest" ? "oldest" : "newest";
+    const sorted = [...comments].sort((a, b) =>
+      newOrder === "newest"
+        ? new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        : new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+    );
+    setSortOrder(newOrder);
+    setComments(sorted);
+  };
   return (
     <div className="my-2">
       <div className="py-2 md:py-4 flex items-center justify-between gap-4">
@@ -74,6 +95,19 @@ export default function Comments({ comments = [], session }: Props) {
           </Button>
         </div>
       )}
+      {/* Add a sort button here */}
+      <div className="space-y-4 border-b flex items-center justify-end py-2 my-4 border-border">
+        <Button
+          onClick={toggleSortOrder}
+          variant="ghost"
+          className="hover:bg-blue-500 hover:text-white">
+          <ArrowUpDown className="h-4 w-4" />
+          <span>
+            {sortOrder === "newest" ? "Newest First" : "Oldest First"}
+          </span>
+        </Button>
+      </div>
+      {/* Add comments here */}
     </div>
   );
 }
