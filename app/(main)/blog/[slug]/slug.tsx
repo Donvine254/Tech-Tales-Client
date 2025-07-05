@@ -15,6 +15,7 @@ import {
   MessageSquare,
   MessageSquareText,
   MoreHorizontal,
+  Pencil,
   Printer,
   ShieldAlertIcon,
   ShieldBan,
@@ -39,13 +40,16 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import AnimatedLikeButton from "@/components/custom/like-button";
+import { useSession } from "@/providers/session";
 type Props = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   blog: Record<string, any>;
 };
 
 export default function Slug({ blog }: Props) {
+  const { session } = useSession();
   const [showPlayButton, setShowPlayButton] = useState(false);
+  const [comments, setComments] = useState(blog?.comments ?? []);
   //function to print contents
   const handlePrint = async () => {
     //eslint-disable-next-line
@@ -143,11 +147,11 @@ export default function Slug({ blog }: Props) {
                 className="flex items-center space-x-1 hover:text-cyan-600 transition-colors cursor-pointer"
                 title="jump to comments">
                 <MessageSquare className="h-4 w-4" />
-                <span className="text-sm">{blog?.comments?.length ?? 0}</span>
+                <span className="text-sm">{comments?.length ?? 0}</span>
               </a>
             </TooltipTrigger>
             <TooltipContent className="max-w-72 text-sm" side="bottom">
-              <p>{blog?.comments?.length ?? 0} Comments</p>
+              <p>{comments.length ?? 0} Comments</p>
             </TooltipContent>
           </Tooltip>
           <Tooltip>
@@ -240,7 +244,7 @@ export default function Slug({ blog }: Props) {
                 </a>
               </TooltipTrigger>
               <TooltipContent className="max-w-72 text-sm" side="bottom">
-                <p>{blog?.comments?.length ?? 0} Comments</p>
+                <p>{comments?.length ?? 0} Comments</p>
               </TooltipContent>
             </Tooltip>
             <AnimatedLikeButton initialLikes={blog.likes} size={30} />
@@ -250,7 +254,7 @@ export default function Slug({ blog }: Props) {
             <ShareModal
               slug={blog.slug}
               title={blog.title}
-              image={blog.image?.secure_url ?? "/placeholder-image.webp"}
+              image={blog.image?.secure_url ?? "/placeholder.svg"}
             />
             <Bookmark blogId={blog.id} />
             {/* More actions dropdown */}
@@ -275,9 +279,14 @@ export default function Slug({ blog }: Props) {
                   <Eye className="h-4 w-4 mr-2" /> View more from author
                 </DropdownMenuItem>
                 {/* TODO: Only show edit to admin or blog author */}
-                {/* <DropdownMenuItem className="flex items-center cursor-pointer">
-                  <Pencil className="h-4 w-4 mr-2" /> Edit blog
-                </DropdownMenuItem> */}
+                {session?.userId === blog.authorId && (
+                  <DropdownMenuItem className="flex items-center cursor-pointer">
+                    <Link href={`/posts/new/${blog.slug}`} title="edit blog">
+                      <Pencil className="h-4 w-4 mr-2" /> Edit blog
+                    </Link>
+                  </DropdownMenuItem>
+                )}
+
                 <DropdownMenuItem className="flex items-center cursor-pointer text-destructive hover:bg-destructive hover:text-destructive-foreground group">
                   <ShieldBan className="h-4 w-4 mr-2 text-destructive group-hover:text-destructive-foreground" />{" "}
                   Report this blog
@@ -318,7 +327,8 @@ export default function Slug({ blog }: Props) {
                 Login Required
               </h2>
               <p className="text-muted-foreground text-sm max-w-2xl">
-              Login to share your thoughts, ask questions, and engage with other readers in the comments.
+                Login to share your thoughts, ask questions, and engage with
+                other readers in the comments.
               </p>
             </div>
 

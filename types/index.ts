@@ -1,4 +1,11 @@
-import { Blog, User } from "@prisma/client";
+import {
+  Blog,
+  Comment,
+  Response,
+  Role,
+  User,
+  UserStatus,
+} from "@prisma/client";
 
 export interface BlogWithUser extends Blog {
   author: Pick<User, "username" | "picture">;
@@ -28,4 +35,22 @@ export interface BlogData {
   audioUrl?: string | null;
   authorId: number | null;
   updatedAt: Date | null;
+}
+export interface CommentData extends Comment {
+  author: {
+    username: string;
+    picture: string;
+    role: Role;
+    status: UserStatus;
+  };
+  responses: ResponseData[];
+}
+
+export interface ResponseData extends Response {
+  author: {
+    username: string;
+    picture: string;
+    role: Role;
+    status: UserStatus;
+  };
 }
