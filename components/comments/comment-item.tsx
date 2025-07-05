@@ -71,11 +71,19 @@ export const CommentItem: React.FC<Props> = ({
           <div className="flex items-start  justify-between mb-2 ">
             <div className="flex flex-col space-y-1">
               <div className="flex items-center space-x-2">
-                <h4 className="font-semibold">{comment.author.username}</h4>
-                {blogAuthorId === comment.authorId && <Badge>Author</Badge>}
-                {session?.role === "admin" && <Badge>Admin</Badge>}
+                <h4 className="font-semibold capitalize">
+                  {comment.author.username}
+                </h4>
+                {blogAuthorId === comment.authorId && (
+                  <Badge className="bg-blue-100 text-blue-500">🔏Author</Badge>
+                )}
+                {comment.author.role === "admin" && (
+                  <Badge className="bg-purple-100 text-purple-500">
+                    💎Admin
+                  </Badge>
+                )}
               </div>
-              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+              <div className="flex items-center space-x-2 text-sm text-muted-foreground font-semibold">
                 <span>{formatDate(comment.createdAt)}</span>
                 {comment.updatedAt && (
                   <span className="text-xs text-muted-foreground">
@@ -118,29 +126,33 @@ export const CommentItem: React.FC<Props> = ({
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-
           {/* Comment Body */}
-          <div
-            className="p-3 rounded-r-xl xsm:text-sm rounded-bl-xl border shadow bg-card text-xs md:text-sm"
+          <article
+            className="p-3 rounded-r-xl xsm:text-sm rounded-bl-xl border shadow bg-card text-xs md:text-sm mb-2"
             id="comment-body">
             {comment.body ? parse(comment.body) : comment.body}
-          </div>
+          </article>
 
           {/* Action Buttons Row */}
           <div className="flex items-center space-x-4 mb-4">
             {/* Quick Reply Button */}
             {
-              <button className="flex items-center text-sm text-gray-500 hover:text-blue-600 transition-colors font-medium">
+              <Button
+                size="sm"
+                variant="ghost"
+                title="reply to this comment"
+                className="hover:text-blue-600 cursor-pointer transition-colors text-sm font-medium text-muted-foreground">
                 <Reply className="h-4 w-4 mr-1" />
                 Reply
-              </button>
+              </Button>
             }
-
             {/* Collapse/Expand Replies Button */}
             {comment.responses && (
-              <button
+              <Button
+                size="sm"
+                variant="ghost"
                 onClick={() => setRepliesCollapsed(!repliesCollapsed)}
-                className="flex items-center text-sm text-gray-500 hover:text-gray-700 transition-colors font-medium">
+                className="text-sm cursor-pointer font-medium text-muted-foreground">
                 {repliesCollapsed ? (
                   <>
                     <ChevronDown className="h-4 w-4 mr-1" />
@@ -153,7 +165,7 @@ export const CommentItem: React.FC<Props> = ({
                     Hide replies
                   </>
                 )}
-              </button>
+              </Button>
             )}
           </div>
         </div>

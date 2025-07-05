@@ -29,7 +29,7 @@ export default function Comments({
   comments = [],
   session,
   setComments,
-  blogAuthorId
+  blogAuthorId,
 }: Props) {
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
 
@@ -46,9 +46,10 @@ export default function Comments({
   return (
     <div className="my-2">
       <div className="py-2 md:py-4 flex items-center justify-between gap-4">
-        <h3 className="text-muted-foreground text-lg md:text-2xl font-serif font-bold">
+        <h3 className="text-lg md:text-2xl font-serif font-semibold bg-gradient-to-r from-gray-400 to-gray-700 dark:from-gray-300 dark:to-gray-500 bg-clip-text text-transparent">
           Comments ({comments?.length ?? 0})
         </h3>
+
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -109,7 +110,7 @@ export default function Comments({
           </span>
         </Button>
       </div>
-      <div className="space-y-6">
+      <div className="space-y-2">
         {comments &&
           comments.length > 0 &&
           comments.map((c) => (
