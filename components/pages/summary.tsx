@@ -183,7 +183,7 @@ export default function BlogSummaryGenerator({
           <Button
             variant="outline"
             onClick={handleGenerateSummary}
-            className="text-green-500 bg-green-50 border border-green-500 py-1 text-xs md:text-sm mt-2 hover:bg-green-500 hover:text-white transition-all duration-200"
+            className="text-green-500 bg-green-50 border border-green-500 py-1 text-xs md:text-sm mt-2 hover:bg-green-500 hover:text-white transition-all duration-200 w-full sm:max-w-max"
             disabled={isGenerating}>
             ✨ Generate a summary of this story
           </Button>

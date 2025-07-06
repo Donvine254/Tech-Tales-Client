@@ -31,6 +31,7 @@ export default function BlogImage({
       placeholder="blur"
       blurDataURL={rgbDataURL(204, 204, 204)}
       quality={100}
+      layout="responsive"
       priority
       style={{
         backgroundImage: "url('/placeholder.svg')",

@@ -96,7 +96,9 @@ export default async function page({
   const blog = await getData(slug);
   if (!blog) redirect("/not-found");
   return (
-    <section className="@container bg-gray-50 dark:bg-accent">
+    <section
+      className="@container bg-gray-50 dark:bg-accent"
+      suppressHydrationWarning>
       <Slug blog={blog} />
     </section>
   );

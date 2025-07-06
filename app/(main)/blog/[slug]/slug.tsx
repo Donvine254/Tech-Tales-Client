@@ -228,7 +228,7 @@ export default function Slug({ blog }: Props) {
         </article>
         {/* Bottom buttons */}
 
-        <div className="flex items-center justify-between border-y border-border shadow-2xl my-2">
+        <div className="flex items-center justify-between border-y border-border shadow-2xl mb-4 mt-8 py-4">
           <div className="flex items-center gap-2 xsm:gap-2 md:gap-4">
             <Tooltip>
               <TooltipTrigger asChild>

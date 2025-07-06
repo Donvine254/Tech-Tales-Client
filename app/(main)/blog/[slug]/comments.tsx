@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CommentItem } from "@/components/comments/comment-item";
 import { CommentEditor } from "@/components/comments/editor";
 import { Button } from "@/components/ui/button";
@@ -35,6 +35,7 @@ export default function Comments({
   blogAuthorId,
 }: Props) {
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
+  const [isMounted, setIsMounted] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
   const toggleSortOrder = () => {
@@ -47,11 +48,19 @@ export default function Comments({
     setSortOrder(newOrder);
     setComments(sorted);
   };
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   // redirect user back to the page after login
 
   function handleLogin() {
     setCookie("post_login_redirect", pathname, 1);
     router.push("/login");
+  }
+  if (!isMounted) {
+    return false;
   }
   return (
     <div className="my-2" id="comments">
