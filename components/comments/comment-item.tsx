@@ -27,6 +27,7 @@ type Props = {
 };
 import parse from "html-react-parser";
 import { toast } from "sonner";
+import CommentBody from "./comment-body";
 export const CommentItem: React.FC<Props> = ({
   comment,
   session,
@@ -50,6 +51,7 @@ export const CommentItem: React.FC<Props> = ({
     }
   };
   //   add editing state here
+
   return (
     <div className="">
       <div className="flex space-x-4">
@@ -147,12 +149,7 @@ export const CommentItem: React.FC<Props> = ({
           </div>
 
           {/* Comment Body */}
-          <article
-            className="p-3 rounded-r-xl xsm:text-sm rounded-bl-xl border shadow bg-card text-xs md:text-sm mb-2"
-            id="comment-body">
-            {comment.body ? parse(comment.body) : comment.body}
-          </article>
-
+          <CommentBody body={comment.body} />
           {/* Action Buttons Row */}
           <div className="flex items-center space-x-4 mb-4">
             {/* Quick Reply Button */}

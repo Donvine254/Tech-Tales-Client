@@ -243,10 +243,6 @@
   @apply text-cyan-500 cursor-pointer hover:underline break-words whitespace-pre-wrap;
 }
 
-#comment-body img {
-  @apply max-w-full max-h-20 rounded-md h-auto sm:w-auto;
-}
-
 #blog-body img {
   width: 100%;
   height: auto;
