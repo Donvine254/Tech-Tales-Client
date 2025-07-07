@@ -3,10 +3,11 @@ import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import Link from "next/link";
 import { categories } from "@/constants";
 import { Button } from "../ui/button";
+import { cn } from "@/lib/utils";
 
-export default function CategoryFilters() {
+export default function CategoryFilters({ className }: { className?: string }) {
   return (
-    <ScrollArea className="w-full my-8">
+    <ScrollArea className={(cn("w-full"), className)}>
       <div className="flex space-x-2 pb-4">
         {categories.map((category) => {
           return (

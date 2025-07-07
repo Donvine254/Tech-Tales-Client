@@ -1,12 +1,13 @@
 import React from "react";
-import Loading from "./loading";
+import SearchPage from "./search-page";
+import { getAllBlogs } from "@/lib/actions/blogs";
+import { BlogWithComments } from "@/types";
 
-function page() {
+export default async function page() {
+  const blogs = (await getAllBlogs()) as BlogWithComments[] | [];
   return (
     <div className="min-h-screen bg-background">
-      <Loading />
+      <SearchPage blogs={blogs} />
     </div>
   );
 }
-
-export default page;

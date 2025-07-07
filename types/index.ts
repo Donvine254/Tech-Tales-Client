@@ -54,3 +54,9 @@ export interface ResponseData extends Response {
     status: UserStatus;
   };
 }
+
+export interface BlogWithComments extends BlogWithUser {
+  _count: {
+    comments: number;
+  };
+}
