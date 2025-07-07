@@ -125,7 +125,7 @@ export default function Slug({ blog }: Props) {
               {blog.tags.split(",").map((tag: string, index: number) => (
                 <Link
                   key={index}
-                  href={`/search?q=${tag.trim()}`}
+                  href={`/search?q=${tag.trim().toLowerCase()}`}
                   title={tag}
                   className={`md:px-2 md:py-0 text-blue-500 dark:text-cyan-500 md:bg-transparent    md:border border-transparent md:rounded-full  text-sm  highlight-link-${index}`}>
                   <span>#</span>
@@ -214,7 +214,12 @@ export default function Slug({ blog }: Props) {
         </div>
 
         {/* Audio Player */}
-        {showPlayButton && <AudioPlayer audioUrl={blog?.audio} setShowPlayButton={setShowPlayButton} />}
+        {showPlayButton && (
+          <AudioPlayer
+            audioUrl={blog?.audio}
+            setShowPlayButton={setShowPlayButton}
+          />
+        )}
         {/* summary button */}
         <BlogSummaryGenerator title={blog.title} blogId={blog.id} />
 

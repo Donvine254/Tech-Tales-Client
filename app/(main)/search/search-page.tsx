@@ -20,13 +20,15 @@ export default function SearchPage({
     if (!query) return [];
     if (query === "all") return blogs;
     return blogs.filter((blog) => {
-      const titleMatch = blog.title.toLowerCase().includes(query);
+      const titleMatch = blog.title.toLowerCase().includes(query.toLowerCase());
 
       const tagArray = blog.tags
         ? blog.tags.split(",").map((tag) => tag.trim().toLowerCase())
         : [];
 
-      const tagMatch = tagArray.some((tag) => tag.includes(query));
+      const tagMatch = tagArray.some((tag) =>
+        tag.includes(query.toLowerCase())
+      );
 
       return titleMatch || tagMatch;
     });

@@ -106,7 +106,7 @@ const BlogCard = ({ blog }: { blog: BlogCardProps }) => {
               key={index}
               variant="secondary"
               className="text-xs bg-blue-100 text-blue-700 hover:bg-cyan-100 cursor-pointer transition-colors hover:underline capitalize">
-              <Link href={`/search?q=${tag}`}># {tag}</Link>
+              <Link href={`/search?q=${tag.toLowerCase()}`}># {tag}</Link>
             </Badge>
           ))}
         </div>

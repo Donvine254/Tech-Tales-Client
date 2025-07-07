@@ -37,7 +37,7 @@ export default function CategoryFilters({
                         ? "bg-primary text-primary-foreground"
                         : "hover:bg-blue-500 hover:text-white"
                     )}>
-                    <Link href={`/search?q=${category.value}`}>
+                    <Link href={`/search?q=${category.value.toLowerCase()}`}>
                       {category.label}
                     </Link>
                   </Button>
