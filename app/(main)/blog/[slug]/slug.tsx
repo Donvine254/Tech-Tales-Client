@@ -282,7 +282,11 @@ export default function Slug({ blog }: Props) {
                   <Printer className="h-4 w-4 mr-2" /> Print this blog
                 </DropdownMenuItem>
                 <DropdownMenuItem className="flex items-center cursor-pointer">
-                  <Eye className="h-4 w-4 mr-2" /> View more from author
+                  <Link href={`/explore/${blog.author.handle}`}>
+                    {" "}
+                    <Eye className="h-4 w-4 mr-2" /> View more from{" "}
+                    {blog.author.username}
+                  </Link>
                 </DropdownMenuItem>
                 {/* TODO: Only show edit to admin or blog author */}
                 {session?.userId === blog.authorId && (
