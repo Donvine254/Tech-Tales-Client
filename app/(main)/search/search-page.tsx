@@ -17,8 +17,8 @@ export default function SearchPage({
   const query = searchParams.get("q") || "";
   const [currentPage, setCurrentPage] = useState(1);
   const filteredBlogs = useMemo(() => {
-    if (!query) return []; // Return nothing if no search term
-
+    if (!query) return [];
+    if (query === "all") return blogs;
     return blogs.filter((blog) => {
       const titleMatch = blog.title.toLowerCase().includes(query);
 
@@ -51,7 +51,7 @@ export default function SearchPage({
           <span className="text-primary truncate">{query.trim()}</span>
         </h1>
       </div>
-      <CategoryFilters className="my-8" />
+      <CategoryFilters className="my-8" query={query} />
       {/* search results */}
       {paginatedBlogs.length > 0 ? (
         <>
