@@ -10,12 +10,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { CommentData, Session } from "@/types";
-import {
-  ArrowUpDown,
-  CircleUserRound,
-  LockIcon,
-  ShieldAlertIcon,
-} from "lucide-react";
+import { ArrowUpDown, CircleUserRound, LockIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { setCookie } from "@/lib/cookie";
@@ -65,7 +60,7 @@ export default function Comments({
   return (
     <div className="my-2" id="comments">
       <div className="py-2 md:py-4 flex items-center justify-between gap-4">
-        <h3 className="text-lg md:text-2xl font-serif font-semibold bg-gradient-to-r from-gray-400 to-gray-700 dark:from-gray-300 dark:to-gray-500 bg-clip-text text-transparent">
+        <h3 className="text-lg md:text-2xl font-semibold  font-sans">
           Responses ({comments?.length ?? 0})
         </h3>
         <TooltipProvider>
@@ -75,11 +70,24 @@ export default function Comments({
                 href="/community"
                 target="_blank"
                 className="hover:text-cyan-600 transition-colors cursor-pointer">
-                <ShieldAlertIcon className="h-6 w-6 text-muted-foreground/90" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  width="1.5rem"
+                  height="1.5rem"
+                  className="h-6 w-6">
+                  <g fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M3 10.417c0-3.198 0-4.797.378-5.335c.377-.537 1.88-1.052 4.887-2.081l.573-.196C10.405 2.268 11.188 2 12 2s1.595.268 3.162.805l.573.196c3.007 1.029 4.51 1.544 4.887 2.081C21 5.62 21 7.22 21 10.417v1.574c0 5.638-4.239 8.375-6.899 9.536C13.38 21.842 13.02 22 12 22s-1.38-.158-2.101-.473C7.239 20.365 3 17.63 3 11.991z"></path>
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M16 11.55L12.6 9a1 1 0 0 0-1.2 0L8 11.55m6 2.5l-2-1.5l-2 1.5"></path>
+                  </g>
+                </svg>
               </Link>
             </TooltipTrigger>
             <TooltipContent className="max-w-72 text-sm" side="bottom">
-              view community guidelines
+              View community guidelines
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
