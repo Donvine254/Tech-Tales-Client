@@ -3,8 +3,8 @@ import React from "react";
 
 export default function Loading() {
   return (
-    <section className="flex items-center justify-center h-screen bg-opacity-50 backdrop-blur-3xl">
-      <Loader2 className="h-6 w-6 animate-spin" />
+    <section className="flex items-center bg-black/20 justify-center h-screen bg-opacity-50 backdrop-blur-3xl">
+      <Loader2 className="h-6 w-6 md:h-12 md:w-12 animate-spin" />
     </section>
   );
 }
