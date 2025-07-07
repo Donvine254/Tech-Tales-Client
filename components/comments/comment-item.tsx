@@ -73,69 +73,59 @@ export const CommentItem: React.FC<Props> = ({
         {/* Comment Content */}
         <div className="flex-1 min-w-0">
           {/* Author Info */}
-          <div className="flex items-start justify-between mb-2 w-full">
+          <div className="flex items-center justify-between md:justify-normal md:space-x-8 w-full">
             {/* Left: Author info */}
-            <div className="flex flex-col space-y-1 min-w-0">
-              <div className="flex items-center space-x-2">
-                <h5 className="font-semibold capitalize truncate text-ellipsis whitespace-nowrap">
-                  {comment.author.username}
-                </h5>
-                {blogAuthorId === comment.authorId ? (
-                  <Badge
-                    title="author"
-                    className="bg-blue-100 font-semibold text-blue-500">
-                    <Feather className="h-4 w-4 mr-1" />
-                    <span className="hidden sm:block">Author</span>
-                  </Badge>
-                ) : comment.author.role === "admin" ? (
-                  <Badge
-                    className="bg-purple-100 font-semibold text-purple-500"
-                    title="admin">
-                    <Crown className="h-4 w-4 mr-1" />
-                    <span className="hidden sm:block">Admin</span>
-                  </Badge>
-                ) : null}
-              </div>
-
-              <div className="flex items-center space-x-2 text-sm text-muted-foreground font-semibold">
-                <span>{formatDate(comment.createdAt)}</span>
-                {comment.updatedAt &&
-                  new Date(comment.updatedAt).getTime() !==
-                    new Date(comment.createdAt).getTime() && (
-                    <span className="text-xs text-muted-foreground">
-                      (Edited)
-                    </span>
-                  )}
-              </div>
+            <div className="flex items-center space-x-2">
+              <h5 className="font-semibold capitalize truncate text-ellipsis whitespace-nowrap">
+                {comment.author.username}
+              </h5>
+              {blogAuthorId === comment.authorId ? (
+                <Badge
+                  title="author"
+                  className="bg-blue-100 font-semibold text-blue-500">
+                  <Feather className="h-4 w-4 mr-1" />
+                  <span className="hidden sm:block">Author</span>
+                </Badge>
+              ) : comment.author.role === "admin" ? (
+                <Badge
+                  className="bg-purple-100 font-semibold text-purple-500"
+                  title="admin">
+                  <Crown className="h-4 w-4 mr-1" />
+                  <span className="hidden sm:block">Admin</span>
+                </Badge>
+              ) : null}
             </div>
-
             {/* Right: Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="cursor-pointer"
+                  title="More Actions">
                   <MoreHorizontal className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-32">
                 {session?.userId === comment.authorId ? (
                   <>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem className="cursor-pointer">
                       <Edit2 className="h-4 w-4 mr-2" />
                       Edit
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="text-red-600 focus:text-red-600">
+                    <DropdownMenuItem className="text-red-600 hover:text-red-600 cursor-pointer">
                       <Trash2 className="h-4 w-4 mr-2" />
                       Delete
                     </DropdownMenuItem>
                   </>
                 ) : (
                   <>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem className="cursor-pointer">
                       <Reply className="h-4 w-4 mr-2" />
                       Reply
                     </DropdownMenuItem>
                     <DropdownMenuItem
-                      className="text-red-600 focus:text-red-600"
+                      className="text-red-600 cursor-pointer hover:text-red-600"
                       onClick={() =>
                         toast.info("Thank you helping keep our community safe")
                       }>
@@ -146,6 +136,14 @@ export const CommentItem: React.FC<Props> = ({
                 )}
               </DropdownMenuContent>
             </DropdownMenu>
+          </div>
+          <div className="flex items-center space-x-2 text-sm text-muted-foreground font-semibold">
+            <span>{formatDate(comment.createdAt)}</span>
+            {comment.updatedAt &&
+              new Date(comment.updatedAt).getTime() !==
+                new Date(comment.createdAt).getTime() && (
+                <span className="text-xs text-muted-foreground">(Edited)</span>
+              )}
           </div>
 
           {/* Comment Body */}
