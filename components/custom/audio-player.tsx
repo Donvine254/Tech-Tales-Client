@@ -1,13 +1,12 @@
 "use client";
-
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, SetStateAction, Dispatch } from "react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Play, Pause, RotateCcw, RotateCw, X } from "lucide-react";
 
 interface AudioPlayerProps {
   audioUrl?: string;
-  setShowPlayButton: (action: boolean) => void;
+  setShowPlayButton: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function AudioPlayer({
@@ -136,11 +135,10 @@ export default function AudioPlayer({
   };
 
   return (
-    <div className="w-full bg-card dark:bg-accent border border-border rounded-t-lg shadow relative">
+    <div className="w-full bg-card dark:bg-accent border border-border rounded-lg shadow relative overflow-hidden">
       {/* close button */}
-
       <X
-        className="h-3 w-3 absolute top-0.5 right-0.5 text-muted-foreground hover:text-red-500 cursor-pointer"
+        className="h-4 w-4 absolute top-0.5 right-0.5 text-muted-foreground hover:text-red-500 cursor-pointer"
         onClick={() => setShowPlayButton(false)}
       />
 
