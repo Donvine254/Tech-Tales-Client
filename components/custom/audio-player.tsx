@@ -3,13 +3,17 @@
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { Play, Pause, RotateCcw, RotateCw } from "lucide-react";
+import { Play, Pause, RotateCcw, RotateCw, X } from "lucide-react";
 
 interface AudioPlayerProps {
   audioUrl?: string;
+  setShowPlayButton: (action: boolean) => void;
 }
 
-export default function AudioPlayer({ audioUrl }: AudioPlayerProps) {
+export default function AudioPlayer({
+  audioUrl,
+  setShowPlayButton,
+}: AudioPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(326); // 5:26 in seconds
@@ -117,8 +121,9 @@ export default function AudioPlayer({ audioUrl }: AudioPlayerProps) {
         {bars.map((bar) => (
           <div
             key={bar}
-            className={`w-1 bg-primary rounded-full transition-all duration-150 ${isPlaying ? "animate-pulse" : ""
-              }`}
+            className={`w-1 bg-primary rounded-full transition-all duration-150 ${
+              isPlaying ? "animate-pulse" : ""
+            }`}
             style={{
               height: isPlaying ? `${Math.random() * 20 + 10}px` : "8px",
               animationDelay: `${bar * 100}ms`,
@@ -131,7 +136,14 @@ export default function AudioPlayer({ audioUrl }: AudioPlayerProps) {
   };
 
   return (
-    <div className="w-full bg-white dark:bg-accent brightness-150 filter border border-gray-200 dark:border-gray-400/50 rounded-lg shadow">
+    <div className="w-full bg-card dark:bg-accent border border-border rounded-t-lg shadow relative">
+      {/* close button */}
+
+      <X
+        className="h-3 w-3 absolute top-0.5 right-0.5 text-muted-foreground hover:text-red-500 cursor-pointer"
+        onClick={() => setShowPlayButton(false)}
+      />
+
       {/* Main player controls */}
       <div className="flex items-center justify-between gap-4 p-2">
         {/* Play/Pause button */}
@@ -194,7 +206,7 @@ export default function AudioPlayer({ audioUrl }: AudioPlayerProps) {
           max={duration}
           step={1}
           onValueChange={handleProgressChange}
-          className="w-[99%] mx-auto [&>span:first-child]:h-1 [&>span:first-child]:bg-gray-500  [&_[role=slider]]:hidden  [&_[role=slider]]:w-3 [&_[role=slider]]:h-3 [&_[role=slider]]:border-0 [&>span:first-child_span]:bg-gray-900 dark:[&>span:first-child_span]:bg-cyan-500 [&_[role=slider]:focus-visible]:ring-0 [&_[role=slider]:focus-visible]:ring-offset-0"
+          className="w-full [&>span:first-child]:h-1 [&>span:first-child]:bg-gray-500  [&_[role=slider]]:hidden  [&_[role=slider]]:w-3 [&_[role=slider]]:h-3 [&_[role=slider]]:border-0 [&>span:first-child_span]:bg-gray-900 dark:[&>span:first-child_span]:bg-cyan-500  [&_[role=slider]:focus-visible]:ring-0 [&_[role=slider]:focus-visible]:ring-offset-0"
         />
       </div>
 

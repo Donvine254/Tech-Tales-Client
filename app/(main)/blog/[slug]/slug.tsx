@@ -95,7 +95,6 @@ export default function Slug({ blog }: Props) {
                 Author
               </div>
             </div>
-
             <div className="flex items-center space-x-3 text-sm md:text-base text-accent-foreground">
               <div className="flex items-center space-x-1">
                 <Calendar className="h-3 w-3 md:h-4 md:w-4" />
@@ -215,7 +214,7 @@ export default function Slug({ blog }: Props) {
         </div>
 
         {/* Audio Player */}
-        {showPlayButton && <AudioPlayer audioUrl={blog?.audio} />}
+        {showPlayButton && <AudioPlayer audioUrl={blog?.audio} setShowPlayButton={setShowPlayButton} />}
         {/* summary button */}
         <BlogSummaryGenerator title={blog.title} blogId={blog.id} />
 
