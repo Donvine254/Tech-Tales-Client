@@ -30,6 +30,34 @@ export const getBlogs = unstable_cache(
   { revalidate: 600 }
 );
 
+//function to get all blogs;potential duplication; do not remove
+export const getAllBlogs = unstable_cache(
+  async () => {
+    const blogs = await prisma.blog.findMany({
+      where: {
+        status: "PUBLISHED",
+      },
+      include: {
+        author: {
+          select: {
+            username: true,
+            picture: true,
+          },
+        },
+        _count: {
+          select: {
+            comments: true,
+          },
+        },
+      },
+    });
+
+    return blogs;
+  },
+  ["search"],
+  { revalidate: 6000 }
+);
+
 const createBlogFetcher = (
   orderByField: "createdAt" | "views" | "likes",
   cacheKey: string
