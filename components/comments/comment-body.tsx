@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-
+import parse from "html-react-parser";
 export default function CommentBody({ body }: { body: string }) {
   const parseCommentBody = (htmlString: string) => {
     const parser = new DOMParser();
@@ -28,9 +28,10 @@ export default function CommentBody({ body }: { body: string }) {
     <div className="mt-1">
       <article
         className="px-3 py-2 rounded-r-xl xsm:text-sm rounded-bl-xl border shadow bg-card text-xs md:text-sm mb-1 max-w-max"
-        id="comment-body"
-        dangerouslySetInnerHTML={{ __html: textHtml }}
-      />
+        id="comment-body">
+        {" "}
+        {parse(textHtml)}
+      </article>
 
       {images.length > 0 && (
         <div className="mt-1 flex flex-wrap gap-2">{images}</div>

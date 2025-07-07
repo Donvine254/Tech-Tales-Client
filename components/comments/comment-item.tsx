@@ -9,6 +9,7 @@ import {
 } from "../ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
+  Calendar,
   ChevronDown,
   ChevronUp,
   Crown,
@@ -137,7 +138,8 @@ export const CommentItem: React.FC<Props> = ({
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <div className="flex items-center space-x-2 text-sm text-muted-foreground font-semibold">
+          <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+            <Calendar className="h-3.5 w-3.5" />
             <span>{formatDate(comment.createdAt)}</span>
             {comment.updatedAt &&
               new Date(comment.updatedAt).getTime() !==
@@ -215,42 +217,28 @@ export const CommentItem: React.FC<Props> = ({
                 {/* Response Content */}
                 <div className="flex-1 min-w-0">
                   {/* Author Info */}
-                  <div className="flex items-start justify-between mb-2 w-full">
+                  <div className="flex items-center justify-between md:justify-normal md:space-x-6  w-full">
                     {/* Left: Author info */}
-                    <div className="flex flex-col space-y-1 min-w-0">
-                      <div className="flex items-center space-x-2">
-                        <h5 className="font-semibold capitalize truncate text-ellipsis whitespace-nowrap">
-                          {response.author.username}
-                        </h5>
-                        {blogAuthorId === response.authorId ? (
-                          <Badge
-                            title="author"
-                            className="bg-blue-100 font-semibold text-blue-500">
-                            <Feather className="h-4 w-4 mr-1" />
-                            <span className="hidden sm:block">Author</span>
-                          </Badge>
-                        ) : response.author.role === "admin" ? (
-                          <Badge
-                            className="bg-purple-100 font-semibold text-purple-500"
-                            title="admin">
-                            <Crown className="h-4 w-4 mr-1" />
-                            <span className="hidden sm:block">Admin</span>
-                          </Badge>
-                        ) : null}
-                      </div>
-
-                      <div className="flex items-center space-x-2 text-sm text-muted-foreground font-semibold">
-                        <span>{formatDate(response.createdAt)}</span>
-                        {response.updatedAt &&
-                          new Date(response.updatedAt).getTime() !==
-                            new Date(response.createdAt).getTime() && (
-                            <span className="text-xs text-muted-foreground">
-                              (edited)
-                            </span>
-                          )}
-                      </div>
+                    <div className="flex items-center space-x-2">
+                      <h5 className="font-semibold capitalize truncate text-ellipsis whitespace-nowrap">
+                        {response.author.username}
+                      </h5>
+                      {blogAuthorId === response.authorId ? (
+                        <Badge
+                          title="author"
+                          className="bg-blue-100 font-semibold text-blue-500">
+                          <Feather className="h-4 w-4 mr-1" />
+                          <span className="hidden sm:block">Author</span>
+                        </Badge>
+                      ) : response.author.role === "admin" ? (
+                        <Badge
+                          className="bg-purple-100 font-semibold text-purple-500"
+                          title="admin">
+                          <Crown className="h-4 w-4 mr-1" />
+                          <span className="hidden sm:block">Admin</span>
+                        </Badge>
+                      ) : null}
                     </div>
-
                     {/* Right: Dropdown */}
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
@@ -287,10 +275,19 @@ export const CommentItem: React.FC<Props> = ({
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
-
+                  <div className="flex items-center space-x-2 text-sm text-muted-foreground  mb-1">
+                    <span>{formatDate(response.createdAt)}</span>
+                    {response.updatedAt &&
+                      new Date(response.updatedAt).getTime() !==
+                        new Date(response.createdAt).getTime() && (
+                        <span className="text-xs text-muted-foreground">
+                          (edited)
+                        </span>
+                      )}
+                  </div>
                   {/* Response Body */}
                   <article
-                    className="p-3 rounded-r-xl xsm:text-sm rounded-bl-xl border shadow bg-card text-xs md:text-sm mb-2"
+                    className="px-3 py-1 rounded-r-xl xsm:text-sm rounded-bl-xl border shadow bg-card max-w-max text-xs md:text-sm mb-2"
                     id="comment-body">
                     {response.body ? parse(response.body) : response.body}
                   </article>

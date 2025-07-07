@@ -231,7 +231,7 @@ export default function BlogSummaryGenerator({
 
           {summary && (
             <div className="whitespace-break-spaces font-serif">
-              <h3 className="font-medium text-base md:text-lg mb-2">
+              <h3 className="font-bold text-base md:text-lg mb-2">
                 Here is a fact-based summary of the blog contents:
               </h3>
               <small className="text-xs md:text-sm">{summary}</small>
