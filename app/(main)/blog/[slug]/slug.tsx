@@ -61,7 +61,7 @@ export default function Slug({ blog }: Props) {
     }
   };
   return (
-    <div className="w-full mx-auto m-2 min-h-[75%] px-8 xsm:px-4 max-w-4xl md:mt-4 blog">
+    <div className="w-full mx-auto m-2 min-h-[75%] px-8 xsm:px-4 max-w-4xl md:mt-4">
       <Script src="https://unpkg.com/ink-html/dist/index.js"></Script>
       <BlogImage image={blog.image} title={blog.title} />
       {/* Author Information - Moved to top */}

@@ -46,7 +46,7 @@ export default function SearchPage({
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:p-8">
       {/* Header section */}
       <div className="py-4 border-b border-border mb-6">
-        <h1 className="text-primary/70 font-extrabold text-xl sm:text-2xl md:text-3xl lg:text-4xl font-serif">
+        <h1 className="text-primary/70 font-extrabold text-xl sm:text-2xl md:text-3xl lg:text-4xl">
           <span>Search results for </span>
           <span className="text-primary truncate">{query.trim()}</span>
         </h1>
