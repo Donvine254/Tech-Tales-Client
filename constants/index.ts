@@ -1,9 +1,10 @@
 export const categories = [
   { value: "all", label: "All" },
   { value: "ai", label: "Artificial Intelligence" },
+  { value: "beginners", label: "Beginners" },
   { value: "react", label: "React" },
   { value: "web", label: "Web Development" },
-  { value: "perfomance", label: "Performance" },
+  { value: "programming", label: "Programming" },
   { value: "backend", label: "Databases" },
   { value: "multithreading", label: "Architecture" },
   { value: "typography", label: "Typography" },
