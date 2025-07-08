@@ -118,10 +118,12 @@ const BlogCard = ({ blog }: { blog: BlogCardProps }) => {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <button className="flex items-center space-x-1 hover:text-cyan-600 transition-colors cursor-pointer">
+                  <Link
+                    href={`/blog/${blog.slug}#comments`}
+                    className="flex items-center space-x-1 hover:text-cyan-600 transition-colors cursor-pointer">
                     <MessageSquare className="h-4 w-4" />
                     <span className="text-sm">{blog._count.comments}</span>
-                  </button>
+                  </Link>
                 </TooltipTrigger>
                 <TooltipContent className="max-w-72 text-sm" side="bottom">
                   <p>{blog._count.comments} Comments</p>
@@ -129,10 +131,12 @@ const BlogCard = ({ blog }: { blog: BlogCardProps }) => {
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <button className="flex items-center space-x-1 hover:text-red-500 transition-colors cursor-pointer group">
-                    <Heart className="h-4 w-4 group-hover:fill-red-500" />
+                  <Link
+                    href={`/blog/${blog.slug}`}
+                    className="flex items-center space-x-1  transition-colors cursor-pointer">
+                    <Heart className="h-4 w-4 hover:fill-red-500 hover:text-red-500" />
                     <span className="text-sm">{blog.likes}</span>
-                  </button>
+                  </Link>
                 </TooltipTrigger>
                 <TooltipContent className="max-w-72 text-sm" side="bottom">
                   <p>{blog.likes} Likes</p>
@@ -140,10 +144,12 @@ const BlogCard = ({ blog }: { blog: BlogCardProps }) => {
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <button className="flex items-center space-x-1 hover:text-cyan-600 transition-colors cursor-pointer">
+                  <Link
+                    href={`/blog/${blog.slug}`}
+                    className="flex items-center space-x-1 hover:text-cyan-600 transition-colors cursor-pointer">
                     <ChartNoAxesColumn className="h-4 w-4" />
                     <span className="text-sm">{formatViews(blog.views)}</span>
-                  </button>
+                  </Link>
                 </TooltipTrigger>
                 <TooltipContent className="max-w-72 text-sm" side="bottom">
                   <p>{formatViews(blog.views)} Views</p>
