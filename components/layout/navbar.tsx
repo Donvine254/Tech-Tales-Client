@@ -58,7 +58,7 @@ const Navbar = () => {
               <BookOpen className="h-6 w-6 text-white" />
             </div>
             <Link href="/">
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent">
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent focus:outline-none">
                 Tech Tales
               </h1>
             </Link>

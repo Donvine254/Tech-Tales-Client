@@ -76,23 +76,23 @@ export const CommentItem: React.FC<Props> = ({
           {/* Author Info */}
           <div className="flex items-center justify-between md:justify-normal md:space-x-8 w-full">
             {/* Left: Author info */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 overflow-x-hidden">
               <h5 className="font-semibold capitalize truncate text-ellipsis whitespace-nowrap">
                 {comment.author.username}
               </h5>
               {blogAuthorId === comment.authorId ? (
                 <Badge
                   title="author"
-                  className="bg-blue-100 font-semibold text-blue-500">
+                  className="bg-blue-100 font-semibold truncate text-blue-500">
                   <Feather className="h-4 w-4 mr-1" />
-                  <span className="hidden sm:block">Author</span>
+                  Author
                 </Badge>
               ) : comment.author.role === "admin" ? (
                 <Badge
                   className="bg-purple-100 font-semibold text-purple-500"
                   title="admin">
-                  <Crown className="h-4 w-4 mr-1" />
-                  <span className="hidden sm:block">Admin</span>
+                  <Crown className="h-4 w-4 mr-1 truncate" />
+                  Admin
                 </Badge>
               ) : null}
             </div>
