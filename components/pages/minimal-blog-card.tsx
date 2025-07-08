@@ -9,17 +9,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { BlogWithUser } from "@/types";
+import { BlogWithComments } from "@/types";
 import { calculateReadingTime, formatViews } from "@/lib/utils";
 import { ShareModal } from "../modals/share-modal";
 import Bookmark from "../custom/bookmark";
-
-interface BlogCardProps extends BlogWithUser {
-  _count: {
-    comments: number;
-  };
-}
-export default function MinimalBlogCard({ blog }: { blog: BlogCardProps }) {
+export default function MinimalBlogCard({ blog }: { blog: BlogWithComments }) {
   const image = blog.image as { secure_url?: string };
   return (
     <div className="flex flex-col md:flex-row border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
@@ -70,12 +64,11 @@ export default function MinimalBlogCard({ blog }: { blog: BlogCardProps }) {
         </Link>
 
         {/* Body preview */}
-        <article className="text-xs sm:text-sm md:text-base font-serif leading-8 md:pb-1 line-clamp-2 text-accent-foreground overflow-hidden blog-body ">
+        <article className="text-xs sm:text-sm md:text-base font-serif leading-8 md:pb-1 line-clamp-2 text-accent-foreground overflow-hidden blog-body">
           {blog ? parse(blog.body.substring(0, 400)) : "Loading..."}
         </article>
-
         {/* Bottom icons */}
-        <div className="mt-auto pt-4 border-t border-gray-300 dark:border-gray-500 flex items-center justify-between text-accent-foreground">
+        <div className="mt-auto pt-4 border-t border-gray-300 dark:border-gray-600 flex items-center justify-between text-accent-foreground">
           <div className="flex items-center space-x-4">
             <TooltipProvider>
               <Tooltip>

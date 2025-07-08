@@ -16,8 +16,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import Image from "next/image";
-import MinimalBlogCard from "@/components/pages/minimal-blog-card";
-
+import UserBlogs from "./user-blogs";
 type UserAndBlogs = Awaited<ReturnType<typeof getUserAndBlogsByHandle>>;
 
 export default async function ExplorePage({ data }: { data: UserAndBlogs }) {
@@ -34,10 +33,9 @@ export default async function ExplorePage({ data }: { data: UserAndBlogs }) {
         style={{
           backgroundColor: data.user.branding ?? "0366F3",
         }}></div>
-
       <div className="w-full min-h-[400px] mx-auto px-4 sm:px-6 lg:px-8 py-16 max-w-7xl">
         {/* user card */}
-        <div className="px-6 py-4 w-full relative -top-20 rounded-md bg-card shadow border">
+        <div className="px-6 py-4 w-full relative -top-40 rounded-md bg-card shadow border">
           <Image
             src={
               data.user.picture
@@ -98,11 +96,11 @@ export default async function ExplorePage({ data }: { data: UserAndBlogs }) {
           </div>
         </div>
         {/* two cards div */}
-        <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-start md:gap-5 -mt-16 relative">
+        <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-start md:gap-5 -mt-36 relative divide-y-2">
           {/* first child */}
-          <div className="lg:w-1/3 space-y-4 md:sticky md:top-20">
+          <div className="md:w-min lg:w-1/3 space-y-4 md:sticky md:top-20">
             {/* First card */}
-            <div className="space-y-4 bg-card shadow border px-6 py-4">
+            <div className="space-y-4 bg-card shadow border px-6 py-4 rounded-md">
               <div className="mb-2 ">
                 <p className="text-primary/90 font-semibold mb-2 ">Badges</p>
                 <TooltipProvider>
@@ -125,6 +123,7 @@ export default async function ExplorePage({ data }: { data: UserAndBlogs }) {
                       new Date().getTime() -
                         new Date(user.createdAt).getTime() <
                         90 * 24 * 60 * 60 * 1000 && (
+                        // 90 days
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <Image
@@ -142,6 +141,7 @@ export default async function ExplorePage({ data }: { data: UserAndBlogs }) {
                       new Date().getTime() -
                         new Date(user.createdAt).getTime() >=
                         365 * 24 * 60 * 60 * 1000 && (
+                        // One year
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <Image
@@ -203,7 +203,7 @@ export default async function ExplorePage({ data }: { data: UserAndBlogs }) {
               {/* Third card */}
             </div>
             {/* second card */}
-            <div className="space-y-4 bg-card shadow border px-6 py-4">
+            <div className="space-y-4 bg-card shadow border px-6 py-4 rounded-md">
               <div className="mb-2 ">
                 <p className="text-primary/90 font-semibold mb-2 ">
                   Skills/Languages
@@ -213,8 +213,38 @@ export default async function ExplorePage({ data }: { data: UserAndBlogs }) {
                 </p>
               </div>
             </div>
-            {/* Third card */}
-            <div className="space-y-4 bg-card shadow border px-6 py-4">
+            {/* Third Card */}
+            <div className="space-y-4 bg-card shadow border px-6 py-4 rounded-md">
+              <div className="mb-2 space-y-2">
+                <p className="text-primary/90 font-semibold mb-2 ">
+                  User Stats
+                </p>
+                <div className="flex items-center space-x-2 whitespace-nowrap">
+                  <BookOpenIcon className="h-4 w-4" />
+                  <p className="text-sm">{user._count.blogs} Authored Posts</p>
+                </div>
+                <div className="flex items-center space-x-2 whitespace-nowrap">
+                  <ChartNoAxesColumn className="h-4 w-4" />
+                  <p className="text-sm">
+                    {formatViews(totalViews)} Post Impressions
+                  </p>
+                </div>
+                <div className="flex items-center space-x-2 whitespace-nowrap">
+                  <Heart className="h-4 w-4" />
+                  <p className="text-sm">
+                    {formatViews(totalLikes)} Post Reactions
+                  </p>
+                </div>
+                <div className="flex items-center space-x-2 whitespace-nowrap">
+                  <MessageSquarePlus className="h-4 w-4" />
+                  <p className="text-sm">
+                    {user._count.comments} Comments written
+                  </p>
+                </div>
+              </div>
+            </div>
+            {/* Fourth card */}
+            <div className="space-y-4 bg-card shadow border px-6 py-4 rounded-md">
               <div className="mb-2 ">
                 <p className="text-primary/90 font-semibold mb-2 ">Socials</p>
                 {socials && socials.length > 0 ? (
@@ -224,38 +254,11 @@ export default async function ExplorePage({ data }: { data: UserAndBlogs }) {
                 )}
               </div>
             </div>
-            {/* Fourth Card */}
-            <div className="space-y-4 bg-card shadow border px-6 py-4">
-              <div className="mb-2 ">
-                <p className="text-primary/90 font-semibold mb-2 ">
-                  User Stats
-                </p>
-                <div className="flex items-center space-x-4">
-                  <BookOpenIcon className="h-4 w-4" />
-                  <p className="">{user._count.blogs} Authored Posts</p>
-                </div>
-                <div className="flex items-center space-x-4">
-                  <ChartNoAxesColumn className="h-4 w-4" />
-                  <p className="">{formatViews(totalViews)} Post Impressions</p>
-                </div>
-                <div className="flex items-center space-x-4">
-                  <Heart className="h-4 w-4" />
-                  <p className="">{formatViews(totalLikes)} Post Reactions</p>
-                </div>
-                <div className="flex items-center space-x-4">
-                  <MessageSquarePlus className="h-4 w-4" />
-                  <p className="">{user._count.comments} Comments written</p>
-                </div>
-              </div>
-            </div>
           </div>
           {/* second child */}
-          <div className="lg:w-2/3 space-y-4">
-            {blogs &&
-              blogs.length > 0 &&
-              blogs.map((blog) => (
-                <MinimalBlogCard key={blog.id} blog={blog} />
-              ))}
+          <hr className="hidden md:block border border-border my-2" />
+          <div className="md:w-2/3">
+            <UserBlogs blogs={blogs} />
           </div>
         </div>
       </div>
