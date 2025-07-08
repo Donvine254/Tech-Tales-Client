@@ -1,6 +1,7 @@
 import { SocialLinks } from "@/components/custom/social-links";
 import { getUserAndBlogsByHandle } from "@/lib/actions/blogs";
 import { formatDate, formatViews } from "@/lib/utils";
+import { getTopAuthor } from "@/lib/actions/analytics";
 import {
   BookOpenIcon,
   CakeIcon,
@@ -15,11 +16,12 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import Image from "next/image";
+
 type UserAndBlogs = Awaited<ReturnType<typeof getUserAndBlogsByHandle>>;
 
-export default function ExplorePage({ data }: { data: UserAndBlogs }) {
+export default async function ExplorePage({ data }: { data: UserAndBlogs }) {
   const { user, blogs } = data;
-  const isTopAuthor = true;
+  const isTopAuthor = await getTopAuthor(user.id);
   const socials = (user.socials ?? []) as { platform: string; url: string }[];
   const totalViews = blogs?.reduce((sum, blog) => sum + blog.views, 0);
   const totalLikes = blogs?.reduce((sum, blog) => sum + blog.likes, 0);
@@ -246,9 +248,14 @@ export default function ExplorePage({ data }: { data: UserAndBlogs }) {
               </div>
             </div>
           </div>
+          {/* second child */}
+          <div className="lg:w-2/3 p-6 space-y-2 bg-accent">
+            <h2 className="text-lg md:text-2xl lg:text-3xl font-bold">
+              Explore Author Blogs
+            </h2>
+          </div>
         </div>
       </div>
-      {/* Two cards div */}
     </section>
   );
 }
