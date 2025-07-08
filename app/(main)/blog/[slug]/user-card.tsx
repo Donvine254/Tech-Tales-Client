@@ -108,7 +108,7 @@ const UserCard: FC<UserCardProps> = ({ author }) => {
             </AvatarFallback>
           </Avatar>
         </TooltipTrigger>
-        <TooltipContent className="w-fit min-w-[250px]" side="bottom">
+        <TooltipContent className="w-fit min-w-[250px] max-w-72" side="bottom">
           <div className="flex items-center gap-2 w-full rounded-t-md px-4 py-2 border-b border-gray-600 dark:border-gray-300">
             <Link href={`/explore/${author.handle}`} prefetch>
               <Avatar
@@ -154,12 +154,12 @@ const UserCard: FC<UserCardProps> = ({ author }) => {
             </div>
           </div>
           <div className="px-2 py-2">
-            <p className="font-medium font-serif text-sm max-w-[250px] leading-loose my-2">
+            <p className="font-medium font-serif text-sm leading-loose my-2">
               {author.bio ?? "This author has not updated their bio yet"}
             </p>
             {author.socials?.length ? (
               <div className="space-y-3">
-                <p className="font-medium text-sm text-muted-foreground">
+                <p className="font-medium text-sm text-secondary/80">
                   Follow me on:
                 </p>
                 <SocialLinks socials={author.socials} />

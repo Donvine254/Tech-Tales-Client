@@ -190,21 +190,21 @@ export default function BlogSummaryGenerator({
         </div>
       )}
       <div
-        className={`overflow-hidden bg-card shadow dark:border-border dark:bg-gray-900 rounded-lg transition-all duration-500 ease-in-out ${
-          isExpanded ? "max-h-[1000px] p-6 mt-4" : "max-h-0 p-0"
+        className={`overflow-hidden relative bg-card shadow dark:border-border dark:bg-gray-900 rounded-lg transition-all duration-500 ease-in-out ${
+          isExpanded ? "max-h-[1000px] p-3 md:p-6 mt-4" : "max-h-0 p-0"
         }`}>
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center gap-2 text-green-400 text-sm font-medium">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleClose}
+          className="hover:text-red-500 absolute top-1 right-1"
+          title="close">
+          <X className="w-4 h-4" />
+        </Button>
+        <div className="mb-2">
+          <p className="text-green-400 text-sm font-medium truncate">
             ✨ Generate a summary of this story
-          </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleClose}
-            className="hover:text-red-500"
-            title="close">
-            <X className="w-4 h-4" />
-          </Button>
+          </p>
         </div>
         <div className="text-sm leading-relaxed mb-6 min-h-[100px]">
           {isGenerating && !summary && !error && (
