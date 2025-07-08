@@ -154,7 +154,7 @@ const UserCard: FC<UserCardProps> = ({ author }) => {
             </div>
           </div>
           <div className="px-2 py-2">
-            <p className="font-medium font-serif text-sm leading-loose my-2">
+            <p className="font-medium font-serif text-sm max-w-[250px] leading-loose my-2">
               {author.bio ?? "This author has not updated their bio yet"}
             </p>
             {author.socials?.length ? (
