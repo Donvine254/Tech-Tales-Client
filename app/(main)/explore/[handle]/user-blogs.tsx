@@ -39,7 +39,7 @@ export default function UserBlogs({ blogs }: Props) {
 
   return (
     <>
-      <div className="flex items-center flex-wrap justify-between gap-x-4 my-8 md:mb-4 md:mt-0">
+      <div className="flex items-center flex-wrap justify-between gap-x-4 mb-4">
         <h2 className="font-bold text-lg md:text-2xl lg:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-500 via-purple-500 dark:from-cyan-400 dark:to-blue-400">
           Authored Blogs ({blogs.length})
         </h2>
