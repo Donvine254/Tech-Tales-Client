@@ -7,10 +7,15 @@ import {
   UserStatus,
 } from "@prisma/client";
 
-export interface BlogWithUser extends Blog {
+export interface BlogWithUser
+  extends Omit<Blog, "image" | "slug" | "tags" | "title" | "body"> {
+  tags: string;
+  image: { secure_url: string };
+  title: string;
+  slug: string;
+  body: string;
   author: Pick<User, "username" | "picture">;
 }
-
 export type Session = {
   email: string;
   exp: number;

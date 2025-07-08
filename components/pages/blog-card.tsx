@@ -28,13 +28,12 @@ interface BlogCardProps extends BlogWithUser {
 }
 
 const BlogCard = ({ blog }: { blog: BlogCardProps }) => {
-  const image = blog.image as { secure_url?: string };
   return (
     <article className="group bg-white dark:bg-accent rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden  hover:border-gray-200 hover:-translate-y-1 flex flex-col">
       <div className="aspect-[16/9] bg-gradient-to-br from-cyan-100 to-blue-100 relative overflow-hidden">
         <Link href={`/blog/${blog.slug}`} className="group" title={blog.title}>
           <Image
-            src={image?.secure_url || "/placeholder-image.webp"}
+            src={blog.image.secure_url || "/placeholder-image.webp"}
             alt={blog.title}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -161,7 +160,7 @@ const BlogCard = ({ blog }: { blog: BlogCardProps }) => {
             <ShareModal
               slug={blog.slug}
               title={blog.title}
-              image={image?.secure_url ?? "/placeholder-image.webp"}
+              image={blog.image.secure_url ?? "/placeholder.svg"}
             />
             <Bookmark blogId={blog.id} />
           </div>
