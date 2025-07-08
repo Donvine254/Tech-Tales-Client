@@ -97,7 +97,7 @@ export default async function page({
   if (!blog) redirect("/not-found");
   return (
     <section
-      className="@container bg-gray-50 dark:bg-accent"
+      className="@container bg-background min-h-screen"
       suppressHydrationWarning>
       <Slug blog={blog} />
     </section>

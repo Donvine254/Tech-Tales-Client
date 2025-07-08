@@ -261,20 +261,22 @@ export default function Slug({ blog }: Props) {
                   className="cursor-pointer bg-secondary"
                   onClick={handlePrint}>
                   {" "}
-                  <Printer className="h-4 w-4 mr-2" /> Print this blog
+                  <Printer className="h-4 w-4" /> Print this blog
                 </DropdownMenuItem>
-                <DropdownMenuItem className="flex items-center cursor-pointer">
+                <DropdownMenuItem
+                  className="flex items-center cursor-pointer whitespace-nowrap"
+                  asChild>
                   <Link href={`/explore/${blog.author.handle}`}>
                     {" "}
-                    <Eye className="h-4 w-4 mr-2" /> View more from{" "}
-                    {blog.author.username}
+                    <Eye className="h-4 w-4" />
+                    More from author
                   </Link>
                 </DropdownMenuItem>
                 {/* TODO: Only show edit to admin or blog author */}
                 {session?.userId === blog.authorId && (
                   <DropdownMenuItem className="flex items-center cursor-pointer">
                     <Link href={`/posts/new/${blog.slug}`} title="edit blog">
-                      <Pencil className="h-4 w-4 mr-2" /> Edit blog
+                      <Pencil className="h-4 w-4" /> Edit blog
                     </Link>
                   </DropdownMenuItem>
                 )}

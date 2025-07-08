@@ -44,7 +44,7 @@ export default async function Page({
     redirect("/");
   }
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gray-100 dark:bg-accent">
       <ExplorePage data={data} />
     </div>
   );

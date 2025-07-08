@@ -33,7 +33,7 @@ export default async function ExplorePage({ data }: { data: UserAndBlogs }) {
         style={{
           backgroundColor: data.user.branding ?? "0366F3",
         }}></div>
-      <div className="w-full min-h-[400px] mx-auto px-4 sm:px-6 lg:px-8 py-16 max-w-7xl">
+      <div className="w-full min-h-[400px] mx-auto px-4 sm:px-6 lg:px-8 py-16 max-w-5xl">
         {/* user card */}
         <div className="px-6 py-4 w-full relative -top-40 rounded-md bg-card shadow border">
           <Image
@@ -96,7 +96,7 @@ export default async function ExplorePage({ data }: { data: UserAndBlogs }) {
           </div>
         </div>
         {/* two cards div */}
-        <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-start md:gap-5 -mt-36 relative divide-y-2">
+        <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-start md:gap-5 -mt-36 relative">
           {/* first child */}
           <div className="md:w-min lg:w-1/3 space-y-4 md:sticky md:top-20">
             {/* First card */}
@@ -256,7 +256,7 @@ export default async function ExplorePage({ data }: { data: UserAndBlogs }) {
             </div>
           </div>
           {/* second child */}
-          <hr className="hidden md:block border border-border my-2" />
+          <hr className="block md:hidden border border-border my-2" />
           <div className="md:w-2/3">
             <UserBlogs blogs={blogs} />
           </div>
