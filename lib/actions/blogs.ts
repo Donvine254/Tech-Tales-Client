@@ -93,3 +93,64 @@ const createBlogFetcher = (
 export const getLatestBlogs = createBlogFetcher("createdAt", "latest");
 export const getTrendingBlogs = createBlogFetcher("views", "trending");
 export const getFeaturedBlogs = createBlogFetcher("likes", "featured");
+
+export const getUserAndBlogsByHandle = async (handle: string) =>
+  unstable_cache(
+    async () => {
+      if (!handle) {
+        throw new Error("Kindly provide a handle first");
+      }
+      const user = await prisma.user.findFirst({
+        where: { handle },
+        select: {
+          id: true,
+          username: true,
+          handle: true,
+          picture: true,
+          bio: true,
+          role: true,
+          branding: true,
+          skills: true,
+          createdAt: true,
+          socials: true,
+          _count: {
+            select: {
+              comments: true,
+              blogs: true,
+            },
+          },
+        },
+      });
+
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      const blogs = await prisma.blog.findMany({
+        where: {
+          authorId: user.id,
+          status: "PUBLISHED",
+        },
+        include: {
+          author: {
+            select: {
+              username: true,
+              picture: true,
+            },
+          },
+          _count: {
+            select: {
+              comments: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      });
+
+      return { user, blogs };
+    },
+    [`user-blogs-${handle}`],
+    { revalidate: 600 }
+  )();
