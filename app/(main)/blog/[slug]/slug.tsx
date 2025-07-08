@@ -42,6 +42,7 @@ import Comments from "./comments";
 import { CommentData } from "@/types";
 import BlogSummaryGenerator from "@/components/pages/summary";
 import UserCard from "./user-card";
+import BlogReportDialog from "@/components/modals/report-blog";
 type Props = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   blog: Record<string, any>;
@@ -51,6 +52,8 @@ export default function Slug({ blog }: Props) {
   const { session } = useSession();
   const [showPlayButton, setShowPlayButton] = useState(false);
   const [comments, setComments] = useState<CommentData[]>(blog?.comments ?? []);
+  // state for reporting dialog
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   //function to print contents
   const handlePrint = async () => {
     //eslint-disable-next-line
@@ -280,10 +283,11 @@ export default function Slug({ blog }: Props) {
                     </Link>
                   </DropdownMenuItem>
                 )}
-
-                <DropdownMenuItem className="flex items-center cursor-pointer text-destructive hover:bg-destructive hover:text-destructive-foreground group">
-                  <ShieldBan className="h-4 w-4 mr-2 text-destructive group-hover:text-destructive-foreground" />{" "}
-                  Report this blog
+                <DropdownMenuItem
+                  className="flex items-center cursor-pointer"
+                  onClick={() => setIsOpen(true)}>
+                  <ShieldBan className="h-4 w-4 mr-2 text-destructive " />{" "}
+                  <span className="text-red-500">Report this blog</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -298,7 +302,13 @@ export default function Slug({ blog }: Props) {
           blogAuthorId={blog.authorId}
         />
       </TooltipProvider>
-
+      {/* blog report dialog */}
+      <BlogReportDialog
+        blogTitle={blog.title}
+        authorName={blog.author.username}
+        open={isOpen}
+        onOpenChange={setIsOpen}
+      />
       {/* print div: hidden */}
       <div id="print-div" style={{ display: "none" }} className="blog prose">
         <h1 className="text-xl font-bold">{blog.title}</h1>
