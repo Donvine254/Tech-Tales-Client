@@ -7,7 +7,9 @@ export async function generateStaticParams() {
   try {
     const slugs = await prisma.blog.findMany({
       where: {
-        status: "PUBLISHED",
+        status: {
+          notIn: ["DRAFT", "UNPUBLISHED"],
+        },
       },
       select: {
         slug: true,

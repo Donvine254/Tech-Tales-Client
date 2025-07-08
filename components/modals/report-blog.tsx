@@ -9,6 +9,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
+import { Input } from "../ui/input";
 
 interface BlogReportDialogProps {
   blogTitle?: string;
@@ -70,13 +71,13 @@ export default function BlogReportDialog({
               <label
                 key={reason.value}
                 className="flex items-center gap-3 cursor-pointer">
-                <input
+                <Input
                   type="radio"
                   name="reportReason"
                   value={reason.value}
                   checked={selectedReason === reason.value}
                   onChange={(e) => setSelectedReason(e.target.value)}
-                  className="w-5 h-5 text-red-500 border-gray-300 focus:ring-red-500"
+                  className="w-5 h-5 outline-none"
                 />
                 <span className="">{reason.label}</span>
               </label>
