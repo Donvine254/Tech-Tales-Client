@@ -16,6 +16,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import Image from "next/image";
+import MinimalBlogCard from "@/components/pages/minimal-blog-card";
 
 type UserAndBlogs = Awaited<ReturnType<typeof getUserAndBlogsByHandle>>;
 
@@ -97,9 +98,9 @@ export default async function ExplorePage({ data }: { data: UserAndBlogs }) {
           </div>
         </div>
         {/* two cards div */}
-        <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-start md:gap-5 -mt-16">
+        <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-start md:gap-5 -mt-16 relative">
           {/* first child */}
-          <div className="lg:w-1/3 space-y-4">
+          <div className="lg:w-1/3 space-y-4 md:sticky md:top-20">
             {/* First card */}
             <div className="space-y-4 bg-card shadow border px-6 py-4">
               <div className="mb-2 ">
@@ -249,10 +250,12 @@ export default async function ExplorePage({ data }: { data: UserAndBlogs }) {
             </div>
           </div>
           {/* second child */}
-          <div className="lg:w-2/3 p-6 space-y-2 bg-accent">
-            <h2 className="text-lg md:text-2xl lg:text-3xl font-bold">
-              Explore Author Blogs
-            </h2>
+          <div className="lg:w-2/3 space-y-4">
+            {blogs &&
+              blogs.length > 0 &&
+              blogs.map((blog) => (
+                <MinimalBlogCard key={blog.id} blog={blog} />
+              ))}
           </div>
         </div>
       </div>
