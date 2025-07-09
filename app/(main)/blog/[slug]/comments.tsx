@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { CommentItem } from "@/components/comments/comment-item";
-import { CommentEditor } from "@/components/comments/editor";
+import { CommentEditor } from "@/components/comments/comment-editor";
 import { Button } from "@/components/ui/button";
 import {
   TooltipProvider,

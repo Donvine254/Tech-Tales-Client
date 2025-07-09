@@ -32,7 +32,7 @@ export default function CommentBody({ body }: { body: string }) {
     <div className="mt-1">
       {cleanHtml.length > 0 && (
         <article
-          className="px-3 py-2 rounded-r-xl xsm:text-sm rounded-bl-xl border shadow bg-card text-xs md:text-sm mb-1 max-w-max"
+          className="px-3 py-2 rounded-r-xl xsm:text-sm rounded-bl-xl border shadow bg-card text-xs md:text-sm mb-1 max-w-max font-serif"
           id="comment-body">
           {" "}
           {parse(textHtml)}
