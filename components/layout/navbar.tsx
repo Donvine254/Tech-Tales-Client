@@ -103,7 +103,7 @@ const Navbar = () => {
               // Logged in state
               <>
                 {/* Create Blog button - hidden on small screens */}
-                <Link href="/posts/new" passHref>
+                <Link href="api/new" passHref>
                   <Button
                     variant="secondary"
                     size="sm"
