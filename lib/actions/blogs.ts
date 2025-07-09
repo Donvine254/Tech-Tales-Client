@@ -1,6 +1,36 @@
 "use server";
 import { unstable_cache } from "next/cache";
 import prisma from "@/prisma/prisma";
+import { getSession } from "./session";
+
+// function to create a new blog
+
+export async function createNewBlog() {
+  const session = await getSession();
+  if (!session || !session.userId) {
+    return { success: false, message: "user id is required" };
+  }
+  try {
+    const blog = await prisma.blog.create({
+      data: {
+        authorId: Number(session.userId),
+        title: "Untitled Blog",
+        status: "DRAFT",
+      },
+    });
+    if (blog) {
+      return { success: true, data: blog };
+    } else {
+      return { success: true, message: "blog creation failed" };
+    }
+  } catch (error) {
+    console.error(error);
+    return { success: true, message: "something went wrong" };
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
 export const getBlogs = unstable_cache(
   async () => {
     const blogs = await prisma.blog.findMany({

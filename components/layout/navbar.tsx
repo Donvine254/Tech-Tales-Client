@@ -11,6 +11,7 @@ import { useSession } from "@/providers/session";
 import { setCookie } from "@/lib/cookie";
 import SearchBar from "../custom/search";
 import { useState } from "react";
+import { createNewBlog } from "@/lib/actions/blogs";
 
 const Navbar = () => {
   const { session, setSession } = useSession();
@@ -53,9 +54,12 @@ const Navbar = () => {
 
   async function createBlog() {
     setIsLoading(true);
-    await fetch("/api/new", {
-      method: "POST",
-    });
+    const res = await createNewBlog();
+    if (res.success && res.data) {
+      router.replace(`/posts/new/${res.data.uuid}`);
+    } else {
+      toast.error(res.message);
+    }
     setIsLoading(false);
   }
 
