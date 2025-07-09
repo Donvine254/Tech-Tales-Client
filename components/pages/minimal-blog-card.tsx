@@ -15,7 +15,7 @@ import { ShareModal } from "../modals/share-modal";
 import Bookmark from "../custom/bookmark";
 export default function MinimalBlogCard({ blog }: { blog: BlogWithComments }) {
   return (
-    <div className="flex flex-col md:flex-row border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+    <div className="flex bg-card flex-col md:flex-row border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
       {/* Left content (text) */}
       <div className="flex flex-col p-4 flex-1">
         {/* Author */}

@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/tooltip";
 import Image from "next/image";
 import UserBlogs from "./user-blogs";
+import { BlogWithComments } from "@/types";
 type UserAndBlogs = Awaited<ReturnType<typeof getUserAndBlogsByHandle>>;
 
 export default async function ExplorePage({ data }: { data: UserAndBlogs }) {
@@ -258,7 +259,7 @@ export default async function ExplorePage({ data }: { data: UserAndBlogs }) {
           {/* second child */}
           <hr className="block md:hidden border border-border my-2" />
           <div className="md:w-2/3">
-            <UserBlogs blogs={blogs} />
+            <UserBlogs blogs={blogs as BlogWithComments[]} />
           </div>
         </div>
       </div>
