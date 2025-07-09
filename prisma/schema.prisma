@@ -50,7 +50,7 @@ model Blog {
   views     Int        @default(0)
   audio     String?
   image     Json?      @default("{}")
-  uuid      String?    @unique @default(uuid()) @db.Uuid
+  uuid      String     @unique @default(uuid()) @db.Uuid
   author    User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
   comments  Comment[]
   Favorite  Favorite[]

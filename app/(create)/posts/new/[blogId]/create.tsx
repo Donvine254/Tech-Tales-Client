@@ -6,29 +6,22 @@ import { TagsSection } from "@/components/create/tags";
 import { TitleSection } from "@/components/create/title";
 import { EditorNavbar } from "@/components/layout/editor-navbar";
 import { slugify } from "@/lib/utils";
-import { useSession } from "@/providers/session";
 import { BlogData, FormStatus } from "@/types";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { toast } from "sonner";
 
 const AUTO_SAVE_INTERVAL = 2000; //Auto-save after every 2 seconds
 
-export default function Create() {
-  const { session } = useSession();
-  const [blogData, setBlogData] = useState<BlogData>({
-    title: "",
-    body: "",
-    slug: "",
-    tags: "",
-    authorId: session?.userId || null,
-    image: {
-      secure_url: "",
-      public_id: "",
-    },
-    audioUrl: null,
-    updatedAt: null,
-  });
+export default function Create({
+  initialData,
+  uuid,
+}: {
+  initialData: BlogData;
+  uuid: string;
+}) {
+  const [blogData, setBlogData] = useState<BlogData>(initialData);
   const [formStatus, setFormStatus] = useState<FormStatus>("pending");
+  const [updatedAt, setUpdatedAt] = useState<Date | null>(null);
   const [tagList, setTagList] = useState<string[]>(
     (blogData.tags || "")
       .split(",")
@@ -39,16 +32,19 @@ export default function Create() {
   const previousDataRef = useRef<string>("");
   //load-saved draft data
   useEffect(() => {
-    const saved = localStorage.getItem("blog-draft");
+    const saved = localStorage.getItem(`Draft-${uuid}`);
+    const lastSaved = localStorage.getItem(`updatedAt`);
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
         setBlogData({ ...parsed, updatedAt: new Date() });
+        const parsedDate = new Date(lastSaved ?? "");
+        setUpdatedAt(isNaN(parsedDate.getTime()) ? new Date() : parsedDate);
       } catch (err) {
         console.error("Failed to load saved draft:", err);
       }
     }
-  }, []);
+  }, [uuid]);
 
   //auto-save function
   useEffect(() => {
@@ -59,28 +55,29 @@ export default function Create() {
       // Only save if changed
       if (previousDataRef.current !== dataStr) {
         previousDataRef.current = dataStr;
-        localStorage.setItem("blog-draft", dataStr);
+        localStorage.setItem(`Draft-${uuid}`, dataStr);
+        localStorage.setItem("updatedAt", JSON.stringify(new Date()));
       }
     }, AUTO_SAVE_INTERVAL);
 
     return () => clearInterval(interval);
-  }, [blogData]);
+  }, [blogData, uuid]);
   //check if the form has entries
   const hasEntries = (data: BlogData) => {
     return (
-      data.title.trim() !== "" ||
-      data.body.trim() !== "" ||
-      data.tags.trim() !== "" ||
-      data.image.secure_url.trim() !== ""
+      data.title?.trim() !== "" ||
+      data.body?.trim() !== "" ||
+      data.tags?.trim() !== "" ||
+      data.image?.secure_url.trim() !== ""
     );
   };
   //check if all entries are there
   const hasAllEntries = (data: BlogData): boolean => {
     return (
-      data.title.trim() !== "" &&
-      data.body.trim() !== "" &&
-      data.tags.trim() !== "" &&
-      data.image.secure_url.trim() !== ""
+      data.title?.trim() !== "" &&
+      data.body?.trim() !== "" &&
+      data.tags?.trim() !== "" &&
+      data.image?.secure_url.trim() !== ""
     );
   };
   //prevent users from closing page with unsaved changes'
@@ -115,8 +112,9 @@ export default function Create() {
       if (isSaveShortcut) {
         e.preventDefault();
         e.stopPropagation();
-        const dataStr = JSON.stringify({ ...blogData, updatedAt: new Date() });
-        localStorage.setItem("blog-draft", dataStr);
+        const dataStr = JSON.stringify(blogData);
+        localStorage.setItem(`Draft-${uuid}`, dataStr);
+        localStorage.setItem("UpdatedAt", JSON.stringify(new Date()));
         toast.success("Draft saved successfully");
       }
     };
@@ -124,7 +122,7 @@ export default function Create() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [blogData]);
+  }, [blogData, uuid]);
 
   //function to create slug
   const handleTitleChange = (value: string) => {
@@ -151,7 +149,7 @@ export default function Create() {
       <EditorNavbar
         onPreview={handlePreview}
         onPublish={handleSubmit}
-        lastSaved={blogData.updatedAt ?? new Date()}
+        lastSaved={updatedAt}
         disabled={!hasAllEntries(blogData) || formStatus === "loading"}
       />
       <form
@@ -190,7 +188,6 @@ export default function Create() {
                   setBlogData((prev) => ({ ...prev, image: data }))
                 }
               />
-
               <TagsSection
                 tags={tagList}
                 title={blogData.title}
@@ -204,7 +201,6 @@ export default function Create() {
                 status={formStatus}
               />
             </div>
-
             {/* Editor + Buttons */}
             <EditorSection
               data={blogData}
@@ -212,7 +208,6 @@ export default function Create() {
               formStatus={formStatus}
             />
           </div>
-
           {/* Sticky Right Sidebar on large screens only */}
           <div className="hidden lg:block relative">
             <div className="sticky top-16 space-y-5">

@@ -17,7 +17,7 @@ import Link from "next/link";
 interface EditorNavbarProps {
   onPreview?: () => void;
   onPublish: (e: React.FormEvent<HTMLFormElement>) => void;
-  lastSaved: Date;
+  lastSaved: Date | null;
   disabled: boolean;
 }
 
@@ -58,7 +58,7 @@ export const EditorNavbar = ({
               </div>
             </TooltipTrigger>
             <TooltipContent>
-              <p>{formatSaveTime(lastSaved)}</p>
+              <p>{lastSaved ? formatSaveTime(lastSaved) : "Just now"}</p>
             </TooltipContent>
           </Tooltip>
         </div>

@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
         status: "DRAFT",
       },
     });
-    return NextResponse.redirect(new URL(`/posts/new/${blog.id}`, req.url));
+    return NextResponse.redirect(new URL(`/posts/new/${blog.uuid}`, req.url));
   } catch (error) {
     console.log(error);
     return NextResponse.redirect(new URL("/", req.url));

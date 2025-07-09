@@ -17,7 +17,7 @@ import { baseUrl, cn } from "@/lib/utils";
 import { FormStatus } from "@/types";
 interface TagsSectionProps {
   tags: string[];
-  title: string;
+  title: string | "" | null;
   onTagsChange: (tags: string[]) => void;
   status: FormStatus;
 }
@@ -76,7 +76,7 @@ export const TagsSection: React.FC<TagsSectionProps> = ({
   };
   // function to generate tags with AI
   async function generateAITags() {
-    if (!title.trim()) {
+    if (!title || !title.trim()) {
       toast.error("Kindly write a title first");
       return false;
     }
@@ -143,7 +143,10 @@ export const TagsSection: React.FC<TagsSectionProps> = ({
               <button
                 onClick={generateAITags}
                 disabled={
-                  !title.trim() || isGeneratingTags || tags.length === 4
+                  !title ||
+                  !title.trim() ||
+                  isGeneratingTags ||
+                  tags.length === 4
                 }
                 className="ml-auto p-2 bg-gradient-to-r from-blue-500 to-cyan-500 cursor-pointer text-white rounded-lg hover:from-blue-600 hover:to-cyan-600 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg">
                 {isGeneratingTags ? (

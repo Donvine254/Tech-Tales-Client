@@ -32,14 +32,12 @@ export type CoverImage = {
   [key: string]: number | string | boolean | unknown[];
 };
 export interface BlogData {
-  title: string;
-  body: string;
-  slug: string;
-  tags: string;
+  title: string | null;
+  body: string | null;
+  slug: string | null;
+  tags: string | null;
   image: CoverImage;
-  audioUrl?: string | null;
-  authorId: number | null;
-  updatedAt: Date | null;
+  audio: string | null;
 }
 export interface CommentData extends Comment {
   author: {
