@@ -45,6 +45,57 @@ export async function createComment(
   }
 }
 
+type UpdateCommentInput = {
+  id: number;
+  body: string;
+};
+
+export async function updateComment({
+  id,
+  body,
+}: UpdateCommentInput): Promise<
+  | { success: true; comment: CommentData; message: string }
+  | { success: false; message: string }
+> {
+  if (!id || !body.trim()) {
+    return { success: false, message: "Comment ID and body are required." };
+  }
+
+  try {
+    // First, update the comment
+    await prisma.comment.update({
+      where: { id },
+      data: { body },
+    });
+
+    // Then, fetch the updated comment with relations
+    const updatedComment = (await prisma.comment.findUnique({
+      where: { id },
+      include: {
+        author: {
+          select: {
+            username: true,
+            picture: true,
+            role: true,
+            status: true,
+          },
+        },
+        responses: true,
+      },
+    })) as CommentData;
+    return {
+      success: true,
+      comment: updatedComment,
+      message: "Comment updated successfully",
+    };
+  } catch (error) {
+    console.error("Error updating comment:", error);
+    return { success: false, message: "Failed to update comment." };
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
 export async function deleteComment(id: number) {
   if (!id) {
     return { success: false, message: "Comment ID is required." };

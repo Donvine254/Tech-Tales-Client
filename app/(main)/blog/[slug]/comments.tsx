@@ -22,7 +22,7 @@ import { setCookie } from "@/lib/cookie";
 import { usePathname, useRouter } from "next/navigation";
 import { BlogStatus } from "@prisma/client";
 import { toast } from "sonner";
-import { createComment } from "@/lib/actions/comments";
+import { createComment, updateComment } from "@/lib/actions/comments";
 type Props = {
   blogId: number;
   blogAuthorId: number;
@@ -44,7 +44,10 @@ export default function Comments({
   const [isMounted, setIsMounted] = useState(false);
   // state for comment body
   const [commentBody, setCommentBody] = useState<string>("");
-  const [isReply, setIsReply] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingComment, setEditingComment] = useState<CommentData | null>(
+    null
+  );
 
   const pathname = usePathname();
   const router = useRouter();
@@ -104,7 +107,52 @@ export default function Comments({
       toast.dismiss(toastId);
     }
   }
+  // function to edit comment
+  function handleEdit(comment: CommentData) {
+    setIsEditing(true);
+    setEditingComment(comment);
+    setCommentBody(comment.body);
+    // filter the comments to remove the comment being edited
+    setComments((prev) => prev.filter((c) => c.id !== comment.id));
+    // begin editing
+  }
+  async function handleEditSubmit() {
+    if (!editingComment) return;
+    const updatedComment = {
+      ...editingComment,
+      body: commentBody,
+    };
+    const toastId = toast.loading("Updating comment...");
+    try {
+      setComments((prev) => [...prev, updatedComment]);
+      const res = await updateComment({
+        id: editingComment.id,
+        body: commentBody,
+      });
+      if (res.success && res.comment) {
+        toast.success(res.message);
+      } else {
+        setComments((prev) => [...prev, editingComment]);
+        toast.error(res.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong");
+    } finally {
+      setIsEditing(false);
+      setEditingComment(null);
+      setCommentBody("");
+      toast.dismiss(toastId);
+    }
+  }
 
+  async function handleSubmit() {
+    if (isEditing && editingComment) {
+      await handleEditSubmit();
+    } else {
+      await handleCommentSubmit();
+    }
+  }
   return (
     <div className="my-2" id="comments">
       <div className="py-2 md:py-4 flex items-center justify-between gap-4">
@@ -163,8 +211,8 @@ export default function Comments({
           session={session}
           initialData={commentBody}
           onEditorChange={setCommentBody}
-          isReply={isReply}
-          onSubmit={handleCommentSubmit}
+          isEditing={isEditing}
+          onSubmit={handleSubmit}
         />
       ) : (
         <div className="flex flex-col items-center justify-center gap-4 border rounded-xl h-fit min-h-16 px-6 py-8 my-4 bg-card shadow-lg dark:shadow-gray-900/20">
@@ -215,6 +263,7 @@ export default function Comments({
               blogStatus={blogStatus}
               comment={c}
               setComments={setComments}
+              onEdit={handleEdit}
               session={session}
               blogAuthorId={blogAuthorId}
             />

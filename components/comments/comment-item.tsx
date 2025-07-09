@@ -26,6 +26,7 @@ type Props = {
   session: Session | null;
   blogAuthorId: number;
   blogStatus: BlogStatus;
+  onEdit: (comment: CommentData) => void;
   setComments: React.Dispatch<React.SetStateAction<CommentData[]>>;
 };
 import Response from "./response";
@@ -40,6 +41,7 @@ export const CommentItem: React.FC<Props> = ({
   blogAuthorId,
   blogStatus,
   setComments,
+  onEdit,
 }: Props) => {
   const [repliesCollapsed, setRepliesCollapsed] = useState(true);
   const formatDate = (date: Date) => {
@@ -153,6 +155,7 @@ export const CommentItem: React.FC<Props> = ({
                   <>
                     <DropdownMenuItem
                       className="cursor-pointer"
+                      onClick={() => onEdit(comment)}
                       disabled={blogStatus === "ARCHIVED"}>
                       <Edit2 className="h-4 w-4 mr-2" />
                       Edit

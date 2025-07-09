@@ -11,14 +11,14 @@ interface CommentEditorProps {
   initialData: string;
   onEditorChange: (value: string) => void;
   onSubmit: () => void;
-  isReply?: boolean;
+  isEditing?: boolean;
 }
 
 export const CommentEditor: React.FC<CommentEditorProps> = ({
   session,
   initialData,
   onEditorChange,
-  isReply = false,
+  isEditing = false,
   onSubmit,
 }) => {
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -30,7 +30,8 @@ export const CommentEditor: React.FC<CommentEditorProps> = ({
     onEditorChange(content);
   };
   return (
-    <form className={`${isReply ? "ml-12" : ""}`}>
+    <form>
+      {/* TODO: create response edit with ml-12 */}
       <div className="flex space-x-4">
         {/* User Avatar */}
         <div className="flex-shrink-0">
@@ -127,7 +128,7 @@ export const CommentEditor: React.FC<CommentEditorProps> = ({
                   size="sm"
                   variant="default"
                   className="hover:bg-blue-500 hover:text-white">
-                  {isReply ? "Reply" : "Respond"}
+                  {isEditing ? "Update" : "Respond"}
                 </Button>
               </div>
             </div>
