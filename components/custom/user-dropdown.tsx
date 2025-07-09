@@ -6,7 +6,6 @@ import {
   Menu,
   CircleUserRound,
   FeatherIcon,
-  Loader2,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -83,14 +82,8 @@ const UserDropdown = ({
                 className="cursor-pointer hover:text-blue-500 dark:hover:bg-blue-500 dark:hover:text-white group"
                 onClick={createBlog}
                 disabled={loading}>
-                {loading ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <>
-                    <FeatherIcon className="mr-2 h-4 w-4 text-blue-500 group-hover:text-white" />
-                    <span>Create Blog</span>
-                  </>
-                )}
+                <FeatherIcon className="mr-2 h-4 w-4 text-blue-500 group-hover:text-white" />
+                Create Blog
               </DropdownMenuItem>
             </div>
             <Link href="/featured" passHref>

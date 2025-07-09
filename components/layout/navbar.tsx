@@ -1,5 +1,5 @@
 "use client";
-import { BookOpen, CircleUserRound, Edit, Loader2 } from "lucide-react";
+import { BookOpen, CircleUserRound, Edit } from "lucide-react";
 import UserDropdown from "../custom/user-dropdown";
 import { Button } from "../ui/button";
 import Link from "next/link";
@@ -54,6 +54,7 @@ const Navbar = () => {
 
   async function createBlog() {
     setIsLoading(true);
+    const toastId = toast.loading("processing request");
     const res = await createNewBlog();
     if (res.success && res.data) {
       router.replace(`/posts/new/${res.data.uuid}`);
@@ -61,6 +62,7 @@ const Navbar = () => {
       toast.error(res.message);
     }
     setIsLoading(false);
+    toast.dismiss(toastId);
   }
 
   return (
@@ -125,14 +127,8 @@ const Navbar = () => {
                   onClick={createBlog}
                   className="hidden md:flex bg-gradient-to-r from-cyan-600 to-blue-600 text-white cursor-pointer "
                   disabled={isLoading}>
-                  {isLoading ? (
-                    <Loader2 className="animate-spin h-4 w-4" />
-                  ) : (
-                    <>
-                      <Edit className="h-4 w-4 mr-2" />
-                      Create Blog
-                    </>
-                  )}
+                  <Edit className="h-4 w-4 mr-2" />
+                  Create Blog
                 </Button>
 
                 <UserDropdown
