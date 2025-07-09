@@ -33,7 +33,9 @@ async function getData(slug: string) {
     const blog = await prisma.blog.update({
       where: {
         slug: slug,
-        status: "PUBLISHED",
+        status: {
+          notIn: ["DRAFT", "UNPUBLISHED"],
+        },
       },
       data: { views: { increment: 1 } },
       include: {

@@ -25,14 +25,17 @@ type Props = {
   comment: CommentData;
   session: Session | null;
   blogAuthorId: number;
+  blogStatus: BlogStatus;
 };
 import parse from "html-react-parser";
 import { toast } from "sonner";
 import CommentBody from "./comment-body";
+import { BlogStatus } from "@prisma/client";
 export const CommentItem: React.FC<Props> = ({
   comment,
   session,
   blogAuthorId,
+  blogStatus,
 }: Props) => {
   const [repliesCollapsed, setRepliesCollapsed] = useState(true);
   const formatDate = (date: Date) => {
@@ -110,7 +113,9 @@ export const CommentItem: React.FC<Props> = ({
               <DropdownMenuContent align="end" className="w-32">
                 {session?.userId === comment.authorId ? (
                   <>
-                    <DropdownMenuItem className="cursor-pointer">
+                    <DropdownMenuItem
+                      className="cursor-pointer"
+                      disabled={blogStatus === "ARCHIVED"}>
                       <Edit2 className="h-4 w-4 mr-2" />
                       Edit
                     </DropdownMenuItem>
@@ -121,7 +126,9 @@ export const CommentItem: React.FC<Props> = ({
                   </>
                 ) : (
                   <>
-                    <DropdownMenuItem className="cursor-pointer">
+                    <DropdownMenuItem
+                      className="cursor-pointer"
+                      disabled={blogStatus === "ARCHIVED"}>
                       <Reply className="h-4 w-4 mr-2" />
                       Reply
                     </DropdownMenuItem>

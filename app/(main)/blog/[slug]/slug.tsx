@@ -103,7 +103,7 @@ export default function Slug({ blog }: Props) {
         </div>
         {/* Blog title */}
         <h1 className="text-xl md:text-2xl lg:text-3xl font-bold mb-2">
-          {blog.title}{" "}
+          {blog.title}
         </h1>
         {/* blog tags */}
         <div className="py-1">
@@ -207,7 +207,6 @@ export default function Slug({ blog }: Props) {
             setShowPlayButton={setShowPlayButton}
           />
         )}
-        {/* summary button */}
         <BlogSummaryGenerator title={blog.title} blogId={blog.id} />
         {/* blog body */}
         <article
@@ -300,6 +299,7 @@ export default function Slug({ blog }: Props) {
           setComments={setComments}
           blogId={blog.id}
           blogAuthorId={blog.authorId}
+          blogStatus={blog.status}
         />
       </TooltipProvider>
       {/* blog report dialog */}

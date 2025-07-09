@@ -35,7 +35,9 @@ export const getAllBlogs = unstable_cache(
   async () => {
     const blogs = await prisma.blog.findMany({
       where: {
-        status: "PUBLISHED",
+        status: {
+          notIn: ["DRAFT", "UNPUBLISHED"],
+        },
       },
       include: {
         author: {

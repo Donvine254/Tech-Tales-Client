@@ -10,14 +10,21 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { CommentData, Session } from "@/types";
-import { ArrowUpDown, CircleUserRound, LockIcon } from "lucide-react";
+import {
+  ArchiveIcon,
+  ArrowUpDown,
+  CircleUserRound,
+  LockIcon,
+} from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { setCookie } from "@/lib/cookie";
 import { usePathname, useRouter } from "next/navigation";
+import { BlogStatus } from "@prisma/client";
 type Props = {
   blogId: number;
   blogAuthorId: number;
+  blogStatus: BlogStatus;
   setComments: (comments: CommentData[]) => void;
   comments: CommentData[] | [];
   session: Session | null;
@@ -28,6 +35,7 @@ export default function Comments({
   session,
   setComments,
   blogAuthorId,
+  blogStatus,
 }: Props) {
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
   const [isMounted, setIsMounted] = useState(false);
@@ -92,8 +100,25 @@ export default function Comments({
           </Tooltip>
         </TooltipProvider>
       </div>
-      {/* Not logged in state */}
-      {session ? (
+      {blogStatus == "ARCHIVED" ? (
+        <div className="flex flex-col items-center justify-center gap-4 border rounded-xl h-fit min-h-16 px-6 py-8 my-4 bg-muted shadow-lg dark:shadow-gray-900/20">
+          {/* Archive Icon */}
+          <div className="p-3 rounded-full bg-yellow-100 dark:bg-yellow-500/20">
+            <ArchiveIcon className="text-yellow-600 dark:text-yellow-300" />
+          </div>
+
+          {/* Heading */}
+          <div className="text-center space-y-2">
+            <h2 className="font-bold text-xl md:text-2xl text-gray-900 dark:text-white">
+              This Blog is Archived
+            </h2>
+            <p className="text-muted-foreground text-sm max-w-2xl">
+              Comments are disabled because this blog has been archived. You can
+              still read the content, but interaction is no longer available.
+            </p>
+          </div>
+        </div>
+      ) : session ? (
         <CommentEditor session={session} initialData="" isReply={false} />
       ) : (
         <div className="flex flex-col items-center justify-center gap-4 border rounded-xl h-fit min-h-16 px-6 py-8 my-4 bg-card shadow-lg dark:shadow-gray-900/20">
@@ -141,6 +166,7 @@ export default function Comments({
           comments.map((c) => (
             <CommentItem
               key={c.id}
+              blogStatus={blogStatus}
               comment={c}
               session={session}
               blogAuthorId={blogAuthorId}
