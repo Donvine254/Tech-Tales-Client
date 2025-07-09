@@ -76,6 +76,24 @@ export const CommentItem: React.FC<Props> = ({
       toast.error("Something went wrong", { id: toastId });
     }
   }
+  // confirm deletion of the comment
+  function confirmDeleteComment() {
+    const id = toast("Are you sure you want to delete this comment?", {
+      position: "top-center",
+      duration: 10000,
+      action: {
+        label: "Delete",
+        onClick: async () => {
+          toast.dismiss(id);
+          await handleDeleteComment(); // Call your original function here
+        },
+      },
+      cancel: {
+        label: "Cancel",
+        onClick: () => toast.dismiss(id),
+      },
+    });
+  }
   return (
     <div className="">
       <div className="flex space-x-4">
@@ -141,7 +159,7 @@ export const CommentItem: React.FC<Props> = ({
                     </DropdownMenuItem>
                     <DropdownMenuItem
                       className="text-red-600 hover:text-red-600 hover:bg-red-100 group cursor-pointer group"
-                      onClick={handleDeleteComment}>
+                      onClick={confirmDeleteComment}>
                       <Trash2 className="h-4 w-4 mr-2 text-red-600" />
                       <span className="text-red-600">Delete</span>
                     </DropdownMenuItem>
