@@ -189,7 +189,7 @@ export const PreviewDialog = ({
         {activeTab === "desktop" && (
           <div className="h-full hidden md:flex overflow-y-hidden w-full flex-col items-center justify-center">
             <div className="mx-auto w-full max-w-[95%] h-[812px] mt-auto pb-auto bg-white dark:bg-accent/90 rounded-lg shadow-2xl overflow-hidden">
-              {/* Browser Chrome - Now using static positioning */}
+              {/* Browser Chrome */}
               <div className="h-12 bg-gray-100 dark:bg-accent border-b border-border flex items-center px-4 gap-3 flex-shrink-0">
                 {/* Traffic Lights */}
                 <div className="flex gap-2">
@@ -213,7 +213,7 @@ export const PreviewDialog = ({
                 </div>
               </div>
 
-              {/* Content Frame - Now properly positioned below browser chrome */}
+              {/* Content Frame*/}
               <div className="w-full h-[calc(100%-48px)] overflow-y-auto overflow-x-hidden">
                 <div className="max-w-4xl mx-auto">
                   <BlogBody />

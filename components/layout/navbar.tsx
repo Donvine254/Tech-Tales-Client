@@ -1,5 +1,5 @@
 "use client";
-import { BookOpen, CircleUserRound, Edit } from "lucide-react";
+import { BookOpen, CircleUserRound, Edit, Loader2 } from "lucide-react";
 import UserDropdown from "../custom/user-dropdown";
 import { Button } from "../ui/button";
 import Link from "next/link";
@@ -10,9 +10,12 @@ import { toast } from "sonner";
 import { useSession } from "@/providers/session";
 import { setCookie } from "@/lib/cookie";
 import SearchBar from "../custom/search";
+import { useState } from "react";
 
 const Navbar = () => {
   const { session, setSession } = useSession();
+  // state for loading when creating blog
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   async function handleLogout() {
@@ -46,6 +49,14 @@ const Navbar = () => {
   function handleLogin() {
     setCookie("post_login_redirect", pathname, 1);
     router.push("/login");
+  }
+
+  async function createBlog() {
+    setIsLoading(true);
+    await fetch("/api/new", {
+      method: "POST",
+    });
+    setIsLoading(false);
   }
 
   return (
@@ -103,16 +114,29 @@ const Navbar = () => {
               // Logged in state
               <>
                 {/* Create Blog button - hidden on small screens */}
-                <Link href="api/new" passHref>
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    className="hidden md:flex bg-gradient-to-r from-cyan-600 to-blue-600 text-white cursor-pointer ">
-                    <Edit className="h-4 w-4 mr-2" />
-                    Create Blog
-                  </Button>
-                </Link>
-                <UserDropdown onLogout={handleLogout} session={session} />
+
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={createBlog}
+                  className="hidden md:flex bg-gradient-to-r from-cyan-600 to-blue-600 text-white cursor-pointer "
+                  disabled={isLoading}>
+                  {isLoading ? (
+                    <Loader2 className="animate-spin h-4 w-4" />
+                  ) : (
+                    <>
+                      <Edit className="h-4 w-4 mr-2" />
+                      Create Blog
+                    </>
+                  )}
+                </Button>
+
+                <UserDropdown
+                  onLogout={handleLogout}
+                  session={session}
+                  createBlog={createBlog}
+                  loading={isLoading}
+                />
               </>
             ) : (
               // Logged out state
@@ -129,7 +153,12 @@ const Navbar = () => {
 
                 {/* Mobile Menu Button */}
                 <div className="md:hidden">
-                  <UserDropdown onLogin={handleLogin} session={session} />
+                  <UserDropdown
+                    onLogin={handleLogin}
+                    session={session}
+                    createBlog={createBlog}
+                    loading={isLoading}
+                  />
                 </div>
               </>
             )}
