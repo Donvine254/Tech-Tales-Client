@@ -69,7 +69,7 @@ const UserDropdown = ({ onLogout, onLogin, session }: UserDropdownProps) => {
             <SearchBar className="md:hidden p-2" />
             {/* Create Blog - only visible on small screens */}
             <div className="md:hidden">
-              <Link href="/posts/new" passHref>
+              <Link href="api/new" passHref>
                 <DropdownMenuItem className="cursor-pointer hover:text-blue-500 dark:hover:bg-blue-500 dark:hover:text-white group">
                   <svg
                     viewBox="0 0 693 1000"
