@@ -5,6 +5,7 @@ import { PreviewDialog } from "@/components/create/preview-modal";
 import { TagsSection } from "@/components/create/tags";
 import { TitleSection } from "@/components/create/title";
 import { EditorNavbar } from "@/components/layout/editor-navbar";
+import { SaveDraftBlog } from "@/lib/actions/blogs";
 import { slugify } from "@/lib/utils";
 import { BlogData, FormStatus } from "@/types";
 import { useState, useRef, useEffect, useCallback } from "react";
@@ -146,12 +147,25 @@ export default function Create({
     }
     setPreviewOpen(true);
   };
+  // function to sync draft
+  async function SaveDraft() {
+    const toastId = toast.loading("Processing request");
+    const res = await SaveDraftBlog(blogData, uuid);
+    toast.dismiss(toastId);
+    if (res.success) {
+      toast.success(res.message);
+    } else {
+      toast.error(res.message);
+    }
+  }
   return (
     <section>
       <EditorNavbar
         onPreview={handlePreview}
         onPublish={handleSubmit}
+        hasEntries={hasEntries(blogData)}
         lastSaved={updatedAt}
+        onSync={SaveDraft}
         disabled={!hasAllEntries(blogData) || formStatus === "loading"}
       />
       <form

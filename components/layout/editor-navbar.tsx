@@ -1,4 +1,11 @@
-import { ArrowLeft, ChevronRight, Eye, Sparkles } from "lucide-react";
+import {
+  ArrowLeft,
+  ChevronRight,
+  Eye,
+  RefreshCcw,
+  Sparkles,
+  Trash2,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -19,6 +26,8 @@ interface EditorNavbarProps {
   onPublish: (e: React.FormEvent<HTMLFormElement>) => void;
   lastSaved: Date | null;
   disabled: boolean;
+  hasEntries: boolean;
+  onSync: () => void;
 }
 
 export const EditorNavbar = ({
@@ -26,6 +35,8 @@ export const EditorNavbar = ({
   onPublish,
   lastSaved,
   disabled,
+  hasEntries,
+  onSync,
 }: EditorNavbarProps) => {
   const formatSaveTime = (date: Date) => {
     return `Last saved: ${date.toLocaleTimeString([], {
@@ -62,55 +73,58 @@ export const EditorNavbar = ({
             </TooltipContent>
           </Tooltip>
         </div>
-
-        {/* Right side */}
+        {/* action buttons */}
         <div className="flex items-center gap-2">
-          {/* Desktop view (md and up) */}
-          <div className="hidden md:flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              className="cursor-pointer"
-              onClick={onPreview}>
-              <Eye className="w-4 h-4" />
-              Preview
-            </Button>
-            <Button
-              onClick={() => onPublish}
-              size="sm"
-              disabled={disabled}
-              className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white cursor-pointer  shadow-lg px-4 py-2">
-              <Sparkles className="w-4 h-4" />
-              <span className="">Publish</span>
-            </Button>
-          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            className="cursor-pointer hidden md:flex"
+            onClick={onPreview}>
+            <Eye className="w-4 h-4" />
+            Preview
+          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button size="sm" className="gap-2 cursor-pointer">
+                Continue
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align="end"
+              className="bg-popover p-3 space-y-2">
+              <DropdownMenuItem
+                onClick={onPreview}
+                className="cursor-pointer md:hidden bg-secondary">
+                {" "}
+                <Eye className="w-4 h-4 mr-1" />
+                Preview
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="cursor-pointer"
+                disabled={!hasEntries}
+                onClick={onSync}
+                title="sync draft with database">
+                <RefreshCcw className="w-4 h-4 mr-1" />
+                Sync Draft
+              </DropdownMenuItem>
 
-          {/* Mobile view (below md) */}
-          <div className="md:hidden">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button size="sm" className="gap-2 cursor-pointer">
-                  Continue
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="bg-popover space-y-2">
-                <DropdownMenuItem
-                  onClick={onPreview}
-                  className="cursor-pointer bg-secondary">
-                  {" "}
-                  <Eye className="w-4 h-4 mr-1" />
-                  Preview
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => onPublish}
-                  disabled={disabled}
-                  className="flex items-center bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white cursor-pointer">
-                  <Sparkles className="w-4 h-4 text-white" /> Publish
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
+              <DropdownMenuItem
+                className="cursor-pointer text-red-600 hover:bg-red-50 hover:text-red-500 group"
+                title="delete blog">
+                <Trash2 className="w-4 h-4 mr-1 text-red-500" />
+                <span className="group-hover:text-red-500">Delete Post</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => onPublish}
+                disabled={disabled}
+                title="publish blog"
+                className="flex items-center bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white cursor-pointer group">
+                <Sparkles className="w-4 h-4 text-white " />
+                <span className="group-hover:text-white">Publish</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </nav>
     </TooltipProvider>

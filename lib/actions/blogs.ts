@@ -2,6 +2,8 @@
 import { unstable_cache } from "next/cache";
 import prisma from "@/prisma/prisma";
 import { getSession } from "./session";
+import { BlogData } from "@/types";
+import { Prisma } from "@prisma/client";
 
 // function to create a new blog
 
@@ -28,6 +30,72 @@ export async function createNewBlog() {
     return { success: true, message: "something went wrong" };
   } finally {
     await prisma.$disconnect();
+  }
+}
+
+// function to save draft blog
+export async function SaveDraftBlog(data: BlogData, uuid: string) {
+  try {
+    await prisma.blog.update({
+      where: { uuid },
+      data: { ...data, image: data.image as Prisma.InputJsonValue },
+    });
+    return { success: true, message: "Blog in sync with database" };
+  } catch (error) {
+    console.error(error);
+    return { success: false, message: "Something went wrong" };
+  }
+}
+// function to delete blog post
+export async function deleteOrArchiveBlog(uuid: string) {
+  try {
+    // Fetch current blog status
+    const blog = await prisma.blog.findUnique({
+      where: { uuid },
+      select: { status: true },
+    });
+
+    if (!blog) {
+      return {
+        success: false,
+        message: "Blog not found",
+      };
+    }
+
+    if (blog.status === "DRAFT") {
+      await prisma.blog.delete({
+        where: { uuid },
+      });
+
+      return {
+        success: true,
+        message: "Draft blog deleted successfully",
+      };
+    }
+
+    if (blog.status === "PUBLISHED") {
+      await prisma.blog.update({
+        where: { uuid },
+        data: {
+          status: "ARCHIVED",
+        },
+      });
+
+      return {
+        success: true,
+        message: "Published blog archived successfully",
+      };
+    }
+    return {
+      success: false,
+      message: `No action taken for blog with status '${blog.status}'`,
+    };
+  } catch (error) {
+    console.error("Error deleting/archiving blog:", error);
+    return {
+      success: false,
+      message: "Failed to delete or archive blog",
+    };
   }
 }
 

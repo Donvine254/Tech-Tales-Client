@@ -16,7 +16,12 @@ export default async function page({
     redirect("/");
   }
   const blog = await prisma.blog.findUnique({
-    where: { uuid: blogId },
+    where: {
+      uuid: blogId,
+      status: {
+        notIn: ["ARCHIVED", "UNPUBLISHED"],
+      },
+    },
     select: {
       title: true,
       uuid: true,
