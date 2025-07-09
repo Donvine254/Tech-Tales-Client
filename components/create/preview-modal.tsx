@@ -43,7 +43,7 @@ export const PreviewDialog = ({
             {/* Blog Banner + Title */}
             <div className="space-y-2">
               <Image
-                src={blog.image.secure_url || "/placeholder.svg"}
+                src={blog.image?.secure_url || "/placeholder.svg"}
                 alt="Blog header"
                 width={800}
                 height={400}
@@ -54,7 +54,7 @@ export const PreviewDialog = ({
                   "font-bold text-xl md:text-2xl lg:text-3xl",
                   isMobile && "text-lg"
                 )}>
-                {blog.title.trim() || "Your blog title goes here"}
+                {blog.title?.trim() || "Your blog title goes here"}
               </h1>
 
               {/* Author Info */}
@@ -90,7 +90,9 @@ export const PreviewDialog = ({
                     </div>
                     <div className="flex items-center space-x-1 capitalize">
                       <Clock className="h-3 w-3 md:h-4 md:w-4" />
-                      <span>{calculateReadingTime(blog.body)} min read</span>
+                      <span>
+                        {calculateReadingTime(blog?.body ?? "")} min read
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -200,7 +202,7 @@ export const PreviewDialog = ({
                 <div className="flex-1 mx-4">
                   <div className="bg-white dark:bg-gray-600 border border-border rounded-md px-3 py-1.5 text-sm text-muted-foreground flex items-center gap-2 w-fit mx-auto">
                     <LockIcon className="h-4 w-4 text-muted-foreground" />
-                    <span className="whitespace-nowrap truncate text-ellipsis">{`https://techtales.vercel.app/blog/${blog.slug}`}</span>
+                    <span className="whitespace-nowrap truncate text-ellipsis">{`https://techtales.vercel.app/blog/${blog?.slug}`}</span>
                   </div>
                 </div>
 
