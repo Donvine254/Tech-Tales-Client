@@ -169,24 +169,34 @@ export const PreviewDialog = ({
                 <div className="absolute top-0 left-0 right-0 h-11 bg-white dark:bg-accent shadow  z-10 flex items-center justify-between px-6 text-primary text-sm font-medium">
                   <span>{getCurrentTime()}</span>
                   <div className="w-20 h-6 bg-black dark:bg-gray-950 rounded-full"></div>
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-x-1.5">
                     {/* network bars */}
                     <div className="flex items-end space-x-0.5 ml-1">
-                      <div className="w-1 h-1 bg-black dark:bg-white rounded-sm"></div>
-                      <div className="w-1 h-2 bg-black dark:bg-white rounded-sm"></div>
-                      <div className="w-1 h-3 bg-black dark:bg-white rounded-sm"></div>
-                      <div className="w-1 h-4 bg-black dark:bg-white rounded-sm"></div>
+                      <div className="w-1 h-1 bg-primary rounded-sm"></div>
+                      <div className="w-1 h-2 bg-primary rounded-sm"></div>
+                      <div className="w-1 h-3 bg-primary rounded-sm"></div>
+                      <div className="w-1 h-4 bg-primary rounded-sm"></div>
                     </div>
-                    <p>5G</p>
+                    {/* wifi bars */}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="1.2rem"
+                      height="1.2rem">
+                      <path
+                        fill="currentColor"
+                        d="m6.35 15.35l-2.1-2.15q1.55-1.55 3.55-2.375T12 10t4.213.838t3.537 2.412l-2.1 2.1q-1.125-1.125-2.588-1.737T12 13t-3.062.613T6.35 15.35M2.1 11.1L0 9q2.375-2.425 5.488-3.713T12 4t6.513 1.288T24 9l-2.1 2.1q-1.975-1.975-4.538-3.037T12 7T6.637 8.063T2.1 11.1M12 21l-3.525-3.55q.7-.7 1.613-1.075T12 16t1.913.375t1.612 1.075z"></path>
+                    </svg>
                     {/* battery */}
-                    <div className="flex items-center">
-                      {/* Battery body */}
-                      <div className="w-8 h-4 border-2 border-black dark:border-white rounded-sm flex bg-white dark:bg-black items-center justify-center text-primary text-xs p-0">
-                        96
-                      </div>
-                      {/* Battery tip */}
-                      <div className="w-1 h-2 bg-primary ml-0.5 rounded-sm"></div>
-                    </div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="1.5rem"
+                      height="1.5rem">
+                      <path
+                        fill="currentColor"
+                        d="M20 8a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2h2v-4h-2z"></path>
+                    </svg>
                   </div>
                 </div>
                 {/* Content Frame */}
