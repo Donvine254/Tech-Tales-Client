@@ -100,7 +100,7 @@ const UserCard: FC<UserCardProps> = ({ author }) => {
           </div>
         </div>
         <div className="px-2 py-2">
-          <p className="font-medium font-serif text-sm leading-loose my-2">
+          <p className="font-medium font-serif text-sm break-all hyphens-auto leading-loose my-2">
             {author.bio ?? "This author has not updated their bio yet"}
           </p>
           {author.socials?.length ? (
@@ -117,8 +117,7 @@ const UserCard: FC<UserCardProps> = ({ author }) => {
           href={`/explore/${author.handle}`}
           prefetch
           className="text-sm text-blue-500 hover:text-sky-600 hover:underline px-2 py-2 block">
-          View more posts from{" "}
-          <span className="capitalize">{author.username}</span> &#8599;
+          More from this author &#8599;
         </Link>
       </TooltipContent>
     </Tooltip>
