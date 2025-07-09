@@ -1,7 +1,7 @@
 import { getSession } from "@/lib/actions/session";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/prisma";
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
   const session = await getSession();
   if (!session || !session.userId) {
     return NextResponse.redirect(new URL("/login", req.url));
