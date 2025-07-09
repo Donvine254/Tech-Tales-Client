@@ -24,14 +24,20 @@ export default function CommentBody({ body }: { body: string }) {
     return { textHtml, images };
   };
   const { textHtml, images } = parseCommentBody(body || "");
+  const cleanHtml = textHtml
+    .replace(/<p>(\s|&nbsp;|<br>)*<\/p>/gi, "")
+    .replace(/<div>(\s|&nbsp;|<br>)*<\/div>/gi, "")
+    .trim();
   return (
     <div className="mt-1">
-      <article
-        className="px-3 py-2 rounded-r-xl xsm:text-sm rounded-bl-xl border shadow bg-card text-xs md:text-sm mb-1 max-w-max"
-        id="comment-body">
-        {" "}
-        {parse(textHtml)}
-      </article>
+      {cleanHtml.length > 0 && (
+        <article
+          className="px-3 py-2 rounded-r-xl xsm:text-sm rounded-bl-xl border shadow bg-card text-xs md:text-sm mb-1 max-w-max"
+          id="comment-body">
+          {" "}
+          {parse(textHtml)}
+        </article>
+      )}
 
       {images.length > 0 && (
         <div className="mt-1 flex flex-wrap gap-2">{images}</div>
