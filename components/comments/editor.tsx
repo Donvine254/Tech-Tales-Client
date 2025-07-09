@@ -5,30 +5,32 @@ import { Session } from "@/types";
 import { handleImageUpload } from "@/lib/helpers/handle-image-upload";
 import { useTheme } from "next-themes";
 import { Button } from "../ui/button";
-import { toast } from "sonner";
 
 interface CommentEditorProps {
   session: Session;
-  initialData?: string;
+  initialData: string;
+  onEditorChange: (value: string) => void;
+  onSubmit: () => void;
   isReply?: boolean;
 }
 
 export const CommentEditor: React.FC<CommentEditorProps> = ({
   session,
-  initialData = "",
+  initialData,
+  onEditorChange,
   isReply = false,
+  onSubmit,
 }) => {
   const [isInputFocused, setIsInputFocused] = useState(false);
-  const [body, setBody] = useState(initialData);
   const [length, setLength] = useState(0);
   const { theme } = useTheme();
   //   eslint-disable-next-line
   const editorRef = useRef<any>(null);
   const handleChange = (content: string) => {
-    setBody(content);
+    onEditorChange(content);
   };
   return (
-    <div className={`${isReply ? "ml-12" : ""}`}>
+    <form className={`${isReply ? "ml-12" : ""}`}>
       <div className="flex space-x-4">
         {/* User Avatar */}
         <div className="flex-shrink-0">
@@ -54,7 +56,7 @@ export const CommentEditor: React.FC<CommentEditorProps> = ({
               licenseKey="gpl"
               disabled={length > 500}
               onInit={(evt, editor) => (editorRef.current = editor)}
-              initialValue={body}
+              initialValue={initialData}
               onChange={() => handleChange(editorRef.current.getContent())}
               onFocus={() => setIsInputFocused(true)}
               onKeyUp={() =>
@@ -110,13 +112,14 @@ export const CommentEditor: React.FC<CommentEditorProps> = ({
               <div className="flex items-center space-x-2">
                 <Button
                   size="sm"
+                  type="reset"
                   onClick={() => setIsInputFocused(false)}
                   variant="outline">
                   Cancel
                 </Button>
                 <Button
-                  onClick={() => toast.info("upcoming feature")}
-                  disabled={!body.trim() || length > 500}
+                  onClick={onSubmit}
+                  disabled={!initialData.trim() || length > 500}
                   size="sm"
                   variant="default"
                   className="hover:bg-blue-500 hover:text-white">
@@ -127,6 +130,6 @@ export const CommentEditor: React.FC<CommentEditorProps> = ({
           )}
         </div>
       </div>
-    </div>
+    </form>
   );
 };

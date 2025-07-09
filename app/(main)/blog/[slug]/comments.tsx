@@ -21,6 +21,7 @@ import Image from "next/image";
 import { setCookie } from "@/lib/cookie";
 import { usePathname, useRouter } from "next/navigation";
 import { BlogStatus } from "@prisma/client";
+import { toast } from "sonner";
 type Props = {
   blogId: number;
   blogAuthorId: number;
@@ -36,9 +37,14 @@ export default function Comments({
   setComments,
   blogAuthorId,
   blogStatus,
+  blogId,
 }: Props) {
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
   const [isMounted, setIsMounted] = useState(false);
+  // state for comment body
+  const [commentBody, setCommentBody] = useState<string>("");
+  const [isReply, setIsReply] = useState(false);
+
   const pathname = usePathname();
   const router = useRouter();
   const toggleSortOrder = () => {
@@ -65,6 +71,32 @@ export default function Comments({
   if (!isMounted) {
     return false;
   }
+
+  // function to handleComment Submission
+  function handleCommentSubmit() {
+    // Logic to submit or respond
+    if (!session) {
+      toast.error("Login required");
+      return;
+    }
+    const toastId = toast.loading("Processing Request...", {
+      position: "bottom-center",
+    });
+    try {
+      const commentData = {
+        authorId: session.userId!,
+        blogId: blogId,
+        body: commentBody,
+      };
+      // call the API
+    } catch (error) {
+      console.log(error);
+      toast.error("something went wrong");
+    } finally {
+      toast.dismiss(toastId);
+    }
+  }
+
   return (
     <div className="my-2" id="comments">
       <div className="py-2 md:py-4 flex items-center justify-between gap-4">
@@ -119,7 +151,13 @@ export default function Comments({
           </div>
         </div>
       ) : session ? (
-        <CommentEditor session={session} initialData="" isReply={false} />
+        <CommentEditor
+          session={session}
+          initialData={commentBody}
+          onEditorChange={setCommentBody}
+          isReply={isReply}
+          onSubmit={handleCommentSubmit}
+        />
       ) : (
         <div className="flex flex-col items-center justify-center gap-4 border rounded-xl h-fit min-h-16 px-6 py-8 my-4 bg-card shadow-lg dark:shadow-gray-900/20">
           {/* Lock Icon with improved styling */}
