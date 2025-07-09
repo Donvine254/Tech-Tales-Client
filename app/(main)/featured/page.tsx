@@ -5,6 +5,7 @@ import { getFeaturedBlogs } from "@/lib/actions/blogs";
 import FeaturedCard from "@/components/pages/featured-card";
 import { Crown } from "lucide-react";
 import { Metadata } from "next";
+import { BlogWithComments } from "@/types";
 
 export const metadata: Metadata = {
   title: "Featured Stories | Tech Tales",
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 export default async function page() {
-  const featuredBlogs = await getFeaturedBlogs();
+  const featuredBlogs = (await getFeaturedBlogs()) as BlogWithComments[];
   return (
     <div className="min-h-screen bg-background">
       {/* Header section */}

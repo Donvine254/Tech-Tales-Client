@@ -4,6 +4,7 @@ import BlogCard from "@/components/pages/blog-card";
 import { getLatestBlogs } from "@/lib/actions/blogs";
 import FeaturedCard from "@/components/pages/featured-card";
 import { Metadata } from "next";
+import { BlogWithComments } from "@/types";
 
 export const metadata: Metadata = {
   title: "Latest Posts | Tech Tales",
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default async function page() {
-  const latestBlogs = await getLatestBlogs();
+  const latestBlogs = (await getLatestBlogs()) as BlogWithComments[];
   return (
     <div className="min-h-screen bg-background">
       {/* header section */}

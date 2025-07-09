@@ -5,6 +5,7 @@ import { getTrendingBlogs } from "@/lib/actions/blogs";
 import FeaturedCard from "@/components/pages/featured-card";
 import { TrendingUp } from "lucide-react";
 import { Metadata } from "next";
+import { BlogWithComments } from "@/types";
 
 export const metadata: Metadata = {
   title: "Trending Now | Tech Tales",
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 export default async function page() {
-  const trendingBlogs = await getTrendingBlogs();
+  const trendingBlogs = (await getTrendingBlogs()) as BlogWithComments[];
   return (
     <div className="min-h-screen bg-background">
       {/* Header Section */}

@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
 import { calculateReadingTime, formatViews } from "@/lib/utils";
-import { BlogWithUser } from "@/types";
+import { BlogWithComments } from "@/types";
 import parse from "html-react-parser";
 import Link from "next/link";
 import { ShareModal } from "../modals/share-modal";
@@ -21,13 +21,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-interface BlogCardProps extends BlogWithUser {
-  _count: {
-    comments: number;
-  };
-}
-
-const BlogCard = ({ blog }: { blog: BlogCardProps }) => {
+const BlogCard = ({ blog }: { blog: BlogWithComments }) => {
   return (
     <article className="group bg-white dark:bg-accent rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden  hover:border-gray-200 hover:-translate-y-1 flex flex-col">
       <div className="aspect-[16/9] bg-gradient-to-br from-cyan-100 to-blue-100 relative overflow-hidden">

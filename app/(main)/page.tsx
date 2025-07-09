@@ -4,7 +4,7 @@ import CategoryFilters from "@/components/pages/category-filters";
 import Newsletter from "@/components/pages/newsletter";
 import { getBlogs } from "@/lib/actions/blogs";
 import prisma from "@/prisma/prisma";
-import { BlogWithUser } from "@/types";
+import { BlogWithComments, BlogWithUser } from "@/types";
 
 //get featured blogs
 const featuredBlogs = await prisma.$queryRaw<BlogWithUser[]>`
@@ -16,7 +16,7 @@ const featuredBlogs = await prisma.$queryRaw<BlogWithUser[]>`
   LIMIT 10;
 `;
 export default async function Home() {
-  const blogPosts = await getBlogs();
+  const blogPosts = (await getBlogs()) as BlogWithComments[];
 
   return (
     <div className="min-h-screen p-2 md:p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)] bg-muted/90 dark:bg-gray-900/90">
