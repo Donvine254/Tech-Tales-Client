@@ -37,8 +37,8 @@ export default async function page({
     ...rest,
     image: (image ?? { secure_url: "", public_id: "" }) as CoverImage,
   };
-  if (authorId !== session.userId || session.role !== "ADMIN") {
-    // ensure users can only edit their own blogs
+  if (authorId !== session.userId && session.role !== "ADMIN") {
+    redirect("/");
   }
   return (
     <div className="min-h-screen bg-muted">

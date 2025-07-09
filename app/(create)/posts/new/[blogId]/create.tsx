@@ -56,6 +56,7 @@ export default function Create({
       if (previousDataRef.current !== dataStr) {
         previousDataRef.current = dataStr;
         localStorage.setItem(`Draft-${uuid}`, dataStr);
+        setUpdatedAt(new Date());
         localStorage.setItem("updatedAt", JSON.stringify(new Date()));
       }
     }, AUTO_SAVE_INTERVAL);
@@ -68,7 +69,7 @@ export default function Create({
       data.title?.trim() !== "" ||
       data.body?.trim() !== "" ||
       data.tags?.trim() !== "" ||
-      data.image?.secure_url.trim() !== ""
+      data.image?.secure_url?.trim() !== ""
     );
   };
   //check if all entries are there
@@ -77,7 +78,7 @@ export default function Create({
       data.title?.trim() !== "" &&
       data.body?.trim() !== "" &&
       data.tags?.trim() !== "" &&
-      data.image?.secure_url.trim() !== ""
+      data.image?.secure_url?.trim() !== ""
     );
   };
   //prevent users from closing page with unsaved changes'
@@ -114,6 +115,7 @@ export default function Create({
         e.stopPropagation();
         const dataStr = JSON.stringify(blogData);
         localStorage.setItem(`Draft-${uuid}`, dataStr);
+        setUpdatedAt(new Date());
         localStorage.setItem("UpdatedAt", JSON.stringify(new Date()));
         toast.success("Draft saved successfully");
       }
