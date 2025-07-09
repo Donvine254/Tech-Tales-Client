@@ -113,7 +113,7 @@ export const EditorSection: React.FC<EditorSectionProps> = ({
             );
           }}
           disabled={formStatus === "loading"}
-          initialValue={data.body}
+          initialValue={data.body ?? ""}
           onChange={handleEditorChange}
           init={{
             toolbar_mode: "sliding",
