@@ -16,7 +16,6 @@ export default function HeroCard({
   post: BlogWithUser;
   className?: string;
 }) {
-  const image = post.image as { secure_url?: string };
   const isMobile = useIsMobile();
 
   return (
@@ -24,14 +23,13 @@ export default function HeroCard({
       className={cn(
         "relative overflow-hidden bg-card shadow-md hover:shadow-lg transition-all duration-300 group-hover:brightness-110 filter group block",
         className
-      )}
-    >
+      )}>
       {isMobile ? (
         // 📱 Mobile layout: Image top, text below
         <div className="flex flex-col">
           <div className="relative w-full h-60 sm:h-72">
             <Image
-              src={image?.secure_url || "/placeholder-image.webp"}
+              src={post.image.secure_url || "/placeholder-image.webp"}
               alt={post.title}
               fill
               className="object-cover rounded-t-lg"
@@ -76,8 +74,7 @@ export default function HeroCard({
                 <Badge
                   key={index}
                   variant="secondary"
-                  className="text-xs bg-blue-500 text-white hover:bg-cyan-100 cursor-pointer transition-colors hover:underline capitalize"
-                >
+                  className="text-xs bg-blue-500 text-white hover:bg-cyan-100 cursor-pointer transition-colors hover:underline capitalize">
                   <Link href={`/search?q=${tag}`}># {tag}</Link>
                 </Badge>
               ))}
@@ -88,7 +85,7 @@ export default function HeroCard({
         // 🖥 Desktop layout: Image + overlay text
         <div className="aspect-video relative">
           <Image
-            src={image?.secure_url || "/placeholder-image.webp"}
+            src={post.image.secure_url || "/placeholder-image.webp"}
             alt={post.title}
             fill
             className="object-cover transition-transform duration-300 group-hover:brightness-120"
@@ -98,8 +95,7 @@ export default function HeroCard({
           <div className="absolute inset-0 p-6 flex flex-col justify-end text-white space-y-2">
             <Badge
               variant="secondary"
-              className="bg-blue-600 hover:bg-blue-700 text-white w-fit shadow-lg capitalize hover:underline text-xs"
-            >
+              className="bg-blue-600 hover:bg-blue-700 text-white w-fit shadow-lg capitalize hover:underline text-xs">
               <Link href={`/search?q=${post.tags?.split(",")[0]}`}>
                 # {post.tags?.split(",")[0] || "General"}
               </Link>

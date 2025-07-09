@@ -1,5 +1,5 @@
 import React from "react";
-import { BlogWithUser } from "@/types";
+import { BlogWithComments } from "@/types";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
@@ -8,19 +8,14 @@ import { Calendar, Clock, Crown } from "lucide-react";
 import { calculateReadingTime } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import BlogCard from "./blog-card";
-interface BlogCardProps extends BlogWithUser {
-  _count: {
-    comments: number;
-  };
-}
+
 export default function FeaturedCard({
   blog,
   variant,
 }: {
-  blog: BlogCardProps;
+  blog: BlogWithComments;
   variant?: "featured" | "trending" | "latest";
 }) {
-  const image = blog.image as { secure_url?: string };
   return (
     <div className="w-full blog">
       {/* Desktop Layout */}
@@ -29,7 +24,7 @@ export default function FeaturedCard({
         <div className="relative aspect-video w-1/2">
           <Link href={`/blog/${blog.slug}`}>
             <Image
-              src={image?.secure_url ?? "/placeholder-image.webp"}
+              src={blog.image.secure_url ?? "/placeholder-image.webp"}
               alt={blog.title}
               fill
               className="w-full h-full object-cover transition-transform duration-500"

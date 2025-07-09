@@ -24,7 +24,7 @@ export default function BlogSummaryGenerator({
   const [summary, setSummary] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [content, setContent] = useState("");
-  //fetch from localstrorage
+  //fetch from localstorage
   useEffect(() => {
     setContent(extractPlainTextFromPrintDiv());
     const cacheKey = `blog_${blogId}_summary`;

@@ -14,7 +14,6 @@ import { calculateReadingTime, formatViews } from "@/lib/utils";
 import { ShareModal } from "../modals/share-modal";
 import Bookmark from "../custom/bookmark";
 export default function MinimalBlogCard({ blog }: { blog: BlogWithComments }) {
-  const image = blog.image as { secure_url?: string };
   return (
     <div className="flex flex-col md:flex-row border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
       {/* Left content (text) */}
@@ -110,7 +109,7 @@ export default function MinimalBlogCard({ blog }: { blog: BlogWithComments }) {
             <ShareModal
               slug={blog.slug}
               title={blog.title}
-              image={image.secure_url ?? "/placeholder.svg"}
+              image={blog.image.secure_url ?? "/placeholder.svg"}
             />
             <Bookmark blogId={blog.id} />
           </div>
