@@ -1,4 +1,10 @@
-import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BlogData } from "@/types";
 import { Calendar, Clock, LockIcon, Plus } from "lucide-react";
@@ -116,7 +122,7 @@ export const PreviewDialog = ({
             </div>
 
             {/* Blog Body */}
-            <div className="min-h-[200px] max-w-max">
+            <div className="min-h-[200px] max-w-max font-serif">
               {blog.body
                 ? parse(blog.body)
                 : "Lorem Ipsum sample body: At vero eos et accusamus..."}
@@ -128,9 +134,13 @@ export const PreviewDialog = ({
   };
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="rounded-2xl shadow-2xl w-full min-w-[98%] max-w-7xl h-[90vh] p-0 gap-0">
+      <DialogContent
+        className="rounded-2xl shadow-2xl w-full min-w-[98%] max-w-7xl h-[90vh] p-0 gap-0"
+        aria-describedby="preview modal">
         {/* Header */}
         <DialogHeader className="border-b p-2 w-full border-border hidden md:block">
+          <DialogDescription />
+          <DialogTitle />
           <Tabs
             defaultValue="account"
             className="flex items-center justify-center">
