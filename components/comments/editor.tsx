@@ -118,7 +118,11 @@ export const CommentEditor: React.FC<CommentEditorProps> = ({
                   Cancel
                 </Button>
                 <Button
-                  onClick={onSubmit}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onSubmit();
+                  }}
+                  type="submit"
                   disabled={!initialData.trim() || length > 500}
                   size="sm"
                   variant="default"

@@ -22,11 +22,12 @@ import { setCookie } from "@/lib/cookie";
 import { usePathname, useRouter } from "next/navigation";
 import { BlogStatus } from "@prisma/client";
 import { toast } from "sonner";
+import { createComment } from "@/lib/actions/comments";
 type Props = {
   blogId: number;
   blogAuthorId: number;
   blogStatus: BlogStatus;
-  setComments: (comments: CommentData[]) => void;
+  setComments: React.Dispatch<React.SetStateAction<CommentData[]>>;
   comments: CommentData[] | [];
   session: Session | null;
 };
@@ -73,7 +74,7 @@ export default function Comments({
   }
 
   // function to handleComment Submission
-  function handleCommentSubmit() {
+  async function handleCommentSubmit() {
     // Logic to submit or respond
     if (!session) {
       toast.error("Login required");
@@ -88,7 +89,14 @@ export default function Comments({
         blogId: blogId,
         body: commentBody,
       };
-      // call the API
+      const res = await createComment(commentData);
+      if (res.success && res.comment) {
+        toast.success(res.message);
+        setComments((prev) => [...prev, res.comment]);
+        setCommentBody("");
+      } else {
+        toast.error(res.message);
+      }
     } catch (error) {
       console.log(error);
       toast.error("something went wrong");
