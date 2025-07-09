@@ -44,3 +44,22 @@ export async function createComment(
     await prisma.$disconnect();
   }
 }
+
+export async function deleteComment(id: number) {
+  if (!id) {
+    return { success: false, message: "Comment ID is required." };
+  }
+
+  try {
+    await prisma.comment.delete({
+      where: { id },
+    });
+
+    return { success: true, message: "Comment deleted successfully." };
+  } catch (error) {
+    console.error("Failed to delete comment:", error);
+    return { success: false, message: "Failed to delete comment." };
+  } finally {
+    await prisma.$disconnect();
+  }
+}

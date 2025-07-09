@@ -26,17 +26,20 @@ type Props = {
   session: Session | null;
   blogAuthorId: number;
   blogStatus: BlogStatus;
+  setComments: React.Dispatch<React.SetStateAction<CommentData[]>>;
 };
 import Response from "./response";
 import { toast } from "sonner";
 import CommentBody from "./comment-body";
 import { BlogStatus } from "@prisma/client";
+import { deleteComment } from "@/lib/actions/comments";
 
 export const CommentItem: React.FC<Props> = ({
   comment,
   session,
   blogAuthorId,
   blogStatus,
+  setComments,
 }: Props) => {
   const [repliesCollapsed, setRepliesCollapsed] = useState(true);
   const formatDate = (date: Date) => {
@@ -57,6 +60,22 @@ export const CommentItem: React.FC<Props> = ({
   };
   //   add editing state here
 
+  // function to handleDeleting comments
+  async function handleDeleteComment() {
+    const toastId = toast.loading("Deleting comment...");
+    try {
+      const res = await deleteComment(comment.id);
+      if (res.success) {
+        setComments((prev) => prev.filter((c) => c.id !== comment.id));
+        toast.success(res.message || "Comment deleted", { id: toastId });
+      } else {
+        toast.error(res.message || "Failed to delete comment", { id: toastId });
+      }
+    } catch (error) {
+      console.error("Delete error:", error);
+      toast.error("Something went wrong", { id: toastId });
+    }
+  }
   return (
     <div className="">
       <div className="flex space-x-4">
@@ -120,9 +139,11 @@ export const CommentItem: React.FC<Props> = ({
                       <Edit2 className="h-4 w-4 mr-2" />
                       Edit
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="text-red-600 hover:text-red-600 cursor-pointer">
-                      <Trash2 className="h-4 w-4 mr-2" />
-                      Delete
+                    <DropdownMenuItem
+                      className="text-red-600 hover:text-red-600 hover:bg-red-100 group cursor-pointer group"
+                      onClick={handleDeleteComment}>
+                      <Trash2 className="h-4 w-4 mr-2 text-red-600" />
+                      <span className="text-red-600">Delete</span>
                     </DropdownMenuItem>
                   </>
                 ) : (

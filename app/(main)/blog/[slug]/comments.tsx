@@ -22,7 +22,7 @@ import { setCookie } from "@/lib/cookie";
 import { usePathname, useRouter } from "next/navigation";
 import { BlogStatus } from "@prisma/client";
 import { toast } from "sonner";
-import { createComment } from "@/lib/actions/comments";
+import { createComment, deleteComment } from "@/lib/actions/comments";
 type Props = {
   blogId: number;
   blogAuthorId: number;
@@ -214,6 +214,7 @@ export default function Comments({
               key={c.id}
               blogStatus={blogStatus}
               comment={c}
+              setComments={setComments}
               session={session}
               blogAuthorId={blogAuthorId}
             />
