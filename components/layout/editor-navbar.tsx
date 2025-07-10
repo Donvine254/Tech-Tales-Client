@@ -4,7 +4,6 @@ import {
   Eye,
   RefreshCcw,
   Sparkles,
-  Trash2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,6 +19,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
+import DeleteButton from "../modals/delete-dialog";
 
 interface EditorNavbarProps {
   onPreview?: () => void;
@@ -28,6 +28,7 @@ interface EditorNavbarProps {
   disabled: boolean;
   hasEntries: boolean;
   onSync: () => void;
+  onDelete: () => void;
 }
 
 export const EditorNavbar = ({
@@ -37,6 +38,7 @@ export const EditorNavbar = ({
   disabled,
   hasEntries,
   onSync,
+  onDelete,
 }: EditorNavbarProps) => {
   const formatSaveTime = (date: Date) => {
     return `Last saved: ${date.toLocaleTimeString([], {
@@ -109,11 +111,13 @@ export const EditorNavbar = ({
                 Sync Draft
               </DropdownMenuItem>
 
-              <DropdownMenuItem
-                className="cursor-pointer text-red-600 hover:bg-red-50 hover:text-red-500 group"
-                title="delete blog">
-                <Trash2 className="w-4 h-4 mr-1 text-red-500" />
-                <span className="group-hover:text-red-500">Delete Post</span>
+              <DropdownMenuItem asChild>
+                <DeleteButton
+                  item="blog post"
+                  text="Delete Post"
+                  action="delete"
+                  onDelete={onDelete}
+                />
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => onPublish}
