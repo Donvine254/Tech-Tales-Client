@@ -11,6 +11,7 @@ import {
 import { ArchiveIcon, Loader2, Trash2 } from "lucide-react";
 import { Button } from "../ui/button";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 interface DeleteProps {
   id?: string;
@@ -77,11 +78,12 @@ const DeleteButton = ({
           </DialogClose>
           <Button
             size="sm"
-            className={
+            className={cn(
+              "w-24",
               isDelete
                 ? "bg-red-600 text-white hover:bg-red-700"
                 : "bg-yellow-500 text-white hover:bg-yellow-600"
-            }
+            )}
             onClick={handleDelete}
             disabled={loading}>
             {loading ? <Loader2 className="animate-spin" /> : actionLabel}

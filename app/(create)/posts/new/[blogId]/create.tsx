@@ -32,8 +32,8 @@ export default function Create({
       .filter(Boolean)
   );
   const [previewOpen, setPreviewOpen] = useState(false);
-  const [skipUnloadWarning, setSkipUnloadWarning] = useState(false);
   const previousDataRef = useRef<string>("");
+  const skipUnloadWarningRef = useRef(false);
   const router = useRouter();
   // Restore draft
   useEffect(() => {
@@ -90,7 +90,7 @@ export default function Create({
   const handleBeforeUnload = useCallback(
     (e: BeforeUnloadEvent) => {
       e.preventDefault();
-      if (skipUnloadWarning) return;
+      if (skipUnloadWarningRef.current) return;
       if (hasEntries(blogData) && formStatus !== "success") {
         const message =
           "You have unsaved changes. Are you sure you want to leave?";
@@ -98,7 +98,7 @@ export default function Create({
         return message;
       } else return null;
     },
-    [blogData, formStatus, skipUnloadWarning]
+    [blogData, formStatus]
   );
   //prevent users from closing page with unsaved changes'
   useEffect(() => {
@@ -108,7 +108,7 @@ export default function Create({
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
-  }, [blogData, formStatus, skipUnloadWarning, handleBeforeUnload]);
+  }, [blogData, formStatus, handleBeforeUnload]);
 
   // Save shortcut (Ctrl+S / Cmd+S)
   useEffect(() => {
@@ -172,7 +172,7 @@ export default function Create({
         toast.success(res.message);
         // delete the saved draft
         setBlogData(emptyBlogData());
-        setSkipUnloadWarning(true);
+        skipUnloadWarningRef.current = true;
         localStorage.removeItem(`Draft-${uuid}`);
         window.removeEventListener("beforeunload", handleBeforeUnload);
         // redirect back
