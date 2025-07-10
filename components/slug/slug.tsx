@@ -8,15 +8,9 @@ import {
   Calendar,
   ChartNoAxesColumn,
   Clock,
-  Eye,
   Feather,
   Heart,
   MessageSquare,
-  MessageSquareText,
-  MoreHorizontal,
-  Pencil,
-  Printer,
-  ShieldBan,
 } from "lucide-react";
 import Link from "next/link";
 import { ShareModal } from "@/components/modals/share-modal";
@@ -29,20 +23,13 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import AnimatedLikeButton from "@/components/custom/like-button";
+
 import { useSession } from "@/providers/session";
 import Comments from "./comments";
 import { CommentData } from "@/types";
 import BlogSummaryGenerator from "@/components/pages/summary";
 import UserCard from "./user-card";
-import BlogReportDialog from "@/components/modals/report-blog";
+import ActionButtons from "./action-buttons";
 type Props = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   blog: Record<string, any>;
@@ -53,17 +40,7 @@ export default function Slug({ blog }: Props) {
   const [showPlayButton, setShowPlayButton] = useState(false);
   const [comments, setComments] = useState<CommentData[]>(blog?.comments ?? []);
   // state for reporting dialog
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  //function to print contents
-  const handlePrint = async () => {
-    //eslint-disable-next-line
-    const print = (window as any).inkHtml;
-    if (typeof print === "function") {
-      print(document.getElementById("print-div"));
-    } else {
-      console.error("inkHtml is not loaded.");
-    }
-  };
+
   return (
     <div className="w-full mx-auto m-2 min-h-[75%] px-4 md:px-8 xsm:px-4 max-w-4xl md:mt-4">
       <Script src="https://unpkg.com/ink-html/dist/index.js"></Script>
@@ -216,82 +193,7 @@ export default function Slug({ blog }: Props) {
           {blog.body ? parse(blog.body) : "Loading..."}
         </article>
         {/* Bottom buttons */}
-        <div className="flex items-center justify-between border-b border-border mb-4 mt-8 py-4">
-          <div className="flex items-center gap-2 xsm:gap-2 md:gap-4">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <a
-                  href="#comments"
-                  className="flex items-center space-x-1 hover:text-cyan-600 transition-colors cursor-pointer"
-                  title="jump to comments">
-                  <MessageSquareText className="h-6 w-6" />
-                  <span className="text-sm">{blog?.comments?.length ?? 0}</span>
-                </a>
-              </TooltipTrigger>
-              <TooltipContent className="max-w-72 text-sm" side="bottom">
-                <p>{comments?.length ?? 0} Comments</p>
-              </TooltipContent>
-            </Tooltip>
-            <AnimatedLikeButton
-              initialLikes={blog.likes}
-              blogId={blog.id}
-              size={40}
-            />
-          </div>
-          {/* second div */}
-          <div className="flex items-center gap-2 xsm:gap-2 md:gap-4">
-            <ShareModal
-              slug={blog.slug}
-              title={blog.title}
-              size={22}
-              image={blog.image?.secure_url ?? "/placeholder.svg"}
-            />
-            <Bookmark blogId={blog.id} size={24} />
-            {/* More actions dropdown */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="cursor-pointer "
-                  title="more actions">
-                  <MoreHorizontal className="h-6 w-6" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="bg-popover space-y-2">
-                <DropdownMenuItem
-                  className="cursor-pointer bg-secondary"
-                  onClick={handlePrint}>
-                  {" "}
-                  <Printer className="h-4 w-4" /> Print this blog
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  className="flex items-center cursor-pointer whitespace-nowrap"
-                  asChild>
-                  <Link href={`/explore/${blog.author.handle}`}>
-                    {" "}
-                    <Eye className="h-4 w-4" />
-                    More from author
-                  </Link>
-                </DropdownMenuItem>
-                {/* TODO: Only show edit to admin or blog author */}
-                {session?.userId === blog.authorId && (
-                  <DropdownMenuItem className="flex items-center cursor-pointer">
-                    <Link href={`/posts/new/${blog.slug}`} title="edit blog">
-                      <Pencil className="h-4 w-4" /> Edit blog
-                    </Link>
-                  </DropdownMenuItem>
-                )}
-                <DropdownMenuItem
-                  className="flex items-center cursor-pointer"
-                  onClick={() => setIsOpen(true)}>
-                  <ShieldBan className="h-4 w-4 mr-2 text-destructive " />{" "}
-                  <span className="text-red-500">Report this blog</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        </div>
+        <ActionButtons blog={blog} comments={comments} session={session} />
         {/* comments section */}
         <Comments
           comments={comments}
@@ -302,26 +204,7 @@ export default function Slug({ blog }: Props) {
           blogStatus={blog.status}
         />
       </TooltipProvider>
-      {/* blog report dialog */}
-      <BlogReportDialog
-        blogTitle={blog.title}
-        authorName={blog.author.username}
-        open={isOpen}
-        onOpenChange={setIsOpen}
-      />
-      {/* print div: hidden */}
-      <div id="print-div" style={{ display: "none" }} className="blog prose">
-        <h1 className="text-xl font-bold">{blog.title}</h1>
-        <p className="italic">
-          By {blog.author.username} published on{" "}
-          {new Date(blog.createdAt).toLocaleDateString("en-US", {
-            month: "short",
-            day: "numeric",
-            year: "numeric",
-          })}
-        </p>
-        <div className="blog-body">{parse(blog.body)}</div>
-      </div>
+      {/* Add recommended blogs */}
     </div>
   );
 }
