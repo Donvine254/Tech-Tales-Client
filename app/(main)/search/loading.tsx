@@ -1,117 +1,213 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { File, FileText, Check } from "lucide-react";
-
-interface Document {
-  id: number;
-  position: number;
-  isScanned: boolean;
-  type: "file" | "text";
-}
-
 export default function Loading() {
-  const [documents, setDocuments] = useState<Document[]>([]);
-
-  // Initialize documents
-  useEffect(() => {
-    const initialDocs: Document[] = [];
-    for (let i = 0; i < 6; i++) {
-      initialDocs.push({
-        id: i,
-        position: i * 200 - 800, // Start further left
-        isScanned: false,
-        type: i % 2 === 0 ? "text" : "file",
-      });
-    }
-    setDocuments(initialDocs);
-  }, []);
-
-  // Animation loop
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setDocuments((prevDocs) => {
-        const updatedDocs = prevDocs
-          .map((doc) => {
-            const newPosition = doc.position + 2;
-            const scannerCenter = 400;
-            const scanZone = 80;
-            const hasPassedScanner = newPosition > scannerCenter + scanZone / 2;
-            const isScanned = hasPassedScanner || doc.isScanned;
-
-            return {
-              ...doc,
-              position: newPosition,
-              isScanned,
-            };
-          })
-          .filter((doc) => doc.position < 1200); // Remove docs that are far off-screen
-        // 👇 Add new document if the rightmost one has moved enough
-        const lastDoc = updatedDocs[updatedDocs.length - 1];
-        if (!lastDoc || lastDoc.position > 200) {
-          const newDoc: Document = {
-            id: Date.now(), // Unique ID
-            position: -200,
-            isScanned: false,
-            type: Math.random() > 0.5 ? "file" : "text",
-          };
-          updatedDocs.push(newDoc);
-        }
-
-        return updatedDocs;
-      });
-    }, 40);
-
-    return () => clearInterval(interval);
-  }, []);
+  return (
+    <div className="min-h-screen bg-gray-100 dark:bg-black/20  bg-opacity-50 flex items-center justify-center">
+      <BookLoader />
+    </div>
+  );
+}
+function BookLoader() {
+  const bookPagePath =
+    "M90,0 L90,120 L11,120 C4.92486775,120 0,115.075132 0,109 L0,11 C0,4.92486775 4.92486775,0 11,0 L90,0 Z M71.5,81 L18.5,81 C17.1192881,81 16,82.1192881 16,83.5 C16,84.8254834 17.0315359,85.9100387 18.3356243,85.9946823 L18.5,86 L71.5,86 C72.8807119,86 74,84.8807119 74,83.5 C74,82.1745166 72.9684641,81.0899613 71.6643757,81.0053177 L71.5,81 Z M71.5,57 L18.5,57 C17.1192881,57 16,58.1192881 16,59.5 C16,60.8254834 17.0315359,61.9100387 18.3356243,61.9946823 L18.5,62 L71.5,62 C72.8807119,62 74,60.8807119 74,59.5 C74,58.1192881 72.8807119,57 71.5,57 Z M71.5,33 L18.5,33 C17.1192881,33 16,34.1192881 16,35.5 C16,36.8254834 17.0315359,37.9100387 18.3356243,37.9946823 L18.5,38 L71.5,38 C72.8807119,38 74,36.8807119 74,35.5 C74,34.1192881 72.8807119,33 71.5,33 Z";
 
   return (
-    <div className="min-h-screen  dark:bg-black/20  bg-opacity-50 flex items-center justify-center">
-      <div className="relative w-full max-w-5xl h-40 overflow-clip">
-        {/* Documents */}
-        {documents.map((doc) => (
-          <div
-            key={doc.id}
-            className="absolute top-1/2 transform -translate-y-1/2 transition-all duration-300"
-            style={{
-              left: `${doc.position}px`,
-            }}>
-            <div className="relative p-4 rounded-xl bg-slate-800 shadow-xl border border-slate-700">
-              {doc.type === "text" ? (
-                <FileText className="w-12 h-12 text-slate-300" />
-              ) : (
-                <File className="w-12 h-12 text-slate-300" />
-              )}
+    <div className="loader">
+      <style jsx>{`
+        .loader {
+          --background: linear-gradient(135deg, #23c4f8, #275efe);
+          --shadow: rgba(39, 94, 254, 0.28);
+          --text: #6c7486;
+          --page: rgba(255, 255, 255, 0.36);
+          --page-fold: rgba(255, 255, 255, 0.52);
+          --duration: 3s;
+          width: 200px;
+          height: 140px;
+          position: relative;
+        }
 
-              {/* Document Content Lines */}
-              <div className="absolute inset-0 flex flex-col justify-center items-center pointer-events-none">
-                <div className="w-6 h-0.5 bg-slate-600 mb-1 rounded"></div>
-                <div className="w-5 h-0.5 bg-slate-600 mb-1 rounded"></div>
-                <div className="w-6 h-0.5 bg-slate-600 rounded"></div>
-              </div>
+        .loader:before,
+        .loader:after {
+          --r: -6deg;
+          content: "";
+          position: absolute;
+          bottom: 8px;
+          width: 120px;
+          top: 80%;
+          box-shadow: 0 16px 12px var(--shadow);
+          transform: rotate(var(--r));
+        }
 
-              {/* Checkmark for scanned documents */}
-              {doc.isScanned && (
-                <div className="absolute -top-2 -right-2 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center shadow-lg animate-bounce">
-                  <Check className="w-4 h-4 text-white" />
-                </div>
-              )}
-            </div>
-          </div>
-        ))}
-        {/* Magnifying Glass Scanner */}
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
-          <div className="relative">
-            {/* Main Glass Circle - Transparent */}
-            <div className="w-32 h-32 border-4 border-teal-500 rounded-full bg-transparent  relative">
-              {/* Glass shine effect */}
-            </div>
-            {/* Handle */}
-            <div className="absolute -bottom-2 -right-5 w-2 h-16 bg-teal-500 rounded-full transform -rotate-45" />
-            {/* Scanning ring effect */}
-            <div className="absolute inset-0 w-32 h-32 border-2 border-teal-300 rounded-full opacity-20 animate-ping" />
-          </div>
-        </div>
+        .loader:before {
+          left: 4px;
+        }
+
+        .loader:after {
+          --r: 6deg;
+          right: 4px;
+        }
+
+        .loader-inner {
+          width: 100%;
+          height: 100%;
+          border-radius: 13px;
+          position: relative;
+          z-index: 1;
+          perspective: 600px;
+          box-shadow: 0 4px 6px var(--shadow);
+          background-image: var(--background);
+        }
+
+        .loader ul {
+          margin: 0;
+          padding: 0;
+          list-style: none;
+          position: relative;
+        }
+
+        .loader ul li {
+          --r: 180deg;
+          --o: 0;
+          --c: var(--page);
+          position: absolute;
+          top: 10px;
+          left: 10px;
+          transform-origin: 100% 50%;
+          color: var(--c);
+          opacity: var(--o);
+          transform: rotateY(var(--r));
+          animation: var(--duration) ease infinite;
+        }
+
+        .loader ul li:nth-child(2) {
+          --c: var(--page-fold);
+          animation-name: page-2;
+        }
+
+        .loader ul li:nth-child(3) {
+          --c: var(--page-fold);
+          animation-name: page-3;
+        }
+
+        .loader ul li:nth-child(4) {
+          --c: var(--page-fold);
+          animation-name: page-4;
+        }
+
+        .loader ul li:nth-child(5) {
+          --c: var(--page-fold);
+          animation-name: page-5;
+        }
+
+        .loader ul li svg {
+          width: 90px;
+          height: 120px;
+          display: block;
+        }
+
+        .loader ul li:first-child {
+          --r: 0deg;
+          --o: 1;
+        }
+
+        .loader ul li:last-child {
+          --o: 1;
+        }
+
+        .loader-text {
+          display: block;
+          left: 0;
+          right: 0;
+          top: 100%;
+          margin-top: 20px;
+          text-align: center;
+          color: var(--text);
+        }
+
+        @keyframes page-2 {
+          0% {
+            transform: rotateY(180deg);
+            opacity: 0;
+          }
+          20% {
+            opacity: 1;
+          }
+          35%,
+          100% {
+            opacity: 0;
+          }
+          50%,
+          100% {
+            transform: rotateY(0deg);
+          }
+        }
+
+        @keyframes page-3 {
+          15% {
+            transform: rotateY(180deg);
+            opacity: 0;
+          }
+          35% {
+            opacity: 1;
+          }
+          50%,
+          100% {
+            opacity: 0;
+          }
+          65%,
+          100% {
+            transform: rotateY(0deg);
+          }
+        }
+
+        @keyframes page-4 {
+          30% {
+            transform: rotateY(180deg);
+            opacity: 0;
+          }
+          50% {
+            opacity: 1;
+          }
+          65%,
+          100% {
+            opacity: 0;
+          }
+          80%,
+          100% {
+            transform: rotateY(0deg);
+          }
+        }
+
+        @keyframes page-5 {
+          45% {
+            transform: rotateY(180deg);
+            opacity: 0;
+          }
+          65% {
+            opacity: 1;
+          }
+          80%,
+          100% {
+            opacity: 0;
+          }
+          95%,
+          100% {
+            transform: rotateY(0deg);
+          }
+        }
+      `}</style>
+
+      <div className="loader-inner">
+        <ul>
+          {[...Array(6)].map((_, index) => (
+            <li key={index}>
+              <svg fill="currentColor" viewBox="0 0 90 120">
+                <path d={bookPagePath} />
+              </svg>
+            </li>
+          ))}
+        </ul>
       </div>
+      <span className="loader-text">Searching...</span>
     </div>
   );
 }
