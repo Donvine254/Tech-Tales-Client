@@ -25,6 +25,7 @@ export default async function page({
     select: {
       title: true,
       uuid: true,
+      status: true,
       body: true,
       slug: true,
       tags: true,
@@ -37,7 +38,7 @@ export default async function page({
     redirect("/");
   }
 
-  const { authorId, uuid, image, ...rest } = blog;
+  const { authorId, uuid, status, image, ...rest } = blog;
   const blogData: BlogData = {
     ...rest,
     image: (image ?? { secure_url: "", public_id: "" }) as CoverImage,
@@ -48,7 +49,7 @@ export default async function page({
   return (
     <div className="min-h-screen bg-muted">
       <Script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.2/tsparticles.confetti.bundle.min.js"></Script>
-      <Create initialData={blogData} uuid={uuid} />
+      <Create initialData={blogData} uuid={uuid} status={status} />
     </div>
   );
 }

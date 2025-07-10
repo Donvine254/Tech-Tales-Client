@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import DeleteButton from "../modals/delete-dialog";
+import { BlogStatus } from "@prisma/client";
 
 interface EditorNavbarProps {
   onPreview?: () => void;
@@ -30,6 +31,7 @@ interface EditorNavbarProps {
   hasEntries: boolean;
   onSync: () => void;
   onDelete: () => void;
+  status: BlogStatus;
 }
 
 export const EditorNavbar = ({
@@ -40,6 +42,7 @@ export const EditorNavbar = ({
   hasEntries,
   onSync,
   onDelete,
+  status,
 }: EditorNavbarProps) => {
   const formatSaveTime = (date: Date) => {
     return `Last saved: ${date.toLocaleTimeString([], {
@@ -47,6 +50,8 @@ export const EditorNavbar = ({
       minute: "2-digit",
     })}`;
   };
+
+  const action = status === "PUBLISHED" ? "archive" : "delete";
 
   return (
     <TooltipProvider>
@@ -123,8 +128,8 @@ export const EditorNavbar = ({
               <DropdownMenuItem asChild>
                 <DeleteButton
                   item="blog post"
-                  text="Delete Post"
-                  action="delete"
+                  text={`${action} Post`}
+                  action={action}
                   onDelete={onDelete}
                 />
               </DropdownMenuItem>

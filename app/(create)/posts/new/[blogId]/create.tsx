@@ -9,6 +9,7 @@ import { deleteOrArchiveBlog, SaveDraftBlog } from "@/lib/actions/blogs";
 import { emptyBlogData } from "@/lib/helpers";
 import { slugify } from "@/lib/utils";
 import { BlogData, FormStatus } from "@/types";
+import { BlogStatus } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { toast } from "sonner";
@@ -18,9 +19,11 @@ const AUTO_SAVE_INTERVAL = 2000; //Auto-save after every 2 seconds
 export default function Create({
   initialData,
   uuid,
+  status,
 }: {
   initialData: BlogData;
   uuid: string;
+  status: BlogStatus;
 }) {
   const [blogData, setBlogData] = useState<BlogData>(initialData);
   const [formStatus, setFormStatus] = useState<FormStatus>("pending");
@@ -196,6 +199,7 @@ export default function Create({
         onSync={SaveDraft}
         onDelete={handleBlogDeletion}
         disabled={!hasAllEntries(blogData) || formStatus === "loading"}
+        status={status}
       />
       <form
         className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-6"
