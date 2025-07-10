@@ -108,7 +108,8 @@ export default function Create({
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
-  }, [blogData, formStatus, handleBeforeUnload]);
+    // eslint-disable-next-line
+  }, [blogData, formStatus]);
 
   // Save shortcut (Ctrl+S / Cmd+S)
   useEffect(() => {

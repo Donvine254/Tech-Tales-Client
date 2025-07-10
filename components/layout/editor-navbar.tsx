@@ -16,6 +16,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
@@ -110,15 +111,6 @@ export const EditorNavbar = ({
                 <RefreshCcw className="w-4 h-4 mr-1" />
                 Sync Draft
               </DropdownMenuItem>
-
-              <DropdownMenuItem asChild>
-                <DeleteButton
-                  item="blog post"
-                  text="Delete Post"
-                  action="delete"
-                  onDelete={onDelete}
-                />
-              </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => onPublish}
                 disabled={disabled}
@@ -126,6 +118,15 @@ export const EditorNavbar = ({
                 className="flex items-center bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white cursor-pointer group">
                 <Sparkles className="w-4 h-4 text-white " />
                 <span className="group-hover:text-white">Publish</span>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <DeleteButton
+                  item="blog post"
+                  text="Delete Post"
+                  action="delete"
+                  onDelete={onDelete}
+                />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
