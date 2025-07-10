@@ -156,27 +156,30 @@ export const CommentItem: React.FC<Props> = ({
                     <DropdownMenuItem
                       className="cursor-pointer"
                       onClick={() => onEdit(comment)}
-                      disabled={blogStatus === "ARCHIVED"}>
+                      disabled={blogStatus === "ARCHIVED" || !session}>
                       <Edit2 className="h-4 w-4 mr-2" />
                       Edit
                     </DropdownMenuItem>
                     <DropdownMenuItem
                       className="text-red-600 hover:text-red-600 hover:bg-red-100 group cursor-pointer group"
-                      onClick={confirmDeleteComment}>
+                      onClick={confirmDeleteComment}
+                      disabled={!session}>
                       <Trash2 className="h-4 w-4 mr-2 text-red-600" />
                       <span className="text-red-600">Delete</span>
                     </DropdownMenuItem>
                   </>
                 ) : (
                   <>
+                    {session && (
+                      <DropdownMenuItem
+                        className="cursor-pointer"
+                        disabled={blogStatus === "ARCHIVED"}>
+                        <Reply className="h-4 w-4 mr-2" />
+                        Reply
+                      </DropdownMenuItem>
+                    )}
                     <DropdownMenuItem
-                      className="cursor-pointer"
-                      disabled={blogStatus === "ARCHIVED"}>
-                      <Reply className="h-4 w-4 mr-2" />
-                      Reply
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      className="text-red-600 cursor-pointer hover:text-red-600"
+                      className="text-red-600 flex items-center cursor-pointer hover:text-red-600"
                       onClick={() =>
                         toast.info("Thank you helping keep our community safe")
                       }>
@@ -203,7 +206,7 @@ export const CommentItem: React.FC<Props> = ({
           {/* Action Buttons Row */}
           <div className="flex items-center space-x-4 mb-4">
             {/* Quick Reply Button */}
-            {
+            {session && (
               <Button
                 size="sm"
                 variant="ghost"
@@ -212,7 +215,7 @@ export const CommentItem: React.FC<Props> = ({
                 <Reply className="h-4 w-4 mr-1" />
                 Reply
               </Button>
-            }
+            )}
             {/* Collapse/Expand Replies Button */}
             {comment.responses && comment.responses.length > 0 && (
               <Button
