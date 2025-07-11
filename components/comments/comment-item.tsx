@@ -1,4 +1,4 @@
-import { CommentData, Session } from "@/types";
+import { CommentData, ResponseData, Session } from "@/types";
 import React, { useState } from "react";
 import { Badge } from "../ui/badge";
 import {
@@ -34,6 +34,7 @@ import { toast } from "sonner";
 import CommentBody from "./comment-body";
 import { BlogStatus } from "@prisma/client";
 import { deleteComment } from "@/lib/actions/comments";
+import { ResponseEditor } from "./response-editot";
 
 export const CommentItem: React.FC<Props> = ({
   comment,
@@ -44,6 +45,13 @@ export const CommentItem: React.FC<Props> = ({
   onEdit,
 }: Props) => {
   const [repliesCollapsed, setRepliesCollapsed] = useState(true);
+
+  const [responseBody, setResponseBody] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingResponse, setEditingResponse] = useState<ResponseData | null>(
+    null
+  );
+  const [isReplying, setIsReplying] = useState(false);
   const formatDate = (date: Date) => {
     const now = new Date();
     const diffInHours = Math.floor(
@@ -95,6 +103,10 @@ export const CommentItem: React.FC<Props> = ({
         onClick: () => toast.dismiss(id),
       },
     });
+  }
+  // function to handle response submission
+  async function handleSubmit() {
+    console.log(responseBody);
   }
   return (
     <div className="">
@@ -153,38 +165,51 @@ export const CommentItem: React.FC<Props> = ({
               <DropdownMenuContent align="end" className="w-32">
                 {session?.userId === comment.authorId ? (
                   <>
-                    <DropdownMenuItem
-                      className="cursor-pointer"
-                      onClick={() => onEdit(comment)}
-                      disabled={blogStatus === "ARCHIVED" || !session}>
-                      <Edit2 className="h-4 w-4 mr-2" />
-                      Edit
+                    <DropdownMenuItem asChild>
+                      <Button
+                        variant="ghost"
+                        className="cursor-pointer justify-start w-full"
+                        onClick={() => onEdit(comment)}
+                        disabled={blogStatus === "ARCHIVED" || !session}>
+                        <Edit2 className="h-4 w-4 mr-2" />
+                        Edit
+                      </Button>
                     </DropdownMenuItem>
-                    <DropdownMenuItem
-                      className="text-red-600 hover:text-red-600 hover:bg-red-100 group cursor-pointer group"
-                      onClick={confirmDeleteComment}
-                      disabled={!session}>
-                      <Trash2 className="h-4 w-4 mr-2 text-red-600" />
-                      <span className="text-red-600">Delete</span>
+                    <DropdownMenuItem asChild>
+                      <Button
+                        variant="ghost"
+                        className="text-red-600 hover:text-red-600 hover:bg-red-100 group cursor-pointer group w-full justify-start"
+                        onClick={confirmDeleteComment}
+                        disabled={!session}>
+                        <Trash2 className="h-4 w-4  text-red-600" />
+                        <span className="text-red-600">Delete</span>
+                      </Button>
                     </DropdownMenuItem>
                   </>
                 ) : (
                   <>
-                    {session && (
-                      <DropdownMenuItem
-                        className="cursor-pointer"
-                        disabled={blogStatus === "ARCHIVED"}>
-                        <Reply className="h-4 w-4 mr-2" />
+                    <DropdownMenuItem asChild>
+                      <Button
+                        variant="ghost"
+                        className="cursor-pointer w-full justify-start"
+                        disabled={blogStatus === "ARCHIVED" || !session}>
+                        {" "}
+                        <Reply className="h-4 w-4" />
                         Reply
-                      </DropdownMenuItem>
-                    )}
-                    <DropdownMenuItem
-                      className="text-red-600 flex items-center cursor-pointer hover:text-red-600"
-                      onClick={() =>
-                        toast.info("Thank you helping keep our community safe")
-                      }>
-                      <Flag className="h-4 w-4 mr-2" />
-                      Report
+                      </Button>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Button
+                        variant="ghost"
+                        className="text-red-600 flex items-center cursor-pointer hover:text-red-600 justify-start w-full group"
+                        onClick={() =>
+                          toast.info(
+                            "Thank you helping keep our community safe"
+                          )
+                        }>
+                        <Flag className="h-4 w-4 text-red-500" />
+                        <span className="text-red-500"> Report</span>
+                      </Button>
                     </DropdownMenuItem>
                   </>
                 )}
@@ -242,6 +267,14 @@ export const CommentItem: React.FC<Props> = ({
       </div>
 
       {/* Reply Editor */}
+      <ResponseEditor
+        session={session}
+        initialData={responseBody}
+        onEditorChange={setResponseBody}
+        isEditing={isEditing}
+        onSubmit={handleSubmit}
+        comment={comment}
+      />
       {/* add reply editor here */}
 
       {/* Replies */}

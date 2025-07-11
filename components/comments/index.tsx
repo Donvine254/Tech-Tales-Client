@@ -284,7 +284,6 @@ export default function Comments({
           </div>
         )}
       </div>
-      {/* Add comments here */}
     </div>
   );
 }

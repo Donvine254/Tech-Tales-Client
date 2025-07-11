@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/tooltip";
 
 import { useSession } from "@/providers/session";
-import Comments from "./comments";
+import Comments from "../comments";
 import { CommentData } from "@/types";
 import BlogSummaryGenerator from "@/components/pages/summary";
 import UserCard from "./user-card";
