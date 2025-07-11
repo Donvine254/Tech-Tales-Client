@@ -68,7 +68,7 @@ const ActionButtons: FC<ActionButtonsProps> = ({ blog, session, comments }) => {
   };
 
   const isAuthor = session?.userId === blog.authorId;
-  const isAdmin = session?.role === "ADMIN";
+  const isAdmin = session?.role === "admin";
 
   return (
     <div className="flex items-center justify-between border-b border-border mb-4 mt-8 py-4">
