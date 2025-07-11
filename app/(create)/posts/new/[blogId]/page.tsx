@@ -43,7 +43,7 @@ export default async function page({
     ...rest,
     image: (image ?? { secure_url: "", public_id: "" }) as CoverImage,
   };
-  if (authorId !== session.userId && session.role !== "ADMIN") {
+  if (authorId !== session.userId && session.role !== "admin") {
     redirect("/");
   }
   return (

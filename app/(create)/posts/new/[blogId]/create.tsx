@@ -67,7 +67,6 @@ export default function Create({
         console.error("Failed to load saved draft:", err);
       }
     }
-    // eslint-disable-next-line
   }, [uuid]);
 
   //auto-save function
