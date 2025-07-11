@@ -128,7 +128,7 @@ const ActionButtons: FC<ActionButtonsProps> = ({ blog, session, comments }) => {
               </Link>
             </DropdownMenuItem>
 
-            {(isAuthor || isAdmin) && (
+            {isAuthor || isAdmin ? (
               <>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
@@ -144,8 +144,7 @@ const ActionButtons: FC<ActionButtonsProps> = ({ blog, session, comments }) => {
                   onDelete={handleBlogDeletion}
                 />
               </>
-            )}
-            {!isAuthor && (
+            ) : (
               <>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => setIsOpen(true)}>
