@@ -159,7 +159,11 @@ export default function Create({
       setFormStatus("error");
       return;
     }
+    const toastId = toast.loading("Processing request");
+    // call the API
     const res = await publishBlog(blogData, uuid);
+    // dismiss the toast when done
+    toast.dismiss(toastId);
     if (res.success && res.slug) {
       toast.success(res.message || "Blog published!");
       setFormStatus("success");
@@ -168,7 +172,7 @@ export default function Create({
       skipUnloadWarningRef.current = true;
       localStorage.removeItem(`Draft-${uuid}`);
       confetti({
-        particleCount: 10000,
+        particleCount: 5000,
         spread: 100,
         origin: { y: 0.3 },
       });
@@ -207,10 +211,11 @@ export default function Create({
     const res = await SaveDraftBlog(blogData, uuid);
     toast.dismiss(toastId);
     if (res.success) {
+      toast.success("Blog updated successfully");
+      setFormStatus("success");
       setBlogData(emptyBlogData());
       window.removeEventListener("beforeunload", handleBeforeUnload);
       skipUnloadWarningRef.current = true;
-      toast.success("Blog updated successfully");
       localStorage.removeItem(`Draft-${uuid}`);
       confetti({
         particleCount: 4000,
@@ -231,11 +236,11 @@ export default function Create({
       const res = await deleteOrArchiveBlog(uuid);
       if (res.success) {
         toast.success(res.message);
-        // delete the saved draft
+        setFormStatus("success");
         setBlogData(emptyBlogData());
+        window.removeEventListener("beforeunload", handleBeforeUnload);
         skipUnloadWarningRef.current = true;
         localStorage.removeItem(`Draft-${uuid}`);
-        window.removeEventListener("beforeunload", handleBeforeUnload);
         // redirect back
         router.replace("/");
       } else {
