@@ -50,7 +50,7 @@ export async function SaveDraftBlog(data: BlogData, uuid: string) {
 // function to publishblog
 export async function publishBlog(
   data: Required<Omit<BlogData, "audio">> & {
-    audio?: string;
+    audio?: string | null;
   },
   uuid: string
 ) {
@@ -79,7 +79,11 @@ export async function publishBlog(
     });
     revalidateTag(`user-blogs-${blog.author.handle}`);
     revalidateTag("latest");
-    return { success: true, message: "Blog published successfully" };
+    return {
+      success: true,
+      message: "Blog published successfully",
+      slug: blog.slug,
+    };
     // eslint-disable-next-line
   } catch (error: any) {
     // check unique constraint-violation

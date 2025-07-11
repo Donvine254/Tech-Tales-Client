@@ -5,8 +5,12 @@ import { PreviewDialog } from "@/components/create/preview-modal";
 import { TagsSection } from "@/components/create/tags";
 import { TitleSection } from "@/components/create/title";
 import { EditorNavbar } from "@/components/create/editor-navbar";
-import { deleteOrArchiveBlog, SaveDraftBlog } from "@/lib/actions/blogs";
-import { emptyBlogData } from "@/lib/helpers";
+import {
+  deleteOrArchiveBlog,
+  publishBlog,
+  SaveDraftBlog,
+} from "@/lib/actions/blogs";
+import { canPublishBlog, emptyBlogData } from "@/lib/helpers";
 import { slugify } from "@/lib/utils";
 import { BlogData, FormStatus } from "@/types";
 import { BlogStatus } from "@prisma/client";
@@ -150,6 +154,31 @@ export default function Create({
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setFormStatus("loading");
+    const validation = canPublishBlog(blogData);
+    if (!validation.valid) {
+      toast.error(validation.message || "Invalid blog data.");
+      setFormStatus("error");
+      return;
+    }
+    const res = await publishBlog(blogData, uuid);
+    if (res.success && res.slug) {
+      toast.success(res.message || "Blog published!");
+      setFormStatus("success");
+      setBlogData(emptyBlogData());
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      skipUnloadWarningRef.current = true;
+      localStorage.removeItem(`Draft-${uuid}`);
+      confetti({
+        particleCount: 10000,
+        spread: 100,
+        origin: { y: 0.3 },
+      });
+      //  redirect to the blog
+      router.push(`/blog/${res.slug}`);
+    } else {
+      toast.error(res.message || "Failed to publish blog.");
+      setFormStatus("error");
+    }
   }
   //function to show preview modal
   const handlePreview = () => {
@@ -170,15 +199,16 @@ export default function Create({
     } else {
       toast.error(res.message);
     }
-    setFormStatus("pending");
+    setFormStatus("success");
   }
-
+  // update blog data in the database
   async function updateBlog() {
     setFormStatus("loading");
     const toastId = toast.loading("Processing request");
     const res = await SaveDraftBlog(blogData, uuid);
     toast.dismiss(toastId);
     if (res.success) {
+      setBlogData(emptyBlogData());
       window.removeEventListener("beforeunload", handleBeforeUnload);
       skipUnloadWarningRef.current = true;
       toast.success("Blog updated successfully");
@@ -189,10 +219,10 @@ export default function Create({
         origin: { y: 0.3 },
       });
       router.push(`/blog/${blogData.slug}`);
-      setFormStatus("pending");
+      setFormStatus("success");
     } else {
       toast.error(res.message);
-      setFormStatus("pending");
+      setFormStatus("error");
     }
   }
   // function to delete blog
@@ -216,7 +246,7 @@ export default function Create({
       console.error(error);
       toast.error("Something went wrong");
     } finally {
-      setFormStatus("pending");
+      setFormStatus("success");
     }
   }
   return (
