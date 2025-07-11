@@ -154,12 +154,13 @@ export const EditorNavbar = ({
               {status === "PUBLISHED" && (
                 <DropdownMenuItem asChild>
                   <Button
-                    className="cursor-pointer hover:bg-blue-500 hover:text-white"
+                    className="w-full justify-start cursor-pointer hover:bg-blue-500 hover:text-white"
                     disabled={!hasEntries || formStatus === "loading"}
                     onClick={onUpdate}
+                    variant="outline"
                     type="submit"
                     title="sync draft with database">
-                    <RefreshCcw className="w-4 h-4 mr-1" />
+                    <RefreshCcw className="w-4 h-4" />
                     Update
                   </Button>
                 </DropdownMenuItem>

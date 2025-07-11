@@ -16,6 +16,8 @@ export function emptyBlogData(): BlogData {
 
 // helper function for publishing
 import { CoverImage } from "@/types";
+import { SaveDraftBlog } from "../actions/blogs";
+import { toast } from "sonner";
 
 interface BlogFields {
   title?: string | null;
@@ -60,4 +62,35 @@ export function canPublishBlog(blog: BlogFields): {
   }
 
   return { valid: true, message: "Blog fields are valid" };
+}
+
+//check if the form has entries
+export const hasEntries = (data: BlogData) => {
+  return (
+    data.title?.trim() !== "" ||
+    data.body?.trim() !== "" ||
+    data.tags?.trim() !== "" ||
+    data.image?.secure_url?.trim() !== ""
+  );
+};
+//check if all entries are there
+export const hasAllEntries = (data: BlogData): boolean => {
+  return (
+    data.title?.trim() !== "" &&
+    data.body?.trim() !== "" &&
+    data.tags?.trim() !== "" &&
+    data.image?.secure_url?.trim() !== ""
+  );
+};
+
+// function to sync draft
+export async function SaveDraft(data: BlogData, uuid: string) {
+  const toastId = toast.loading("Processing request");
+  const res = await SaveDraftBlog(data, uuid);
+  toast.dismiss(toastId);
+  if (res.success) {
+    toast.success(res.message);
+  } else {
+    toast.error(res.message);
+  }
 }
