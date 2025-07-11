@@ -5,8 +5,18 @@ import { createAndSetAuthTokenCookie } from "./jwt";
 import { rateLimitByIp } from "./rate-limiter";
 export async function authenticateSSOLogin(email: string) {
   try {
+    // we can use omit to omit sensitive fields
+    //e.g const user = await prisma.user.findUnique({ omit: { password: true }where: { id: 1}})
+    
     const user = await prisma.user.findUnique({
       where: { email: email },
+      select: {
+        id: true,
+        email: true,
+        username: true,
+        picture: true,
+        role: true,
+      },
       //   add provider here to check whether this is valid SSO login
     });
     if (!user) {
@@ -35,6 +45,15 @@ export async function authenticateUserLogin(
     const user = await prisma.user.findUnique({
       where: {
         email: email.toLowerCase(),
+      },
+      select: {
+        id: true,
+        email: true,
+        username: true,
+        picture: true,
+        role: true,
+        email_verified: true,
+        password_digest: true,
       },
     });
     if (!user) {

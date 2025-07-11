@@ -4,7 +4,8 @@ import { cookies } from "next/headers";
 import { User } from "@prisma/client";
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
 
-export async function createAndSetAuthTokenCookie(user: User) {
+type AuthUser = Pick<User, "id" | "email" | "username" | "picture" | "role">;
+export async function createAndSetAuthTokenCookie(user: AuthUser) {
   const cookieStore = await cookies();
   const token = await new jose.SignJWT({
     userId: user.id,
