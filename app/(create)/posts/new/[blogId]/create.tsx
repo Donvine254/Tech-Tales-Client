@@ -49,6 +49,7 @@ export default function Create({
   const [previewOpen, setPreviewOpen] = useState(false);
   const previousDataRef = useRef<string>("");
   const skipUnloadWarningRef = useRef(false);
+  const disableAutoSaveRef = useRef(false);
   const router = useRouter();
   // Restore draft
   useEffect(() => {
@@ -69,6 +70,7 @@ export default function Create({
   //auto-save function
   useEffect(() => {
     const interval = setInterval(() => {
+      if (disableAutoSaveRef.current) return;
       const dataStr = JSON.stringify(blogData);
       // Check if blog has content
       if (!hasEntries(blogData)) return;
@@ -111,6 +113,7 @@ export default function Create({
 
   // Save shortcut (Ctrl+S / Cmd+S)
   useEffect(() => {
+    if (disableAutoSaveRef.current) return;
     const handleKeyDown = (e: KeyboardEvent) => {
       const isSaveShortcut =
         (e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s";
@@ -216,6 +219,9 @@ export default function Create({
   // helper function to finalize updating/deleting/publishing blog
   async function finalizeSubmission(showConfetti = false) {
     setFormStatus("success");
+    // disable the autosave
+    disableAutoSaveRef.current = true;
+    // clear the data from state and localstorage
     setBlogData(emptyBlogData());
     window.removeEventListener("beforeunload", handleBeforeUnload);
     skipUnloadWarningRef.current = true;
