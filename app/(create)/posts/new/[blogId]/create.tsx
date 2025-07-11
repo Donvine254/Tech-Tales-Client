@@ -58,13 +58,16 @@ export default function Create({
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        setBlogData({ ...parsed, updatedAt: new Date() });
-        const parsedDate = new Date(lastSaved ?? "");
-        setUpdatedAt(isNaN(parsedDate.getTime()) ? new Date() : parsedDate);
+        if (hasEntries(parsed)) {
+          setBlogData({ ...parsed, updatedAt: new Date() });
+          const parsedDate = new Date(lastSaved ?? "");
+          setUpdatedAt(isNaN(parsedDate.getTime()) ? new Date() : parsedDate);
+        }
       } catch (err) {
         console.error("Failed to load saved draft:", err);
       }
     }
+    // eslint-disable-next-line
   }, [uuid]);
 
   //auto-save function
@@ -204,7 +207,7 @@ export default function Create({
         finalizeSubmission();
         // redirect back
         setTimeout(() => {
-          router.push(`/`);
+          router.back();
         }, 10);
       } else {
         toast.error(res.message);

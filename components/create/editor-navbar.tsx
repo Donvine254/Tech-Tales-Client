@@ -19,10 +19,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Link from "next/link";
 import DeleteButton from "../modals/delete-dialog";
 import { BlogStatus } from "@prisma/client";
 import { FormStatus } from "@/types";
+import { useRouter } from "next/navigation";
 
 interface EditorNavbarProps {
   onPreview?: () => void;
@@ -57,6 +57,7 @@ export const EditorNavbar = ({
   };
 
   const action = status === "PUBLISHED" ? "archive" : "delete";
+  const router = useRouter();
   return (
     <TooltipProvider>
       <nav className="flex items-center justify-between px-4 py-2 bg-white/90 dark:bg-gray-950 border-b border-border backdrop-blur-2xl sticky top-0 z-50">
@@ -66,13 +67,11 @@ export const EditorNavbar = ({
           <Button
             variant="ghost"
             size="sm"
-            asChild
             className="gap-2"
-            disabled={formStatus === "loading"}>
-            <Link href="/">
-              <ArrowLeft className="h-4 w-4" />
-              Back
-            </Link>
+            disabled={formStatus === "loading"}
+            onClick={() => router.back()}>
+            <ArrowLeft className="h-4 w-4" />
+            Back
           </Button>
           {/* Draft status */}
           <Tooltip>
