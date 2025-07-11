@@ -5,7 +5,7 @@ import { getSession } from "./session";
 import { BlogData } from "@/types";
 import { Prisma } from "@prisma/client";
 import { canPublishBlog } from "../helpers";
-
+import { revalidateTag } from "next/cache";
 // function to create a new blog
 
 export async function createNewBlog() {
@@ -62,7 +62,7 @@ export async function publishBlog(
     };
   }
   try {
-    await prisma.blog.update({
+    const blog = await prisma.blog.update({
       where: {
         uuid: uuid,
       },
@@ -71,7 +71,14 @@ export async function publishBlog(
         status: "PUBLISHED",
         image: data.image as Prisma.InputJsonValue,
       },
+      include: {
+        author: {
+          select: { handle: true },
+        },
+      },
     });
+    revalidateTag(`user-blogs-${blog.author.handle}`);
+    revalidateTag("latest");
     return { success: true, message: "Blog published successfully" };
     // eslint-disable-next-line
   } catch (error: any) {
@@ -94,16 +101,19 @@ export async function deleteOrArchiveBlog(uuid: string) {
     // Fetch current blog status
     const blog = await prisma.blog.findUnique({
       where: { uuid },
-      select: { status: true },
+      select: {
+        status: true,
+        author: {
+          select: { handle: true },
+        },
+      },
     });
-
     if (!blog) {
       return {
         success: false,
         message: "Blog not found",
       };
     }
-
     if (blog.status === "DRAFT") {
       await prisma.blog.delete({
         where: { uuid },
@@ -128,6 +138,10 @@ export async function deleteOrArchiveBlog(uuid: string) {
         message: "Published blog archived successfully",
       };
     }
+    revalidateTag("featured");
+    revalidateTag("latest");
+    revalidateTag("trending");
+    revalidateTag(`user-blogs-${blog.author.handle}`);
     return {
       success: false,
       message: `No action taken for blog with status '${blog.status}'`,
@@ -141,8 +155,8 @@ export async function deleteOrArchiveBlog(uuid: string) {
   } finally {
     await prisma.$disconnect();
   }
-  // Revalidate blogs
 }
+
 // function to getAllBlogs
 export const getBlogs = unstable_cache(
   async () => {
