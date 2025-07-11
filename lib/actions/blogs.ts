@@ -4,6 +4,7 @@ import prisma from "@/prisma/prisma";
 import { getSession } from "./session";
 import { BlogData } from "@/types";
 import { Prisma } from "@prisma/client";
+import { canPublishBlog } from "../helpers";
 
 // function to create a new blog
 
@@ -44,6 +45,47 @@ export async function SaveDraftBlog(data: BlogData, uuid: string) {
   } catch (error) {
     console.error(error);
     return { success: false, message: "Something went wrong" };
+  }
+}
+// function to publishblog
+export async function publishBlog(
+  data: Required<Omit<BlogData, "audio">> & {
+    audio?: string;
+  },
+  uuid: string
+) {
+  const validation = canPublishBlog(data);
+  if (!validation.valid) {
+    return {
+      success: false,
+      message: validation.message,
+    };
+  }
+  try {
+    await prisma.blog.update({
+      where: {
+        uuid: uuid,
+      },
+      data: {
+        ...data,
+        status: "PUBLISHED",
+        image: data.image as Prisma.InputJsonValue,
+      },
+    });
+    return { success: true, message: "Blog published successfully" };
+    // eslint-disable-next-line
+  } catch (error: any) {
+    // check unique constraint-violation
+    if (error.code === "P2002") {
+      return {
+        success: false,
+        message: "A blog with a similar title already exists.",
+      };
+    } else {
+      return { success: false, message: "Something went wrong" };
+    }
+  } finally {
+    await prisma.$disconnect();
   }
 }
 // function to delete blog post
@@ -96,9 +138,12 @@ export async function deleteOrArchiveBlog(uuid: string) {
       success: false,
       message: "Failed to delete or archive blog",
     };
+  } finally {
+    await prisma.$disconnect();
   }
+  // Revalidate blogs
 }
-
+// function to getAllBlogs
 export const getBlogs = unstable_cache(
   async () => {
     const blogs = await prisma.blog.findMany({
