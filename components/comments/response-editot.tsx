@@ -13,8 +13,8 @@ interface ResponseEditorProps {
   onSubmit: () => void;
   isEditing?: boolean;
   comment: CommentData;
+  onCancel: () => void;
 }
-
 export const ResponseEditor: React.FC<ResponseEditorProps> = ({
   session,
   initialData,
@@ -22,6 +22,7 @@ export const ResponseEditor: React.FC<ResponseEditorProps> = ({
   isEditing = false,
   onSubmit,
   comment,
+  onCancel,
 }) => {
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [length, setLength] = useState(0);
@@ -117,7 +118,10 @@ export const ResponseEditor: React.FC<ResponseEditorProps> = ({
                 <Button
                   size="sm"
                   type="reset"
-                  onClick={() => setIsInputFocused(false)}
+                  onClick={() => {
+                    setIsInputFocused(false);
+                    onCancel();
+                  }}
                   variant="outline">
                   Cancel
                 </Button>

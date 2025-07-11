@@ -69,7 +69,11 @@ export const CommentItem: React.FC<Props> = ({
     }
   };
   //   add editing state here
-
+  const handleEditing = (response: ResponseData) => {
+    setIsEditing(true);
+    setEditingResponse(response);
+    setResponseBody(editingResponse?.body ?? response.body);
+  };
   // function to handleDeleting comments
   async function handleDeleteComment() {
     const toastId = toast.loading("Deleting comment...");
@@ -107,6 +111,12 @@ export const CommentItem: React.FC<Props> = ({
   // function to handle response submission
   async function handleSubmit() {
     console.log(responseBody);
+  }
+
+  //function to hide the editor
+  function handleCancel() {
+    setIsReplying(false);
+    setIsEditing(false);
   }
   return (
     <div className="">
@@ -193,7 +203,7 @@ export const CommentItem: React.FC<Props> = ({
                         variant="ghost"
                         className="cursor-pointer w-full justify-start hover:text-blue-500 group"
                         disabled={blogStatus === "ARCHIVED" || !session}
-                        onClick={() => setIsReplying(true)}>
+                        onClick={() => setIsReplying(!isReplying)}>
                         {" "}
                         <Reply className="h-4 w-4 group-hover:text-blue-500" />
                         <span className="group-hover:text-blue-500">
@@ -240,7 +250,7 @@ export const CommentItem: React.FC<Props> = ({
                 variant="ghost"
                 className="cursor-pointer justify-start hover:text-blue-500 group"
                 disabled={blogStatus === "ARCHIVED" || !session}
-                onClick={() => setIsReplying(true)}>
+                onClick={() => setIsReplying(!isReplying)}>
                 {" "}
                 <Reply className="h-4 w-4 group-hover:text-blue-500" />
                 <span className="group-hover:text-blue-500"> Reply</span>
@@ -251,6 +261,7 @@ export const CommentItem: React.FC<Props> = ({
               <Button
                 size="sm"
                 variant="ghost"
+                disabled={isReplying || isEditing}
                 onClick={() => setRepliesCollapsed(!repliesCollapsed)}
                 className="text-sm cursor-pointer font-medium text-muted-foreground">
                 {repliesCollapsed ? (
@@ -272,16 +283,18 @@ export const CommentItem: React.FC<Props> = ({
       </div>
 
       {/* Reply Editor */}
-      <ResponseEditor
-        session={session}
-        initialData={responseBody}
-        onEditorChange={setResponseBody}
-        isEditing={isEditing}
-        onSubmit={handleSubmit}
-        comment={comment}
-      />
+      {(isReplying || isEditing) && (
+        <ResponseEditor
+          session={session}
+          initialData={responseBody}
+          onEditorChange={setResponseBody}
+          isEditing={isEditing}
+          onSubmit={handleSubmit}
+          comment={comment}
+          onCancel={handleCancel}
+        />
+      )}
       {/* add reply editor here */}
-
       {/* Replies */}
       {comment.responses &&
         comment.responses.length > 0 &&
@@ -293,6 +306,7 @@ export const CommentItem: React.FC<Props> = ({
                 response={response}
                 blogAuthorId={blogAuthorId}
                 session={session}
+                handleEditing={handleEditing}
               />
             ))}
           </div>

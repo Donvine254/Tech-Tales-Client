@@ -24,9 +24,17 @@ type Props = {
   response: ResponseData;
   blogAuthorId: number;
   session: Session | null;
+  handleEditing: (response: ResponseData) => void;
 };
 
-export default function Response({ response, blogAuthorId, session }: Props) {
+export default function Response({
+  response,
+  blogAuthorId,
+  session,
+  handleEditing,
+}: Props) {
+  // function to handle editing
+
   return (
     <div key={response.id} className="flex space-x-4">
       {/* User Avatar */}
@@ -80,7 +88,7 @@ export default function Response({ response, blogAuthorId, session }: Props) {
             <DropdownMenuContent align="end" className="w-32">
               {session?.userId === response.authorId ? (
                 <>
-                  <DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleEditing(response)}>
                     <Edit2 className="h-4 w-4 mr-2" />
                     Edit
                   </DropdownMenuItem>
