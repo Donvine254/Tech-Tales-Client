@@ -220,6 +220,7 @@ export default function Create({
     window.removeEventListener("beforeunload", handleBeforeUnload);
     skipUnloadWarningRef.current = true;
     localStorage.removeItem(`Draft-${uuid}`);
+    localStorage.removeItem("UpdatedAt");
     if (showConfetti) {
       confetti({ particleCount: 5000, spread: 100, origin: { y: 0.3 } });
     }
