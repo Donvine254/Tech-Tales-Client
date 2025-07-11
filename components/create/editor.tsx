@@ -20,6 +20,7 @@ interface EditorSectionProps {
   data: BlogData;
   onChange: React.Dispatch<React.SetStateAction<BlogData>>;
   formStatus: FormStatus;
+  uuid: string;
 }
 const Editor = dynamic(
   () => import("@tinymce/tinymce-react").then((mod) => mod.Editor),
@@ -37,6 +38,7 @@ export const EditorSection: React.FC<EditorSectionProps> = ({
   data,
   onChange,
   formStatus,
+  uuid,
 }) => {
   // eslint-disable-next-line
   const editorRef = useRef<any | null>(null);
@@ -106,7 +108,7 @@ export const EditorSection: React.FC<EditorSectionProps> = ({
                 e?.preventDefault?.();
                 if (editorRef.current) {
                   const dataStr = JSON.stringify(data);
-                  localStorage.setItem("blog-draft", dataStr);
+                  localStorage.setItem(`Draft-${uuid}`, dataStr);
                   toast.success("Draft saved successfully");
                 }
               }

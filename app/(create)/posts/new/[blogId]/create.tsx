@@ -300,6 +300,7 @@ export default function Create({
               data={blogData}
               onChange={setBlogData}
               formStatus={formStatus}
+              uuid={uuid}
             />
           </div>
           {/* Sticky Right Sidebar on large screens only */}
