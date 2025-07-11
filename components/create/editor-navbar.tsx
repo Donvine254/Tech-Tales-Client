@@ -26,7 +26,7 @@ import { FormStatus } from "@/types";
 
 interface EditorNavbarProps {
   onPreview?: () => void;
-  onPublish: (e: React.FormEvent<HTMLFormElement>) => void;
+  onPublish: () => void;
   lastSaved: Date | null;
   disabled: boolean;
   hasEntries: boolean;
@@ -95,6 +95,7 @@ export const EditorNavbar = ({
           <Button
             variant="outline"
             size="sm"
+            type="button"
             className="cursor-pointer hidden md:flex"
             onClick={onPreview}
             disabled={formStatus === "loading"}>
@@ -105,6 +106,7 @@ export const EditorNavbar = ({
             <DropdownMenuTrigger asChild>
               <Button
                 size="sm"
+                type="button"
                 className="gap-2 cursor-pointer"
                 disabled={formStatus === "loading"}>
                 Continue
@@ -133,13 +135,19 @@ export const EditorNavbar = ({
                     <RefreshCcw className="w-4 h-4 mr-1" />
                     Sync Draft
                   </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => onPublish}
-                    disabled={disabled || formStatus === "loading"}
-                    title="publish blog"
-                    className="flex items-center bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white cursor-pointer group">
-                    <Sparkles className="w-4 h-4 text-white " />
-                    <span className="group-hover:text-white">Publish</span>
+                  <DropdownMenuItem asChild>
+                    <Button
+                      type="submit"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        onPublish();
+                      }}
+                      disabled={disabled || formStatus === "loading"}
+                      title="publish blog"
+                      className="w-full justify-start bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white cursor-pointer group hover:text-white">
+                      <Sparkles className="w-4 h-4 text-white" />
+                      <span className="group-hover:text-white">Publish</span>
+                    </Button>
                   </DropdownMenuItem>
                 </>
               )}
@@ -149,6 +157,7 @@ export const EditorNavbar = ({
                     className="cursor-pointer hover:bg-blue-500 hover:text-white"
                     disabled={!hasEntries || formStatus === "loading"}
                     onClick={onUpdate}
+                    type="submit"
                     title="sync draft with database">
                     <RefreshCcw className="w-4 h-4 mr-1" />
                     Update

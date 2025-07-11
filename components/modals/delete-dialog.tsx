@@ -46,7 +46,7 @@ const DeleteButton = ({
           variant="ghost"
           type="button"
           title={actionLabel}
-          className={`w-full justify-start gap-2 ${
+          className={`w-full justify-start gap-2 capitalize ${
             isDelete
               ? "text-red-600 hover:text-red-700 hover:bg-red-100"
               : "text-yellow-600 hover:text-yellow-700 hover:bg-yellow-100"

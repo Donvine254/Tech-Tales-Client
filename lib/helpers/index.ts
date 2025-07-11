@@ -45,7 +45,7 @@ export function canPublishBlog(blog: BlogFields): {
   if (
     blog.tags == null ||
     blog.tags.trim() === "" ||
-    blog.tags.split(",").length === 4
+    blog.tags.split(",").length < 4
   ) {
     return { valid: false, message: "At least four tags are required." };
   }

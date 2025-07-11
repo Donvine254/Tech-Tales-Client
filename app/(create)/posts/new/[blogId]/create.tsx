@@ -151,8 +151,7 @@ export default function Create({
     }));
   };
   // submission function to publish blog
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  async function handleSubmit() {
     setFormStatus("loading");
     const validation = canPublishBlog(blogData);
     if (!validation.valid) {
@@ -263,9 +262,7 @@ export default function Create({
         status={status}
         onUpdate={updateBlog}
       />
-      <form
-        className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-6"
-        onSubmit={handleSubmit}>
+      <form className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-6">
         {/* Main responsive wrapper */}
         <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left/Main Column */}
