@@ -4,7 +4,7 @@ import { CoverImageSection } from "@/components/create/image";
 import { PreviewDialog } from "@/components/create/preview-modal";
 import { TagsSection } from "@/components/create/tags";
 import { TitleSection } from "@/components/create/title";
-import { EditorNavbar } from "@/components/layout/editor-navbar";
+import { EditorNavbar } from "@/components/create/editor-navbar";
 import { deleteOrArchiveBlog, SaveDraftBlog } from "@/lib/actions/blogs";
 import { emptyBlogData } from "@/lib/helpers";
 import { slugify } from "@/lib/utils";
@@ -15,6 +15,8 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { toast } from "sonner";
 
 const AUTO_SAVE_INTERVAL = 2000; //Auto-save after every 2 seconds
+// eslint-disable-next-line
+declare const confetti: (options?: Record<string, any>) => void;
 
 export default function Create({
   initialData,
@@ -160,6 +162,7 @@ export default function Create({
   // function to sync draft
   async function SaveDraft() {
     const toastId = toast.loading("Processing request");
+    setFormStatus("loading");
     const res = await SaveDraftBlog(blogData, uuid);
     toast.dismiss(toastId);
     if (res.success) {
@@ -167,10 +170,35 @@ export default function Create({
     } else {
       toast.error(res.message);
     }
+    setFormStatus("pending");
+  }
+
+  async function updateBlog() {
+    setFormStatus("loading");
+    const toastId = toast.loading("Processing request");
+    const res = await SaveDraftBlog(blogData, uuid);
+    toast.dismiss(toastId);
+    if (res.success) {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      skipUnloadWarningRef.current = true;
+      toast.success("Blog updated successfully");
+      localStorage.removeItem(`Draft-${uuid}`);
+      confetti({
+        particleCount: 4000,
+        spread: 100,
+        origin: { y: 0.3 },
+      });
+      router.push(`/blog/${blogData.slug}`);
+      setFormStatus("pending");
+    } else {
+      toast.error(res.message);
+      setFormStatus("pending");
+    }
   }
   // function to delete blog
   async function handleBlogDeletion() {
     try {
+      setFormStatus("loading");
       const res = await deleteOrArchiveBlog(uuid);
       if (res.success) {
         toast.success(res.message);
@@ -187,6 +215,8 @@ export default function Create({
     } catch (error) {
       console.error(error);
       toast.error("Something went wrong");
+    } finally {
+      setFormStatus("pending");
     }
   }
   return (
@@ -198,8 +228,10 @@ export default function Create({
         lastSaved={updatedAt}
         onSync={SaveDraft}
         onDelete={handleBlogDeletion}
-        disabled={!hasAllEntries(blogData) || formStatus === "loading"}
+        disabled={!hasAllEntries(blogData)}
+        formStatus={formStatus}
         status={status}
+        onUpdate={updateBlog}
       />
       <form
         className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-6"
