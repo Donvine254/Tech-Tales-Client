@@ -191,11 +191,15 @@ export const CommentItem: React.FC<Props> = ({
                     <DropdownMenuItem asChild>
                       <Button
                         variant="ghost"
-                        className="cursor-pointer w-full justify-start"
-                        disabled={blogStatus === "ARCHIVED" || !session}>
+                        className="cursor-pointer w-full justify-start hover:text-blue-500 group"
+                        disabled={blogStatus === "ARCHIVED" || !session}
+                        onClick={() => setIsReplying(true)}>
                         {" "}
-                        <Reply className="h-4 w-4" />
-                        Reply
+                        <Reply className="h-4 w-4 group-hover:text-blue-500" />
+                        <span className="group-hover:text-blue-500">
+                          {" "}
+                          Reply
+                        </span>
                       </Button>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
@@ -233,12 +237,13 @@ export const CommentItem: React.FC<Props> = ({
             {/* Quick Reply Button */}
             {session && (
               <Button
-                size="sm"
                 variant="ghost"
-                title="reply to this comment"
-                className="hover:text-blue-600 cursor-pointer transition-colors text-sm font-medium text-muted-foreground">
-                <Reply className="h-4 w-4 mr-1" />
-                Reply
+                className="cursor-pointer justify-start hover:text-blue-500 group"
+                disabled={blogStatus === "ARCHIVED" || !session}
+                onClick={() => setIsReplying(true)}>
+                {" "}
+                <Reply className="h-4 w-4 group-hover:text-blue-500" />
+                <span className="group-hover:text-blue-500"> Reply</span>
               </Button>
             )}
             {/* Collapse/Expand Replies Button */}
