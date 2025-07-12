@@ -35,6 +35,7 @@ import CommentBody from "./comment-body";
 import { BlogStatus } from "@prisma/client";
 import { deleteComment } from "@/lib/actions/comments";
 import { ResponseEditor } from "./response-editot";
+import { createResponse, updateResponse } from "@/lib/actions/responses";
 
 export const CommentItem: React.FC<Props> = ({
   comment,
@@ -68,7 +69,7 @@ export const CommentItem: React.FC<Props> = ({
       return date.toLocaleDateString();
     }
   };
-  //   add editing state here
+  //function to edit comment responses
   const handleEditing = (response: ResponseData) => {
     setIsEditing(true);
     setEditingResponse(response);
@@ -85,6 +86,111 @@ export const CommentItem: React.FC<Props> = ({
       )
     );
   };
+  //function to handleResponseSubmission
+  async function handleResponseSubmit() {
+    // Logic to submit or respond
+    if (!session) {
+      toast.error("Login required");
+      return;
+    }
+    const toastId = toast.loading("Processing Request...", {
+      position: "bottom-center",
+    });
+    try {
+      const responseData = {
+        authorId: session.userId!,
+        commentId: comment.id,
+        body: responseBody,
+      };
+      const res = await createResponse(responseData);
+      if (res.success && res.response) {
+        toast.success(res.message);
+        //  add the response here
+        // ✅ Add the new response to the correct comment
+        setComments((prevComments) =>
+          prevComments.map((c) =>
+            c.id === comment.id
+              ? {
+                  ...c,
+                  responses: [...c.responses, res.response],
+                }
+              : c
+          )
+        );
+        // Optionally reset editor
+        setResponseBody("");
+        setIsReplying(false);
+        setRepliesCollapsed(false);
+      } else {
+        toast.error(res.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("something went wrong");
+    } finally {
+      toast.dismiss(toastId);
+    }
+  }
+  // function to handle editing responses
+  async function handleEditSubmit() {
+    if (!editingResponse) return;
+    const updatedResponse = {
+      ...editingResponse,
+      body: responseBody,
+    };
+    const toastId = toast.loading("Updating response...");
+    try {
+      // return the response to state
+      setComments((prevComments) =>
+        prevComments.map((c) =>
+          c.id === comment.id
+            ? {
+                ...c,
+                responses: [...c.responses, updatedResponse],
+              }
+            : c
+        )
+      );
+      const res = await updateResponse({
+        id: editingResponse.id,
+        body: responseBody,
+      });
+      if (res.success && res.response) {
+        toast.success(res.message);
+      } else {
+        // revert to the original body (editingComment.body) if this fails
+        setComments((prevComments) =>
+          prevComments.map((c) =>
+            c.id === comment.id
+              ? {
+                  ...c,
+                  responses: [...c.responses, editingResponse], // Add back original
+                }
+              : c
+          )
+        );
+        toast.error(res.message);
+      }
+    } catch (error) {
+      console.log(error);
+      setComments((prevComments) =>
+        prevComments.map((c) =>
+          c.id === comment.id
+            ? {
+                ...c,
+                responses: [...c.responses, editingResponse], // Add back original
+              }
+            : c
+        )
+      );
+      toast.error("Something went wrong");
+    } finally {
+      setIsEditing(false);
+      setEditingResponse(null);
+      setRepliesCollapsed(false);
+      toast.dismiss(toastId);
+    }
+  }
   // function to handleDeleting comments
   async function handleDeleteComment() {
     const toastId = toast.loading("Deleting comment...");
@@ -121,7 +227,11 @@ export const CommentItem: React.FC<Props> = ({
   }
   // function to handle response submission
   async function handleSubmit() {
-    console.log(responseBody);
+    if (isReplying && responseBody.trim() !== "") {
+      handleResponseSubmit();
+    } else if (isEditing && editingResponse) {
+      handleEditSubmit();
+    }
   }
 
   //function to hide the editor

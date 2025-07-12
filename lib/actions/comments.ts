@@ -62,15 +62,9 @@ export async function updateComment({
   }
 
   try {
-    // First, update the comment
-    await prisma.comment.update({
+    const updatedComment = (await prisma.comment.update({
       where: { id },
       data: { body },
-    });
-
-    // Then, fetch the updated comment with relations
-    const updatedComment = (await prisma.comment.findUnique({
-      where: { id },
       include: {
         author: {
           select: {
@@ -83,6 +77,7 @@ export async function updateComment({
         responses: true,
       },
     })) as CommentData;
+
     return {
       success: true,
       comment: updatedComment,
