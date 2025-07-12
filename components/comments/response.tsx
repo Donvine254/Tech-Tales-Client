@@ -3,6 +3,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -23,18 +24,24 @@ import CommentBody from "./comment-body";
 type Props = {
   response: ResponseData;
   blogAuthorId: number;
+  commentAuthorId: number;
   session: Session | null;
   handleEditing: (response: ResponseData) => void;
+  onDelete: (id: number) => void;
 };
 
 export default function Response({
   response,
   blogAuthorId,
+  commentAuthorId,
   session,
   handleEditing,
+  onDelete,
 }: Props) {
-  // function to handle editing
-
+  // function to handle deleting response
+  const isAdmin = session?.role === "admin";
+  const isCommentAuthor = commentAuthorId === session?.userId;
+  const isResponseAuthor = response.authorId === session?.userId;
   return (
     <div key={response.id} className="flex space-x-4">
       {/* User Avatar */}
@@ -85,18 +92,24 @@ export default function Response({
                 <MoreHorizontal className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
+            {/* comment author and admin can delete responses */}
             <DropdownMenuContent align="end" className="w-32">
-              {session?.userId === response.authorId ? (
+              {isResponseAuthor && (
                 <>
                   <DropdownMenuItem onClick={() => handleEditing(response)}>
                     <Edit2 className="h-4 w-4 mr-2" />
                     Edit
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="text-red-600 focus:text-red-600">
-                    <Trash2 className="h-4 w-4 mr-2" />
-                    Delete
-                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
                 </>
+              )}
+              {isResponseAuthor || isCommentAuthor || isAdmin ? (
+                <DropdownMenuItem
+                  className="text-red-500 focus:text-red-600"
+                  onClick={() => onDelete(response.id)}>
+                  <Trash2 className="h-4 w-4 mr-2 text-red-500" />
+                  <span className="text-red-500">Delete</span>
+                </DropdownMenuItem>
               ) : (
                 <>
                   <DropdownMenuItem

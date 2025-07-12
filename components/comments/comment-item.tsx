@@ -5,6 +5,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -34,8 +35,12 @@ import { toast } from "sonner";
 import CommentBody from "./comment-body";
 import { BlogStatus } from "@prisma/client";
 import { deleteComment } from "@/lib/actions/comments";
-import { ResponseEditor } from "./response-editot";
-import { createResponse, updateResponse } from "@/lib/actions/responses";
+import { ResponseEditor } from "./response-editor";
+import {
+  createResponse,
+  deleteResponse,
+  updateResponse,
+} from "@/lib/actions/responses";
 
 export const CommentItem: React.FC<Props> = ({
   comment,
@@ -53,6 +58,10 @@ export const CommentItem: React.FC<Props> = ({
     null
   );
   const [isReplying, setIsReplying] = useState(false);
+  // check if current user is author or admin
+  const isAdmin = session?.role === "admin";
+  const isBlogAuthor = session?.userId === blogAuthorId;
+  const isCommentAuthor = session?.userId === comment.authorId;
   const formatDate = (date: Date) => {
     const now = new Date();
     const diffInHours = Math.floor(
@@ -105,7 +114,6 @@ export const CommentItem: React.FC<Props> = ({
       const res = await createResponse(responseData);
       if (res.success && res.response) {
         toast.success(res.message);
-        //  add the response here
         // ✅ Add the new response to the correct comment
         setComments((prevComments) =>
           prevComments.map((c) =>
@@ -216,7 +224,7 @@ export const CommentItem: React.FC<Props> = ({
         label: "Delete",
         onClick: async () => {
           toast.dismiss(id);
-          await handleDeleteComment(); // Call your original function here
+          await handleDeleteComment();
         },
       },
       cancel: {
@@ -231,6 +239,34 @@ export const CommentItem: React.FC<Props> = ({
       handleResponseSubmit();
     } else if (isEditing && editingResponse) {
       handleEditSubmit();
+    }
+  }
+  // function to delete responses
+  async function handleDeleteResponse(id: number) {
+    const toastId = toast.loading("Deleting...");
+    try {
+      const res = await deleteResponse(id);
+      if (res.success) {
+        // remove the response from state
+        setComments((prevComments) =>
+          prevComments.map((c) =>
+            c.id === comment.id
+              ? {
+                  ...c,
+                  responses: c.responses.filter((r) => r.id !== id),
+                }
+              : c
+          )
+        );
+        toast.success(res.message || "Comment deleted", { id: toastId });
+      } else {
+        toast.error(res.message || "Failed to delete response", {
+          id: toastId,
+        });
+      }
+    } catch (error) {
+      console.error("Delete error:", error);
+      toast.error("Something went wrong", { id: toastId });
     }
   }
 
@@ -293,8 +329,9 @@ export const CommentItem: React.FC<Props> = ({
                   <MoreHorizontal className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-32">
-                {session?.userId === comment.authorId ? (
+              <DropdownMenuContent align="end" className="w-40">
+                {/* Comment Author can edit */}
+                {isCommentAuthor && (
                   <>
                     <DropdownMenuItem asChild>
                       <Button
@@ -306,18 +343,26 @@ export const CommentItem: React.FC<Props> = ({
                         Edit
                       </Button>
                     </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Button
-                        variant="ghost"
-                        className="text-red-600 hover:text-red-600 hover:bg-red-100 group cursor-pointer group w-full justify-start"
-                        onClick={confirmDeleteComment}
-                        disabled={!session}>
-                        <Trash2 className="h-4 w-4  text-red-600" />
-                        <span className="text-red-600">Delete</span>
-                      </Button>
-                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
                   </>
-                ) : (
+                )}
+
+                {/* Comment Author, Blog Author, or Admin can delete */}
+                {(isCommentAuthor || isBlogAuthor || isAdmin) && (
+                  <DropdownMenuItem asChild>
+                    <Button
+                      variant="ghost"
+                      className="text-red-600 hover:text-red-600 hover:bg-red-100 group cursor-pointer w-full justify-start"
+                      onClick={confirmDeleteComment}
+                      disabled={!session}>
+                      <Trash2 className="h-4 w-4 text-red-600" />
+                      <span className="text-red-600">Delete</span>
+                    </Button>
+                  </DropdownMenuItem>
+                )}
+
+                {/* Reply & Report for everyone else */}
+                {!isCommentAuthor && !isBlogAuthor && !isAdmin && (
                   <>
                     <DropdownMenuItem asChild>
                       <Button
@@ -325,21 +370,18 @@ export const CommentItem: React.FC<Props> = ({
                         className="cursor-pointer w-full justify-start hover:text-blue-500 group"
                         disabled={blogStatus === "ARCHIVED" || !session}
                         onClick={() => setIsReplying(!isReplying)}>
-                        {" "}
                         <Reply className="h-4 w-4 group-hover:text-blue-500" />
-                        <span className="group-hover:text-blue-500">
-                          {" "}
-                          Reply
-                        </span>
+                        <span className="group-hover:text-blue-500">Reply</span>
                       </Button>
                     </DropdownMenuItem>
+                    <DropdownMenuSeparator />
                     <DropdownMenuItem asChild>
                       <Button
                         variant="ghost"
                         className="text-red-600 flex items-center cursor-pointer hover:text-red-600 justify-start w-full group"
                         onClick={() =>
                           toast.info(
-                            "Thank you helping keep our community safe"
+                            "Thank you for helping keep our community safe"
                           )
                         }>
                         <Flag className="h-4 w-4 text-red-500" />
@@ -425,9 +467,11 @@ export const CommentItem: React.FC<Props> = ({
               <Response
                 key={response.id}
                 response={response}
+                commentAuthorId={comment.authorId}
                 blogAuthorId={blogAuthorId}
                 session={session}
                 handleEditing={handleEditing}
+                onDelete={handleDeleteResponse}
               />
             ))}
           </div>

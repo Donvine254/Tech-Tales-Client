@@ -88,3 +88,21 @@ export async function updateResponse({
     await prisma.$disconnect();
   }
 }
+
+// function to delete responses
+export async function deleteResponse(id: number) {
+  if (!id) {
+    return { success: false, message: "response ID is required." };
+  }
+  try {
+    await prisma.response.delete({
+      where: { id },
+    });
+    return { success: true, message: "Response deleted successfully." };
+  } catch (error) {
+    console.error("Failed to delete response:", error);
+    return { success: false, message: "Failed to delete response." };
+  } finally {
+    await prisma.$disconnect();
+  }
+}
