@@ -246,6 +246,7 @@ export default function Create({
         formStatus={formStatus}
         status={status}
         onUpdate={updateBlog}
+        uuid={uuid}
       />
       <form className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-6">
         {/* Main responsive wrapper */}

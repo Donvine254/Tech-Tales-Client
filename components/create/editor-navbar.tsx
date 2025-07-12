@@ -35,6 +35,7 @@ interface EditorNavbarProps {
   status: BlogStatus;
   onUpdate: () => void;
   formStatus: FormStatus;
+  uuid: string;
 }
 
 export const EditorNavbar = ({
@@ -48,6 +49,7 @@ export const EditorNavbar = ({
   status,
   onUpdate,
   formStatus,
+  uuid,
 }: EditorNavbarProps) => {
   const formatSaveTime = (date: Date) => {
     return `Last saved: ${date.toLocaleTimeString([], {
@@ -69,7 +71,11 @@ export const EditorNavbar = ({
             size="sm"
             className="gap-2"
             disabled={formStatus === "loading"}
-            onClick={() => router.back()}>
+            onClick={() => {
+              localStorage.removeItem(`Draft-${uuid}`);
+              localStorage.removeItem("updatedAt");
+              router.back();
+            }}>
             <ArrowLeft className="h-4 w-4" />
             Back
           </Button>
