@@ -73,6 +73,17 @@ export const CommentItem: React.FC<Props> = ({
     setIsEditing(true);
     setEditingResponse(response);
     setResponseBody(editingResponse?.body ?? response.body);
+    // remove the response from state
+    setComments((prevComments) =>
+      prevComments.map((c) =>
+        c.id === comment.id
+          ? {
+              ...c,
+              responses: c.responses.filter((r) => r.id !== response.id),
+            }
+          : c
+      )
+    );
   };
   // function to handleDeleting comments
   async function handleDeleteComment() {

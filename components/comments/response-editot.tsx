@@ -57,7 +57,6 @@ export const ResponseEditor: React.FC<ResponseEditorProps> = ({
             <Editor
               tinymceScriptSrc="/tinymce/tinymce.min.js"
               licenseKey="gpl"
-              disabled={length > 250}
               onInit={(evt, editor) => (editorRef.current = editor)}
               initialValue={initialData}
               onChange={() => handleChange(editorRef.current.getContent())}
@@ -68,7 +67,7 @@ export const ResponseEditor: React.FC<ResponseEditorProps> = ({
                 )
               }
               init={{
-                min_height: 25,
+                min_height: 100,
                 toolbar_location: "bottom",
                 toolbar_mode: "sliding",
                 menubar: false,
@@ -106,7 +105,7 @@ export const ResponseEditor: React.FC<ResponseEditorProps> = ({
               <p className="p-0 text-xs">
                 <span
                   className={`${
-                    length > 500 ? "text-red-500" : ""
+                    length > 250 ? "text-red-500" : ""
                   }text-xs md:text-sm`}>
                   {length}
                 </span>

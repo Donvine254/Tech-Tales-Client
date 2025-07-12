@@ -55,7 +55,6 @@ export const CommentEditor: React.FC<CommentEditorProps> = ({
             <Editor
               tinymceScriptSrc="/tinymce/tinymce.min.js"
               licenseKey="gpl"
-              disabled={length > 500}
               onInit={(evt, editor) => (editorRef.current = editor)}
               initialValue={initialData}
               onChange={() => handleChange(editorRef.current.getContent())}
