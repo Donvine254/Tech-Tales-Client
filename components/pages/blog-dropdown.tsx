@@ -30,6 +30,7 @@ interface BlogCardDropdownProps {
   blogAuthorId: number;
   uuid: string;
   blogStatus: BlogStatus;
+  showMoreActions?: boolean;
 }
 
 export const BlogCardDropdown = ({
@@ -38,6 +39,7 @@ export const BlogCardDropdown = ({
   blogAuthorId,
   blogStatus,
   uuid,
+  showMoreActions = false,
 }: BlogCardDropdownProps) => {
   const { session } = useSession();
 
@@ -66,7 +68,7 @@ export const BlogCardDropdown = ({
         </DropdownMenuItem>
         <Bookmark blogId={blogId} asDropdownItem />
         {/* Owner actions */}
-        {isOwner && (
+        {showMoreActions && isOwner && (
           <>
             <Link
               href={`/posts/new/${uuid}`}

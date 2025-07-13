@@ -14,7 +14,13 @@ import { calculateReadingTime, formatViews } from "@/lib/utils";
 import { ShareModal } from "../modals/share-modal";
 import Image from "next/image";
 import { BlogCardDropdown } from "./blog-dropdown";
-export default function MinimalBlogCard({ blog }: { blog: BlogWithComments }) {
+export default function MinimalBlogCard({
+  blog,
+  showMoreActions = false,
+}: {
+  blog: BlogWithComments;
+  showMoreActions?: boolean;
+}) {
   return (
     <div className="group bg-card rounded-lg border border-border hover:border-border/60 transition-all duration-200 hover:shadow-sm p-4 md:p-6 space-y-4">
       {/* Top: Image + Content */}
@@ -135,6 +141,7 @@ export default function MinimalBlogCard({ blog }: { blog: BlogWithComments }) {
             blogAuthorId={blog.authorId}
             blogStatus={blog.status}
             uuid={blog.uuid}
+            showMoreActions={showMoreActions}
           />
         </div>
       </div>
