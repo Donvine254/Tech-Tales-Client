@@ -60,13 +60,17 @@ export const BlogCardDropdown = ({
           <MoreHorizontal className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent side="top" align="end" className="w-48 space-y-3">
+      <DropdownMenuContent side="top" align="end" className="w-48 space-y-2">
         {/* Copy Link */}
-        <DropdownMenuItem onClick={handleCopy} className="cursor-copy">
-          <LinkIcon className="w-4 h-4 mr-2" />
-          Copy link
-        </DropdownMenuItem>
-        <Bookmark blogId={blogId} asDropdownItem />
+        {blogStatus === "PUBLISHED" && (
+          <>
+            <DropdownMenuItem onClick={handleCopy} className="cursor-copy">
+              <LinkIcon className="w-4 h-4 mr-2" />
+              Copy link
+            </DropdownMenuItem>
+            <Bookmark blogId={blogId} asDropdownItem />
+          </>
+        )}
         {/* Owner actions */}
         {showMoreActions && isOwner && (
           <>
@@ -81,7 +85,7 @@ export const BlogCardDropdown = ({
                 </span>
               </DropdownMenuItem>
             </Link>
-            {blogStatus === "DRAFT" && (
+            {blogStatus === "UNPUBLISHED" && (
               <DropdownMenuItem>
                 <MegaphoneIcon className="w-4 h-4 mr-2" />
                 Publish
@@ -95,7 +99,7 @@ export const BlogCardDropdown = ({
               </DropdownMenuItem>
             )}
 
-            {blogStatus !== "ARCHIVED" && (
+            {blogStatus !== "ARCHIVED" && blogStatus !== "DRAFT" && (
               <DropdownMenuItem className="text-amber-400 focus:text-amber-400 group">
                 <ArchiveIcon className="w-4 h-4 mr-2 text-amber-400" />
                 Archive

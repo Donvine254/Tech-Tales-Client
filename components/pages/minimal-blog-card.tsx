@@ -78,30 +78,46 @@ export default function MinimalBlogCard({
           </div>
 
           {/* Title */}
-          <Link
-            href={blog.status === "PUBLISHED" ? `/blog/${blog.slug}` : "#"}
-            className="group"
-            title={blog.title ?? ""}>
+          {blog.status === "PUBLISHED" ? (
+            <Link
+              href={`${blog.slug}`}
+              className="group"
+              title={blog.title ?? ""}>
+              <h3 className="text-base sm:text-lg font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 leading-snug cursor-pointer">
+                {blog.title ?? ""}
+              </h3>
+            </Link>
+          ) : (
             <h3 className="text-base sm:text-lg font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 leading-snug cursor-pointer">
-              {blog.title ?? ""}
+              {blog.title ?? "Untitled Post"}
             </h3>
-          </Link>
+          )}
           {/* Body Preview */}
           <article className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
-            {blog?.body ? parse(blog?.body?.substring(0, 400)) : "Loading..."}
+            {blog?.body
+              ? parse(blog?.body?.substring(0, 400))
+              : "Your blog body will show here. Continue editing your blog"}
           </article>
           {/* Tags */}
           <div className="flex flex-wrap gap-2">
-            {blog?.tags &&
-              blog?.tags?.split(",").length > 0 &&
-              blog.tags?.split(",").map((tag: string, index: number) => (
-                <Badge
-                  key={index}
-                  variant="secondary"
-                  className="text-xs bg-gray-200  text-blue-700 hover:bg-cyan-100 cursor-pointer transition-colors hover:underline capitalize">
+            {(blog?.tags?.trim()
+              ? blog.tags
+                  .split(",")
+                  .map((tag) => tag.trim())
+                  .filter(Boolean)
+              : ["tag 1", "tag 2", "tag 3", "tag 4"]
+            ).map((tag, index) => (
+              <Badge
+                key={index}
+                variant="secondary"
+                className="text-xs bg-gray-200 text-blue-700 hover:bg-cyan-100 cursor-pointer transition-colors hover:underline capitalize">
+                {blog?.tags?.trim() ? (
                   <Link href={`/search?q=${tag.toLowerCase()}`}># {tag}</Link>
-                </Badge>
-              ))}
+                ) : (
+                  <># {tag}</>
+                )}
+              </Badge>
+            ))}
           </div>
         </div>
         {/* Image */}
@@ -158,11 +174,13 @@ export default function MinimalBlogCard({
           </TooltipProvider>
         </div>
         <div className="flex items-center space-x-2">
-          <ShareModal
-            slug={blog?.slug ?? ""}
-            title={blog?.title ?? ""}
-            image={image?.secure_url ?? "/placeholder.svg"}
-          />
+          {blog.status === "PUBLISHED" && (
+            <ShareModal
+              slug={blog?.slug ?? ""}
+              title={blog?.title ?? ""}
+              image={image?.secure_url ?? "/placeholder.svg"}
+            />
+          )}
           <BlogCardDropdown
             blogId={blog.id}
             slug={blog.slug ?? ""}
