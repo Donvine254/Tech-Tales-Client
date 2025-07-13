@@ -126,7 +126,7 @@ const UserDropdown = ({
                 <span>Latest Stories</span>
               </DropdownMenuItem>
             </Link>
-            <Link href="/me/blogs" passHref>
+            <Link href="/me/posts" passHref>
               <DropdownMenuItem className="cursor-pointer hover:bg-blue-100 hover:text-blue-500 dark:hover:bg-blue-500 dark:hover:text-white group">
                 <BookOpen className="mr-2 h-4 w-4 text-blue-500 dark:group-hover:text-white" />
                 <span>My Blogs</span>
