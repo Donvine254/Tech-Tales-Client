@@ -140,23 +140,9 @@ export const EditorNavbar = ({
                     <RefreshCcw className="w-4 h-4 mr-1" />
                     Sync Draft
                   </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Button
-                      type="submit"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        onPublish();
-                      }}
-                      disabled={disabled || formStatus === "loading"}
-                      title="publish blog"
-                      className="w-full justify-start bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white cursor-pointer group hover:text-white">
-                      <Sparkles className="w-4 h-4 text-white" />
-                      <span className="group-hover:text-white">Publish</span>
-                    </Button>
-                  </DropdownMenuItem>
                 </>
               )}
-              {status === "PUBLISHED" && (
+              {status !== "DRAFT" &&(
                 <DropdownMenuItem asChild>
                   <Button
                     className="w-full justify-start cursor-pointer hover:bg-blue-500 hover:text-white"
@@ -170,6 +156,23 @@ export const EditorNavbar = ({
                   </Button>
                 </DropdownMenuItem>
               )}
+              {status !== "PUBLISHED" && (
+                <DropdownMenuItem asChild>
+                  <Button
+                    type="submit"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onPublish();
+                    }}
+                    disabled={disabled || formStatus === "loading"}
+                    title="publish blog"
+                    className="w-full justify-start bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white cursor-pointer group hover:text-white">
+                    <Sparkles className="w-4 h-4 text-white" />
+                    <span className="group-hover:text-white">Publish</span>
+                  </Button>
+                </DropdownMenuItem>
+              )}
+
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
                 <DeleteButton
