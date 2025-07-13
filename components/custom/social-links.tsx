@@ -73,6 +73,7 @@ export const SocialLinks: FC<{
               </div>
               <Link
                 href={url!}
+                prefetch={false}
                 target="_blank"
                 className="inline-flex items-center justify-center h-8 w-8 p-0 hover:text-blue-600">
                 <ExternalLink className="h-3 w-3" />

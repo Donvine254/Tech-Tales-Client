@@ -154,7 +154,7 @@ export default async function ExplorePage({ data }: { data: UserAndBlogs }) {
               <div className="mb-2 ">
                 <p className="text-primary/90 font-semibold mb-2 ">Socials</p>
                 {socials && socials.length > 0 ? (
-                  <SocialLinks socials={socials} />
+                  <SocialLinks socials={socials} variant="card" />
                 ) : (
                   "I have not updated my socials yet"
                 )}

@@ -14,6 +14,7 @@ import {
   PlusIcon,
   ArrowUpRight,
   FileText,
+  BookOpenIcon,
 } from "lucide-react";
 import Image from "next/image";
 import { useSession } from "@/providers/session";
@@ -150,12 +151,12 @@ export default function Profile({
         {/* two grid cards */}
         <div className="-mt-36">
           <MenuList isAdmin={session?.role === "admin"} />
-          <StatCards
+          {/* <StatCards
             totalBlogs={user._count.blogs ?? 0}
             totalComments={user._count.comments}
             totalLikes={totalLikes ?? 0}
             totalViews={totalViews ?? 0}
-          />
+          /> */}
           {/* two divs */}
           <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-start md:gap-5  relative">
             {/* first child */}
@@ -201,7 +202,7 @@ export default function Profile({
                 </div>
               </div>
               {/* Third card */}
-              <div className="space-y-4 bg-card shadow border px-6 py-4 rounded-md">
+              {/* <div className="space-y-4 bg-card shadow border px-6 py-4 rounded-md">
                 <div className="mb-2 ">
                   <p className="text-primary/90 font-semibold mb-2 ">
                     Contact Information
@@ -231,6 +232,37 @@ export default function Profile({
                         {formatDate(new Date(user.createdAt))}
                       </span>
                     </div>
+                  </div>
+                </div>
+              </div> */}
+              <div className="space-y-4 bg-card shadow border px-6 py-4 rounded-md">
+                <div className="mb-2 space-y-2">
+                  <p className="text-primary/90 font-semibold mb-2 ">
+                    User Stats
+                  </p>
+                  <div className="flex items-center space-x-2 whitespace-nowrap">
+                    <BookOpenIcon className="h-4 w-4" />
+                    <p className="text-sm">
+                      {user._count.blogs} Authored Posts
+                    </p>
+                  </div>
+                  <div className="flex items-center space-x-2 whitespace-nowrap">
+                    <ChartNoAxesColumn className="h-4 w-4" />
+                    <p className="text-sm">
+                      {formatViews(totalViews)} Post Impressions
+                    </p>
+                  </div>
+                  <div className="flex items-center space-x-2 whitespace-nowrap">
+                    <Heart className="h-4 w-4" />
+                    <p className="text-sm">
+                      {formatViews(totalLikes)} Post Reactions
+                    </p>
+                  </div>
+                  <div className="flex items-center space-x-2 whitespace-nowrap">
+                    <MessageSquarePlus className="h-4 w-4" />
+                    <p className="text-sm">
+                      {user._count.comments} Comments written
+                    </p>
                   </div>
                 </div>
               </div>
@@ -298,7 +330,7 @@ export default function Profile({
   );
 }
 
-const StatCards: FC<{
+export const StatCards: FC<{
   totalBlogs: number;
   totalViews: number;
   totalLikes: number;
@@ -387,7 +419,7 @@ const MenuList: FC<{ isAdmin: boolean }> = ({ isAdmin }) => {
 
   return (
     <ScrollArea className="w-full whitespace-nowrap border-b border-border pb-2 mb-4 ">
-      <div className="flex items-center gap-2">
+      <div className="flex items-center mx-auto w-max gap-2">
         {menuItems.map((item, index) => {
           const isActive = pathname === item.link;
           const Icon = item.icon;
