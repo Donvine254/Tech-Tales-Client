@@ -11,7 +11,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { createNewBlog } from "@/lib/actions/blogs";
-import { BlogWithComments } from "@/types";
 import {
   Archive,
   Eye,
@@ -25,17 +24,19 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "sonner";
 import { BlogStatus } from "@prisma/client";
+import { cn } from "@/lib/utils";
+import { getUserBlogs } from "@/lib/actions/user";
 
-export default function Posts({ blogs }: { blogs: BlogWithComments[] }) {
+type BlogsType = Awaited<ReturnType<typeof getUserBlogs>>;
+export default function Posts({ blogs }: { blogs: BlogsType }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("newest");
-  const [activeTab, setActiveTab] = useState("PUBLISHED");
-
+  const [activeTab, setActiveTab] = useState("published");
   const filterBlogsByStatus = (status: BlogStatus) => {
     return blogs.filter((blog) => blog.status === status);
   };
 
-  const sortBlogs = (blogs: BlogWithComments[]) => {
+  const sortBlogs = (blogs: BlogsType) => {
     return [...blogs].sort((a, b) => {
       switch (sortBy) {
         case "newest":
@@ -56,16 +57,12 @@ export default function Posts({ blogs }: { blogs: BlogWithComments[] }) {
     });
   };
 
-  const searchBlogs = (blogs: BlogWithComments[]) => {
+  const searchBlogs = (blogs: BlogsType) => {
     if (!searchQuery) return blogs;
     return blogs.filter(
       (blog) =>
-        blog.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        blog.tags
-          .split(",")
-          .some((tag: string) =>
-            tag.toLowerCase().includes(searchQuery.toLowerCase())
-          )
+        blog?.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        blog?.tags?.includes(searchQuery.toLowerCase())
     );
   };
 
@@ -137,56 +134,54 @@ export default function Posts({ blogs }: { blogs: BlogWithComments[] }) {
     );
   };
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center justify-between gap-4 mb-2">
           <h1 className="text-lg md:text-2xl lg:text-3xl font-bold text-foreground">
             My Blogs
           </h1>
-          <CreateButton />
+          <CreateButton className="md:hidden" />
         </div>
         <p className="text-muted-foreground">
           Manage and organize your blog posts
         </p>
       </div>
       {/* Tabs */}
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
+      <Tabs
+        value={activeTab}
+        onValueChange={setActiveTab}
+        defaultValue="published"
+        className="w-full">
+        <TabsList className="w-fit overflow-x-auto space-x-4 bg-card dark:bg-gray-950 shadow">
           <TabsTrigger
             value="published"
-            className="flex items-center gap-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white">
-            <Eye className="h-4 w-4" />
-            <span className="hidden sm:inline">Published</span>
-            <span className="sm:hidden">Pub</span>
+            className="flex items-center gap-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white dark:data-[state=active]:bg-blue-500 dark:data-[state=active]:text-white">
+            Published
             <span className="bg-muted text-muted-foreground px-1.5 py-0.5 rounded-sm text-xs data-[state=active]:bg-white/20 data-[state=active]:text-white">
               {filterBlogsByStatus("PUBLISHED").length}
             </span>
           </TabsTrigger>
           <TabsTrigger
             value="draft"
-            className="flex items-center gap-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white">
-            <FileText className="h-4 w-4" />
-            <span className="hidden sm:inline">Draft</span>
-            <span className="sm:hidden">Draft</span>
+            className="flex items-center gap-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white dark:data-[state=active]:bg-blue-500 dark:data-[state=active]:text-white">
+            <span>Drafts</span>
             <span className="bg-muted text-muted-foreground px-1.5 py-0.5 rounded-sm text-xs data-[state=active]:bg-white/20 data-[state=active]:text-white">
               {filterBlogsByStatus("DRAFT").length}
             </span>
           </TabsTrigger>
           <TabsTrigger
             value="unpublished"
-            className="flex items-center gap-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white">
-            <EyeOff className="h-4 w-4" />
-            <span>Unpublished</span>
+            className="flex items-center gap-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white dark:data-[state=active]:bg-blue-500 dark:data-[state=active]:text-white">
+            Unpublished
             <span className="bg-muted text-muted-foreground px-1.5 py-0.5 rounded-sm text-xs data-[state=active]:bg-white/20 data-[state=active]:text-white">
               {filterBlogsByStatus("UNPUBLISHED").length}
             </span>
           </TabsTrigger>
           <TabsTrigger
             value="archived"
-            className="flex items-center gap-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white">
-            <Archive className="h-4 w-4" />
-            <span>Archived</span>
+            className="flex items-center gap-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white dark:data-[state=active]:bg-blue-500 dark:data-[state=active]:text-white">
+            Archived
             <span className="bg-muted text-muted-foreground px-1.5 py-0.5 rounded-sm text-xs data-[state=active]:bg-white/20 data-[state=active]:text-white">
               {filterBlogsByStatus("ARCHIVED").length}
             </span>
@@ -201,11 +196,11 @@ export default function Posts({ blogs }: { blogs: BlogWithComments[] }) {
               placeholder="Search blogs..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
+              className="pl-10 bg-white dark:bg-input"
             />
           </div>
           <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className="w-full sm:w-48">
+            <SelectTrigger className="w-full bg-white dark:bg-input sm:w-48">
               <Filter className="h-4 w-4 mr-2" />
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
@@ -254,7 +249,7 @@ export default function Posts({ blogs }: { blogs: BlogWithComments[] }) {
         {/* Unpublished Blogs */}
         <TabsContent value="unpublished" className="mt-0">
           {getFilteredBlogs("UNPUBLISHED").length > 0 ? (
-            <div className="grid gap-6">
+            <div className="grid  gap-6">
               {getFilteredBlogs("UNPUBLISHED").map((blog) => (
                 <MinimalBlogCard
                   key={blog.id}
@@ -271,7 +266,7 @@ export default function Posts({ blogs }: { blogs: BlogWithComments[] }) {
         {/* Archived Blogs */}
         <TabsContent value="archived" className="mt-0">
           {getFilteredBlogs("ARCHIVED").length > 0 ? (
-            <div className="grid gap-6">
+            <div className="grid  gap-6">
               {getFilteredBlogs("ARCHIVED").map((blog) => (
                 <MinimalBlogCard
                   key={blog.id}
@@ -289,7 +284,7 @@ export default function Posts({ blogs }: { blogs: BlogWithComments[] }) {
   );
 }
 
-const CreateButton: React.FC = () => {
+const CreateButton: React.FC<{ className?: string }> = ({ className }) => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   async function createBlog() {
@@ -307,7 +302,10 @@ const CreateButton: React.FC = () => {
 
   return (
     <Button
-      className="bg-gradient-to-r from-cyan-600 to-blue-600 text-white cursor-pointer"
+      className={cn(
+        "bg-gradient-to-r from-cyan-600 to-blue-600 text-white cursor-pointer",
+        className
+      )}
       variant="secondary"
       size="sm"
       disabled={isLoading}
