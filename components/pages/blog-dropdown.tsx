@@ -91,6 +91,12 @@ export const BlogCardDropdown = ({
                 Publish
               </DropdownMenuItem>
             )}
+            {blogStatus === "ARCHIVED" && (
+              <DropdownMenuItem>
+                <ArchiveRestore className="w-4 h-4 mr-2" />
+                Unarchive
+              </DropdownMenuItem>
+            )}
             <DropdownMenuSeparator />
             {blogStatus === "PUBLISHED" && (
               <DropdownMenuItem className=" group text-amber-600 focus:text-amber-600">
@@ -105,12 +111,7 @@ export const BlogCardDropdown = ({
                 Archive
               </DropdownMenuItem>
             )}
-            {blogStatus === "ARCHIVED" && (
-              <DropdownMenuItem>
-                <ArchiveRestore className="w-4 h-4 mr-2" />
-                Unarchive
-              </DropdownMenuItem>
-            )}
+
             {/* delete */}
 
             <DropdownMenuItem className="text-destructive focus:text-destructive">
