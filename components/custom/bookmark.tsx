@@ -68,7 +68,7 @@ export default function Bookmark({
           width={size}
           height={size}
           className={cn(
-            "font-bold transition-colors mr-2",
+            "text-muted-foreground transition-colors mr-2",
             isBookmarked
               ? "text-cyan-600 group-hover:text-red-500"
               : "group-hover:text-cyan-600"
@@ -84,7 +84,7 @@ export default function Bookmark({
         </svg>
         <span
           className={cn(
-            "font-bold transition-colors",
+            "transition-colors",
             isBookmarked
               ? "text-cyan-600 group-hover:text-red-500"
               : "group-hover:text-cyan-600"
