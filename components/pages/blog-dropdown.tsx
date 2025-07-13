@@ -108,7 +108,7 @@ export const BlogCardDropdown = ({
             {blogStatus === "ARCHIVED" && (
               <DropdownMenuItem>
                 <ArchiveRestore className="w-4 h-4 mr-2" />
-                UnArchive
+                Unarchive
               </DropdownMenuItem>
             )}
             {/* delete */}
