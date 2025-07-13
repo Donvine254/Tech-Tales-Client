@@ -11,28 +11,39 @@ import {
   Edit,
   HistoryIcon,
   ChevronRight,
+  PlusIcon,
+  ArrowUpRight,
+  FileText,
 } from "lucide-react";
 import Image from "next/image";
 import { useSession } from "@/providers/session";
 import { CakeIcon, ChartNoAxesColumn, MailIcon, Settings } from "lucide-react";
 import { cn, formatDate, formatViews } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-const user = {
-  branding: "#0366F3",
-  bio: "Hey, I have not updated my bio yet. Let's chat in the comments",
-  handle: "thedon",
-  totalLikes: 1200,
-  totalViews: 15000,
-  totalBlogs: 18,
-  totalComments: 26,
-};
+import { getUserData } from "@/lib/actions/user";
+import { SocialLinks } from "@/components/custom/social-links";
+import UserBadges from "@/components/profile/badge";
+import { Badge } from "@/components/ui/badge";
+import MinimalBlogCard from "@/components/pages/minimal-blog-card";
+import CreateButton from "@/components/profile/create-button";
 
-export default function Profile() {
+type UserAndBlogs = Awaited<ReturnType<typeof getUserData>>;
+
+export default function Profile({
+  data,
+  isTopAuthor = false,
+}: {
+  data: UserAndBlogs;
+  isTopAuthor?: boolean;
+}) {
   const { session } = useSession();
+  const { user, blogs } = data;
+  const socials = (user.socials ?? []) as { platform: string; url: string }[];
+  const totalViews = blogs?.reduce((sum, blog) => sum + blog.views, 0);
+  const totalLikes = blogs?.reduce((sum, blog) => sum + blog.likes, 0);
   return (
     <section>
       {/* branding */}
@@ -116,7 +127,7 @@ export default function Profile() {
                 <CakeIcon className="h-4 w-4" />
                 <span className="whitespace-nowrap truncate ">
                   {/* replace this with user created at */}
-                  Joined on {formatDate(new Date())}
+                  Joined on {formatDate(new Date(user.createdAt))}
                 </span>
               </div>
               <div className="hidden md:flex items-center justify-center gap-1 flex-1 p-1 rounded-md text-xs sm:text-sm font-serif text-primary/80 font-medium">
@@ -139,66 +150,191 @@ export default function Profile() {
         {/* two grid cards */}
         <div className="-mt-36">
           <MenuList isAdmin={session?.role === "admin"} />
-          <StatCards />
-          {/* tabs */}
-          <Tabs defaultValue="about" className="w-full">
-            <ScrollArea className="w-full whitespace-nowrap pb-4">
-              <TabsList className="w-full space-x-4 bg-card dark:bg-gray-950 shadow">
-                <TabsTrigger value="about" className="text-sm">
-                  About
-                </TabsTrigger>
-                <TabsTrigger value="articles" className="text-sm">
-                  Top Articles
-                </TabsTrigger>
-                <TabsTrigger value="favorites" className="text-sm">
-                  Favorite Articles
-                </TabsTrigger>
-              </TabsList>
-              <ScrollBar orientation="horizontal" />
-            </ScrollArea>
-          </Tabs>
+          <StatCards
+            totalBlogs={user._count.blogs ?? 0}
+            totalComments={user._count.comments}
+            totalLikes={totalLikes ?? 0}
+            totalViews={totalViews ?? 0}
+          />
+          {/* two divs */}
+          <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-start md:gap-5  relative">
+            {/* first child */}
+            <div className="md:w-min lg:w-1/3 space-y-4 md:sticky md:top-20">
+              {/* First card */}
+              <div className="space-y-4 bg-card shadow border px-6 py-4 rounded-md">
+                <div className="mb-2 ">
+                  <p className="text-primary/90 font-semibold mb-2 ">Badges</p>
+                  <UserBadges
+                    role={user.role}
+                    createdAt={new Date(user.createdAt)}
+                    isTopAuthor={isTopAuthor}
+                    blogCount={user._count.blogs ?? 0}
+                  />
+                </div>
+              </div>
+              {/* second card */}
+              <div className="space-y-4 bg-card shadow border px-6 py-4 rounded-md">
+                <div className="mb-2">
+                  <p className="text-primary/90 font-semibold mb-2">
+                    Skills / Languages
+                  </p>
+                  {user.skills ? (
+                    <div className="flex flex-wrap gap-2">
+                      {user?.skills
+                        ?.split(",")
+                        .map((skill) => skill.trim())
+                        .filter((skill) => skill.length > 0)
+                        .map((skill, index) => (
+                          <Badge
+                            key={index}
+                            variant="secondary"
+                            className="text-xs sm:text-sm hover:bg-primary/10">
+                            {skill}
+                          </Badge>
+                        ))}
+                    </div>
+                  ) : (
+                    <p className="text-blue-600">
+                      I have not updated my skills yet.
+                    </p>
+                  )}
+                </div>
+              </div>
+              {/* Third card */}
+              <div className="space-y-4 bg-card shadow border px-6 py-4 rounded-md">
+                <div className="mb-2 ">
+                  <p className="text-primary/90 font-semibold mb-2 ">
+                    Contact Information
+                  </p>
+                  <div className="space-y-3">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
+                      <span className="text-muted-foreground text-sm font-medium">
+                        Email:
+                      </span>
+                      <span className="text-foreground text-sm truncate break-all">
+                        {session?.email}
+                      </span>
+                    </div>
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
+                      <span className="text-muted-foreground text-sm font-medium">
+                        Handle:
+                      </span>
+                      <span className="text-foreground text-sm break-all">
+                        @{user.handle}
+                      </span>
+                    </div>
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
+                      <span className="text-muted-foreground text-sm font-medium">
+                        Member since:
+                      </span>
+                      <span className="text-foreground text-sm">
+                        {formatDate(new Date(user.createdAt))}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* Fourth card */}
+              <div className="space-y-6 bg-card shadow border px-6 py-4 rounded-md">
+                <div className="mb-4">
+                  <p className="text-primary/90 font-semibold mb-2 ">Socials</p>
+                  {socials && socials.length > 0 ? (
+                    <SocialLinks socials={socials} />
+                  ) : (
+                    "I have not updated my socials yet"
+                  )}
+                </div>
+                <Button
+                  variant="outline"
+                  className="cursor-pointer w-full hover:text-blue-500">
+                  <PlusIcon className="h-4 w-4" /> Connect Account
+                </Button>
+              </div>
+            </div>
+            {/* second child */}
+            <div className="lg:w-2/3">
+              <div className="flex items-center flex-wrap justify-between gap-x-4 mb-4">
+                <h2 className="font-bold text-lg md:text-2xl lg:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-500 via-purple-500 dark:from-cyan-400 dark:to-blue-400">
+                  Top Blogs
+                </h2>
+                <Link
+                  href="/me/posts"
+                  className={buttonVariants({ variant: "link" })}>
+                  View All <ArrowUpRight className="h-4 w-4" />
+                </Link>
+              </div>
+              <div className="space-y-4">
+                {blogs.length > 0 ? (
+                  blogs.map((blog) => (
+                    <MinimalBlogCard
+                      key={blog.id}
+                      blog={blog}
+                      showMoreActions={true}
+                    />
+                  ))
+                ) : (
+                  <div className="py-16 flex flex-col items-center justify-center space-y-4">
+                    {/* scouting lens */}
+                    <FileText className="w-12 h-12 md:h-16 md:w-16 mb-4 text-muted-foreground" />
+                    <h3 className="text-xl md:text-2xl font-semibold">
+                      Nothing to see here
+                    </h3>
+                    <p className="mb-4 max-w-md text-center">
+                      You haven&apos;t published any blogs yet. Create your
+                      first blog post to get started!
+                    </p>
+                    <CreateButton />
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-const statsData = [
-  {
-    label: "Authored Blogs",
-    value: user.totalBlogs,
-    icon: BookOpen,
-    trend: "+12% this month",
-    trendIcon: <TrendingUp className="w-4 h-4 text-green-500 mr-1" />,
-    trendColor: "text-green-500",
-  },
-  {
-    label: "Total Views",
-    value: formatViews(user.totalViews),
-    icon: ChartNoAxesColumn,
-    trend: "+8% this month",
-    trendIcon: <TrendingUp className="w-4 h-4 text-green-500 mr-1" />,
-    trendColor: "text-green-500",
-  },
-  {
-    label: "Likes on Blogs",
-    value: formatViews(user.totalLikes),
-    icon: Heart,
-    trend: "+15% this month",
-    trendIcon: <TrendingUp className="w-4 h-4 text-green-500 mr-1" />,
-    trendColor: "text-green-500",
-  },
-  {
-    label: "Comments Written",
-    value: user.totalComments,
-    icon: MessageSquarePlus,
-    trend: "-2% this month",
-    trendIcon: <TrendingDown className="w-4 h-4 text-red-500 mr-1" />,
-    trendColor: "text-red-500",
-  },
-];
-
-const StatCards: FC = () => {
+const StatCards: FC<{
+  totalBlogs: number;
+  totalViews: number;
+  totalLikes: number;
+  totalComments: number;
+}> = ({ totalBlogs, totalViews, totalLikes, totalComments }) => {
+  const statsData = [
+    {
+      label: "Authored Blogs",
+      value: totalBlogs,
+      icon: BookOpen,
+      trend: "+12% this month",
+      trendIcon: <TrendingUp className="w-4 h-4 text-green-500 mr-1" />,
+      trendColor: "text-green-500",
+    },
+    {
+      label: "Total Views",
+      value: formatViews(totalViews),
+      icon: ChartNoAxesColumn,
+      trend: "+8% this month",
+      trendIcon: <TrendingUp className="w-4 h-4 text-green-500 mr-1" />,
+      trendColor: "text-green-500",
+    },
+    {
+      label: "Likes on Blogs",
+      value: formatViews(totalLikes),
+      icon: Heart,
+      trend: "+15% this month",
+      trendIcon: <TrendingUp className="w-4 h-4 text-green-500 mr-1" />,
+      trendColor: "text-green-500",
+    },
+    {
+      label: "Comments Written",
+      value: totalComments,
+      icon: MessageSquarePlus,
+      trend: "-2% this month",
+      trendIcon: <TrendingDown className="w-4 h-4 text-red-500 mr-1" />,
+      trendColor: "text-red-500",
+    },
+  ];
   return (
     <div className="grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
       {statsData.map((stat, index) => {

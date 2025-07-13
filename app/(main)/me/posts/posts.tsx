@@ -10,19 +10,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { createNewBlog } from "@/lib/actions/blogs";
 import {
   ArchiveIcon,
   ChevronLeft,
   ChevronRight,
   FileText,
   ListFilterIcon,
-  Plus,
   Search,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { toast } from "sonner";
 import { BlogStatus } from "@prisma/client";
 import { cn } from "@/lib/utils";
 import { getUserBlogs } from "@/lib/actions/user";
@@ -33,6 +29,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import CreateButton from "@/components/profile/create-button";
 
 const BLOGS_PER_PAGE = 4;
 type BlogsType = Awaited<ReturnType<typeof getUserBlogs>>;
@@ -235,7 +232,7 @@ export default function Posts({ blogs }: { blogs: BlogsType }) {
                       className={cn(
                         activeTab === "unpublished" && "dark:text-white"
                       )}>
-                      UnPublished
+                      Unpublished
                     </span>
                     <span
                       className={cn(
@@ -411,35 +408,3 @@ export default function Posts({ blogs }: { blogs: BlogsType }) {
     </div>
   );
 }
-
-const CreateButton: React.FC<{ className?: string }> = ({ className }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
-  async function createBlog() {
-    setIsLoading(true);
-    const toastId = toast.loading("processing request");
-    const res = await createNewBlog();
-    if (res.success && res.data) {
-      router.replace(`/posts/new/${res.data.uuid}`);
-    } else {
-      toast.error(res.message);
-    }
-    setIsLoading(false);
-    toast.dismiss(toastId);
-  }
-
-  return (
-    <Button
-      className={cn(
-        "bg-gradient-to-r from-cyan-600 to-blue-600 text-white cursor-pointer",
-        className
-      )}
-      variant="secondary"
-      size="sm"
-      disabled={isLoading}
-      onClick={createBlog}>
-      <Plus className="h-4 w-4" />
-      New Post
-    </Button>
-  );
-};

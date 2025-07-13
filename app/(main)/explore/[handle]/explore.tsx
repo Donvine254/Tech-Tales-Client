@@ -9,15 +9,10 @@ import {
   Heart,
   MessageSquarePlus,
 } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import Image from "next/image";
 import UserBlogs from "./user-blogs";
 import { BlogWithComments } from "@/types";
+import UserBadges from "@/components/profile/badge";
 type UserAndBlogs = Awaited<ReturnType<typeof getUserAndBlogsByHandle>>;
 
 export default async function ExplorePage({ data }: { data: UserAndBlogs }) {
@@ -104,103 +99,13 @@ export default async function ExplorePage({ data }: { data: UserAndBlogs }) {
             <div className="space-y-4 bg-card shadow border px-6 py-4 rounded-md">
               <div className="mb-2 ">
                 <p className="text-primary/90 font-semibold mb-2 ">Badges</p>
-                <TooltipProvider>
-                  <div className="flex items-center my-2 gap-x-2 flex-wrap">
-                    {user && user.role === "admin" && (
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Image
-                            width={30}
-                            height={30}
-                            src="https://res.cloudinary.com/dipkbpinx/image/upload/v1724780586/badges/qkphllyptlbfxsmhihnh.png"
-                            alt="admin badge"
-                          />
-                        </TooltipTrigger>
-                        <TooltipContent>Admin</TooltipContent>
-                      </Tooltip>
-                    )}
-
-                    {user &&
-                      new Date().getTime() -
-                        new Date(user.createdAt).getTime() <
-                        90 * 24 * 60 * 60 * 1000 && (
-                        // 90 days
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Image
-                              width={30}
-                              height={30}
-                              src="https://res.cloudinary.com/dipkbpinx/image/upload/v1724781261/badges/ve5jrrevzjft7up36syp.png"
-                              alt="welcome badge"
-                            />
-                          </TooltipTrigger>
-                          <TooltipContent>Welcome badge</TooltipContent>
-                        </Tooltip>
-                      )}
-
-                    {user &&
-                      new Date().getTime() -
-                        new Date(user.createdAt).getTime() >=
-                        365 * 24 * 60 * 60 * 1000 && (
-                        // One year
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Image
-                              width={30}
-                              height={30}
-                              src="https://res.cloudinary.com/dipkbpinx/image/upload/v1724780825/badges/kotckmmr92ph9mayk2ds.webp"
-                              alt="veteran badge"
-                            />
-                          </TooltipTrigger>
-                          <TooltipContent>Veteran badge</TooltipContent>
-                        </Tooltip>
-                      )}
-
-                    {blogs && blogs.length > 0 && blogs.length <= 10 && (
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Image
-                            width={30}
-                            height={30}
-                            src="https://res.cloudinary.com/dipkbpinx/image/upload/v1724779829/badges/m0edwdlv6hvbdkvxeevz.svg"
-                            alt="writing debut badge"
-                          />
-                        </TooltipTrigger>
-                        <TooltipContent>Writing debut badge</TooltipContent>
-                      </Tooltip>
-                    )}
-
-                    {blogs && blogs.length >= 10 && (
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Image
-                            width={30}
-                            height={30}
-                            src="https://res.cloudinary.com/dipkbpinx/image/upload/v1724779829/badges/q86vokn45db0hfkklpud.svg"
-                            alt="notable contributor badge"
-                          />
-                        </TooltipTrigger>
-                        <TooltipContent>Notable contributor</TooltipContent>
-                      </Tooltip>
-                    )}
-
-                    {isTopAuthor && (
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Image
-                            width={30}
-                            height={30}
-                            src="https://res.cloudinary.com/dipkbpinx/image/upload/v1728757940/badges/nwczihvezgmn1pdxkfs4.svg"
-                            alt="top author badge"
-                          />
-                        </TooltipTrigger>
-                        <TooltipContent>Top author</TooltipContent>
-                      </Tooltip>
-                    )}
-                  </div>
-                </TooltipProvider>
+                <UserBadges
+                  role={user.role}
+                  createdAt={new Date(user.createdAt)}
+                  isTopAuthor={isTopAuthor}
+                  blogCount={blogs.length ?? 0}
+                />
               </div>
-
               {/* Third card */}
             </div>
             {/* second card */}
