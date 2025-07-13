@@ -278,8 +278,7 @@ export default function MyBlogsComponent() {
               </Link>
               <p className="text-base flex items-center gap-1 md:gap-2 bg-gray-300 border rounded-full text-black px-2">
                 <Clock />
-                {calculateReadingTime(blog?.body ?? "
-                  ")} min{" "}
+                <span>{calculateReadingTime(blog?.body ?? "")} min</span>
                 <span className="xsm:hidden">read</span>
               </p>
               <p className="text-base  inline-flex items-center gap-1">
