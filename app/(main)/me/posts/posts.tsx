@@ -170,9 +170,21 @@ export default function Posts({ blogs }: { blogs: BlogsType }) {
                 <TooltipTrigger asChild>
                   <TabsTrigger
                     value="published"
-                    className="flex items-center gap-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white dark:data-[state=active]:bg-blue-500 dark:data-[state=active]:text-white">
-                    Published
-                    <span className="bg-muted text-muted-foreground px-1.5 py-0.5 rounded-sm text-xs data-[state=active]:bg-white/20 data-[state=active]:text-white">
+                    className={cn(
+                      "flex items-center gap-2 hover:bg-secondary",
+                      activeTab === "published" && "bg-blue-500 text-white"
+                    )}>
+                    <span
+                      className={cn(
+                        activeTab === "published" && "dark:text-white"
+                      )}>
+                      Published
+                    </span>
+                    <span
+                      className={cn(
+                        "bg-muted text-muted-foreground px-1.5 py-0.5 rounded-sm text-xs",
+                        activeTab === "published" && "dark:text-white"
+                      )}>
                       {filterBlogsByStatus("PUBLISHED").length}
                     </span>
                   </TabsTrigger>
@@ -185,9 +197,21 @@ export default function Posts({ blogs }: { blogs: BlogsType }) {
                 <TooltipTrigger asChild>
                   <TabsTrigger
                     value="draft"
-                    className="flex items-center gap-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white dark:data-[state=active]:bg-blue-500 dark:data-[state=active]:text-white">
-                    <span>Drafts</span>
-                    <span className="bg-muted text-muted-foreground px-1.5 py-0.5 rounded-sm text-xs data-[state=active]:bg-white/20 data-[state=active]:text-white">
+                    className={cn(
+                      "flex items-center gap-2 hover:bg-secondary ",
+                      activeTab === "draft" && "bg-blue-500 text-white"
+                    )}>
+                    <span
+                      className={cn(
+                        activeTab === "draft" && "dark:text-white"
+                      )}>
+                      Drafts
+                    </span>
+                    <span
+                      className={cn(
+                        "bg-muted text-muted-foreground px-1.5 py-0.5 rounded-sm text-xs",
+                        activeTab === "draft" && "dark:text-white"
+                      )}>
                       {filterBlogsByStatus("DRAFT").length}
                     </span>
                   </TabsTrigger>
@@ -200,9 +224,21 @@ export default function Posts({ blogs }: { blogs: BlogsType }) {
                 <TooltipTrigger asChild>
                   <TabsTrigger
                     value="unpublished"
-                    className="flex items-center gap-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white dark:data-[state=active]:bg-blue-500 dark:data-[state=active]:text-white">
-                    Unpublished
-                    <span className="bg-muted text-muted-foreground px-1.5 py-0.5 rounded-sm text-xs data-[state=active]:bg-white/20 data-[state=active]:text-white">
+                    className={cn(
+                      "flex items-center gap-2 hover:bg-secondary ",
+                      activeTab === "unpublished" && "bg-blue-500 text-white"
+                    )}>
+                    <span
+                      className={cn(
+                        activeTab === "unpublished" && "dark:text-white"
+                      )}>
+                      UnPublished
+                    </span>
+                    <span
+                      className={cn(
+                        "bg-muted text-muted-foreground px-1.5 py-0.5 rounded-sm text-xs",
+                        activeTab === "unpublished" && "dark:text-white"
+                      )}>
                       {filterBlogsByStatus("UNPUBLISHED").length}
                     </span>
                   </TabsTrigger>
@@ -215,9 +251,21 @@ export default function Posts({ blogs }: { blogs: BlogsType }) {
                 <TooltipTrigger asChild>
                   <TabsTrigger
                     value="archived"
-                    className="flex items-center gap-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white dark:data-[state=active]:bg-blue-500 dark:data-[state=active]:text-white">
-                    Archived
-                    <span className="bg-muted text-muted-foreground px-1.5 py-0.5 rounded-sm text-xs data-[state=active]:bg-white/20 data-[state=active]:text-white">
+                    className={cn(
+                      "flex items-center gap-2 hover:bg-secondary",
+                      activeTab === "archived" && "bg-blue-500 text-white"
+                    )}>
+                    <span
+                      className={cn(
+                        activeTab === "archived" && "dark:text-white"
+                      )}>
+                      Archived
+                    </span>
+                    <span
+                      className={cn(
+                        "bg-muted text-muted-foreground px-1.5 py-0.5 rounded-sm text-xs",
+                        activeTab === "archived" && "dark:text-white"
+                      )}>
                       {filterBlogsByStatus("ARCHIVED").length}
                     </span>
                   </TabsTrigger>
@@ -327,9 +375,10 @@ export default function Posts({ blogs }: { blogs: BlogsType }) {
             <EmptyState status="ARCHIVED" />
           )}
         </TabsContent>
+        {/* pagination */}
         {getFilteredBlogs(activeTab.toUpperCase() as BlogStatus) &&
           getFilteredBlogs(activeTab.toUpperCase() as BlogStatus).length >
-            0 && (
+            3 && (
             <div className="flex justify-center items-center gap-4 mt-10">
               <Button
                 size="sm"
