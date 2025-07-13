@@ -19,7 +19,7 @@ export default async function page({
     where: {
       uuid: blogId,
       status: {
-        notIn: ["ARCHIVED", "UNPUBLISHED"],
+        notIn: ["ARCHIVED"],
       },
     },
     select: {

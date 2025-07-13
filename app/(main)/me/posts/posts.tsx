@@ -12,9 +12,7 @@ import {
 } from "@/components/ui/select";
 import { createNewBlog } from "@/lib/actions/blogs";
 import {
-  Archive,
-  Eye,
-  EyeOff,
+  ArchiveIcon,
   FileText,
   ListFilterIcon,
   Plus,
@@ -72,20 +70,6 @@ export default function Posts({ blogs }: { blogs: BlogsType }) {
     return sortBlogs(searchedBlogs);
   };
 
-  const getTabIcon = (status: BlogStatus) => {
-    switch (status) {
-      case "PUBLISHED":
-        return <Eye className="h-4 w-4" />;
-      case "DRAFT":
-        return <FileText className="h-4 w-4" />;
-      case "UNPUBLISHED":
-        return <EyeOff className="h-4 w-4" />;
-      case "ARCHIVED":
-        return <Archive className="h-4 w-4" />;
-      default:
-        return null;
-    }
-  };
   const getEmptyStateMessage = (status: BlogStatus) => {
     switch (status) {
       case "PUBLISHED":
@@ -121,10 +105,13 @@ export default function Posts({ blogs }: { blogs: BlogsType }) {
   };
   const EmptyState = ({ status }: { status: BlogStatus }) => {
     const { title, description } = getEmptyStateMessage(status);
-
     return (
       <div className="flex flex-col items-center justify-center py-16 px-4">
-        <div className="text-muted-foreground mb-4">{getTabIcon(status)}</div>
+        {status === "ARCHIVED" ? (
+          <ArchiveIcon className="w-12 h-12 md:h-16 md:w-16 mb-4 text-muted-foreground" />
+        ) : (
+          <FileText className="w-12 h-12 md:h-16 md:w-16 mb-4 text-muted-foreground" />
+        )}
         <h3 className="text-lg font-semibold text-foreground mb-2">{title}</h3>
         <p className="text-sm text-muted-foreground text-center max-w-md mb-6">
           {description}

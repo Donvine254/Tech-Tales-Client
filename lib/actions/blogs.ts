@@ -6,6 +6,7 @@ import { BlogData } from "@/types";
 import { Prisma } from "@prisma/client";
 import { canPublishBlog } from "../helpers";
 import { revalidateTag } from "next/cache";
+import { redirect } from "next/navigation";
 // function to create a new blog
 
 export async function createNewBlog() {
@@ -287,7 +288,7 @@ export const getUserAndBlogsByHandle = unstable_cache(
     });
 
     if (!user) {
-      throw new Error("User not found");
+      redirect("/404");
     }
 
     const blogs = await prisma.blog.findMany({
