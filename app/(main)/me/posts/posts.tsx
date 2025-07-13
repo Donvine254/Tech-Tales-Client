@@ -13,23 +13,41 @@ import {
 import { createNewBlog } from "@/lib/actions/blogs";
 import {
   ArchiveIcon,
+  ChevronLeft,
+  ChevronRight,
   FileText,
   ListFilterIcon,
   Plus,
   Search,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { BlogStatus } from "@prisma/client";
 import { cn } from "@/lib/utils";
 import { getUserBlogs } from "@/lib/actions/user";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
+const BLOGS_PER_PAGE = 4;
 type BlogsType = Awaited<ReturnType<typeof getUserBlogs>>;
+
 export default function Posts({ blogs }: { blogs: BlogsType }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("newest");
   const [activeTab, setActiveTab] = useState("published");
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // reset page number when the tab changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeTab, searchQuery, sortBy]);
+
   const filterBlogsByStatus = (status: BlogStatus) => {
     return blogs.filter((blog) => blog.status === status);
   };
@@ -69,7 +87,15 @@ export default function Posts({ blogs }: { blogs: BlogsType }) {
     const searchedBlogs = searchBlogs(statusBlogs);
     return sortBlogs(searchedBlogs);
   };
-
+  const totalPages = Math.ceil(
+    getFilteredBlogs(activeTab.toUpperCase() as BlogStatus).length /
+      BLOGS_PER_PAGE
+  );
+  const paginatedBlogs = (blogs: BlogsType) => {
+    const start = (currentPage - 1) * BLOGS_PER_PAGE;
+    const end = start + BLOGS_PER_PAGE;
+    return blogs.slice(start, end);
+  };
   const getEmptyStateMessage = (status: BlogStatus) => {
     switch (status) {
       case "PUBLISHED":
@@ -121,15 +147,12 @@ export default function Posts({ blogs }: { blogs: BlogsType }) {
     );
   };
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between gap-4 mb-2">
-          <h1 className="text-lg md:text-2xl lg:text-3xl font-bold text-foreground">
-            My Blogs
-          </h1>
-          <CreateButton className="md:hidden" />
-        </div>
+      <div className="mb-8 text-center sm:text-start ">
+        <h1 className="text-2xl lg:text-3xl font-bold text-foreground mb-4">
+          My Blogs
+        </h1>
         <p className="text-muted-foreground">
           Manage and organize your blog posts
         </p>
@@ -140,43 +163,76 @@ export default function Posts({ blogs }: { blogs: BlogsType }) {
         onValueChange={setActiveTab}
         defaultValue="published"
         className="w-full">
-        <TabsList className="w-fit overflow-x-auto space-x-4 bg-card dark:bg-gray-950 shadow">
-          <TabsTrigger
-            value="published"
-            className="flex items-center gap-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white dark:data-[state=active]:bg-blue-500 dark:data-[state=active]:text-white">
-            Published
-            <span className="bg-muted text-muted-foreground px-1.5 py-0.5 rounded-sm text-xs data-[state=active]:bg-white/20 data-[state=active]:text-white">
-              {filterBlogsByStatus("PUBLISHED").length}
-            </span>
-          </TabsTrigger>
-          <TabsTrigger
-            value="draft"
-            className="flex items-center gap-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white dark:data-[state=active]:bg-blue-500 dark:data-[state=active]:text-white">
-            <span>Drafts</span>
-            <span className="bg-muted text-muted-foreground px-1.5 py-0.5 rounded-sm text-xs data-[state=active]:bg-white/20 data-[state=active]:text-white">
-              {filterBlogsByStatus("DRAFT").length}
-            </span>
-          </TabsTrigger>
-          <TabsTrigger
-            value="unpublished"
-            className="flex items-center gap-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white dark:data-[state=active]:bg-blue-500 dark:data-[state=active]:text-white">
-            Unpublished
-            <span className="bg-muted text-muted-foreground px-1.5 py-0.5 rounded-sm text-xs data-[state=active]:bg-white/20 data-[state=active]:text-white">
-              {filterBlogsByStatus("UNPUBLISHED").length}
-            </span>
-          </TabsTrigger>
-          <TabsTrigger
-            value="archived"
-            className="flex items-center gap-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white dark:data-[state=active]:bg-blue-500 dark:data-[state=active]:text-white">
-            Archived
-            <span className="bg-muted text-muted-foreground px-1.5 py-0.5 rounded-sm text-xs data-[state=active]:bg-white/20 data-[state=active]:text-white">
-              {filterBlogsByStatus("ARCHIVED").length}
-            </span>
-          </TabsTrigger>
-        </TabsList>
+        <ScrollArea className="w-full whitespace-nowrap pb-4">
+          <TabsList className="w-max space-x-4 bg-card dark:bg-gray-950 shadow">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <TabsTrigger
+                    value="published"
+                    className="flex items-center gap-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white dark:data-[state=active]:bg-blue-500 dark:data-[state=active]:text-white">
+                    Published
+                    <span className="bg-muted text-muted-foreground px-1.5 py-0.5 rounded-sm text-xs data-[state=active]:bg-white/20 data-[state=active]:text-white">
+                      {filterBlogsByStatus("PUBLISHED").length}
+                    </span>
+                  </TabsTrigger>
+                </TooltipTrigger>
+                <TooltipContent className="max-w-72 text-sm" side="bottom">
+                  <p>View published blogs</p>
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <TabsTrigger
+                    value="draft"
+                    className="flex items-center gap-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white dark:data-[state=active]:bg-blue-500 dark:data-[state=active]:text-white">
+                    <span>Drafts</span>
+                    <span className="bg-muted text-muted-foreground px-1.5 py-0.5 rounded-sm text-xs data-[state=active]:bg-white/20 data-[state=active]:text-white">
+                      {filterBlogsByStatus("DRAFT").length}
+                    </span>
+                  </TabsTrigger>
+                </TooltipTrigger>
+                <TooltipContent className="max-w-72 text-sm" side="bottom">
+                  <p>View draft blogs</p>
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <TabsTrigger
+                    value="unpublished"
+                    className="flex items-center gap-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white dark:data-[state=active]:bg-blue-500 dark:data-[state=active]:text-white">
+                    Unpublished
+                    <span className="bg-muted text-muted-foreground px-1.5 py-0.5 rounded-sm text-xs data-[state=active]:bg-white/20 data-[state=active]:text-white">
+                      {filterBlogsByStatus("UNPUBLISHED").length}
+                    </span>
+                  </TabsTrigger>
+                </TooltipTrigger>
+                <TooltipContent className="max-w-72 text-sm" side="bottom">
+                  <p>View unpublished blogs</p>
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <TabsTrigger
+                    value="archived"
+                    className="flex items-center gap-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white dark:data-[state=active]:bg-blue-500 dark:data-[state=active]:text-white">
+                    Archived
+                    <span className="bg-muted text-muted-foreground px-1.5 py-0.5 rounded-sm text-xs data-[state=active]:bg-white/20 data-[state=active]:text-white">
+                      {filterBlogsByStatus("ARCHIVED").length}
+                    </span>
+                  </TabsTrigger>
+                </TooltipTrigger>
+                <TooltipContent className="max-w-72 text-sm" side="bottom">
+                  <p>View archived blogs</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </TabsList>
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
 
         {/* Search and Sort Controls */}
-        <div className="flex flex-col sm:flex-row gap-4 my-6">
+        <div className="flex  gap-4 mb-4">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
@@ -188,9 +244,13 @@ export default function Posts({ blogs }: { blogs: BlogsType }) {
             />
           </div>
           <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className="w-full bg-white cursor-pointer dark:bg-gray-900 dark:hover:bg-gray-950 sm:w-48">
+            <SelectTrigger
+              className="w-min bg-white cursor-pointer dark:bg-gray-900 dark:hover:bg-gray-950 sm:w-48"
+              title="filter blogs">
               <ListFilterIcon className="h-4 w-4" />
-              <SelectValue placeholder="Sort by" />
+              <span className="hidden sm:inline">
+                <SelectValue placeholder="Sort by" />
+              </span>
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="newest">Newest First</SelectItem>
@@ -204,7 +264,7 @@ export default function Posts({ blogs }: { blogs: BlogsType }) {
         <TabsContent value="published" className="mt-0">
           {getFilteredBlogs("PUBLISHED").length > 0 ? (
             <div className="grid gap-6">
-              {getFilteredBlogs("PUBLISHED").map((blog) => (
+              {paginatedBlogs(getFilteredBlogs("PUBLISHED")).map((blog) => (
                 <MinimalBlogCard
                   key={blog.id}
                   blog={blog}
@@ -221,7 +281,7 @@ export default function Posts({ blogs }: { blogs: BlogsType }) {
         <TabsContent value="draft" className="mt-0">
           {getFilteredBlogs("DRAFT").length > 0 ? (
             <div className="grid gap-6">
-              {getFilteredBlogs("DRAFT").map((blog) => (
+              {paginatedBlogs(getFilteredBlogs("DRAFT")).map((blog) => (
                 <MinimalBlogCard
                   key={blog.id}
                   blog={blog}
@@ -238,7 +298,7 @@ export default function Posts({ blogs }: { blogs: BlogsType }) {
         <TabsContent value="unpublished" className="mt-0">
           {getFilteredBlogs("UNPUBLISHED").length > 0 ? (
             <div className="grid  gap-6">
-              {getFilteredBlogs("UNPUBLISHED").map((blog) => (
+              {paginatedBlogs(getFilteredBlogs("UNPUBLISHED")).map((blog) => (
                 <MinimalBlogCard
                   key={blog.id}
                   blog={blog}
@@ -255,7 +315,7 @@ export default function Posts({ blogs }: { blogs: BlogsType }) {
         <TabsContent value="archived" className="mt-0">
           {getFilteredBlogs("ARCHIVED").length > 0 ? (
             <div className="grid  gap-6">
-              {getFilteredBlogs("ARCHIVED").map((blog) => (
+              {paginatedBlogs(getFilteredBlogs("ARCHIVED")).map((blog) => (
                 <MinimalBlogCard
                   key={blog.id}
                   blog={blog}
@@ -267,6 +327,33 @@ export default function Posts({ blogs }: { blogs: BlogsType }) {
             <EmptyState status="ARCHIVED" />
           )}
         </TabsContent>
+        {getFilteredBlogs(activeTab.toUpperCase() as BlogStatus) &&
+          getFilteredBlogs(activeTab.toUpperCase() as BlogStatus).length >
+            0 && (
+            <div className="flex justify-center items-center gap-4 mt-10">
+              <Button
+                size="sm"
+                variant="ghost"
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                className="cursor-pointer items-center">
+                <ChevronLeft /> Prev
+              </Button>
+              <span className="font-semibold text-sm text-muted-foreground">
+                Page {currentPage} of {totalPages}
+              </span>
+              <Button
+                size="sm"
+                variant="ghost"
+                className="cursor-pointer items-center"
+                disabled={currentPage === totalPages}
+                onClick={() =>
+                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                }>
+                Next <ChevronRight />
+              </Button>
+            </div>
+          )}
       </Tabs>
     </div>
   );
