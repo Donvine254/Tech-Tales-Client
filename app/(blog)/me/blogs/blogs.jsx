@@ -88,22 +88,22 @@ export default function MyBlogsComponent() {
                       <time dateTime={blog?.createdAt}>
                         {formatDate(blog.createdAt)} {""}
                       </time>
-                      &#x2022; &#128337;{calculateReadingTime(blog.body)} min
+                      &#x2022; &#128337;{calculateReadingTime(blog.body ?? "")} min
                     </p>
                   </div>
                 </div>
                 <hr className="mt-2 h-[2px] bg-gray-200" />
                 <Link
-                  href={`/blogs/${blog.slug}`}
+                  href={`/blogs/${blog?.slug}`}
                   className="space-y-3 xl:col-span-3"
                   prefetch>
-                  <h1 className="font-bold md:text-xl  py-2">{blog.title}</h1>
+                  <h1 className="font-bold md:text-xl  py-2">{blog?.title ?? ""}</h1>
                 </Link>
                 {/* div for blog tags */}
                 <div className="py-1">
                   {blog.tags ? (
                     <div className="flex gap-1 md:gap-2 flex-wrap text-sm xsm:text-xs">
-                      {blog.tags.split(",").map((tag, index) => (
+                      {blog?.tags?.split(",").map((tag, index) => (
                         <Link
                           key={index}
                           href={`/search?search=${tag.trim()}`}
@@ -118,23 +118,23 @@ export default function MyBlogsComponent() {
                   )}
                 </div>
                 <article className="text-sm sm:text-base md:text-[18px] leading-8 line-clamp-2 md:pb-1 trimmed-blog-body ">
-                  {blog.body ? parse(blog.body.substring(0, 400)) : blog.body}
+                  {blog?.body ? parse(blog.body.substring(0, 400)) : "Your blog body appears here"}
                 </article>
               </div>
               {/* beginning div for actions buttons */}
               <div className="flex items-center justify-between xsm:gap-2 md:gap-4  py-2">
                 <Link
-                  href={`/blogs/${blog.slug}`}
+                  href={`/blogs/${blog?.slug}`}
                   className="text-base  inline-flex items-center gap-1">
                   <Comment size={20} className="stroke-none fill-gray-400" />
                   <span className="xsm:text-xs">{blog?._count?.comments}</span>
                 </Link>
                 <Link
-                  href={`/blogs/${blog.slug}`}
+                  href={`/blogs/${blog?.slug ?? 0}`}
                   prefetch
                   className="inline-flex items-center gap-0.5 ">
                   <Like className="stroke-gray-400 fill-none" size={20} />
-                  <span className="xsm:text-xs">{blog.likes}</span>
+                  <span className="xsm:text-xs">{blog?.likes ?? 0}</span>
                 </Link>
                 <Link
                   href={`/blogs/${blog.slug}`}
@@ -148,10 +148,10 @@ export default function MyBlogsComponent() {
                 <ShareButton
                   size={20}
                   className="h-[20px] w-[20px] text-gray-500"
-                  title={blog.title}
-                  slug={blog.slug}
+                  title={blog?.title}
+                  slug={blog?.slug}
                   blogId={blog.id}
-                  image={blog.image.secure_url}
+                  image={blog?.image?.secure_url ?? "/placeholder-image.webp"}
                 />
                 <ActionsButton
                   onDelete={() => handleDelete(blog.id, blog.slug)}
@@ -218,7 +218,7 @@ export default function MyBlogsComponent() {
             className="bg-gray-100 my-4 p-4 rounded-md border shadow hover:bg-slate-200">
             <div className="">
               <div className="flex gap-2 xsm:items-center">
-                <UserImage url={blog.author.picture} />
+                <UserImage url={blog.author?.picture} />
                 <div className="">
                   <p className=" text-base md:text-xl capitalize">
                     Written By{" "}
@@ -234,11 +234,11 @@ export default function MyBlogsComponent() {
                 href="#"
                 className="space-y-3 xl:col-span-3 pointer-events-none"
                 title="disabled-link">
-                <h1 className="font-bold md:text-xl  py-2">{blog.title}</h1>
+                <h1 className="font-bold md:text-xl  py-2">{blog?.title}</h1>
               </Link>
               {/* div for blog tags */}
               <div className="py-1">
-                {blog.tags ? (
+                {blog?.tags ? (
                   <div className="flex gap-1 md:gap-2 flex-wrap text-sm xsm:text-xs">
                     {blog.tags.split(",").map((tag, index) => (
                       <Link
@@ -255,7 +255,7 @@ export default function MyBlogsComponent() {
                 )}
               </div>
               <article className="text-sm sm:text-base md:text-xl leading-8 line-clamp-2 md:pb-1 trimmed-blog-body ">
-                {blog.body ? parse(blog.body.substring(0, 400)) : blog.body}
+                {blog.body ? parse(blog.body.substring(0, 400)) : "Your blog body here"}
               </article>
             </div>
             <div className="flex items-center justify-between py-2 ">
@@ -278,7 +278,8 @@ export default function MyBlogsComponent() {
               </Link>
               <p className="text-base flex items-center gap-1 md:gap-2 bg-gray-300 border rounded-full text-black px-2">
                 <Clock />
-                {calculateReadingTime(blog.body)} min{" "}
+                {calculateReadingTime(blog?.body ?? "
+                  ")} min{" "}
                 <span className="xsm:hidden">read</span>
               </p>
               <p className="text-base  inline-flex items-center gap-1">
