@@ -34,7 +34,7 @@ export default async function ExplorePage({ data }: { data: UserAndBlogs }) {
         style={{
           backgroundColor: data.user.branding ?? "0366F3",
         }}></div>
-      <div className="w-full min-h-[400px] mx-auto px-4 sm:px-6 lg:px-8 py-16 max-w-5xl">
+      <div className="w-full min-h-[400px] mx-auto px-4 sm:px-6 lg:px-8 py-16 max-w-6xl">
         {/* user card */}
         <div className="px-6 py-4 w-full relative -top-40 rounded-md bg-card shadow border">
           <Image
