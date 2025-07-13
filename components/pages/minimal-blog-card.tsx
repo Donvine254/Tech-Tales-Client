@@ -80,7 +80,7 @@ export default function MinimalBlogCard({
           {/* Title */}
           {blog.status === "PUBLISHED" ? (
             <Link
-              href={`${blog.slug}`}
+              href={`/blog/${blog.slug}`}
               className="group"
               title={blog.title ?? ""}>
               <h3 className="text-base sm:text-lg font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 leading-snug cursor-pointer">
@@ -88,7 +88,7 @@ export default function MinimalBlogCard({
               </h3>
             </Link>
           ) : (
-            <h3 className="text-base sm:text-lg font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 leading-snug cursor-pointer">
+            <h3 className="text-base sm:text-lg font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 leading-snug ">
               {blog.title ?? "Untitled Post"}
             </h3>
           )}
