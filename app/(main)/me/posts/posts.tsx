@@ -172,7 +172,8 @@ export default function Posts({ blogs }: { blogs: BlogsType }) {
                     value="published"
                     className={cn(
                       "flex items-center gap-2 hover:bg-secondary",
-                      activeTab === "published" && "bg-blue-500 text-white"
+                      activeTab === "published" &&
+                        "bg-blue-500 hover:bg-blue-600 text-white"
                     )}>
                     <span
                       className={cn(
@@ -199,7 +200,8 @@ export default function Posts({ blogs }: { blogs: BlogsType }) {
                     value="draft"
                     className={cn(
                       "flex items-center gap-2 hover:bg-secondary ",
-                      activeTab === "draft" && "bg-blue-500 text-white"
+                      activeTab === "draft" &&
+                        "bg-blue-500 hover:bg-blue-600 text-white"
                     )}>
                     <span
                       className={cn(
@@ -226,7 +228,8 @@ export default function Posts({ blogs }: { blogs: BlogsType }) {
                     value="unpublished"
                     className={cn(
                       "flex items-center gap-2 hover:bg-secondary ",
-                      activeTab === "unpublished" && "bg-blue-500 text-white"
+                      activeTab === "unpublished" &&
+                        "bg-blue-500 hover:bg-blue-600 text-white"
                     )}>
                     <span
                       className={cn(
@@ -253,7 +256,8 @@ export default function Posts({ blogs }: { blogs: BlogsType }) {
                     value="archived"
                     className={cn(
                       "flex items-center gap-2 hover:bg-secondary",
-                      activeTab === "archived" && "bg-blue-500 text-white"
+                      activeTab === "archived" &&
+                        "bg-blue-500 hover:bg-blue-600 text-white"
                     )}>
                     <span
                       className={cn(
