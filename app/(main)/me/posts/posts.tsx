@@ -16,7 +16,7 @@ import {
   Eye,
   EyeOff,
   FileText,
-  Filter,
+  ListFilterIcon,
   Plus,
   Search,
 } from "lucide-react";
@@ -193,15 +193,16 @@ export default function Posts({ blogs }: { blogs: BlogsType }) {
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
+              type="search"
               placeholder="Search blogs..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-white dark:bg-input"
+              className="pl-10 bg-white dark:bg-gray-900"
             />
           </div>
           <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className="w-full bg-white dark:bg-input sm:w-48">
-              <Filter className="h-4 w-4 mr-2" />
+            <SelectTrigger className="w-full bg-white cursor-pointer dark:bg-gray-900 dark:hover:bg-gray-950 sm:w-48">
+              <ListFilterIcon className="h-4 w-4" />
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
             <SelectContent>
