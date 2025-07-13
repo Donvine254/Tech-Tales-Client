@@ -7,13 +7,18 @@ import {
   LogoYoutube,
   Tiktok,
 } from "@/assets/icons";
+import { ExternalLink } from "lucide-react";
+import Link from "next/link";
 import { FC } from "react";
 
 interface SocialLink {
   platform: string;
   url: string;
 }
-export const SocialLinks: FC<{ socials?: SocialLink[] }> = ({ socials }) => {
+export const SocialLinks: FC<{
+  socials?: SocialLink[];
+  variant?: "icon" | "card";
+}> = ({ socials, variant = "icon" }) => {
   const getUrl = (platform: string) =>
     socials?.find((s) => s.platform === platform)?.url || null;
 
@@ -50,6 +55,33 @@ export const SocialLinks: FC<{ socials?: SocialLink[] }> = ({ socials }) => {
       url: getUrl("tiktok"),
     },
   ];
+  if (variant === "card") {
+    return (
+      <div className="space-y-3">
+        {platforms
+          .filter((p) => p.url)
+          .map(({ name, icon, url }) => (
+            <div
+              key={name}
+              className="flex items-center gap-3 px-1.5 py-0.5 border rounded-lg bg-muted">
+              <div className="flex items-center justify-center w-8 h-8 rounded-md bg-gray-300 dark:bg-gray-900">
+                {icon}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-medium text-sm capitalize">{name}</p>
+                <p className="text-xs text-muted-foreground truncate">{url}</p>
+              </div>
+              <Link
+                href={url!}
+                target="_blank"
+                className="inline-flex items-center justify-center h-8 w-8 p-0 hover:text-blue-600">
+                <ExternalLink className="h-3 w-3" />
+              </Link>
+            </div>
+          ))}
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-wrap space-x-4 items-center">

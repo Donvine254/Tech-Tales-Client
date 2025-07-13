@@ -237,9 +237,12 @@ export default function Profile({
               {/* Fourth card */}
               <div className="space-y-6 bg-card shadow border px-6 py-4 rounded-md">
                 <div className="mb-4">
-                  <p className="text-primary/90 font-semibold mb-2 ">Socials</p>
+                  <div className="text-primary/90 flex items-center gap-2 font-semibold mb-2 ">
+                    Connected Accounts{" "}
+                    <Badge variant="secondary">{socials.length}</Badge>
+                  </div>
                   {socials && socials.length > 0 ? (
-                    <SocialLinks socials={socials} />
+                    <SocialLinks socials={socials} variant="card" />
                   ) : (
                     "I have not updated my socials yet"
                   )}
