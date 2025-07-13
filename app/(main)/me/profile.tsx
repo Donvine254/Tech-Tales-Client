@@ -10,13 +10,17 @@ import {
   Shield,
   Edit,
   HistoryIcon,
+  ChevronRight,
 } from "lucide-react";
 import Image from "next/image";
 import { useSession } from "@/providers/session";
 import { CakeIcon, ChartNoAxesColumn, MailIcon, Settings } from "lucide-react";
 import { cn, formatDate, formatViews } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 const user = {
   branding: "#0366F3",
   bio: "Hey, I have not updated my bio yet. Let's chat in the comments",
@@ -132,14 +136,27 @@ export default function Profile() {
             </div>
           </div>
         </div>
-        {/* Stat cards */}
-        <StatCards />
         {/* two grid cards */}
-        <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-start md:gap-5 relative">
-          {/* first child, navmenu */}
-          <div className="md:w-min space-y-4 md:sticky md:top-20">
-            <MenuList isAdmin={session?.role === "admin"} />
-          </div>
+        <div className="-mt-36">
+          <MenuList isAdmin={session?.role === "admin"} />
+          <StatCards />
+          {/* tabs */}
+          <Tabs defaultValue="about" className="w-full">
+            <ScrollArea className="w-full whitespace-nowrap pb-4">
+              <TabsList className="w-full space-x-4 bg-card dark:bg-gray-950 shadow">
+                <TabsTrigger value="about" className="text-sm">
+                  About
+                </TabsTrigger>
+                <TabsTrigger value="articles" className="text-sm">
+                  Top Articles
+                </TabsTrigger>
+                <TabsTrigger value="favorites" className="text-sm">
+                  Favorite Articles
+                </TabsTrigger>
+              </TabsList>
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
+          </Tabs>
         </div>
       </div>
     </section>
@@ -183,7 +200,7 @@ const statsData = [
 
 const StatCards: FC = () => {
   return (
-    <div className="grid grid-cols-1 -mt-36 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+    <div className="grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
       {statsData.map((stat, index) => {
         const Icon = stat.icon;
         return (
@@ -217,6 +234,7 @@ const StatCards: FC = () => {
 // menu list
 
 const MenuList: FC<{ isAdmin: boolean }> = ({ isAdmin }) => {
+  const pathname = usePathname();
   const menuItems = [
     { label: "Settings", icon: Edit, link: "/me/settings" },
     ...(isAdmin
@@ -229,25 +247,33 @@ const MenuList: FC<{ isAdmin: boolean }> = ({ isAdmin }) => {
   ];
 
   return (
-    <Card>
-      <CardContent className="space-y-2">
-        <h3 className="text-lg font-semibold">Quick Menu</h3>
-        {menuItems.map((item) => {
-          const IconComponent = item.icon;
+    <ScrollArea className="w-full whitespace-nowrap border-b border-border pb-2 mb-4 ">
+      <div className="flex items-center gap-2">
+        {menuItems.map((item, index) => {
+          const isActive = pathname === item.link;
+          const Icon = item.icon;
           return (
-            <Link
-              key={item.label}
-              href={item.link}
-              className={cn(
-                buttonVariants({ variant: "ghost", size: "sm" }),
-                "w-full justify-start"
-              )}>
-              <IconComponent className="w-4 h-4 mr-2" />
-              {item.label}
-            </Link>
+            <div key={item.link} className="flex items-center">
+              <Link
+                href={item.link}
+                className={cn(
+                  "flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium bg-secondary text-primary-foreground shadow-xs hover:bg-primary/90",
+                  "hover:bg-muted-foreground/10 hover:text-blue-500 transition-colors",
+                  isActive
+                    ? "bg-blue-100 text-blue-600 font-semibold"
+                    : "text-foreground"
+                )}>
+                <Icon className={cn("w-4 h-4", isActive && "text-blue-600")} />
+                <span>{item.label}</span>
+              </Link>
+              {index !== menuItems.length - 1 && (
+                <ChevronRight className="w-4 h-4 text-muted-foreground mx-1" />
+              )}
+            </div>
           );
         })}
-      </CardContent>
-    </Card>
+      </div>
+      <ScrollBar orientation="horizontal" />
+    </ScrollArea>
   );
 };
