@@ -30,11 +30,14 @@ import {
 } from "@/components/ui/tooltip";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import CreateButton from "@/components/profile/create-button";
+import { toast } from "sonner";
+import { updateBlogStatus } from "@/lib/actions/blogs";
 
 const BLOGS_PER_PAGE = 4;
 type BlogsType = Awaited<ReturnType<typeof getUserBlogs>>;
 
-export default function Posts({ blogs }: { blogs: BlogsType }) {
+export default function Posts({ data }: { data: BlogsType }) {
+  const [blogs, setBlogs] = useState(data);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("newest");
   const [activeTab, setActiveTab] = useState("published");
@@ -143,6 +146,36 @@ export default function Posts({ blogs }: { blogs: BlogsType }) {
       </div>
     );
   };
+  // function to update blog status
+  async function handleStatusChange(status: BlogStatus, blogId: number) {
+    const toastId = toast.loading("Processing request");
+    let originalStatus: BlogStatus | null = null;
+
+    setBlogs((prevBlogs) =>
+      prevBlogs.map((blog) => {
+        if (blog.id === blogId) {
+          originalStatus = blog.status;
+          return { ...blog, status };
+        }
+        return blog;
+      })
+    );
+    const res = await updateBlogStatus(status, blogId);
+    toast.dismiss(toastId);
+    if (res.success) {
+      toast.success("Blog status updated successfully");
+    } else {
+      if (originalStatus) {
+        setBlogs((prevBlogs) =>
+          prevBlogs.map((blog) =>
+            blog.id === blogId ? { ...blog, status: originalStatus! } : blog
+          )
+        );
+      }
+      toast.error(res.message || "Failed to update blog status");
+    }
+  }
+
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Header */}
@@ -317,6 +350,7 @@ export default function Posts({ blogs }: { blogs: BlogsType }) {
                 <MinimalBlogCard
                   key={blog.id}
                   blog={blog}
+                  onUpdate={handleStatusChange}
                   showMoreActions={true}
                 />
               ))}
@@ -335,6 +369,7 @@ export default function Posts({ blogs }: { blogs: BlogsType }) {
                   key={blog.id}
                   blog={blog}
                   showMoreActions={true}
+                  onUpdate={handleStatusChange}
                 />
               ))}
             </div>
@@ -351,6 +386,7 @@ export default function Posts({ blogs }: { blogs: BlogsType }) {
                 <MinimalBlogCard
                   key={blog.id}
                   blog={blog}
+                  onUpdate={handleStatusChange}
                   showMoreActions={true}
                 />
               ))}
@@ -368,6 +404,7 @@ export default function Posts({ blogs }: { blogs: BlogsType }) {
                 <MinimalBlogCard
                   key={blog.id}
                   blog={blog}
+                  onUpdate={handleStatusChange}
                   showMoreActions={true}
                 />
               ))}

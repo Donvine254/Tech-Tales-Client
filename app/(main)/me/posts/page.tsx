@@ -13,7 +13,7 @@ export default async function Page() {
   const blogs = await getUserBlogs(session.userId);
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-accent">
-      <Posts blogs={blogs} />
+      <Posts data={blogs} />
     </div>
   );
 }

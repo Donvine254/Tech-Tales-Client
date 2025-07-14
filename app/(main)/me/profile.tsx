@@ -306,9 +306,9 @@ export default function Profile({
                 {blogs.length > 0 ? (
                   blogs.map((blog) => (
                     <MinimalBlogCard
+                      onUpdate={() => console.log("not here man")}
                       key={blog.id}
                       blog={blog}
-                      showMoreActions={true}
                     />
                   ))
                 ) : (
