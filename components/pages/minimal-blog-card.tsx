@@ -16,6 +16,7 @@ import Image from "next/image";
 import { BlogCardDropdown } from "./blog-dropdown";
 import { Badge } from "../ui/badge";
 import { getUserBlogs } from "@/lib/actions/user";
+import { BlogStatus } from "@prisma/client";
 
 // check for image
 function isCoverImage(image: unknown): image is CoverImage {
@@ -29,9 +30,11 @@ function isCoverImage(image: unknown): image is CoverImage {
 export default function MinimalBlogCard({
   blog,
   showMoreActions = false,
+  onUpdate,
 }: {
   blog: BlogWithComments | Awaited<ReturnType<typeof getUserBlogs>>[number];
   showMoreActions?: boolean;
+  onUpdate: (status: BlogStatus, blogId: number) => void;
 }) {
   const image = isCoverImage(blog.image) ? blog.image : null;
   return (
@@ -188,6 +191,7 @@ export default function MinimalBlogCard({
             blogStatus={blog.status}
             uuid={blog.uuid}
             showMoreActions={showMoreActions}
+            onUpdate={onUpdate}
           />
         </div>
       </div>

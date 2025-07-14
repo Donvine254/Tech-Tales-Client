@@ -31,6 +31,7 @@ interface BlogCardDropdownProps {
   uuid: string;
   blogStatus: BlogStatus;
   showMoreActions?: boolean;
+  onUpdate: (status: BlogStatus, blogId: number) => void;
 }
 
 export const BlogCardDropdown = ({
@@ -40,6 +41,7 @@ export const BlogCardDropdown = ({
   blogStatus,
   uuid,
   showMoreActions = false,
+  onUpdate,
 }: BlogCardDropdownProps) => {
   const { session } = useSession();
 
@@ -88,26 +90,40 @@ export const BlogCardDropdown = ({
               </Link>
             )}
             {blogStatus === "UNPUBLISHED" && (
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  onUpdate("PUBLISHED", blogId);
+                }}>
                 <MegaphoneIcon className="w-4 h-4 mr-2" />
                 Publish
               </DropdownMenuItem>
             )}
             {blogStatus === "ARCHIVED" && (
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  onUpdate("PUBLISHED", blogId);
+                }}>
                 <ArchiveRestore className="w-4 h-4 mr-2" />
                 Unarchive
               </DropdownMenuItem>
             )}
             <DropdownMenuSeparator />
             {blogStatus !== "ARCHIVED" && blogStatus !== "DRAFT" && (
-              <DropdownMenuItem className="text-amber-400 focus:text-amber-400 group">
+              <DropdownMenuItem
+                className="text-amber-400 focus:text-amber-400 group"
+                onClick={() => {
+                  onUpdate("ARCHIVED", blogId);
+                }}>
                 <ArchiveIcon className="w-4 h-4 mr-2 text-amber-400" />
                 Archive
               </DropdownMenuItem>
             )}
             {blogStatus === "PUBLISHED" && (
-              <DropdownMenuItem className=" group text-amber-600 focus:text-amber-600">
+              <DropdownMenuItem
+                className=" group text-amber-600 focus:text-amber-600"
+                onClick={() => {
+                  onUpdate("UNPUBLISHED", blogId);
+                }}>
                 <Undo2Icon className="w-4 h-4 mr-2 text-amber-600" />
                 Unpublish
               </DropdownMenuItem>

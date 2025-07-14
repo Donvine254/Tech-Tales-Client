@@ -3,7 +3,7 @@ import { unstable_cache } from "next/cache";
 import prisma from "@/prisma/prisma";
 import { getSession } from "./session";
 import { BlogData } from "@/types";
-import { Prisma } from "@prisma/client";
+import { BlogStatus, Prisma } from "@prisma/client";
 import { canPublishBlog } from "../helpers";
 import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
@@ -322,3 +322,28 @@ export const getUserAndBlogsByHandle = unstable_cache(
     tags: ["user-blogs"],
   }
 );
+
+export async function updateBlogStatus(status: BlogStatus, blogId: number) {
+  try {
+    await prisma.blog.update({
+      where: { id: blogId },
+      data: {
+        status: status,
+      },
+    });
+    return {
+      success: true,
+      message: "Blog status updated successfully",
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      success: false,
+      message: "Record to update not found",
+    };
+  } finally {
+    revalidateTag("author-blogs");
+    revalidateTag("user-blogs");
+    await prisma.$disconnect();
+  }
+}
