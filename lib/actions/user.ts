@@ -1,7 +1,10 @@
 "use server";
-import { unstable_cache } from "next/cache";
+import { revalidateTag, unstable_cache } from "next/cache";
 import prisma from "@/prisma/prisma";
 import { redirect } from "next/navigation";
+import { SocialLink } from "@/types";
+import { getSession } from "./session";
+import { Prisma } from "@prisma/client";
 
 // function to getAllUserBlogs
 export const getUserBlogs = unstable_cache(
@@ -94,3 +97,37 @@ export const getUserData = unstable_cache(
     tags: ["user-blogs"],
   }
 );
+
+// function to saveuser socials
+
+export async function updateSocials(data: SocialLink[]) {
+  const session = await getSession();
+  if (!session || !session.userId) {
+    return { success: false, message: "No logged-in user found" };
+  }
+  try {
+    const user = await prisma.user.update({
+      where: { id: Number(session.userId) },
+      data: {
+        socials: data as unknown as Prisma.InputJsonValue, // ✅ fix type error
+      },
+      select: {
+        socials: true, // ✅ only return socials
+      },
+    });
+    // ✅ revalidate relevant tags
+    revalidateTag("author-blogs");
+    revalidateTag("user-blogs");
+    return {
+      success: true,
+      socials: user.socials,
+      message: "Socials updated successfully",
+    };
+  } catch (error) {
+    console.error("Failed to update socials", error);
+    return {
+      success: false,
+      message: "Something went wrong while updating socials",
+    };
+  }
+}

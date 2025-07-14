@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Trash2, PlusIcon } from "lucide-react";
+import { Trash2, PlusIcon, Loader2 } from "lucide-react";
 import {
   FacebookRect,
   GithubIcon,
@@ -23,7 +23,8 @@ import {
   TwitterXLine,
 } from "@/assets/icons";
 import { SocialLink } from "@/types";
-
+import { updateSocials } from "@/lib/actions/user";
+import { toast } from "sonner";
 
 interface SocialMediaDialogProps {
   existingSocials?: SocialLink[];
@@ -89,6 +90,7 @@ export default function SocialMediaDialog({
 }: SocialMediaDialogProps) {
   const [open, setOpen] = useState(false);
   const [socials, setSocials] = useState<SocialLink[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (open) {
@@ -120,10 +122,20 @@ export default function SocialMediaDialog({
     );
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     // Only save socials with non-empty URLs
     const validSocials = socials.filter((social) => social.url.trim() !== "");
     onSave(validSocials);
+    setLoading(true);
+    const res = await updateSocials(socials);
+    setLoading(false);
+    if (res.success && res.socials) {
+      toast.success(res.message);
+    } else {
+      toast.error(res.message);
+      // revert back the changes
+      onSave(existingSocials);
+    }
     setOpen(false);
   };
 
@@ -236,7 +248,7 @@ export default function SocialMediaDialog({
           })}
         </div>
         <DialogFooter className="gap-2 flex-shrink-0">
-          <Button variant="outline" onClick={handleCancel}>
+          <Button variant="outline" onClick={handleCancel} disabled={loading}>
             Cancel
           </Button>
           <Button
@@ -244,9 +256,17 @@ export default function SocialMediaDialog({
             disabled={
               socials.some(
                 (s) => s.url.trim() !== "" && !isValidUrl(s.platform, s.url)
-              ) || !hasChanges()
+              ) ||
+              !hasChanges() ||
+              loading
             }>
-            Save Changes
+            {loading ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" /> Saving..
+              </>
+            ) : (
+              "Save Changes"
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>
