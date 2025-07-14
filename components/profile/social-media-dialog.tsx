@@ -5,6 +5,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogOverlay,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
@@ -168,6 +169,7 @@ export default function SocialMediaDialog({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
+      <DialogOverlay className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm dark:bg-black/70 transition-all" />
       <DialogTrigger asChild>
         <Button
           variant="outline"
@@ -225,7 +227,8 @@ export default function SocialMediaDialog({
                 </div>
                 {!urlIsValid && social.url.trim() !== "" && (
                   <p className="text-sm text-destructive">
-                    URL must start with <strong>{config.domain}</strong>
+                    URL must start with <strong>{config.domain}</strong> and
+                    include a <strong>username</strong>
                   </p>
                 )}
               </div>
