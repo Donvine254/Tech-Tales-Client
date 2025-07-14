@@ -102,15 +102,11 @@ export async function publishBlog(
   }
 }
 // function to delete blog post
-export async function deleteOrArchiveBlog(uuid?: string, id?: number) {
-  if (!uuid && !id) {
-    return { success: false, message: "Either uuid or id must be provided." };
-  }
-
+export async function deleteOrArchiveBlog(uuid: string) {
   try {
     // Fetch current blog status
     const blog = await prisma.blog.findUnique({
-      where: uuid ? { uuid } : { id },
+      where: {uuid},
       select: {
         status: true,
         author: {

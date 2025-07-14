@@ -39,7 +39,7 @@ export default function MinimalBlogCard({
   blog: BlogWithComments | Awaited<ReturnType<typeof getUserBlogs>>[number];
   showMoreActions?: boolean;
   onUpdate: (status: BlogStatus, blogId: number) => void;
-  onDelete: (blogId: number) => void;
+  onDelete: (uuid: string) => void;
 }) {
   const image = isCoverImage(blog.image) ? blog.image : null;
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -203,7 +203,7 @@ export default function MinimalBlogCard({
           <DeleteConfirmDialog
             open={showDeleteDialog}
             setOpen={setShowDeleteDialog}
-            onDelete={() => onDelete(blog.id)}
+            onDelete={() => onDelete(blog.uuid)}
             item="blog"
           />
         </div>

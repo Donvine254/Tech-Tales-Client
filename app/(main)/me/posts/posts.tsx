@@ -176,14 +176,14 @@ export default function Posts({ data }: { data: BlogsType }) {
     }
   }
   // function delete blogs
-  async function handleDelete(blogId: number) {
+  async function handleDelete(uuid: string) {
     let deletedBlog: BlogsType[number] | undefined;
     setBlogs((prev) => {
-      const target = prev.find((b) => b.id === blogId);
+      const target = prev.find((b) => b.uuid === uuid);
       deletedBlog = target; // Save for possible rollback
-      return prev.filter((b) => b.id !== blogId);
+      return prev.filter((b) => b.uuid !== uuid);
     });
-    const res = await deleteOrArchiveBlog(undefined, blogId);
+    const res = await deleteOrArchiveBlog(uuid);
 
     if (res.success) {
       toast.success(res.message);
