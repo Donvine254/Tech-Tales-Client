@@ -11,7 +11,6 @@ import {
   Edit,
   HistoryIcon,
   ChevronRight,
-  PlusIcon,
   ArrowUpRight,
   FileText,
   BookOpenIcon,
@@ -20,7 +19,7 @@ import Image from "next/image";
 import { useSession } from "@/providers/session";
 import { CakeIcon, ChartNoAxesColumn, MailIcon, Settings } from "lucide-react";
 import { cn, formatDate, formatViews } from "@/lib/utils";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -30,6 +29,7 @@ import UserBadges from "@/components/profile/badge";
 import { Badge } from "@/components/ui/badge";
 import MinimalBlogCard from "@/components/pages/minimal-blog-card";
 import CreateButton from "@/components/profile/create-button";
+import SocialMediaDialog from "@/components/profile/social-media-dialog";
 
 type UserAndBlogs = Awaited<ReturnType<typeof getUserData>>;
 
@@ -279,11 +279,12 @@ export default function Profile({
                     "I have not updated my socials yet"
                   )}
                 </div>
-                <Button
-                  variant="outline"
-                  className="cursor-pointer w-full hover:text-blue-500">
-                  <PlusIcon className="h-4 w-4" /> Connect Account
-                </Button>
+                <SocialMediaDialog
+                  existingSocials={socials}
+                  onSave={() => {
+                    console.log(socials);
+                  }}
+                />
               </div>
             </div>
             {/* second child */}
