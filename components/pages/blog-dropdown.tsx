@@ -74,17 +74,19 @@ export const BlogCardDropdown = ({
         {/* Owner actions */}
         {showMoreActions && isOwner && (
           <>
-            <Link
-              href={`/posts/new/${uuid}`}
-              passHref
-              className="cursor-pointer">
-              <DropdownMenuItem asChild>
-                <span className="flex items-center">
-                  <PencilLineIcon className="w-4 h-4 mr-2" />
-                  Edit
-                </span>
-              </DropdownMenuItem>
-            </Link>
+            {blogStatus !== "ARCHIVED" && (
+              <Link
+                href={`/posts/new/${uuid}`}
+                passHref
+                className="cursor-pointer">
+                <DropdownMenuItem asChild>
+                  <span className="flex items-center">
+                    <PencilLineIcon className="w-4 h-4 mr-2" />
+                    Edit
+                  </span>
+                </DropdownMenuItem>
+              </Link>
+            )}
             {blogStatus === "UNPUBLISHED" && (
               <DropdownMenuItem>
                 <MegaphoneIcon className="w-4 h-4 mr-2" />
@@ -98,17 +100,16 @@ export const BlogCardDropdown = ({
               </DropdownMenuItem>
             )}
             <DropdownMenuSeparator />
-            {blogStatus === "PUBLISHED" && (
-              <DropdownMenuItem className=" group text-amber-600 focus:text-amber-600">
-                <Undo2Icon className="w-4 h-4 mr-2 text-amber-600" />
-                Unpublish
-              </DropdownMenuItem>
-            )}
-
             {blogStatus !== "ARCHIVED" && blogStatus !== "DRAFT" && (
               <DropdownMenuItem className="text-amber-400 focus:text-amber-400 group">
                 <ArchiveIcon className="w-4 h-4 mr-2 text-amber-400" />
                 Archive
+              </DropdownMenuItem>
+            )}
+            {blogStatus === "PUBLISHED" && (
+              <DropdownMenuItem className=" group text-amber-600 focus:text-amber-600">
+                <Undo2Icon className="w-4 h-4 mr-2 text-amber-600" />
+                Unpublish
               </DropdownMenuItem>
             )}
 

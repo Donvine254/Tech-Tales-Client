@@ -22,10 +22,8 @@ import {
   Tiktok,
   TwitterXLine,
 } from "@/assets/icons";
-interface SocialLink {
-  platform: string;
-  url: string;
-}
+import { SocialLink } from "@/types";
+
 
 interface SocialMediaDialogProps {
   existingSocials?: SocialLink[];
@@ -35,7 +33,7 @@ interface SocialMediaDialogProps {
 type SocialPlatform =
   | "github"
   | "facebook"
-  | "twitter"
+  | "x"
   | "instagram"
   | "youtube"
   | "tiktok"
@@ -53,9 +51,9 @@ const platformConfig = {
     placeholder: "https://facebook.com/username",
     domain: "facebook.com",
   },
-  twitter: {
+  x: {
     icon: TwitterXLine,
-    label: "Twitter",
+    label: "Twitter/X",
     placeholder: "https://x.com/username",
     domain: "x.com",
   },
@@ -96,7 +94,9 @@ export default function SocialMediaDialog({
     if (open) {
       const initialSocials: SocialLink[] = Object.keys(platformConfig).map(
         (platform) => {
-          const existing = existingSocials.find((s) => s.platform === platform);
+          const existing = existingSocials.find(
+            (s) => s.platform.toLowerCase() === platform.toLowerCase()
+          );
           return existing || { platform, url: "" };
         }
       );

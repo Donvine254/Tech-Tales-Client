@@ -1,5 +1,5 @@
 "use client";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   BookOpen,
@@ -30,6 +30,7 @@ import { Badge } from "@/components/ui/badge";
 import MinimalBlogCard from "@/components/pages/minimal-blog-card";
 import CreateButton from "@/components/profile/create-button";
 import SocialMediaDialog from "@/components/profile/social-media-dialog";
+import { SocialLink } from "@/types";
 
 type UserAndBlogs = Awaited<ReturnType<typeof getUserData>>;
 
@@ -42,7 +43,9 @@ export default function Profile({
 }) {
   const { session } = useSession();
   const { user, blogs } = data;
-  const socials = (user.socials ?? []) as { platform: string; url: string }[];
+  const [socials, setSocials] = useState<SocialLink[]>(
+    (user.socials ?? []) as unknown as SocialLink[]
+  );
   const totalViews = blogs?.reduce((sum, blog) => sum + blog.views, 0);
   const totalLikes = blogs?.reduce((sum, blog) => sum + blog.likes, 0);
   return (
@@ -281,8 +284,8 @@ export default function Profile({
                 </div>
                 <SocialMediaDialog
                   existingSocials={socials}
-                  onSave={() => {
-                    console.log(socials);
+                  onSave={(updatedSocials: SocialLink[]) => {
+                    setSocials(updatedSocials);
                   }}
                 />
               </div>

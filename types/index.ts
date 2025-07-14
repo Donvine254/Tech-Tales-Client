@@ -63,3 +63,8 @@ export interface BlogWithComments extends BlogWithUser {
     comments: number;
   };
 }
+
+export interface SocialLink {
+  platform: string;
+  url: string;
+}
