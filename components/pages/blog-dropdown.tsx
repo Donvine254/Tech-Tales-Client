@@ -23,6 +23,7 @@ import { useSession } from "@/providers/session";
 import { toast } from "sonner";
 import { baseUrl } from "@/lib/utils";
 import Bookmark from "../custom/bookmark";
+import DeleteButton from "../modals/delete-dialog";
 
 interface BlogCardDropdownProps {
   slug: string;
@@ -32,6 +33,7 @@ interface BlogCardDropdownProps {
   blogStatus: BlogStatus;
   showMoreActions?: boolean;
   onUpdate: (status: BlogStatus, blogId: number) => void;
+  onDelete: () => void;
 }
 
 export const BlogCardDropdown = ({
@@ -42,6 +44,7 @@ export const BlogCardDropdown = ({
   uuid,
   showMoreActions = false,
   onUpdate,
+  onDelete,
 }: BlogCardDropdownProps) => {
   const { session } = useSession();
 
@@ -131,12 +134,20 @@ export const BlogCardDropdown = ({
 
             {/* delete */}
 
-            <DropdownMenuItem
-              className="text-destructive focus:text-destructive"
-              disabled={blogStatus !== "DRAFT" && blogStatus !== "ARCHIVED"}>
-              <Trash className="w-4 h-4 mr-2 text-destructive" />
-              Delete
-            </DropdownMenuItem>
+            <DeleteButton
+              item="blog"
+              onDelete={onDelete}
+              trigger={
+                <DropdownMenuItem
+                  className="text-destructive focus:text-destructive"
+                  disabled={
+                    blogStatus !== "DRAFT" && blogStatus !== "ARCHIVED"
+                  }>
+                  <Trash className="w-4 h-4 mr-2 text-destructive" />
+                  Delete
+                </DropdownMenuItem>
+              }
+            />
           </>
         )}
       </DropdownMenuContent>

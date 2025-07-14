@@ -31,7 +31,7 @@ import {
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import CreateButton from "@/components/profile/create-button";
 import { toast } from "sonner";
-import { updateBlogStatus } from "@/lib/actions/blogs";
+import { deleteOrArchiveBlog, updateBlogStatus } from "@/lib/actions/blogs";
 
 const BLOGS_PER_PAGE = 4;
 type BlogsType = Awaited<ReturnType<typeof getUserBlogs>>;
@@ -175,7 +175,25 @@ export default function Posts({ data }: { data: BlogsType }) {
       toast.error(res.message || "Failed to update blog status");
     }
   }
+  // function delete blogs
+  async function handleDelete(blogId: number) {
+    let deletedBlog: BlogsType[number] | undefined;
+    setBlogs((prev) => {
+      const target = prev.find((b) => b.id === blogId);
+      deletedBlog = target; // Save for possible rollback
+      return prev.filter((b) => b.id !== blogId);
+    });
+    const res = await deleteOrArchiveBlog(undefined, blogId);
 
+    if (res.success) {
+      toast.success(res.message);
+    } else {
+      if (deletedBlog) {
+        setBlogs((prev) => [deletedBlog!, ...prev]);
+      }
+      toast.error(res.message);
+    }
+  }
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Header */}
@@ -350,6 +368,7 @@ export default function Posts({ data }: { data: BlogsType }) {
                 <MinimalBlogCard
                   key={blog.id}
                   blog={blog}
+                  onDelete={() => null}
                   onUpdate={handleStatusChange}
                   showMoreActions={true}
                 />
@@ -368,6 +387,7 @@ export default function Posts({ data }: { data: BlogsType }) {
                 <MinimalBlogCard
                   key={blog.id}
                   blog={blog}
+                  onDelete={handleDelete}
                   showMoreActions={true}
                   onUpdate={handleStatusChange}
                 />
@@ -386,6 +406,7 @@ export default function Posts({ data }: { data: BlogsType }) {
                 <MinimalBlogCard
                   key={blog.id}
                   blog={blog}
+                  onDelete={handleDelete}
                   onUpdate={handleStatusChange}
                   showMoreActions={true}
                 />
@@ -404,6 +425,7 @@ export default function Posts({ data }: { data: BlogsType }) {
                 <MinimalBlogCard
                   key={blog.id}
                   blog={blog}
+                  onDelete={handleDelete}
                   onUpdate={handleStatusChange}
                   showMoreActions={true}
                 />

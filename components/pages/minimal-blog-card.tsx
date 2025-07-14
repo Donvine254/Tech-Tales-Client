@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import parse from "html-react-parser";
 import { Calendar, Clock } from "lucide-react";
@@ -17,6 +18,8 @@ import { BlogCardDropdown } from "./blog-dropdown";
 import { Badge } from "../ui/badge";
 import { getUserBlogs } from "@/lib/actions/user";
 import { BlogStatus } from "@prisma/client";
+import { useState } from "react";
+import { DeleteConfirmDialog } from "../modals/delete-dialog";
 
 // check for image
 function isCoverImage(image: unknown): image is CoverImage {
@@ -31,12 +34,15 @@ export default function MinimalBlogCard({
   blog,
   showMoreActions = false,
   onUpdate,
+  onDelete,
 }: {
   blog: BlogWithComments | Awaited<ReturnType<typeof getUserBlogs>>[number];
   showMoreActions?: boolean;
   onUpdate: (status: BlogStatus, blogId: number) => void;
+  onDelete: (blogId: number) => void;
 }) {
   const image = isCoverImage(blog.image) ? blog.image : null;
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   return (
     <div className="group bg-card rounded-lg border border-border hover:border-border/60 transition-all duration-200 hover:shadow-sm p-4 md:p-6 space-y-4 flex flex-col">
       {/* Top: Image + Content */}
@@ -192,6 +198,13 @@ export default function MinimalBlogCard({
             uuid={blog.uuid}
             showMoreActions={showMoreActions}
             onUpdate={onUpdate}
+            onDelete={() => setShowDeleteDialog(!showDeleteDialog)}
+          />
+          <DeleteConfirmDialog
+            open={showDeleteDialog}
+            setOpen={setShowDeleteDialog}
+            onDelete={() => onDelete(blog.id)}
+            item="blog"
           />
         </div>
       </div>
