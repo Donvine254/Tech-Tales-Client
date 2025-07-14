@@ -120,7 +120,7 @@ export async function deleteOrArchiveBlog(uuid: string) {
         message: "Blog not found",
       };
     }
-    if (blog.status === "DRAFT") {
+    if (blog.status === "DRAFT" || blog.status === "ARCHIVED") {
       await prisma.blog.delete({
         where: { uuid },
       });
@@ -131,7 +131,7 @@ export async function deleteOrArchiveBlog(uuid: string) {
       };
     }
 
-    if (blog.status === "PUBLISHED") {
+    if (blog.status === "PUBLISHED" || blog.status === "UNPUBLISHED") {
       await prisma.blog.update({
         where: { uuid },
         data: {

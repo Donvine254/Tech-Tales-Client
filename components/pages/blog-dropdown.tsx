@@ -131,7 +131,9 @@ export const BlogCardDropdown = ({
 
             {/* delete */}
 
-            <DropdownMenuItem className="text-destructive focus:text-destructive">
+            <DropdownMenuItem
+              className="text-destructive focus:text-destructive"
+              disabled={blogStatus !== "DRAFT" && blogStatus !== "ARCHIVED"}>
               <Trash className="w-4 h-4 mr-2 text-destructive" />
               Delete
             </DropdownMenuItem>
