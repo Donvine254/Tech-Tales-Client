@@ -22,7 +22,7 @@ import { BlogStatus } from "@prisma/client";
 import { useSession } from "@/providers/session";
 import { toast } from "sonner";
 import { baseUrl } from "@/lib/utils";
-import Bookmark from "../custom/bookmark";
+import Bookmark from "@/components/custom/bookmark";
 
 interface BlogCardDropdownProps {
   slug: string;
