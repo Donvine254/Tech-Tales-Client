@@ -73,19 +73,30 @@ export function slugify(blogTitle: string) {
     .replace(/^-+|-+$/g, "");
 }
 
-//function to generate password
-export function generatePassword() {
-  let pass = "";
-  const str =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "abcdefghijklmnopqrstuvwxyz0123456789@#$";
-
-  for (let i = 1; i <= 9; i++) {
-    const char = Math.floor(Math.random() * str.length + 1);
-
-    pass += str.charAt(char);
+export function generatePassword(length = 12): string {
+  const minLength = 8;
+  const finalLength = Math.max(length, minLength);
+  const uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const lowercase = "abcdefghijklmnopqrstuvwxyz";
+  const digits = "0123456789";
+  const special = "@#$&?!.,:;=+-*|~^{}[]()";
+  const all = uppercase + lowercase + digits + special;
+  const getRandomChar = (charset: string) =>
+    charset[crypto.getRandomValues(new Uint32Array(1))[0] % charset.length];
+  const passwordChars = [
+    getRandomChar(uppercase),
+    getRandomChar(lowercase),
+    getRandomChar(digits),
+    getRandomChar(special),
+  ];
+  while (passwordChars.length < finalLength) {
+    passwordChars.push(getRandomChar(all));
   }
-
-  return pass;
+  for (let i = passwordChars.length - 1; i > 0; i--) {
+    const j = crypto.getRandomValues(new Uint32Array(1))[0] % (i + 1);
+    [passwordChars[i], passwordChars[j]] = [passwordChars[j], passwordChars[i]];
+  }
+  return passwordChars.join("");
 }
 
 // function to convert to handle
