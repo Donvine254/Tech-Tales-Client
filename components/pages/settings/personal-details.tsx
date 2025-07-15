@@ -66,7 +66,7 @@ export default function PersonalDetails({ user }: { user: UserProfileData }) {
         <div
           className="relative flex-shrink-0 self-center sm:self-start"
           onClick={() => imageInputRef.current?.click()}>
-          <Avatar className="h-24 w-24 border-2 border-primary/20 ring-4 ring-primary shadow-lg">
+          <Avatar className="h-24 w-24 ring-offset-2 ring-offset-accent ring-4 ring-blue-600 dark:ring-white shadow-lg">
             <AvatarImage
               src={profileImage || "/placeholder.svg"}
               alt="Profile"
