@@ -8,6 +8,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogOverlay,
 } from "@/components/ui/dialog";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { Input } from "@/components/ui/input";
@@ -79,7 +80,10 @@ export default function SecurityAccount() {
         <h3 className="text-lg font-medium mb-4 text-gray-900 dark:text-white">
           Change Password
         </h3>
-        <form onSubmit={handlePasswordSubmit} id="password-form">
+        <form
+          onSubmit={handlePasswordSubmit}
+          id="password-form"
+          className="space-y-4">
           {["current", "new", "confirm"].map((field) => {
             const isMismatchField =
               newMismatch && (field === "new" || field === "confirm");
@@ -168,18 +172,18 @@ export default function SecurityAccount() {
         </form>
 
         {/* Account Actions */}
-        <div className="p-4 sm:p-6 rounded-lg border bg-gray-50 border-gray-200 dark:bg-gray-700 dark:border-gray-600">
-          <h3 className="text-lg font-medium mb-4 text-gray-900 dark:text-white">
-            Account Actions
+        <div className="">
+          <h3 className="text-lg font-medium mb-4 text-destructive">
+            Danger Zone
           </h3>
-          <div className="p-3 sm:p-4 mb-6 rounded-lg border-l-4 border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20 dark:border-yellow-400">
+          <div className="p-3 sm:p-4 mb-6 rounded-lg border border-l-4 border-amber-500 bg-amber-100 dark:bg-amber-900/20 dark:border-amber-400">
             <div className="flex items-center">
-              <AlertTriangle className="w-5 h-5 text-yellow-600 mr-2" />
-              <p className="text-sm font-medium text-yellow-800 dark:text-yellow-200">
-                Warning: Account Actions
+              <AlertTriangle className="w-5 h-5 text-amber-600 mr-2" />
+              <p className="text-sm font-medium text-amber-800 dark:text-amber-200">
+                Irreversible and Destructive actions
               </p>
             </div>
-            <p className="text-sm mt-1 leading-relaxed text-yellow-700 dark:text-yellow-300">
+            <p className="text-sm mt-1 leading-relaxed text-amber-700 dark:text-amber-300">
               These actions will affect your account access. Deactivation is
               reversible, but deletion is permanent.
             </p>
@@ -199,7 +203,7 @@ export default function SecurityAccount() {
               variant="outline"
               size="sm"
               onClick={() => setShowDeactivateModal(true)}
-              className="border-yellow-300 text-yellow-700 hover:bg-yellow-50 dark:border-yellow-600 dark:text-yellow-400 dark:hover:bg-yellow-900/20">
+              className="border-amber-300 text-amber-700 hover:bg-amber-50 dark:border-amber-600 dark:text-amber-400 dark:hover:bg-amber-900/20">
               <AlertTriangle className="w-4 h-4" />
               <span>Deactivate</span>
             </Button>
@@ -218,8 +222,7 @@ export default function SecurityAccount() {
             <Button
               variant="destructive"
               size="sm"
-              onClick={() => setShowDeleteModal(true)}
-              className="flex items-center space-x-2">
+              onClick={() => setShowDeleteModal(true)}>
               <Trash2 className="w-4 h-4" />
               <span>Delete</span>
             </Button>
@@ -229,17 +232,16 @@ export default function SecurityAccount() {
 
       {/* Deactivate Modal */}
       <Dialog open={showDeactivateModal} onOpenChange={setShowDeactivateModal}>
+        <DialogOverlay className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm dark:bg-black/70 transition-all" />
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Deactivate Account</DialogTitle>
+            <div className="flex items-center justify-center gap-3 !bg-amber-100 w-12 h-12 mx-auto rounded-full my-2">
+              <AlertTriangle className="w-6 h-6 text-amber-600" />
+            </div>
             <DialogDescription>
-              <div className="flex items-start gap-3 mt-2">
-                <AlertTriangle className="w-6 h-6 text-yellow-600 mt-0.5" />
-                <p className="text-gray-600 dark:text-gray-300">
-                  Are you sure you want to deactivate your account? You can
-                  reactivate it at any time.
-                </p>
-              </div>
+              Deactivating your account will temporarily disable it. You can
+              reactivate your account at any time by logging back in.
             </DialogDescription>
           </DialogHeader>
 
@@ -255,7 +257,7 @@ export default function SecurityAccount() {
                 // Handle deactivation logic
                 setShowDeactivateModal(false);
               }}
-              className="border-yellow-300 text-yellow-700 hover:bg-yellow-50 dark:border-yellow-600 dark:text-yellow-400 dark:hover:bg-yellow-900/20">
+              className="border-amber-300 text-amber-700 hover:bg-amber-50 dark:border-amber-600 dark:text-amber-400 dark:hover:bg-amber-900/20">
               Deactivate
             </Button>
           </DialogFooter>
@@ -264,17 +266,17 @@ export default function SecurityAccount() {
 
       {/* Delete Modal */}
       <Dialog open={showDeleteModal} onOpenChange={setShowDeleteModal}>
+        <DialogOverlay className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm dark:bg-black/70 transition-all" />
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Delete Account</DialogTitle>
+            <div className="flex items-center justify-center gap-3 !bg-red-100 w-12 h-12 mx-auto rounded-full my-2">
+              <AlertTriangle className="w-6 h-6 text-red-600" />
+            </div>
             <DialogDescription>
-              <div className="flex items-start gap-3 mt-2">
-                <Trash2 className="w-6 h-6 text-red-600 mt-0.5" />
-                <p className="text-gray-600 dark:text-gray-300">
-                  This action cannot be undone. All your data will be
-                  permanently deleted.
-                </p>
-              </div>
+              This action is irreversible. Your account will be recoverable for
+              the next 30 days. After that period, all associated data will be
+              permanently deleted.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="mt-4">

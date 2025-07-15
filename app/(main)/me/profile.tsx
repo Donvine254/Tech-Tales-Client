@@ -14,6 +14,7 @@ import {
   ArrowUpRight,
   FileText,
   BookOpenIcon,
+  LogOutIcon,
 } from "lucide-react";
 import Image from "next/image";
 import { useSession } from "@/providers/session";
@@ -420,6 +421,7 @@ const MenuList: FC<{ isAdmin: boolean }> = ({ isAdmin }) => {
     { label: "Replies", icon: MessageSquarePlus, link: "/me/replies" },
     { label: "Reading List", icon: Heart, link: "/me/bookmarks" },
     { label: "History", icon: HistoryIcon, link: "/me/history" },
+    { label: "Sign Out", icon: LogOutIcon, link: "/api/auth/logout" },
   ];
 
   return (

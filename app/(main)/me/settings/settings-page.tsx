@@ -34,14 +34,14 @@ export default function SettingsPage({ user }: { user: UserProfileData }) {
   const [activeTab, setActiveTab] = useState("personal");
 
   const tabButtonClass = (isActive: boolean) =>
-    `flex items-center w-full px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
+    `flex items-center cursor-pointer w-full px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
       isActive
-        ? "bg-primary text-primary-foreground shadow"
+        ? "bg-blue-500 text-white hover:text-white shadow"
         : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
     }`;
 
   const mobileTabClass = (isActive: boolean) =>
-    `flex gap-2 items-center px-3 py-2 text-xs font-medium rounded-lg transition-all duration-200 whitespace-nowrap flex-shrink-0 ${
+    `flex gap-2 items-center cursor-pointer px-3 py-2 text-xs font-medium rounded-lg transition-all duration-200 whitespace-nowrap flex-shrink-0 ${
       isActive
         ? "bg-primary text-primary-foreground"
         : "text-muted-foreground hover:bg-accent"
