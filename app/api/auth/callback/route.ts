@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/prisma";
 import * as jose from "jose";
+import { baseUrl } from "@/lib/utils";
 const CLIENT_ID = process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID!;
 const CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET!;
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
@@ -9,15 +10,11 @@ export async function GET(req: NextRequest) {
   const url = new URL(req.url);
   const code = url.searchParams.get("code");
   if (!code) {
-    return NextResponse.redirect(
-      "http://localhost:3000/login?error=missing_token"
-    );
+    return NextResponse.redirect(`${baseUrl}/login?error=missing_token`);
   }
   const userInfo = await fetchUserInfo(code);
   if (!userInfo) {
-    return NextResponse.redirect(
-      "http://localhost:3000/login?error=missing_email"
-    );
+    return NextResponse.redirect(`${baseUrl}/login?error=missing_email`);
   }
   console.log(userInfo);
   //   step-1: find the user in db
@@ -39,7 +36,7 @@ export async function GET(req: NextRequest) {
       .setExpirationTime("8h")
       .sign(JWT_SECRET);
 
-    const response = NextResponse.redirect("http://localhost:3000/login");
+    const response = NextResponse.redirect(`${baseUrl}/login`);
 
     response.cookies.set("token", token, {
       httpOnly: true,
@@ -52,9 +49,7 @@ export async function GET(req: NextRequest) {
     return response;
   } else {
     // when there is no user
-    return NextResponse.redirect(
-      "http://localhost:3000/login?error=missing_user"
-    );
+    return NextResponse.redirect(`${baseUrl}/login?error=missing_user`);
   }
 }
 
