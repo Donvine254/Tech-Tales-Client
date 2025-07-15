@@ -35,7 +35,7 @@ export default function SettingsPage({ user }: { user: UserProfileData }) {
   const [activeTab, setActiveTab] = useState("personal");
 
   const tabButtonClass = (isActive: boolean) =>
-    `flex items-center cursor-pointer w-full px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
+    `flex items-center cursor-pointer w-full px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 whitespace-nowrap ${
       isActive
         ? "bg-blue-500 text-white hover:text-white shadow"
         : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"

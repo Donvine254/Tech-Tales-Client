@@ -14,6 +14,7 @@ import { DialogTitle } from "@radix-ui/react-dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
+import PasswordStrengthMeter from "./password-strength";
 
 export default function SecurityAccount() {
   const [passwords, setPasswords] = useState({
@@ -142,15 +143,14 @@ export default function SecurityAccount() {
               </div>
             );
           })}
-
           <button
             type="button"
             onClick={handlePasswordSuggest}
-            className="text-sm text-blue-600 dark:text-blue-400 hover:underline mt-2 flex items-center space-x-1">
-            <Wand2 className="w-4 h-4" />
+            className="text-sm text-blue-600 dark:text-blue-400 hover:underline  flex items-center space-x-1">
+            <Wand2 className="w-3 h-3" />
             <span>Suggest a strong password</span>
           </button>
-
+          <PasswordStrengthMeter password={passwords.new} />
           <div className="flex space-x-2 md:space-x-4 justify-between sm:justify-end">
             <Button
               variant="outline"
