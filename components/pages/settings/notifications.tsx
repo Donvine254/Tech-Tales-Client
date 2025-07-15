@@ -6,8 +6,10 @@ import { Preferences } from "@/types";
 
 export default function Notifications({
   preferences,
+  userId,
 }: {
   preferences: Preferences;
+  userId: number;
 }) {
   const [settings, setSettings] = useState<Preferences>(preferences);
 
@@ -17,7 +19,6 @@ export default function Notifications({
       [key]: !prev[key],
     }));
   };
-
   const notificationOptions = [
     {
       key: "email_notifications" as const,
@@ -40,9 +41,13 @@ export default function Notifications({
       enabled: settings.analytics,
     },
   ];
-
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    console.log(userId);
+    // call api and submit the form
+  }
   return (
-    <form className="py-4 sm:p-6 lg:p-8 space-y-8 ">
+    <form className="py-4 sm:p-6 lg:p-8 space-y-8 " onSubmit={handleSubmit}>
       <div className="mb-8">
         <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">
           Notifications
@@ -79,12 +84,16 @@ export default function Notifications({
       </div>
 
       <div className="flex space-x-2 md:space-x-4 justify-between sm:justify-end">
-        <Button type="button" variant="outline">
+        <Button
+          variant="outline"
+          type="reset"
+          onClick={() => setSettings(preferences)}>
           Cancel
         </Button>
         <Button
           type="submit"
           variant="ghost"
+          onClick={handleSubmit}
           className="bg-gradient-to-tr from-blue-500 to-blue-600 hover:shadow-md hover:scale-[1.02] transition-all duration-200 ease-in-out text-white">
           <Save className="w-4 h-4" />
           <span>Save Changes</span>

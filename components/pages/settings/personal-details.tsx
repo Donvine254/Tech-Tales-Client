@@ -9,19 +9,19 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { convertToHandle } from "@/lib/utils";
 import { UserProfileData } from "@/types";
 
-export default function PersonalDetails({ user }: { user: UserProfileData }) {
-  const [formData, setFormData] = useState({
-    username: user.username || "",
-    bio: user.bio || "",
-    handle: user.handle || "",
-    skills: user.skills || "",
-    picture: user.picture || "",
-    branding: user.branding || "#01142d",
-  });
+export default function PersonalDetails({
+  initialData,
+  userId,
+}: {
+  initialData: Pick<
+    UserProfileData,
+    "username" | "bio" | "handle" | "skills" | "picture" | "branding"
+  >;
+  userId: number;
+}) {
+  const [formData, setFormData] = useState(initialData);
   const imageInputRef = useRef<HTMLInputElement>(null);
-  const [profileImage, setProfileImage] = useState(
-    user.picture || "placeholder.svg"
-  );
+  const [profileImage, setProfileImage] = useState<string | null>(null);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -47,6 +47,7 @@ export default function PersonalDetails({ user }: { user: UserProfileData }) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log(userId);
     console.log("Submitted:", { formData, profileImage });
     // Submit logic here...
   };
@@ -68,7 +69,7 @@ export default function PersonalDetails({ user }: { user: UserProfileData }) {
           onClick={() => imageInputRef.current?.click()}>
           <Avatar className="h-24 w-24 ring-offset-2 ring-offset-accent ring-4 ring-blue-600 dark:ring-white shadow-lg">
             <AvatarImage
-              src={profileImage || "/placeholder.svg"}
+              src={formData.picture || "/placeholder.svg"}
               alt="Profile"
               className="object-cover"
             />
@@ -148,7 +149,7 @@ export default function PersonalDetails({ user }: { user: UserProfileData }) {
         </Label>
         <Textarea
           name="bio"
-          value={formData.bio}
+          value={formData.bio ?? ""}
           onChange={handleInputChange}
           minLength={10}
           maxLength={150}
@@ -161,7 +162,7 @@ export default function PersonalDetails({ user }: { user: UserProfileData }) {
         </Label>
         <Textarea
           name="skills"
-          value={formData.skills}
+          value={formData.skills ?? ""}
           onChange={handleInputChange}
           rows={3}
           minLength={2}
@@ -173,7 +174,7 @@ export default function PersonalDetails({ user }: { user: UserProfileData }) {
           Branding Color
         </Label>
         <ColorPicker
-          color={formData.branding}
+          color={formData.branding ?? "#155dfc"}
           setColor={(value) =>
             setFormData((prev) => ({ ...prev, branding: value }))
           }
@@ -182,7 +183,10 @@ export default function PersonalDetails({ user }: { user: UserProfileData }) {
 
       {/* Submit Button */}
       <div className="flex space-x-2 md:space-x-4 justify-between sm:justify-end">
-        <Button type="submit" variant="outline">
+        <Button
+          type="reset"
+          variant="outline"
+          onClick={() => setFormData(initialData)}>
           Cancel
         </Button>
         <Button

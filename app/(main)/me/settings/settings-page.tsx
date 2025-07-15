@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { User, Bell, Settings as SettingsIcon, Shield } from "lucide-react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import PersonalDetails from "@/components/pages/settings/personal-details";
-import { UserProfileData } from "@/types";
+import { Preferences, UserProfileData } from "@/types";
 import Notifications from "@/components/pages/settings/notifications";
 
 const tabs = [
@@ -113,8 +113,25 @@ export default function SettingsPage({ user }: { user: UserProfileData }) {
           <div className="lg:col-span-3">
             <hr className="md:hidden" />
             <div className="rounded-xl sm:shadow-sm sm:border sm:border-border sm:bg-card transition-all duration-300">
-              {activeTab === "personal" && <PersonalDetails user={user} />}
-              {activeTab === "notifications" && <Notifications />}
+              {activeTab === "personal" && (
+                <PersonalDetails
+                  initialData={{
+                    bio: user.bio,
+                    branding: user.branding || "#155dfc",
+                    handle: user.handle,
+                    username: user.username,
+                    picture: user.picture,
+                    skills: user.skills,
+                  }}
+                  userId={user.id}
+                />
+              )}
+              {activeTab === "notifications" && (
+                <Notifications
+                  preferences={user.preferences as Preferences}
+                  userId={user.id}
+                />
+              )}
             </div>
           </div>
         </div>
