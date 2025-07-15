@@ -89,6 +89,7 @@ export default function SecurityAccount() {
           {["current", "new", "confirm"].map((field) => {
             const isMismatchField =
               newMismatch && (field === "new" || field === "confirm");
+            const isNewOrConfirm = field === "new" || field === "confirm";
             return (
               <div key={field}>
                 <Label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-200 capitalize">
@@ -104,11 +105,13 @@ export default function SecurityAccount() {
                     name={field}
                     data-field={`password-${field}`}
                     autoComplete="new-password"
-                    minLength={
-                      field === "new" || field === "confirm" ? 8 : undefined
-                    }
-                    maxLength={
-                      field === "new" || field === "confirm" ? 64 : undefined
+                    minLength={isNewOrConfirm ? 8 : undefined}
+                    maxLength={isNewOrConfirm ? 64 : undefined}
+                    pattern={isNewOrConfirm ? `^(?=.*\\d).{8,}$` : undefined}
+                    title={
+                      isNewOrConfirm
+                        ? "Password must be eight characters in length and include at least one number"
+                        : "Enter your current password"
                     }
                     required
                     value={passwords[field as keyof typeof passwords]}
