@@ -97,6 +97,34 @@ export const getUserData = unstable_cache(
     tags: ["user-blogs"],
   }
 );
+//function to get user profile data
+export async function fetchProfileData(id: number) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        handle: true,
+        picture: true,
+        bio: true,
+        role: true,
+        branding: true,
+        skills: true,
+        preferences: true,
+        createdAt: true,
+        password_digest: true,
+      },
+    });
+    return user;
+  } catch (error) {
+    console.log(error);
+    return null;
+  } finally {
+    await prisma.$disconnect();
+  }
+}
 
 // function to saveuser socials
 

@@ -1,3 +1,4 @@
+import { fetchProfileData } from "@/lib/actions/user";
 import {
   Blog,
   Comment,
@@ -68,3 +69,6 @@ export interface SocialLink {
   platform: string;
   url: string;
 }
+export type UserProfileData = NonNullable<
+  Awaited<ReturnType<typeof fetchProfileData>>
+>;

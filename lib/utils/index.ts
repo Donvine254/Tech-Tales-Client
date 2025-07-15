@@ -87,3 +87,8 @@ export function generatePassword() {
 
   return pass;
 }
+
+// function to convert to handle
+export function convertToHandle(name: string) {
+  return name.toLowerCase().replace(/\s+/g, "");
+}
