@@ -97,7 +97,7 @@ export default function Notifications({
           variant="ghost"
           disabled={!hasChanges}
           onClick={handleSubmit}
-          className="bg-gradient-to-tr from-blue-500 to-blue-600 hover:shadow-md hover:scale-[1.02] transition-all duration-200 ease-in-out text-white">
+          className="bg-gradient-to-tr from-blue-500 to-blue-600 hover:shadow-md hover:scale-[1.02] transition-all duration-200 ease-in-out text-white hover:text-whit">
           <Save className="w-4 h-4" />
           <span>Save Changes</span>
         </Button>

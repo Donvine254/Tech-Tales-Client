@@ -5,6 +5,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import PersonalDetails from "@/components/pages/settings/personal-details";
 import { Preferences, UserProfileData } from "@/types";
 import Notifications from "@/components/pages/settings/notifications";
+import SecurityAccount from "@/components/pages/settings/security";
 
 const tabs = [
   {
@@ -132,6 +133,7 @@ export default function SettingsPage({ user }: { user: UserProfileData }) {
                   userId={user.id}
                 />
               )}
+              {activeTab === "security" && <SecurityAccount />}
             </div>
           </div>
         </div>

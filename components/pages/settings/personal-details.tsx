@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import ColorPicker from "./color-picker";
 import { Textarea } from "@/components/ui/textarea";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { convertToHandle } from "@/lib/utils";
 import { UserProfileData } from "@/types";
 
@@ -68,16 +68,27 @@ export default function PersonalDetails({
         <div
           className="relative flex-shrink-0 self-center sm:self-start"
           onClick={() => imageInputRef.current?.click()}>
-          <Avatar className="h-24 w-24 ring-offset-2 ring-offset-accent ring-4 ring-blue-600 dark:ring-white shadow-lg">
-            <AvatarImage
-              src={formData.picture || "/placeholder.svg"}
-              alt="Profile"
-              className="object-cover"
-            />
-            <AvatarFallback className="text-xl font-semibold bg-primary/10 text-primary">
-              {formData.username.substring(0, 2).toUpperCase()}
-            </AvatarFallback>
-          </Avatar>
+          {profileImage ? (
+            <Avatar
+              className="h-24 w-24 ring-offset-2 ring-offset-accent ring-4 ring-blue-600 dark:ring-white shadow-lg cursor-pointer"
+              title="Change profile picture">
+              <AvatarImage
+                src={profileImage ?? "/placeholder.svg"}
+                alt="Profile"
+                className="object-cover"
+              />
+            </Avatar>
+          ) : (
+            <Avatar
+              className="h-24 w-24 ring-offset-2 ring-offset-accent ring-4 ring-blue-600 dark:ring-white shadow-lg cursor-pointer"
+              title="Change profile picture">
+              <AvatarImage
+                src={formData.picture || "/placeholder.svg"}
+                alt="Profile"
+                className="object-cover"
+              />
+            </Avatar>
+          )}
           <label className="absolute -bottom-1 -right-1 p-1.5 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors cursor-pointer shadow-lg">
             <Camera className="w-3 h-3" />
             <Input
@@ -112,7 +123,7 @@ export default function PersonalDetails({
                 <button
                   type="button"
                   onClick={() => setProfileImage("")}
-                  className="hover:underline text-destructive">
+                  className="hover:underline text-destructive cursor-pointer">
                   Remove
                 </button>
               </div>
@@ -195,7 +206,7 @@ export default function PersonalDetails({
           type="submit"
           variant="ghost"
           disabled={!hasChanges}
-          className="bg-gradient-to-tr from-blue-500 to-blue-600  hover:shadow-md hover:scale-[1.02] transition-all duration-200 ease-in-out text-white">
+          className="bg-gradient-to-tr from-blue-500 to-blue-600  hover:shadow-md hover:scale-[1.02] transition-all duration-200 ease-in-out text-white hover:text-white">
           <Save className="w-4 h-4" />
           <span>Save Changes</span>
         </Button>

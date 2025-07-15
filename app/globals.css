@@ -575,3 +575,7 @@ blockquote p {
     transform: scale(1);
   }
 }
+#password-form input::-ms-reveal,
+#password-form input::-ms-clear {
+  display: none;
+}

@@ -10,6 +10,8 @@ import {
   DialogHeader,
 } from "@/components/ui/dialog";
 import { DialogTitle } from "@radix-ui/react-dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export default function SecurityAccount() {
   const [passwords, setPasswords] = useState({
@@ -54,47 +56,65 @@ export default function SecurityAccount() {
     e.preventDefault();
     console.log("Password change submitted");
   };
+  const hasChanges =
+    passwords.current.trim() !== "" ||
+    passwords.new.trim() !== "" ||
+    passwords.confirm.trim() !== "";
+  const newMismatch =
+    passwords.new && passwords.confirm && passwords.new !== passwords.confirm;
+
   return (
-    <div className="p-4 sm:p-6 lg:p-8">
+    <div className="py-4 sm:p-6 lg:p-8 space-y-8">
       <div className="mb-8">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-          Security & Account
+        <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">
+          Account & Security
         </h2>
-        <p className="mt-2 text-gray-600 dark:text-gray-300">
+        <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
           Manage your password and account security settings
         </p>
       </div>
 
-      <div className="space-y-8">
+      <div className="space-y-6">
         {/* Change Password Form */}
-        <div className="p-4 sm:p-6 rounded-lg border bg-gray-50 border-gray-200 dark:bg-gray-700 dark:border-gray-600">
-          <h3 className="text-lg font-medium mb-4 text-gray-900 dark:text-white">
-            Change Password
-          </h3>
-          <form onSubmit={handlePasswordSubmit} className="space-y-4">
-            {["current", "new", "confirm"].map((field) => (
+        <h3 className="text-lg font-medium mb-4 text-gray-900 dark:text-white">
+          Change Password
+        </h3>
+        <form onSubmit={handlePasswordSubmit} id="password-form">
+          {["current", "new", "confirm"].map((field) => {
+            const isMismatchField =
+              newMismatch && (field === "new" || field === "confirm");
+            return (
               <div key={field}>
-                <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-200 capitalize">
-                  {field === "confirm"
-                    ? "Confirm New Password"
-                    : `${field} Password`}
-                </label>
+                <Label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-200 capitalize">
+                  {`${field} Password *`}
+                </Label>
                 <div className="relative">
-                  <input
+                  <Input
                     type={
                       showPassword[field as keyof typeof showPassword]
                         ? "text"
                         : "password"
                     }
                     name={field}
+                    data-field={`password-${field}`}
+                    autoComplete="new-password"
+                    minLength={
+                      field === "new" || field === "confirm" ? 8 : undefined
+                    }
+                    maxLength={
+                      field === "new" || field === "confirm" ? 64 : undefined
+                    }
+                    required
                     value={passwords[field as keyof typeof passwords]}
                     onChange={handlePasswordChange}
-                    className="w-full px-4 py-3 pr-10 rounded-lg border bg-white dark:bg-gray-600 text-gray-900 dark:text-white border-gray-300 dark:border-gray-500 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                     placeholder={
                       field === "confirm"
                         ? "Confirm new password"
                         : `Enter ${field} password`
                     }
+                    className={`mb-1 user-invalid:border-red-500 user-invalid:focus:ring-red-500 ${
+                      isMismatchField ? "border-red-500 focus:ring-red-500" : ""
+                    }`}
                   />
                   <button
                     type="button"
@@ -109,24 +129,43 @@ export default function SecurityAccount() {
                     )}
                   </button>
                 </div>
+                {isMismatchField && (
+                  <p className="text-xs text-red-500">
+                    Passwords do not match.
+                  </p>
+                )}
               </div>
-            ))}
-            <button
-              type="button"
-              onClick={handlePasswordSuggest}
-              className="text-sm text-blue-600 dark:text-blue-400 hover:underline mt-2 flex items-center space-x-1">
-              <Wand2 className="w-4 h-4" />
-              <span>Suggest a strong password</span>
-            </button>
+            );
+          })}
 
-            <div className="flex justify-end">
-              <Button type="submit" className="flex items-center space-x-2">
-                <Save className="w-4 h-4" />
-                <span>Update Password</span>
-              </Button>
-            </div>
-          </form>
-        </div>
+          <button
+            type="button"
+            onClick={handlePasswordSuggest}
+            className="text-sm text-blue-600 dark:text-blue-400 hover:underline mt-2 flex items-center space-x-1">
+            <Wand2 className="w-4 h-4" />
+            <span>Suggest a strong password</span>
+          </button>
+
+          <div className="flex space-x-2 md:space-x-4 justify-between sm:justify-end">
+            <Button
+              variant="outline"
+              type="reset"
+              disabled={!hasChanges}
+              onClick={() =>
+                setPasswords({ current: "", new: "", confirm: "" })
+              }>
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              variant="ghost"
+              disabled={!hasChanges}
+              className="bg-gradient-to-tr from-blue-500 to-blue-600 hover:shadow-md hover:scale-[1.02] transition-all duration-200 ease-in-out text-white hover:text-white">
+              <Save className="w-4 h-4" />
+              <span>Save Changes</span>
+            </Button>
+          </div>
+        </form>
 
         {/* Account Actions */}
         <div className="p-4 sm:p-6 rounded-lg border bg-gray-50 border-gray-200 dark:bg-gray-700 dark:border-gray-600">
