@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
+import { Preferences } from "@/types";
 
-export default function Notifications() {
-  const [settings, setSettings] = useState({
-    emailNotifications: true,
-    newsletters: false,
-    analyticsReport: true,
-  });
+export default function Notifications({
+  preferences,
+}: {
+  preferences: Preferences;
+}) {
+  const [settings, setSettings] = useState<Preferences>(preferences);
 
   const handleToggle = (key: keyof typeof settings) => {
     setSettings((prev) => ({
@@ -19,24 +20,24 @@ export default function Notifications() {
 
   const notificationOptions = [
     {
-      key: "emailNotifications" as const,
+      key: "email_notifications" as const,
       title: "Allow Email Notifications",
       description:
         "You'll still receive administrative emails even if this setting is off.",
-      enabled: settings.emailNotifications,
+      enabled: settings.email_notifications,
     },
     {
-      key: "newsletters" as const,
+      key: "newsletter_subscription" as const,
       title: "Subscribe to Newsletters",
       description:
         "We will send you weekly newsletters to keep you in the know.",
-      enabled: settings.newsletters,
+      enabled: settings.newsletter_subscription,
     },
     {
-      key: "analyticsReport" as const,
+      key: "analytics" as const,
       title: "Analytics Report",
       description: "We will send you analytics reports each month.",
-      enabled: settings.analyticsReport,
+      enabled: settings.analytics,
     },
   ];
 

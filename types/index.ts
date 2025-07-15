@@ -72,3 +72,10 @@ export interface SocialLink {
 export type UserProfileData = NonNullable<
   Awaited<ReturnType<typeof fetchProfileData>>
 >;
+
+export type Preferences = {
+  newsletter_subscription: boolean;
+  cookies: boolean;
+  analytics: boolean;
+  email_notifications: boolean;
+};
