@@ -54,7 +54,7 @@ export default function PersonalDetails({
   const hasChanges =
     JSON.stringify(formData) !== JSON.stringify(initialData) || !!profileImage;
   return (
-    <form onSubmit={handleSubmit} className="py-4 sm:p-6 lg:p-8 space-y-8">
+    <form onSubmit={handleSubmit} className="py-4 sm:p-6 lg:p-8 space-y-6">
       <div>
         <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">
           Personal Details

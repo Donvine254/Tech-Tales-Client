@@ -6,6 +6,7 @@ import PersonalDetails from "@/components/pages/settings/personal-details";
 import { Preferences, UserProfileData } from "@/types";
 import Notifications from "@/components/pages/settings/notifications";
 import SecurityAccount from "@/components/pages/settings/security";
+import PreferenceSettings from "@/components/pages/settings/preferences";
 
 const tabs = [
   {
@@ -134,6 +135,7 @@ export default function SettingsPage({ user }: { user: UserProfileData }) {
                 />
               )}
               {activeTab === "security" && <SecurityAccount />}
+              {activeTab === "preferences" && <PreferenceSettings />}
             </div>
           </div>
         </div>
