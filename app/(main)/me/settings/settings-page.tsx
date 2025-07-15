@@ -41,9 +41,9 @@ export default function SettingsPage({ user }: { user: UserProfileData }) {
     }`;
 
   const mobileTabClass = (isActive: boolean) =>
-    `flex gap-2 items-center cursor-pointer px-3 py-2 text-xs font-medium rounded-lg transition-all duration-200 whitespace-nowrap flex-shrink-0 ${
+    `flex gap-2 p-2 justify-start items-center cursor-pointer  text-xs font-medium  transition-all duration-200 whitespace-nowrap flex-shrink-0 ${
       isActive
-        ? "bg-primary text-primary-foreground"
+        ? "border-blue-500 border-b-2"
         : "text-muted-foreground hover:bg-accent"
     }`;
 
@@ -86,8 +86,8 @@ export default function SettingsPage({ user }: { user: UserProfileData }) {
 
           {/* Tab Navigation (Mobile) */}
           <div className="lg:hidden">
-            <ScrollArea className="w-full whitespace-nowrap pb-4">
-              <div className="flex space-x-1 p-2 min-w-max">
+            <ScrollArea className="w-full whitespace-nowrap border-0">
+              <div className="flex items-center space-x-2 min-w-max max-w-max">
                 {tabs.map((tab) => {
                   const Icon = tab.icon;
                   const isActive = activeTab === tab.id;
@@ -98,7 +98,7 @@ export default function SettingsPage({ user }: { user: UserProfileData }) {
                       onClick={() => setActiveTab(tab.id)}
                       className={mobileTabClass(isActive)}
                       aria-label={`Switch to ${tab.label}`}>
-                      <Icon className="h-4 w-4 mb-1" />
+                      <Icon className="h-3 w-3" />
                       <span className="text-xs leading-tight">
                         {tab.label.split(" ")[0]}
                       </span>

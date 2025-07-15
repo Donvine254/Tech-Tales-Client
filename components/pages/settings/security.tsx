@@ -13,6 +13,7 @@ import {
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import Link from "next/link";
 
 export default function SecurityAccount() {
   const [passwords, setPasswords] = useState({
@@ -65,7 +66,7 @@ export default function SecurityAccount() {
     passwords.new && passwords.confirm && passwords.new !== passwords.confirm;
 
   return (
-    <div className="py-4 sm:p-6 lg:p-8 space-y-8">
+    <div className="py-4 sm:p-6 lg:p-8 space-y-6">
       <div className="mb-8">
         <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">
           Account & Security
@@ -172,7 +173,8 @@ export default function SecurityAccount() {
         </form>
 
         {/* Account Actions */}
-        <div className="">
+        <hr />
+        <div>
           <h3 className="text-lg font-medium mb-4 text-destructive">
             Danger Zone
           </h3>
@@ -192,7 +194,7 @@ export default function SecurityAccount() {
           {/* Deactivate */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
             <div>
-              <h4 className="font-medium text-gray-900 dark:text-white">
+              <h4 className="font-medium  text-amber-700  dark:text-amber-400 ">
                 Deactivate Account
               </h4>
               <p className="text-sm text-gray-600 dark:text-gray-300">
@@ -212,9 +214,7 @@ export default function SecurityAccount() {
           {/* Delete */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0 mt-4">
             <div>
-              <h4 className="font-medium text-gray-900 dark:text-white">
-                Delete Account
-              </h4>
+              <h4 className="font-medium text-destructive">Delete Account</h4>
               <p className="text-sm text-gray-600 dark:text-gray-300">
                 Permanently delete your account and all associated data.
               </p>
@@ -257,8 +257,9 @@ export default function SecurityAccount() {
                 // Handle deactivation logic
                 setShowDeactivateModal(false);
               }}
-              className="border-amber-300 text-amber-700 hover:bg-amber-50 dark:border-amber-600 dark:text-amber-400 dark:hover:bg-amber-900/20">
-              Deactivate
+              className="border-amber-300 text-amber-700 hover:bg-amber-50 dark:border-amber-600 dark:text-amber-400 dark:hover:bg-amber-900/20"
+              asChild>
+              <Link href="/api/auth/logout">Deactivate</Link>
             </Button>
           </DialogFooter>
         </DialogContent>

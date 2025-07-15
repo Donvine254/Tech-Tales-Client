@@ -7,5 +7,5 @@ export async function GET() {
   cookieStore.delete("token");
 
   // Redirect to homepage
-  return NextResponse.redirect(new URL("/", baseUrl));
+  return NextResponse.redirect(new URL("/login", baseUrl));
 }
