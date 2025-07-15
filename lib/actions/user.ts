@@ -113,8 +113,6 @@ export async function fetchProfileData(id: number) {
         branding: true,
         skills: true,
         preferences: true,
-        createdAt: true,
-        password_digest: true,
       },
     });
     return user;

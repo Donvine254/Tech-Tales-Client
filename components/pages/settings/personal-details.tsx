@@ -51,7 +51,8 @@ export default function PersonalDetails({
     console.log("Submitted:", { formData, profileImage });
     // Submit logic here...
   };
-
+  const hasChanges =
+    JSON.stringify(formData) !== JSON.stringify(initialData) || !!profileImage;
   return (
     <form onSubmit={handleSubmit} className="py-4 sm:p-6 lg:p-8 space-y-8">
       <div>
@@ -186,12 +187,14 @@ export default function PersonalDetails({
         <Button
           type="reset"
           variant="outline"
+          disabled={!hasChanges}
           onClick={() => setFormData(initialData)}>
           Cancel
         </Button>
         <Button
           type="submit"
           variant="ghost"
+          disabled={!hasChanges}
           className="bg-gradient-to-tr from-blue-500 to-blue-600  hover:shadow-md hover:scale-[1.02] transition-all duration-200 ease-in-out text-white">
           <Save className="w-4 h-4" />
           <span>Save Changes</span>

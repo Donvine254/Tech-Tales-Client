@@ -46,6 +46,7 @@ export default function Notifications({
     console.log(userId);
     // call api and submit the form
   }
+  const hasChanges = JSON.stringify(settings) !== JSON.stringify(preferences);
   return (
     <form className="py-4 sm:p-6 lg:p-8 space-y-8 " onSubmit={handleSubmit}>
       <div className="mb-8">
@@ -87,12 +88,14 @@ export default function Notifications({
         <Button
           variant="outline"
           type="reset"
+          disabled={!hasChanges}
           onClick={() => setSettings(preferences)}>
           Cancel
         </Button>
         <Button
           type="submit"
           variant="ghost"
+          disabled={!hasChanges}
           onClick={handleSubmit}
           className="bg-gradient-to-tr from-blue-500 to-blue-600 hover:shadow-md hover:scale-[1.02] transition-all duration-200 ease-in-out text-white">
           <Save className="w-4 h-4" />
