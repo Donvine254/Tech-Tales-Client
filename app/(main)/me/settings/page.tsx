@@ -14,7 +14,7 @@ export default async function Page() {
     redirect("/me");
   }
   return (
-    <div className="min-h-screen transition-colors duration-300">
+    <div className="min-h-screen bg-background transition-colors duration-300">
       <SettingsPage user={user} />
     </div>
   );

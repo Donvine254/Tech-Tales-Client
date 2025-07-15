@@ -92,7 +92,7 @@ export default function PersonalDetails({ user }: { user: UserProfileData }) {
           <h3 className="text-lg font-medium text-gray-900 dark:text-white">
             Profile Picture
           </h3>
-          <p className="text-xs text-muted-foreground leading-relaxed">
+          <p className="text-[10px] sm:text-xs max-w-[80%] sm:max-w-max mx-auto sm:mx-0 text-muted-foreground leading-relaxed">
             <strong>Recommended:</strong> Square JPG, PNG, or JPEG, at least
             1,000 pixels per side and less than 2MB in size.
           </p>
@@ -181,7 +181,7 @@ export default function PersonalDetails({ user }: { user: UserProfileData }) {
       </div>
 
       {/* Submit Button */}
-      <div className="flex space-x-2 md:space-x-4 justify-end">
+      <div className="flex space-x-2 md:space-x-4 justify-between sm:justify-end">
         <Button type="submit" variant="outline">
           Cancel
         </Button>
