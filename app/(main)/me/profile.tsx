@@ -25,11 +25,11 @@ import Link from "next/link";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { getUserData } from "@/lib/actions/user";
 import { SocialLinks } from "@/components/custom/social-links";
-import UserBadges from "@/components/profile/badge";
+import UserBadges from "@/components/pages/profile/badge";
 import { Badge } from "@/components/ui/badge";
-import MinimalBlogCard from "@/components/pages/minimal-blog-card";
-import CreateButton from "@/components/profile/create-button";
-import SocialMediaDialog from "@/components/profile/social-media-dialog";
+import MinimalBlogCard from "@/components/pages/blogs/minimal-blog-card";
+import CreateButton from "@/components/pages/profile/create-button";
+import SocialMediaDialog from "@/components/pages/profile/social-media-dialog";
 import { SocialLink } from "@/types";
 
 type UserAndBlogs = Awaited<ReturnType<typeof getUserData>>;

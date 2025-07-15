@@ -1,8 +1,8 @@
 import React from "react";
-import Newsletter from "@/components/pages/newsletter";
-import BlogCard from "@/components/pages/blog-card";
+import Newsletter from "@/components/layout/newsletter";
+import BlogCard from "@/components/pages/blogs/blog-card";
 import { getLatestBlogs } from "@/lib/actions/blogs";
-import FeaturedCard from "@/components/pages/featured-card";
+import FeaturedCard from "@/components/pages/blogs/featured-card";
 import { Metadata } from "next";
 import { BlogWithComments } from "@/types";
 

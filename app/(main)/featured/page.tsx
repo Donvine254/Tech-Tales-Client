@@ -1,11 +1,11 @@
 import React from "react";
-import Newsletter from "@/components/pages/newsletter";
-import BlogCard from "@/components/pages/blog-card";
+import BlogCard from "@/components/pages/blogs/blog-card";
 import { getFeaturedBlogs } from "@/lib/actions/blogs";
-import FeaturedCard from "@/components/pages/featured-card";
+import FeaturedCard from "@/components/pages/blogs/featured-card";
 import { Crown } from "lucide-react";
 import { Metadata } from "next";
 import { BlogWithComments } from "@/types";
+import Newsletter from "@/components/layout/newsletter";
 
 export const metadata: Metadata = {
   title: "Featured Stories | Tech Tales",

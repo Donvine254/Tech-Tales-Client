@@ -12,7 +12,7 @@ import {
 import Image from "next/image";
 import UserBlogs from "./user-blogs";
 import { BlogWithComments } from "@/types";
-import UserBadges from "@/components/profile/badge";
+import UserBadges from "@/components/pages/profile/badge";
 type UserAndBlogs = Awaited<ReturnType<typeof getUserAndBlogsByHandle>>;
 
 export default async function ExplorePage({ data }: { data: UserAndBlogs }) {

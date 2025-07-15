@@ -1,7 +1,7 @@
-import BlogCard from "@/components/pages/blog-card";
-import { BlogCarousel } from "@/components/pages/carousel";
-import CategoryFilters from "@/components/pages/category-filters";
-import Newsletter from "@/components/pages/newsletter";
+import BlogCard from "@/components/pages/blogs/blog-card";
+import { BlogCarousel } from "@/components/pages/blogs/carousel";
+import CategoryFilters from "@/components/pages/blogs/category-filters";
+import Newsletter from "@/components/layout/newsletter";
 import { getBlogs } from "@/lib/actions/blogs";
 import prisma from "@/prisma/prisma";
 import { BlogWithComments, BlogWithUser } from "@/types";

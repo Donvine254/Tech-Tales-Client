@@ -1,7 +1,7 @@
 import React from "react";
 import prisma from "@/prisma/prisma";
 import { redirect } from "next/navigation";
-import Slug from "../../../../components/slug/slug";
+import Slug from "../../../../components/pages/slug/slug";
 
 export async function generateStaticParams() {
   try {

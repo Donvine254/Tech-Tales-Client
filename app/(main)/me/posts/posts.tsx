@@ -1,5 +1,5 @@
 "use client";
-import MinimalBlogCard from "@/components/pages/minimal-blog-card";
+import MinimalBlogCard from "@/components/pages/blogs/minimal-blog-card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
@@ -29,7 +29,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import CreateButton from "@/components/profile/create-button";
+import CreateButton from "@/components/pages/profile/create-button";
 import { toast } from "sonner";
 import { deleteOrArchiveBlog, updateBlogStatus } from "@/lib/actions/blogs";
 

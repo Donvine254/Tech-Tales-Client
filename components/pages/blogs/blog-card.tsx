@@ -12,8 +12,8 @@ import { calculateReadingTime, formatViews } from "@/lib/utils";
 import { BlogWithComments } from "@/types";
 import parse from "html-react-parser";
 import Link from "next/link";
-import { ShareModal } from "../modals/share-modal";
-import Bookmark from "../custom/bookmark";
+import { ShareModal } from "@/components/modals/share-modal";
+import Bookmark from "@/components/custom/bookmark";
 import {
   Tooltip,
   TooltipProvider,

@@ -1,5 +1,5 @@
 "use client";
-import MinimalBlogCard from "@/components/pages/minimal-blog-card";
+import MinimalBlogCard from "@/components/pages/blogs/minimal-blog-card";
 import { Button } from "@/components/ui/button";
 import { BlogWithComments } from "@/types";
 import { ArrowUpDown, ChevronLeft, ChevronRight } from "lucide-react";
@@ -56,7 +56,12 @@ export default function UserBlogs({ blogs }: Props) {
       <div className="space-y-4">
         {paginatedBlogs && paginatedBlogs.length > 0 ? (
           paginatedBlogs.map((blog) => (
-            <MinimalBlogCard key={blog.id} blog={blog} />
+            <MinimalBlogCard
+              key={blog.id}
+              blog={blog}
+              onUpdate={() => null}
+              onDelete={() => null}
+            />
           ))
         ) : (
           <div className="py-16 flex flex-col items-center justify-center">

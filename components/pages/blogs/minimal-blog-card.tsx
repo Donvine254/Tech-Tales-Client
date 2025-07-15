@@ -12,14 +12,14 @@ import {
 } from "@/components/ui/tooltip";
 import { BlogWithComments, CoverImage } from "@/types";
 import { calculateReadingTime, formatViews } from "@/lib/utils";
-import { ShareModal } from "../modals/share-modal";
+import { ShareModal } from "@/components/modals/share-modal";
 import Image from "next/image";
 import { BlogCardDropdown } from "./blog-dropdown";
-import { Badge } from "../ui/badge";
+import { Badge } from "@/components/ui/badge";
 import { getUserBlogs } from "@/lib/actions/user";
 import { BlogStatus } from "@prisma/client";
 import { useState } from "react";
-import { DeleteConfirmDialog } from "../modals/delete-dialog";
+import { DeleteConfirmDialog } from "@/components/modals/delete-dialog";
 
 // check for image
 function isCoverImage(image: unknown): image is CoverImage {

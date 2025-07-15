@@ -6,7 +6,7 @@ import Link from "next/link";
 import parse from "html-react-parser";
 import { Calendar, Clock, Crown } from "lucide-react";
 import { calculateReadingTime } from "@/lib/utils";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import BlogCard from "./blog-card";
 
 export default function FeaturedCard({

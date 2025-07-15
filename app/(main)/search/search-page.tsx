@@ -1,7 +1,7 @@
 "use client";
 import { useMemo, useState } from "react";
-import BlogCard from "@/components/pages/blog-card";
-import CategoryFilters from "@/components/pages/category-filters";
+import BlogCard from "@/components/pages/blogs/blog-card";
+import CategoryFilters from "@/components/pages/blogs/category-filters";
 import { BlogWithComments } from "@/types";
 import { SearchX, ChevronLeft, ChevronRight } from "lucide-react";
 import { useSearchParams } from "next/navigation";
