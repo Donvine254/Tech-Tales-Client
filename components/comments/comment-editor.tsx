@@ -1,10 +1,11 @@
 import React, { useState, useRef } from "react";
-import { Editor } from "@tinymce/tinymce-react";
+import dynamic from "next/dynamic";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Session } from "@/types";
 import { handleImageUpload } from "@/lib/helpers/handle-image-upload";
 import { useTheme } from "next-themes";
 import { Button } from "../ui/button";
+import { Loader2 } from "lucide-react";
 
 interface CommentEditorProps {
   session: Session;
@@ -13,6 +14,18 @@ interface CommentEditorProps {
   onSubmit: () => void;
   isEditing?: boolean;
 }
+const Editor = dynamic(
+  () => import("@tinymce/tinymce-react").then((mod) => mod.Editor),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="min-h-[100px] flex flex-col gap-x-5 items-center justify-center bg-gray-500/10">
+        <Loader2 className="h-8 w-8 text-blue-500 animate-spin" />
+        <p>Loading Editor...</p>
+      </div>
+    ),
+  }
+);
 
 export const CommentEditor: React.FC<CommentEditorProps> = ({
   session,
