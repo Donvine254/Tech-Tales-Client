@@ -2,12 +2,12 @@ import { CoverImage } from "@/types";
 import { toast } from "sonner";
 import { baseUrl } from "../utils";
 
-export async function uploadToCloudinary(image: File) {
+export async function uploadToCloudinary(image: File, folder: string) {
   const newImage = new FormData();
   newImage.append("file", image);
   newImage.append("cloud_name", "dipkbpinx");
   newImage.append("upload_preset", "ekomtspw");
-  newImage.append("folder", "tech-tales/cover-images");
+  newImage.append("folder", folder);
   try {
     const response = await fetch(
       "https://api.cloudinary.com/v1_1/dipkbpinx/image/upload",

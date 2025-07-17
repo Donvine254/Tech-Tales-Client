@@ -54,7 +54,7 @@ export const CoverImageSection: React.FC<CoverImageProps> = ({
   async function handleFileUpload(file: File) {
     setIsUploading(true);
     try {
-      const res = await uploadToCloudinary(file);
+      const res = await uploadToCloudinary(file, "tech-tales/cover-images");
       if (res.success && res.data) {
         toast.success("Image uploaded successfully");
         onImageChange(res.data);
