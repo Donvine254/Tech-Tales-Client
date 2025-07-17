@@ -11,7 +11,7 @@ export default async function Page() {
   }
   const user = await fetchProfileData(session.userId);
   if (!user) {
-    redirect("/me");
+    redirect("/login");
   }
   return (
     <div className="min-h-screen bg-background transition-colors duration-300">

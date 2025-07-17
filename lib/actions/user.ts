@@ -1,7 +1,6 @@
 "use server";
 import { revalidateTag, unstable_cache } from "next/cache";
 import prisma from "@/prisma/prisma";
-import { redirect } from "next/navigation";
 import { Preferences, SocialLink } from "@/types";
 import { getSession } from "./session";
 import { Prisma, UserStatus } from "@prisma/client";
@@ -37,9 +36,6 @@ export const getUserBlogs = unstable_cache(
 
 export const getUserData = unstable_cache(
   async (userId: number) => {
-    if (!userId) {
-      redirect("/");
-    }
     const user = await prisma.user.findUnique({
       where: { id: userId },
       select: {
@@ -62,13 +58,9 @@ export const getUserData = unstable_cache(
       },
     });
 
-    if (!user) {
-      redirect("/login");
-    }
-
     const blogs = await prisma.blog.findMany({
       where: {
-        authorId: user.id,
+        authorId: userId,
         status: "PUBLISHED",
       },
       include: {

@@ -48,6 +48,30 @@ export default function SettingsPage({ user }: { user: UserProfileData }) {
         : "text-muted-foreground hover:bg-accent"
     }`;
 
+  const TabComponents: Record<string, React.ReactNode> = {
+    personal: (
+      <PersonalDetails
+        initialData={{
+          bio: user.bio,
+          branding: user.branding || "#155dfc",
+          handle: user.handle,
+          username: user.username,
+          picture: user.picture,
+          skills: user.skills,
+        }}
+        userId={user.id}
+      />
+    ),
+    notifications: (
+      <Notifications
+        initialData={user.preferences as Preferences}
+        userId={user.id}
+      />
+    ),
+    security: <SecurityAccount userId={user.id} />,
+    preferences: <PreferenceSettings />,
+  };
+
   return (
     <div className="min-h-screen sm:bg-muted transition-colors duration-300">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -115,27 +139,7 @@ export default function SettingsPage({ user }: { user: UserProfileData }) {
           <div className="lg:col-span-3">
             <hr className="md:hidden" />
             <div className="rounded-xl sm:shadow-sm sm:border sm:border-border sm:bg-card transition-all duration-300">
-              {activeTab === "personal" && (
-                <PersonalDetails
-                  initialData={{
-                    bio: user.bio,
-                    branding: user.branding || "#155dfc",
-                    handle: user.handle,
-                    username: user.username,
-                    picture: user.picture,
-                    skills: user.skills,
-                  }}
-                  userId={user.id}
-                />
-              )}
-              {activeTab === "notifications" && (
-                <Notifications
-                  initialData={user.preferences as Preferences}
-                  userId={user.id}
-                />
-              )}
-              {activeTab === "security" && <SecurityAccount userId={user.id} />}
-              {activeTab === "preferences" && <PreferenceSettings />}
+              {TabComponents[activeTab]}
             </div>
           </div>
         </div>

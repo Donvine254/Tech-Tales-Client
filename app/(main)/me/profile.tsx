@@ -43,7 +43,10 @@ export default function Profile({
   isTopAuthor?: boolean;
 }) {
   const { session } = useSession();
-  const { user, blogs } = data;
+  const { user, blogs } = data as {
+    user: NonNullable<typeof data.user>;
+    blogs: typeof data.blogs;
+  };
   const [socials, setSocials] = useState<SocialLink[]>(() => {
     try {
       const raw =

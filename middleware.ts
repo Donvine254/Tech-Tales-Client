@@ -11,7 +11,8 @@ export async function middleware(request: NextRequest) {
     path.startsWith("/my-blogs") ||
     path.startsWith("/posts") ||
     path.startsWith("/admin") ||
-    path.startsWith("/api");
+    path.startsWith("/api") ||
+    path.startsWith("/me/settings");
 
   const isPublicPath =
     path.startsWith("/login") ||

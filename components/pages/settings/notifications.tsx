@@ -44,7 +44,7 @@ export default function Notifications({
     },
   ];
   const hasChanges =
-    JSON.stringify(preferences) !== JSON.stringify(preferences);
+    JSON.stringify(preferences) !== JSON.stringify(initialData);
   //function to submit data
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();

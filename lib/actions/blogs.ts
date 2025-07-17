@@ -6,7 +6,6 @@ import { BlogData } from "@/types";
 import { BlogStatus, Prisma } from "@prisma/client";
 import { canPublishBlog } from "../helpers";
 import { revalidateTag } from "next/cache";
-import { redirect } from "next/navigation";
 // function to create a new blog
 
 export async function createNewBlog() {
@@ -106,7 +105,7 @@ export async function deleteOrArchiveBlog(uuid: string) {
   try {
     // Fetch current blog status
     const blog = await prisma.blog.findUnique({
-      where: {uuid},
+      where: { uuid },
       select: {
         status: true,
         author: {
@@ -286,11 +285,9 @@ export const getUserAndBlogsByHandle = unstable_cache(
         },
       },
     });
-
     if (!user) {
-      redirect("/404");
+      return null;
     }
-
     const blogs = await prisma.blog.findMany({
       where: {
         authorId: user.id,

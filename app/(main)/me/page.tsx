@@ -12,6 +12,9 @@ export default async function page() {
     redirect("/");
   }
   const data = await getUserData(session?.userId);
+  if (!data.user) {
+    redirect("/");
+  }
   const isTopAuthor = await getTopAuthor(session?.userId);
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-accent">

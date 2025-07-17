@@ -21,6 +21,8 @@ export async function createAndSetAuthTokenCookie(user: AuthUser) {
     httpOnly: true,
     maxAge: 8 * 60 * 60,
     sameSite: "strict",
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
   });
   return token;
 }
