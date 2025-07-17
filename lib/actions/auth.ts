@@ -7,7 +7,7 @@ export async function authenticateSSOLogin(email: string) {
   try {
     // we can use omit to omit sensitive fields
     //e.g const user = await prisma.user.findUnique({ omit: { password: true }where: { id: 1}})
-    
+
     const user = await prisma.user.findUnique({
       where: { email: email },
       select: {
@@ -82,5 +82,58 @@ export async function authenticateUserLogin(
       success: false,
       message: "Unexpected error occured!",
     };
+  }
+}
+const hashPassword = async (password: string) => {
+  return await bcrypt.hash(password, 10);
+};
+// function to change user password
+export async function changeUserPassword(
+  userId: number,
+  data: { current: string; newPwd: string },
+  ip: string
+) {
+  const { current, newPwd } = data;
+  const hashedPassword = await hashPassword(newPwd);
+
+  try {
+    // step 1: check the attempts
+    const rateCheck = rateLimitByIp(ip);
+    if (!rateCheck.allowed) {
+      return {
+        success: false,
+        message: "Too many requests, try again after 5 minutes",
+      };
+    }
+    // step 2: find the user and get the existing password
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+      select: {
+        id: true,
+        password_digest: true,
+      },
+    });
+
+    if (!user) {
+      return { success: false, message: "Record to update not found!" };
+    }
+    //step 3: compare existing password with the current password input
+    const isValidPassword = await bcrypt.compare(current, user.password_digest);
+    if (!isValidPassword) {
+      // Log failed attempt
+      return { success: false, message: "Wrong password, try again" };
+    }
+    // step 4: change the password and return
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { password_digest: hashedPassword },
+    });
+
+    return { success: true, message: "Password changed successfully" };
+  } catch (error) {
+    console.error(error);
+    return { success: false, message: "An error occurred" };
   }
 }

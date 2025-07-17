@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Eye, EyeOff, Save, AlertTriangle, Trash2, Wand2 } from "lucide-react";
+import {
+  Eye,
+  EyeOff,
+  Save,
+  AlertTriangle,
+  Trash2,
+  Wand2,
+  Loader2,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { generatePassword } from "@/lib/utils";
 import {
@@ -15,8 +23,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import PasswordStrengthMeter from "./password-strength";
+import { changeUserPassword } from "@/lib/actions/auth";
+import { toast } from "sonner";
 
-export default function SecurityAccount() {
+export default function SecurityAccount({ userId }: { userId: number }) {
   const [passwords, setPasswords] = useState({
     current: "",
     new: "",
@@ -28,7 +38,7 @@ export default function SecurityAccount() {
     new: false,
     confirm: false,
   });
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [showDeactivateModal, setShowDeactivateModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -55,10 +65,35 @@ export default function SecurityAccount() {
     }));
   };
 
-  const handlePasswordSubmit = (e: React.FormEvent) => {
+  async function handlePasswordSubmit(e: React.FormEvent) {
     e.preventDefault();
-    console.log("Password change submitted");
-  };
+    const toastId = toast.loading("Processing request..");
+    try {
+      setIsSubmitting(true);
+      const ip = await fetch("https://api.ipify.org?format=json")
+        .then((res) => res.json())
+        .then((data) => data.ip);
+      const res = await changeUserPassword(
+        userId,
+        {
+          current: passwords.current,
+          newPwd: passwords.new,
+        },
+        ip
+      );
+      if (res.success) {
+        toast.success(res.message);
+      } else {
+        toast.error(res.message);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("something went wrong");
+    } finally {
+      setIsSubmitting(false);
+      toast.dismiss(toastId);
+    }
+  }
   const hasChanges =
     passwords.current.trim() !== "" ||
     passwords.new.trim() !== "" ||
@@ -158,7 +193,7 @@ export default function SecurityAccount() {
             <Button
               variant="outline"
               type="reset"
-              disabled={!hasChanges}
+              disabled={!hasChanges || isSubmitting}
               onClick={() =>
                 setPasswords({ current: "", new: "", confirm: "" })
               }>
@@ -167,10 +202,19 @@ export default function SecurityAccount() {
             <Button
               type="submit"
               variant="ghost"
-              disabled={!hasChanges}
-              className="bg-gradient-to-tr from-blue-500 to-blue-600 hover:shadow-md hover:scale-[1.02] transition-all duration-200 ease-in-out text-white hover:text-white">
-              <Save className="w-4 h-4" />
-              <span>Save Changes</span>
+              disabled={!hasChanges || isSubmitting}
+              className="bg-gradient-to-tr from-blue-500 to-blue-600  hover:shadow-md hover:scale-[1.02] transition-all duration-200 ease-in-out text-white hover:text-white">
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <span>Saving ...</span>
+                </>
+              ) : (
+                <>
+                  <Save className="w-4 h-4" />
+                  <span>Save Changes</span>
+                </>
+              )}
             </Button>
           </div>
         </form>

@@ -134,7 +134,7 @@ export default function SettingsPage({ user }: { user: UserProfileData }) {
                   userId={user.id}
                 />
               )}
-              {activeTab === "security" && <SecurityAccount />}
+              {activeTab === "security" && <SecurityAccount userId={user.id} />}
               {activeTab === "preferences" && <PreferenceSettings />}
             </div>
           </div>

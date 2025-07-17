@@ -8,7 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { MetaIcon } from "@/assets/icons";
 import { useEffect, useState } from "react";
-import { Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import { toast } from "sonner";
 import { validateRecaptcha } from "@/lib/actions/captcha";
@@ -31,7 +31,7 @@ export function LoginForm({
   const [token, setToken] = useState<string | null>(null);
   const router = useRouter();
   const [originUrl, setOriginUrl] = useState("/");
-
+  const [showPassword, setShowPassword] = useState(false);
   //useEffect to read the cookie
   useEffect(() => {
     setOriginUrl(getCookie("post_login_redirect"));
@@ -126,17 +126,29 @@ export function LoginForm({
                     Forgot your password?
                   </Link>
                 </div>
-                <Input
-                  id="password"
-                  name="password"
-                  value={formData.password}
-                  disabled={status === "loading"}
-                  onChange={handleChange}
-                  type="password"
-                  required
-                  minLength={4}
-                  placeholder="********"
-                />
+                <div className="relative">
+                  <Input
+                    id="password"
+                    name="password"
+                    value={formData.password}
+                    disabled={status === "loading"}
+                    onChange={handleChange}
+                    type={showPassword ? "text" : "password"}
+                    required
+                    minLength={4}
+                    placeholder="********"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-3 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
+                    {showPassword ? (
+                      <EyeOff className="w-4 h-4" />
+                    ) : (
+                      <Eye className="w-4 h-4" />
+                    )}
+                  </button>
+                </div>
               </div>
               <GoogleReCaptcha
                 onVerify={(token) => {
