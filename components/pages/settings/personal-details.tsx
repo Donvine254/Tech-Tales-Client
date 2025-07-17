@@ -82,6 +82,7 @@ export default function PersonalDetails({
         onImageUpload={(imgUrl) =>
           setFormData((prev) => ({ ...prev, picture: imgUrl }))
         }
+        userId={userId}
       />
       {/* Form Fields */}
       <div className="space-y-6">

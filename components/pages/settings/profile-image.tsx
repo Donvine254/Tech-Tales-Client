@@ -9,21 +9,28 @@ import {
   deleteCloudinaryImage,
   uploadToCloudinary,
 } from "@/lib/helpers/cloudinary";
+import { useSession } from "@/providers/session";
+import { Session } from "@/types";
+import { updateUserDetails } from "@/lib/actions/user";
 
 type ProfileImageUploaderProps = {
   currentPicture: string | null;
   onImageUpload: (imageUrl: string) => void;
+  userId: number;
 };
 
 export default function ProfileImageUploader({
   currentPicture,
   onImageUpload,
+  userId,
 }: ProfileImageUploaderProps) {
   const imageInputRef = useRef<HTMLInputElement>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const { setSession, session } = useSession();
+  //   triggered on file select
+  const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       if (file.size > 2 * 1024 * 1024) {
@@ -34,27 +41,50 @@ export default function ProfileImageUploader({
         setPreviewImage(e.target?.result as string);
       };
       reader.readAsDataURL(file);
-      await imageUploader(file);
+      setSelectedFile(file);
     }
   };
 
-  async function imageUploader(file: File) {
-    setIsUploading(true);
-    const res = await uploadToCloudinary(file, "tech-tales/profile-pictures");
-    if (res.success && res.data) {
-      toast.success("Image uploaded successfully");
-      onImageUpload(res.data.secure_url);
-      if (imageInputRef.current) {
-        (imageInputRef.current as HTMLInputElement).value = "";
-      }
-      //   delete the current image
-      await deleteImageIfExists();
-    } else {
-      toast.error("Upload failed, try again.");
-    }
-    setIsUploading(false);
-  }
+  //  function to upload the image
+  async function handleImageUpload() {
+    if (!selectedFile) return;
 
+    setIsUploading(true);
+    const toastId = toast.loading("Uploading image...");
+
+    const res = await uploadToCloudinary(
+      selectedFile,
+      "tech-tales/profile-pictures"
+    );
+
+    toast.dismiss(toastId);
+    setIsUploading(false);
+    if (!res.success || !res.data) {
+      toast.error("Upload failed, try again.");
+      return setIsUploading(false);
+    }
+
+    const imageUrl = res.data.secure_url;
+    toast.success("Image uploaded successfully");
+    onImageUpload(imageUrl);
+    const userUpdateRes = await updateUserDetails(userId, {
+      picture: imageUrl,
+    });
+    if (userUpdateRes.success && userUpdateRes.user) {
+      toast.success(userUpdateRes.message);
+      setSession({
+        ...userUpdateRes.user,
+        userId,
+        picture: imageUrl,
+        exp: session?.exp ?? Math.floor(Date.now() / 1000) + 60 * 60 * 8,
+      } as Session);
+    }
+    if (imageInputRef.current) imageInputRef.current.value = "";
+    setSelectedFile(null);
+    setPreviewImage("");
+    await deleteImageIfExists();
+  }
+  //function to delete the old image
   async function deleteImageIfExists() {
     const cloudinaryBaseUrl =
       "https://res.cloudinary.com/dipkbpinx/image/upload/";
@@ -100,7 +130,7 @@ export default function ProfileImageUploader({
             type="file"
             accept="image/*"
             ref={imageInputRef}
-            onChange={handleImageUpload}
+            onChange={handleImageSelect}
             className="hidden"
           />
         </label>
@@ -120,10 +150,10 @@ export default function ProfileImageUploader({
           {previewImage ? (
             <div className="flex items-center  w-full justify-center sm:justify-normal space-x-6">
               <button
-                disabled={isUploading}
+                disabled={isUploading || !selectedFile}
                 className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all cursor-pointer disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] h-8  px-3 has-[>svg]:px-2.5 hover:bg-blue-500 hover:text-white "
                 type="button"
-                onClick={() => setIsUploading(true)}
+                onClick={handleImageUpload}
                 title="upload photo">
                 {isUploading ? (
                   <>
@@ -138,7 +168,10 @@ export default function ProfileImageUploader({
               </button>
               <button
                 type="button"
-                onClick={() => setPreviewImage("")}
+                onClick={() => {
+                  setSelectedFile(null);
+                  setPreviewImage("");
+                }}
                 disabled={isUploading}
                 className="hover:underline text-destructive cursor-pointer disabled:pointer-events-none disabled:opacity-50">
                 Remove
