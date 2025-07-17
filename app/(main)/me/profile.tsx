@@ -61,7 +61,7 @@ export default function Profile({
         {/* user card */}
         <div className="px-6 py-4 w-full relative -top-40 rounded-md bg-card shadow border">
           <Link
-            href="/settings"
+            href="/me/settings"
             className="hidden md:inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all cursor-pointer md:absolute md:right-2 h-10 px-4 py-2 has-[>svg]:px-3 bg-blue-600 text-white top-2 hover:bg-blue-500">
             <Settings className="h-4 w-4" />
             Edit Profile
@@ -140,7 +140,7 @@ export default function Profile({
                 <span className="truncate">{session?.email}</span>
               </div>
               <Link
-                href="/settings"
+                href="/me/settings"
                 title="edit profile"
                 className={cn(
                   buttonVariants({ variant: "link" }),

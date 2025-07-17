@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
@@ -12,6 +12,8 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import { getCookie, setCookie } from "@/lib/cookie";
+import { toast } from "sonner";
 
 export default function PreferenceSettings() {
   const [settings, setSettings] = useState({
@@ -20,6 +22,16 @@ export default function PreferenceSettings() {
     timezone: "UTC-5",
   });
 
+  useEffect(() => {
+    const storedLanguage = getCookie("language");
+    const storedTimezone = getCookie("timezone");
+
+    setSettings((prev) => ({
+      ...prev,
+      language: storedLanguage || prev.language,
+      timezone: storedTimezone || prev.timezone,
+    }));
+  }, []);
   const handleToggle = (key: keyof typeof settings) => {
     setSettings((prev) => ({
       ...prev,
@@ -54,12 +66,11 @@ export default function PreferenceSettings() {
   ];
 
   const handleSubmit = () => {
-    console.log(settings);
+    setCookie("language", settings.language, 365);
+    setCookie("timezone", settings.timezone, 365);
+    toast.success("changes saved successfully");
   };
-  const hasChanges =
-    !settings.cookies ||
-    settings.language !== "en" ||
-    settings.timezone !== "UTC-5";
+
   return (
     <div className="py-4 sm:p-6 lg:p-8 space-y-6">
       <div className="mb-8">
@@ -154,7 +165,6 @@ export default function PreferenceSettings() {
         <Button
           variant="outline"
           type="reset"
-          disabled={!hasChanges}
           onClick={() =>
             setSettings({
               cookies: true,
@@ -167,7 +177,6 @@ export default function PreferenceSettings() {
         <Button
           type="submit"
           variant="ghost"
-          disabled={!hasChanges}
           onClick={handleSubmit}
           className="bg-gradient-to-tr from-blue-500 to-blue-600 hover:shadow-md hover:scale-[1.02] transition-all duration-200 ease-in-out text-white hover:text-whit">
           <Save className="w-4 h-4" />
