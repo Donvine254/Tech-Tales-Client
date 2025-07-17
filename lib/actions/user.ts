@@ -2,9 +2,10 @@
 import { revalidateTag, unstable_cache } from "next/cache";
 import prisma from "@/prisma/prisma";
 import { redirect } from "next/navigation";
-import { SocialLink } from "@/types";
+import { Preferences, SocialLink } from "@/types";
 import { getSession } from "./session";
-import { Prisma } from "@prisma/client";
+import { Prisma, UserStatus } from "@prisma/client";
+import { createAndSetAuthTokenCookie } from "./jwt";
 
 // function to getAllUserBlogs
 export const getUserBlogs = unstable_cache(
@@ -155,5 +156,52 @@ export async function updateSocials(data: SocialLink[]) {
       success: false,
       message: "Something went wrong while updating socials",
     };
+  }
+}
+
+// fuction to update user details
+type UpdateData = {
+  username: string;
+  handle: string;
+  bio?: string | null;
+  skills?: string | null;
+  branding: string | null;
+  picture?: string | null;
+  preferences?: Preferences;
+  deactivatedAt?: Date;
+  email_verified?: boolean;
+  deleted?: boolean;
+  status?: UserStatus;
+};
+
+export async function updateUserDetails(
+  userId: number,
+  data: Partial<UpdateData>
+) {
+  try {
+    const updatedUser = await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data,
+      select: {
+        id: true,
+        email: true,
+        username: true,
+        picture: true,
+        role: true,
+      },
+    });
+    await createAndSetAuthTokenCookie(updatedUser);
+    return {
+      success: true,
+      message: "user details updated successfully",
+      user: updatedUser,
+    };
+  } catch (error) {
+    console.error(error);
+    return { success: false, message: "Could not update user." };
+  } finally {
+    await prisma.$disconnect();
   }
 }

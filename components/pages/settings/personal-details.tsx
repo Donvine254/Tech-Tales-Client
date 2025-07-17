@@ -1,5 +1,6 @@
+"use client";
 import React, { useRef, useState } from "react";
-import { Camera, Save, UploadIcon } from "lucide-react";
+import { Camera, Loader2, Save, UploadIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -7,7 +8,10 @@ import ColorPicker from "./color-picker";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { convertToHandle } from "@/lib/utils";
-import { UserProfileData } from "@/types";
+import { Session, UserProfileData } from "@/types";
+import { toast } from "sonner";
+import { updateUserDetails } from "@/lib/actions/user";
+import { useSession } from "@/providers/session";
 
 export default function PersonalDetails({
   initialData,
@@ -22,7 +26,9 @@ export default function PersonalDetails({
   const [formData, setFormData] = useState(initialData);
   const imageInputRef = useRef<HTMLInputElement>(null);
   const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const { setSession, session } = useSession();
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -44,15 +50,34 @@ export default function PersonalDetails({
       reader.readAsDataURL(file);
     }
   };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log(userId);
-    console.log("Submitted:", { formData, profileImage });
-    // Submit logic here...
-  };
   const hasChanges =
     JSON.stringify(formData) !== JSON.stringify(initialData) || !!profileImage;
+  //function to submit the form
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!hasChanges) {
+      toast.error("Kindly make changes before submitting data");
+      return;
+    }
+    setIsSubmitting(true);
+    const toastId = toast.loading("Processing request..");
+    const res = await updateUserDetails(userId, formData);
+    toast.dismiss(toastId);
+    setIsSubmitting(false);
+    if (res.success && res.user) {
+      toast.success(res.message);
+      const newSession: Session = {
+        ...res.user,
+        userId: userId,
+        picture: res.user.picture as string,
+        exp: session?.exp ?? Math.floor(Date.now() / 1000) + 60 * 60 * 8,
+      };
+      setSession(newSession);
+    } else {
+      toast.error(res.message);
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit} className="py-4 sm:p-6 lg:p-8 space-y-6">
       <div>
@@ -198,17 +223,26 @@ export default function PersonalDetails({
         <Button
           type="reset"
           variant="outline"
-          disabled={!hasChanges}
+          disabled={!hasChanges || isSubmitting}
           onClick={() => setFormData(initialData)}>
           Cancel
         </Button>
         <Button
           type="submit"
           variant="ghost"
-          disabled={!hasChanges}
+          disabled={!hasChanges || isSubmitting}
           className="bg-gradient-to-tr from-blue-500 to-blue-600  hover:shadow-md hover:scale-[1.02] transition-all duration-200 ease-in-out text-white hover:text-white">
-          <Save className="w-4 h-4" />
-          <span>Save Changes</span>
+          {isSubmitting ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" />
+              <span>Saving ...</span>
+            </>
+          ) : (
+            <>
+              <Save className="w-4 h-4" />
+              <span>Save Changes</span>
+            </>
+          )}
         </Button>
       </div>
     </form>

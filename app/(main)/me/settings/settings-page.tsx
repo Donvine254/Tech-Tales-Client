@@ -130,7 +130,7 @@ export default function SettingsPage({ user }: { user: UserProfileData }) {
               )}
               {activeTab === "notifications" && (
                 <Notifications
-                  preferences={user.preferences as Preferences}
+                  initialData={user.preferences as Preferences}
                   userId={user.id}
                 />
               )}

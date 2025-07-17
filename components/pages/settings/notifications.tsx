@@ -1,20 +1,22 @@
 import React, { useState } from "react";
-import { Save } from "lucide-react";
+import { Loader2, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Preferences } from "@/types";
+import { updateUserDetails } from "@/lib/actions/user";
+import { toast } from "sonner";
 
 export default function Notifications({
-  preferences,
+  initialData,
   userId,
 }: {
-  preferences: Preferences;
+  initialData: Preferences;
   userId: number;
 }) {
-  const [settings, setSettings] = useState<Preferences>(preferences);
-
-  const handleToggle = (key: keyof typeof settings) => {
-    setSettings((prev) => ({
+  const [preferences, setPreferences] = useState<Preferences>(initialData);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const handleToggle = (key: keyof typeof preferences) => {
+    setPreferences((prev) => ({
       ...prev,
       [key]: !prev[key],
     }));
@@ -25,28 +27,43 @@ export default function Notifications({
       title: "Allow Email Notifications",
       description:
         "You'll still receive administrative emails even if this setting is off.",
-      enabled: settings.email_notifications,
+      enabled: preferences.email_notifications,
     },
     {
       key: "newsletter_subscription" as const,
       title: "Subscribe to Newsletters",
       description:
         "We will send you weekly newsletters to keep you in the know.",
-      enabled: settings.newsletter_subscription,
+      enabled: preferences.newsletter_subscription,
     },
     {
       key: "analytics" as const,
       title: "Analytics Report",
       description: "We will send you analytics reports each month.",
-      enabled: settings.analytics,
+      enabled: preferences.analytics,
     },
   ];
+  const hasChanges =
+    JSON.stringify(preferences) !== JSON.stringify(preferences);
+  //function to submit data
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    console.log(userId);
-    // call api and submit the form
+    if (!hasChanges) {
+      toast.error("Kindly make changes before submitting data");
+      return;
+    }
+    setIsSubmitting(true);
+    const toastId = toast.loading("Processing request..");
+    const res = await updateUserDetails(userId, { preferences: preferences });
+    toast.dismiss(toastId);
+    setIsSubmitting(false);
+    if (res.success && res.user) {
+      toast.success(res.message);
+    } else {
+      toast.error(res.message);
+    }
   }
-  const hasChanges = JSON.stringify(settings) !== JSON.stringify(preferences);
+
   return (
     <form className="py-4 sm:p-6 lg:p-8 space-y-8 " onSubmit={handleSubmit}>
       <div className="mb-8">
@@ -88,18 +105,27 @@ export default function Notifications({
         <Button
           variant="outline"
           type="reset"
-          disabled={!hasChanges}
-          onClick={() => setSettings(preferences)}>
+          disabled={!hasChanges || isSubmitting}
+          onClick={() => setPreferences(preferences)}>
           Cancel
         </Button>
         <Button
           type="submit"
           variant="ghost"
-          disabled={!hasChanges}
+          disabled={!hasChanges || isSubmitting}
           onClick={handleSubmit}
           className="bg-gradient-to-tr from-blue-500 to-blue-600 hover:shadow-md hover:scale-[1.02] transition-all duration-200 ease-in-out text-white hover:text-whit">
-          <Save className="w-4 h-4" />
-          <span>Save Changes</span>
+          {isSubmitting ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" />
+              <span>Saving ...</span>
+            </>
+          ) : (
+            <>
+              <Save className="w-4 h-4" />
+              <span>Save Changes</span>
+            </>
+          )}
         </Button>
       </div>
     </form>
