@@ -44,9 +44,20 @@ export default function Profile({
 }) {
   const { session } = useSession();
   const { user, blogs } = data;
-  const [socials, setSocials] = useState<SocialLink[]>(
-    (user.socials ?? []) as unknown as SocialLink[]
-  );
+  const [socials, setSocials] = useState<SocialLink[]>(() => {
+    try {
+      const raw =
+        typeof user.socials === "string"
+          ? JSON.parse(user.socials)
+          : user.socials;
+
+      return (Array.isArray(raw) ? raw : []).filter((s): s is SocialLink =>
+        Boolean(s?.platform && s?.url)
+      );
+    } catch {
+      return [];
+    }
+  });
   const totalViews = blogs?.reduce((sum, blog) => sum + blog.views, 0);
   const totalLikes = blogs?.reduce((sum, blog) => sum + blog.likes, 0);
   return (
@@ -127,26 +138,28 @@ export default function Profile({
                 ? "Hey, I have not updated my bio yet. Let's chat in the comments."
                 : user.bio}
             </p>
-            <div className="flex items-center justify-between flex-wrap w-fit gap-x-4 mx-auto">
+            <div className="flex items-center w-max mx-auto justify-center flex-wrap gap-x-4">
               <div className="flex items-center justify-center gap-1 flex-1 p-1 rounded-md text-xs sm:text-sm font-serif text-primary/80 font-medium overflow-hidden">
                 <CakeIcon className="h-4 w-4" />
-                <span className="whitespace-nowrap truncate ">
-                  {/* replace this with user created at */}
+                <span className="whitespace-nowrap">
                   Joined on {formatDate(new Date(user.createdAt))}
                 </span>
               </div>
-              <div className="hidden md:flex items-center justify-center gap-1 flex-1 p-1 rounded-md text-xs sm:text-sm font-serif text-primary/80 font-medium">
+
+              <div className="hidden md:flex items-center justify-center gap-1 flex-1 p-1 rounded-md text-xs sm:text-sm font-serif text-primary/80 font-medium overflow-hidden">
                 <MailIcon className="h-4 w-4" />
-                <span className="truncate">{session?.email}</span>
+                <span className="whitespace-nowrap truncate">
+                  {session?.email}
+                </span>
               </div>
               <Link
                 href="/me/settings"
                 title="edit profile"
                 className={cn(
                   buttonVariants({ variant: "link" }),
-                  "text-primary/80 md:hidden"
+                  "text-primary/80 md:hidden text-xs sm:text-sm"
                 )}>
-                <Settings className="h-4 w-4" />{" "}
+                <Settings className="h-4 w-4" />
                 <span className="hidden sm:block">Edit Profile</span>
               </Link>
             </div>
@@ -274,7 +287,7 @@ export default function Profile({
               <div className="space-y-6 bg-card shadow border px-6 py-4 rounded-md">
                 <div className="mb-4">
                   <div className="text-primary/90 flex items-center gap-2 font-semibold mb-2 ">
-                    Connected Accounts{" "}
+                    Connected Accounts {/* TODO: FIX COUNTER BADGE ERROR */}
                     <Badge variant="secondary">{socials.length}</Badge>
                   </div>
                   {socials && socials.length > 0 ? (
