@@ -177,7 +177,7 @@ export default function Profile({
           {/* two divs */}
           <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-start md:gap-5  relative">
             {/* first child */}
-            <div className="md:w-min lg:w-1/3 space-y-4 md:sticky md:top-20">
+            <div className="md:w-min lg:w-1/3 space-y-4 md:sticky md:top-20 md:mt-2">
               {/* First card */}
               <div className="space-y-4 bg-card shadow border px-6 py-4 rounded-md">
                 <div className="mb-2 ">
@@ -219,39 +219,7 @@ export default function Profile({
                 </div>
               </div>
               {/* Third card */}
-              {/* <div className="space-y-4 bg-card shadow border px-6 py-4 rounded-md">
-                <div className="mb-2 ">
-                  <p className="text-primary/90 font-semibold mb-2 ">
-                    Contact Information
-                  </p>
-                  <div className="space-y-3">
-                    <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
-                      <span className="text-muted-foreground text-sm font-medium">
-                        Email:
-                      </span>
-                      <span className="text-foreground text-sm truncate break-all">
-                        {session?.email}
-                      </span>
-                    </div>
-                    <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
-                      <span className="text-muted-foreground text-sm font-medium">
-                        Handle:
-                      </span>
-                      <span className="text-foreground text-sm break-all">
-                        @{user.handle}
-                      </span>
-                    </div>
-                    <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
-                      <span className="text-muted-foreground text-sm font-medium">
-                        Member since:
-                      </span>
-                      <span className="text-foreground text-sm">
-                        {formatDate(new Date(user.createdAt))}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div> */}
+
               <div className="space-y-4 bg-card shadow border px-6 py-4 rounded-md">
                 <div className="mb-2 space-y-2">
                   <p className="text-primary/90 font-semibold mb-2 ">
@@ -287,7 +255,7 @@ export default function Profile({
               <div className="space-y-6 bg-card shadow border px-6 py-4 rounded-md">
                 <div className="mb-4">
                   <div className="text-primary/90 flex items-center gap-2 font-semibold mb-2 ">
-                    Connected Accounts {/* TODO: FIX COUNTER BADGE ERROR */}
+                    Connected Accounts
                     <Badge variant="secondary">{socials.length}</Badge>
                   </div>
                   {socials && socials.length > 0 ? (
