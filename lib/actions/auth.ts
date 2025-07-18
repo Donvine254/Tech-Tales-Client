@@ -25,8 +25,8 @@ export async function authenticateSSOLogin(email: string) {
     await createAndSetAuthTokenCookie(user);
     return { success: true, message: "Logged in successfully" };
   } catch (error) {
-    console.error(error);
-    return { success: false, error: "Something went wrong" };
+    const e = error as Error;
+    return { success: false, error: e.message || "Something went wrong" };
   }
 }
 
@@ -77,10 +77,10 @@ export async function authenticateUserLogin(
     await createAndSetAuthTokenCookie(user);
     return { success: true, message: "Logged in successfully" };
   } catch (error) {
-    console.error(error);
+    const e = error as Error;
     return {
       success: false,
-      message: "Unexpected error occured!",
+      message: e.message || "Unexpected error occured!",
     };
   }
 }
@@ -133,7 +133,7 @@ export async function changeUserPassword(
 
     return { success: true, message: "Password changed successfully" };
   } catch (error) {
-    console.error(error);
-    return { success: false, message: "An error occurred" };
+    const e = error as Error;
+    return { success: false, message: e.message || "An error occurred" };
   }
 }
