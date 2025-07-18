@@ -1,10 +1,11 @@
 "use server";
 import prisma from "@/prisma/prisma";
 
-export async function getTopAuthor(userId: number) {
+export async function getTopAuthor(userId: number): Promise<boolean> {
   if (!userId) return false;
+
   try {
-    const topAuthor = await prisma.blog.groupBy({
+    const [top] = (await prisma.blog.groupBy({
       by: ["authorId"],
       _count: {
         authorId: true,
@@ -15,9 +16,14 @@ export async function getTopAuthor(userId: number) {
         },
       },
       take: 1,
-    });
+    })) as Array<{
+      authorId: number;
+      _count: {
+        authorId: number;
+      };
+    }>;
 
-    return topAuthor.length > 0 && topAuthor[0].authorId === userId;
+    return top?.authorId === userId;
   } catch (error) {
     console.error("Error determining top author:", error);
     return false;
