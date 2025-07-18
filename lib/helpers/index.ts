@@ -1,4 +1,7 @@
 import { BlogData } from "@/types";
+import { CoverImage } from "@/types";
+import { SaveDraftBlog } from "../actions/blogs";
+import { toast } from "sonner";
 
 export function emptyBlogData(): BlogData {
   return {
@@ -15,9 +18,6 @@ export function emptyBlogData(): BlogData {
 }
 
 // helper function for publishing
-import { CoverImage } from "@/types";
-import { SaveDraftBlog } from "../actions/blogs";
-import { toast } from "sonner";
 
 interface BlogFields {
   title?: string | null;

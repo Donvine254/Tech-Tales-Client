@@ -1,14 +1,17 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client/edge";
+import { withAccelerate } from "@prisma/extension-accelerate";
 
 declare global {
   // allow global prisma across hot reloads in dev
-  var prisma: PrismaClient | undefined;
+  var prisma: ReturnType<PrismaClient["$extends"]> | undefined;
 }
 
-const prisma = global.prisma ?? new PrismaClient();
+const client = new PrismaClient().$extends(withAccelerate());
+
+const prisma = globalThis.prisma ?? client;
 
 if (process.env.NODE_ENV !== "production") {
-  global.prisma = prisma;
+  globalThis.prisma = prisma;
 }
 
 export default prisma;

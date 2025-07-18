@@ -48,7 +48,7 @@ export default async function page() {
                   <div className="absolute -top-2 -right-2 z-20">
                     <div className="bg-gradient-to-r from-yellow-600 to-orange-600 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center space-x-1">
                       <Crown className="h-4 w-4" />
-                      <span>#1</span>
+                      <span>#{index + 2}</span>
                     </div>
                   </div>
                 )}
