@@ -69,7 +69,8 @@ export default function RegisterForm() {
       });
       setStatus("success");
       // Navigate to verify page with email as query param
-      router.push(`/verify-email?email=${encodeURIComponent(data.email)}`);
+      const encodedEmail = btoa(data.email);
+      router.push(`/verify-email?token=${encodedEmail}`);
     } catch (error) {
       console.error("Registration error:", error);
 
