@@ -82,12 +82,14 @@ export default function RegisterForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-muted/30">
+    <div className="flex flex-col gap-6">
       <div className="w-full max-w-5xl">
         <Card className="overflow-hidden p-0">
           <CardContent className="grid p-0 md:grid-cols-2">
             <Form {...form}>
-              <form className="p-6" onSubmit={form.handleSubmit(handleSubmit)}>
+              <form
+                className="p-4 sm:p-6"
+                onSubmit={form.handleSubmit(handleSubmit)}>
                 <div className="flex flex-col gap-4">
                   <div className="flex flex-col items-center text-center">
                     <h1 className="text-2xl font-bold">Welcome onboard</h1>
