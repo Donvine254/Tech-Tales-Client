@@ -123,8 +123,6 @@ export function LoginForm({
                         <Input
                           type="email"
                           placeholder="Enter your email"
-                          autoComplete="off"
-                          id="new-email"
                           disabled={status === "loading"}
                           {...field}
                         />
@@ -152,7 +150,6 @@ export function LoginForm({
                           <Input
                             type={showPassword ? "text" : "password"}
                             placeholder="Enter your password"
-                            autoComplete="new-password"
                             disabled={status === "loading"}
                             {...field}
                           />
