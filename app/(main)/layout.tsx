@@ -9,8 +9,6 @@ import Navbar from "@/components/layout/navbar";
 import { metaobject } from "@/lib/metadata";
 import CookieAlert from "@/components/custom/cookie";
 import { SessionProvider } from "@/providers/session";
-import { getSession } from "@/lib/actions/session";
-import { Session } from "@/types";
 import { GoogleOneTapLogin } from "@/components/auth/google";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 const geistSans = Geist({
@@ -32,7 +30,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = (await getSession()) as Session;
   return (
     <>
       <html lang="en" suppressHydrationWarning>
@@ -44,10 +41,10 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange>
             <main>
-              <SessionProvider initialSession={session}>
+              <SessionProvider>
                 <GoogleOAuthProvider
                   clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}>
-                  <GoogleOneTapLogin session={session} />
+                  <GoogleOneTapLogin />
                   <Navbar />
                   {children}
                 </GoogleOAuthProvider>

@@ -5,6 +5,7 @@ import { GoogleIcon } from "@/assets/icons";
 import { authenticateSSOLogin } from "@/lib/actions/auth";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
+import { useSession } from "@/providers/session";
 
 type Props = {
   origin_url: string;
@@ -77,7 +78,8 @@ const GoogleAuthButton = ({ origin_url, setStatus }: Props) => {
 
 export default GoogleAuthButton;
 // eslint-disable-next-line
-export function GoogleOneTapLogin({ session }: { session: any | null }) {
+export function GoogleOneTapLogin() {
+  const { session } = useSession();
   const router = useRouter();
   useGoogleOneTapLogin({
     onSuccess: async (credentialResponse) => {
@@ -123,7 +125,7 @@ export function GoogleOneTapLogin({ session }: { session: any | null }) {
           "g_state=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       }
     },
-    disabled: session,
+    disabled: !!session,
     promptMomentNotification: (notification) => {
       console.log("Prompt moment notification:", notification);
     },

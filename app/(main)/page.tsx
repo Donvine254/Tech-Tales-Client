@@ -6,7 +6,7 @@ import { getBlogs } from "@/lib/actions/blogs";
 import prisma from "@/prisma/prisma";
 import { BlogWithComments, BlogWithUser } from "@/types";
 
-//get featured blogs
+//get featured blogs: 10 random blogs
 const featuredBlogs = await prisma.$queryRaw<BlogWithUser[]>`
   SELECT b.*, json_build_object('username', u.username, 'picture', u.picture) AS author
   FROM "Blog" b
