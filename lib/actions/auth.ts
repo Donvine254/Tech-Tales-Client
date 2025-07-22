@@ -1,7 +1,10 @@
 "use server";
 import prisma from "@/prisma/prisma";
 import * as bcrypt from "bcrypt";
-import { createAndSetAuthTokenCookie } from "./jwt";
+import {
+  createAndSetAuthTokenCookie,
+  createAndSetEmailVerificationCookie,
+} from "./jwt";
 import { rateLimitByIp } from "./rate-limiter";
 import { Prisma } from "@prisma/client/edge";
 export async function authenticateSSOLogin(email: string) {
@@ -136,11 +139,15 @@ export async function registerUser(data: RegisterPayload) {
       select: {
         id: true,
         email: true,
-        username: true,
+        email_verified: true,
       },
     });
-    console.log("User created:", user);
-    // send welcome email if provider is email
+    if (!user.email_verified) {
+      await createAndSetEmailVerificationCookie({
+        id: user.id,
+        email: user.email,
+      });
+    } // send welcome email if provider is email
     return { success: true, message: "Welcome onboard  🎉" };
   } catch (error) {
     console.error("Error in registerUser:", error);

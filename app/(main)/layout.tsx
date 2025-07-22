@@ -32,7 +32,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getSession() as Session
+  const session = (await getSession()) as Session;
   return (
     <>
       <html lang="en" suppressHydrationWarning>
@@ -43,11 +43,10 @@ export default async function RootLayout({
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange>
-
             <main>
               <SessionProvider initialSession={session}>
-                <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
-                >
+                <GoogleOAuthProvider
+                  clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}>
                   <GoogleOneTapLogin session={session} />
                   <Navbar />
                   {children}

@@ -26,3 +26,29 @@ export async function createAndSetAuthTokenCookie(user: AuthUser) {
   });
   return token;
 }
+
+// function to create and set email verification cookie
+// this is used to verify the email after registration
+export async function createAndSetEmailVerificationCookie(payload: {
+  id: number;
+  email: string;
+}) {
+  const cookieStore = await cookies();
+  const token = await new jose.SignJWT({
+    userId: payload.id,
+    email: payload.email,
+  })
+    .setProtectedHeader({ alg: "HS256" })
+    .setExpirationTime("30m")
+    .sign(JWT_SECRET);
+
+  cookieStore.set("verify_email_token", token, {
+    httpOnly: true,
+    maxAge: 30 * 60,
+    sameSite: "strict",
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+  });
+
+  return token;
+}
