@@ -77,7 +77,8 @@ const GoogleAuthButton = ({ origin_url, setStatus }: Props) => {
 };
 
 export default GoogleAuthButton;
-// eslint-disable-next-line
+// This component is used to handle Google authentication in the login form.
+// It uses the `useGoogleLogin` hook from `@react-oauth/google` to initiate the login process.
 export function GoogleOneTapLogin() {
   const { session } = useSession();
   const router = useRouter();

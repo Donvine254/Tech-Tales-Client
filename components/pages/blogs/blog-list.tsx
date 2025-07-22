@@ -1,6 +1,6 @@
 import BlogCard from "@/components/pages/blogs/blog-card";
 import FeaturedCard from "@/components/pages/blogs/featured-card";
-import { baseUrl } from "@/lib/utils";
+import { blogFetcher } from "@/lib/actions/fetcher";
 import { BlogWithComments } from "@/types";
 import { Crown } from "lucide-react";
 
@@ -18,13 +18,8 @@ const fieldMap: Record<PageType, "views" | "createdAt" | "likes"> = {
 
 export default async function BlogListPage({ page }: BlogListPageProps) {
   //fetch blogs
-  const res = await fetch(
-    `${baseUrl}/api/blogs?orderBy=${fieldMap[page]}&limit=10`,
-    {
-      next: { revalidate: 600, tags: [page] },
-    }
-  );
-  const blogs: BlogWithComments[] = await res.json();
+  const getBlogs = blogFetcher(fieldMap[page], page);
+  const blogs = (await getBlogs()) as BlogWithComments[];
 
   if (!blogs || blogs.length === 0) {
     return (
