@@ -224,42 +224,7 @@ export const getAllBlogs = unstable_cache(
   { revalidate: 6000 }
 );
 
-const createBlogFetcher = (
-  orderByField: "createdAt" | "views" | "likes",
-  cacheKey: string
-) =>
-  unstable_cache(
-    async () => {
-      return await prisma.blog.findMany({
-        where: {
-          status: "PUBLISHED",
-        },
-        include: {
-          author: {
-            select: {
-              username: true,
-              picture: true,
-            },
-          },
-          _count: {
-            select: {
-              comments: true,
-            },
-          },
-        },
-        orderBy: {
-          [orderByField]: "desc",
-        },
-        take: 10,
-      });
-    },
-    [cacheKey],
-    { revalidate: 600 }
-  );
-export const getLatestBlogs = createBlogFetcher("createdAt", "latest");
-export const getTrendingBlogs = createBlogFetcher("views", "trending");
-export const getFeaturedBlogs = createBlogFetcher("likes", "featured");
-
+// function to get blogs by author handle
 export const getUserAndBlogsByHandle = unstable_cache(
   async (handle: string) => {
     if (!handle) {

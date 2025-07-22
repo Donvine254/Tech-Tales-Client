@@ -3,7 +3,7 @@ import Newsletter from "@/components/layout/newsletter";
 import { TrendingUp } from "lucide-react";
 import { Metadata } from "next";
 import { FallBackBlogs } from "@/components/pages/blogs/blog-card-skeletons";
-import TrendingBlogs from "./trending-page";
+import BlogListPage from "@/components/pages/blogs/blog-list";
 
 export const metadata: Metadata = {
   title: "Trending Now | Tech Tales",
@@ -35,7 +35,7 @@ export default async function page() {
         {/* Featured Card */}
         <Suspense fallback={<FallBackBlogs />}>
           {" "}
-          <TrendingBlogs />
+          <BlogListPage page="trending" />
         </Suspense>
       </section>
       {/* newsletter section */}

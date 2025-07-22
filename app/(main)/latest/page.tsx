@@ -1,18 +1,15 @@
-import React from "react";
+import React, { Suspense } from "react";
 import Newsletter from "@/components/layout/newsletter";
-import BlogCard from "@/components/pages/blogs/blog-card";
-import { getLatestBlogs } from "@/lib/actions/blogs";
-import FeaturedCard from "@/components/pages/blogs/featured-card";
 import { Metadata } from "next";
-import { BlogWithComments } from "@/types";
+import { FallBackBlogs } from "@/components/pages/blogs/blog-card-skeletons";
+import BlogListPage from "@/components/pages/blogs/blog-list";
 
 export const metadata: Metadata = {
   title: "Latest Posts | Tech Tales",
   description: "Stay updated with the newest stories in the world of tech.",
 };
-
+export const revalidate = 3600;
 export default async function page() {
-  const latestBlogs = (await getLatestBlogs()) as BlogWithComments[];
   return (
     <div className="min-h-screen bg-background">
       {/* header section */}
@@ -41,22 +38,13 @@ export default async function page() {
               developers and tech enthusiasts.
             </p>
           </div>
-          {/* Featured Card */}
-
-          <FeaturedCard blog={latestBlogs[0]} variant="latest" />
         </div>
+        <Suspense fallback={<FallBackBlogs />}>
+          {" "}
+          <BlogListPage page="latest" />
+        </Suspense>
       </section>
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {latestBlogs &&
-            latestBlogs
-              ?.slice(1)
-              .map((post, index: number) => (
-                <BlogCard key={index} blog={post} />
-              ))}
-        </div>
-      </section>
       {/* newsletter section */}
       <Newsletter />
     </div>

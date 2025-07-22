@@ -1,19 +1,17 @@
-import React from "react";
-import BlogCard from "@/components/pages/blogs/blog-card";
-import { getFeaturedBlogs } from "@/lib/actions/blogs";
-import FeaturedCard from "@/components/pages/blogs/featured-card";
+import React, { Suspense } from "react";
 import { Crown } from "lucide-react";
 import { Metadata } from "next";
-import { BlogWithComments } from "@/types";
 import Newsletter from "@/components/layout/newsletter";
+import { FallBackBlogs } from "@/components/pages/blogs/blog-card-skeletons";
+import BlogListPage from "@/components/pages/blogs/blog-list";
 
 export const metadata: Metadata = {
   title: "Featured Stories | Tech Tales",
   description: "Explore our top-picked tech stories curated just for you.",
 };
+export const revalidate = 3600;
 
 export default async function page() {
-  const featuredBlogs = (await getFeaturedBlogs()) as BlogWithComments[];
   return (
     <div className="min-h-screen bg-background">
       {/* Header section */}
@@ -33,29 +31,11 @@ export default async function page() {
               posts have captured the attention of our readers.
             </p>
           </div>
-          {/* Featured Card */}
-          {featuredBlogs && featuredBlogs.length > 0 && featuredBlogs[0] && (
-            <FeaturedCard blog={featuredBlogs[0]} variant="featured" />
-          )}
         </div>
-      </section>
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {featuredBlogs &&
-            featuredBlogs?.slice(1).map((post, index: number) => (
-              <div key={index} className="relative">
-                {index < 4 && (
-                  <div className="absolute -top-2 -right-2 z-20">
-                    <div className="bg-gradient-to-r from-yellow-600 to-orange-600 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center space-x-1">
-                      <Crown className="h-4 w-4" />
-                      <span>#{index + 2}</span>
-                    </div>
-                  </div>
-                )}
-                <BlogCard blog={post} />
-              </div>
-            ))}
-        </div>
+        <Suspense fallback={<FallBackBlogs />}>
+          {" "}
+          <BlogListPage page="featured" />
+        </Suspense>
       </section>
       {/* newsletter section */}
       <Newsletter />
