@@ -6,7 +6,6 @@ import { Toaster } from "@/components/ui/sonner";
 import { metaobject } from "@/lib/metadata";
 import { GoogleContextProviders } from "@/providers/google";
 
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -21,7 +20,7 @@ export const metadata: Metadata = {
   ...metaobject,
 };
 
-export default function LoginLayout({
+export default function AuthLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -36,10 +35,7 @@ export default function LoginLayout({
           enableSystem
           disableTransitionOnChange>
           <main>
-            <GoogleContextProviders
-            >
-              {children}
-            </GoogleContextProviders>
+            <GoogleContextProviders>{children}</GoogleContextProviders>
           </main>
           <Toaster richColors closeButton />
         </ThemeProvider>
