@@ -3,11 +3,11 @@ import prisma from "@/prisma/prisma";
 import * as bcrypt from "bcrypt";
 import { createAndSetAuthTokenCookie } from "./jwt";
 import { rateLimitByIp } from "./rate-limiter";
+import { Prisma } from "@prisma/client/edge";
 export async function authenticateSSOLogin(email: string) {
   try {
     // we can use omit to omit sensitive fields
     //e.g const user = await prisma.user.findUnique({ omit: { password: true }where: { id: 1}})
-
     const user = await prisma.user.findUnique({
       where: { email: email },
       select: {
@@ -29,7 +29,7 @@ export async function authenticateSSOLogin(email: string) {
     return { success: false, error: e.message || "Something went wrong" };
   }
 }
-
+// Login function for normal users
 export async function authenticateUserLogin(
   email: string,
   password: string,
@@ -97,6 +97,79 @@ export async function authenticateUserLogin(
 const hashPassword = async (password: string) => {
   return await bcrypt.hash(password, 10);
 };
+// register function for normal users & SSO users
+type RegisterData = {
+  email: string;
+  username: string;
+  password: string;
+  picture: string;
+  handle: string;
+  bio?: string;
+  provider?: "email" | "google" | "github";
+};
+type RequireFields<T, K extends keyof T> = Partial<T> & Required<Pick<T, K>>;
+
+type RegisterPayload = RequireFields<
+  RegisterData,
+  "email" | "username" | "password" | "handle"
+>;
+export async function registerUser(data: RegisterPayload) {
+  const { email, username, password, picture, handle, bio, provider } = data;
+  try {
+    //step-1: hash the password
+    const password_digest = await hashPassword(password);
+    //step-2: create user
+    const user = await prisma.user.create({
+      data: {
+        email: email.toLowerCase(),
+        username: username.toLowerCase(),
+        password_digest,
+        picture:
+          picture ||
+          `https://ui-avatars.com/api/?background=random&name=${username}`,
+        handle,
+        bio: bio || "This user has no bio",
+        provider: provider || "email",
+        email_verified: provider !== "email",
+      },
+      select: {
+        id: true,
+        email: true,
+        username: true,
+        picture: true,
+        role: true,
+        email_verified: true,
+        password_digest: true,
+      },
+    });
+    // send welcome email if provider is email
+    await createAndSetAuthTokenCookie(user);
+    return { success: true, message: "Welcome onboard  🎉" };
+  } catch (error) {
+    console.error("Error in registerUser:", error);
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === "P2002") {
+        const meta = error.meta as { target?: string[] };
+        const target = (meta?.target?.[0] ?? "email") as
+          | "email"
+          | "username"
+          | "handle";
+        return {
+          success: false,
+          message: `${target} is already taken`,
+          field: target,
+        };
+      }
+    }
+    return {
+      success: false,
+      message: (error as Error).message || "An error occurred",
+    };
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
 // function to change user password
 export async function changeUserPassword(
   userId: number,

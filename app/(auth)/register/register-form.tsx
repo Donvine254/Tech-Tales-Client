@@ -16,7 +16,7 @@ import {
 import { Eye, EyeOff, Loader2, Wand2 } from "lucide-react";
 import { type RegisterFormData, registerSchema } from "@/lib/schemas/auth";
 import { useRouter } from "next/navigation";
-import { generatePassword } from "@/lib/utils";
+import { convertToHandle, generatePassword } from "@/lib/utils";
 import { toast } from "sonner";
 import Link from "next/link";
 import Image from "next/image";
@@ -25,6 +25,7 @@ import GithubButton from "@/components/auth/github";
 import GoogleAuthButton from "@/components/auth/google";
 import { getCookie } from "@/lib/cookie";
 import { PasswordStrength } from "@/components/auth/password-strength";
+import { registerUser } from "@/lib/actions/auth";
 
 type FormStatus = "pending" | "loading" | "success" | "error";
 
@@ -63,8 +64,30 @@ export default function RegisterForm() {
   const handleSubmit = async (data: RegisterFormData) => {
     setStatus("loading");
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      toast.success("Registration successful!", {
+      const res = await registerUser({
+        ...data,
+        handle: convertToHandle(data.username),
+      });
+
+      if (!res.success) {
+        if (res.field === "email") {
+          form.setError("email", {
+            type: "manual",
+            message: res.message,
+          });
+        } else if (res.field === "username" || res.field === "handle") {
+          form.setError("username", {
+            type: "manual",
+            message: res.message,
+          });
+        }
+
+        toast.error(res.message);
+        setStatus("error");
+        return;
+      }
+
+      toast.success(res.message, {
         description: "Please check your email to verify your account.",
       });
       setStatus("success");
@@ -72,12 +95,9 @@ export default function RegisterForm() {
       const encodedEmail = btoa(data.email);
       router.push(`/verify-email?token=${encodedEmail}`);
     } catch (error) {
+      const e = error as Error;
       console.error("Registration error:", error);
-
-      toast.error("Registration failed", {
-        description: "Please try again.",
-      });
-
+      toast.error(e.message || "Unexpected error occurred");
       setStatus("error");
     }
   };
