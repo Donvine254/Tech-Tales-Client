@@ -8,8 +8,8 @@ export const metadata: Metadata = {
   title: "Latest Posts | Tech Tales",
   description: "Stay updated with the newest stories in the world of tech.",
 };
-export const revalidate = 3600;
-export default async function page() {
+
+export default function page() {
   return (
     <div className="min-h-screen bg-background">
       {/* header section */}

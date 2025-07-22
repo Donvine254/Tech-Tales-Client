@@ -9,9 +9,8 @@ export const metadata: Metadata = {
   title: "Trending Now | Tech Tales",
   description: "See what stories are capturing the tech world's attention.",
 };
-export const revalidate = 3600;
 
-export default async function page() {
+export default function page() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header Section */}
