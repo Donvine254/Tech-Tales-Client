@@ -2,15 +2,16 @@
 import { useState, useEffect } from "react";
 import { setCookie, getCookie } from "@/lib/cookie";
 import Image from "next/image";
+import { useSession } from "@/providers/session";
 
 const CookieAlert = () => {
   const [show, setShow] = useState(false);
-
+  const { session: user } = useSession();
   useEffect(() => {
-    if (!getCookie("__accept_cookies")) {
+    if (!getCookie("__accept_cookies") && !user) {
       setTimeout(() => setShow(true), 4000);
     }
-  }, []);
+  }, [user]);
 
   const toggleClass = () => {
     setShow(false);
@@ -25,9 +26,10 @@ const CookieAlert = () => {
     toggleClass();
   };
 
-  //   if (user) {
-  //     return null;
-  //   }
+  if (user) {
+    return null;
+    // All logged-in users will not see the cookie alert. They have already accepted cookies.
+  }
 
   return (
     <div
