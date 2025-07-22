@@ -109,7 +109,8 @@ export default function RegisterForm() {
                           <Input
                             type="text"
                             placeholder="johndoe"
-                            autoComplete="new username"
+                            id="new-username"
+                            autoComplete="off"
                             disabled={status === "loading"}
                             {...field}
                           />
@@ -129,7 +130,8 @@ export default function RegisterForm() {
                           <Input
                             type="email"
                             placeholder="john@example.com"
-                            autoComplete="email"
+                            autoComplete="off"
+                            id="new-email"
                             disabled={status === "loading"}
                             {...field}
                           />
@@ -159,6 +161,7 @@ export default function RegisterForm() {
                             <Input
                               type={showPassword ? "text" : "password"}
                               placeholder="Enter a strong password"
+                              autoComplete="new-password"
                               disabled={status === "loading"}
                               {...field}
                             />

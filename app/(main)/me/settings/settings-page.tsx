@@ -123,8 +123,8 @@ export default function SettingsPage({ user }: { user: UserProfileData }) {
                       onClick={() => setActiveTab(tab.id)}
                       className={mobileTabClass(isActive)}
                       aria-label={`Switch to ${tab.label}`}>
-                      <Icon className="h-3 w-3" />
-                      <span className="text-xs leading-tight">
+                      <Icon className="h-4 w-4" />
+                      <span className="text-sm leading-tight">
                         {tab.label.split(" ")[0]}
                       </span>
                     </button>
