@@ -7,12 +7,25 @@ import {
 } from "./jwt";
 import { rateLimitByIp } from "./rate-limiter";
 import { Prisma } from "@prisma/client/edge";
-export async function authenticateSSOLogin(email: string) {
+import { convertToHandle, generatePassword } from "../utils";
+
+// Function to hash passwords
+const hashPassword = async (password: string) => {
+  return await bcrypt.hash(password, 10);
+};
+// function to authenticate SSO login
+// This function is used for both Google and GitHub SSO logins
+export async function authenticateSSOLogin(
+  userInfo: {
+    email: string;
+    username: string;
+    picture?: string;
+  },
+  provider: "google" | "github"
+) {
   try {
-    // we can use omit to omit sensitive fields
-    //e.g const user = await prisma.user.findUnique({ omit: { password: true }where: { id: 1}})
     const user = await prisma.user.findUnique({
-      where: { email: email },
+      where: { email: userInfo.email },
       select: {
         id: true,
         email: true,
@@ -23,10 +36,42 @@ export async function authenticateSSOLogin(email: string) {
       //   add provider here to check whether this is valid SSO login
     });
     if (!user) {
-      return { success: false, error: "User not found" };
+      const password_digest = await hashPassword(generatePassword());
+      // if user not found, create a new user
+      const newUser = await prisma.user.create({
+        data: {
+          email: userInfo.email.toLowerCase(),
+          username: userInfo.username.toLowerCase(),
+          password_digest,
+          picture:
+            userInfo.picture ||
+            `https://ui-avatars.com/api/?background=random&name=${userInfo.username}`,
+          handle: convertToHandle(userInfo.username),
+          provider: provider,
+          email_verified: true,
+        },
+        select: {
+          id: true,
+          email: true,
+          username: true,
+          picture: true,
+          role: true,
+        },
+      });
+      if (!newUser) {
+        return {
+          success: false,
+          message: "SSO registration failed, please try again",
+        };
+      }
+      await createAndSetAuthTokenCookie(newUser);
+      return {
+        success: false,
+        error: "Registered and logged in successfully 🎉",
+      };
     }
     await createAndSetAuthTokenCookie(user);
-    return { success: true, message: "Logged in successfully" };
+    return { success: true, message: "Logged in successfully 🎉" };
   } catch (error) {
     const e = error as Error;
     return { success: false, error: e.message || "Something went wrong" };
@@ -98,9 +143,6 @@ export async function authenticateUserLogin(
   }
 }
 
-const hashPassword = async (password: string) => {
-  return await bcrypt.hash(password, 10);
-};
 // register function for normal users & SSO users
 type RegisterData = {
   email: string;
