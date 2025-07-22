@@ -33,7 +33,6 @@ export async function authenticateSSOLogin(
         picture: true,
         role: true,
       },
-      //   add provider here to check whether this is valid SSO login
     });
     if (!user) {
       const password_digest = await hashPassword(generatePassword());
@@ -61,13 +60,13 @@ export async function authenticateSSOLogin(
       if (!newUser) {
         return {
           success: false,
-          message: "SSO registration failed, please try again",
+          error: "SSO registration failed, please try again",
         };
       }
       await createAndSetAuthTokenCookie(newUser);
       return {
-        success: false,
-        error: "Registered and logged in successfully 🎉",
+        success: true,
+        message: "Registered and logged in successfully 🎉",
       };
     }
     await createAndSetAuthTokenCookie(user);

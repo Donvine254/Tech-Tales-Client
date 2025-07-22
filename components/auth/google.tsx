@@ -40,13 +40,6 @@ const GoogleAuthButton = ({ origin_url, setStatus }: Props) => {
         });
         router.replace(origin_url);
       } else {
-        // if there is data, register the user.
-        if (result.error === "User not found") {
-          toast.error(result.error);
-          router.replace(
-            `/login/account_not_found?referrer=google&token=${access_token}`
-          );
-        }
         setStatus("error");
         toast.error(result.error);
         return false;

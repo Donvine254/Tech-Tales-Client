@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/prisma";
 import * as jose from "jose";
 import { baseUrl } from "@/lib/utils";
+import { authenticateSSOLogin } from "@/lib/actions/auth";
 const CLIENT_ID = process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID!;
 const CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET!;
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
@@ -16,13 +17,33 @@ export async function GET(req: NextRequest) {
   if (!userInfo) {
     return NextResponse.redirect(`${baseUrl}/login?error=missing_email`);
   }
-  console.log(userInfo);
   //   step-1: find the user in db
   const user = await prisma.user.findUnique({
     where: {
       email: userInfo.email,
     },
   });
+  if (!user) {
+    const result = await authenticateSSOLogin(
+      {
+        email: userInfo.email || userInfo.notification_email,
+        username: userInfo.name || userInfo.email.split("@")[0],
+        picture: userInfo.avatar_url,
+      },
+      "github"
+    );
+    if (!result.success) {
+      return NextResponse.redirect(
+        `${baseUrl}/login?error=${encodeURIComponent(
+          result?.error ?? "SSO registration failed"
+        )}`
+      );
+    }
+
+    return NextResponse.redirect(
+      `${baseUrl}/login?message=registered_and_logged_in`
+    );
+  }
   //   step-2: set cookie and redirect
   if (user) {
     const token = await new jose.SignJWT({
