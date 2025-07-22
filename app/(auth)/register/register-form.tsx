@@ -81,19 +81,15 @@ export default function RegisterForm() {
             message: res.message,
           });
         }
-
         toast.error(res.message);
         setStatus("error");
         return;
       }
-
       toast.success(res.message, {
         description: "Please check your email to verify your account.",
       });
       setStatus("success");
-      // Navigate to verify page with email as query param
-      const encodedEmail = btoa(data.email);
-      router.push(`/verify-email?token=${encodedEmail}`);
+      router.push("/verify-email");
     } catch (error) {
       const e = error as Error;
       console.error("Registration error:", error);

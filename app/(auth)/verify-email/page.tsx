@@ -7,7 +7,7 @@ export default async function Page() {
     email: string;
   } | null;
   if (!verification_token) {
-    redirect("/login?error=invalid-verification-token");
+    redirect("/checkpoint/unverified?error=invalid-verification-token");
   }
   return (
     <section>
