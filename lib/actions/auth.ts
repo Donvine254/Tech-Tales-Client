@@ -68,6 +68,7 @@ export async function authenticateUserLogin(
         success: false,
         message: "Email not verified. Verify your account to login",
         field: "email",
+        redirect: "/checkpoint/unverified",
       };
     }
     //step-3: validate passwords

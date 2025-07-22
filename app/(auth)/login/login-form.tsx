@@ -79,6 +79,11 @@ export function LoginForm({
             message: response.message,
           });
         }
+        if (response.redirect) {
+          setTimeout(() => {
+            router.replace(response.redirect!);
+          }, 100);
+        }
         toast.error(response.message);
         setStatus("error");
         return;
@@ -117,7 +122,7 @@ export function LoginForm({
                       <FormControl>
                         <Input
                           type="email"
-                          placeholder="john@example.com"
+                          placeholder="Enter your email"
                           autoComplete="off"
                           id="new-email"
                           disabled={status === "loading"}
@@ -146,7 +151,7 @@ export function LoginForm({
                         <div className="relative">
                           <Input
                             type={showPassword ? "text" : "password"}
-                            placeholder="Enter a strong password"
+                            placeholder="Enter your password"
                             autoComplete="new-password"
                             disabled={status === "loading"}
                             {...field}
