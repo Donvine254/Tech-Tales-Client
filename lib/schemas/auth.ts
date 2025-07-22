@@ -5,7 +5,7 @@ export const loginSchema = z.object({
   email: z.string().min(1, "Email is required").refine(validateEmail, {
     message: "Please enter a valid email address",
   }),
-  password: z.string().min(4, "Password must be at least 4 characters"),
+  password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
 const simplePasswordRegex = /^(?=.*\d).{8,}$/;

@@ -35,7 +35,7 @@ export function rateLimitByIp(ip: string): {
     rateLimitMap.set(ip, ipData);
     return {
       allowed: false,
-      message: "IP temporarily blocked due to too many failed attempts.",
+      message: "Too many login attempts. Try again after 5 minutes.",
     };
   }
 

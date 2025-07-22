@@ -1,9 +1,10 @@
 "use client";
-import { cn, validateEmail } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import Link from "next/link";
 import { MetaIcon } from "@/assets/icons";
@@ -18,15 +19,21 @@ import { useRouter } from "next/navigation";
 import { getCookie } from "@/lib/cookie";
 import GithubButton from "@/components/auth/github";
 import { FormStatus } from "@/types";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+
+import { type LoginFormData, loginSchema } from "@/lib/schemas/auth";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const [formData, setformData] = useState({
-    email: "",
-    password: "",
-  });
   const [status, setStatus] = useState<FormStatus>("pending");
   const [token, setToken] = useState<string | null>(null);
   const router = useRouter();
@@ -39,17 +46,16 @@ export function LoginForm({
     document.cookie = "post_login_redirect=; Max-Age=0; path=/; SameSite=Lax";
   }, []);
 
-  //function to handle change
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setformData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+  const form = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
   // function to login
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  async function handleSubmit(data: LoginFormData) {
     if (!token || !(await validateRecaptcha(token))) {
       toast.error("Kindly complete the reCAPTCHA challenge");
       return;
@@ -60,20 +66,26 @@ export function LoginForm({
       const ip = await fetch("https://api.ipify.org?format=json")
         .then((res) => res.json())
         .then((data) => data.ip);
-
       const response = await authenticateUserLogin(
-        formData.email,
-        formData.password,
+        data.email,
+        data.password,
         ip
       );
 
-      if (response.success) {
+      if (!response.success) {
+        if (response.field) {
+          form.setError(response.field as "email" | "password", {
+            type: "manual",
+            message: response.message,
+          });
+        }
+        toast.error(response.message);
+        setStatus("error");
+        return;
+      } else {
         toast.success(response.message);
         setStatus("success");
         router.replace(originUrl);
-      } else {
-        toast.error(response.message);
-        setStatus("error");
       }
     } catch (error) {
       console.error("Login error:", error);
@@ -85,117 +97,126 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form className="p-4 sm:p-6 md:p-8" onSubmit={handleSubmit}>
-            <div className="flex flex-col gap-6">
-              <div className="flex flex-col items-center text-center">
-                <h1 className="text-2xl font-bold">Welcome back</h1>
-                <p className="text-balance text-muted-foreground">
-                  Login to your account
-                </p>
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
+          <Form {...form}>
+            <form
+              className="p-4 sm:p-6"
+              onSubmit={form.handleSubmit(handleSubmit)}>
+              <div className="flex flex-col gap-6">
+                <div className="flex flex-col items-center text-center">
+                  <h1 className="text-2xl font-bold">Welcome back</h1>
+                  <p className="text-balance text-muted-foreground">
+                    Login to your account
+                  </p>
+                </div>
+                <FormField
+                  control={form.control}
                   name="email"
-                  disabled={status === "loading"}
-                  value={formData.email}
-                  onChange={handleChange}
-                  onInput={(e) => {
-                    const input = e.target as HTMLInputElement;
-                    const isValid = validateEmail(input.value);
-                    if (!isValid) {
-                      input.setCustomValidity(
-                        "Please enter a valid email address."
-                      );
-                    } else {
-                      input.setCustomValidity(""); // clear the custom error
-                    }
-                  }}
-                  placeholder="m@example.com"
-                  required
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="email"
+                          placeholder="john@example.com"
+                          autoComplete="off"
+                          id="new-email"
+                          disabled={status === "loading"}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              </div>
-              <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
+
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="flex items-center">
+                        <FormLabel>Password</FormLabel>
+                        <Link
+                          href="/reset"
+                          className="ml-auto text-sm underline-offset-2 hover:underline">
+                          Forgot your password?
+                        </Link>
+                      </div>
+                      <FormControl>
+                        <div className="relative">
+                          <Input
+                            type={showPassword ? "text" : "password"}
+                            placeholder="Enter a strong password"
+                            autoComplete="new-password"
+                            disabled={status === "loading"}
+                            {...field}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute inset-y-0 right-3 flex items-center text-muted-foreground hover:text-foreground">
+                            {showPassword ? (
+                              <EyeOff className="w-4 h-4" />
+                            ) : (
+                              <Eye className="w-4 h-4" />
+                            )}
+                          </button>
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <GoogleReCaptcha
+                  onVerify={(token) => {
+                    setToken(token);
+                  }}
+                />
+                <Button
+                  type="submit"
+                  className="w-full hover:bg-blue-500 hover:text-white"
+                  disabled={status === "loading"}>
+                  {status === "loading" ? (
+                    <Loader2 className="animate-spin h-4 w-4" />
+                  ) : (
+                    "Login"
+                  )}
+                </Button>
+                <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
+                  <span className="relative z-10 bg-background  px-2 text-muted-foreground">
+                    Or continue with
+                  </span>
+                </div>
+                <div className="grid grid-cols-3 gap-4">
+                  <GoogleAuthButton
+                    setStatus={setStatus}
+                    origin_url={originUrl}
+                  />
+                  <GithubButton router={router} setStatus={setStatus} />
+                  <Button
+                    variant="outline"
+                    type="button"
+                    className="w-full hover:bg-blue-100 dark:hover:bg-white "
+                    title="login with meta"
+                    onClick={() => {
+                      toast.info("upcoming feature!");
+                    }}>
+                    <MetaIcon />
+                    <span className="sr-only">Login with Meta</span>
+                  </Button>
+                </div>
+                <div className="text-center text-sm">
+                  Don&apos;t have an account?{" "}
                   <Link
-                    href="/reset"
-                    className="ml-auto text-sm underline-offset-2 hover:underline">
-                    Forgot your password?
+                    href="/register"
+                    className="underline underline-offset-4">
+                    Sign up
                   </Link>
                 </div>
-                <div className="relative">
-                  <Input
-                    id="password"
-                    name="password"
-                    value={formData.password}
-                    disabled={status === "loading"}
-                    onChange={handleChange}
-                    type={showPassword ? "text" : "password"}
-                    required
-                    minLength={4}
-                    placeholder="********"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-3 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
-                    {showPassword ? (
-                      <EyeOff className="w-4 h-4" />
-                    ) : (
-                      <Eye className="w-4 h-4" />
-                    )}
-                  </button>
-                </div>
               </div>
-              <GoogleReCaptcha
-                onVerify={(token) => {
-                  setToken(token);
-                }}
-              />
-              <Button
-                type="submit"
-                className="w-full hover:bg-blue-500 hover:text-white"
-                disabled={status === "loading"}>
-                {status === "loading" ? (
-                  <Loader2 className="animate-spin h-4 w-4" />
-                ) : (
-                  "Login"
-                )}
-              </Button>
-              <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-                <span className="relative z-10 bg-background  px-2 text-muted-foreground">
-                  Or continue with
-                </span>
-              </div>
-              <div className="grid grid-cols-3 gap-4">
-                <GoogleAuthButton
-                  setStatus={setStatus}
-                  origin_url={originUrl}
-                />
-                <GithubButton router={router} setStatus={setStatus} />
-                <Button
-                  variant="outline"
-                  type="button"
-                  className="w-full hover:bg-blue-100 dark:hover:bg-white "
-                  title="login with meta"
-                  onClick={() => {
-                    toast.info("upcoming feature!");
-                  }}>
-                  <MetaIcon />
-                  <span className="sr-only">Login with Meta</span>
-                </Button>
-              </div>
-              <div className="text-center text-sm">
-                Don&apos;t have an account?{" "}
-                <Link href="/register" className="underline underline-offset-4">
-                  Sign up
-                </Link>
-              </div>
-            </div>
-          </form>
+            </form>
+          </Form>
+
           <div className="relative hidden bg-muted md:block">
             <Image
               src="https://res.cloudinary.com/dipkbpinx/image/upload/v1751137332/tech-tales/cover-images/qfqaw8mowlxahcucceg4.webp"

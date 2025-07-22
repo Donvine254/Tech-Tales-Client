@@ -39,7 +39,7 @@ export async function authenticateUserLogin(
     // step-1: check the login attempts
     const rateCheck = rateLimitByIp(ip);
     if (!rateCheck.allowed) {
-      return { success: false, message: rateCheck.message };
+      return { success: false, message: rateCheck.message, field: "password" };
     }
     //step-2: check if user exists
     const user = await prisma.user.findUnique({
@@ -57,12 +57,17 @@ export async function authenticateUserLogin(
       },
     });
     if (!user) {
-      return { success: false, message: "user not found" };
+      return {
+        success: false,
+        message: "No matching user found!",
+        field: "email",
+      };
     }
     if (!user.email_verified) {
       return {
         success: false,
         message: "Email not verified. Verify your account to login",
+        field: "email",
       };
     }
     //step-3: validate passwords
@@ -71,11 +76,15 @@ export async function authenticateUserLogin(
       user.password_digest
     );
     if (!isPasswordValid) {
-      return { success: false, message: "Wrong password, try again" };
+      return {
+        success: false,
+        message: "Wrong password, try again",
+        field: "password",
+      };
     }
     //step-4: auth success: create cookie
     await createAndSetAuthTokenCookie(user);
-    return { success: true, message: "Logged in successfully" };
+    return { success: true, message: "Logged in successfully 🎉" };
   } catch (error) {
     const e = error as Error;
     return {
@@ -84,6 +93,7 @@ export async function authenticateUserLogin(
     };
   }
 }
+
 const hashPassword = async (password: string) => {
   return await bcrypt.hash(password, 10);
 };
