@@ -130,20 +130,16 @@ export async function registerUser(data: RegisterPayload) {
         handle,
         bio: bio || "This user has no bio",
         provider: provider || "email",
-        email_verified: provider !== "email",
+        email_verified: provider && provider !== "email",
       },
       select: {
         id: true,
         email: true,
         username: true,
-        picture: true,
-        role: true,
-        email_verified: true,
-        password_digest: true,
       },
     });
+    console.log("User created:", user);
     // send welcome email if provider is email
-    await createAndSetAuthTokenCookie(user);
     return { success: true, message: "Welcome onboard  🎉" };
   } catch (error) {
     console.error("Error in registerUser:", error);
@@ -156,7 +152,7 @@ export async function registerUser(data: RegisterPayload) {
           | "handle";
         return {
           success: false,
-          message: `${target} is already taken`,
+          message: `${target.toLocaleUpperCase()} is already taken`,
           field: target,
         };
       }
