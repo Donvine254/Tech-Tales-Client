@@ -5,6 +5,11 @@ import React, { useState, useEffect, useCallback } from "react";
 const ScrollButton = () => {
   const [showButton, setShowButton] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   const handleScroll = useCallback(() => {
     const winScroll = document.documentElement.scrollTop;
@@ -38,6 +43,7 @@ const ScrollButton = () => {
     };
   }, [handleScroll]);
 
+  if (!hasMounted) return null;
   return (
     <div id="scroll" className="fixed bottom-8 md:bottom-20 right-2">
       {showButton && (

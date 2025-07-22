@@ -8,10 +8,10 @@ const CookieAlert = () => {
   const [show, setShow] = useState(false);
   const { session: user } = useSession();
   useEffect(() => {
-    if (!getCookie("__accept_cookies") && !user) {
+    if (!getCookie("__accept_cookies")) {
       setTimeout(() => setShow(true), 4000);
     }
-  }, [user]);
+  }, []);
 
   const toggleClass = () => {
     setShow(false);
