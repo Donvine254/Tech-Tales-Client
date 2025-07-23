@@ -1,6 +1,5 @@
 import { FC } from "react";
 import {
-  ExternalLink,
   Edit3,
   Trash2,
   MessageSquare,
@@ -20,6 +19,7 @@ import {
 import { UserComments } from "@/types";
 import { CommentStatus } from "@prisma/client";
 import { formatCommentDate } from "@/lib/utils";
+import Link from "next/link";
 
 interface CommentCardProps {
   comment: UserComments[number];
@@ -33,22 +33,17 @@ export function CommentCard({ comment, onDelete }: CommentCardProps) {
   const isEdited = comment.updatedAt !== comment.createdAt;
 
   return (
-    <Card className="group hover:shadow-medium transition-all duration-300 bg-card border border-border hover:border-primary/20 animate-fade-in">
+    <Card className="group hover:shadow-medium transition-all duration-300 bg-card border border-border hover:border-primary/20 animate-fade-in-up">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-2">
-              <h3 className="font-semibold text-card-foreground text-lg group-hover:text-primary transition-colors duration-200 truncate">
-                <a
-                  href={`/blog/${comment.blog.slug}#comments`}
-                  className="hover:underline"
-                  target="_blank"
-                  rel="noopener noreferrer">
-                  {comment.blog.title}
-                </a>
-              </h3>
-              <ExternalLink className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex-shrink-0" />
-            </div>
+            <Link
+              href={`/blog/${comment.blog.slug}#comments`}
+              className="hover:underline font-semibold text-card-foreground text-lg group-hover:text-primary transition-colors duration-200 truncate"
+              target="_blank"
+              rel="noopener noreferrer">
+              {comment.blog.title}
+            </Link>
 
             <div className="flex items-center gap-2 flex-wrap">
               <Badge variant="outline" className="text-xs">
@@ -69,12 +64,12 @@ export function CommentCard({ comment, onDelete }: CommentCardProps) {
               <DropdownMenuContent align="end" className="w-48">
                 {canEdit && (
                   <DropdownMenuItem asChild>
-                    <a
+                    <Link
                       href={`/blog/${comment.blog.slug}#comments`}
                       className="flex items-center gap-2">
                       <Edit3 className="h-4 w-4" />
                       Edit Comment
-                    </a>
+                    </Link>
                   </DropdownMenuItem>
                 )}
                 {canDelete && (
