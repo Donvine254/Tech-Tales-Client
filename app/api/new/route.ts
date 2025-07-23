@@ -4,7 +4,9 @@ import prisma from "@/prisma/prisma";
 export async function GET(req: NextRequest) {
   const session = await getSession();
   if (!session || !session.userId) {
-    return NextResponse.redirect(new URL("/login", req.url));
+    return NextResponse.redirect(
+      new URL("/login?message=login-required", req.url)
+    );
   }
   try {
     const blog = await prisma.blog.create({
@@ -18,6 +20,8 @@ export async function GET(req: NextRequest) {
   } catch (error) {
     const e = error as Error;
     console.error(e);
-    return NextResponse.redirect(new URL(`/?error=${e.message}`, req.url));
+    return NextResponse.redirect(
+      new URL(`/?error=${e.message.trim()}`, req.url)
+    );
   }
 }
