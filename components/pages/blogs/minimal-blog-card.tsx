@@ -44,7 +44,7 @@ export default function MinimalBlogCard({
   const image = isCoverImage(blog.image) ? blog.image : null;
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   return (
-    <div className="group bg-card rounded-lg border border-border hover:border-border/60 transition-all duration-200 hover:shadow-sm p-4 md:p-6 space-y-4 flex flex-col">
+    <div className="group bg-card rounded-lg border border-border hover:border-border/60 transition-all duration-200 hover:shadow-sm p-4 md:p-6 space-y-4 flex flex-col animate-fade-in-up">
       {/* Top: Image + Content */}
       <div className="flex items-center md:items-start gap-4 md:gap-6">
         {/* Content */}

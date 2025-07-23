@@ -153,6 +153,48 @@
     @apply bg-background text-foreground scroll-smooth;
   }
 }
+/* Keyframes for blog cards */
+@layer utilities {
+  .animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+  .animate-scale-in {
+    animation: scaleIn 0.6s ease-out forwards;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-move {
+    animation: move 1.5s ease-in-out infinite;
+  }
+  @keyframes move {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(0.5rem);
+    }
+  }
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
 /* styling for blog body */
 .blog h1 {
   font-size: var(--fs-h1);
@@ -575,6 +617,7 @@ blockquote p {
     transform: scale(1);
   }
 }
+
 input::-ms-reveal,
 input::-ms-clear {
   display: none;
