@@ -1,3 +1,4 @@
+import { getUserComments } from "@/lib/actions/comments";
 import { fetchProfileData } from "@/lib/actions/user";
 import {
   Blog,
@@ -72,6 +73,7 @@ export interface SocialLink {
 export type UserProfileData = NonNullable<
   Awaited<ReturnType<typeof fetchProfileData>>
 >;
+export type UserComments = Awaited<ReturnType<typeof getUserComments>>;
 
 export type Preferences = {
   newsletter_subscription: boolean;
