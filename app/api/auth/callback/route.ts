@@ -11,11 +11,13 @@ export async function GET(req: NextRequest) {
   const url = new URL(req.url);
   const code = url.searchParams.get("code");
   if (!code) {
-    return NextResponse.redirect(`${baseUrl}/login?error=missing_token`);
+    return NextResponse.redirect(`/login?error=missing_token`);
   }
   const userInfo = await fetchUserInfo(code);
   if (!userInfo) {
-    return NextResponse.redirect(`${baseUrl}/login?error=missing_email`);
+    return NextResponse.redirect(
+      new URL("/login?error=missing_email", req.url)
+    );
   }
   //   step-1: find the user in db
   const user = await prisma.user.findUnique({
@@ -34,14 +36,17 @@ export async function GET(req: NextRequest) {
     );
     if (!result.success) {
       return NextResponse.redirect(
-        `${baseUrl}/login?error=${encodeURIComponent(
-          result?.error ?? "SSO registration failed"
-        )}`
+        new URL(
+          `/login?error=${encodeURIComponent(
+            result?.error ?? "SSO registration failed"
+          )}`,
+          req.url
+        )
       );
     }
 
     return NextResponse.redirect(
-      `${baseUrl}/login?message=registered_and_logged_in`
+      new URL("/login?message=registered_and_logged_in", req.url)
     );
   }
   //   step-2: set cookie and redirect

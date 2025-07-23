@@ -2,6 +2,7 @@ import { GithubIcon } from "@/assets/icons";
 import { Button } from "../ui/button";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { toast } from "sonner";
+import { baseUrl } from "@/lib/utils";
 
 type Props = {
   origin_url?: string;
@@ -15,7 +16,7 @@ export default function GithubButton({ router, setStatus }: Props) {
     toast.loading("Processing github auth..");
     setStatus("loading");
     router.replace(
-      `https://github.com/login/oauth/authorize?client_id=${clientID}&redirect_uri=http://localhost:3000/api/auth/callback&scope=read:user user:email`
+      `https://github.com/login/oauth/authorize?client_id=${clientID}&redirect_uri=${baseUrl}/api/auth/callback&scope=read:user user:email`
     );
   };
   return (
