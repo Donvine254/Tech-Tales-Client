@@ -41,6 +41,7 @@ import {
   deleteResponse,
   updateResponse,
 } from "@/lib/actions/responses";
+import { formatCommentDate } from "@/lib/utils";
 
 export const CommentItem: React.FC<Props> = ({
   comment,
@@ -62,22 +63,7 @@ export const CommentItem: React.FC<Props> = ({
   const isAdmin = session?.role === "admin";
   const isBlogAuthor = session?.userId === blogAuthorId;
   const isCommentAuthor = session?.userId === comment.authorId;
-  const formatDate = (date: Date) => {
-    const now = new Date();
-    const diffInHours = Math.floor(
-      (now.getTime() - date.getTime()) / (1000 * 60 * 60)
-    );
 
-    if (diffInHours < 1) {
-      return "Just now";
-    } else if (diffInHours < 24) {
-      return `${diffInHours}h ago`;
-    } else if (diffInHours < 168) {
-      return `${Math.floor(diffInHours / 24)}d ago`;
-    } else {
-      return date.toLocaleDateString();
-    }
-  };
   //function to edit comment responses
   const handleEditing = (response: ResponseData) => {
     setIsEditing(true);
@@ -395,7 +381,7 @@ export const CommentItem: React.FC<Props> = ({
           </div>
           <div className="flex items-center space-x-2 text-sm text-muted-foreground">
             <Calendar className="h-3.5 w-3.5" />
-            <span>{formatDate(comment.createdAt)}</span>
+            <span>{formatCommentDate(comment.createdAt)}</span>
             {comment.updatedAt &&
               new Date(comment.updatedAt).getTime() !==
                 new Date(comment.createdAt).getTime() && (

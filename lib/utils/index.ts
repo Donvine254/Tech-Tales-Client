@@ -103,3 +103,20 @@ export function generatePassword(length = 12): string {
 export function convertToHandle(name: string) {
   return name.toLowerCase().replace(/\s+/g, "");
 }
+
+export const formatCommentDate = (date: Date) => {
+  const now = new Date();
+  const diffInHours = Math.floor(
+    (now.getTime() - date.getTime()) / (1000 * 60 * 60)
+  );
+
+  if (diffInHours < 1) {
+    return "Just now";
+  } else if (diffInHours < 24) {
+    return `${diffInHours}h ago`;
+  } else if (diffInHours < 168) {
+    return `${Math.floor(diffInHours / 24)}d ago`;
+  } else {
+    return date.toLocaleDateString();
+  }
+};
