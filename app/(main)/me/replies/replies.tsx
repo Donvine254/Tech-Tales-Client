@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import {
@@ -21,7 +21,10 @@ import {
 import { cn } from "@/lib/utils";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
-import { CommentCard } from "@/components/comments/comment-card";
+import {
+  CommentCard,
+  SkeletonComment,
+} from "@/components/comments/comment-card";
 import { CommentStatus } from "@prisma/client";
 import { UserComments } from "@/types";
 import { toast } from "sonner";
@@ -190,24 +193,34 @@ export default function Replies({ data }: { data: UserComments }) {
             </SelectContent>
           </Select>
         </div>
-
-        {(["VISIBLE", "FLAGGED", "HIDDEN"] as CommentStatus[]).map((status) => (
-          <TabsContent value={status} key={status}>
-            {getFiltered(status).length > 0 ? (
-              <div className="grid gap-6">
-                {paginated(getFiltered(status)).map((comment) => (
-                  <CommentCard
-                    key={comment.id}
-                    comment={comment}
-                    onDelete={() => handleDelete(comment.id)}
-                  />
-                ))}
-              </div>
-            ) : (
-              <EmptyState status={status} />
-            )}
-          </TabsContent>
-        ))}
+        <Suspense
+          fallback={
+            <div className="grid gap-6">
+              {Array.from({ length: 5 }, (_, i) => (
+                <SkeletonComment key={i} />
+              ))}
+            </div>
+          }>
+          {(["VISIBLE", "FLAGGED", "HIDDEN"] as CommentStatus[]).map(
+            (status) => (
+              <TabsContent value={status} key={status}>
+                {getFiltered(status).length > 0 ? (
+                  <div className="grid gap-6">
+                    {paginated(getFiltered(status)).map((comment) => (
+                      <CommentCard
+                        key={comment.id}
+                        comment={comment}
+                        onDelete={() => handleDelete(comment.id)}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <EmptyState status={status} />
+                )}
+              </TabsContent>
+            )
+          )}
+        </Suspense>
 
         {/* Pagination */}
         {getFiltered(activeTab).length > COMMENTS_PER_PAGE && (
