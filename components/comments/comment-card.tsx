@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   Edit3,
   Trash2,
@@ -21,6 +21,7 @@ import { CommentStatus } from "@prisma/client";
 import { formatCommentDate } from "@/lib/utils";
 import Link from "next/link";
 import CommentBody from "./comment-body";
+import { Skeleton } from "../ui/skeleton";
 
 interface CommentCardProps {
   comment: UserComments[number];
@@ -28,8 +29,16 @@ interface CommentCardProps {
 }
 
 export function CommentCard({ comment, onDelete }: CommentCardProps) {
+  const [isMounted, setIsMounted] = useState(false);
   const canEdit = comment.status === CommentStatus.VISIBLE;
   const isEdited = comment.updatedAt !== comment.createdAt;
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return <SkeletonComment />;
+  }
 
   return (
     <Card className="group hover:shadow-medium transition-all duration-300 bg-card border border-border hover:border-primary/20 animate-fade-in-up">
@@ -171,4 +180,26 @@ const StatusBadge: FC<{ status: CommentStatus }> = ({ status }) => {
         </Badge>
       );
   }
+};
+
+export const SkeletonComment = () => {
+  return (
+    <Card className="group hover:shadow-medium transition-all duration-300 bg-card border border-border hover:border-primary/20 animate-fade-in-up">
+      <CardContent className="space-y-4">
+        <div className="flex items-center  gap-3 mb-4">
+          <Skeleton className="w-3/4 h-6 rounded-md" />
+          <Skeleton className="w-24 h-6 rounded-md" />
+          <Skeleton className="w-6 h-6 rounded-full ml-auto" />
+        </div>
+        <Skeleton className="w-[65%] h-2 rounded-md" />
+        <Skeleton className="w-[60%] h-2 rounded-md" />
+        <Skeleton className="w-[40%] h-2 rounded-md" />
+        <div className="flex items-center gap-2">
+          <Skeleton className="w-24 h-3 rounded-md" />
+          <Skeleton className="w-2 h-2 rounded-md" />
+          <Skeleton className="w-24 h-3 rounded-md" />
+        </div>
+      </CardContent>
+    </Card>
+  );
 };
