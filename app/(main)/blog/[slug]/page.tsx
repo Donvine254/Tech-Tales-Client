@@ -53,6 +53,7 @@ async function getData(slug: string) {
         comments: {
           where: {
             status: "VISIBLE",
+            // change this to return all comments
           },
           include: {
             author: {

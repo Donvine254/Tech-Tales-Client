@@ -29,8 +29,6 @@ interface CommentCardProps {
 
 export function CommentCard({ comment, onDelete }: CommentCardProps) {
   const canEdit = comment.status === CommentStatus.VISIBLE;
-  const canDelete = comment.status !== CommentStatus.HIDDEN;
-
   const isEdited = comment.updatedAt !== comment.createdAt;
 
   return (
@@ -66,17 +64,16 @@ export function CommentCard({ comment, onDelete }: CommentCardProps) {
                   </Link>
                 </DropdownMenuItem>
               )}
-              {canDelete && (
-                <DropdownMenuItem
-                  onSelect={(e) => {
-                    e.preventDefault();
-                    onDelete(comment.id);
-                  }}
-                  className="text-destructive focus:text-destructive">
-                  <Trash2 className="h-4 w-4 mr-2 text-destructive" />
-                  Delete Comment
-                </DropdownMenuItem>
-              )}
+
+              <DropdownMenuItem
+                onSelect={(e) => {
+                  e.preventDefault();
+                  onDelete(comment.id);
+                }}
+                className="text-destructive focus:text-destructive">
+                <Trash2 className="h-4 w-4 mr-2 text-destructive" />
+                Delete Comment
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
