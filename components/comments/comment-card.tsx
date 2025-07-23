@@ -2,14 +2,14 @@ import { FC } from "react";
 import {
   Edit3,
   Trash2,
-  MessageSquare,
   Calendar,
   MoreVertical,
+  Info,
+  FlagIcon,
 } from "lucide-react";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import parse from "html-react-parser";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,6 +20,7 @@ import { UserComments } from "@/types";
 import { CommentStatus } from "@prisma/client";
 import { formatCommentDate } from "@/lib/utils";
 import Link from "next/link";
+import CommentBody from "./comment-body";
 
 interface CommentCardProps {
   comment: UserComments[number];
@@ -34,101 +35,104 @@ export function CommentCard({ comment, onDelete }: CommentCardProps) {
 
   return (
     <Card className="group hover:shadow-medium transition-all duration-300 bg-card border border-border hover:border-primary/20 animate-fade-in-up">
-      <CardHeader className="pb-3">
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex-1 min-w-0">
+      <CardContent>
+        {/* header */}
+        <div className="flex items-center justify-between gap-3 mb-2">
+          <div className="flex flex-1 items-center gap-2 min-w-0">
             <Link
               href={`/blog/${comment.blog.slug}#comments`}
-              className="hover:underline font-semibold text-card-foreground text-lg group-hover:text-primary transition-colors duration-200 truncate"
+              className="hover:underline hover:text-blue-500 font-semibold text-card-foreground sm:text-lg group-hover:text-primary transition-colors duration-200 line-clamp-1 "
               target="_blank"
               rel="noopener noreferrer">
               {comment.blog.title}
             </Link>
-
-            <div className="flex items-center gap-2 flex-wrap">
-              <Badge variant="outline" className="text-xs">
-                {comment.blog.slug}
-              </Badge>
-              <StatusBadge status={comment.status} />
-            </div>
+            <StatusBadge status={comment.status} />
           </div>
-
           {/* Actions Dropdown */}
-          <div className="flex items-center gap-2">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                  <MoreVertical className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                {canEdit && (
-                  <DropdownMenuItem asChild>
-                    <Link
-                      href={`/blog/${comment.blog.slug}#comments`}
-                      className="flex items-center gap-2">
-                      <Edit3 className="h-4 w-4" />
-                      Edit Comment
-                    </Link>
-                  </DropdownMenuItem>
-                )}
-                {canDelete && (
-                  <DropdownMenuItem
-                    onSelect={(e) => {
-                      e.preventDefault();
-                      onDelete(comment.id);
-                    }}
-                    className="text-destructive focus:text-destructive">
-                    <Trash2 className="h-4 w-4 mr-2" />
-                    Delete Comment
-                  </DropdownMenuItem>
-                )}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="sm">
+                <MoreVertical className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              {canEdit && (
+                <DropdownMenuItem asChild>
+                  <Link
+                    href={`/blog/${comment.blog.slug}#comments`}
+                    className="flex items-center gap-2 group focus:text-blue-500">
+                    <Edit3 className="h-4 w-4 group-focus:text-blue-500" />
+                    Edit Comment
+                  </Link>
+                </DropdownMenuItem>
+              )}
+              {canDelete && (
+                <DropdownMenuItem
+                  onSelect={(e) => {
+                    e.preventDefault();
+                    onDelete(comment.id);
+                  }}
+                  className="text-destructive focus:text-destructive">
+                  <Trash2 className="h-4 w-4 mr-2 text-destructive" />
+                  Delete Comment
+                </DropdownMenuItem>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
-      </CardHeader>
-
-      <CardContent className="pt-0">
-        <div className="space-y-4">
-          <blockquote className="border-l-4 border-primary/30 bg-muted/30 pl-4 py-3 italic">
-            <div className="flex items-start gap-3">
-              <MessageSquare className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-              <p className="text-card-foreground truncate leading-relaxed">
-                {parse(comment.body || "")}
-              </p>
-            </div>
-          </blockquote>
-
+        <div className="space-y-2">
+          <div className="border-l-4 p-2 border-primary/50 bg-muted/80">
+            <CommentBody body={comment.body} />
+          </div>
           {(comment.status === CommentStatus.FLAGGED ||
             comment.status === CommentStatus.HIDDEN) && (
-            <div className="bg-destructive/10 border border-destructive/20 rounded-md p-3">
-              <p className="text-sm text-destructive font-medium">
-                {comment.status === CommentStatus.FLAGGED
-                  ? "This comment has been flagged due to inappropriate content."
-                  : "This comment has been hidden due to inappropriate content."}
-              </p>
+            <div
+              className={`flex gap-1 rounded-sm  justify-between border border-l-4 ${
+                comment.status === CommentStatus.FLAGGED
+                  ? "bg-amber-100/20 border-amber-300"
+                  : "bg-destructive/10 border-destructive/20"
+              }`}>
+              <div
+                className={`flex justify-center items-center ${
+                  comment.status === CommentStatus.FLAGGED
+                    ? "bg-amber-300 text-amber-600 "
+                    : "bg-destructive/20 text-destructive-foreground"
+                } px-1 py-1.5 `}>
+                <Info className="size-4 " />
+              </div>
+              <div className="flex-1 px-1 py-1.5 leading-0 font-medium items-center gap-1 text-destructive-foreground">
+                <span className="text-xs sm:text-sm">
+                  {comment.status === CommentStatus.FLAGGED
+                    ? "This comment has been flagged due to inappropriate content."
+                    : "This comment has been hidden due to inappropriate content."}{" "}
+                  {""}
+                  <Link
+                    href="/community"
+                    prefetch={false}
+                    className="underline ">
+                    {""}Learn more
+                  </Link>
+                </span>
+              </div>
             </div>
           )}
 
           <div className="flex items-center justify-between text-sm text-muted-foreground">
             <div className="flex items-center gap-4 flex-wrap">
               <div className="flex items-center gap-1">
-                <Calendar className="h-3 w-3" />
+                <Calendar className="h-3.5 w-3.5" />
                 <span>{formatCommentDate(comment.createdAt)}</span>
                 {isEdited && (
                   <span className="text-muted-foreground/70">(Edited)</span>
                 )}
               </div>
-              {comment._count.responses && (
-                <div className="flex items-center gap-1">
-                  <span>•</span>
-                  <span>
-                    {comment._count.responses} response
-                    {comment._count.responses !== 1 ? "s" : ""}
-                  </span>
-                </div>
-              )}
+              <div className="flex items-center gap-1">
+                <span>•</span>
+                <span>
+                  {comment._count.responses} response
+                  {comment._count.responses !== 1 ? "s" : ""}
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -143,7 +147,7 @@ const StatusBadge: FC<{ status: CommentStatus }> = ({ status }) => {
       return (
         <Badge
           variant="outline"
-          className="text-xs border-success/50 text-success bg-success/10">
+          className="text-xs border-green-500 text-green-500 bg-green-100/20">
           Visible
         </Badge>
       );
@@ -151,15 +155,15 @@ const StatusBadge: FC<{ status: CommentStatus }> = ({ status }) => {
       return (
         <Badge
           variant="outline"
-          className="text-xs border-destructive/50 text-destructive bg-destructive/10">
-          Flagged
+          className="text-xs bg-amber-100/20 border-amber-300 text-amber-600">
+          <FlagIcon className="size-3 text-destructive" /> Flagged
         </Badge>
       );
     case CommentStatus.HIDDEN:
       return (
         <Badge
           variant="outline"
-          className="text-xs border-muted-foreground/50 text-muted-foreground bg-muted/10">
+          className="text-xs border-destructive text-destructive bg-destructive/10">
           Hidden
         </Badge>
       );

@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
@@ -27,7 +26,7 @@ import { CommentStatus } from "@prisma/client";
 import { UserComments } from "@/types";
 import { toast } from "sonner";
 
-const COMMENTS_PER_PAGE = 4;
+const COMMENTS_PER_PAGE = 10;
 
 export default function Replies({ data }: { data: UserComments }) {
   const [comments, setComments] = useState(data);
@@ -148,7 +147,7 @@ export default function Replies({ data }: { data: UserComments }) {
                   className={cn(
                     "flex items-center gap-2 hover:bg-secondary",
                     activeTab === status &&
-                      "bg-blue-500 hover:bg-blue-600 text-white"
+                      " border-blue-500 border-2 dark:border-blue-500 hover:border-blue-600 "
                   )}>
                   {status[0] + status.slice(1).toLowerCase()}
                   <span

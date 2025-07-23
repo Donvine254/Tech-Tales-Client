@@ -10,7 +10,6 @@ export default async function page() {
     redirect("/");
   }
   const comments = await getUserComments(session?.userId);
-  console.log(comments);
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-accent">
       {/* render the comments component here */}
