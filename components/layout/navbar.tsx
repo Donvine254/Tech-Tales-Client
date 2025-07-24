@@ -1,11 +1,10 @@
 "use client";
-import { BookOpen, CircleUserRound, Edit } from "lucide-react";
+import { BookOpen, CircleUserRound, Edit, XIcon } from "lucide-react";
 import UserDropdown from "../custom/user-dropdown";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { deleteSession } from "@/lib/actions/session";
 import { toast } from "sonner";
 import { useSession } from "@/providers/session";
 import { setCookie } from "@/lib/cookie";
@@ -14,37 +13,45 @@ import { useState } from "react";
 import { createNewBlog } from "@/lib/actions/blogs";
 
 const Navbar = () => {
-  const { session, setSession } = useSession();
+  const { session } = useSession();
   // state for loading when creating blog
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
-  async function handleLogout() {
-    const id = toast("Are you sure you want to sign out?", {
-      position: "top-center",
-      duration: 10000,
-      action: {
-        label: "Sign out",
-        onClick: async () => {
-          toast.dismiss(id);
-          const loadingId = toast.loading("Processing logout request...");
-          try {
-            await deleteSession();
-            setSession(null);
-            toast.success("Logged out successfully");
-          } catch (error) {
-            console.log(error);
-            toast.error("Failed to log out");
-          } finally {
-            toast.dismiss(loadingId);
-          }
-        },
-      },
-      cancel: {
-        label: "Cancel",
-        onClick: () => toast.dismiss(id),
-      },
-    });
+  function handleLogout() {
+    toast.custom(
+      (t) => (
+        <div className="bg-card  border border-border rounded-lg p-4 shadow flex flex-col gap-4 max-w-sm relative">
+          <button
+            onClick={() => toast.dismiss(t)}
+            className="absolute text-sm -top-2 -left-2 text-muted-foreground hover:text-destructive bg-inherit border border-border rounded-full p-1 shadow"
+            aria-label="Close">
+            <XIcon className="size-4" />
+          </button>
+          <p className="text-sm text-muted-foreground">
+            Are you sure you want to sign out? Any unsaved changes might be
+            lost.
+          </p>
+          <div className="flex justify-end gap-2">
+            <Button variant="ghost" size="sm" onClick={() => toast.dismiss(t)}>
+              Cancel
+            </Button>
+            <Link href="/api/auth/logout" passHref>
+              <Button
+                variant="destructive"
+                size="sm"
+                onClick={() => toast.dismiss(t)}>
+                Sign out
+              </Button>
+            </Link>
+          </div>
+        </div>
+      ),
+      {
+        position: "top-center",
+        duration: 10000,
+      }
+    );
   }
   // trim the pathname
   function handleLogin() {
