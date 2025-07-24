@@ -109,18 +109,27 @@ export async function generateMetadata({
       description: "The requested blog post could not be found.",
     };
   }
-  const description = `${blog?.body?.slice(0, 150)}... Read More`;
+  const plainTextBody = blog?.body?.replace(/<[^>]*>/g, "") ?? "";
+  const description = `${plainTextBody.slice(0, 150)}... Read More`;
   const image = blog.image as CoverImage;
   return {
     ...metaobject,
     title: `${blog.title} - Tech Tales`,
     description,
     keywords: blog.tags?.split(",") ?? metaobject.keywords,
+    creator: blog.author.username,
+    authors: [
+      {
+        name: blog.author.username,
+        url: `https://techtales.vercel.app/explore/${blog.author.handle}`,
+      },
+    ],
     openGraph: {
       ...metaobject.openGraph,
       title: `${blog.title} - Tech Tales`,
       description,
       url: `https://techtales.vercel.app/blog/${blog.slug}`,
+
       images: [
         {
           url: image?.secure_url || "https://techtales.vercel.app/og-image.png",
