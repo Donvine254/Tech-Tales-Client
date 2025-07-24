@@ -12,6 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { handleBlogLiking } from "@/lib/actions/favorites";
 import { getBookmarkedBlogs } from "@/lib/actions/library";
 import { cn } from "@/lib/utils";
 import { BlogWithComments } from "@/types";
@@ -23,22 +24,32 @@ import {
   Heart,
   HeartIcon,
   ListFilterIcon,
+  Loader2,
   Search,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
 interface SavedBlogsPageProps {
-  favorites: BlogWithComments[];
+  initialFavorites: BlogWithComments[];
+  userId: number;
 }
 const BLOGS_PER_PAGE = 5;
-export default function Library({ favorites }: SavedBlogsPageProps) {
+export default function Library({
+  initialFavorites,
+  userId,
+}: SavedBlogsPageProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("newest");
   const [isLoading, setIsLoading] = useState(true);
   const [bookmarks, setBookmarks] = useState<BlogWithComments[]>([]);
+  const [favorites, setFavorites] =
+    useState<BlogWithComments[]>(initialFavorites);
   const [currentPage, setCurrentPage] = useState(1);
   const [activeTab, setActiveTab] = useState("bookmarks");
+  //   loading state for unfavorite button
+  const [loading, setLoading] = useState<number | null>(null);
   //fetch bookmarks
   useEffect(() => {
     const fetchBookmarks = async () => {
@@ -85,6 +96,32 @@ export default function Library({ favorites }: SavedBlogsPageProps) {
   useEffect(() => {
     setCurrentPage(1);
   }, [activeTab, searchQuery, sortBy]);
+
+  //   function to remove blog from favorites
+  const removeFromFavorites = async (blogId: number) => {
+    setLoading(blogId);
+    const favoriteToRemove = favorites.find((blog) => blog.id === blogId);
+    setFavorites((prev) => prev.filter((blog) => blog.id !== blogId));
+    try {
+      const res = await handleBlogLiking(blogId, userId, "DISLIKE");
+      if (!res.success) {
+        if (favoriteToRemove) {
+          setFavorites((prev) => [favoriteToRemove, ...prev]);
+        }
+        toast.error("Failed to remove from favorites");
+        return;
+      }
+      toast.success("Blog removed from favorites");
+    } catch (error) {
+      console.error("Error removing from favorites:", error);
+      if (favoriteToRemove) {
+        setFavorites((prev) => [favoriteToRemove, ...prev]);
+      }
+      toast.error("Failed to remove blog from favorites");
+    } finally {
+      setLoading(null);
+    }
+  };
 
   //   function to sort and search blogs
   const sortBlogs = (blogs: BlogWithComments[]) => {
@@ -159,7 +196,8 @@ export default function Library({ favorites }: SavedBlogsPageProps) {
                 "group-data-[state=active]:text-white"
               )}>
               {" "}
-              Bookmarked Blogs
+              <span className="hidden sm:block">Bookmarked Blogs</span>
+              <span className="sm:hidden">Bookmarks</span>
             </span>
             <span
               className={cn(
@@ -179,9 +217,9 @@ export default function Library({ favorites }: SavedBlogsPageProps) {
             <span
               className={cn(activeTab === "favorites" && "dark:text-white")}>
               {" "}
-              Favorite Blogs
+              <span className="hidden sm:block">Favorite Blogs</span>
+              <span className="sm:hidden">Favorites</span>
             </span>
-
             <span
               className={cn(
                 "bg-muted text-muted-foreground group-data-[state=active]:text-primary px-1.5 py-0.5 rounded-sm text-xs",
@@ -252,10 +290,18 @@ export default function Library({ favorites }: SavedBlogsPageProps) {
                 <Button
                   variant="ghost"
                   type="button"
+                  disabled={loading === blog.id}
                   title="click to remove course from wishlist"
+                  onClick={() => {
+                    removeFromFavorites(blog.id);
+                  }}
                   className="absolute top-2 right-2 z-20 rounded-full  backdrop-blur transition-all bg-red-100/20 hover:bg-red-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
                   size="icon">
-                  <Heart className="h-8 w-8 fill-red-500 text-red-500" />
+                  {loading === blog.id ? (
+                    <Loader2 className="h-8 w-8 animate-spin" />
+                  ) : (
+                    <Heart className="h-8 w-8 fill-red-500 text-red-500" />
+                  )}
                 </Button>
                 <MinimalBlogCard
                   blog={blog}

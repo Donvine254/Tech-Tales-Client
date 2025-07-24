@@ -25,7 +25,7 @@ export default async function Page() {
           </p>
         </div>
         {/* Add Library page here */}
-        <Library favorites={favorites} />
+        <Library initialFavorites={favorites} userId={session.userId} />
       </div>
     </div>
   );
