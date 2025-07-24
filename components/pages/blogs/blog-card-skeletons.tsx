@@ -132,6 +132,13 @@ export const MinimalBlogCardSkeleton = () => {
             <Skeleton className="w-[75%] h-2 rounded-md" />
             <Skeleton className="w-[75%] h-2 rounded-md" />
             <Skeleton className="w-[40%] h-2 rounded-md" />
+            {/* Tags */}
+            <div className="flex flex-wrap gap-2">
+              <Skeleton className="w-24 h-6 rounded-md" />
+              <Skeleton className="w-24 h-6 rounded-md" />
+              <Skeleton className="w-24 h-6 rounded-md" />
+              <Skeleton className="w-24 h-6 rounded-md" />
+            </div>
           </div>
           {/* Image*/}
           <div className="relative hidden sm:flex sm:w-24 aspect-[3/2] md:w-42 lg:w-60 flex-shrink-0 rounded-lg overflow-hidden bg-muted order-2">
