@@ -5,6 +5,7 @@ import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/sonner";
 import { metaobject } from "@/lib/metadata";
 import { GoogleContextProviders } from "@/providers/google";
+import { Analytics } from "@vercel/analytics/react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,6 +40,7 @@ export default function AuthLayout({
           </main>
           <Toaster richColors closeButton />
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );

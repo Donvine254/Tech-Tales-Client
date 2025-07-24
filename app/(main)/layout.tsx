@@ -12,6 +12,7 @@ import { SessionProvider } from "@/providers/session";
 import { GoogleOneTapLogin } from "@/components/auth/google";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
+import { Analytics } from "@vercel/analytics/react";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -58,6 +59,7 @@ export default function RootLayout({
           </ThemeProvider>
           <GoogleAnalytics gaId="G-12QCPH9MS1" />
           <GoogleTagManager gtmId="GTM-5QD9S2NG" />
+          <Analytics />
         </body>
       </html>
     </>
