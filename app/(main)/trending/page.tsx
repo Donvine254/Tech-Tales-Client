@@ -6,7 +6,7 @@ import { FallBackBlogs } from "@/components/pages/blogs/blog-card-skeletons";
 import BlogListPage from "@/components/pages/blogs/blog-list";
 
 export const metadata: Metadata = {
-  title: "Trending Now | Tech Tales",
+  title: "Read current trending stories - Tech Tales",
   description: "See what stories are capturing the tech world's attention.",
 };
 

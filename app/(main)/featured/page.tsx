@@ -6,7 +6,7 @@ import { FallBackBlogs } from "@/components/pages/blogs/blog-card-skeletons";
 import BlogListPage from "@/components/pages/blogs/blog-list";
 
 export const metadata: Metadata = {
-  title: "Featured Stories | Tech Tales",
+  title: "Featured Stories - Tech Tales",
   description: "Explore our top-picked tech stories curated just for you.",
 };
 
