@@ -11,6 +11,7 @@ import CookieAlert from "@/components/custom/cookie";
 import { SessionProvider } from "@/providers/session";
 import { GoogleOneTapLogin } from "@/components/auth/google";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -55,6 +56,8 @@ export default function RootLayout({
             <ScrollButton />
             <Toaster richColors closeButton />
           </ThemeProvider>
+          <GoogleAnalytics gaId="G-12QCPH9MS1" />
+          <GoogleTagManager gtmId="GTM-5QD9S2NG" />
         </body>
       </html>
     </>
