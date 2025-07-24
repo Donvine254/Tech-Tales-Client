@@ -2,6 +2,9 @@ import React from "react";
 import prisma from "@/prisma/prisma";
 import { redirect } from "next/navigation";
 import Slug from "../../../../components/pages/slug/slug";
+import { metaobject } from "@/lib/metadata";
+import { Metadata } from "next";
+import { CoverImage } from "@/types";
 
 export async function generateStaticParams() {
   try {
@@ -90,6 +93,50 @@ async function getData(slug: string) {
   } finally {
     await prisma.$disconnect();
   }
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const blog = await getData(slug);
+  if (!blog) {
+    return {
+      ...metaobject,
+      title: "Blog Post Not Found - Tech Tales",
+      description: "The requested blog post could not be found.",
+    };
+  }
+  const description = `${blog?.body?.slice(0, 150)}... Read More`;
+  const image = blog.image as CoverImage;
+  return {
+    ...metaobject,
+    title: `${blog.title} - Tech Tales`,
+    description,
+    keywords: blog.tags?.split(",") ?? metaobject.keywords,
+    openGraph: {
+      ...metaobject.openGraph,
+      title: `${blog.title} - Tech Tales`,
+      description,
+      url: `https://techtales.vercel.app/blog/${blog.slug}`,
+      images: [
+        {
+          url: image?.secure_url || "https://techtales.vercel.app/og-image.png",
+          width: 1200,
+          height: 630,
+          alt: blog.title ?? "Tech Tales",
+        },
+      ],
+    },
+    twitter: {
+      ...metaobject.twitter,
+      title: `${blog.title} - Tech Tales`,
+      description,
+      images: [image.secure_url || "https://techtales.vercel.app/logo.png"],
+    },
+  } satisfies Metadata;
 }
 
 export default async function page({
