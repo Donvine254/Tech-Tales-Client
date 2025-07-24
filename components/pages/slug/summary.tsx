@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface BlogSummaryGeneratorProps {
   title: string;
@@ -171,41 +172,44 @@ export default function BlogSummaryGenerator({
 
   const handleClose = () => {
     setIsExpanded(false);
-    setSummary("");
     setError(null);
     setIsGenerating(false);
   };
 
   return (
-    <div className="w-full">
-      {!isExpanded && (
-        <div className="space-y-2">
+    <div
+      className={cn(
+        isExpanded &&
+          "w-full p-3 md:px-5 bg-muted shadow dark:border-border rounded-lg"
+      )}>
+      <div className="flex items-center justify-between">
+        <button
+          onClick={handleGenerateSummary}
+          className={cn(
+            "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium cursor-pointer disabled:pointer-events-none disabled:opacity-50 has-[>svg]:px-3 text-xs md:text-sm mt-2 transition-all duration-200 w-full sm:max-w-max",
+            isExpanded
+              ? "text-green-500 bg-none mb-2"
+              : "text-green-500 px-4 py-1 h-9  bg-green-100 dark:bg-green-900/20 border border-green-500 hover:bg-green-500 shadow-xs hover:text-white"
+          )}>
+          ✨ Generate a summary of this story
+        </button>
+        {isExpanded && (
           <Button
-            variant="outline"
-            onClick={handleGenerateSummary}
-            className="text-green-500 bg-green-50 border border-green-500 py-1 text-xs md:text-sm mt-2 hover:bg-green-500 hover:text-white transition-all duration-200 w-full sm:max-w-max"
-            disabled={isGenerating}>
-            ✨ Generate a summary of this story
+            variant="ghost"
+            size="sm"
+            onClick={handleClose}
+            className="hover:text-red-500"
+            title="close">
+            <X className="w-4 h-4" />
           </Button>
-        </div>
-      )}
+        )}
+      </div>
       <div
-        className={`overflow-hidden relative bg-card shadow dark:border-border dark:bg-gray-900 rounded-lg transition-all duration-500 ease-in-out animate-collapsible-down ${
-          isExpanded ? "max-h-max p-3 md:p-5 mt-4" : "max-h-0 p-0"
+        className={`overflow-hidden animate-collapsible ${
+          isExpanded
+            ? "max-h-[600px] p-2 sm:p-3 rounded-lg bg-card"
+            : "max-h-0 p-0"
         }`}>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={handleClose}
-          className="hover:text-red-500 absolute top-1 right-1"
-          title="close">
-          <X className="w-4 h-4" />
-        </Button>
-        <div className="mb-2">
-          <p className="text-green-400 text-sm font-medium truncate">
-            ✨ Generate a summary of this story
-          </p>
-        </div>
         <div className="text-sm leading-relaxed mb-2 min-h-[100px]">
           {isGenerating && !summary && !error && (
             <div className="flex items-center gap-2 ">
@@ -213,7 +217,6 @@ export default function BlogSummaryGenerator({
               Generating summary...
             </div>
           )}
-
           {error && (
             <div className="text-red-400 bg-red-900/20 p-3 rounded border border-red-800">
               {error}
@@ -231,7 +234,7 @@ export default function BlogSummaryGenerator({
 
           {summary && (
             <>
-              <div className="whitespace-break-spaces font-serif mb-2">
+              <div className="whitespace-break-spaces font-serif">
                 <h3 className="font-bold text-base md:text-lg mb-2">
                   Here is a fact-based summary of the blog contents:
                 </h3>
