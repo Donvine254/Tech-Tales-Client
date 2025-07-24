@@ -3,6 +3,12 @@ import { getSession } from "@/lib/actions/session";
 import { Session } from "@/types";
 import { redirect } from "next/navigation";
 import Replies from "./replies";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "My Replies - Tech Tales",
+  description: "Explore our top-picked tech stories curated just for you.",
+};
 
 export default async function page() {
   const session = (await getSession()) as Session | null;

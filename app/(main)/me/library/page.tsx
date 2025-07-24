@@ -3,7 +3,12 @@ import { getSession } from "@/lib/actions/session";
 import { BlogWithComments, Session } from "@/types";
 import { redirect } from "next/navigation";
 import Library from "./library";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Reading List - Tech Tales",
+  description: "Explore our top-picked tech stories curated just for you.",
+};
 export default async function Page() {
   const session = (await getSession()) as Session | null;
   if (!session) {

@@ -1,4 +1,10 @@
+import { Metadata } from "next";
 import History from "./history";
+
+export const metadata: Metadata = {
+  title: "Reading History- Tech Tales",
+  description: "Explore our top-picked tech stories curated just for you.",
+};
 export default function page() {
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-accent">
