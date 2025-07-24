@@ -48,6 +48,7 @@ export function CommentCard({ comment, onDelete }: CommentCardProps) {
           <div className="flex flex-1 items-center gap-2 min-w-0">
             <Link
               href={`/blog/${comment.blog.slug}#comments`}
+              scroll={false}
               className="hover:underline hover:text-blue-500 font-semibold text-card-foreground sm:text-lg group-hover:text-primary transition-colors duration-200 line-clamp-1 "
               target="_blank"
               rel="noopener noreferrer">
@@ -67,6 +68,7 @@ export function CommentCard({ comment, onDelete }: CommentCardProps) {
                 <DropdownMenuItem asChild>
                   <Link
                     href={`/blog/${comment.blog.slug}#comments`}
+                    scroll={false}
                     className="flex items-center gap-2 group focus:text-blue-500">
                     <Edit3 className="h-4 w-4 group-focus:text-blue-500" />
                     Edit Comment
@@ -153,7 +155,7 @@ const StatusBadge: FC<{ status: CommentStatus }> = ({ status }) => {
       return (
         <Badge
           variant="outline"
-          className="text-xs border-green-500 text-green-500 bg-green-100/20">
+          className="text-xs hidden md:block border-green-500 text-green-500 bg-green-100/20">
           Visible
         </Badge>
       );
@@ -161,7 +163,7 @@ const StatusBadge: FC<{ status: CommentStatus }> = ({ status }) => {
       return (
         <Badge
           variant="outline"
-          className="text-xs bg-amber-100/20 border-amber-300 text-amber-600">
+          className="text-xs hidden md:block bg-amber-100/20 border-amber-300 text-amber-600">
           <FlagIcon className="size-3 text-destructive" /> Flagged
         </Badge>
       );
@@ -169,13 +171,13 @@ const StatusBadge: FC<{ status: CommentStatus }> = ({ status }) => {
       return (
         <Badge
           variant="outline"
-          className="text-xs border-destructive text-destructive bg-destructive/10">
+          className="text-xs hidden md:block border-destructive text-destructive bg-destructive/10">
           Hidden
         </Badge>
       );
     default:
       return (
-        <Badge variant="outline" className="text-xs">
+        <Badge variant="outline" className="text-xs hidden md:block">
           {status}
         </Badge>
       );
