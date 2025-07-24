@@ -16,6 +16,8 @@ import { getBookmarkedBlogs } from "@/lib/actions/library";
 import { BlogWithComments } from "@/types";
 import {
   BookmarkIcon,
+  ChevronLeft,
+  ChevronRight,
   CompassIcon,
   Heart,
   HeartIcon,
@@ -24,16 +26,18 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 interface SavedBlogsPageProps {
   favorites: BlogWithComments[];
 }
-
+const BLOGS_PER_PAGE = 5;
 export default function Library({ favorites }: SavedBlogsPageProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("newest");
   const [isLoading, setIsLoading] = useState(true);
   const [bookmarks, setBookmarks] = useState<BlogWithComments[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [activeTab, setActiveTab] = useState("bookmarks");
   //fetch bookmarks
   useEffect(() => {
     const fetchBookmarks = async () => {
@@ -76,10 +80,70 @@ export default function Library({ favorites }: SavedBlogsPageProps) {
       window.removeEventListener("bookmark-removed", handleBookmarkRemoved);
     };
   }, []);
+  //   reset current page when active tab, search query, or sort order changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeTab, searchQuery, sortBy]);
 
+  //   function to sort and search blogs
+  const sortBlogs = (blogs: BlogWithComments[]) => {
+    return [...blogs].sort((a, b) => {
+      switch (sortBy) {
+        case "newest":
+          return (
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+        case "oldest":
+          return (
+            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+          );
+        case "lastEdited":
+          return (
+            new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+          );
+        default:
+          return 0;
+      }
+    });
+  };
+
+  const searchBlogs = (blogs: BlogWithComments[]) => {
+    if (!searchQuery) return blogs;
+    return blogs.filter(
+      (blog) =>
+        blog?.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        blog?.tags
+          ?.split(",")
+          .some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
+  };
+  const filteredBookmarks = useMemo(() => {
+    return sortBlogs(searchBlogs(bookmarks));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bookmarks, searchQuery, sortBy]);
+
+  const filteredFavorites = useMemo(() => {
+    return sortBlogs(searchBlogs(favorites));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [favorites, searchQuery, sortBy]);
+
+  const paginatedBlogs = (blogs: BlogWithComments[]) => {
+    const start = (currentPage - 1) * BLOGS_PER_PAGE;
+    const end = start + BLOGS_PER_PAGE;
+    return blogs.slice(start, end);
+  };
+  const paginatedBookmarks = paginatedBlogs(filteredBookmarks);
+  const paginatedFavorites = paginatedBlogs(filteredFavorites);
+  const currentBlogs =
+    activeTab === "bookmarks" ? filteredBookmarks : filteredFavorites;
+  const totalPages = Math.ceil(currentBlogs.length / BLOGS_PER_PAGE);
   return (
     <section>
-      <Tabs defaultValue="bookmarks" className="w-full">
+      <Tabs
+        defaultValue="bookmarks"
+        value={activeTab}
+        onValueChange={setActiveTab}
+        className="w-full">
         <TabsList className="w-max space-x-4 bg-card dark:bg-gray-950 shadow">
           <TabsTrigger
             value="bookmarks"
@@ -136,8 +200,8 @@ export default function Library({ favorites }: SavedBlogsPageProps) {
             </div>
           ) : (
             <>
-              {bookmarks.length > 0 ? (
-                bookmarks.map((blog) => (
+              {paginatedBookmarks.length > 0 ? (
+                paginatedBookmarks.map((blog) => (
                   <MinimalBlogCard
                     key={blog.id}
                     blog={blog}
@@ -153,8 +217,8 @@ export default function Library({ favorites }: SavedBlogsPageProps) {
         </TabsContent>
 
         <TabsContent value="favorites" className="grid gap-6">
-          {favorites.length > 0 ? (
-            favorites.map((blog) => (
+          {paginatedFavorites.length > 0 ? (
+            paginatedFavorites.map((blog) => (
               <div key={blog.id} className="relative">
                 <Button
                   variant="ghost"
@@ -176,6 +240,32 @@ export default function Library({ favorites }: SavedBlogsPageProps) {
           )}
         </TabsContent>
       </Tabs>
+      {/* pagination */}
+      {currentBlogs.length > BLOGS_PER_PAGE && (
+        <div className="flex justify-center items-center gap-4 mt-10">
+          <Button
+            size="sm"
+            variant="ghost"
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            className="cursor-pointer items-center">
+            <ChevronLeft /> Prev
+          </Button>
+          <span className="font-semibold text-sm text-muted-foreground">
+            Page {currentPage} of {totalPages}
+          </span>
+          <Button
+            size="sm"
+            variant="ghost"
+            className="cursor-pointer items-center"
+            disabled={currentPage === totalPages}
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+            }>
+            Next <ChevronRight />
+          </Button>
+        </div>
+      )}
     </section>
   );
 }

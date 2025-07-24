@@ -33,7 +33,7 @@ import CreateButton from "@/components/pages/profile/create-button";
 import { toast } from "sonner";
 import { deleteOrArchiveBlog, updateBlogStatus } from "@/lib/actions/blogs";
 
-const BLOGS_PER_PAGE = 4;
+const BLOGS_PER_PAGE = 5;
 type BlogsType = Awaited<ReturnType<typeof getUserBlogs>>;
 
 export default function Posts({ data }: { data: BlogsType }) {
