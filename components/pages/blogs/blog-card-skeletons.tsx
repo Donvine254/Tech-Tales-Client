@@ -1,3 +1,4 @@
+import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import Image from "next/image";
 
@@ -104,5 +105,45 @@ export const FallBackBlogs = () => {
         </div>
       </section>
     </>
+  );
+};
+
+export const MinimalBlogCardSkeleton = () => {
+  return (
+    <Card className="group hover:shadow-medium transition-all duration-300 bg-card border border-border hover:border-primary/20 animate-fade-in-up">
+      <CardContent className="space-y-4 p-6">
+        {/* top Image and content */}
+        <div className="flex items-center md:items-start gap-4 md:gap-6">
+          {/* content */}
+          <div className="flex-1 min-w-0 space-y-3 order-2 md:order-1 flex flex-col">
+            <div className="flex items-center w-full space-x-3">
+              {/* author */}
+              <Skeleton className="w-8 h-8 rounded-full" />
+              {/* date and author name */}
+              <div className="flex flex-col space-y-2">
+                <Skeleton className="w-24 h-2 rounded-md" />
+                <Skeleton className="w-24 h-2 rounded-md" />
+              </div>
+            </div>
+            {/* Title */}
+            <Skeleton className="w-full h-6 rounded-md" />
+            {/* Body Preview */}
+            <Skeleton className="w-[75%] h-2 rounded-md" />
+            <Skeleton className="w-[75%] h-2 rounded-md" />
+            <Skeleton className="w-[75%] h-2 rounded-md" />
+            <Skeleton className="w-[40%] h-2 rounded-md" />
+          </div>
+          {/* Image*/}
+          <div className="relative hidden sm:flex sm:w-24 aspect-[3/2] md:w-42 lg:w-60 flex-shrink-0 rounded-lg overflow-hidden bg-muted order-2">
+            <Image
+              src="/placeholder.svg"
+              alt="Loading..."
+              fill
+              className="object-cover bg-gray-300 dark:bg-gray-600 transition-transform duration-500"
+            />
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   );
 };

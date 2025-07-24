@@ -211,3 +211,5 @@ export default function MinimalBlogCard({
     </div>
   );
 }
+
+

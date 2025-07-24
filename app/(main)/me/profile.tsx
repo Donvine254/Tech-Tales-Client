@@ -403,7 +403,7 @@ const MenuList: FC<{ isAdmin: boolean }> = ({ isAdmin }) => {
       : []),
     { label: "My Blogs", icon: BookOpen, link: "/me/posts" },
     { label: "Replies", icon: MessageSquarePlus, link: "/me/replies" },
-    { label: "Reading List", icon: Heart, link: "/me/bookmarks" },
+    { label: "Reading List", icon: Heart, link: "/me/library" },
     { label: "History", icon: HistoryIcon, link: "/me/history" },
     { label: "Sign Out", icon: LogOutIcon, link: "/api/auth/logout" },
   ];
