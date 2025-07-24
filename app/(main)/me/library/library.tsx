@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getBookmarkedBlogs } from "@/lib/actions/library";
+import { cn } from "@/lib/utils";
 import { BlogWithComments } from "@/types";
 import {
   BookmarkIcon,
@@ -147,17 +148,45 @@ export default function Library({ favorites }: SavedBlogsPageProps) {
         <TabsList className="w-max space-x-4 bg-card dark:bg-gray-950 shadow">
           <TabsTrigger
             value="bookmarks"
-            className="flex items-center gap-2 data-[state=active]:border-2 data-[state=active]:border-blue-500 group">
-            Bookmarks
-            <span className="bg-muted text-muted-foreground px-1.5 py-0.5 rounded-sm text-xs group-data-[state=active]:text-primary">
+            className={cn(
+              "flex items-center gap-2 hover:bg-secondary group data-[state=active]:border-2 data-[state=active]:border-blue-500 data-[state=active]:bg-blue-500 data-[state=active]:text-white",
+              activeTab === "published" &&
+                "bg-blue-500 hover:bg-blue-600 text-white"
+            )}>
+            <span
+              className={cn(
+                activeTab === "published" && "dark:text-white",
+                "group-data-[state=active]:text-white"
+              )}>
+              {" "}
+              Bookmarked Blogs
+            </span>
+            <span
+              className={cn(
+                "bg-muted text-muted-foreground group-data-[state=active]:text-primary  px-1.5 py-0.5 rounded-sm text-xs",
+                activeTab === "published" && "dark:text-white"
+              )}>
               {bookmarks.length}
             </span>
           </TabsTrigger>
           <TabsTrigger
             value="favorites"
-            className="flex items-center gap-2 data-[state=active]:border-2 data-[state=active]:border-blue-500 group">
-            Favorites
-            <span className="bg-muted text-muted-foreground px-1.5 py-0.5 rounded-sm text-xs group-data-[state=active]:text-primary">
+            className={cn(
+              "flex items-center gap-2 group hover:bg-secondary data-[state=active]:border-blue-500 data-[state=active]:bg-blue-500 data-[state=active]:text-white group",
+              activeTab === "published" &&
+                "bg-blue-500 hover:bg-blue-600 text-white"
+            )}>
+            <span
+              className={cn(activeTab === "favorites" && "dark:text-white")}>
+              {" "}
+              Favorite Blogs
+            </span>
+
+            <span
+              className={cn(
+                "bg-muted text-muted-foreground group-data-[state=active]:text-primary px-1.5 py-0.5 rounded-sm text-xs",
+                activeTab === "published" && "dark:text-white"
+              )}>
               {favorites.length}
             </span>
           </TabsTrigger>
