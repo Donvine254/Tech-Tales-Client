@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 export const metaobject: Metadata = {
-  title: "Tech Tales | Code Tutorials, AI Guides & Dev Tips",
+  title: "Code Tutorials, AI Guides & Dev Tips - Tech Tales",
   description:
     "Tech Tales is a dynamic blogging platform for tech students, developers, and professionals to explore programming insights, share real-world coding solutions, and engage in continuous learning. From JavaScript and AI to modern web development frameworks, this community-driven blog is your go-to resource for tutorials, best practices, and thought leadership in tech.",
   // Basic metadata

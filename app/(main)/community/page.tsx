@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import { Metadata } from "next";
 export const metadata: Metadata = {
-  title: "Community Guidelines | Tech Tales",
+  title: "Read our community guideline - Tech Tales",
   description: "Stay updated with the newest stories in the world of tech.",
 };
 
