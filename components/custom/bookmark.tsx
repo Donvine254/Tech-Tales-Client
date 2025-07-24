@@ -45,6 +45,9 @@ export default function Bookmark({
       : {};
     bookmarkedBlogs[blogId] = value;
     localStorage.setItem("bookmarked_blogs", JSON.stringify(bookmarkedBlogs));
+    window.dispatchEvent(
+      new CustomEvent("bookmark-removed", { detail: blogId })
+    );
   };
 
   const handleBookmark = () => {

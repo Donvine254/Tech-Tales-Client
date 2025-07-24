@@ -1,4 +1,5 @@
 "use client";
+import { MinimalBlogCardSkeleton } from "@/components/pages/blogs/blog-card-skeletons";
 import MinimalBlogCard from "@/components/pages/blogs/minimal-blog-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardFooter } from "@/components/ui/card";
@@ -11,6 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { getBookmarkedBlogs } from "@/lib/actions/library";
 import { BlogWithComments } from "@/types";
 import {
   BookmarkIcon,
@@ -20,15 +22,59 @@ import {
   Search,
 } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 interface SavedBlogsPageProps {
-  bookmarks: BlogWithComments[];
   favorites: BlogWithComments[];
 }
 
-export default function Library({ bookmarks, favorites }: SavedBlogsPageProps) {
+export default function Library({ favorites }: SavedBlogsPageProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("newest");
+  const [isLoading, setIsLoading] = useState(true);
+  const [bookmarks, setBookmarks] = useState<BlogWithComments[]>([]);
+  //fetch bookmarks
+  useEffect(() => {
+    const fetchBookmarks = async () => {
+      try {
+        const cachedBookmarks = localStorage.getItem("bookmarked_blogs");
+        if (!cachedBookmarks) {
+          setIsLoading(false);
+          return;
+        }
+        const bookmarkedBlogs = cachedBookmarks
+          ? JSON.parse(cachedBookmarks)
+          : {};
+        const bookmarkedBlogIds = Object.keys(bookmarkedBlogs)
+          .filter((id) => bookmarkedBlogs[id])
+          .map((id) => Number(id));
+
+        if (bookmarkedBlogIds.length > 0) {
+          const res = (await getBookmarkedBlogs(
+            bookmarkedBlogIds
+          )) as BlogWithComments[];
+          setBookmarks(res);
+        }
+      } catch (error) {
+        console.error("Error fetching bookmarked blogs:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchBookmarks();
+    // 🟢 Listen for bookmark removal
+    const handleBookmarkRemoved = (e: Event) => {
+      const blogId = (e as CustomEvent<number>).detail;
+      setBookmarks((prev) => prev.filter((blog) => blog.id !== blogId));
+    };
+
+    window.addEventListener("bookmark-removed", handleBookmarkRemoved);
+
+    return () => {
+      window.removeEventListener("bookmark-removed", handleBookmarkRemoved);
+    };
+  }, []);
+
   return (
     <section>
       <Tabs defaultValue="bookmarks" className="w-full">
@@ -80,17 +126,27 @@ export default function Library({ bookmarks, favorites }: SavedBlogsPageProps) {
         </div>
 
         <TabsContent value="bookmarks" className="grid gap-6">
-          {bookmarks.length > 0 ? (
-            bookmarks.map((blog) => (
-              <MinimalBlogCard
-                key={blog.id}
-                blog={blog}
-                onUpdate={() => null}
-                onDelete={() => null}
-              />
-            ))
+          {isLoading ? (
+            <div className="grid gap-6">
+              {Array.from({ length: 5 }, (_, i) => (
+                <MinimalBlogCardSkeleton key={i} />
+              ))}
+            </div>
           ) : (
-            <EmptyState variant="bookmarks" />
+            <>
+              {bookmarks.length > 0 ? (
+                bookmarks.map((blog) => (
+                  <MinimalBlogCard
+                    key={blog.id}
+                    blog={blog}
+                    onUpdate={() => null}
+                    onDelete={() => null}
+                  />
+                ))
+              ) : (
+                <EmptyState variant="bookmarks" />
+              )}
+            </>
           )}
         </TabsContent>
 
