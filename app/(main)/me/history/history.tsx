@@ -15,6 +15,7 @@ import {
   CompassIcon,
   ListFilterIcon,
   Search,
+  XIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MinimalBlogCardSkeleton } from "@/components/pages/blogs/blog-card-skeletons";
@@ -70,6 +71,18 @@ export default function History() {
     setBlogs([]);
     toast.success("Reading history cleared");
   };
+  //   function to remove blog from history
+  function removeFromHistory(id: number) {
+    const cookie = getCookie("history");
+    const historySet = JSON.parse(cookie);
+    const index = historySet.indexOf(id);
+    if (index !== -1) {
+      historySet.splice(index, 1);
+    }
+    setCookie("history", JSON.stringify(historySet), 30);
+    setBlogs(() => blogs.filter((item) => item.id !== id));
+    toast.success("Blog removed from history");
+  }
   // 🔍 Search + Filtered Blogs (memoized)
   const filteredBlogs = useMemo(() => {
     let filtered = blogs;
@@ -172,12 +185,22 @@ export default function History() {
       ) : filteredBlogs && filteredBlogs.length > 0 ? (
         <div className="grid gap-6">
           {currentBlogs.map((blog) => (
-            <MinimalBlogCard
-              key={blog.id}
-              blog={blog}
-              onUpdate={() => null}
-              onDelete={() => null}
-            />
+            <div key={blog.id} className="relative">
+              <Button
+                className="absolute  top-0.5 right-0.5 z-50"
+                size="icon"
+                type="button"
+                title="remove from reading history"
+                variant="ghost"
+                onClick={() => removeFromHistory(blog.id)}>
+                <XIcon className="size-4 fill-red-500 text-red-500" />
+              </Button>
+              <MinimalBlogCard
+                blog={blog}
+                onUpdate={() => null}
+                onDelete={() => null}
+              />
+            </div>
           ))}
         </div>
       ) : (
