@@ -21,11 +21,11 @@ import {
   ChevronLeft,
   ChevronRight,
   CompassIcon,
-  Heart,
   HeartIcon,
   ListFilterIcon,
   Loader2,
   Search,
+  XIcon,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -287,24 +287,23 @@ export default function Library({
           {paginatedFavorites.length > 0 ? (
             paginatedFavorites.map((blog) => (
               <div key={blog.id} className="relative">
-                <Button
-                  variant="ghost"
+                <button
                   type="button"
                   disabled={loading === blog.id}
                   title="click to remove course from wishlist"
                   onClick={() => {
                     removeFromFavorites(blog.id);
                   }}
-                  className="absolute top-2 right-2 z-20 rounded-full  backdrop-blur transition-all bg-red-100/20 hover:bg-red-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
-                  size="icon">
+                  className="absolute top-2 right-2 md:-top-1 md:-right-1 z-20 p-1 bg-card border border-border hover:shadow hover:scale-110 transition-all duration-700 rounded-full cursor-pointer text-sm">
                   {loading === blog.id ? (
-                    <Loader2 className="h-8 w-8 animate-spin" />
+                    <Loader2 className="h-4 w-4 animate-spin" />
                   ) : (
-                    <Heart className="h-8 w-8 fill-red-500 text-red-500" />
+                    <XIcon className="size-4 fill-red-500 text-red-500" />
                   )}
-                </Button>
+                </button>
                 <MinimalBlogCard
                   blog={blog}
+                  liked={true}
                   onUpdate={() => null}
                   onDelete={() => null}
                 />

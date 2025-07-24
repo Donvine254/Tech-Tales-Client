@@ -11,7 +11,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { BlogWithComments, CoverImage } from "@/types";
-import { calculateReadingTime, formatViews } from "@/lib/utils";
+import { calculateReadingTime, cn, formatViews } from "@/lib/utils";
 import { ShareModal } from "@/components/modals/share-modal";
 import Image from "next/image";
 import { BlogCardDropdown } from "./blog-dropdown";
@@ -35,11 +35,13 @@ export default function MinimalBlogCard({
   showMoreActions = false,
   onUpdate,
   onDelete,
+  liked = false,
 }: {
   blog: BlogWithComments | Awaited<ReturnType<typeof getUserBlogs>>[number];
   showMoreActions?: boolean;
   onUpdate: (status: BlogStatus, blogId: number) => void;
   onDelete: (uuid: string) => void;
+  liked?: boolean;
 }) {
   const image = isCoverImage(blog.image) ? blog.image : null;
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -159,7 +161,12 @@ export default function MinimalBlogCard({
             <Tooltip>
               <TooltipTrigger asChild>
                 <button className="flex items-center space-x-1 hover:text-red-500 transition-colors cursor-pointer group">
-                  <Heart className="h-4 w-4 group-hover:fill-red-500" />
+                  <Heart
+                    className={cn(
+                      "h-4 w-4 group-hover:fill-red-500 group-hover:stroke-red-500",
+                      liked && "fill-red-500 stroke-red-500"
+                    )}
+                  />
                   <span className="text-sm">{blog.likes ?? 0}</span>
                 </button>
               </TooltipTrigger>
@@ -211,5 +218,3 @@ export default function MinimalBlogCard({
     </div>
   );
 }
-
-

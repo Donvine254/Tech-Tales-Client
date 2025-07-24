@@ -71,6 +71,45 @@ export default function History() {
     setBlogs([]);
     toast.success("Reading history cleared");
   };
+  function handleClearHistory() {
+    toast.custom(
+      (t) => (
+        <div className="bg-card  border border-border rounded-lg p-4 shadow flex flex-col gap-4 max-w-sm relative">
+          <button
+            onClick={() => toast.dismiss(t)}
+            className="absolute text-sm -top-2 -left-2 text-muted-foreground hover:text-destructive bg-inherit border border-border rounded-full p-1 shadow"
+            aria-label="Close">
+            <XIcon className="size-4" />
+          </button>
+          <p className="font-medium text-sm">
+            Are you sure you want to clear all your reading history?
+          </p>
+          <p className="text-sm text-muted-foreground">
+            This action will permanently delete all your saved activity and
+            cannot be undone.
+          </p>
+          <div className="flex justify-end gap-2">
+            <Button variant="ghost" size="sm" onClick={() => toast.dismiss(t)}>
+              Cancel
+            </Button>
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={() => {
+                toast.dismiss(t);
+                clearHistory();
+              }}>
+              Confirm
+            </Button>
+          </div>
+        </div>
+      ),
+      {
+        position: "top-center",
+        duration: 10000,
+      }
+    );
+  }
   //   function to remove blog from history
   function removeFromHistory(id: number) {
     const cookie = getCookie("history");
@@ -163,15 +202,14 @@ export default function History() {
             </SelectContent>
           </Select>
           {blogs && blogs.length > 0 && (
-            <Button
-              variant="destructive"
-              size="sm"
+            <button
+              className="bg-background border inline-flex items-center text-destructive text-sm hover:bg-destructive hover:text-white h-9 rounded-md gap-1.5 px-3 py-1.5 has-[>svg]:px-2.5 whitespace-nowrap font-medium transition-all cursor-pointer disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
               title="clear all history"
               disabled={isLoading || blogs.length === 0}
-              onClick={clearHistory}>
+              onClick={handleClearHistory}>
               <BrushCleaningIcon className="size-4" />
               Clear All
-            </Button>
+            </button>
           )}
         </div>
       </div>
@@ -186,15 +224,14 @@ export default function History() {
         <div className="grid gap-6">
           {currentBlogs.map((blog) => (
             <div key={blog.id} className="relative">
-              <Button
-                className="absolute  top-0.5 right-0.5 z-50"
-                size="icon"
+              <button
+                className="absolute text-sm top-2 right-2 md:-top-1 md:-right-1 z-20 bg-card border border-border hover:shadow hover:scale-110 transition-all duration-700 rounded-full p-1 cursor-pointer"
                 type="button"
                 title="remove from reading history"
-                variant="ghost"
-                onClick={() => removeFromHistory(blog.id)}>
+                onClick={() => removeFromHistory(blog.id)}
+                aria-label="remove from history">
                 <XIcon className="size-4 fill-red-500 text-red-500" />
-              </Button>
+              </button>
               <MinimalBlogCard
                 blog={blog}
                 onUpdate={() => null}
