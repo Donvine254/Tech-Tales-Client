@@ -16,12 +16,14 @@ import { getBookmarkedBlogs } from "@/lib/actions/library";
 import { BlogWithComments } from "@/types";
 import {
   BookmarkIcon,
+  CompassIcon,
   Heart,
   HeartIcon,
   ListFilterIcon,
   Search,
 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 interface SavedBlogsPageProps {
   favorites: BlogWithComments[];
@@ -214,6 +216,14 @@ const EmptyState = ({ variant }: { variant: "bookmarks" | "favorites" }) => (
           <HeartIcon className="inline-block mx-1 align-middle size-4 text-red-500" />
           when viewing a post to add it to your reading list.
         </p>
+        <Link href="/featured" passHref>
+          {" "}
+          <Button className="mt-2">
+            {" "}
+            <CompassIcon className="size-4" />
+            Explore Blogs
+          </Button>
+        </Link>
       </CardFooter>
     )}
   </Card>
