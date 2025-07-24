@@ -30,6 +30,7 @@ import { CommentData } from "@/types";
 import UserCard from "./user-card";
 import ActionButtons from "./action-buttons";
 import BlogSummaryGenerator from "./summary";
+import TrackBlogView from "./track-blog-view";
 type Props = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   blog: Record<string, any>;
@@ -204,6 +205,7 @@ export default function Slug({ blog }: Props) {
           blogStatus={blog.status}
         />
       </TooltipProvider>
+      <TrackBlogView blogId={blog.id} />
       {/* Add recommended blogs */}
     </div>
   );

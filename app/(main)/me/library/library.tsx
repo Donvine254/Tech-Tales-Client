@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { handleBlogLiking } from "@/lib/actions/favorites";
-import { getBookmarkedBlogs } from "@/lib/actions/library";
+import { getBlogsByIds } from "@/lib/actions/library";
 import { cn } from "@/lib/utils";
 import { BlogWithComments } from "@/types";
 import {
@@ -67,7 +67,7 @@ export default function Library({
           .map((id) => Number(id));
 
         if (bookmarkedBlogIds.length > 0) {
-          const res = (await getBookmarkedBlogs(
+          const res = (await getBlogsByIds(
             bookmarkedBlogIds
           )) as BlogWithComments[];
           setBookmarks(res);

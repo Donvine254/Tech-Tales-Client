@@ -34,7 +34,7 @@ export async function getUserFavorites(userId: number) {
 }
 
 // function to fetch bookmarked blogs
-export async function getBookmarkedBlogs(blogIds: number[]) {
+export async function getBlogsByIds(blogIds: number[]) {
   try {
     if (!blogIds || blogIds.length === 0) return [];
 
