@@ -190,8 +190,8 @@ export default function BlogSummaryGenerator({
         </div>
       )}
       <div
-        className={`overflow-hidden relative bg-card shadow dark:border-border dark:bg-gray-900 rounded-lg transition-all duration-500 ease-in-out ${
-          isExpanded ? "max-h-[1000px] p-3 md:p-6 mt-4" : "max-h-0 p-0"
+        className={`overflow-hidden relative bg-card shadow dark:border-border dark:bg-gray-900 rounded-lg transition-all duration-500 ease-in-out animate-collapsible-down ${
+          isExpanded ? "max-h-max p-3 md:p-5 mt-4" : "max-h-0 p-0"
         }`}>
         <Button
           variant="ghost"
@@ -206,7 +206,7 @@ export default function BlogSummaryGenerator({
             ✨ Generate a summary of this story
           </p>
         </div>
-        <div className="text-sm leading-relaxed mb-6 min-h-[100px]">
+        <div className="text-sm leading-relaxed mb-2 min-h-[100px]">
           {isGenerating && !summary && !error && (
             <div className="flex items-center gap-2 ">
               <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-green-400"></div>
@@ -230,15 +230,27 @@ export default function BlogSummaryGenerator({
           )}
 
           {summary && (
-            <div className="whitespace-break-spaces font-serif">
-              <h3 className="font-bold text-base md:text-lg mb-2">
-                Here is a fact-based summary of the blog contents:
-              </h3>
-              <small className="text-xs md:text-sm">{summary}</small>
-              {isGenerating && (
-                <span className="inline-block w-2 h-4 bg-green-400 ml-1 animate-pulse"></span>
-              )}
-            </div>
+            <>
+              <div className="whitespace-break-spaces font-serif mb-2">
+                <h3 className="font-bold text-base md:text-lg mb-2">
+                  Here is a fact-based summary of the blog contents:
+                </h3>
+                <small className="text-xs md:text-sm">{summary}</small>
+                {isGenerating && (
+                  <span className="inline-block w-2 h-4 bg-green-400 ml-1 animate-pulse"></span>
+                )}
+              </div>
+              {/* <div className="flex items-center justify-center gap-2 border-t border-border py-1 ">
+                <p>Was this Helpful?</p>
+                <Button variant="ghost" size="icon">
+                  <ThumbsUpIcon className="size-4" />
+                </Button>
+                <Button variant="ghost" size="icon">
+                  {" "}
+                  <ThumbsDownIcon className="size-4" />
+                </Button>
+              </div> */}
+            </>
           )}
         </div>
       </div>
