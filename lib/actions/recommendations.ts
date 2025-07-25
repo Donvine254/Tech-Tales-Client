@@ -1,4 +1,4 @@
-// build a recommendation algorithm for blogs
+"use server";
 import prisma from "@/prisma/prisma";
 import Fuse from "fuse.js";
 

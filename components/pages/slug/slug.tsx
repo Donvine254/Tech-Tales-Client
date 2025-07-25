@@ -31,6 +31,7 @@ import UserCard from "./user-card";
 import ActionButtons from "./action-buttons";
 import BlogSummaryGenerator from "./summary";
 import TrackBlogView from "./track-blog-view";
+import Recommendations from "./recommendations";
 type Props = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   blog: Record<string, any>;
@@ -205,6 +206,16 @@ export default function Slug({ blog }: Props) {
           blogStatus={blog.status}
         />
       </TooltipProvider>
+
+      <Recommendations
+        blogId={blog.id}
+        author={{
+          id: blog.authorId,
+          username: blog.author.username,
+          handle: blog.author.handle,
+        }}
+        tags={blog.tags.split(",")}
+      />
       <TrackBlogView blogId={blog.id} />
       {/* Add recommended blogs */}
     </div>
