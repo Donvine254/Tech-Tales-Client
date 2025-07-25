@@ -9,7 +9,11 @@ import {
 import { rateLimitByIp } from "./rate-limiter";
 import { Prisma } from "@prisma/client/edge";
 import { baseUrl, convertToHandle, generatePassword } from "../utils";
-import { sendPasswordResetEmail } from "@/emails/mailer";
+import {
+  sendPasswordResetEmail,
+  sendVerificationEmail,
+  sendWelcomeEmail,
+} from "@/emails/mailer";
 
 // Function to hash passwords
 const hashPassword = async (password: string) => {
@@ -183,15 +187,27 @@ export async function registerUser(data: RegisterPayload) {
         id: true,
         email: true,
         email_verified: true,
+        provider: true,
       },
     });
-    if (!user.email_verified) {
-      await createAndSetEmailVerificationCookie({
+    if (!user.email_verified && user.provider === "email") {
+      const token = await createAndSetEmailVerificationCookie({
         id: user.id,
         email: user.email,
       });
-    } // send welcome email if provider is email
-    return { success: true, message: "Welcome onboard  🎉" };
+      // send welcome email if provider is email
+      setImmediate(() => {
+        sendVerificationEmail(
+          user.email,
+          `${baseUrl}/verify?token=${token}`
+        ).catch(console.error);
+      });
+    } else if (user.provider !== "email") {
+      setImmediate(() => {
+        sendWelcomeEmail(user.email, username).catch(console.error);
+      });
+    }
+    return { success: true, message: "Welcome onboard 🎉" };
   } catch (error) {
     console.error("Error in registerUser:", error);
     if (error instanceof Prisma.PrismaClientKnownRequestError) {

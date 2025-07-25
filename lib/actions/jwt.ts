@@ -39,7 +39,7 @@ export async function createAndSetEmailVerificationCookie(payload: {
     email: payload.email,
   })
     .setProtectedHeader({ alg: "HS256" })
-    .setExpirationTime("30m")
+    .setExpirationTime("24h")
     .sign(JWT_SECRET);
 
   cookieStore.set("verify_email_token", token, {
@@ -65,7 +65,7 @@ export async function createPasswordResetToken(
     username: user.username,
   })
     .setProtectedHeader({ alg: "HS256" })
-    .setExpirationTime("30m") // token expires in 30 minutes
+    .setExpirationTime("24h") // token expires in 30 minutes
     .sign(JWT_SECRET);
 
   return token;
