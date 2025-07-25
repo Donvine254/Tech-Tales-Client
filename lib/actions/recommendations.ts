@@ -80,7 +80,6 @@ export async function recommendBlogs({
 }: BlogInput): Promise<number[]> {
   const excludeIds = Array.from(new Set([blogId, ...history]));
   const currentTags = tags.map(normalizeTag);
-
   // Fetch and normalize tags from reading history
   const historyBlogs = await prisma.blog.findMany({
     where: { id: { in: history } },
