@@ -26,12 +26,14 @@ import GoogleAuthButton from "@/components/auth/google";
 import { getCookie } from "@/lib/cookie";
 import { PasswordStrength } from "@/components/auth/password-strength";
 import { registerUser } from "@/lib/actions/auth";
+import SuccessDialog from "@/components/modals/success-dialog";
 
 type FormStatus = "pending" | "loading" | "success" | "error";
 
 export default function RegisterForm() {
   const [status, setStatus] = useState<FormStatus>("pending");
   const [showPassword, setShowPassword] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [originUrl, setOriginUrl] = useState("/");
   const router = useRouter();
 
@@ -85,11 +87,8 @@ export default function RegisterForm() {
         setStatus("error");
         return;
       }
-      toast.success(res.message, {
-        description: "Please check your email to verify your account.",
-      });
+      setIsOpen(true);
       setStatus("success");
-      router.push("/verify-email");
     } catch (error) {
       const e = error as Error;
       console.error("Registration error:", error);
@@ -265,6 +264,15 @@ export default function RegisterForm() {
           <Link href="/privacy">Privacy Policy</Link>.
         </div>
       </div>
+      <SuccessDialog
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        onClose={() => router.push("/verify-email?new-user=true")}
+        title="Registration successful"
+        description={`We have sent a verification email to ${form.getValues(
+          "email"
+        )}. Kindly check your email to verify your account.`}
+      />
     </div>
   );
 }
