@@ -625,6 +625,20 @@ blockquote p {
     transform: scale(1);
   }
 }
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+.loading-bar {
+  background-size: 200% 200%;
+}
 
 input::-ms-reveal,
 input::-ms-clear {
