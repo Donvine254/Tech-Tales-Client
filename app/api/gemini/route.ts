@@ -21,7 +21,6 @@ export async function POST(req: NextRequest) {
     - Structure the blog post with a headings, subheadings, paragraphs, and lists if needed.
     - Do not provide a title heading
     - For each code response, wrap it in a pre with a class corresponding to its language, for example class=langauge-javascript, class=language-typescript etc. Short codes that need to be highlighted can just be put into <code> tags.
-
     Example output format:
     <h2>Heading 1</h2>
     <p>Intro paragraph...</p>
