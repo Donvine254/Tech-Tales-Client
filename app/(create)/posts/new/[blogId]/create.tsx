@@ -172,7 +172,7 @@ export default function Create({
       //  redirect to the blog
       setTimeout(() => {
         router.push(`/blog/${res.slug}`);
-      }, 10);
+      }, 800);
     } else {
       toast.error(res.message || "Failed to publish blog.");
       setFormStatus("error");
@@ -190,7 +190,7 @@ export default function Create({
       finalizeSubmission(true);
       setTimeout(() => {
         router.push(`/blog/${blogData.slug}`);
-      }, 10);
+      }, 800);
     } else {
       toast.error(res.message);
       setFormStatus("error");

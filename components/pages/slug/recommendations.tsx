@@ -89,7 +89,7 @@ export default function Recommendations({ blogId, author, tags }: Props) {
             </Card>
           ) : (
             <div className="grid gap-6 divide-x-2">
-              {blogs && blogs.length > 100 ? (
+              {blogs && blogs.length > 0 ? (
                 blogs.map((blog) => (
                   <MinimalBlogCard
                     key={blog.id}
@@ -101,7 +101,7 @@ export default function Recommendations({ blogId, author, tags }: Props) {
               ) : (
                 <div className="flex flex-col items-center justify-center space-y-2 py-16">
                   <SearchX className="w-12 h-12 mb-4 text-muted-foreground" />
-                  <h3 className="text-xl font-semibold text-foreground">
+                  <h3 className="text-xl md:text-2xl font-semibold">
                     No Recommendations Found
                   </h3>
                   <p className="text-muted-foreground">
