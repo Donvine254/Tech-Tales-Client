@@ -28,10 +28,12 @@ import { z } from "zod";
 import { Loader2, MailIcon } from "lucide-react";
 import { validateRecaptcha } from "@/lib/actions/captcha";
 import { handlePasswordResetRequest } from "@/lib/actions/auth";
+import SuccessDialog from "@/components/modals/success-dialog";
 
 export default function ResetPassword() {
   const [token, setToken] = useState<string | null>(null);
   const [status, setStatus] = useState<FormStatus>("pending");
+  const [isOpen, setIsOpen] = useState(false);
   const [originUrl, setOriginUrl] = useState("/");
   const router = useRouter();
 
@@ -69,10 +71,8 @@ export default function ResetPassword() {
       });
       toast.error(res.message);
     } else {
-      toast.success(res.message);
-      setTimeout(() => {
-        router.push("/login");
-      }, 1000);
+      setIsOpen(true);
+      form.reset();
     }
   };
   return (
@@ -83,7 +83,7 @@ export default function ResetPassword() {
             <div className="p-4 sm:p-6 md:p-8">
               <div className="flex flex-col gap-4">
                 <div className="flex flex-col items-center text-center">
-                  <div className="relative w-36 h-36 md:w-40 md:h-40 ">
+                  <div className="relative w-36 h-36 ">
                     <Image
                       src="https://res.cloudinary.com/dipkbpinx/image/upload/v1753468871/illustrations/ovwtxpksafk2zlqlxvk0.webp"
                       alt="Password illustration"
@@ -95,7 +95,7 @@ export default function ResetPassword() {
                   <h1 className="text-2xl font-semibold mb-2">
                     Reset Your Password
                   </h1>
-                  <div className="text-balance text-xs sm:text-sm text-muted-foreground space-y-1">
+                  <div className="text-center text-xs sm:text-sm text-muted-foreground space-y-1">
                     <p className="text-xs sm:text-sm">
                       Enter your email and we will send you a verification code
                       to reset your password.
@@ -188,6 +188,15 @@ export default function ResetPassword() {
           </Link>
         </div>
       </div>
+      <SuccessDialog
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        onClose={() => router.push("/login")}
+        title="Email Sent Successfully"
+        description={`We have sent password reset instructions to ${form.getValues(
+          "email"
+        )}. Kindly check your email to reset your password.`}
+      />
     </div>
   );
 }
