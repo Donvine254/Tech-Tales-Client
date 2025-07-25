@@ -9,7 +9,7 @@ export default function CommentBody({
 }: {
   body: string;
   hideComment?: () => void;
-  status: CommentStatus;
+  status?: CommentStatus;
 }) {
   const parseCommentBody = (htmlString: string) => {
     const parser = new DOMParser();
@@ -45,7 +45,7 @@ export default function CommentBody({
           id="comment-body">
           {" "}
           {parse(textHtml)}
-          {status === "HIDDEN" && (
+          {status && status === "HIDDEN" && (
             <button
               className="text-sm cursor-pointer text-blue-500 font-bold underline underline-offset-2"
               onClick={hideComment}>
