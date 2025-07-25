@@ -31,7 +31,9 @@ interface CommentCardProps {
 export function CommentCard({ comment, onDelete }: CommentCardProps) {
   const [isMounted, setIsMounted] = useState(false);
   const canEdit = comment.status === CommentStatus.VISIBLE;
-  const isEdited = comment.updatedAt !== comment.createdAt;
+  const isEdited =
+    new Date(comment.updatedAt).getTime() !==
+    new Date(comment.createdAt).getTime();
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -131,7 +133,9 @@ export function CommentCard({ comment, onDelete }: CommentCardProps) {
                 <Calendar className="h-3.5 w-3.5" />
                 <span>{formatCommentDate(comment.createdAt)}</span>
                 {isEdited && (
-                  <span className="text-muted-foreground/70">(Edited)</span>
+                  <span className="text-xs text-muted-foreground">
+                    (Edited)
+                  </span>
                 )}
               </div>
               <div className="flex items-center gap-1">
