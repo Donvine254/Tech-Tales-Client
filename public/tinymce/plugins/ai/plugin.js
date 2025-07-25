@@ -56,9 +56,7 @@ tinymce.PluginManager.add("ai", function (editor, url) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            message:
-              "This is a rich text editor for a blog. You are being asked to help generate a blog or edit some text. Make sure your response is in html format. No need to indicate the format in the response, just be direct",
-            body: data.prompt,
+            message: data.prompt,
           }),
         })
           .then((response) => response.json())

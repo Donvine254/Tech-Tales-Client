@@ -12,6 +12,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   ArchiveIcon,
+  ArchiveX,
   Calendar,
   ChevronDown,
   ChevronUp,
@@ -23,18 +24,10 @@ import {
   MoreHorizontal,
   Reply,
   Trash2,
+  TriangleAlert,
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { FlagFilled } from "@/assets/icons";
-
-type Props = {
-  comment: CommentData;
-  session: Session | null;
-  blogAuthorId: number;
-  blogStatus: BlogStatus;
-  onEdit: (comment: CommentData) => void;
-  setComments: React.Dispatch<React.SetStateAction<CommentData[]>>;
-};
 import Response from "./response";
 import { toast } from "sonner";
 import CommentBody from "./comment-body";
@@ -48,6 +41,14 @@ import {
 } from "@/lib/actions/responses";
 import { formatCommentDate } from "@/lib/utils";
 
+type Props = {
+  comment: CommentData;
+  session: Session | null;
+  blogAuthorId: number;
+  blogStatus: BlogStatus;
+  onEdit: (comment: CommentData) => void;
+  setComments: React.Dispatch<React.SetStateAction<CommentData[]>>;
+};
 export const CommentItem: React.FC<Props> = ({
   comment,
   session,
@@ -59,6 +60,7 @@ export const CommentItem: React.FC<Props> = ({
   const [repliesCollapsed, setRepliesCollapsed] = useState(true);
   const [responseBody, setResponseBody] = useState("");
   const [isEditing, setIsEditing] = useState(false);
+  const [showHidden, setShowHidden] = useState(false);
   const [editingResponse, setEditingResponse] = useState<ResponseData | null>(
     null
   );
@@ -87,17 +89,13 @@ export const CommentItem: React.FC<Props> = ({
   };
   // function to handle updating comment status
   async function handleUpdateCommentStatus(status: CommentStatus) {
-    const toastId = toast.loading("Updating comment status...");
     // optimistically update the comment status and set it in state
     const previousStatus = comment.status;
     setComments((prevComments) =>
       prevComments.map((c) => (c.id === comment.id ? { ...c, status } : c))
     );
     const res = await updateCommentStatus(comment.id, status);
-    toast.dismiss(toastId);
-    if (res.success) {
-      toast.success(res.message);
-    } else {
+    if (!res.success) {
       toast.success(res.message);
       // revert the changes if the update fails
       setComments((prevComments) =>
@@ -158,7 +156,6 @@ export const CommentItem: React.FC<Props> = ({
       ...editingResponse,
       body: responseBody,
     };
-    const toastId = toast.loading("Updating response...");
     try {
       // return the response to state
       setComments((prevComments) =>
@@ -175,10 +172,7 @@ export const CommentItem: React.FC<Props> = ({
         id: editingResponse.id,
         body: responseBody,
       });
-      if (res.success && res.response) {
-        toast.success(res.message);
-      } else {
-        // revert to the original body (editingComment.body) if this fails
+      if (!res.success) {
         setComments((prevComments) =>
           prevComments.map((c) =>
             c.id === comment.id
@@ -208,7 +202,6 @@ export const CommentItem: React.FC<Props> = ({
       setIsEditing(false);
       setEditingResponse(null);
       setRepliesCollapsed(false);
-      toast.dismiss(toastId);
     }
   }
   // function to handleDeleting comments
@@ -388,16 +381,27 @@ export const CommentItem: React.FC<Props> = ({
                         </Button>
                       </DropdownMenuItem>
                     )}
-                    <DropdownMenuItem asChild>
-                      <Button
-                        variant="ghost"
-                        className="text-amber-600 flex items-center cursor-pointer hover:text-amber-600 justify-start w-full group"
-                        disabled={comment.status === "HIDDEN"}
-                        onClick={() => handleUpdateCommentStatus("HIDDEN")}>
-                        <ArchiveIcon className="h-4 w-4 text-amber-500" />
-                        <span className="text-amber-500">Hide</span>
-                      </Button>
-                    </DropdownMenuItem>
+                    {comment.status === "HIDDEN" ? (
+                      <DropdownMenuItem asChild>
+                        <Button
+                          variant="ghost"
+                          className="text-amber-600 flex items-center cursor-pointer hover:text-amber-600 justify-start w-full group"
+                          onClick={() => handleUpdateCommentStatus("VISIBLE")}>
+                          <ArchiveIcon className="h-4 w-4 text-green-500" />
+                          <span className="text-green-500">Unhide</span>
+                        </Button>
+                      </DropdownMenuItem>
+                    ) : (
+                      <DropdownMenuItem asChild>
+                        <Button
+                          variant="ghost"
+                          className="text-amber-600 flex items-center cursor-pointer hover:text-amber-600 justify-start w-full group"
+                          onClick={() => handleUpdateCommentStatus("HIDDEN")}>
+                          <ArchiveX className="h-4 w-4 text-amber-500" />
+                          <span className="text-amber-500">Hide</span>
+                        </Button>
+                      </DropdownMenuItem>
+                    )}
                   </>
                 )}
                 <DropdownMenuSeparator />
@@ -463,20 +467,26 @@ export const CommentItem: React.FC<Props> = ({
           </div>
 
           {/* Comment Body */}
-          {comment.status !== "HIDDEN" ? (
-            <CommentBody body={comment.body} />
-          ) : (
-            <div className="px-3 py-2 rounded-r-xl gap-2 sm:text-sm rounded-bl-xl border shadow bg-card text-xs md:text-sm mb-1 max-w-max font-serif">
-              <p className="text-red-500">
-                This comment has been hidden by a moderator.
+          {comment.status === "HIDDEN" && !showHidden ? (
+            <div className="px-3 py-2 rounded-r-xl gap-2 sm:text-sm rounded-bl-xl border shadow bg-card text-xs md:text-sm mb-1 max-w-max font-serif mt-1 animate-scale-in duration-700 transition-all">
+              <p className="text-muted-foreground">
+                ⚠️ This comment has been hidden by a moderator.
               </p>
-              <button className="text-sm cursor-pointer text-blue-500 font-bold underline underline-offset-2">
+              <button
+                className="text-sm cursor-pointer text-blue-500 font-bold underline underline-offset-2"
+                onClick={() => setShowHidden(true)}>
                 Show Comment
               </button>
             </div>
+          ) : (
+            <CommentBody
+              body={comment.body}
+              status={comment.status}
+              hideComment={() => setShowHidden(false)}
+            />
           )}
           {/* Action Buttons Row */}
-          <div className="flex items-center space-x-4 mb-4">
+          <div className="flex items-center gap-2 md:space-x-4 mb-4">
             {/* Quick Reply Button */}
             {session && (
               <Button
@@ -494,8 +504,19 @@ export const CommentItem: React.FC<Props> = ({
               </Button>
             )}
             {comment.status === "FLAGGED" && (
-              <Badge className="text-red-500" variant="outline">
+              <Badge
+                className="text-red-500"
+                variant="outline"
+                title="comment has been reported to contain offensive or obscene language">
                 <FlagFilled className="size-4 fill-red-500" /> Flagged
+              </Badge>
+            )}
+            {comment.status === "HIDDEN" && (
+              <Badge
+                className="text-red-500 hidden sm:inline-flex"
+                variant="outline">
+                <TriangleAlert className="size-4 text-red-500" /> Marked as
+                offensive
               </Badge>
             )}
             {/* Collapse/Expand Replies Button */}
