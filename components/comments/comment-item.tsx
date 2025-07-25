@@ -1,5 +1,6 @@
 import { CommentData, ResponseData, Session } from "@/types";
 import React, { useState } from "react";
+import { CommentStatus } from "@prisma/client";
 import { Badge } from "../ui/badge";
 import {
   DropdownMenu,
@@ -10,6 +11,7 @@ import {
 } from "../ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
+  ArchiveIcon,
   Calendar,
   ChevronDown,
   ChevronUp,
@@ -34,7 +36,7 @@ import Response from "./response";
 import { toast } from "sonner";
 import CommentBody from "./comment-body";
 import { BlogStatus } from "@prisma/client";
-import { deleteComment } from "@/lib/actions/comments";
+import { deleteComment, updateCommentStatus } from "@/lib/actions/comments";
 import { ResponseEditor } from "./response-editor";
 import {
   createResponse,
@@ -52,7 +54,6 @@ export const CommentItem: React.FC<Props> = ({
   onEdit,
 }: Props) => {
   const [repliesCollapsed, setRepliesCollapsed] = useState(true);
-
   const [responseBody, setResponseBody] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [editingResponse, setEditingResponse] = useState<ResponseData | null>(
@@ -81,6 +82,28 @@ export const CommentItem: React.FC<Props> = ({
       )
     );
   };
+  // function to handle updating comment status
+  async function handleUpdateCommentStatus(status: CommentStatus) {
+    const toastId = toast.loading("Updating comment status...");
+    // optimistically update the comment status and set it in state
+    const previousStatus = comment.status;
+    setComments((prevComments) =>
+      prevComments.map((c) => (c.id === comment.id ? { ...c, status } : c))
+    );
+    const res = await updateCommentStatus(comment.id, status);
+    toast.dismiss(toastId);
+    if (res.success) {
+      toast.success(res.message);
+    } else {
+      toast.success(res.message);
+      // revert the changes if the update fails
+      setComments((prevComments) =>
+        prevComments.map((c) =>
+          c.id === comment.id ? { ...c, status: previousStatus } : c
+        )
+      );
+    }
+  }
   //function to handleResponseSubmission
   async function handleResponseSubmit() {
     // Logic to submit or respond
@@ -291,15 +314,15 @@ export const CommentItem: React.FC<Props> = ({
               {blogAuthorId === comment.authorId ? (
                 <Badge
                   title="author"
-                  className="bg-blue-100 font-semibold truncate text-blue-500">
-                  <Feather className="h-4 w-4 mr-1" />
+                  className="bg-blue-100 font-semibold truncate text-blue-500 text-xs">
+                  <Feather className="h-2 w-2" />
                   Author
                 </Badge>
               ) : comment.author.role === "admin" ? (
                 <Badge
-                  className="bg-purple-100 font-semibold text-purple-500"
+                  className="bg-purple-100 font-semibold text-purple-500 text-xs"
                   title="admin">
-                  <Crown className="h-4 w-4 mr-1 truncate" />
+                  <Crown className="h-2 w-2 truncate" />
                   Admin
                 </Badge>
               ) : null}
@@ -332,7 +355,43 @@ export const CommentItem: React.FC<Props> = ({
                     <DropdownMenuSeparator />
                   </>
                 )}
-
+                {isAdmin && (
+                  <>
+                    {comment.status === "FLAGGED" ? (
+                      <DropdownMenuItem asChild>
+                        <Button
+                          variant="ghost"
+                          className="flex items-center cursor-pointer hover:text-red-600 justify-start w-full group"
+                          onClick={() => handleUpdateCommentStatus("VISIBLE")}>
+                          <Flag className="h-4 w-4 group-hover:text-red-500" />
+                          <span className="group-hover:text-red-500">
+                            Unflag
+                          </span>
+                        </Button>
+                      </DropdownMenuItem>
+                    ) : (
+                      <DropdownMenuItem asChild>
+                        <Button
+                          variant="ghost"
+                          className="flex items-center cursor-pointer hover:text-red-600 justify-start w-full group"
+                          onClick={() => handleUpdateCommentStatus("FLAGGED")}>
+                          <Flag className="h-4 w-4 group-hover:text-red-500" />
+                          <span className="group-hover:text-red-500">Flag</span>
+                        </Button>
+                      </DropdownMenuItem>
+                    )}
+                    <DropdownMenuItem asChild>
+                      <Button
+                        variant="ghost"
+                        className="text-amber-600 flex items-center cursor-pointer hover:text-amber-600 justify-start w-full group"
+                        onClick={() => handleUpdateCommentStatus("HIDDEN")}>
+                        <ArchiveIcon className="h-4 w-4 text-amber-500" />
+                        <span className="text-amber-500">Hide</span>
+                      </Button>
+                    </DropdownMenuItem>
+                  </>
+                )}
+                <DropdownMenuSeparator />
                 {/* Comment Author, Blog Author, or Admin can delete */}
                 {(isCommentAuthor || isBlogAuthor || isAdmin) && (
                   <DropdownMenuItem asChild>
@@ -371,7 +430,7 @@ export const CommentItem: React.FC<Props> = ({
                           )
                         }>
                         <Flag className="h-4 w-4 text-red-500" />
-                        <span className="text-red-500"> Report</span>
+                        <span className="text-red-500">Report</span>
                       </Button>
                     </DropdownMenuItem>
                   </>
@@ -402,7 +461,7 @@ export const CommentItem: React.FC<Props> = ({
                 onClick={() => setIsReplying(!isReplying)}>
                 {" "}
                 <Reply className="h-4 w-4 group-hover:text-blue-500" />
-                <span className="group-hover:text-blue-500"> Reply</span>
+                <span className="group-hover:text-blue-500">Reply</span>
               </Button>
             )}
             {/* Collapse/Expand Replies Button */}
@@ -443,7 +502,6 @@ export const CommentItem: React.FC<Props> = ({
           onCancel={handleCancel}
         />
       )}
-      {/* add reply editor here */}
       {/* Replies */}
       {comment.responses &&
         comment.responses.length > 0 &&

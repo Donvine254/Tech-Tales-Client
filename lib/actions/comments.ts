@@ -1,6 +1,7 @@
 "use server";
 import prisma from "@/prisma/prisma";
 import { CommentData } from "@/types";
+import { CommentStatus } from "@prisma/client";
 
 type CommentBody = {
   authorId: number;
@@ -134,6 +135,24 @@ export async function getUserComments(userId: number) {
   } catch (error) {
     console.error("Error fetching user comments:", error);
     return [];
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+// function to flag a comment
+export async function updateCommentStatus(id: number, status: CommentStatus) {
+  if (!id || !status) {
+    return { success: false, message: "Comment ID and status are required" };
+  }
+  try {
+    await prisma.comment.update({
+      where: { id },
+      data: { status },
+    });
+    return { success: true, message: "Comment status updated successfully" };
+  } catch (error) {
+    console.error("Error updating comment status:", error);
+    return { success: false, message: "Failed to update comment status" };
   } finally {
     await prisma.$disconnect();
   }
