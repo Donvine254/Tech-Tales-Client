@@ -185,3 +185,19 @@ export function Tiktok(props: SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
+export function FlagFilled(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 16 16"
+      width="1em"
+      height="1em"
+      {...props}>
+      <path
+        fill="currentColor"
+        fillRule="evenodd"
+        d="M3 2.5a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .424.765L11.59 6.5l2.334 3.735A.5.5 0 0 1 13.5 11H4v4H3z"
+        clipRule="evenodd"></path>
+    </svg>
+  );
+}

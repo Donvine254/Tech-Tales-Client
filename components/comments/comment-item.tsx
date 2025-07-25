@@ -19,11 +19,14 @@ import {
   Edit2,
   Feather,
   Flag,
+  FlagOffIcon,
   MoreHorizontal,
   Reply,
   Trash2,
 } from "lucide-react";
 import { Button } from "../ui/button";
+import { FlagFilled } from "@/assets/icons";
+
 type Props = {
   comment: CommentData;
   session: Session | null;
@@ -347,7 +350,11 @@ export const CommentItem: React.FC<Props> = ({
                         variant="ghost"
                         className="cursor-pointer justify-start w-full"
                         onClick={() => onEdit(comment)}
-                        disabled={blogStatus === "ARCHIVED" || !session}>
+                        disabled={
+                          blogStatus === "ARCHIVED" ||
+                          !session ||
+                          comment.status !== "VISIBLE"
+                        }>
                         <Edit2 className="h-4 w-4 mr-2" />
                         Edit
                       </Button>
@@ -363,7 +370,7 @@ export const CommentItem: React.FC<Props> = ({
                           variant="ghost"
                           className="flex items-center cursor-pointer hover:text-red-600 justify-start w-full group"
                           onClick={() => handleUpdateCommentStatus("VISIBLE")}>
-                          <Flag className="h-4 w-4 group-hover:text-red-500" />
+                          <FlagOffIcon className="h-4 w-4 group-hover:text-red-500" />
                           <span className="group-hover:text-red-500">
                             Unflag
                           </span>
@@ -374,8 +381,9 @@ export const CommentItem: React.FC<Props> = ({
                         <Button
                           variant="ghost"
                           className="flex items-center cursor-pointer hover:text-red-600 justify-start w-full group"
-                          onClick={() => handleUpdateCommentStatus("FLAGGED")}>
-                          <Flag className="h-4 w-4 group-hover:text-red-500" />
+                          onClick={() => handleUpdateCommentStatus("FLAGGED")}
+                          disabled={comment.status === "HIDDEN"}>
+                          <FlagFilled className="h-4 w-4 group-hover:text-red-500" />
                           <span className="group-hover:text-red-500">Flag</span>
                         </Button>
                       </DropdownMenuItem>
@@ -384,6 +392,7 @@ export const CommentItem: React.FC<Props> = ({
                       <Button
                         variant="ghost"
                         className="text-amber-600 flex items-center cursor-pointer hover:text-amber-600 justify-start w-full group"
+                        disabled={comment.status === "HIDDEN"}
                         onClick={() => handleUpdateCommentStatus("HIDDEN")}>
                         <ArchiveIcon className="h-4 w-4 text-amber-500" />
                         <span className="text-amber-500">Hide</span>
@@ -413,7 +422,11 @@ export const CommentItem: React.FC<Props> = ({
                       <Button
                         variant="ghost"
                         className="cursor-pointer w-full justify-start hover:text-blue-500 group"
-                        disabled={blogStatus === "ARCHIVED" || !session}
+                        disabled={
+                          blogStatus === "ARCHIVED" ||
+                          !session ||
+                          comment.status === "HIDDEN"
+                        }
                         onClick={() => setIsReplying(!isReplying)}>
                         <Reply className="h-4 w-4 group-hover:text-blue-500" />
                         <span className="group-hover:text-blue-500">Reply</span>
@@ -424,6 +437,7 @@ export const CommentItem: React.FC<Props> = ({
                       <Button
                         variant="ghost"
                         className="text-red-600 flex items-center cursor-pointer hover:text-red-600 justify-start w-full group"
+                        disabled={comment.status === "HIDDEN"}
                         onClick={() =>
                           toast.info(
                             "Thank you for helping keep our community safe"
@@ -457,12 +471,21 @@ export const CommentItem: React.FC<Props> = ({
               <Button
                 variant="ghost"
                 className="cursor-pointer justify-start hover:text-blue-500 group"
-                disabled={blogStatus === "ARCHIVED" || !session}
+                disabled={
+                  blogStatus === "ARCHIVED" ||
+                  !session ||
+                  comment.status === "HIDDEN"
+                }
                 onClick={() => setIsReplying(!isReplying)}>
                 {" "}
                 <Reply className="h-4 w-4 group-hover:text-blue-500" />
                 <span className="group-hover:text-blue-500">Reply</span>
               </Button>
+            )}
+            {comment.status === "FLAGGED" && (
+              <Badge className="text-red-500" variant="outline">
+                <FlagFilled className="size-4 fill-red-500" /> Flagged
+              </Badge>
             )}
             {/* Collapse/Expand Replies Button */}
             {comment.responses && comment.responses.length > 0 && (
