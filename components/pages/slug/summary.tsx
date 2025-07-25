@@ -235,7 +235,17 @@ export default function BlogSummaryGenerator({
           {summary && (
             <>
               <div className="whitespace-break-spaces font-serif">
-                <h3 className="font-bold text-base md:text-lg mb-2">
+                <h3 className="font-bold md:flex md:items-center text-base md:text-lg mb-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    width="1rem"
+                    height="1rem"
+                    className="animate-pulse mr-1 hidden md:inline-block align-middle size-4 ">
+                    <path
+                      fill="currentColor"
+                      d="M11.296 1.924c.24-.656 1.168-.656 1.408 0l.717 1.958a11.25 11.25 0 0 0 6.697 6.697l1.958.717c.657.24.657 1.168 0 1.408l-1.958.717a11.25 11.25 0 0 0-6.697 6.697l-.717 1.958c-.24.657-1.168.657-1.408 0l-.717-1.958a11.25 11.25 0 0 0-6.697-6.697l-1.958-.717c-.656-.24-.656-1.168 0-1.408l1.958-.717a11.25 11.25 0 0 0 6.697-6.697z"></path>
+                  </svg>{" "}
                   Here is a fact-based summary of the blog contents:
                 </h3>
                 <small className="text-xs md:text-sm">{summary}</small>
