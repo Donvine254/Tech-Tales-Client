@@ -6,6 +6,7 @@ import { BlogWithComments } from "@/types";
 import { SearchX, ChevronLeft, ChevronRight } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import Fuse from "fuse.js";
 const BLOGS_PER_PAGE = 6;
 
 export default function SearchPage({
@@ -16,23 +17,28 @@ export default function SearchPage({
   const searchParams = useSearchParams();
   const query = searchParams.get("q") || "";
   const [currentPage, setCurrentPage] = useState(1);
+  const fuse = useMemo(() => {
+    return new Fuse(blogs, {
+      keys: [
+        { name: "title", weight: 0.6 },
+        {
+          name: "tags",
+          weight: 0.4,
+          getFn: (blog) =>
+            blog.tags ? blog.tags.split(",").map((tag) => tag.trim()) : [],
+        },
+      ],
+      threshold: 0.3, // smaller = stricter match
+    });
+  }, [blogs]);
+
+  // Fuzzy filtered results
   const filteredBlogs = useMemo(() => {
     if (!query) return [];
     if (query === "all") return blogs;
-    return blogs.filter((blog) => {
-      const titleMatch = blog.title.toLowerCase().includes(query.toLowerCase());
-
-      const tagArray = blog.tags
-        ? blog.tags.split(",").map((tag) => tag.trim().toLowerCase())
-        : [];
-
-      const tagMatch = tagArray.some((tag) =>
-        tag.includes(query.toLowerCase())
-      );
-
-      return titleMatch || tagMatch;
-    });
-  }, [blogs, query]);
+    const results = fuse.search(query);
+    return results.map((result) => result.item);
+  }, [query, fuse, blogs]);
   //   add pagination
   const totalPages = Math.ceil(filteredBlogs.length / BLOGS_PER_PAGE);
   const paginatedBlogs = useMemo(() => {
