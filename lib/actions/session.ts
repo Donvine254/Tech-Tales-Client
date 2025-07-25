@@ -36,6 +36,14 @@ export async function getEmailVerificationCookie() {
     console.warn("No email verification token found");
     return null;
   }
+  return token;
+}
+
+export async function getEmailVerificationCookieData() {
+  const token = await getEmailVerificationCookie();
+  if (!token) {
+    return null;
+  }
   try {
     const { payload } = await jose.jwtVerify(token, JWT_SECRET);
     return payload as { userId: number; email: string };

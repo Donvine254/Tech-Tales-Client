@@ -8,17 +8,23 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Loader2, ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import { toast } from "sonner";
+import { baseUrl } from "@/lib/utils";
+import { sendVerificationEmail } from "@/emails/mailer";
+import SuccessDialog from "@/components/modals/success-dialog";
 type ResendStatus = "idle" | "loading" | "success" | "error";
 
 export default function VerifyEmail({
-  data,
+  email,
+  token,
 }: {
-  data: { userId: number; email: string } | null;
+  token: string;
+  email: string | null;
 }) {
   const [resendStatus, setResendStatus] = useState<ResendStatus>("idle");
   const [countdown, setCountdown] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
-  const email = data?.email;
+
   useEffect(() => {
     let interval: NodeJS.Timeout;
     if (countdown > 0) {
@@ -30,13 +36,14 @@ export default function VerifyEmail({
   }, [countdown]);
 
   const handleResendEmail = async () => {
+    if (!email) {
+      return null;
+    }
     setResendStatus("loading");
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      toast.success("Verification email sent!");
-
+      // Resend the email
+      await sendVerificationEmail(email, `${baseUrl}/verify?token=${token}`);
+      setIsOpen(true);
       setResendStatus("success");
       setCountdown(60);
     } catch (error) {
@@ -134,6 +141,12 @@ export default function VerifyEmail({
           </Link>
         </div>
       </div>
+      <SuccessDialog
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        title="Email sent successfully"
+        description={`We have resent a verification email to ${email}. Kindly check your email to verify your account.`}
+      />
     </div>
   );
 }
