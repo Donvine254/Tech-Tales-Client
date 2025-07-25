@@ -27,6 +27,7 @@ import { validateEmail } from "@/lib/utils";
 import { z } from "zod";
 import { Loader2, MailIcon } from "lucide-react";
 import { validateRecaptcha } from "@/lib/actions/captcha";
+import { handlePasswordResetRequest } from "@/lib/actions/auth";
 
 export default function ResetPassword() {
   const [token, setToken] = useState<string | null>(null);
@@ -58,8 +59,21 @@ export default function ResetPassword() {
       toast.error("Kindly complete the reCAPTCHA challenge");
       return;
     }
-    console.log(data);
     setStatus("loading");
+    const res = await handlePasswordResetRequest(data.email);
+    setStatus("success");
+    if (!res.success) {
+      form.setError("email", {
+        type: "manual",
+        message: res.message,
+      });
+      toast.error(res.message);
+    } else {
+      toast.success(res.message);
+      setTimeout(() => {
+        router.push("/login");
+      }, 1000);
+    }
   };
   return (
     <div className="flex min-h-svh flex-col items-center justify-center p-4 sm:p-6 md:p-10 bg-muted">

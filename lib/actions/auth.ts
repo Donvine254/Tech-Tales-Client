@@ -4,10 +4,12 @@ import * as bcrypt from "bcrypt";
 import {
   createAndSetAuthTokenCookie,
   createAndSetEmailVerificationCookie,
+  createPasswordResetToken,
 } from "./jwt";
 import { rateLimitByIp } from "./rate-limiter";
 import { Prisma } from "@prisma/client/edge";
-import { convertToHandle, generatePassword } from "../utils";
+import { baseUrl, convertToHandle, generatePassword } from "../utils";
+import { sendPasswordResetEmail } from "@/emails/mailer";
 
 // Function to hash passwords
 const hashPassword = async (password: string) => {
@@ -263,5 +265,65 @@ export async function changeUserPassword(
   } catch (error) {
     const e = error as Error;
     return { success: false, message: e.message || "An error occurred" };
+  }
+}
+
+export async function handlePasswordResetRequest(email: string) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+      select: {
+        username: true,
+        email: true,
+        id: true,
+        deleted: true,
+        email_verified: true,
+      },
+    });
+
+    if (!user) {
+      return { success: false, message: "No matching user found" };
+    }
+    if (user.deleted || !user.email_verified) {
+      if (user.deleted) {
+        return {
+          success: false,
+          message:
+            "Your account has been marked for deletion. Please restore your account before resetting your password.",
+        };
+      }
+
+      if (!user.email_verified) {
+        return {
+          success: false,
+          message:
+            "Your email address has not been verified. Please verify your email before requesting a password reset.",
+        };
+      }
+    }
+    const token = await createPasswordResetToken(user);
+    const link = `${baseUrl}/new-password?token=${token}`;
+    const res = await sendPasswordResetEmail(user.username, user.email, link);
+    if (res.success) {
+      return {
+        success: true,
+        message: "Check your email to reset your password",
+      };
+    } else {
+      return {
+        success: false,
+        message: "Email delivery failed. Try again",
+      };
+    }
+  } catch (error) {
+    console.error("Password reset error:", error);
+    return {
+      success: false,
+      message: "Failed to process password reset request",
+    };
+  } finally {
+    await prisma.$disconnect();
   }
 }

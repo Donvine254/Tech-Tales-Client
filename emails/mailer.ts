@@ -114,9 +114,9 @@ export const sendPasswordResetEmail = async (
       html: PasswordResetTemplate(name, link),
     });
     console.log("Email sent successfully");
-    return { message: "Email sent successfully" };
+    return { success: true, message: "Email sent successfully" };
   } catch (error) {
     console.error("Email delivery failed:", error);
-    return { message: "Email delivery failed" };
+    return { success: false, message: "Email delivery failed" };
   }
 };
