@@ -45,7 +45,7 @@ export default function Page() {
   const [token, setToken] = useState<string | null>(null); //recaptcha token
   const [isOpen, setIsOpen] = useState(false);
   const searchParams = useSearchParams();
-  const auth_token = searchParams.get("token");
+  const auth_token = searchParams.get("token") || "";
   const router = useRouter();
 
   const form = useForm<z.infer<typeof schema>>({
