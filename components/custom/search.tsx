@@ -54,9 +54,9 @@ export default function SearchBar({ className }: { className: string }) {
     // function to search by voice
     const handleVoiceSearch = () => {
         /*eslint-disable */
-        if (typeof window !== undefined) {
-            return false
-        }
+        if (!window || typeof window === undefined) {
+      return false;
+    }
         // check for browser support
         if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
             const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;

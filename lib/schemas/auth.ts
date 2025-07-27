@@ -8,7 +8,7 @@ export const loginSchema = z.object({
   password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
-const simplePasswordRegex = /^(?=.*\d).{8,}$/;
+export const simplePasswordRegex = /^(?=.*\d).{8,}$/;
 export const registerSchema = z.object({
   username: z
     .string()

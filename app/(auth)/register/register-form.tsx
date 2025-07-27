@@ -59,7 +59,7 @@ export default function RegisterForm() {
 
     // Copy to clipboard
     navigator.clipboard.writeText(suggestedPassword).then(() => {
-      toast.success("Password Copied!");
+      toast.info("Password copied to clipboard!");
     });
   };
 
