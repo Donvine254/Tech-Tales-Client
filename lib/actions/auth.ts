@@ -283,7 +283,9 @@ export async function changeUserPassword(
     return { success: false, message: e.message || "An error occurred" };
   }
 }
-
+/*
+Function to send email for resetting the password, valid for 24hrs
+*/
 export async function handlePasswordResetRequest(email: string) {
   try {
     const user = await prisma.user.findUnique({
@@ -341,5 +343,26 @@ export async function handlePasswordResetRequest(email: string) {
     };
   } finally {
     await prisma.$disconnect();
+  }
+}
+/*
+Function to reset the user email
+*/
+export async function resetPassword(userId: number, password: string) {
+  const password_digest = await hashPassword(password);
+  try {
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        password_digest,
+      },
+    });
+    if (!user) {
+      return { success: false, message: "User not found!" };
+    }
+    return { success: true, message: "Password reset successfully" };
+  } catch (error) {
+    const e = error as Error;
+    return { success: false, message: e.message || "Something went wrong." };
   }
 }

@@ -65,7 +65,7 @@ export async function createPasswordResetToken(
     username: user.username,
   })
     .setProtectedHeader({ alg: "HS256" })
-    .setExpirationTime("24h") // token expires in 30 minutes
+    .setExpirationTime("8h") // token expires in 30 minutes
     .sign(JWT_SECRET);
 
   return token;

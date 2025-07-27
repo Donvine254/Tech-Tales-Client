@@ -27,6 +27,7 @@ import { validateRecaptcha } from "@/lib/actions/captcha";
 import SuccessDialog from "@/components/modals/success-dialog";
 import { verifyToken } from "@/lib/actions/jwt";
 import Loading from "./loading";
+import { resetPassword } from "@/lib/actions/auth";
 
 const schema = z
   .object({
@@ -42,7 +43,7 @@ const schema = z
   });
 
 type AuthUser = {
-  id: string;
+  id: number;
   username?: string;
   email: string;
 };
@@ -98,16 +99,26 @@ export default function Page() {
     });
   };
   async function handleSubmit(data: { password: string }) {
-    console.log(data, user);
+    if (!user?.id) {
+      toast.error("User not found");
+      return;
+    }
     if (!token || !(await validateRecaptcha(token))) {
       toast.error("Kindly complete the reCAPTCHA challenge");
       return;
     }
     setStatus("loading");
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setStatus("success");
-    setIsOpen(true);
+    const res = await resetPassword(user?.id, data.password);
+    if (res.success) {
+      setStatus("success");
+      //   revoke the token
+      setIsOpen(true);
+    } else {
+      setStatus("error");
+      toast.error(res.message);
+    }
   }
+  //   show loading while verifying the token
   if (verificationStatus === "pending" || verificationStatus === "verifying") {
     return <Loading />;
   }
