@@ -27,9 +27,9 @@ export async function middleware(request: NextRequest) {
     try {
       const { payload } = await jose.jwtVerify(token.value, JWT_SECRET);
       userData = payload;
-      //   eslint-disable-next-line
-    } catch (error: any) {
-      console.error("Invalid token:", error.message);
+    } catch (error) {
+      const e = error as Error;
+      console.error("Invalid token:", e.message);
     }
   }
 
@@ -40,9 +40,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/", request.nextUrl));
   }
   if (path === "/admin" && isAdmin) {
-    return NextResponse.redirect(
-      new URL("/admin/dashboard?tab=0", request.nextUrl)
-    );
+    return NextResponse.redirect(new URL("/admin/dashboard", request.nextUrl));
   }
 
   if (isProtectedPath && !userData) {
@@ -70,6 +68,7 @@ export const config = {
     "/callback",
     "/api",
     "/api/me",
+    "/api/*",
     "/api/my-blogs",
     "/me",
     "/me/:path*",
