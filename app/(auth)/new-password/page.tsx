@@ -242,7 +242,7 @@ const ErrorState = () => {
         <Card className="overflow-hidden">
           <CardContent className="p-6 sm:p-8 flex flex-col items-center text-center space-y-6">
             <CircleX
-              className="text-red-500 size-20 animate-scale-in"
+              className="text-red-500 size-20 animate-bounce hover:animate-scale-in"
               strokeWidth={1}
               aria-hidden="true"
             />
