@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { z } from "zod";
@@ -25,6 +25,8 @@ import { generatePassword } from "@/lib/utils";
 import { toast } from "sonner";
 import { validateRecaptcha } from "@/lib/actions/captcha";
 import SuccessDialog from "@/components/modals/success-dialog";
+import { verifyToken } from "@/lib/actions/jwt";
+import Loading from "./loading";
 
 const schema = z
   .object({
@@ -39,11 +41,21 @@ const schema = z
     path: ["confirmPassword"],
   });
 
+type AuthUser = {
+  id: string;
+  username?: string;
+  email: string;
+};
+
 export default function Page() {
   const [showPassword, setShowPassword] = useState(false);
-  const [status, setStatus] = useState<FormStatus>("pending");
+  const [status, setStatus] = useState<FormStatus>("error");
+  const [verificationStatus, setVerificationStatus] = useState<
+    "pending" | "verifying" | "valid" | "invalid"
+  >("pending");
   const [token, setToken] = useState<string | null>(null); //recaptcha token
   const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState<AuthUser | null>(null);
   const searchParams = useSearchParams();
   const auth_token = searchParams.get("token") || "";
   const router = useRouter();
@@ -55,6 +67,25 @@ export default function Page() {
       confirmPassword: "",
     },
   });
+
+  useEffect(() => {
+    if (!auth_token) {
+      setVerificationStatus("invalid");
+      return;
+    }
+    async function verify() {
+      const res = await verifyToken(auth_token);
+      if (!res.valid) {
+        setUser(null);
+        setVerificationStatus("invalid");
+      } else {
+        setVerificationStatus("valid");
+        setUser(res.payload as AuthUser);
+      }
+    }
+    verify();
+  }, [auth_token]);
+
   const handleSuggestPassword = () => {
     const suggestedPassword = generatePassword();
     form.setValue("password", suggestedPassword);
@@ -67,7 +98,7 @@ export default function Page() {
     });
   };
   async function handleSubmit(data: { password: string }) {
-    console.log(data);
+    console.log(data, user);
     if (!token || !(await validateRecaptcha(token))) {
       toast.error("Kindly complete the reCAPTCHA challenge");
       return;
@@ -77,7 +108,11 @@ export default function Page() {
     setStatus("success");
     setIsOpen(true);
   }
-  if (!auth_token) {
+  if (verificationStatus === "pending" || verificationStatus === "verifying") {
+    return <Loading />;
+  }
+
+  if (verificationStatus === "invalid" || !auth_token) {
     return <ErrorState />;
   }
 
