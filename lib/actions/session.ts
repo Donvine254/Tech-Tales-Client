@@ -44,6 +44,7 @@ export async function getEmailVerificationCookieData() {
   if (!token) {
     return null;
   }
+  const cookieStore = await cookies();
   try {
     const { payload } = await jose.jwtVerify(token, JWT_SECRET);
     return payload as { userId: number; email: string };
