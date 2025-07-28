@@ -425,7 +425,11 @@ blockquote p {
 }
 
 .toc-item a {
-  @apply text-sm text-foreground hover:underline transition-colors;
+  @apply text-sm text-foreground hover:underline transition-colors hover:text-blue-500;
+}
+.toc-item,
+.toc-item a {
+  text-decoration: none !important;
 }
 .toc-h1 {
   margin-left: 0;
