@@ -170,8 +170,7 @@ export const EditorSection: React.FC<EditorSectionProps> = ({
               },
             },
             image_advtab: true,
-            content_style:
-              "@import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap'); body { font-family: 'Spectral'; height: 'auto'; overflow: 'hidden'; }",
+            content_style: `@import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap'); body { font-family: 'Spectral'; height: 'auto'; overflow: 'hidden'; } .mce-toc {padding: 1rem;}.mce-toc .toc-title {font-size: 1.25rem;margin-bottom: 0.5rem;font-weight: bold;}.toc-wrapper {padding: 5px;display: flex;flex-direction: column;gap: 0.25rem;} .toc-h1 { margin-left: 0; font-weight: bold; }.toc-h2 { margin-left: 1.5rem; }.toc-h3 { margin-left: 3rem; font-style: italic; }.toc-h4 { margin-left: 4.5rem; }.toc-h5 { margin-left: 6rem; }.toc-h6 { margin-left: 7.5rem; }`,
             images_upload_handler: handleImageUpload,
             file_picker_types: "image",
             file_picker_callback: (
