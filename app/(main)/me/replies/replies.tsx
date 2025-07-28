@@ -176,11 +176,11 @@ export default function Replies({ data }: { data: UserComments }) {
               placeholder="Search comments..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
+              className="pl-10 bg-white dark:bg-gray-900"
             />
           </div>
           <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className="w-min sm:w-48 cursor-pointer">
+            <SelectTrigger className="w-min sm:w-48 cursor-pointer bg-white dark:bg-gray-900">
               <ListFilterIcon className="h-4 w-4" />
               <span className="hidden sm:inline">
                 <SelectValue placeholder="Sort by" />
