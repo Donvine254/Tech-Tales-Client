@@ -6,6 +6,7 @@ const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
 
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
+
   const isProtectedPath =
     path.startsWith("/me") ||
     path.startsWith("/my-blogs") ||
@@ -21,42 +22,36 @@ export async function middleware(request: NextRequest) {
 
   const token = request.cookies.get("token");
 
-  let userData = null;
+  try {
+    if (token) {
+      await jose.jwtVerify(token.value, JWT_SECRET);
 
-  if (token) {
-    try {
-      const { payload } = await jose.jwtVerify(token.value, JWT_SECRET);
-      userData = payload;
-    } catch (error) {
-      const e = error as Error;
-      console.error("Invalid token:", e.message);
+      if (isPublicPath) {
+        return NextResponse.redirect(new URL("/", request.url));
+      }
+    } else if (isProtectedPath) {
+      const response = NextResponse.redirect(new URL("/login", request.url));
+      response.cookies.set("post_login_redirect", path, {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+      });
+      return response;
+    }
+  } catch {
+    if (isProtectedPath) {
+      const response = NextResponse.redirect(new URL("/login", request.url));
+      response.cookies.set("post_login_redirect", path, {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+      });
+      return response;
     }
   }
 
-  const isAdmin = userData?.role == "admin";
-  // redirect users to homepage if they are not admin
-
-  if (path.startsWith("/admin") && !isAdmin) {
-    return NextResponse.redirect(new URL("/", request.nextUrl));
-  }
-  if (path === "/admin" && isAdmin) {
-    return NextResponse.redirect(new URL("/admin/dashboard", request.nextUrl));
-  }
-
-  if (isProtectedPath && !userData) {
-    const response = NextResponse.redirect(new URL("/login", request.url));
-    response.cookies.set("post_login_redirect", path, {
-      httpOnly: true,
-      sameSite: "lax",
-      path: "/",
-    });
-    return response;
-  } else if (userData && isPublicPath) {
-    //prevent users from visiting login page if they are already logged in
-    return NextResponse.redirect(new URL("/", request.url));
-  }
+  return NextResponse.next();
 }
-
 export const config = {
   matcher: [
     "/",
