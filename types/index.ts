@@ -1,5 +1,4 @@
 import { getUserComments } from "@/lib/actions/comments";
-import { fetchProfileData } from "@/lib/actions/user";
 import {
   Blog,
   Comment,
@@ -70,14 +69,23 @@ export interface SocialLink {
   platform: string;
   url: string;
 }
-export type UserProfileData = NonNullable<
-  Awaited<ReturnType<typeof fetchProfileData>>
->;
-export type UserComments = Awaited<ReturnType<typeof getUserComments>>;
-
 export type Preferences = {
   newsletter_subscription: boolean;
   cookies: boolean;
   analytics: boolean;
   email_notifications: boolean;
 };
+
+export interface UserProfileData {
+  id: number;
+  username: string;
+  email: string;
+  handle: string;
+  picture: string;
+  bio: string;
+  role: "admin" | "user";
+  branding: string;
+  skills: string;
+  preferences: Preferences;
+}
+export type UserComments = Awaited<ReturnType<typeof getUserComments>>;

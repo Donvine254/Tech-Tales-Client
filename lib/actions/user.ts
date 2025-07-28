@@ -2,9 +2,10 @@
 import { revalidateTag, unstable_cache } from "next/cache";
 import prisma from "@/prisma/prisma";
 import { Preferences, SocialLink } from "@/types";
-import { getSession } from "./session";
 import { Prisma, UserStatus } from "@prisma/client";
 import { createAndSetAuthTokenCookie } from "./jwt";
+import { redirect } from "next/navigation";
+import { isVerifiedUser } from "@/dal/auth-check";
 
 // function to getAllUserBlogs
 export const getUserBlogs = unstable_cache(
@@ -36,6 +37,9 @@ export const getUserBlogs = unstable_cache(
 
 export const getUserData = unstable_cache(
   async (userId: number) => {
+    if (!userId) {
+      redirect("/login");
+    }
     const user = await prisma.user.findUnique({
       where: { id: userId },
       select: {
@@ -92,6 +96,9 @@ export const getUserData = unstable_cache(
 );
 //function to get user profile data
 export async function fetchProfileData(id: number) {
+  if (!id) {
+    redirect("/login");
+  }
   try {
     const user = await prisma.user.findUnique({
       where: { id },
@@ -111,7 +118,7 @@ export async function fetchProfileData(id: number) {
     return user;
   } catch (error) {
     console.log(error);
-    return null;
+    return [];
   } finally {
     await prisma.$disconnect();
   }
@@ -120,9 +127,9 @@ export async function fetchProfileData(id: number) {
 // function to saveuser socials
 
 export async function updateSocials(data: SocialLink[]) {
-  const session = await getSession();
-  if (!session || !session.userId) {
-    return { success: false, message: "No logged-in user found" };
+  const session = await isVerifiedUser();
+  if (!session) {
+    redirect("/login");
   }
   try {
     const user = await prisma.user.update({
@@ -170,6 +177,9 @@ export async function updateUserDetails(
   userId: number,
   data: Partial<UpdateData>
 ) {
+  if (!userId) {
+    redirect("/login");
+  }
   try {
     const updatedUser = await prisma.user.update({
       where: {

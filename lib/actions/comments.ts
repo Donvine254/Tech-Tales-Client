@@ -1,7 +1,9 @@
 "use server";
+import { isVerifiedUser } from "@/dal/auth-check";
 import prisma from "@/prisma/prisma";
 import { CommentData } from "@/types";
 import { CommentStatus } from "@prisma/client";
+import { redirect } from "next/navigation";
 
 type CommentBody = {
   authorId: number;
@@ -14,6 +16,10 @@ export async function createComment(
   | { success: true; comment: CommentData; message: string }
   | { success: false; message: string }
 > {
+  const user = await isVerifiedUser();
+  if (!user) {
+    redirect("/login");
+  }
   if (!data.body || !data.authorId || !data.blogId) {
     return { success: false, message: "All entries are required" };
   }
@@ -58,6 +64,10 @@ export async function updateComment({
   | { success: true; comment: CommentData; message: string }
   | { success: false; message: string }
 > {
+  const user = await isVerifiedUser();
+  if (!user) {
+    redirect("/login");
+  }
   if (!id || !body.trim()) {
     return { success: false, message: "Comment ID and body are required." };
   }
@@ -93,6 +103,10 @@ export async function updateComment({
 }
 
 export async function deleteComment(id: number) {
+  const user = await isVerifiedUser();
+  if (!user) {
+    redirect("/login");
+  }
   if (!id) {
     return { success: false, message: "Comment ID is required." };
   }
@@ -113,6 +127,9 @@ export async function deleteComment(id: number) {
 
 // function to get user comments
 export async function getUserComments(userId: number) {
+  if (!userId) {
+    redirect("/login");
+  }
   try {
     const comments = await prisma.comment.findMany({
       where: { authorId: userId },

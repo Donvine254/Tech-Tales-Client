@@ -1,7 +1,15 @@
 import { NextResponse } from "next/server";
 import prisma from "@/prisma/prisma";
+import { isVerifiedUser } from "@/dal/auth-check";
 
 export async function GET(req: Request) {
+  const user = await isVerifiedUser();
+  if (!user) {
+    return NextResponse.json(
+      { message: "unauthorized request" },
+      { status: 401 }
+    );
+  }
   const { searchParams } = new URL(req.url);
 
   const orderByField = searchParams.get("orderBy") as
