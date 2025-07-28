@@ -21,7 +21,6 @@ import { useSession } from "@/providers/session";
 import { CakeIcon, ChartNoAxesColumn, MailIcon, Settings } from "lucide-react";
 import { cn, formatDate, formatViews } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
-import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { getUserData } from "@/lib/actions/user";
@@ -170,7 +169,7 @@ export default function Profile({
         </div>
         {/* two grid cards */}
         <div className="-mt-36">
-          {/* <MenuList isAdmin={session?.role === "admin"} /> */}
+          <MenuList isAdmin={session?.role === "admin"} />
           {/* <StatCards
             totalBlogs={user._count.blogs ?? 0}
             totalComments={user._count.comments}
@@ -394,8 +393,7 @@ export const StatCards: FC<{
 
 // menu list
 
-export const MenuList: FC<{ isAdmin: boolean }> = ({ isAdmin }) => {
-  const pathname = usePathname();
+export const MenuList = ({ isAdmin }: { isAdmin: boolean }) => {
   const menuItems = [
     { label: "Settings", icon: Edit, link: "/me/settings" },
     ...(isAdmin
@@ -418,20 +416,14 @@ export const MenuList: FC<{ isAdmin: boolean }> = ({ isAdmin }) => {
     <ScrollArea className="w-full whitespace-nowrap border-b border-border pb-2 mb-4 ">
       <div className="flex items-center mx-auto w-max gap-2">
         {menuItems.map((item, index) => {
-          const isActive = pathname === item.link;
           const Icon = item.icon;
           return (
             <div key={item.link} className="flex items-center">
               <Link
                 href={item.link}
-                className={cn(
-                  "flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium bg-secondary text-primary-foreground shadow-xs hover:bg-primary/90",
-                  "hover:bg-muted-foreground/10 hover:text-blue-500 transition-colors",
-                  isActive
-                    ? "bg-blue-100 text-blue-600 font-semibold"
-                    : "text-foreground"
-                )}>
-                <Icon className={cn("w-4 h-4", isActive && "text-blue-600")} />
+                className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium bg-secondary text-primary-foreground shadow-xs hover:bg-primary/90 hover:text-blue-500 transition-colors"
+                prefetch={false}>
+                <Icon className="size-4" />
                 <span>{item.label}</span>
               </Link>
               {index !== menuItems.length - 1 && (
