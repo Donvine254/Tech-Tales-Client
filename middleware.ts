@@ -68,7 +68,7 @@ export const config = {
     "/callback",
     "/api",
     "/api/me",
-    "/api/:path*",
+    "/api/blogs",
     "/api/my-blogs",
     "/me",
     "/me/:path*",

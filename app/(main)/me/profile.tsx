@@ -399,7 +399,13 @@ const MenuList: FC<{ isAdmin: boolean }> = ({ isAdmin }) => {
   const menuItems = [
     { label: "Settings", icon: Edit, link: "/me/settings" },
     ...(isAdmin
-      ? [{ label: "Dashboard", icon: Shield, link: "/dashboard" }]
+      ? [
+          {
+            label: "Dashboard",
+            icon: Shield,
+            link: "https://techtales-admin.vercel.app",
+          },
+        ]
       : []),
     { label: "My Blogs", icon: BookOpen, link: "/me/posts" },
     { label: "Replies", icon: MessageSquarePlus, link: "/me/replies" },
