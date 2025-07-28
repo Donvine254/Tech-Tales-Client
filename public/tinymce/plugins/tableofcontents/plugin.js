@@ -4,16 +4,15 @@ tinymce.PluginManager.add("tableofcontents", (editor) => {
     const tocContainer = document.createElement("div");
     tocContainer.className = "mce-toc";
     const tocHeading = "Table of Contents";
-
     // Use a unique heading class to avoid including it in the TOC
     tocContainer.innerHTML = `<h2 class="toc-title">${tocHeading}</h2>`;
-
     const tocWrapper = document.createElement("div");
     tocWrapper.className = "toc-wrapper";
 
     let h1Count = 0,
       h2Count = 0,
-      h3Count = 0;
+      h3Count = 0,
+      h4Count = 0;
 
     content.replace(
       /<(h[1-6])([^>]*)>(.*?)<\/\1>/gi,
@@ -43,15 +42,25 @@ tinymce.PluginManager.add("tableofcontents", (editor) => {
             numbering = `${h1Count}. `;
             break;
           case "h2":
+            if (h1Count === 0) h1Count = 1;
             h2Count++;
             numbering = `${h1Count}.${h2Count} `;
             break;
           case "h3":
+            if (h1Count === 0) h1Count = 1;
+            if (h2Count === 0) h2Count = 1;
             h3Count++;
             numbering = `${h1Count}.${h2Count}.${h3Count} `;
             break;
+          case "h4":
+            if (h1Count === 0) h1Count = 1;
+            if (h2Count === 0) h2Count = 1;
+            if (h3Count === 0) h3Count = 1;
+            h4Count++;
+            numbering = `${h1Count}.${h2Count}.${h3Count}.${h4Count} `;
+            break;
           default:
-            numbering = ""; // Optional: add support for h4-h6 numbering
+            numbering = "";
         }
 
         tocItem.innerHTML = `<a href="#${id}">${numbering}${text}</a>`;
@@ -77,6 +86,6 @@ tinymce.PluginManager.add("tableofcontents", (editor) => {
   editor.ui.registry.addMenuItem("tableofcontents", {
     text: "Table of contents",
     icon: "unordered-list",
-    onAction: () => insertOrUpdateTOC()
+    onAction: () => insertOrUpdateTOC(),
   });
 });

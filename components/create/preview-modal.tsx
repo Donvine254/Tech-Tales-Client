@@ -3,6 +3,7 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
+  DialogOverlay,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -134,6 +135,7 @@ export const PreviewDialog = ({
   };
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogOverlay className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm dark:bg-black/70 transition-all" />
       <DialogContent
         className="rounded-2xl shadow-2xl w-full min-w-[98%] max-w-7xl h-[90vh] p-0 gap-0"
         aria-describedby="preview modal">
@@ -208,7 +210,7 @@ export const PreviewDialog = ({
 
         {activeTab === "desktop" && (
           <div className="h-full hidden md:flex overflow-y-hidden w-full flex-col items-center justify-center">
-            <div className="mx-auto w-full max-w-[95%] h-[812px] mt-auto pb-auto bg-white dark:bg-accent/90 rounded-lg shadow-2xl overflow-hidden">
+            <div className="mx-auto w-full max-w-[95%] h-[812px] mt-auto pb-auto bg-background border border-border rounded-lg shadow-2xl overflow-hidden">
               {/* Browser Chrome */}
               <div className="h-12 bg-gray-100 dark:bg-accent border-b border-border flex items-center px-4 gap-3 flex-shrink-0">
                 {/* Traffic Lights */}

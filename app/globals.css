@@ -411,7 +411,7 @@ blockquote p {
 }
 /* styling to tinymce editor table of contents plugin */
 .mce-toc {
-  padding: 1rem;
+  padding: 0.5rem;
 }
 
 .mce-toc .toc-title {
@@ -421,10 +421,11 @@ blockquote p {
 }
 
 .toc-wrapper {
-  padding: 5px;
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
+  @apply px-1 py-2  flex flex-col gap-0.5 rounded-lg shadow w-full border border-border bg-muted;
+}
+
+.toc-item a {
+  @apply text-sm text-foreground hover:underline transition-colors;
 }
 .toc-h1 {
   margin-left: 0;
