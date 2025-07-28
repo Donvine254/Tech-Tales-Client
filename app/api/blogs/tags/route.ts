@@ -1,5 +1,5 @@
 import prisma from "@/prisma/prisma";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
@@ -12,11 +12,11 @@ export async function GET() {
 
     const uniqueTags = new Set();
 
-    blogs.forEach((blog: any) => {
+    blogs.forEach((blog) => {
       const tagsArray = (blog.tags ?? "")
         .split(",")
         .map((tag: string) => tag.trim())
-        .filter(tag => tag.length > 0); // remove empty tags
+        .filter((tag) => tag.length > 0); // remove empty tags
 
       tagsArray.forEach((tag: string) => uniqueTags.add(tag.toLowerCase()));
     });
@@ -25,9 +25,8 @@ export async function GET() {
 
     return NextResponse.json(tagsList);
   } catch (error) {
-    console.error("Error fetching tags:", error);
+    const e = error as Error;
+    console.log(e.message);
     return NextResponse.error();
   }
 }
-
-
