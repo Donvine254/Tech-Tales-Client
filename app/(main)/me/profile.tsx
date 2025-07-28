@@ -170,7 +170,7 @@ export default function Profile({
         </div>
         {/* two grid cards */}
         <div className="-mt-36">
-          <MenuList isAdmin={session?.role === "admin"} />
+          {/* <MenuList isAdmin={session?.role === "admin"} /> */}
           {/* <StatCards
             totalBlogs={user._count.blogs ?? 0}
             totalComments={user._count.comments}
@@ -394,7 +394,7 @@ export const StatCards: FC<{
 
 // menu list
 
-const MenuList: FC<{ isAdmin: boolean }> = ({ isAdmin }) => {
+export const MenuList: FC<{ isAdmin: boolean }> = ({ isAdmin }) => {
   const pathname = usePathname();
   const menuItems = [
     { label: "Settings", icon: Edit, link: "/me/settings" },

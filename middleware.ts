@@ -32,7 +32,9 @@ export async function middleware(request: NextRequest) {
       });
       return response;
     }
-  } catch {
+  } catch (error) {
+    const e = error as Error;
+    console.warn("Invalid token", e.message);
     if (isProtectedPath) {
       const response = NextResponse.redirect(new URL("/login", request.url));
       response.cookies.set("post_login_redirect", path, {

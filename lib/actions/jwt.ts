@@ -39,12 +39,12 @@ export async function createAndSetEmailVerificationCookie(payload: {
     email: payload.email,
   })
     .setProtectedHeader({ alg: "HS256" })
-    .setExpirationTime("24h")
+    .setExpirationTime("8h")
     .sign(JWT_SECRET);
 
   cookieStore.set("verify_email_token", token, {
     httpOnly: true,
-    maxAge: 30 * 60,
+    maxAge: 8 * 60 * 60,
     sameSite: "strict",
     secure: process.env.NODE_ENV === "production",
     path: "/",
