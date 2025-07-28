@@ -361,10 +361,10 @@ export const CommentItem: React.FC<Props> = ({
                       <DropdownMenuItem asChild>
                         <Button
                           variant="ghost"
-                          className="flex items-center cursor-pointer hover:text-red-600 justify-start w-full group"
+                          className="flex items-center cursor-pointer hover:text-green-600 justify-start w-full group"
                           onClick={() => handleUpdateCommentStatus("VISIBLE")}>
-                          <FlagOffIcon className="h-4 w-4 group-hover:text-red-500" />
-                          <span className="group-hover:text-red-500">
+                          <FlagOffIcon className="h-4 w-4 group-hover:text-green-500" />
+                          <span className="group-hover:text-green-500">
                             Unflag
                           </span>
                         </Button>
@@ -387,7 +387,7 @@ export const CommentItem: React.FC<Props> = ({
                           variant="ghost"
                           className="text-amber-600 flex items-center cursor-pointer hover:text-amber-600 justify-start w-full group"
                           onClick={() => handleUpdateCommentStatus("VISIBLE")}>
-                          <ArchiveIcon className="h-4 w-4 text-green-500" />
+                          <ArchiveX className="h-4 w-4 text-green-500" />
                           <span className="text-green-500">Unhide</span>
                         </Button>
                       </DropdownMenuItem>
@@ -397,7 +397,7 @@ export const CommentItem: React.FC<Props> = ({
                           variant="ghost"
                           className="text-amber-600 flex items-center cursor-pointer hover:text-amber-600 justify-start w-full group"
                           onClick={() => handleUpdateCommentStatus("HIDDEN")}>
-                          <ArchiveX className="h-4 w-4 text-amber-500" />
+                          <ArchiveIcon className="h-4 w-4 text-amber-500" />
                           <span className="text-amber-500">Hide</span>
                         </Button>
                       </DropdownMenuItem>
