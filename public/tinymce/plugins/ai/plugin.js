@@ -56,9 +56,7 @@ tinymce.PluginManager.add("ai", function (editor, url) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            message:
-              "This is a rich text editor for a blog. You are being asked to help generate a blog or edit some text. Make sure your response is in html format. No need to indicate the format in the response, just be direct",
-            body: data.prompt,
+            message: data.prompt,
           }),
         })
           .then((response) => response.json())
@@ -93,7 +91,7 @@ tinymce.PluginManager.add("ai", function (editor, url) {
   editor.ui.registry.addButton("ai", {
     icon: "ai",
     tooltip: "Ask AI",
-    shortcut:"meta+J",
+    shortcut: "meta+J",
     onAction: function () {
       openDialog();
     },
@@ -123,10 +121,11 @@ const insertContent = (responseData) => {
 
 const displayLoadingIndicator = () => {
   const result = document.getElementById("ai-response-container");
-  result.innerHTML = `<div id="loading-indicator" style="width:100%; display:flex; flex-direction:column; gap:0.5rem;">
- <div class="loading-bar" style="height:11px; width:100%; border-radius: 0.135rem; background: linear-gradient(to right, #4285f4, #242424,#4285f4); animation: gradientAnimation 3s linear infinite;"></div>
-<div class="loading-bar" style="height:11px; width:100%; border-radius: 0.135rem; background: linear-gradient(to right, #4285f4, #242424,#4285f4); animation: gradientAnimation 3s linear infinite;"></div>
-<div class="loading-bar" style="height:11px; width:100%; border-radius: 0.135rem; background: linear-gradient(to right, #4285f4, #242424,#4285f4); animation: gradientAnimation 3s linear infinite;"></div>
-<div class="loading-bar" style="height:11px; width:70%; border-radius: 0.135rem; background: linear-gradient(to right, #4285f4, #242424,#4285f4); animation: gradientAnimation 3s linear infinite;"></div>
-</div>`;
+  result.innerHTML = `
+    <div id="loading-indicator" style="width:100%; display:flex; flex-direction:column; gap:0.5rem;">
+      <div class="loading-bar" style="height:11px; width:100%; border-radius: 0.135rem; background: linear-gradient(to right, #4285f4, #242424, #4285f4); background-size: 200% 200%; animation: gradientAnimation 3s linear infinite;"></div>
+      <div class="loading-bar" style="height:11px; width:100%; border-radius: 0.135rem; background: linear-gradient(to right, #4285f4, #242424, #4285f4); background-size: 200% 200%; animation: gradientAnimation 3s linear infinite;"></div>
+      <div class="loading-bar" style="height:11px; width:100%; border-radius: 0.135rem; background: linear-gradient(to right, #4285f4, #242424, #4285f4); background-size: 200% 200%; animation: gradientAnimation 3s linear infinite;"></div>
+      <div class="loading-bar" style="height:11px; width:70%; border-radius: 0.135rem; background: linear-gradient(to right, #4285f4, #242424, #4285f4); background-size: 200% 200%; animation: gradientAnimation 3s linear infinite;"></div>
+    </div>`;
 };

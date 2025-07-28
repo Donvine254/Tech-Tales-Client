@@ -1,13 +1,18 @@
-// prisma.js
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 
-const globalForPrisma = global;
+const client = new PrismaClient().$extends(withAccelerate());
 
-let prisma;
-if (!globalForPrisma.prisma) {
-  globalForPrisma.prisma = new PrismaClient().$extends(withAccelerate());
+type ExtendedPrismaClient = typeof client;
+
+declare global {
+  var prisma: ExtendedPrismaClient | undefined;
 }
-prisma = globalForPrisma.prisma;
 
-export default prisma;
+const prisma = globalThis.prisma ?? client;
+
+if (process.env.NODE_ENV !== "production") {
+  globalThis.prisma = prisma;
+}
+
+export default prisma as ExtendedPrismaClient;

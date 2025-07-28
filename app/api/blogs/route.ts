@@ -1,92 +1,47 @@
-import { decodeUserToken } from "@/lib/decodeToken";
+import { NextResponse } from "next/server";
 import prisma from "@/prisma/prisma";
-import { NextRequest, NextResponse } from "next/server";
 
-type Blog = {
-  authorId: number;
-  title: string;
-  body: string;
-  slug?: string;
-  image?: string;
-  tags?: string;
-};
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
 
-export async function GET(req: NextRequest, res: NextResponse) {
+  const orderByField = searchParams.get("orderBy") as
+    | "createdAt"
+    | "views"
+    | "likes"
+    | null;
+
+  const limitParam = searchParams.get("limit");
+  if (limitParam !== null) {
+    const parsed = parseInt(limitParam, 10);
+    if (isNaN(parsed) || parsed <= 0) {
+      return NextResponse.json(
+        { error: "Invalid 'limit' param" },
+        { status: 400 }
+      );
+    }
+  }
+
+  const limit = limitParam !== null ? parseInt(limitParam, 10) : undefined;
+
   try {
     const blogs = await prisma.blog.findMany({
-      where: {
-        status: "PUBLISHED",
-      },
+      where: { status: "PUBLISHED" },
       include: {
-        author: {
-          select: {
-            username: true,
-            picture: true,
-          },
-        },
-        _count: {
-          select: {
-            comments: true,
-          },
-        },
+        author: { select: { username: true, picture: true } },
+        _count: { select: { comments: true } },
       },
-      cacheStrategy: { ttl: 60 },
+      ...(orderByField && {
+        orderBy: { [orderByField]: "desc" },
+      }),
+      ...(limit && { take: limit }),
     });
 
-    // Format blogs data if needed
-
-    return NextResponse.json(blogs, { status: 200 });
+    return NextResponse.json(blogs);
   } catch (error) {
-    console.error("Error fetching blogs:", error);
-
+    console.error("Failed to fetch blogs:", error);
     return NextResponse.json(
-      { error: "An error occurred while fetching blogs." },
+      { error: "Internal Server Error" },
       { status: 500 }
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }
-
-export async function POST(req: NextRequest, res: NextResponse) {
-  const { authorId, title, image, slug, body, tags } =
-    (await req.json()) as Blog;
-
-  try {
-    await prisma.blog.create({
-      data: {
-        authorId,
-        title,
-        image,
-        slug,
-        body,
-        tags,
-      },
-      select: {
-        id: true,
-      },
-    });
-    return NextResponse.json(
-      { message: "Blog created successfully" },
-      { status: 201 }
-    );
-  } catch (error) {
-    console.error(error);
-    if (error.code === "P2002") {
-      return NextResponse.json(
-        {
-          error:
-            "A blog with similar title exists, kindly choose a different title!",
-        },
-        { status: 409 }
-      );
-    } else
-      return NextResponse.json(
-        { error: "An error occurred while creating the blog." },
-        { status: 500 }
-      );
-  } finally {
-    await prisma.$disconnect();
-  }
-}
-

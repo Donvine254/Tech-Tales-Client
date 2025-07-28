@@ -9,9 +9,10 @@ export async function middleware(request: NextRequest) {
   const isProtectedPath =
     path.startsWith("/me") ||
     path.startsWith("/my-blogs") ||
-    path.startsWith("/create") ||
+    path.startsWith("/posts") ||
     path.startsWith("/admin") ||
-    path.startsWith("/api");
+    path.startsWith("/api") ||
+    path.startsWith("/me/settings");
 
   const isPublicPath =
     path.startsWith("/login") ||
@@ -27,7 +28,8 @@ export async function middleware(request: NextRequest) {
       const { payload } = await jose.jwtVerify(token.value, JWT_SECRET);
       userData = payload;
     } catch (error) {
-      console.error("Invalid token:", error.message);
+      const e = error as Error;
+      console.error("Invalid token:", e.message);
     }
   }
 
@@ -38,19 +40,20 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/", request.nextUrl));
   }
   if (path === "/admin" && isAdmin) {
-    return NextResponse.redirect(
-      new URL("/admin/dashboard?tab=0", request.nextUrl)
-    );
+    return NextResponse.redirect(new URL("/admin/dashboard", request.nextUrl));
   }
 
   if (isProtectedPath && !userData) {
-    const redirectPath = path.slice(1);
-    return NextResponse.redirect(
-      new URL(`/login?post_login_redirect_url=${redirectPath}`, request.nextUrl)
-    );
+    const response = NextResponse.redirect(new URL("/login", request.url));
+    response.cookies.set("post_login_redirect", path, {
+      httpOnly: true,
+      sameSite: "lax",
+      path: "/",
+    });
+    return response;
   } else if (userData && isPublicPath) {
     //prevent users from visiting login page if they are already logged in
-    return NextResponse.redirect(new URL("/", request.nextUrl));
+    return NextResponse.redirect(new URL("/", request.url));
   }
 }
 
@@ -58,12 +61,14 @@ export const config = {
   matcher: [
     "/",
     "/login",
-    "/signup",
-    "/create",
+    "/register",
+    "/posts/new",
+    "/posts/:path*",
     "/register",
     "/callback",
     "/api",
     "/api/me",
+    "/api/blogs",
     "/api/my-blogs",
     "/me",
     "/me/:path*",

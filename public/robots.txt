@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://techtales.vercel.app
+
+# Sitemaps
+Sitemap: https://techtales.vercel.app/sitemap.xml
