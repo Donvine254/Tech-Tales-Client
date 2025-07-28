@@ -42,32 +42,28 @@ tinymce.PluginManager.add("tableofcontents", (editor) => {
             numbering = `${h1Count}. `;
             break;
           case "h2":
-            if (h1Count === 0) h1Count = 1;
             h2Count++;
-            numbering = `${h1Count}.${h2Count} `;
+            numbering = `${h1Count > 0 ? h1Count + "." : ""}${h2Count} `;
             break;
           case "h3":
-            if (h1Count === 0) h1Count = 1;
-            if (h2Count === 0) h2Count = 1;
             h3Count++;
-            numbering = `${h1Count}.${h2Count}.${h3Count} `;
+            numbering = `${h1Count > 0 ? h1Count + "." : ""}${
+              h2Count > 0 ? h2Count + "." : ""
+            }${h3Count} `;
             break;
           case "h4":
-            if (h1Count === 0) h1Count = 1;
-            if (h2Count === 0) h2Count = 1;
-            if (h3Count === 0) h3Count = 1;
             h4Count++;
-            numbering = `${h1Count}.${h2Count}.${h3Count}.${h4Count} `;
+            numbering = `${h1Count > 0 ? h1Count + "." : ""}${
+              h2Count > 0 ? h2Count + "." : ""
+            }${h3Count > 0 ? h3Count + "." : ""}${h4Count} `;
             break;
           default:
             numbering = "";
         }
-
         tocItem.innerHTML = `<a href="#${id}">${numbering}${text}</a>`;
         tocWrapper.appendChild(tocItem);
       }
     );
-
     tocContainer.appendChild(tocWrapper);
     return tocContainer.outerHTML;
   };
