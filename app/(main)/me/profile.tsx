@@ -402,14 +402,35 @@ export const MenuList = ({ isAdmin }: { isAdmin: boolean }) => {
             label: "Dashboard",
             icon: Shield,
             link: "https://techtales-admin.vercel.app",
+            target: "_blank",
           },
         ]
       : []),
-    { label: "My Blogs", icon: BookOpen, link: "/me/posts" },
-    { label: "Replies", icon: MessageSquarePlus, link: "/me/replies" },
-    { label: "Reading List", icon: Heart, link: "/me/library" },
-    { label: "History", icon: HistoryIcon, link: "/me/history" },
-    { label: "Sign Out", icon: LogOutIcon, link: "/api/auth/logout" },
+    { label: "My Blogs", icon: BookOpen, link: "/me/posts", target: "_self" },
+    {
+      label: "Replies",
+      icon: MessageSquarePlus,
+      link: "/me/replies",
+      target: "_self",
+    },
+    {
+      label: "Reading List",
+      icon: Heart,
+      link: "/me/library",
+      target: "_self",
+    },
+    {
+      label: "History",
+      icon: HistoryIcon,
+      link: "/me/history",
+      target: "_self",
+    },
+    {
+      label: "Sign Out",
+      icon: LogOutIcon,
+      link: "/api/auth/logout",
+      target: "_self",
+    },
   ];
 
   return (
@@ -417,11 +438,17 @@ export const MenuList = ({ isAdmin }: { isAdmin: boolean }) => {
       <div className="flex items-center mx-auto w-max gap-2">
         {menuItems.map((item, index) => {
           const Icon = item.icon;
+          const isDestructive = item.label === "Sign Out";
           return (
             <div key={item.link} className="flex items-center">
               <Link
                 href={item.link}
-                className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium bg-secondary text-primary-foreground shadow-xs hover:bg-primary/90 hover:text-blue-500 transition-colors"
+                className={cn(
+                  "flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium hover:underline hover:underline-offset-4 shadow-xs hover:text-blue-500 transition-colors",
+                  isDestructive && "hover:text-destructive"
+                )}
+                target={item.target}
+                title={item.label}
                 prefetch={false}>
                 <Icon className="size-4" />
                 <span>{item.label}</span>
