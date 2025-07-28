@@ -20,7 +20,7 @@ export async function createAndSetAuthTokenCookie(user: AuthUser) {
   cookieStore.set("token", token, {
     httpOnly: true,
     maxAge: 8 * 60 * 60,
-    sameSite: "strict",
+    sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
     path: "/",
   });

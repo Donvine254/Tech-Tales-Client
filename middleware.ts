@@ -9,19 +9,13 @@ export async function middleware(request: NextRequest) {
 
   const isProtectedPath =
     path.startsWith("/me") ||
-    path.startsWith("/my-blogs") ||
     path.startsWith("/posts") ||
-    path.startsWith("/admin") ||
-    path.startsWith("/api") ||
-    path.startsWith("/me/settings");
+    path.startsWith("/api");
 
   const isPublicPath =
-    path.startsWith("/login") ||
-    path.startsWith("/register") ||
-    path.startsWith("/callback");
+    path.startsWith("/login") || path.startsWith("/register");
 
   const token = request.cookies.get("token");
-
   try {
     if (token) {
       await jose.jwtVerify(token.value, JWT_SECRET);
