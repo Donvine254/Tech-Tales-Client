@@ -1,5 +1,5 @@
 "use server";
-import { unstable_cache } from "next/cache";
+import { revalidatePath, unstable_cache } from "next/cache";
 import prisma from "@/prisma/prisma";
 import { getSession } from "./session";
 import { BlogData } from "@/types";
@@ -294,6 +294,13 @@ export async function updateBlogStatus(status: BlogStatus, blogId: number) {
         status: status,
       },
     });
+    revalidateTag("author-blogs");
+    revalidateTag("user-blogs");
+    revalidateTag("featured");
+    revalidateTag("latest");
+    revalidateTag("trending");
+    revalidateTag("blogs");
+    revalidatePath("/me/posts");
     return {
       success: true,
       message: "Blog status updated successfully",
@@ -305,8 +312,6 @@ export async function updateBlogStatus(status: BlogStatus, blogId: number) {
       message: "Record to update not found",
     };
   } finally {
-    revalidateTag("author-blogs");
-    revalidateTag("user-blogs");
     await prisma.$disconnect();
   }
 }

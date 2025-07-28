@@ -8,7 +8,11 @@ tinymce.PluginManager.add("tableofcontents", (editor) => {
     tocContainer.innerHTML = `<h2 class="toc-title">${tocHeading}</h2>`;
     const tocWrapper = document.createElement("div");
     tocWrapper.className = "toc-wrapper";
-
+    function formatNumbering(...levels) {
+      return (
+        levels.filter((n) => typeof n === "number" && n > 0).join(".") + ". "
+      );
+    }
     let h1Count = 0,
       h2Count = 0,
       h3Count = 0,
@@ -39,23 +43,28 @@ tinymce.PluginManager.add("tableofcontents", (editor) => {
             h1Count++;
             h2Count = 0;
             h3Count = 0;
-            numbering = `${h1Count}. `;
+            numbering = formatNumbering(h1Count);
             break;
           case "h2":
             h2Count++;
-            numbering = `${h1Count > 0 ? h1Count + "." : ""}${h2Count} `;
+            numbering = formatNumbering(h1Count > 0 ? h1Count : null, h2Count);
             break;
           case "h3":
             h3Count++;
-            numbering = `${h1Count > 0 ? h1Count + "." : ""}${
-              h2Count > 0 ? h2Count + "." : ""
-            }${h3Count} `;
+            numbering = formatNumbering(
+              h1Count > 0 ? h1Count : null,
+              h2Count > 0 ? h2Count : null,
+              h3Count
+            );
             break;
           case "h4":
             h4Count++;
-            numbering = `${h1Count > 0 ? h1Count + "." : ""}${
-              h2Count > 0 ? h2Count + "." : ""
-            }${h3Count > 0 ? h3Count + "." : ""}${h4Count} `;
+            numbering = formatNumbering(
+              h1Count > 0 ? h1Count : null,
+              h2Count > 0 ? h2Count : null,
+              h3Count > 0 ? h3Count : null,
+              h4Count
+            );
             break;
           default:
             numbering = "";
