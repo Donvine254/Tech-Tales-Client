@@ -243,7 +243,7 @@ export async function deleteUserAccount(
       if (!keepComments) {
         await prisma.comment.updateMany({
           where: { authorId: user.id },
-          data: { status: "HIDDEN" },
+          data: { status: "ARCHIVED" },
         });
       }
       await sendDeleteNotificationEmail(

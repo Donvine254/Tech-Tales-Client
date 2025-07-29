@@ -123,4 +123,5 @@ enum CommentStatus {
   VISIBLE
   FLAGGED
   HIDDEN
+  ARCHIVED
 }

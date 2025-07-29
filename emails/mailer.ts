@@ -87,7 +87,7 @@ export const sendDeleteNotificationEmail = async (
   keepComments: boolean
 ) => {
   // create a restore token
-  const token = createAccountActionsToken(
+  const token = await createAccountActionsToken(
     {
       id: id,
       username: name,

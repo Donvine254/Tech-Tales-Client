@@ -18,6 +18,9 @@ import { toast } from "sonner";
 import WarningDialog from "@/components/modals/warning-dialog";
 import { useRouter } from "next/navigation";
 import { Checkbox } from "@/components/ui/checkbox";
+import { deleteUserAccount } from "@/lib/actions/user";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import SuccessDialog from "@/components/modals/success-dialog";
 
 export default function SecurityAccount({ userId }: { userId: number }) {
   const [passwords, setPasswords] = useState({
@@ -95,15 +98,6 @@ export default function SecurityAccount({ userId }: { userId: number }) {
     passwords.confirm.trim() !== "";
   const newMismatch =
     passwords.new && passwords.confirm && passwords.new !== passwords.confirm;
-  // function to handle account deletion
-  async function handleAccountDeletion(
-    keepBlogs: boolean,
-    keepComments: boolean
-  ) {
-    await new Promise((resolve) => setTimeout(resolve, 10000));
-    toast.info("careful what you wish for");
-    console.log(keepBlogs, keepComments);
-  }
   return (
     <div className="py-4 sm:p-6 lg:p-8 space-y-6">
       <div className="mb-8">
@@ -262,7 +256,7 @@ export default function SecurityAccount({ userId }: { userId: number }) {
                 Permanently delete your account and all associated data.
               </p>
             </div>
-            <DeleteAccountButton onDelete={handleAccountDeletion} />
+            <DeleteAccountButton router={router} />
           </div>
         </div>
       </div>
@@ -297,14 +291,20 @@ const DeactivateButton = ({ onDeactivate }: { onDeactivate: () => void }) => {
   );
 };
 
-const DeleteAccountButton = ({
-  onDelete,
-}: {
-  onDelete: (keepBlogs: boolean, keepComments: boolean) => void;
-}) => {
+const DeleteAccountButton = ({ router }: { router: AppRouterInstance }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [open, setOpen] = useState(false);
   const [keepBlogs, setKeepBlogs] = useState(true); // ✅ default: checked
   const [keepComments, setKeepComments] = useState(false);
+
+  async function handleAccountDeletion() {
+    const res = await deleteUserAccount(keepBlogs, keepComments);
+    if (res.success) {
+      setOpen(true);
+    } else {
+      toast.error(res.message);
+    }
+  }
   return (
     <>
       <Button
@@ -319,7 +319,7 @@ const DeleteAccountButton = ({
         setIsOpen={setShowDeleteModal}
         variant="destructive"
         onClose={() => setShowDeleteModal(false)}
-        onConfirm={() => onDelete(keepBlogs, keepComments)}
+        onConfirm={handleAccountDeletion}
         title="Confirm Account Deletion"
         description="This action is irreversible. Your account will be recoverable for the next 30 days. After that period, all associated data will be permanently deleted."
         buttonText="Delete Forever">
@@ -367,6 +367,13 @@ const DeleteAccountButton = ({
           </div>
         </div>
       </WarningDialog>
+      <SuccessDialog
+        isOpen={open}
+        setIsOpen={setOpen}
+        title="Account deleted successfully"
+        onClose={() => router.push("/api/auth/logout")}
+        description="Your account has been deleted. A recovery link has been sent to your email incase you change your mind."
+      />
     </>
   );
 };

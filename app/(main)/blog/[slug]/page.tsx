@@ -54,6 +54,7 @@ async function getData(slug: string) {
           },
         },
         comments: {
+          where: { status: { not: "ARCHIVED" } },
           include: {
             author: {
               select: {
