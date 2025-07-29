@@ -30,6 +30,7 @@ import {
 import { CommentStatus } from "@prisma/client";
 import { UserComments } from "@/types";
 import { toast } from "sonner";
+import { updateCommentStatus } from "@/lib/actions/comments";
 
 const COMMENTS_PER_PAGE = 10;
 
@@ -47,6 +48,30 @@ export default function Replies({ data }: { data: UserComments }) {
   const handleDelete = (commentId: number) => {
     setComments((prev) => prev.filter((c) => c.id !== commentId));
     toast.success("Comment deleted successfully");
+  };
+  const handleUpdateStatus = async (
+    commentId: number,
+    initialStatus: CommentStatus
+  ) => {
+    // ✅ Optimistically update the status to "VISIBLE"
+    setComments((prev) =>
+      prev.map((comment) =>
+        comment.id === commentId ? { ...comment, status: "VISIBLE" } : comment
+      )
+    );
+    // await database response
+    const res = await updateCommentStatus(commentId, "VISIBLE");
+    if (!res.success) {
+      // ❌ Revert optimistic update if it fails
+      setComments((prev) =>
+        prev.map((comment) =>
+          comment.id === commentId
+            ? { ...comment, status: initialStatus ?? "VISIBLE" }
+            : comment
+        )
+      );
+      toast.error("Failed to update comment status");
+    }
   };
 
   const filterByStatus = (status: CommentStatus) =>
@@ -221,6 +246,7 @@ export default function Replies({ data }: { data: UserComments }) {
                       key={comment.id}
                       comment={comment}
                       onDelete={() => handleDelete(comment.id)}
+                      onUpdate={handleUpdateStatus}
                     />
                   ))}
                 </div>

@@ -27,9 +27,10 @@ import { Skeleton } from "../ui/skeleton";
 interface CommentCardProps {
   comment: UserComments[number];
   onDelete: (commentId: number) => void;
+  onUpdate: (commentId: number, commentStatus: CommentStatus) => void;
 }
 
-export function CommentCard({ comment, onDelete }: CommentCardProps) {
+export function CommentCard({ comment, onDelete, onUpdate }: CommentCardProps) {
   const [isMounted, setIsMounted] = useState(false);
   const canEdit = comment.status === CommentStatus.VISIBLE;
   const isEdited =
@@ -80,7 +81,9 @@ export function CommentCard({ comment, onDelete }: CommentCardProps) {
               )}
               {comment.status === "ARCHIVED" && (
                 // TODO: Add functionality to restore the comment
-                <DropdownMenuItem className="hover:bg-green-500 hover:text-white">
+                <DropdownMenuItem
+                  className="hover:bg-green-500 hover:text-white"
+                  onClick={() => onUpdate(comment.id, comment.status)}>
                   <ArchiveRestoreIcon className="size-4 mr-2" />
                   Restore Comment
                 </DropdownMenuItem>

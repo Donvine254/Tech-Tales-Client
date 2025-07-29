@@ -290,7 +290,7 @@ export async function deleteUserAccount(
   }
   try {
     // If keep blogs and comments is true, anonymize user information,
-    //set the username to Deleted_User_${userId} and handle to deleted_user_${userId}, set picture to null and remove the email
+    //set the username to Deleted_User_${userId} and handle to deleted_user_${userId}, set picture https://res.cloudinary.com/dipkbpinx/image/upload/v1753816613/tech-tales/profile-pictures/riz5bhogidwpj9yvjzup.jpg to null and remove the email
     const user = await prisma.user.update({
       where: {
         id: Number(session.userId),
