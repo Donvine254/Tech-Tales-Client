@@ -277,8 +277,6 @@ export async function deactivateUserAccount(
 }
 
 /* function to permanently delete user account and associated data */
-/* function to soft delete user account and make it possible for users to restore their accounts within 30 days */
-// TODO: MODIFY THIS FUNCTION
 export async function deleteUserAccount(
   keepBlogs: boolean,
   keepComments: boolean
@@ -301,25 +299,25 @@ export async function deleteUserAccount(
       return { success: false, message: "User not found" };
     }
     // Reassign content if user choses to keep them as per GDPR/CCPA rules. We reassign to a deleted user in the database with ID of 49.
-    setImmediate(async () => {
-      if (keepBlogs) {
-        await prisma.blog.updateMany({
-          where: { authorId: user.id },
-          data: { authorId: DELETED_USER_ID },
-        });
-      }
+    if (keepBlogs) {
+      await prisma.blog.updateMany({
+        where: { authorId: user.id },
+        data: { authorId: DELETED_USER_ID },
+      });
+    }
 
-      if (keepComments) {
-        await prisma.comment.updateMany({
-          where: { authorId: user.id },
-          data: { authorId: DELETED_USER_ID },
-        });
-      }
+    if (keepComments) {
+      await prisma.comment.updateMany({
+        where: { authorId: user.id },
+        data: { authorId: DELETED_USER_ID },
+      });
       await prisma.response.updateMany({
         where: { authorId: user.id },
         data: { authorId: DELETED_USER_ID },
       });
+    }
 
+    setImmediate(async () => {
       await sendDeleteNotificationEmail(
         user.username,
         user.email,

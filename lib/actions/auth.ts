@@ -432,12 +432,12 @@ export async function restoreAccount(token: string): Promise<{
       },
     });
     setImmediate(async () => {
-      // Archive blog posts
+      // Unarchive blog posts
       await prisma.blog.updateMany({
         where: { authorId: Number(userId), status: "ARCHIVED" },
         data: { status: "PUBLISHED" },
       });
-      // Archive comments
+      // Unarchive comments
       await prisma.comment.updateMany({
         where: { authorId: Number(userId) },
         data: { show: true },
