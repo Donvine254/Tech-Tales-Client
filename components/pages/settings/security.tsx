@@ -246,9 +246,11 @@ export default function SecurityAccount({
             representing that you have all necessary rights and permissions to
             receive the content included in the file.
           </p>
-          <Button className="bg-blue-500 text-white hover:bg-blue-600 hover:text-white">
-            Export Your Data
-          </Button>
+          <Link passHref href="/api/user/export-data" download>
+            <Button className="bg-blue-500 text-white hover:bg-blue-600 hover:text-white">
+              Export Your Data
+            </Button>
+          </Link>
         </div>
         {/* Account Actions */}
         <hr />
