@@ -96,14 +96,14 @@ export const BlogCardDropdown = ({
               </Link>
             )}
             {/* TODO: ADD LOGIC TO LOCK AND UNLOCK DISCUSSION */}
-            {showComments ? (
+            {!showComments ? (
               <DropdownMenuItem>
-                <LockIcon className="h-4 w-4" />
+                <LockIcon className="h-4 w-4 mr-2" />
                 Lock Discussion
               </DropdownMenuItem>
             ) : (
               <DropdownMenuItem>
-                <LockOpenIcon className="h-4 w-4" />
+                <LockOpenIcon className="h-4 w-4 mr-2" />
                 Unlock Discussion
               </DropdownMenuItem>
             )}
