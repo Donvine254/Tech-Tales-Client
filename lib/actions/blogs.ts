@@ -224,14 +224,14 @@ export const getAllBlogs = unstable_cache(
   { revalidate: 6000 }
 );
 
-// function to get blogs by author handle
+/*This function gets user blogs based on their handles or publish a blog*/
 export const getUserAndBlogsByHandle = unstable_cache(
   async (handle: string) => {
     if (!handle) {
       throw new Error("Kindly provide a handle first");
     }
     const user = await prisma.user.findFirst({
-      where: { handle },
+      where: { handle, deactivated: false },
       select: {
         id: true,
         username: true,
@@ -285,7 +285,7 @@ export const getUserAndBlogsByHandle = unstable_cache(
     tags: ["user-blogs"],
   }
 );
-
+/*This function only updates the blog status and can be used to archive or publish a blog*/
 export async function updateBlogStatus(status: BlogStatus, blogId: number) {
   try {
     await prisma.blog.update({

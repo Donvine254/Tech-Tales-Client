@@ -9,6 +9,14 @@ export const metadata = {
 export async function generateStaticParams() {
   try {
     const blogs = await prisma.blog.findMany({
+      where: {
+        author: {
+          // ✅ Only include blogs with non-deactivated authors
+          is: {
+            deactivated: false,
+          },
+        },
+      },
       select: {
         author: {
           select: {
