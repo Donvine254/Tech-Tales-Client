@@ -56,6 +56,7 @@ type UpdateCommentInput = {
   id: number;
   body: string;
 };
+/*This function updates comment body*/
 
 export async function updateComment({
   id,
@@ -101,7 +102,7 @@ export async function updateComment({
     await prisma.$disconnect();
   }
 }
-
+/*This function allows users to delete comments. Can be used by both users and admins*/
 export async function deleteComment(id: number) {
   const user = await isVerifiedUser();
   if (!user) {
@@ -125,14 +126,14 @@ export async function deleteComment(id: number) {
   }
 }
 
-// function to get user comments
+/*This function returns all comments associated with the user*/
 export async function getUserComments(userId: number) {
   if (!userId) {
     redirect("/login");
   }
   try {
     const comments = await prisma.comment.findMany({
-      where: { authorId: userId },
+      where: { authorId: userId, show: true },
       include: {
         blog: {
           select: {
@@ -156,7 +157,7 @@ export async function getUserComments(userId: number) {
     await prisma.$disconnect();
   }
 }
-// function to flag a comment
+/*This function only updates the comment status and can be used to archive or flag a comment*/
 export async function updateCommentStatus(id: number, status: CommentStatus) {
   if (!id || !status) {
     return { success: false, message: "Comment ID and status are required" };

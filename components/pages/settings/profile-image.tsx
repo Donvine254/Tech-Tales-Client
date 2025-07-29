@@ -67,7 +67,7 @@ export default function ProfileImageUploader({
     const imageUrl = res.data.secure_url;
     toast.success("Image uploaded successfully");
     onImageUpload(imageUrl);
-    const userUpdateRes = await updateUserDetails(userId, {
+    const userUpdateRes = await updateUserDetails( {
       picture: imageUrl,
     });
     if (userUpdateRes.success && userUpdateRes.user) {

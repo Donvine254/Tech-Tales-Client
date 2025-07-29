@@ -8,7 +8,6 @@ import { toast } from "sonner";
 
 export default function Notifications({
   initialData,
-  userId,
 }: {
   initialData: Preferences;
   userId: number;
@@ -54,7 +53,7 @@ export default function Notifications({
     }
     setIsSubmitting(true);
     const toastId = toast.loading("Processing request..");
-    const res = await updateUserDetails(userId, { preferences: preferences });
+    const res = await updateUserDetails({ preferences: preferences });
     toast.dismiss(toastId);
     setIsSubmitting(false);
     if (res.success && res.user) {

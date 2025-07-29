@@ -99,14 +99,15 @@ export const getUserData = unstable_cache(
     tags: ["user-blogs"],
   }
 );
-//This function returns user data for the settings page
-export async function fetchProfileData(id: number) {
-  if (!id) {
+/*This function all user data associated with a given user for the profile page*/
+export async function fetchProfileData() {
+  const session = await isVerifiedUser();
+  if (!session) {
     redirect("/login");
   }
   try {
     const user = await prisma.user.findUnique({
-      where: { id, deactivated: false },
+      where: { id: session.userId, deactivated: false },
       select: {
         id: true,
         username: true,
@@ -131,7 +132,7 @@ export async function fetchProfileData(id: number) {
   }
 }
 
-// function to saveuser socials
+/*This function only handles updating user social media links*/
 
 export async function updateSocials(data: SocialLink[]) {
   const session = await isVerifiedUser();
@@ -165,7 +166,7 @@ export async function updateSocials(data: SocialLink[]) {
   }
 }
 
-// fuction to update user details
+/*This function helps update user details and can receive any type of field*/
 type UpdateData = {
   username: string;
   handle: string;
@@ -182,17 +183,15 @@ type UpdateData = {
   keep_comments_on_delete?: boolean;
 };
 
-export async function updateUserDetails(
-  userId: number,
-  data: Partial<UpdateData>
-) {
-  if (!userId) {
+export async function updateUserDetails(data: Partial<UpdateData>) {
+  const session = await isVerifiedUser();
+  if (!session) {
     redirect("/login");
   }
   try {
     const updatedUser = await prisma.user.update({
       where: {
-        id: userId,
+        id: session.userId,
       },
       data,
       select: {

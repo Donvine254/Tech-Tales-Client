@@ -315,3 +315,4 @@ export async function updateBlogStatus(status: BlogStatus, blogId: number) {
     await prisma.$disconnect();
   }
 }
+/*This function only updates the blog status and can be used to archive or publish a blog*/
