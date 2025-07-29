@@ -109,7 +109,7 @@ export function GoogleOneTapLogin() {
           if (result.error === "User not found") {
             toast.error(result.error);
             router.replace(
-              `/login/account_not_found?action=login&token=${credentialResponse.credential}`
+              `/login/?action=login&token=${credentialResponse.credential}`
             );
           }
           toast.error(result.error);
