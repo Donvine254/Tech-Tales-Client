@@ -5,6 +5,7 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
+  DialogOverlay,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
@@ -122,6 +123,7 @@ export function ShareModal({
   };
   return (
     <Dialog>
+      <DialogOverlay className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm dark:bg-black/70 transition-all" />
       <DialogTrigger>
         <TooltipProvider>
           <Tooltip>

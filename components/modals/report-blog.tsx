@@ -6,6 +6,7 @@ import {
   Dialog,
   DialogContent,
   DialogHeader,
+  DialogOverlay,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
@@ -53,6 +54,7 @@ export default function BlogReportDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogOverlay className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm dark:bg-black/70 transition-all" />
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="md:text-xl font-semibold text-center font-sans">

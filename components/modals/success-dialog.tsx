@@ -5,6 +5,7 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
+  AlertDialogOverlay,
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
@@ -29,6 +30,7 @@ export default function SuccessDialog({
   };
   return (
     <AlertDialog open={isOpen} onOpenChange={handleClose}>
+      <AlertDialogOverlay className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm dark:bg-black/70 transition-all" />
       <AlertDialogContent>
         <div className="flex justify-end items-start">
           <AlertDialogTrigger

@@ -7,6 +7,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogClose,
+  DialogOverlay,
 } from "@/components/ui/dialog";
 import { ArchiveIcon, Loader2, Trash2 } from "lucide-react";
 import { Button } from "../ui/button";
@@ -43,6 +44,7 @@ const DeleteButton = ({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
+      <DialogOverlay className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm dark:bg-black/70 transition-all" />
       <DialogTrigger asChild>
         {trigger ?? (
           <Button
