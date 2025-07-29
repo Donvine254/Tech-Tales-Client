@@ -56,8 +56,9 @@ export async function createAndSetEmailVerificationCookie(payload: {
 /**
  * Create a password reset token for a given user.
  */
-export async function createPasswordResetToken(
-  user: Pick<User, "id" | "email" | "username">
+export async function createAccountActionsToken(
+  user: Pick<User, "id" | "email" | "username">,
+  expiry: string | number
 ) {
   const token = await new jose.SignJWT({
     id: user.id,
@@ -65,7 +66,7 @@ export async function createPasswordResetToken(
     username: user.username,
   })
     .setProtectedHeader({ alg: "HS256" })
-    .setExpirationTime("8h") // token expires in 30 minutes
+    .setExpirationTime(expiry) // token expires in 30 minutes
     .sign(JWT_SECRET);
 
   return token;

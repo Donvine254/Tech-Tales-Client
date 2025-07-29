@@ -7,6 +7,7 @@ import {
   AdminRegistrationTemplate,
   PasswordResetTemplate,
 } from "./templates";
+import { createAccountActionsToken } from "@/lib/actions/jwt";
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -81,18 +82,33 @@ export const sendAdminRegistrationEmail = async (
 export const sendDeleteNotificationEmail = async (
   name: string,
   email: string,
-  id: number
+  id: number,
+  keepBlogs: boolean,
+  keepComments: boolean
 ) => {
-  const encodedEmail = btoa(email.toLowerCase());
-  const encodedId = btoa(id.toString());
-  const link = `https://techtales.vercel.app/restore?e=${encodedEmail}&id=${encodedId}`;
+  // create a restore token
+  const token = createAccountActionsToken(
+    {
+      id: id,
+      username: name,
+      email: email,
+    },
+    "30d"
+  );
+  const link = `https://techtales.vercel.app/restore?token=${token}`;
   const secureLink = encodeURI(link);
   try {
     await sendEmail({
       subject: "Important: Your Tech Tales Account has been Deleted",
       to: email,
       from: sender,
-      html: AccountDeletionTemplate(name, email, secureLink),
+      html: AccountDeletionTemplate(
+        name,
+        email,
+        secureLink,
+        keepBlogs,
+        keepComments
+      ),
     });
     console.log("Email sent successfully");
     return { message: "Email sent successfully" };
@@ -101,6 +117,7 @@ export const sendDeleteNotificationEmail = async (
     return { message: "Email delivery failed" };
   }
 };
+/* function to send instructions to reset password */
 export const sendPasswordResetEmail = async (
   name: string,
   email: string,

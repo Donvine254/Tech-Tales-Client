@@ -4,7 +4,7 @@ import * as bcrypt from "bcrypt";
 import {
   createAndSetAuthTokenCookie,
   createAndSetEmailVerificationCookie,
-  createPasswordResetToken,
+  createAccountActionsToken,
 } from "./jwt";
 import { rateLimitByIp } from "./rate-limiter";
 import { Prisma } from "@prisma/client/edge";
@@ -38,6 +38,7 @@ export async function authenticateSSOLogin(
         username: true,
         picture: true,
         role: true,
+        deleted: true,
       },
     });
     if (!user) {
@@ -75,6 +76,14 @@ export async function authenticateSSOLogin(
         message: "Registered and logged in successfully 🎉",
       };
     }
+    if (user.deleted) {
+      return {
+        successs: false,
+        message:
+          "Your account has been deleted, check your email to restore your account",
+        field: "email",
+      };
+    }
     await createAndSetAuthTokenCookie(user);
     return { success: true, message: "Logged in successfully 🎉" };
   } catch (error) {
@@ -107,12 +116,21 @@ export async function authenticateUserLogin(
         role: true,
         email_verified: true,
         password_digest: true,
+        deleted: true,
       },
     });
     if (!user) {
       return {
         success: false,
         message: "No matching user found!",
+        field: "email",
+      };
+    }
+    if (user.deleted) {
+      return {
+        successs: false,
+        message:
+          "Your account has been deleted, check your email to restore your account",
         field: "email",
       };
     }
@@ -321,7 +339,7 @@ export async function handlePasswordResetRequest(email: string) {
         };
       }
     }
-    const token = await createPasswordResetToken(user);
+    const token = await createAccountActionsToken(user, "8h");
     const link = `${baseUrl}/new-password?token=${token}`;
     const res = await sendPasswordResetEmail(user.username, user.email, link);
     if (res.success) {

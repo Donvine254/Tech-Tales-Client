@@ -6,6 +6,7 @@ import { Prisma, UserStatus } from "@prisma/client";
 import { createAndSetAuthTokenCookie } from "./jwt";
 import { redirect } from "next/navigation";
 import { isVerifiedUser } from "@/dal/auth-check";
+import { sendDeleteNotificationEmail } from "@/emails/mailer";
 
 // function to getAllUserBlogs
 export const getUserBlogs = unstable_cache(
@@ -203,6 +204,63 @@ export async function updateUserDetails(
   } catch (error) {
     console.error(error);
     return { success: false, message: "Could not update user." };
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+/* function to soft delete user account and make it possible for users to restore their accounts within 30 days */
+export async function deleteUserAccount(
+  keepBlogs: boolean,
+  keepComments: boolean
+) {
+  const session = await isVerifiedUser();
+  if (!session) {
+    redirect("/login");
+  }
+  try {
+    const user = await prisma.user.update({
+      where: {
+        id: Number(session.userId),
+      },
+      data: {
+        deleted: true,
+        deletedAt: new Date(),
+      },
+      select: {
+        id: true,
+        email: true,
+        username: true,
+      },
+    });
+    setImmediate(async () => {
+      if (!keepBlogs) {
+        await prisma.blog.updateMany({
+          where: { authorId: user.id },
+          data: { status: "ARCHIVED" },
+        });
+      }
+
+      if (!keepComments) {
+        await prisma.comment.updateMany({
+          where: { authorId: user.id },
+          data: { status: "HIDDEN" },
+        });
+      }
+      await sendDeleteNotificationEmail(
+        user.username,
+        user.email,
+        user.id,
+        keepBlogs,
+        keepComments
+      );
+    });
+    return { success: true, message: "User account deleted successfully" };
+  } catch (error) {
+    const e = error as Error;
+    return {
+      success: false,
+      message: e.message || "Something unexpected happened",
+    };
   } finally {
     await prisma.$disconnect();
   }
