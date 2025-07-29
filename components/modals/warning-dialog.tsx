@@ -67,8 +67,10 @@ export default function WarningDialog({
       <AlertDialogContent className="animate-fade-in-up">
         <div className="flex justify-end items-start animate-scale-in">
           <AlertDialogTrigger
-            className="hover:text-red-500"
-            onClick={handleClose}>
+            className="hover:text-red-500 cursor-pointer"
+            onClick={handleClose}
+            title="close dialog"
+            aria-labelledby="close dialog">
             <X />
           </AlertDialogTrigger>
         </div>

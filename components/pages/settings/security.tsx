@@ -421,7 +421,7 @@ const DeleteAccountButton = ({ router }: { router: AppRouterInstance }) => {
         onClose={() => setShowDeleteModal(false)}
         onConfirm={handleAccountDeletion}
         title="Confirm Account Deletion"
-        description="This action is irreversible. We’re sorry to see you go. Once your account is deleted, all of your content will be permanently gone, including your profile, blog posts and responses."
+        description="We’re sorry to see you go. Once your account is deleted, all of your content will be permanently gone, including your profile, blog posts and responses."
         buttonText="Delete Forever">
         {" "}
         <div className="space-y-4 px-2">

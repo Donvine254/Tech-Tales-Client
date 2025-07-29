@@ -1,6 +1,7 @@
 "use client";
 import { FC, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   BookOpen,
   Heart,
@@ -79,21 +80,26 @@ export default function Profile({
             <Settings className="h-4 w-4" />
             Edit Profile
           </Link>
-          <Image
-            src={
-              session?.picture
-                ? session?.picture
-                : "https://ui-avatars.com/api/?background=random&name=john+doe"
-            }
-            title={session?.username}
-            height={120}
-            width={120}
-            alt={session?.username ?? ""}
-            style={{ border: `0.5rem solid ${user.branding}` }}
-            priority
-            className="w-[120px] h-[120px] relative -top-20 rounded-full m-auto  italic "
-            referrerPolicy="no-referrer"
-          />
+          {/* replace this with avatar */}
+          <Avatar
+            className="w-[120px] h-[120px] relative -top-20 rounded-full m-auto italic"
+            style={{ border: `0.5rem solid ${user.branding}` }}>
+            <AvatarImage
+              src={
+                session?.picture ??
+                `https://ui-avatars.com/api/?background=random&name=${user?.username}`
+              }
+              height={120}
+              width={120}
+              alt={user?.username ?? session?.username}
+            />
+            <AvatarFallback className="bg-gradient-to-r from-cyan-100 to-blue-100 text-cyan-700 text-sm">
+              {user?.username
+                .split(" ")
+                .map((n: string) => n[0])
+                .join("")}
+            </AvatarFallback>
+          </Avatar>
           <div className="-mt-20">
             {/* username */}
             <p className="text-muted-foreground font-semibold  flex items-center justify-center text-lg md:text-2xl leading-snug ">

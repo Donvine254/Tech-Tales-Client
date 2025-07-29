@@ -10,6 +10,7 @@ export const baseUrl =
   process.env.NODE_ENV === "development"
     ? "http://localhost:3000"
     : "https://techtales.vercel.app";
+export const DELETED_USER_ID = 49;
 
 export function calculateReadingTime(blog: string) {
   const textContent = blog.replace(/<\/?[^>]+(>|$)/g, "");

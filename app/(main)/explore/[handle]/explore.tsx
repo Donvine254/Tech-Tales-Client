@@ -13,6 +13,7 @@ import Image from "next/image";
 import UserBlogs from "./user-blogs";
 import { BlogWithComments } from "@/types";
 import UserBadges from "@/components/pages/profile/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 type UserAndBlogs = Awaited<ReturnType<typeof getUserAndBlogsByHandle>>;
 
 export default async function ExplorePage({ data }: { data: UserAndBlogs }) {
@@ -32,21 +33,26 @@ export default async function ExplorePage({ data }: { data: UserAndBlogs }) {
       <div className="w-full min-h-[400px] mx-auto px-4 sm:px-6 lg:px-8 py-16 max-w-6xl">
         {/* user card */}
         <div className="px-6 py-4 w-full relative -top-40 rounded-md bg-card shadow border">
-          <Image
-            src={
-              data.user.picture
-                ? data.user.picture
-                : "https://ui-avatars.com/api/?background=random&name=john+doe"
-            }
-            title={data.user.username}
-            height={120}
-            width={120}
-            alt={data.user.username}
-            style={{ border: `0.5rem solid ${data.user.branding}` }}
-            priority
-            className="w-[120px] h-[120px] relative -top-20 rounded-full m-auto  italic "
-            referrerPolicy="no-referrer"
-          />
+          <Avatar
+            className="w-[120px] h-[120px] relative -top-20 rounded-full m-auto italic"
+            style={{ border: `0.5rem solid ${data.user.branding}` }}>
+            <AvatarImage
+              src={
+                data.user.picture ??
+                `https://ui-avatars.com/api/?background=random&name=${data.user.username}`
+              }
+              title={data.user.username}
+              height={120}
+              width={120}
+              alt={data.user.username ?? "John Doe"}
+            />
+            <AvatarFallback className="bg-gradient-to-r from-cyan-100 to-blue-100 text-cyan-700 text-sm">
+              {data.user.username
+                .split(" ")
+                .map((n: string) => n[0])
+                .join("")}
+            </AvatarFallback>
+          </Avatar>
           <div className="-mt-20">
             <p className="text-muted-foreground font-semibold  flex items-center justify-center text-lg ">
               <span className="capitalize font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-500 via-purple-500 dark:from-cyan-400 dark:to-blue-400">

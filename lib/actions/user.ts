@@ -10,6 +10,7 @@ import {
   sendDeactivationNotificationEmail,
   sendDeleteNotificationEmail,
 } from "@/emails/mailer";
+import { DELETED_USER_ID } from "../utils";
 
 // function to getAllUserBlogs
 export const getUserBlogs = unstable_cache(
@@ -287,39 +288,38 @@ export async function deleteUserAccount(
     redirect("/login");
   }
   try {
-    // If keep blogs and comments is true, anonymize user information,
-    //set the username to Deleted_User_${userId} and handle to deleted_user_${userId}, set picture https://res.cloudinary.com/dipkbpinx/image/upload/v1753816613/tech-tales/profile-pictures/riz5bhogidwpj9yvjzup.jpg to null and remove the email
-    const user = await prisma.user.update({
-      where: {
-        id: Number(session.userId),
-      },
-      data: {
-        deactivated: true,
-        deactivatedAt: new Date(),
-        keep_blogs_on_delete: keepBlogs,
-        keep_comments_on_delete: keepComments,
-      },
+    const user = await prisma.user.findUnique({
+      where: { id: Number(session.userId) },
       select: {
         id: true,
         email: true,
         username: true,
       },
     });
+    // This protects from accidentally deleting the user with id 49
+    if (!user || user.id === 49) {
+      return { success: false, message: "User not found" };
+    }
+    // Reassign content if user choses to keep them as per GDPR/CCPA rules. We reassign to a deleted user in the database with ID of 49.
     setImmediate(async () => {
-      // Archive blog posts
-      if (!keepBlogs) {
+      if (keepBlogs) {
         await prisma.blog.updateMany({
-          where: { authorId: user.id, status: "PUBLISHED" },
-          data: { status: "ARCHIVED" },
+          where: { authorId: user.id },
+          data: { authorId: DELETED_USER_ID },
         });
       }
-      // Archive comments
-      if (!keepComments) {
+
+      if (keepComments) {
         await prisma.comment.updateMany({
           where: { authorId: user.id },
-          data: { show: false },
+          data: { authorId: DELETED_USER_ID },
         });
       }
+      await prisma.response.updateMany({
+        where: { authorId: user.id },
+        data: { authorId: DELETED_USER_ID },
+      });
+
       await sendDeleteNotificationEmail(
         user.username,
         user.email,
@@ -327,6 +327,11 @@ export async function deleteUserAccount(
         keepComments
       );
     });
+    // Finally, delete the user account
+    await prisma.user.delete({
+      where: { id: user.id },
+    });
+
     return { success: true, message: "User account deleted successfully" };
   } catch (error) {
     const e = error as Error;
