@@ -247,7 +247,9 @@ export default function SecurityAccount({
             receive the content included in the file.
           </p>
           <Link passHref href="/api/user/export-data" download>
-            <Button className="bg-blue-500 text-white hover:bg-blue-600 hover:text-white">
+            <Button
+              className="bg-blue-500 text-white hover:bg-blue-600 hover:text-white"
+              onClick={() => toast.success("Processing export data")}>
               Export Your Data
             </Button>
           </Link>
@@ -278,7 +280,8 @@ export default function SecurityAccount({
                 Deactivate Account
               </h4>
               <p className="text-sm text-gray-600 dark:text-gray-300">
-                Temporarily disable your account. You can reactivate it later.
+                Temporarily disable your account. You can reactivate within 30
+                days.
               </p>
             </div>
             <DeactivateButton router={router} />
@@ -288,7 +291,7 @@ export default function SecurityAccount({
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0 mt-4">
             <div>
               <h4 className="font-medium text-destructive">Delete Account</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-300">
+              <p className="text-sm  text-gray-600 dark:text-gray-300">
                 Permanently delete your account and all associated data.
               </p>
             </div>

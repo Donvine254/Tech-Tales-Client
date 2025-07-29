@@ -431,6 +431,18 @@ export async function restoreAccount(token: string): Promise<{
         deactivatedAt: null,
       },
     });
+    setImmediate(async () => {
+      // Archive blog posts
+      await prisma.blog.updateMany({
+        where: { authorId: Number(userId), status: "ARCHIVED" },
+        data: { status: "PUBLISHED" },
+      });
+      // Archive comments
+      await prisma.comment.updateMany({
+        where: { authorId: Number(userId) },
+        data: { show: true },
+      });
+    });
     // set immediate and restore comments and blogs
     return { success: true, message: "Account restored successfully" };
   } catch (error) {

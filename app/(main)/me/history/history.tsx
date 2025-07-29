@@ -172,20 +172,22 @@ export default function History() {
   );
   return (
     <section>
-      <div className="bg-card/80 mb-4 px-4 py-6 sm:px-6 rounded-md shadow-sm flex flex-wrap items-center gap-4 justify-between animate-scale-in">
-        <p className="text-muted-foreground text-sm sm:text-base">
-          You can clear your reading history for a fresh start.
-        </p>
-        <Button
-          className="w-full sm:w-max px-5 py-2 md:rounded-full"
-          variant="destructive"
-          title="clear all history"
-          disabled={isLoading || blogs.length === 0}
-          onClick={handleClearHistory}>
-          <BrushCleaningIcon className="size-4" />
-          Clear History
-        </Button>
-      </div>
+      {blogs && blogs.length > 0 && (
+        <div className="bg-card/80 mb-4 px-4 py-6 sm:px-6 rounded-md shadow-sm flex flex-wrap items-center gap-4 justify-between animate-scale-in">
+          <p className="text-muted-foreground text-sm sm:text-base">
+            You can clear your reading history for a fresh start.
+          </p>
+          <Button
+            className="w-full sm:w-max px-5 py-2 md:rounded-full"
+            variant="destructive"
+            title="clear all history"
+            disabled={isLoading || blogs.length === 0}
+            onClick={handleClearHistory}>
+            <BrushCleaningIcon className="size-4" />
+            Clear History
+          </Button>
+        </div>
+      )}
       {/* Search and Sort Controls */}
       <div className="flex flex-col sm:flex-row gap-4 mb-4">
         <div className="relative w-full flex-1">
