@@ -341,7 +341,7 @@ export async function handlePasswordResetRequest(email: string) {
       }
     }
     const token = await createAccountActionsToken(user, "8h");
-    const link = `${baseUrl}/new-password?token=${token}`;
+    const link = `${baseUrl}/account/new-password?token=${token}`;
     const res = await sendPasswordResetEmail(user.username, user.email, link);
     if (res.success) {
       return {

@@ -306,7 +306,7 @@ const ErrorState = () => {
               to receive a new link.
             </p>
 
-            <Link href="/reset" passHref>
+            <Link href="/account/reset-password" passHref>
               <Button
                 variant="outline"
                 className="mt-2 w-full"
