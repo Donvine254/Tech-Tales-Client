@@ -200,23 +200,8 @@ export default function Replies({ data }: { data: UserComments }) {
             </SelectContent>
           </Select>
         </div>
-        {activeTab === "ARCHIVED" && (
-          <div
-            data-slot="alert"
-            role="alert"
-            className="relative w-full rounded-lg border px-4 py-3 text-sm grid has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] grid-cols-[0_1fr] has-[>svg]:gap-x-3 gap-y-0.5 items-start [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current animate-scale-in bg-blue-500 text-white dark:bg-blue-900/50">
-            <InfoIcon />{" "}
-            <div className="col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight">
-              Archived Comments
-            </div>
-            <div className="col-start-2 grid  justify-items-start gap-1 text-sm [&_p]:leading-relaxed">
-              <p>
-                Comments are archived when users choose to delete their
-                accounts. You can easily restore archived comments.
-              </p>
-            </div>
-          </div>
-        )}
+        {/* show alert */}
+        <StatusAlert activeTab={activeTab} />
         <Suspense
           fallback={
             <div className="grid gap-6">
@@ -274,3 +259,60 @@ export default function Replies({ data }: { data: UserComments }) {
     </div>
   );
 }
+
+const StatusAlert = ({ activeTab }: { activeTab: CommentStatus }) => {
+  return (
+    <div className="mb-4">
+      {activeTab === "ARCHIVED" && (
+        <div
+          role="alert"
+          className="relative w-full rounded-lg border px-4 py-3 text-sm grid has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] grid-cols-[0_1fr] has-[>svg]:gap-x-3 gap-y-0.5 items-start [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current animate-scale-in bg-blue-500 text-white dark:bg-blue-900/50">
+          <InfoIcon />
+          <div className="col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight">
+            Archived Comments
+          </div>
+          <div className="col-start-2 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed">
+            <p>
+              Comments are archived when users choose to delete their accounts.
+              You can easily restore archived comments.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {activeTab === "FLAGGED" && (
+        <div
+          role="alert"
+          className="relative w-full rounded-lg border px-4 py-3 text-sm grid has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] grid-cols-[0_1fr] has-[>svg]:gap-x-3 gap-y-0.5 items-start [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current animate-scale-in bg-yellow-500 text-white dark:bg-yellow-900/50">
+          <InfoIcon />
+          <div className="col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight">
+            Flagged Comments
+          </div>
+          <div className="col-start-2 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed">
+            <p>
+              These comments have been reported as offensive or violating terms
+              of service. They are pending moderator review.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {activeTab === "HIDDEN" && (
+        <div
+          role="alert"
+          className="relative w-full rounded-lg border px-4 py-3 text-sm grid has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] grid-cols-[0_1fr] has-[>svg]:gap-x-3 gap-y-0.5 items-start [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current animate-scale-in bg-red-500 text-white dark:bg-red-900/50">
+          <InfoIcon />
+          <div className="col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight">
+            Hidden Comments
+          </div>
+          <div className="col-start-2 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed">
+            <p>
+              These comments have been hidden by moderators after being flagged.
+              They are no longer visible to the public.
+            </p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
