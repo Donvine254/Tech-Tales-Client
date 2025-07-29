@@ -6,6 +6,7 @@ import {
   MoreVertical,
   Info,
   FlagIcon,
+  ArchiveRestoreIcon,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -77,7 +78,13 @@ export function CommentCard({ comment, onDelete }: CommentCardProps) {
                   </Link>
                 </DropdownMenuItem>
               )}
-
+              {comment.status === "ARCHIVED" && (
+                // TODO: Add functionality to restore the comment
+                <DropdownMenuItem className="hover:bg-green-500 hover:text-white">
+                  <ArchiveRestoreIcon className="size-4 mr-2" />
+                  Restore Comment
+                </DropdownMenuItem>
+              )}
               <DropdownMenuItem
                 onSelect={(e) => {
                   e.preventDefault();

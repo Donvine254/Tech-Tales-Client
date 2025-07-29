@@ -10,6 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
+  ArchiveIcon,
   ChevronLeft,
   ChevronRight,
   FileText,
@@ -110,6 +111,11 @@ export default function Replies({ data }: { data: UserComments }) {
         description: "You haven't hidden any comments.",
         icon: FileText,
       },
+      ARCHIVED: {
+        title: "No archived comments",
+        description: "You haven't archived any comments.",
+        icon: ArchiveIcon,
+      },
     };
 
     const { title, description, icon: Icon } = messages[status];
@@ -142,27 +148,27 @@ export default function Replies({ data }: { data: UserComments }) {
         className="w-full">
         <ScrollArea className="w-full whitespace-nowrap pb-4">
           <TabsList className="w-max space-x-4 bg-card shadow">
-            {(["VISIBLE", "FLAGGED", "HIDDEN"] as CommentStatus[]).map(
-              (status) => (
-                <TabsTrigger
-                  key={status}
-                  value={status}
+            {(
+              ["VISIBLE", "FLAGGED", "HIDDEN", "ARCHIVED"] as CommentStatus[]
+            ).map((status) => (
+              <TabsTrigger
+                key={status}
+                value={status}
+                className={cn(
+                  "flex items-center gap-2 hover:bg-secondary",
+                  activeTab === status &&
+                    " border-blue-500 border-2 dark:border-blue-500 hover:border-blue-600 "
+                )}>
+                {status[0] + status.slice(1).toLowerCase()}
+                <span
                   className={cn(
-                    "flex items-center gap-2 hover:bg-secondary",
-                    activeTab === status &&
-                      " border-blue-500 border-2 dark:border-blue-500 hover:border-blue-600 "
+                    "bg-muted text-muted-foreground px-1.5 py-0.5 rounded-sm text-xs",
+                    activeTab === status && "dark:text-white"
                   )}>
-                  {status[0] + status.slice(1).toLowerCase()}
-                  <span
-                    className={cn(
-                      "bg-muted text-muted-foreground px-1.5 py-0.5 rounded-sm text-xs",
-                      activeTab === status && "dark:text-white"
-                    )}>
-                    {filterByStatus(status).length}
-                  </span>
-                </TabsTrigger>
-              )
-            )}
+                  {filterByStatus(status).length}
+                </span>
+              </TabsTrigger>
+            ))}
           </TabsList>
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
@@ -201,25 +207,25 @@ export default function Replies({ data }: { data: UserComments }) {
               ))}
             </div>
           }>
-          {(["VISIBLE", "FLAGGED", "HIDDEN"] as CommentStatus[]).map(
-            (status) => (
-              <TabsContent value={status} key={status}>
-                {getFiltered(status).length > 0 ? (
-                  <div className="grid gap-6">
-                    {paginated(getFiltered(status)).map((comment) => (
-                      <CommentCard
-                        key={comment.id}
-                        comment={comment}
-                        onDelete={() => handleDelete(comment.id)}
-                      />
-                    ))}
-                  </div>
-                ) : (
-                  <EmptyState status={status} />
-                )}
-              </TabsContent>
-            )
-          )}
+          {(
+            ["VISIBLE", "FLAGGED", "HIDDEN", "ARCHIVED"] as CommentStatus[]
+          ).map((status) => (
+            <TabsContent value={status} key={status}>
+              {getFiltered(status).length > 0 ? (
+                <div className="grid gap-6">
+                  {paginated(getFiltered(status)).map((comment) => (
+                    <CommentCard
+                      key={comment.id}
+                      comment={comment}
+                      onDelete={() => handleDelete(comment.id)}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <EmptyState status={status} />
+              )}
+            </TabsContent>
+          ))}
         </Suspense>
 
         {/* Pagination */}
