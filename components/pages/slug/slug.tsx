@@ -32,6 +32,8 @@ import ActionButtons from "./action-buttons";
 import BlogSummaryGenerator from "./summary";
 import TrackBlogView from "./track-blog-view";
 import Recommendations from "./recommendations";
+import { toggleDiscussion } from "@/lib/actions/blogs";
+import { toast } from "sonner";
 type Props = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   blog: Record<string, any>;
@@ -40,9 +42,19 @@ type Props = {
 export default function Slug({ blog }: Props) {
   const { session } = useSession();
   const [showPlayButton, setShowPlayButton] = useState(false);
+  const [showComments, setShowComments] = useState(blog.show_comments);
   const [comments, setComments] = useState<CommentData[]>(blog?.comments ?? []);
   // state for reporting dialog
-
+  async function handleToggleComments(show: boolean) {
+    setShowComments(show);
+    const res = await toggleDiscussion(blog.id, show);
+    if (res.success) {
+      toast.success(res.message);
+    } else {
+      setShowComments(!show);
+      toast.error(res.message);
+    }
+  }
   return (
     <div className="w-full mx-auto m-2 min-h-[75%] px-4 md:px-8 xsm:px-4 max-w-4xl md:mt-4">
       <Script src="https://unpkg.com/ink-html/dist/index.js"></Script>
@@ -195,7 +207,13 @@ export default function Slug({ blog }: Props) {
           {blog.body ? parse(blog.body) : "Loading..."}
         </article>
         {/* Bottom buttons */}
-        <ActionButtons blog={blog} comments={comments} session={session} />
+        <ActionButtons
+          blog={blog}
+          comments={comments}
+          session={session}
+          showComments={showComments}
+          onShowCommentsUpdate={handleToggleComments}
+        />
         {/* comments section */}
         <Comments
           comments={comments}
@@ -204,7 +222,7 @@ export default function Slug({ blog }: Props) {
           blogId={blog.id}
           blogAuthorId={blog.authorId}
           blogStatus={blog.status}
-          showComments={blog.show_comments}
+          showComments={showComments}
         />
       </TooltipProvider>
       <Recommendations

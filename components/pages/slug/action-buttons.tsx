@@ -40,9 +40,17 @@ interface ActionButtonsProps {
   blog: Record<string, any>;
   session: Session | null;
   comments: CommentData[];
+  showComments: boolean;
+  onShowCommentsUpdate: (show: boolean) => void;
 }
 
-const ActionButtons: FC<ActionButtonsProps> = ({ blog, session, comments }) => {
+const ActionButtons: FC<ActionButtonsProps> = ({
+  blog,
+  session,
+  comments,
+  showComments,
+  onShowCommentsUpdate,
+}) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   //function to print contents
@@ -141,13 +149,13 @@ const ActionButtons: FC<ActionButtonsProps> = ({ blog, session, comments }) => {
                   </Link>
                 </DropdownMenuItem>
                 {/* TODO: Add functionality to lock and unlock discussion */}
-                {blog.show_comments ? (
-                  <DropdownMenuItem>
+                {showComments ? (
+                  <DropdownMenuItem onClick={() => onShowCommentsUpdate(false)}>
                     <LockIcon className="h-4 w-4" />
                     Lock Discussion
                   </DropdownMenuItem>
                 ) : (
-                  <DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => onShowCommentsUpdate(true)}>
                     <LockOpenIcon className="h-4 w-4" />
                     Unlock Discussion
                   </DropdownMenuItem>

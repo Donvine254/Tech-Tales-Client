@@ -315,4 +315,26 @@ export async function updateBlogStatus(status: BlogStatus, blogId: number) {
     await prisma.$disconnect();
   }
 }
-/*This function only updates the blog status and can be used to archive or publish a blog*/
+/*This function only updates locks or unlocks the blog conversations to either allow or disallow commenting, existing comments will remain visible*/
+
+export async function toggleDiscussion(id: number, show: boolean) {
+  try {
+    await prisma.blog.update({
+      where: { id },
+      data: {
+        show_comments: show,
+      },
+    });
+    return {
+      success: true,
+      message: `Blog discussion ${show ? "unlocked" : "locked"} successfully`,
+    };
+  } catch (error) {
+    const e = error as Error;
+    console.error("Failed to update blog:", e);
+    return {
+      success: false,
+      message: e.message || "An error occurred while updating the blog",
+    };
+  }
+}

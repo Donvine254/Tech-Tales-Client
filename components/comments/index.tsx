@@ -194,17 +194,23 @@ export default function Comments({
         <div className="flex flex-col items-center justify-center gap-4 border rounded-xl h-fit min-h-16 px-6 py-8 my-4 bg-muted shadow-lg dark:shadow-gray-900/20">
           {/* Archive Icon */}
           <div className="p-3 rounded-full bg-yellow-100 dark:bg-yellow-500/20">
-            <ArchiveIcon className="text-yellow-600 dark:text-yellow-300" />
+            {blogStatus === "ARCHIVED" ? (
+              <ArchiveIcon className="text-yellow-600 dark:text-yellow-300" />
+            ) : (
+              <LockIcon className="text-yellow-600 dark:text-yellow-300" />
+            )}
           </div>
-
-          {/* Heading */}
+          {/* Heading + Message */}
           <div className="text-center space-y-2">
             <h2 className="font-bold text-xl md:text-2xl text-gray-900 dark:text-white">
-              This Blog is Archived
+              {blogStatus === "ARCHIVED"
+                ? "This Blog is Archived"
+                : "Discussion Locked"}
             </h2>
-            <p className="text-muted-foreground text-sm max-w-2xl">
-              Comments are disabled because this blog has been archived. You can
-              still read the content, but interaction is no longer available.
+            <p className="text-muted-foreground text-sm max-w-2xl mx-auto">
+              {blogStatus === "ARCHIVED"
+                ? "Comments are disabled because this blog has been archived. You can still read the content, but interaction is no longer available."
+                : "The author has disabled commenting for this blog. You can still read the content, but replies and interaction are not allowed."}
             </p>
           </div>
         </div>
@@ -270,21 +276,23 @@ export default function Comments({
               blogAuthorId={blogAuthorId}
             />
           ))
-        ) : (
+        ) : showComments ? (
           <div className="flex flex-col items-center justify-center gap-1 p-2 my-2">
             <Image
               src="/conversation.svg"
-              alt="conversation-starter"
+              alt="conversation starter"
               height={150}
               width={150}
-              className="italic w-auto max-w-[150px] "
+              className="italic w-auto max-w-[150px]"
             />
             <p className="font-semibold md:text-lg">
-              This thread is open to discussion
+              This thread is open for discussion
             </p>
-            <p className="text-xs">✨ Be the first to comment ✨</p>
+            <p className="text-xs text-muted-foreground">
+              ✨ Be the first to comment ✨
+            </p>
           </div>
-        )}
+        ) : null}
       </div>
     </div>
   );
