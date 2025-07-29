@@ -93,7 +93,7 @@ export const getUserData = unstable_cache(
 
     return { user, blogs };
   },
-  ["author-blogs"],
+  ["user-blogs"],
   {
     revalidate: 600,
     tags: ["user-blogs"],
@@ -149,8 +149,7 @@ export async function updateSocials(data: SocialLink[]) {
         socials: true, // ✅ only return socials
       },
     });
-    // ✅ revalidate relevant tags
-    revalidateTag("author-blogs");
+
     revalidateTag("user-blogs");
     return {
       success: true,

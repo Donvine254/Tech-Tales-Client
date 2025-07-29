@@ -78,7 +78,7 @@ export async function publishBlog(
         },
       },
     });
-    revalidateTag("author-blogs");
+    revalidateTag("user-blogs");
     revalidateTag("blogs");
     revalidateTag("latest");
     return {
@@ -147,7 +147,6 @@ export async function deleteOrArchiveBlog(uuid: string) {
     revalidateTag("featured");
     revalidateTag("latest");
     revalidateTag("trending");
-    revalidateTag("author-blogs");
     revalidateTag("blogs");
     return {
       success: false,
@@ -279,7 +278,7 @@ export const getUserAndBlogsByHandle = unstable_cache(
 
     return { user, blogs };
   },
-  ["author-blogs"],
+  ["user-blogs"],
   {
     revalidate: 6000,
     tags: ["user-blogs"],
@@ -294,7 +293,6 @@ export async function updateBlogStatus(status: BlogStatus, blogId: number) {
         status: status,
       },
     });
-    revalidateTag("author-blogs");
     revalidateTag("user-blogs");
     revalidateTag("featured");
     revalidateTag("latest");
@@ -325,6 +323,12 @@ export async function toggleDiscussion(id: number, show: boolean) {
         show_comments: show,
       },
     });
+    revalidateTag("user-blogs");
+    revalidateTag("featured");
+    revalidateTag("latest");
+    revalidateTag("trending");
+    revalidateTag("blogs");
+    revalidatePath("/me/posts");
     return {
       success: true,
       message: `Blog discussion ${show ? "unlocked" : "locked"} successfully`,

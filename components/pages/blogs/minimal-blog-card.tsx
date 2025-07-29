@@ -2,8 +2,8 @@
 import Link from "next/link";
 import parse from "html-react-parser";
 import { Calendar, Clock } from "lucide-react";
-import { MessageSquare, Heart, ChartNoAxesColumn } from "lucide-react";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { ChartNoAxesColumn, Heart, MessageSquare } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Tooltip,
   TooltipContent,
@@ -30,19 +30,22 @@ function isCoverImage(image: unknown): image is CoverImage {
     "public_id" in image
   );
 }
+type MinimalBlogCardProps = {
+  blog: BlogWithComments | Awaited<ReturnType<typeof getUserBlogs>>[number];
+  showMoreActions?: boolean;
+  onUpdate: (status: BlogStatus, blogId: number) => void;
+  onDelete: (uuid: string) => void;
+  onShowCommentsUpdate?: (blogId: number, show: boolean) => void;
+  liked?: boolean;
+};
 export default function MinimalBlogCard({
   blog,
   showMoreActions = false,
   onUpdate,
   onDelete,
   liked = false,
-}: {
-  blog: BlogWithComments | Awaited<ReturnType<typeof getUserBlogs>>[number];
-  showMoreActions?: boolean;
-  onUpdate: (status: BlogStatus, blogId: number) => void;
-  onDelete: (uuid: string) => void;
-  liked?: boolean;
-}) {
+  onShowCommentsUpdate,
+}: MinimalBlogCardProps) {
   const image = isCoverImage(blog.image) ? blog.image : null;
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   return (
@@ -204,6 +207,7 @@ export default function MinimalBlogCard({
             blogStatus={blog.status}
             uuid={blog.uuid}
             showComments={blog.show_comments}
+            onShowCommentsUpdate={onShowCommentsUpdate}
             showMoreActions={showMoreActions}
             onUpdate={onUpdate}
             onDelete={() => setShowDeleteDialog(!showDeleteDialog)}

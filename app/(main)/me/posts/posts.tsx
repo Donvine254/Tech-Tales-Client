@@ -31,7 +31,11 @@ import {
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import CreateButton from "@/components/pages/profile/create-button";
 import { toast } from "sonner";
-import { deleteOrArchiveBlog, updateBlogStatus } from "@/lib/actions/blogs";
+import {
+  deleteOrArchiveBlog,
+  toggleDiscussion,
+  updateBlogStatus,
+} from "@/lib/actions/blogs";
 
 const BLOGS_PER_PAGE = 5;
 type BlogsType = Awaited<ReturnType<typeof getUserBlogs>>;
@@ -146,6 +150,26 @@ export default function Posts({ data }: { data: BlogsType }) {
       </div>
     );
   };
+  //function to update blog show_comments field
+  async function handleToggleComments(blogId: number, show: boolean) {
+    setBlogs((prevBlogs) =>
+      prevBlogs.map((blog) =>
+        blog.id === blogId ? { ...blog, show_comments: show } : blog
+      )
+    );
+    const res = await toggleDiscussion(blogId, show);
+    if (res.success) {
+      toast.success(res.message);
+    } else {
+      // revert if it fails
+      setBlogs((prevBlogs) =>
+        prevBlogs.map((blog) =>
+          blog.id === blogId ? { ...blog, show_comments: !show } : blog
+        )
+      );
+      toast.error(res.message);
+    }
+  }
   // function to update blog status
   async function handleStatusChange(status: BlogStatus, blogId: number) {
     const toastId = toast.loading("Processing request");
@@ -369,6 +393,7 @@ export default function Posts({ data }: { data: BlogsType }) {
                   key={blog.id}
                   blog={blog}
                   onDelete={() => null}
+                  onShowCommentsUpdate={handleToggleComments}
                   onUpdate={handleStatusChange}
                   showMoreActions={true}
                 />
@@ -389,6 +414,7 @@ export default function Posts({ data }: { data: BlogsType }) {
                   blog={blog}
                   onDelete={handleDelete}
                   showMoreActions={true}
+                  onShowCommentsUpdate={handleToggleComments}
                   onUpdate={handleStatusChange}
                 />
               ))}
@@ -407,6 +433,7 @@ export default function Posts({ data }: { data: BlogsType }) {
                   key={blog.id}
                   blog={blog}
                   onDelete={handleDelete}
+                  onShowCommentsUpdate={handleToggleComments}
                   onUpdate={handleStatusChange}
                   showMoreActions={true}
                 />
@@ -426,6 +453,7 @@ export default function Posts({ data }: { data: BlogsType }) {
                   key={blog.id}
                   blog={blog}
                   onDelete={handleDelete}
+                  onShowCommentsUpdate={handleToggleComments}
                   onUpdate={handleStatusChange}
                   showMoreActions={true}
                 />

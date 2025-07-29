@@ -34,6 +34,7 @@ interface BlogCardDropdownProps {
   blogStatus: BlogStatus;
   showMoreActions?: boolean;
   showComments: boolean;
+  onShowCommentsUpdate?: (blogId: number, show: boolean) => void;
   onUpdate: (status: BlogStatus, blogId: number) => void;
   onDelete: () => void;
 }
@@ -46,6 +47,7 @@ export const BlogCardDropdown = ({
   uuid,
   showMoreActions = false,
   showComments,
+  onShowCommentsUpdate,
   onUpdate,
   onDelete,
 }: BlogCardDropdownProps) => {
@@ -96,13 +98,15 @@ export const BlogCardDropdown = ({
               </Link>
             )}
             {/* TODO: ADD LOGIC TO LOCK AND UNLOCK DISCUSSION */}
-            {!showComments ? (
-              <DropdownMenuItem>
+            {showComments && blogStatus === "PUBLISHED" ? (
+              <DropdownMenuItem
+                onClick={() => onShowCommentsUpdate?.(blogId, false)}>
                 <LockIcon className="h-4 w-4 mr-2" />
                 Lock Discussion
               </DropdownMenuItem>
             ) : (
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => onShowCommentsUpdate?.(blogId, false)}>
                 <LockOpenIcon className="h-4 w-4 mr-2" />
                 Unlock Discussion
               </DropdownMenuItem>
