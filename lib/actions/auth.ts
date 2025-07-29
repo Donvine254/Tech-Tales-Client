@@ -39,7 +39,8 @@ export async function authenticateSSOLogin(
         username: true,
         picture: true,
         role: true,
-        deleted: true,
+        deactivated: true,
+        status: true,
       },
     });
     if (!user) {
@@ -54,7 +55,7 @@ export async function authenticateSSOLogin(
             userInfo.picture ||
             `https://ui-avatars.com/api/?background=random&name=${userInfo.username}`,
           handle: convertToHandle(userInfo.username),
-          provider: provider,
+          auth_provider: provider,
           email_verified: true,
         },
         select: {
@@ -77,11 +78,18 @@ export async function authenticateSSOLogin(
         message: "Registered and logged in successfully 🎉",
       };
     }
-    if (user.deleted) {
+    if (user.status === "SUSPENDED") {
+      return {
+        successs: false,
+        message: "Your account has been suspended, contact support.",
+        field: "email",
+      };
+    }
+    if (user.deactivated) {
       return {
         successs: false,
         message:
-          "Your account has been deleted, check your email to restore your account",
+          "Your account has been deactivated, check your email to restore your account",
         field: "email",
       };
     }
@@ -117,7 +125,8 @@ export async function authenticateUserLogin(
         role: true,
         email_verified: true,
         password_digest: true,
-        deleted: true,
+        deactivated: true,
+        status: true,
       },
     });
     if (!user) {
@@ -127,7 +136,14 @@ export async function authenticateUserLogin(
         field: "email",
       };
     }
-    if (user.deleted) {
+    if (user.status === "SUSPENDED") {
+      return {
+        successs: false,
+        message: "Your account has been suspended, contact support.",
+        field: "email",
+      };
+    }
+    if (user.deactivated) {
       return {
         successs: false,
         message:
@@ -199,17 +215,17 @@ export async function registerUser(data: RegisterPayload) {
           `https://ui-avatars.com/api/?background=random&name=${username}`,
         handle,
         bio: bio || "This user has no bio",
-        provider: provider || "email",
+        auth_provider: provider || "email",
         email_verified: provider && provider !== "email",
       },
       select: {
         id: true,
         email: true,
         email_verified: true,
-        provider: true,
+        auth_provider: true,
       },
     });
-    if (!user.email_verified && user.provider === "email") {
+    if (!user.email_verified && user.auth_provider === "email") {
       const token = await createAndSetEmailVerificationCookie({
         id: user.id,
         email: user.email,
@@ -221,7 +237,7 @@ export async function registerUser(data: RegisterPayload) {
           `${baseUrl}/verify?token=${token}`
         ).catch(console.error);
       });
-    } else if (user.provider !== "email") {
+    } else if (user.auth_provider !== "email") {
       setImmediate(() => {
         sendWelcomeEmail(user.email, username).catch(console.error);
       });
@@ -315,7 +331,7 @@ export async function handlePasswordResetRequest(email: string) {
         username: true,
         email: true,
         id: true,
-        deleted: true,
+        deactivated: true,
         email_verified: true,
       },
     });
@@ -323,8 +339,8 @@ export async function handlePasswordResetRequest(email: string) {
     if (!user) {
       return { success: false, message: "No matching user found" };
     }
-    if (user.deleted || !user.email_verified) {
-      if (user.deleted) {
+    if (user.deactivated || !user.email_verified) {
+      if (user.deactivated) {
         return {
           success: false,
           message:
@@ -411,10 +427,11 @@ export async function restoreAccount(token: string): Promise<{
         id: Number(userId),
       },
       data: {
-        deleted: false,
-        deletedAt: null,
+        deactivated: false,
+        deactivatedAt: null,
       },
     });
+    // set immediate and restore comments and blogs
     return { success: true, message: "Account restored successfully" };
   } catch (error) {
     const e = error as Error;

@@ -18,7 +18,7 @@ import { toast } from "sonner";
 import WarningDialog from "@/components/modals/warning-dialog";
 import { useRouter } from "next/navigation";
 import { Checkbox } from "@/components/ui/checkbox";
-import { deleteUserAccount } from "@/lib/actions/user";
+import { deactivateUserAccount, deleteUserAccount } from "@/lib/actions/user";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import SuccessDialog from "@/components/modals/success-dialog";
 
@@ -36,10 +36,6 @@ export default function SecurityAccount({ userId }: { userId: number }) {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
-  const handleDeactivate = () => {
-    router.replace("/api/auth/logout");
-  };
-
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPasswords((prev) => ({
       ...prev,
@@ -245,7 +241,7 @@ export default function SecurityAccount({ userId }: { userId: number }) {
                 Temporarily disable your account. You can reactivate it later.
               </p>
             </div>
-            <DeactivateButton onDeactivate={handleDeactivate} />
+            <DeactivateButton router={router} />
           </div>
 
           {/* Delete */}
@@ -264,8 +260,20 @@ export default function SecurityAccount({ userId }: { userId: number }) {
   );
 }
 
-const DeactivateButton = ({ onDeactivate }: { onDeactivate: () => void }) => {
+const DeactivateButton = ({ router }: { router: AppRouterInstance }) => {
   const [showDeactivateModal, setShowDeactivateModal] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [keepBlogs, setKeepBlogs] = useState(true);
+  const [keepComments, setKeepComments] = useState(false);
+
+  async function handleAccountDeactivation() {
+    const res = await deactivateUserAccount(keepBlogs, keepComments);
+    if (res.success) {
+      setOpen(true);
+    } else {
+      toast.error(res.message);
+    }
+  }
 
   return (
     <>
@@ -281,11 +289,60 @@ const DeactivateButton = ({ onDeactivate }: { onDeactivate: () => void }) => {
         setIsOpen={setShowDeactivateModal}
         variant="warning"
         onClose={() => setShowDeactivateModal(false)}
-        onConfirm={onDeactivate}
+        onConfirm={handleAccountDeactivation}
         title="Deactivate Account"
-        description="Deactivating your account will temporarily disable it. You can reactivate your account at any time by logging back in."
+        description="Deactivating your account will temporarily disable it. You can reactivate your account by logging in within 30 days. After 30 days, your account and all associated data will be permanently deleted."
         buttonText="Deactivate"
         disabled={false} // to disable the button while submitting
+      >
+        <div className="space-y-4 px-2">
+          <div className="flex flex-col gap-4">
+            <Label
+              htmlFor="keep-blogs"
+              className="hover:bg-accent/50 flex items-start gap-3 rounded-lg border p-3 has-[[aria-checked=true]]:border-blue-600 has-[[aria-checked=true]]:bg-blue-50 dark:has-[[aria-checked=true]]:border-blue-900 dark:has-[[aria-checked=true]]:bg-blue-950">
+              <Checkbox
+                id="keep-blogs"
+                checked={keepBlogs}
+                onCheckedChange={(checked) => setKeepBlogs(!!checked)}
+                className="data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600 data-[state=checked]:text-white dark:data-[state=checked]:border-blue-700 dark:data-[state=checked]:bg-blue-700"
+              />
+              <div className="grid gap-1 font-normal">
+                <p className="text-sm leading-none font-medium">
+                  Keep my all blog posts
+                </p>
+                <p className="text-muted-foreground text-xs">
+                  Retain all blog posts you&apos;ve written even after your
+                  account is deleted.
+                </p>
+              </div>
+            </Label>
+            <Label
+              htmlFor="keep-comments"
+              className="hover:bg-accent/50 flex items-start gap-3 rounded-lg border p-3 has-[[aria-checked=true]]:border-blue-600 has-[[aria-checked=true]]:bg-blue-50 dark:has-[[aria-checked=true]]:border-blue-900 dark:has-[[aria-checked=true]]:bg-blue-950">
+              <Checkbox
+                id="keep-comments"
+                checked={keepComments}
+                onCheckedChange={(checked) => setKeepComments(!!checked)}
+                className="data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600 data-[state=checked]:text-white dark:data-[state=checked]:border-blue-700 dark:data-[state=checked]:bg-blue-700"
+              />
+              <div className="grid gap-1 font-normal">
+                <p className="text-sm leading-none font-medium">
+                  Keep my all comments
+                </p>
+                <p className="text-muted-foreground text-xs">
+                  Preserve the comments you&apos;ve made on other blogs.
+                </p>
+              </div>
+            </Label>
+          </div>
+        </div>
+      </WarningDialog>
+      <SuccessDialog
+        isOpen={open}
+        setIsOpen={setOpen}
+        title="Account deactivated successfully"
+        onClose={() => router.push("/api/auth/logout")}
+        description="Your account has been deleted. A recovery link has been sent to your email incase you change your mind."
       />
     </>
   );
@@ -321,7 +378,7 @@ const DeleteAccountButton = ({ router }: { router: AppRouterInstance }) => {
         onClose={() => setShowDeleteModal(false)}
         onConfirm={handleAccountDeletion}
         title="Confirm Account Deletion"
-        description="This action is irreversible. Your account will be recoverable for the next 30 days. After that period, all associated data will be permanently deleted."
+        description="This action is irreversible. We’re sorry to see you go. Once your account is deleted, all of your content will be permanently gone, including your profile, blog posts and responses."
         buttonText="Delete Forever">
         {" "}
         <div className="space-y-4 px-2">
@@ -372,7 +429,7 @@ const DeleteAccountButton = ({ router }: { router: AppRouterInstance }) => {
         setIsOpen={setOpen}
         title="Account deleted successfully"
         onClose={() => router.push("/api/auth/logout")}
-        description="Your account has been deleted. A recovery link has been sent to your email incase you change your mind."
+        description="Your account has been deleted. There is no turning back now."
       />
     </>
   );

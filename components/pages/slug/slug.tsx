@@ -204,9 +204,9 @@ export default function Slug({ blog }: Props) {
           blogId={blog.id}
           blogAuthorId={blog.authorId}
           blogStatus={blog.status}
+          showComments={blog.show_comments}
         />
       </TooltipProvider>
-
       <Recommendations
         blogId={blog.id}
         author={{

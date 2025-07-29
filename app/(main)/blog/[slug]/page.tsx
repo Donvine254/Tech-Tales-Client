@@ -1,7 +1,7 @@
 import React from "react";
 import prisma from "@/prisma/prisma";
 import { redirect } from "next/navigation";
-import Slug from "../../../../components/pages/slug/slug";
+import Slug from "@/components/pages/slug/slug";
 import { metaobject } from "@/lib/metadata";
 import { Metadata } from "next";
 import { CoverImage } from "@/types";
@@ -54,7 +54,7 @@ async function getData(slug: string) {
           },
         },
         comments: {
-          where: { status: { not: "ARCHIVED" } },
+          where: { show: true, status: { not: "ARCHIVED" } },
           include: {
             author: {
               select: {
@@ -82,7 +82,6 @@ async function getData(slug: string) {
         },
       },
     });
-
     return blog;
   } catch (error) {
     console.error(error);

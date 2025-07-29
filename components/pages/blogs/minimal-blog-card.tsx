@@ -203,6 +203,7 @@ export default function MinimalBlogCard({
             blogAuthorId={blog.authorId}
             blogStatus={blog.status}
             uuid={blog.uuid}
+            showComments={blog.show_comments}
             showMoreActions={showMoreActions}
             onUpdate={onUpdate}
             onDelete={() => setShowDeleteDialog(!showDeleteDialog)}

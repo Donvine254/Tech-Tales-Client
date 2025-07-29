@@ -5,56 +5,58 @@ generator client {
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
-  directUrl = env("POSTGRES_URL_NON_POOLING")
+  directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
 model User {
-  id              Int        @id @default(autoincrement())
-  username        String     @unique
-  email           String     @unique
-  password_digest String
-  role            Role       @default(user)
-  deleted         Boolean    @default(false)
-  picture         String?
-  bio             String?    @default("This user has no bio")
-  handle          String     @unique
-  status          UserStatus @default(ACTIVE)
-  socials         Json?      @default("[]")
-  preferences     Json?      @default("{\"cookies\": true, \"analytics\": false, \"email_notifications\": false, \"newsletter_subscription\": false}")
-  branding        String?    @default("#01142d")
-  skills          String?    @default("Just surfing the web")
-  email_verified  Boolean    @default(false)
-  provider        String     @default("email")
-  blogs           Blog[]
-  comments        Comment[]
-  favorites       Favorite[]
-  responses       Response[]
-  createdAt       DateTime   @default(now())
-  updatedAt       DateTime   @updatedAt
-  deactivatedAt   DateTime?
-  deletedAt       DateTime?
+  id                      Int          @id @default(autoincrement())
+  username                String       @unique
+  email                   String       @unique
+  password_digest         String
+  role                    Role         @default(user)
+  createdAt               DateTime     @default(now())
+  updatedAt               DateTime     @updatedAt
+  picture                 String?
+  bio                     String?      @default("This user has no bio")
+  handle                  String       @unique
+  status                  UserStatus   @default(ACTIVE)
+  deactivatedAt           DateTime?
+  deactivated             Boolean      @default(false)
+  socials                 Json?        @default("[]")
+  preferences             Json?        @default("{\"cookies\": true, \"analytics\": false, \"email_notifications\": false, \"newsletter_subscription\": false}")
+  branding                String?      @default("#01142d")
+  skills                  String?      @default("Just surfing the web")
+  email_verified          Boolean      @default(false)
+  auth_provider           AuthProvider @default(email)
+  keep_blogs_on_delete    Boolean      @default(false)
+  keep_comments_on_delete Boolean      @default(false)
+  blogs                   Blog[]
+  comments                Comment[]
+  favorites               Favorite[]
+  responses               Response[]
 
   @@index([handle, email, username])
 }
 
 model Blog {
-  id        Int        @id @default(autoincrement())
-  title     String?
-  authorId  Int
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  tags      String?
-  body      String?
-  slug      String?    @unique
-  status    BlogStatus @default(PUBLISHED)
-  likes     Int        @default(0)
-  views     Int        @default(0)
-  audio     String?
-  image     Json?      @default("{}")
-  uuid      String     @unique @default(uuid()) @db.Uuid
-  author    User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  comments  Comment[]
-  Favorite  Favorite[]
+  id            Int        @id @default(autoincrement())
+  title         String?
+  authorId      Int
+  tags          String?
+  body          String?
+  slug          String?    @unique
+  status        BlogStatus @default(PUBLISHED)
+  likes         Int        @default(0)
+  views         Int        @default(0)
+  audio         String?
+  image         Json?      @default("{}")
+  uuid          String     @unique @default(uuid()) @db.Uuid
+  author        User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  comments      Comment[]
+  show_comments Boolean    @default(true)
+  Favorite      Favorite[]
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
 
   @@index([slug, authorId, uuid])
 }
@@ -67,6 +69,7 @@ model Comment {
   updatedAt DateTime      @updatedAt
   body      String
   status    CommentStatus @default(VISIBLE)
+  show      Boolean       @default(true)
   author    User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
   blog      Blog          @relation(fields: [blogId], references: [id], onDelete: Cascade)
   responses Response[]
@@ -124,4 +127,11 @@ enum CommentStatus {
   FLAGGED
   HIDDEN
   ARCHIVED
+}
+
+enum AuthProvider {
+  email
+  google
+  github
+  meta
 }

@@ -6,7 +6,10 @@ import { Prisma, UserStatus } from "@prisma/client";
 import { createAndSetAuthTokenCookie } from "./jwt";
 import { redirect } from "next/navigation";
 import { isVerifiedUser } from "@/dal/auth-check";
-import { sendDeleteNotificationEmail } from "@/emails/mailer";
+import {
+  sendDeactivationNotificationEmail,
+  sendDeleteNotificationEmail,
+} from "@/emails/mailer";
 
 // function to getAllUserBlogs
 export const getUserBlogs = unstable_cache(
@@ -35,14 +38,15 @@ export const getUserBlogs = unstable_cache(
   ["user-blogs"],
   { revalidate: 600 }
 );
-
+// This function returns data for user profile. Just user information and top 5 blogs.
 export const getUserData = unstable_cache(
   async (userId: number) => {
     if (!userId) {
       redirect("/login");
     }
     const user = await prisma.user.findUnique({
-      where: { id: userId },
+      // do not return deactivated users data
+      where: { id: userId, deactivated: false },
       select: {
         id: true,
         username: true,
@@ -95,14 +99,14 @@ export const getUserData = unstable_cache(
     tags: ["user-blogs"],
   }
 );
-//function to get user profile data
+//This function returns user data for the settings page
 export async function fetchProfileData(id: number) {
   if (!id) {
     redirect("/login");
   }
   try {
     const user = await prisma.user.findUnique({
-      where: { id },
+      where: { id, deactivated: false },
       select: {
         id: true,
         username: true,
@@ -113,6 +117,8 @@ export async function fetchProfileData(id: number) {
         role: true,
         branding: true,
         skills: true,
+        keep_blogs_on_delete: true,
+        keep_comments_on_delete: true,
         preferences: true,
       },
     });
@@ -172,6 +178,8 @@ type UpdateData = {
   email_verified?: boolean;
   deleted?: boolean;
   status?: UserStatus;
+  keep_blogs_on_delete?: boolean;
+  keep_comments_on_delete?: boolean;
 };
 
 export async function updateUserDetails(
@@ -208,8 +216,8 @@ export async function updateUserDetails(
     await prisma.$disconnect();
   }
 }
-/* function to soft delete user account and make it possible for users to restore their accounts within 30 days */
-export async function deleteUserAccount(
+/* function to deactivate user account and make it possible for users to restore their accounts within 30 days */
+export async function deactivateUserAccount(
   keepBlogs: boolean,
   keepComments: boolean
 ) {
@@ -223,8 +231,10 @@ export async function deleteUserAccount(
         id: Number(session.userId),
       },
       data: {
-        deleted: true,
-        deletedAt: new Date(),
+        deactivated: true,
+        deactivatedAt: new Date(),
+        keep_blogs_on_delete: keepBlogs,
+        keep_comments_on_delete: keepComments,
       },
       select: {
         id: true,
@@ -233,23 +243,88 @@ export async function deleteUserAccount(
       },
     });
     setImmediate(async () => {
+      // Archive blog posts
       if (!keepBlogs) {
         await prisma.blog.updateMany({
-          where: { authorId: user.id },
+          where: { authorId: user.id, status: "PUBLISHED" },
           data: { status: "ARCHIVED" },
         });
       }
-
+      // Archive comments
       if (!keepComments) {
         await prisma.comment.updateMany({
           where: { authorId: user.id },
+          data: { show: false },
+        });
+      }
+      await sendDeactivationNotificationEmail(
+        user.username,
+        user.email,
+        user.id,
+        keepBlogs,
+        keepComments
+      );
+    });
+    return { success: true, message: "User account deleted successfully" };
+  } catch (error) {
+    const e = error as Error;
+    return {
+      success: false,
+      message: e.message || "Something unexpected happened",
+    };
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+/* function to permanently delete user account and associated data */
+/* function to soft delete user account and make it possible for users to restore their accounts within 30 days */
+// TODO: MODIFY THIS FUNCTION
+export async function deleteUserAccount(
+  keepBlogs: boolean,
+  keepComments: boolean
+) {
+  const session = await isVerifiedUser();
+  if (!session) {
+    redirect("/login");
+  }
+  try {
+    // If keep blogs and comments is true, anonymize user information,
+    //set the username to Deleted_User_${userId} and handle to deleted_user_${userId}, set picture to null and remove the email
+    const user = await prisma.user.update({
+      where: {
+        id: Number(session.userId),
+      },
+      data: {
+        deactivated: true,
+        deactivatedAt: new Date(),
+        keep_blogs_on_delete: keepBlogs,
+        keep_comments_on_delete: keepComments,
+      },
+      select: {
+        id: true,
+        email: true,
+        username: true,
+      },
+    });
+    setImmediate(async () => {
+      // Archive blog posts
+      if (!keepBlogs) {
+        await prisma.blog.updateMany({
+          where: { authorId: user.id, status: "PUBLISHED" },
           data: { status: "ARCHIVED" },
+        });
+      }
+      // Archive comments
+      if (!keepComments) {
+        await prisma.comment.updateMany({
+          where: { authorId: user.id },
+          data: { show: false },
         });
       }
       await sendDeleteNotificationEmail(
         user.username,
         user.email,
-        user.id,
         keepBlogs,
         keepComments
       );

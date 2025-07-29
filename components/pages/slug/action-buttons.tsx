@@ -6,6 +6,8 @@ import {
   Printer,
   Pencil,
   ShieldBan,
+  LockIcon,
+  LockOpenIcon,
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -24,7 +26,7 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from "@/components/ui/tooltip";
-import { deleteOrArchiveBlog } from "@/lib/actions/blogs";
+import { updateBlogStatus } from "@/lib/actions/blogs";
 import AnimatedLikeButton from "@/components/custom/like-button";
 import { ShareModal } from "@/components/modals/share-modal";
 import Bookmark from "@/components/custom/bookmark";
@@ -32,6 +34,7 @@ import DeleteButton from "@/components/modals/delete-dialog";
 import BlogReportDialog from "@/components/modals/report-blog";
 import { CommentData, Session } from "@/types";
 import parse from "html-react-parser";
+import { BlogStatus } from "@prisma/client";
 interface ActionButtonsProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   blog: Record<string, any>;
@@ -52,9 +55,9 @@ const ActionButtons: FC<ActionButtonsProps> = ({ blog, session, comments }) => {
       console.error("inkHtml is not loaded.");
     }
   };
-  const handleBlogDeletion = async () => {
+  const handleUpdateStatus = async (status: BlogStatus) => {
     try {
-      const res = await deleteOrArchiveBlog(blog.uuid);
+      const res = await updateBlogStatus(status, blog.id);
       if (res.success) {
         toast.success(res.message);
         router.replace("/");
@@ -137,11 +140,23 @@ const ActionButtons: FC<ActionButtonsProps> = ({ blog, session, comments }) => {
                     Edit Blog
                   </Link>
                 </DropdownMenuItem>
+                {/* TODO: Add functionality to lock and unlock discussion */}
+                {blog.show_comments ? (
+                  <DropdownMenuItem>
+                    <LockIcon className="h-4 w-4" />
+                    Lock Discussion
+                  </DropdownMenuItem>
+                ) : (
+                  <DropdownMenuItem>
+                    <LockOpenIcon className="h-4 w-4" />
+                    Unlock Discussion
+                  </DropdownMenuItem>
+                )}
                 <DeleteButton
                   item="blog post"
                   text="Archive Post"
                   action="archive"
-                  onDelete={handleBlogDeletion}
+                  onDelete={() => handleUpdateStatus("ARCHIVED")}
                 />
               </>
             ) : (

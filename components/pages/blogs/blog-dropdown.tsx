@@ -17,6 +17,8 @@ import {
   MegaphoneIcon,
   MoreHorizontal,
   PencilLineIcon,
+  LockIcon,
+  LockOpenIcon,
 } from "lucide-react";
 import { BlogStatus } from "@prisma/client";
 import { useSession } from "@/providers/session";
@@ -31,6 +33,7 @@ interface BlogCardDropdownProps {
   uuid: string;
   blogStatus: BlogStatus;
   showMoreActions?: boolean;
+  showComments: boolean;
   onUpdate: (status: BlogStatus, blogId: number) => void;
   onDelete: () => void;
 }
@@ -42,6 +45,7 @@ export const BlogCardDropdown = ({
   blogStatus,
   uuid,
   showMoreActions = false,
+  showComments,
   onUpdate,
   onDelete,
 }: BlogCardDropdownProps) => {
@@ -90,6 +94,18 @@ export const BlogCardDropdown = ({
                   </span>
                 </DropdownMenuItem>
               </Link>
+            )}
+            {/* TODO: ADD LOGIC TO LOCK AND UNLOCK DISCUSSION */}
+            {showComments ? (
+              <DropdownMenuItem>
+                <LockIcon className="h-4 w-4" />
+                Lock Discussion
+              </DropdownMenuItem>
+            ) : (
+              <DropdownMenuItem>
+                <LockOpenIcon className="h-4 w-4" />
+                Unlock Discussion
+              </DropdownMenuItem>
             )}
             {blogStatus === "UNPUBLISHED" && (
               <DropdownMenuItem

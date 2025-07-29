@@ -87,5 +87,7 @@ export interface UserProfileData {
   branding: string;
   skills: string;
   preferences: Preferences;
+  keep_blogs_on_delete: boolean;
+  keep_comments_on_delete: boolean;
 }
 export type UserComments = Awaited<ReturnType<typeof getUserComments>>;

@@ -6,6 +6,7 @@ import {
   AccountDeletionTemplate,
   AdminRegistrationTemplate,
   PasswordResetTemplate,
+  AccountDeactivationTemplate,
 } from "./templates";
 import { createAccountActionsToken } from "@/lib/actions/jwt";
 
@@ -79,7 +80,7 @@ export const sendAdminRegistrationEmail = async (
     return { message: "Email delivery failed" };
   }
 };
-export const sendDeleteNotificationEmail = async (
+export const sendDeactivationNotificationEmail = async (
   name: string,
   email: string,
   id: number,
@@ -99,16 +100,37 @@ export const sendDeleteNotificationEmail = async (
   const secureLink = encodeURI(link);
   try {
     await sendEmail({
-      subject: "Important: Your Tech Tales Account has been Deleted",
+      subject: "Important: Your Tech Tales Account has been Deactivated",
       to: email,
       from: sender,
-      html: AccountDeletionTemplate(
+      html: AccountDeactivationTemplate(
         name,
         email,
         secureLink,
         keepBlogs,
         keepComments
       ),
+    });
+    console.log("Email sent successfully");
+    return { message: "Email sent successfully" };
+  } catch (error) {
+    console.error("Email delivery failed:", error);
+    return { message: "Email delivery failed" };
+  }
+};
+export const sendDeleteNotificationEmail = async (
+  name: string,
+  email: string,
+  keepBlogs: boolean,
+  keepComments: boolean
+) => {
+  // create a restore token
+  try {
+    await sendEmail({
+      subject: "Important: Your Tech Tales Account has been Deleted",
+      to: email,
+      from: sender,
+      html: AccountDeletionTemplate(name, email, keepBlogs, keepComments),
     });
     console.log("Email sent successfully");
     return { message: "Email sent successfully" };

@@ -27,6 +27,7 @@ type Props = {
   blogId: number;
   blogAuthorId: number;
   blogStatus: BlogStatus;
+  showComments: boolean;
   setComments: React.Dispatch<React.SetStateAction<CommentData[]>>;
   comments: CommentData[] | [];
   session: Session | null;
@@ -38,6 +39,7 @@ export default function Comments({
   setComments,
   blogAuthorId,
   blogStatus,
+  showComments,
   blogId,
 }: Props) {
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
@@ -188,7 +190,7 @@ export default function Comments({
           </Tooltip>
         </TooltipProvider>
       </div>
-      {blogStatus == "ARCHIVED" ? (
+      {blogStatus == "ARCHIVED" || !showComments ? (
         <div className="flex flex-col items-center justify-center gap-4 border rounded-xl h-fit min-h-16 px-6 py-8 my-4 bg-muted shadow-lg dark:shadow-gray-900/20">
           {/* Archive Icon */}
           <div className="p-3 rounded-full bg-yellow-100 dark:bg-yellow-500/20">
