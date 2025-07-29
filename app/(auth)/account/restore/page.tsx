@@ -69,8 +69,8 @@ function SuccessCard() {
           Account Restored
         </h1>
         <p className="text-sm text-balance text-muted-foreground">
-          Your account has been successfully restored. You can now log in to
-          continue with your existing credentials.
+          Your account has been successfully restored. You can now continue to
+          log in with your existing credentials.
         </p>
         <Link href="/login">
           <Button className="w-full min-w-full bg-blue-500 hover:bg-blue-600 text-white">
