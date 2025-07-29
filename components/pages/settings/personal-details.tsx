@@ -49,7 +49,7 @@ export default function PersonalDetails({
     }
     setIsSubmitting(true);
     const toastId = toast.loading("Processing request..");
-    const res = await updateUserDetails(userId, formData);
+    const res = await updateUserDetails(formData);
     toast.dismiss(toastId);
     setIsSubmitting(false);
     if (res.success && res.user) {

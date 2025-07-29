@@ -172,6 +172,20 @@ export default function History() {
   );
   return (
     <section>
+      <div className="bg-card/80 mb-4 px-4 py-6 sm:px-6 rounded-md shadow-sm flex flex-wrap items-center gap-4 justify-between animate-scale-in">
+        <p className="text-muted-foreground text-sm sm:text-base">
+          You can clear your reading history for a fresh start.
+        </p>
+        <Button
+          className="w-full sm:w-max px-5 py-2 md:rounded-full"
+          variant="destructive"
+          title="clear all history"
+          disabled={isLoading || blogs.length === 0}
+          onClick={handleClearHistory}>
+          <BrushCleaningIcon className="size-4" />
+          Clear History
+        </Button>
+      </div>
       {/* Search and Sort Controls */}
       <div className="flex flex-col sm:flex-row gap-4 mb-4">
         <div className="relative w-full flex-1">
@@ -201,16 +215,6 @@ export default function History() {
               <SelectItem value="lastEdited">Last Edited</SelectItem>
             </SelectContent>
           </Select>
-          {blogs && blogs.length > 0 && (
-            <button
-              className="bg-background border inline-flex items-center text-destructive text-sm hover:bg-destructive hover:text-white h-9 rounded-md gap-1.5 px-3 py-1.5 has-[>svg]:px-2.5 whitespace-nowrap font-medium transition-all cursor-pointer disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
-              title="clear all history"
-              disabled={isLoading || blogs.length === 0}
-              onClick={handleClearHistory}>
-              <BrushCleaningIcon className="size-4" />
-              Clear All
-            </button>
-          )}
         </div>
       </div>
       {/* render blogs */}

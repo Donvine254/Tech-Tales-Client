@@ -10,7 +10,7 @@ export default function page() {
     <div className="min-h-screen bg-gray-100 dark:bg-accent">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* header */}
-        <div className="mb-8 text-center sm:text-start ">
+        <div className="mb-4 text-center sm:text-start ">
           <h1 className="text-2xl lg:text-3xl font-bold text-foreground mb-4">
             Reading History
           </h1>
