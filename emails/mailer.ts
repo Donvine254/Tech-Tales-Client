@@ -95,7 +95,7 @@ export const sendDeleteNotificationEmail = async (
     },
     "30d"
   );
-  const link = `https://techtales.vercel.app/restore?token=${token}`;
+  const link = `https://techtales.vercel.app/account/restore?token=${token}`;
   const secureLink = encodeURI(link);
   try {
     await sendEmail({

@@ -5,6 +5,7 @@ import {
   createAndSetAuthTokenCookie,
   createAndSetEmailVerificationCookie,
   createAccountActionsToken,
+  verifyToken,
 } from "./jwt";
 import { rateLimitByIp } from "./rate-limiter";
 import { Prisma } from "@prisma/client/edge";
@@ -382,5 +383,48 @@ export async function resetPassword(userId: number, password: string) {
   } catch (error) {
     const e = error as Error;
     return { success: false, message: e.message || "Something went wrong." };
+  }
+}
+
+/*function to restore user account */
+
+export async function restoreAccount(token: string): Promise<{
+  success: boolean;
+  error?: "error-token" | "error-server";
+  message: string;
+}> {
+  if (!token) {
+    return { success: false, error: "error-token", message: "Token not found" };
+  }
+  const res = await verifyToken(token);
+  if (!res.valid || !res.payload) {
+    return {
+      success: false,
+      error: "error-token",
+      message: "Token is invalid or has expired",
+    };
+  }
+  const userId = res.payload.id;
+  try {
+    await prisma.user.update({
+      where: {
+        id: Number(userId),
+      },
+      data: {
+        deleted: false,
+        deletedAt: null,
+      },
+    });
+    return { success: true, message: "Account restored successfully" };
+  } catch (error) {
+    const e = error as Error;
+    console.log(e);
+    return {
+      success: false,
+      error: "error-server",
+      message: e.message || "Something unexpected happenned",
+    };
+  } finally {
+    await prisma.$disconnect();
   }
 }
