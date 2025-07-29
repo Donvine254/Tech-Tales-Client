@@ -67,7 +67,7 @@ export default function SettingsPage({ user }: { user: UserProfileData }) {
         userId={user.id}
       />
     ),
-    security: <SecurityAccount userId={user.id} />,
+    security: <SecurityAccount userId={user.id} email={user.email} />,
     preferences: <PreferenceSettings />,
   };
 

@@ -21,8 +21,15 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { deactivateUserAccount, deleteUserAccount } from "@/lib/actions/user";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import SuccessDialog from "@/components/modals/success-dialog";
+import Link from "next/link";
 
-export default function SecurityAccount({ userId }: { userId: number }) {
+export default function SecurityAccount({
+  userId,
+  email,
+}: {
+  userId: number;
+  email: string;
+}) {
   const [passwords, setPasswords] = useState({
     current: "",
     new: "",
@@ -107,9 +114,21 @@ export default function SecurityAccount({ userId }: { userId: number }) {
 
       <div className="space-y-6">
         {/* Change Password Form */}
-        <h3 className="text-lg font-medium mb-4 text-gray-900 dark:text-white">
+        <h3 className="text-lg font-medium mb-2 text-gray-900 dark:text-white">
           Change Password
         </h3>
+        <p className="text-xs md:text-sm text-muted-foreground font-medium">
+          If you signed up using a social account, you can add email login by
+          resetting the password for your primary email ({email}). If that is
+          the case,{" "}
+          <Link
+            href="/password/reset"
+            prefetch={false}
+            title="Reset your password"
+            className="text-blue-500 underline underline-offset-4">
+            Reset Password.
+          </Link>
+        </p>
         <form
           onSubmit={handlePasswordSubmit}
           id="password-form"
@@ -211,7 +230,26 @@ export default function SecurityAccount({ userId }: { userId: number }) {
             </Button>
           </div>
         </form>
-
+        <hr />
+        {/* Export data actions */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-medium mb-4 text-gray-900 dark:text-white">
+            Download your data
+          </h3>
+          <p className="text-sm text-gray-600 dark:text-gray-300">
+            Download a copy of all the information you have shared with
+            Techtales. We support exports of your posts, responses and profile
+            information as a zip file.
+          </p>
+          <p className="text-sm text-gray-600 dark:text-gray-300">
+            By initiating the process to receive these files you are
+            representing that you have all necessary rights and permissions to
+            receive the content included in the file.
+          </p>
+          <Button className="bg-blue-500 text-white hover:bg-blue-600 hover:text-white">
+            Export Your Data
+          </Button>
+        </div>
         {/* Account Actions */}
         <hr />
         <div>

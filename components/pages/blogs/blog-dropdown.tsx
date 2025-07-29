@@ -97,20 +97,20 @@ export const BlogCardDropdown = ({
                 </DropdownMenuItem>
               </Link>
             )}
-            {/* TODO: ADD LOGIC TO LOCK AND UNLOCK DISCUSSION */}
-            {showComments && blogStatus === "PUBLISHED" ? (
-              <DropdownMenuItem
-                onClick={() => onShowCommentsUpdate?.(blogId, false)}>
-                <LockIcon className="h-4 w-4 mr-2" />
-                Lock Discussion
-              </DropdownMenuItem>
-            ) : (
-              <DropdownMenuItem
-                onClick={() => onShowCommentsUpdate?.(blogId, false)}>
-                <LockOpenIcon className="h-4 w-4 mr-2" />
-                Unlock Discussion
-              </DropdownMenuItem>
-            )}
+            {blogStatus === "PUBLISHED" &&
+              (showComments ? (
+                <DropdownMenuItem
+                  onClick={() => onShowCommentsUpdate?.(blogId, false)}>
+                  <LockIcon className="h-4 w-4 mr-2" />
+                  Lock Discussion
+                </DropdownMenuItem>
+              ) : (
+                <DropdownMenuItem
+                  onClick={() => onShowCommentsUpdate?.(blogId, true)}>
+                  <LockOpenIcon className="h-4 w-4 mr-2" />
+                  Unlock Discussion
+                </DropdownMenuItem>
+              ))}
             {blogStatus === "UNPUBLISHED" && (
               <DropdownMenuItem
                 onClick={() => {
