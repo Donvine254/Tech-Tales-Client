@@ -68,7 +68,10 @@ export const getUserData = unstable_cache(
         authorId: userId,
         status: "PUBLISHED",
       },
-      select: blogSelect,
+      select: {
+        status: true,
+        ...blogSelect,
+      },
       orderBy: {
         views: "desc",
       },

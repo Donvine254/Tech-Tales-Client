@@ -12,7 +12,10 @@ export async function getUserFavorites(userId: number) {
     },
     select: {
       blog: {
-        select: blogSelect,
+        select: {
+          status: true,
+          ...blogSelect,
+        },
       },
     },
   });
@@ -34,7 +37,10 @@ export async function getBlogsByIds(blogIds: number[]) {
         },
         status: "PUBLISHED",
       },
-      select: blogSelect,
+      select: {
+        status: true,
+        ...blogSelect,
+      },
     });
 
     return blogs;

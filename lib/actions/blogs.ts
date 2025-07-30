@@ -200,7 +200,10 @@ export const getUserAndBlogsByHandle = unstable_cache(
         authorId: user.id,
         status: "PUBLISHED",
       },
-      select: blogSelect,
+      select: {
+        status: true,
+        ...blogSelect,
+      },
       orderBy: {
         createdAt: "desc",
       },
