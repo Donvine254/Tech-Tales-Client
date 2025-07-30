@@ -204,6 +204,7 @@
   }
 }
 /* styling for blog body */
+
 .blog h1 {
   font-size: var(--fs-h1);
   line-height: var(--lh-h1);
@@ -228,15 +229,20 @@
   font-kerning: auto;
   font-weight: 600;
 }
-
-.blog p {
+.blog-body p {
   font-size: var(--fs-p);
   line-height: var(--lh-p);
   font-family: var(--font-serif);
   font-weight: 400;
   font-kerning: auto;
 }
-
+.blog-body ol,
+.blog-body ul,
+.blog-body table {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-kerning: auto;
+}
 .blog-body p code {
   background-color: #f5f2f0;
   font-family: monospace;
@@ -414,18 +420,14 @@ blockquote p {
   padding: 0.5rem;
 }
 
-.mce-toc .toc-title {
-  font-size: 1.25rem;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-}
-
 .toc-wrapper {
-  @apply px-1 py-2  flex flex-col gap-0.5 rounded-lg shadow w-full border border-border bg-card dark:bg-gray-800;
+  @apply px-1 py-2  flex flex-col gap-0.5 rounded-lg shadow w-full bg-blue-100/20 dark:bg-blue-900/20 border border-blue-500;
 }
-
+.toc-item {
+  @apply text-xs sm:text-base font-serif font-normal;
+}
 .toc-item a {
-  @apply text-sm text-foreground hover:underline transition-colors hover:text-blue-500;
+  @apply text-foreground hover:underline transition-colors hover:text-blue-500;
 }
 .toc-item,
 .toc-item a {

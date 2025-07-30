@@ -180,7 +180,7 @@ export default function BlogSummaryGenerator({
     <div
       className={cn(
         isExpanded &&
-          "w-full p-3 md:px-5 bg-muted shadow dark:border-border rounded-lg"
+          "w-full p-3 md:px-5 bg-green-100 dark:dark:bg-green-900/20 border shadow border-green-500  rounded-lg"
       )}>
       <div className="flex items-center justify-between">
         <button
@@ -207,7 +207,7 @@ export default function BlogSummaryGenerator({
       <div
         className={`overflow-hidden animate-collapsible ${
           isExpanded
-            ? "max-h-[600px] p-2 sm:p-3 rounded-lg bg-card"
+            ? "max-h-[600px] p-2 sm:p-3 rounded-lg bg-card dark:bg-muted/50"
             : "max-h-0 p-0"
         }`}>
         <div className="text-sm leading-relaxed mb-2 min-h-[100px]">
