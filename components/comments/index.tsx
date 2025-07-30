@@ -263,7 +263,7 @@ export default function Comments({
           </Button>
         )}
       </div>
-      <div className="space-y-2">
+      <div className="space-y-2 divide-y-1 divide-border">
         {comments && comments.length > 0 ? (
           comments.map((c) => (
             <CommentItem

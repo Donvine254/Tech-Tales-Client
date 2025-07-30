@@ -41,13 +41,13 @@ export default function CommentBody({
     <div className="mt-1">
       {cleanHtml.length > 0 && (
         <article
-          className="px-3 py-2 rounded-r-xl sm:text-sm rounded-bl-xl border shadow bg-card text-xs md:text-sm mb-1 max-w-max font-serif"
+          className="px-3 py-2 rounded-r-xl sm:text-sm rounded-bl-xl border shadow bg-card text-xs md:text-sm mb-1 max-w-max font-serif animate-scale-in"
           id="comment-body">
           {" "}
           {parse(textHtml)}
           {status && status === "HIDDEN" && (
             <button
-              className="text-sm cursor-pointer text-blue-500 font-bold underline underline-offset-2"
+              className="text-sm cursor-pointer text-blue-500 font-medium hover:underline hover:underline-offset-2"
               onClick={hideComment}>
               Hide Comment
             </button>

@@ -22,7 +22,7 @@ const Editor = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="min-h-[100px] flex flex-col gap-x-5 items-center justify-center bg-gray-500/10">
+      <div className="min-h-[100px] flex flex-col gap-x-5 items-center justify-center bg-gray-500/10 mb-3">
         <Loader2 className="h-8 w-8 text-blue-500 animate-spin" />
         <p>Loading Editor...</p>
       </div>
@@ -47,7 +47,7 @@ export const ResponseEditor: React.FC<ResponseEditorProps> = ({
     onEditorChange(content);
   };
   return (
-    <form className="ml-6 sm:ml-12">
+    <form className="ml-6 sm:ml-12 mb-3">
       <div className="flex space-x-4">
         {/* User Avatar */}
         <div className="flex-shrink-0">

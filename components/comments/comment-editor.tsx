@@ -44,7 +44,6 @@ export const CommentEditor: React.FC<CommentEditorProps> = ({
   };
   return (
     <form>
-      {/* TODO: create response edit with ml-12 */}
       <div className="flex space-x-4">
         {/* User Avatar */}
         <div className="flex-shrink-0">

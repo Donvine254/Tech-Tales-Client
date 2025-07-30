@@ -16,11 +16,13 @@ import {
   Calendar,
   ChevronDown,
   ChevronUp,
+  CircleQuestionMark,
   Crown,
   Edit2,
   Feather,
   Flag,
   FlagOffIcon,
+  Info,
   MoreHorizontal,
   Reply,
   Trash2,
@@ -281,11 +283,11 @@ export const CommentItem: React.FC<Props> = ({
     setIsEditing(false);
   }
   return (
-    <div className="">
-      <div className="flex space-x-4">
+    <div>
+      <div className="flex items-center space-x-4">
         {/* User Avatar */}
-        <div className="flex-shrink-0">
-          <Avatar className="h-8 w-8 ring-2 ring-cyan-500 ring-offset-2">
+        <div className="flex-shrink-0 self-start mt-2">
+          <Avatar className="h-9 w-9 ring-2  ring-cyan-500 ring-offset-2">
             <AvatarImage
               src={comment.author.picture ?? "/placeholder.svg"}
               alt={comment.author.username}
@@ -326,13 +328,11 @@ export const CommentItem: React.FC<Props> = ({
             {/* Right: Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  className="cursor-pointer"
+                <button
+                  className="cursor-pointer hover:bg-input/50 p-1 rounded-full"
                   title="More Actions">
                   <MoreHorizontal className="h-4 w-4" />
-                </Button>
+                </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-40">
                 {/* Comment Author can edit */}
@@ -404,7 +404,6 @@ export const CommentItem: React.FC<Props> = ({
                     )}
                   </>
                 )}
-                <DropdownMenuSeparator />
                 {/* Comment Author, Blog Author, or Admin can delete */}
                 {(isCommentAuthor || isBlogAuthor || isAdmin) && (
                   <DropdownMenuItem asChild>
@@ -468,15 +467,18 @@ export const CommentItem: React.FC<Props> = ({
 
           {/* Comment Body */}
           {comment.status === "HIDDEN" && !showHidden ? (
-            <div className="px-3 py-2 rounded-r-xl gap-2 sm:text-sm rounded-bl-xl border shadow bg-card text-xs md:text-sm mb-1 max-w-max font-serif mt-1 animate-scale-in duration-700 transition-all">
-              <p className="text-muted-foreground">
-                ⚠️ This comment has been hidden by a moderator.
-              </p>
-              <button
-                className="text-sm cursor-pointer text-blue-500 font-bold underline underline-offset-2"
-                onClick={() => setShowHidden(true)}>
-                Show Comment
-              </button>
+            <div className="flex items-start px-3 py-2 rounded-r-xl rounded-bl-xl border shadow bg-card text-xs md:text-sm mb-1 max-w-max font-serif mt-1 animate-scale-in duration-700 transition-all">
+              <Info className="w-4 h-4 text-muted-foreground mt-0.5 mr-2 flex-shrink-0" />
+              <div>
+                <p className="text-muted-foreground">
+                  This comment has been hidden by a moderator.
+                </p>
+                <button
+                  className="text-sm cursor-pointer text-blue-500 font-medium hover:underline hover:underline-offset-2"
+                  onClick={() => setShowHidden(true)}>
+                  Show Comment
+                </button>
+              </div>
             </div>
           ) : (
             <CommentBody
@@ -486,60 +488,73 @@ export const CommentItem: React.FC<Props> = ({
             />
           )}
           {/* Action Buttons Row */}
-          <div className="flex items-center gap-2 md:space-x-4 mb-4">
+          <div className="flex items-center mb-4">
             {/* Quick Reply Button */}
-            {session && (
-              <Button
-                variant="ghost"
-                className="cursor-pointer justify-start hover:text-blue-500 group"
-                disabled={
-                  blogStatus === "ARCHIVED" ||
-                  !session ||
-                  comment.status === "HIDDEN"
-                }
-                onClick={() => setIsReplying(!isReplying)}>
-                {" "}
-                <Reply className="h-4 w-4 group-hover:text-blue-500" />
-                <span className="group-hover:text-blue-500">Reply</span>
-              </Button>
+            {comment.status === "VISIBLE" && (
+              <>
+                <Button
+                  variant="link"
+                  className="cursor-pointer text-muted-foreground text-xs hover:text-blue-500 group"
+                  onClick={() => setIsReplying(!isReplying)}
+                  disabled={!session || blogStatus !== "PUBLISHED"}>
+                  {" "}
+                  <Reply className="h-4 w-4 group-hover:text-blue-500" />
+                  <span className="group-hover:text-blue-500">Reply</span>
+                </Button>
+                <Button
+                  variant="link"
+                  className="cursor-pointer text-muted-foreground text-xs hover:text-red-500 group"
+                  onClick={() =>
+                    toast.success(
+                      "Report received. Thank you for helping keep our community safe"
+                    )
+                  }
+                  disabled={!session || blogStatus !== "PUBLISHED"}>
+                  {" "}
+                  <CircleQuestionMark className="size-3 sm:size-4 group-hover:text-red-500 " />
+                  <span className="group-hover:text-red-500 hidden sm:block">
+                    Report Abuse
+                  </span>
+                  <span className="sm:hidden">Report</span>
+                </Button>
+              </>
             )}
-            {comment.status === "FLAGGED" && (
-              <Badge
-                className="text-red-500"
-                variant="outline"
-                title="comment has been reported to contain offensive or obscene language">
-                <FlagFilled className="size-4 fill-red-500" /> Flagged
-              </Badge>
-            )}
-            {comment.status === "HIDDEN" && (
-              <Badge
-                className="text-red-500 hidden sm:inline-flex"
-                variant="outline">
-                <TriangleAlert className="size-4 text-red-500" /> Marked as
-                offensive
-              </Badge>
-            )}
+
             {/* Collapse/Expand Replies Button */}
             {comment.responses && comment.responses.length > 0 && (
               <Button
                 size="sm"
-                variant="ghost"
+                variant="link"
                 disabled={isReplying || isEditing}
                 onClick={() => setRepliesCollapsed(!repliesCollapsed)}
-                className="text-sm cursor-pointer font-medium text-muted-foreground">
+                className="text-xs cursor-pointer font-medium text-muted-foreground hover:text-blue-500">
                 {repliesCollapsed ? (
                   <>
-                    <ChevronDown className="h-4 w-4 mr-1" />
+                    <ChevronDown className="h-4 w-4" />
                     Show {comment.responses!.length}{" "}
                     {comment.responses!.length === 1 ? "reply" : "replies"}
                   </>
                 ) : (
                   <>
-                    <ChevronUp className="h-4 w-4 mr-1" />
+                    <ChevronUp className="h-4 w-4" />
                     Hide replies
                   </>
                 )}
               </Button>
+            )}
+            {comment.status === "FLAGGED" && (
+              <Badge
+                className="text-red-500 text-xs bg-background"
+                title="comment has been reported to contain offensive or obscene language">
+                <FlagFilled className="size-4 fill-red-500" /> Flagged
+              </Badge>
+            )}
+            {comment.status === "HIDDEN" && (
+              <Badge className="text-red-500 text-xs bg-background">
+                <TriangleAlert className="size-4 text-red-500" />{" "}
+                <span className="hidden sm:block">Marked as offensive</span>
+                <span className="sm:hidden">Offensive</span>
+              </Badge>
             )}
           </div>
         </div>
