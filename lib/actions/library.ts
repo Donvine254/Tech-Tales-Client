@@ -1,5 +1,6 @@
 "use server";
 import prisma from "@/prisma/prisma";
+import { blogSelect } from "@/prisma/select";
 
 export async function getUserFavorites(userId: number) {
   const favorites = await prisma.favorite.findMany({
@@ -11,19 +12,7 @@ export async function getUserFavorites(userId: number) {
     },
     select: {
       blog: {
-        include: {
-          author: {
-            select: {
-              username: true,
-              picture: true,
-            },
-          },
-          _count: {
-            select: {
-              comments: true,
-            },
-          },
-        },
+        select: blogSelect,
       },
     },
   });
@@ -45,19 +34,7 @@ export async function getBlogsByIds(blogIds: number[]) {
         },
         status: "PUBLISHED",
       },
-      include: {
-        author: {
-          select: {
-            username: true,
-            picture: true,
-          },
-        },
-        _count: {
-          select: {
-            comments: true,
-          },
-        },
-      },
+      select: blogSelect,
     });
 
     return blogs;

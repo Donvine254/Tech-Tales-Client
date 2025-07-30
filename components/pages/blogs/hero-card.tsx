@@ -67,7 +67,7 @@ export default function HeroCard({
               </div>
             </div>
             <article className="text-xs sm:text-sm text-gray-700 dark:text-gray-200 line-clamp-3">
-              {post ? parse(post.body.substring(0, 400)) : "Loading..."}
+              {parse(post.description)}
             </article>
             <div className="flex flex-wrap gap-2 my-2">
               {post?.tags?.split(",").map((tag: string, index: number) => (

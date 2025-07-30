@@ -11,6 +11,7 @@ import {
   sendDeleteNotificationEmail,
 } from "@/emails/mailer";
 import { DELETED_USER_ID } from "../utils";
+import { blogSelect } from "@/prisma/select";
 
 // function to getAllUserBlogs
 export const getUserBlogs = unstable_cache(
@@ -19,18 +20,12 @@ export const getUserBlogs = unstable_cache(
       where: {
         authorId: userId,
       },
-      include: {
-        author: {
-          select: {
-            username: true,
-            picture: true,
-          },
-        },
-        _count: {
-          select: {
-            comments: true,
-          },
-        },
+      select: {
+        ...blogSelect,
+        authorId: true,
+        updatedAt: true,
+        status: true,
+        show_comments: true,
       },
     });
 
@@ -39,7 +34,7 @@ export const getUserBlogs = unstable_cache(
   ["user-blogs"],
   { revalidate: 600 }
 );
-// This function returns data for user profile. Just user information and top 5 blogs.
+// This function returns data for user profile. Just user information and top 5 blogs. Used in /me route and profile.ts component (app\(main)\me)
 export const getUserData = unstable_cache(
   async (userId: number) => {
     if (!userId) {
@@ -73,19 +68,7 @@ export const getUserData = unstable_cache(
         authorId: userId,
         status: "PUBLISHED",
       },
-      include: {
-        author: {
-          select: {
-            username: true,
-            picture: true,
-          },
-        },
-        _count: {
-          select: {
-            comments: true,
-          },
-        },
-      },
+      select: blogSelect,
       orderBy: {
         views: "desc",
       },
@@ -100,7 +83,7 @@ export const getUserData = unstable_cache(
     tags: ["user-blogs"],
   }
 );
-/*This function all user data associated with a given user for the profile page*/
+/*This function all user data associated with a given user for the settings page. Includes preferences*/
 export async function fetchProfileData() {
   const session = await isVerifiedUser();
   if (!session) {
@@ -134,7 +117,6 @@ export async function fetchProfileData() {
 }
 
 /*This function only handles updating user social media links*/
-
 export async function updateSocials(data: SocialLink[]) {
   const session = await isVerifiedUser();
   if (!session) {
@@ -316,7 +298,7 @@ export async function deleteUserAccount(
         data: { authorId: DELETED_USER_ID },
       });
     }
-
+    // send deletion notification email after returning
     setImmediate(async () => {
       await sendDeleteNotificationEmail(
         user.username,

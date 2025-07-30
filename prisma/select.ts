@@ -3,6 +3,7 @@ export const blogSelect = {
   uuid: true,
   title: true,
   slug: true,
+  tags: true,
   description: true,
   reading_time: true,
   createdAt: true,

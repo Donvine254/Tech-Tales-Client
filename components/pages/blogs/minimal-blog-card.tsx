@@ -11,7 +11,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { BlogWithComments, CoverImage } from "@/types";
-import { calculateReadingTime, cn, formatViews } from "@/lib/utils";
+import { cn, formatViews } from "@/lib/utils";
 import { ShareModal } from "@/components/modals/share-modal";
 import Image from "next/image";
 import { BlogCardDropdown } from "./blog-dropdown";
@@ -85,7 +85,7 @@ export default function MinimalBlogCard({
                 </div>
                 <div className="flex items-center whitespace-nowrap truncate space-x-1">
                   <Clock className="h-3 w-3" />
-                  <span>{calculateReadingTime(blog.body ?? "")} min read</span>
+                  <span>{blog.reading_time} min read</span>
                 </div>
               </div>
             </div>
@@ -108,8 +108,8 @@ export default function MinimalBlogCard({
           )}
           {/* Body Preview */}
           <article className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
-            {blog?.body
-              ? parse(blog?.body?.substring(0, 400))
+            {blog?.description
+              ? parse(blog.description)
               : "Your blog body will show here. Continue editing your blog"}
           </article>
           {/* Tags */}

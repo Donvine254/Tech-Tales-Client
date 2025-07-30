@@ -5,7 +5,6 @@ import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import parse from "html-react-parser";
 import { Calendar, Clock, Crown } from "lucide-react";
-import { calculateReadingTime } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import BlogCard from "./blog-card";
 
@@ -80,7 +79,7 @@ export default function FeaturedCard({
             </Link>
             {/* Excerpt */}
             <article className="text-sm md:text-base leading-7 line-clamp-3 text-accent-foreground overflow-hidden">
-              {blog ? parse(blog.body.substring(0, 400)) : "Loading..."}
+              {parse(blog.description)}
             </article>
             {/* Author & Metadata */}
             <div className="flex items-center space-x-3 pt-2">
@@ -114,7 +113,7 @@ export default function FeaturedCard({
                   </div>
                   <div className="flex items-center space-x-1">
                     <Clock className="h-3 w-3" />
-                    <span>{calculateReadingTime(blog.body)} min read</span>
+                    <span>{blog.reading_time} min read</span>
                   </div>
                 </div>
               </div>
