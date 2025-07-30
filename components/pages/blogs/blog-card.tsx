@@ -88,8 +88,8 @@ const BlogCard = ({ blog }: { blog: BlogWithComments }) => {
             {blog.title}
           </h3>
         </Link>
-        <article className="text-xs sm:text-sm md:text-base font-serif md:pb-1 line-clamp-2 text-muted-foreground leading-relaxed overflow-hidden ">
-          {blog ? parse(blog.body.substring(0, 400)) : "Loading..."}
+        <article className="text-xs sm:text-sm md:text-base font-serif md:pb-1 text-muted-foreground dark:text-gray-300 line-clamp-2 leading-relaxed overflow-hidden ">
+          {blog ? parse(blog.body.substring(0, 150)) : "Loading..."}
         </article>
 
         {/* Tags */}
