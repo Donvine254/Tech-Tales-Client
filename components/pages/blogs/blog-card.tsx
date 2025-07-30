@@ -89,23 +89,20 @@ const BlogCard = ({ blog }: { blog: BlogWithComments }) => {
           </h3>
         </Link>
         <article className="text-xs sm:text-sm md:text-base font-serif md:pb-1 text-muted-foreground line-clamp-2 dark:text-gray-300 leading-relaxed overflow-hidden ">
-          {parse(blog.description)}
+          {parse(blog.description ?? "")}
         </article>
-
         {/* Tags */}
-        <div className="flex flex-wrap gap-2 mb-4">
+        <div className="inline-flex flex-wrap gap-2 mb-4">
           {blog?.tags?.split(",").map((tag: string, index: number) => (
             <Badge
               key={index}
               variant="secondary"
-              className="text-xs bg-blue-100 text-blue-700 hover:bg-cyan-100 cursor-pointer transition-colors hover:underline capitalize">
+              className={`text-xs bg-blue-100 text-blue-700 hover:bg-cyan-100 cursor-pointer transition-colors hover:underline capitalize highlight-link-${index}`}>
               <Link href={`/search?q=${tag.toLowerCase()}`}># {tag}</Link>
             </Badge>
           ))}
         </div>
-
         {/* Action Buttons */}
-
         <div className="mt-auto pt-4 border-t border-gray-300 dark:border-gray-500 flex items-center justify-between text-accent-foreground">
           <div className="flex items-center space-x-4">
             <TooltipProvider>

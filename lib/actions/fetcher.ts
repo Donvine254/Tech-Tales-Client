@@ -1,5 +1,6 @@
 import { unstable_cache } from "next/cache";
 import prisma from "@/prisma/prisma";
+import { blogSelect } from "@/prisma/select";
 // function to fetch blogs based on the order by field
 export const blogFetcher = (
   orderByField: "createdAt" | "views" | "likes",
@@ -13,29 +14,7 @@ export const blogFetcher = (
         where: {
           status: "PUBLISHED",
         },
-        select: {
-          id: true,
-          uuid: true,
-          title: true,
-          slug: true,
-          description: true,
-          reading_time: true,
-          createdAt: true,
-          views: true,
-          likes: true,
-          image: true,
-          author: {
-            select: {
-              username: true,
-              picture: true,
-            },
-          },
-          _count: {
-            select: {
-              comments: true,
-            },
-          },
-        },
+        select: blogSelect,
         orderBy: {
           [orderByField]: "desc",
         },

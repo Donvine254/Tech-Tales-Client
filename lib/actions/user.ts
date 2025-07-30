@@ -21,11 +21,11 @@ export const getUserBlogs = unstable_cache(
         authorId: userId,
       },
       select: {
-        ...blogSelect,
         authorId: true,
         updatedAt: true,
         status: true,
         show_comments: true,
+        ...blogSelect,
       },
     });
 

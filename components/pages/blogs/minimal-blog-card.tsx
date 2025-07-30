@@ -109,7 +109,7 @@ export default function MinimalBlogCard({
           {/* Body Preview */}
           <article className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
             {blog?.description
-              ? parse(blog.description)
+              ? parse(blog.description ?? "")
               : "Your blog body will show here. Continue editing your blog"}
           </article>
           {/* Tags */}
