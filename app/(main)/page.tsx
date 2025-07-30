@@ -2,9 +2,9 @@ import BlogCard from "@/components/pages/blogs/blog-card";
 import { BlogCarousel } from "@/components/pages/blogs/carousel";
 import CategoryFilters from "@/components/pages/blogs/category-filters";
 import Newsletter from "@/components/layout/newsletter";
-import { getBlogs } from "@/lib/actions/blogs";
 import prisma from "@/prisma/prisma";
 import { BlogWithComments, BlogWithUser } from "@/types";
+import { blogFetcher } from "@/lib/actions/fetcher";
 
 //get featured blogs: 10 random blogs
 const featuredBlogs = await prisma.$queryRaw<BlogWithUser[]>`
@@ -16,6 +16,7 @@ const featuredBlogs = await prisma.$queryRaw<BlogWithUser[]>`
   LIMIT 10;
 `;
 export default async function Home() {
+  const getBlogs = blogFetcher("createdAt", "blogs", 18);
   const blogPosts = (await getBlogs()) as BlogWithComments[];
 
   return (

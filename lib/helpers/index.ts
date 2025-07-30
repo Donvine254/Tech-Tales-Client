@@ -94,3 +94,37 @@ export async function SaveDraft(data: BlogData, uuid: string) {
     toast.error(res.message);
   }
 }
+
+// function to generate blog short description when saving
+export function generateDescription(body: string): string {
+  if (!body) return "";
+
+  const maxLength = 160;
+  // Step 1: Remove empty or whitespace-only tags
+  let text = body
+    .replace(/<p>(\s|&nbsp;|<br\s*\/?>)*<\/p>/gi, "")
+    .replace(/<div>(\s|&nbsp;|<br\s*\/?>)*<\/div>/gi, "");
+  // Step 2: Remove all remaining HTML tags
+  text = text.replace(/<[^>]*>/g, "");
+  // Step 3: Replace common HTML entities manually
+  text = text
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&quot;/gi, '"')
+    .replace(/&rsquo;/gi, "'")
+    .replace(/&amp;/gi, "&")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/&apos;/gi, "'");
+  // Step 4: Normalize quotes and whitespace
+  text = text
+    .replace(/\u00a0/g, " ") // non-breaking space
+    .replace(/[“”‘’]/g, '"') // smart quotes to plain quotes
+    .replace(/['"]+/g, "") // remove all quotes
+    .replace(/\s+/g, " ") // collapse multiple spaces
+    .trim();
+
+  // Step 5: Truncate if necessary
+  return text.length > maxLength
+    ? text.slice(0, maxLength).trim() + "... Read More."
+    : text;
+}

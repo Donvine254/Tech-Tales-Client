@@ -33,6 +33,7 @@ export async function generateStaticParams() {
 async function getData(slug: string) {
   "use server";
   try {
+    // TODO: make the slug unique with blog id
     const blog = await prisma.blog.update({
       where: {
         slug: slug,

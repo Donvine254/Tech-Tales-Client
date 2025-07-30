@@ -8,9 +8,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
-import { calculateReadingTime, formatViews } from "@/lib/utils";
-import { BlogWithComments } from "@/types";
 import parse from "html-react-parser";
+import { BlogWithComments } from "@/types";
 import Link from "next/link";
 import { ShareModal } from "@/components/modals/share-modal";
 import Bookmark from "@/components/custom/bookmark";
@@ -20,6 +19,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { formatViews } from "@/lib/utils";
 
 const BlogCard = ({ blog }: { blog: BlogWithComments }) => {
   return (
@@ -78,7 +78,7 @@ const BlogCard = ({ blog }: { blog: BlogWithComments }) => {
               </div>
               <div className="flex items-center space-x-1">
                 <Clock className="h-3 w-3" />
-                <span>{calculateReadingTime(blog.body)} min read</span>
+                <span>{blog.reading_time} min read</span>
               </div>
             </div>
           </div>
@@ -88,8 +88,8 @@ const BlogCard = ({ blog }: { blog: BlogWithComments }) => {
             {blog.title}
           </h3>
         </Link>
-        <article className="text-xs sm:text-sm md:text-base font-serif md:pb-1 text-muted-foreground dark:text-gray-300 line-clamp-2 leading-relaxed overflow-hidden ">
-          {blog ? parse(blog.body.substring(0, 150)) : "Loading..."}
+        <article className="text-xs sm:text-sm md:text-base font-serif md:pb-1 text-muted-foreground line-clamp-2 dark:text-gray-300 leading-relaxed overflow-hidden ">
+          {parse(blog.description)}
         </article>
 
         {/* Tags */}

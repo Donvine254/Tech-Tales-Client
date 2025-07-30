@@ -2,7 +2,6 @@ import React from "react";
 import { Calendar, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { calculateReadingTime } from "@/lib/utils";
 import { BlogWithUser } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
@@ -68,7 +67,7 @@ export default function BlogHero({ post }: { post: BlogWithUser }) {
                 <span>•</span>
                 <div className="flex items-center gap-1 text-shadow whitespace-nowrap overflow-ellipsis">
                   <Clock className="w-4 h-4" />
-                  <span>{calculateReadingTime(post.body)} min read</span>
+                  <span>{post.reading_time} min read</span>
                 </div>
               </div>
             </div>

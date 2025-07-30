@@ -7,6 +7,7 @@ import { BlogStatus, Prisma } from "@prisma/client";
 import { canPublishBlog } from "../helpers";
 import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
+import { blogSelect } from "@/prisma/select";
 // function to create a new blog
 
 export async function createNewBlog() {
@@ -64,6 +65,7 @@ export async function publishBlog(
   }
   try {
     const blog = await prisma.blog.update({
+      // TODO: update to add the calculated reading time, description and path
       where: {
         uuid: uuid,
       },
@@ -72,6 +74,7 @@ export async function publishBlog(
         status: "PUBLISHED",
         image: data.image as Prisma.InputJsonValue,
       },
+      // TODO: Why am i selecting the user handle?
       include: {
         author: {
           select: { handle: true },
@@ -162,67 +165,6 @@ export async function deleteOrArchiveBlog(uuid: string) {
     await prisma.$disconnect();
   }
 }
-
-// function to getAllBlogs
-export const getBlogs = unstable_cache(
-  async () => {
-    const blogs = await prisma.blog.findMany({
-      where: {
-        status: "PUBLISHED",
-      },
-      include: {
-        author: {
-          select: {
-            username: true,
-            picture: true,
-          },
-        },
-        _count: {
-          select: {
-            comments: true,
-          },
-        },
-      },
-
-      take: 18,
-    });
-
-    return blogs;
-  },
-  ["blogs"],
-  { revalidate: 600 }
-);
-
-//function to get all blogs;potential duplication; do not remove
-export const getAllBlogs = unstable_cache(
-  async () => {
-    const blogs = await prisma.blog.findMany({
-      where: {
-        status: {
-          notIn: ["DRAFT", "UNPUBLISHED"],
-        },
-      },
-      include: {
-        author: {
-          select: {
-            username: true,
-            picture: true,
-          },
-        },
-        _count: {
-          select: {
-            comments: true,
-          },
-        },
-      },
-    });
-
-    return blogs;
-  },
-  ["search"],
-  { revalidate: 6000 }
-);
-
 /*This function gets user blogs based on their handles or publish a blog*/
 export const getUserAndBlogsByHandle = unstable_cache(
   async (handle: string) => {
@@ -258,19 +200,7 @@ export const getUserAndBlogsByHandle = unstable_cache(
         authorId: user.id,
         status: "PUBLISHED",
       },
-      include: {
-        author: {
-          select: {
-            username: true,
-            picture: true,
-          },
-        },
-        _count: {
-          select: {
-            comments: true,
-          },
-        },
-      },
+      select: blogSelect,
       orderBy: {
         createdAt: "desc",
       },

@@ -44,7 +44,10 @@ model Blog {
   authorId      Int
   tags          String?
   body          String?
-  slug          String?    @unique
+  slug          String?
+  description   String?
+  reading_time  Int        @default(0)
+  path          String?    @unique
   status        BlogStatus @default(PUBLISHED)
   likes         Int        @default(0)
   views         Int        @default(0)
@@ -58,6 +61,7 @@ model Blog {
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 
+  @@unique([authorId, path])
   @@index([slug, authorId, uuid])
 }
 

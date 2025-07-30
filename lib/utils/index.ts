@@ -13,8 +13,28 @@ export const baseUrl =
 export const DELETED_USER_ID = 49;
 
 export function calculateReadingTime(blog: string) {
-  const textContent = blog.replace(/<\/?[^>]+(>|$)/g, "");
-  const words = textContent.trim().split(/\s+/).length;
+  // Step 1: Remove empty or whitespace-only tags
+  let text = blog
+    .replace(/<p>(\s|&nbsp;|<br\s*\/?>)*<\/p>/gi, "")
+    .replace(/<div>(\s|&nbsp;|<br\s*\/?>)*<\/div>/gi, "");
+  // Step 2: Remove all remaining HTML tags
+  text = text.replace(/<[^>]*>/g, "");
+  // Step 3: Replace common HTML entities manually
+  text = text
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&quot;/gi, '"')
+    .replace(/&rsquo;/gi, "'")
+    .replace(/&amp;/gi, "&")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/&apos;/gi, "'");
+  text = text
+    .replace(/\u00a0/g, " ")
+    .replace(/[“”‘’]/g, '"')
+    .replace(/['"]+/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  const words = text.trim().split(/\s+/).length;
   const readingTime = Math.ceil(words / 265);
   return readingTime;
 }

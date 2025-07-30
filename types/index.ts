@@ -14,7 +14,7 @@ export interface BlogWithUser
   image: { secure_url: string };
   title: string;
   slug: string;
-  body: string;
+  description: string;
   author: Pick<User, "username" | "picture">;
 }
 export type Session = {

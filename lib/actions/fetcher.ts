@@ -3,7 +3,8 @@ import prisma from "@/prisma/prisma";
 // function to fetch blogs based on the order by field
 export const blogFetcher = (
   orderByField: "createdAt" | "views" | "likes",
-  cacheKey: string
+  cacheKey: string,
+  take: number = 10
 ) =>
   unstable_cache(
     async () => {
@@ -12,7 +13,17 @@ export const blogFetcher = (
         where: {
           status: "PUBLISHED",
         },
-        include: {
+        select: {
+          id: true,
+          uuid: true,
+          title: true,
+          slug: true,
+          description: true,
+          reading_time: true,
+          createdAt: true,
+          views: true,
+          likes: true,
+          image: true,
           author: {
             select: {
               username: true,
@@ -28,7 +39,7 @@ export const blogFetcher = (
         orderBy: {
           [orderByField]: "desc",
         },
-        take: 10,
+        take: take,
       });
     },
     [cacheKey],
