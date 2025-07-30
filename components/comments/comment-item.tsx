@@ -303,33 +303,46 @@ export const CommentItem: React.FC<Props> = ({
         {/* Comment Content */}
         <div className="flex-1 min-w-0">
           {/* Author Info */}
-          <div className="flex items-center justify-between md:justify-normal md:space-x-8 w-full">
-            {/* Left: Author info */}
-            <div className="flex items-center space-x-2 overflow-x-hidden">
-              <h5 className="font-semibold capitalize truncate text-ellipsis whitespace-nowrap">
-                {comment.author.username}
-              </h5>
-              {blogAuthorId === comment.authorId ? (
-                <Badge
-                  title="author"
-                  className="bg-blue-100 font-semibold truncate text-blue-500 text-xs">
-                  <Feather className="h-2 w-2" />
-                  Author
-                </Badge>
-              ) : comment.author.role === "admin" ? (
-                <Badge
-                  className="bg-purple-100 font-semibold text-purple-500 text-xs"
-                  title="admin">
-                  <Crown className="h-2 w-2 truncate" />
-                  Admin
-                </Badge>
-              ) : null}
+          <div className="flex items-start justify-between md:space-x-8 w-full  mb-1">
+            <div className="">
+              {/* Left: Author info */}
+              <div className="flex items-center space-x-2 overflow-x-hidden">
+                <h5 className="font-semibold capitalize truncate text-ellipsis whitespace-nowrap">
+                  {comment.author.username}
+                </h5>
+                {blogAuthorId === comment.authorId ? (
+                  <Badge
+                    title="author"
+                    className="bg-blue-100 font-semibold truncate text-blue-500 text-xs">
+                    <Feather className="h-2 w-2" />
+                    Author
+                  </Badge>
+                ) : comment.author.role === "admin" ? (
+                  <Badge
+                    className="bg-purple-100 font-semibold text-purple-500 text-xs"
+                    title="admin">
+                    <Crown className="h-2 w-2 truncate" />
+                    Admin
+                  </Badge>
+                ) : null}
+              </div>
+              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                <Calendar className="h-3.5 w-3.5" />
+                <span>{formatCommentDate(comment.createdAt)}</span>
+                {comment.updatedAt &&
+                  new Date(comment.updatedAt).getTime() !==
+                    new Date(comment.createdAt).getTime() && (
+                    <span className="text-xs text-muted-foreground">
+                      (Edited)
+                    </span>
+                  )}
+              </div>
             </div>
             {/* Right: Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button
-                  className="cursor-pointer hover:bg-input/50 p-1 rounded-full"
+                  className="cursor-pointer bg-input/60 hover:bg-input/50 p-1 rounded-full"
                   title="More Actions">
                   <MoreHorizontal className="h-4 w-4" />
                 </button>
@@ -454,15 +467,6 @@ export const CommentItem: React.FC<Props> = ({
                 )}
               </DropdownMenuContent>
             </DropdownMenu>
-          </div>
-          <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-            <Calendar className="h-3.5 w-3.5" />
-            <span>{formatCommentDate(comment.createdAt)}</span>
-            {comment.updatedAt &&
-              new Date(comment.updatedAt).getTime() !==
-                new Date(comment.createdAt).getTime() && (
-                <span className="text-xs text-muted-foreground">(Edited)</span>
-              )}
           </div>
 
           {/* Comment Body */}

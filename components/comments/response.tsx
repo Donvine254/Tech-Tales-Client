@@ -63,24 +63,24 @@ export default function Response({
         {/* Author Info */}
         <div className="">
           {/* Left: Author info */}
-          <div className="flex items-center justify-between md:justify-normal md:space-x-8 w-full gap-y-0">
+          <div className="flex items-center justify-between md:justify-start md:space-x-24 w-full gap-y-0">
             <div className="flex items-center space-x-2 overflow-x-hidden">
-              <h5 className="font-semibold capitalize truncate text-ellipsis whitespace-nowrap">
+              <h5 className="font-semibold text-sm capitalize truncate text-ellipsis whitespace-nowrap">
                 {response.author.username}
               </h5>
               {blogAuthorId === response.authorId ? (
                 <Badge
                   title="author"
-                  className="bg-blue-100 font-semibold text-blue-500">
-                  <Feather className="h-4 w-4 mr-1" />
-                  <span className="hidden sm:block">Author</span>
+                  className="bg-blue-100 text-xs font-semibold text-blue-500">
+                  <Feather className="size-2" />
+                  Author
                 </Badge>
               ) : response.author.role === "admin" ? (
                 <Badge
-                  className="bg-purple-100 font-semibold text-purple-500"
+                  className="bg-purple-100 text-xs font-semibold text-purple-500"
                   title="admin">
-                  <Crown className="h-4 w-4 mr-1" />
-                  <span className="hidden sm:block">Admin</span>
+                  <Crown className="size-2" />
+                  Admin
                 </Badge>
               ) : null}
             </div>
@@ -127,7 +127,7 @@ export default function Response({
           </div>
           {/* Right: Dropdown */}
 
-          <div className="flex items-center space-x-2 text-xs sm:text-sm text-muted-foreground mb-1">
+          <div className="flex items-center space-x-2 text-xs text-muted-foreground mb-1">
             <span>{formatDate(response.createdAt)}</span>
             {response.updatedAt &&
               new Date(response.updatedAt).getTime() !==
