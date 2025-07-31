@@ -94,7 +94,7 @@ export default function MinimalBlogCard({
           {/* Title */}
           {blog.status === "PUBLISHED" ? (
             <Link
-              href={`/blog/${blog.path}`}
+              href={`/read/${blog.path}`}
               className="group"
               title={blog.title ?? ""}>
               <h3 className="text-base sm:text-lg font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 leading-snug cursor-pointer">

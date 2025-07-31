@@ -35,7 +35,7 @@ export default function BlogHero({ post }: { post: BlogWithUser }) {
                   # {post.tags?.split(",")[0] || "General"}
                 </Link>
               </Badge>
-              <Link href={`/blog/${post.slug}`}>
+              <Link href={`/read/${post.path}`}>
                 <h2 className="drop-shadow-2xl text-shadow-lg line-clamp-2 hover:underline hover:underline-offset-4 transition-all duration-300">
                   {post.title}
                 </h2>

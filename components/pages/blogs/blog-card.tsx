@@ -20,10 +20,18 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { formatViews } from "@/lib/utils";
+import { ReactNode } from "react";
 
-const BlogCard = ({ blog }: { blog: BlogWithComments }) => {
+const BlogCard = ({
+  blog,
+  children,
+}: {
+  blog: BlogWithComments;
+  children?: ReactNode;
+}) => {
   return (
-    <article className="group bg-white dark:bg-accent rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden  hover:border-gray-200 hover:-translate-y-1 flex flex-col animate-fade-in-up">
+    <article className="group bg-white dark:bg-accent rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden  hover:border-gray-200 hover:-translate-y-1 flex flex-col animate-fade-in-up relative">
+      {children && <>{children}</>}
       <div className="aspect-[16/9] bg-gradient-to-br from-cyan-100 to-blue-100 relative overflow-hidden">
         <Link href={`/read/${blog.path}`} className="group" title={blog.title}>
           <Image
@@ -122,7 +130,7 @@ const BlogCard = ({ blog }: { blog: BlogWithComments }) => {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Link
-                    href={`/blog/${blog.path}`}
+                    href={`/read/${blog.path}`}
                     className="flex items-center space-x-1  transition-colors cursor-pointer">
                     <Heart className="h-4 w-4 hover:fill-red-500 hover:text-red-500" />
                     <span className="text-sm">{blog.likes}</span>
