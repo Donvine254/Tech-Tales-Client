@@ -41,7 +41,7 @@ import {
   deleteResponse,
   updateResponse,
 } from "@/lib/actions/responses";
-import { formatCommentDate } from "@/lib/utils";
+import { cn, formatCommentDate } from "@/lib/utils";
 
 type Props = {
   comment: CommentData;
@@ -507,7 +507,12 @@ export const CommentItem: React.FC<Props> = ({
                 </Button>
                 <Button
                   variant="link"
-                  className="cursor-pointer text-muted-foreground text-xs hover:text-red-500 group"
+                  className={cn(
+                    "cursor-pointer text-muted-foreground text-xs hover:text-red-500 group",
+                    comment.responses &&
+                      comment.responses.length > 0 &&
+                      "hidden sm:inline-flex"
+                  )}
                   onClick={() =>
                     toast.success(
                       "Report received. Thank you for helping keep our community safe"

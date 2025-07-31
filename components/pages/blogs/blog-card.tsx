@@ -96,11 +96,11 @@ const BlogCard = ({
           </div>
         </div>
         <Link href={`/read/${blog.path}`} className="group" title={blog.title}>
-          <h3 className="mb-2 md:text-lg font-sans tracking-normal font-bold group-hover:text-blue-600 transition-colors line-clamp-2 leading-tight hover:underline hover:underline-offset-4">
+          <h3 className="mb-2 md:text-lg font-sans tracking-normal font-bold group-hover:text-blue-500 transition-colors line-clamp-2 leading-tight hover:underline hover:underline-offset-4">
             {blog.title}
           </h3>
         </Link>
-        <article className="text-xs sm:text-sm md:text-base font-serif md:pb-1 text-muted-foreground line-clamp-2 dark:text-gray-300 leading-relaxed overflow-hidden ">
+        <article className="text-xs sm:text-sm mb-2 text-muted-foreground line-clamp-2 dark:text-gray-300 leading-relaxed overflow-hidden ">
           {parse(blog.description ?? "")}
         </article>
         {/* Tags */}
@@ -165,7 +165,7 @@ const BlogCard = ({
               title={blog.title}
               image={blog.image.secure_url ?? "/placeholder.svg"}
             />
-            <Bookmark blogId={blog.id} />
+            <Bookmark blogId={blog.id} size={24} />
           </div>
         </div>
       </div>
