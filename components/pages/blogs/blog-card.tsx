@@ -25,7 +25,7 @@ const BlogCard = ({ blog }: { blog: BlogWithComments }) => {
   return (
     <article className="group bg-white dark:bg-accent rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden  hover:border-gray-200 hover:-translate-y-1 flex flex-col animate-fade-in-up">
       <div className="aspect-[16/9] bg-gradient-to-br from-cyan-100 to-blue-100 relative overflow-hidden">
-        <Link href={`/blog/${blog.slug}`} className="group" title={blog.title}>
+        <Link href={`/read/${blog.path}`} className="group" title={blog.title}>
           <Image
             src={blog.image.secure_url || "/placeholder-image.webp"}
             alt={blog.title}
@@ -83,7 +83,7 @@ const BlogCard = ({ blog }: { blog: BlogWithComments }) => {
             </div>
           </div>
         </div>
-        <Link href={`/blog/${blog.slug}`} className="group" title={blog.title}>
+        <Link href={`/read/${blog.path}`} className="group" title={blog.title}>
           <h3 className="mb-2 md:text-lg font-sans tracking-normal font-bold group-hover:text-blue-600 transition-colors line-clamp-2 leading-tight hover:underline hover:underline-offset-4">
             {blog.title}
           </h3>
@@ -109,7 +109,7 @@ const BlogCard = ({ blog }: { blog: BlogWithComments }) => {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Link
-                    href={`/blog/${blog.slug}#comments`}
+                    href={`/read/${blog.path}#comments`}
                     className="flex items-center space-x-1 hover:text-cyan-600 transition-colors cursor-pointer">
                     <MessageSquare className="h-4 w-4" />
                     <span className="text-sm">{blog._count.comments}</span>
@@ -122,7 +122,7 @@ const BlogCard = ({ blog }: { blog: BlogWithComments }) => {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Link
-                    href={`/blog/${blog.slug}`}
+                    href={`/blog/${blog.path}`}
                     className="flex items-center space-x-1  transition-colors cursor-pointer">
                     <Heart className="h-4 w-4 hover:fill-red-500 hover:text-red-500" />
                     <span className="text-sm">{blog.likes}</span>
@@ -135,7 +135,7 @@ const BlogCard = ({ blog }: { blog: BlogWithComments }) => {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Link
-                    href={`/blog/${blog.slug}`}
+                    href={`/read/${blog.path}`}
                     className="flex items-center space-x-1 hover:text-cyan-600 transition-colors cursor-pointer">
                     <ChartNoAxesColumn className="h-4 w-4" />
                     <span className="text-sm">{formatViews(blog.views)}</span>
@@ -149,7 +149,7 @@ const BlogCard = ({ blog }: { blog: BlogWithComments }) => {
           </div>
           <div className="flex items-center space-x-2">
             <ShareModal
-              slug={blog.slug}
+              path={blog.path}
               title={blog.title}
               image={blog.image.secure_url ?? "/placeholder.svg"}
             />

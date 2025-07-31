@@ -20,12 +20,12 @@ import { BookOpen, Share } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 export function ShareModal({
-  slug,
+  path,
   title,
   image,
   size = 16,
 }: {
-  slug: string;
+  path: string;
   title: string;
   image: string;
   size?: number;
@@ -33,7 +33,7 @@ export function ShareModal({
   const [copied, setCopied] = useState(false);
   const [showQrModal, setShowQrModal] = useState(false);
   const [qrCode, setQrCode] = useState("");
-  const blogUrl = `https://techtales.vercel.app/blogs/${slug}`;
+  const blogUrl = `https://techtales.vercel.app/read/${path}`;
   // Function to open the share dialog for Facebook
   const shareOnFacebook = () => {
     const facebookUrl = `https://www.facebook.com/sharer.php?u=${blogUrl}`;
@@ -416,7 +416,7 @@ export function ShareModal({
             <button
               className="p-2 flex items-center justify-center hover:bg-gray-100 rounded-xl w-12 h-12 bg-gray-200 dark:text-gray-800 border-none outline-none"
               onClick={() => {
-                handleSharing(title, slug);
+                handleSharing(title, path);
               }}>
               <svg fill="none" viewBox="0 0 15 15" height="30" width="30">
                 <path

@@ -61,13 +61,13 @@ export function validateEmail(email: string) {
   return emailRegex.test(email);
 }
 
-export async function handleSharing(title: string, slug: string) {
+export async function handleSharing(title: string, path: string) {
   if (navigator.share) {
     try {
       await navigator.share({
         title: `${title}`,
         text: "See this interesting blog i found on Techtales!",
-        url: `https://techtales.vercel.app/blogs/${slug}`,
+        url: `https://techtales.vercel.app/read/${path}`,
       });
     } catch (error) {
       toast.error("Something went wrong");

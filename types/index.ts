@@ -9,11 +9,11 @@ import {
 } from "@prisma/client";
 
 export interface BlogWithUser
-  extends Omit<Blog, "image" | "slug" | "tags" | "title" | "body"> {
+  extends Omit<Blog, "image" | "path" | "tags" | "title" | "body"> {
   tags: string;
   image: { secure_url: string };
   title: string;
-  slug: string;
+  path: string;
   description: string;
   author: Pick<User, "username" | "picture">;
 }

@@ -40,11 +40,20 @@ export async function createNewBlog() {
 // function to save draft blog
 export async function SaveDraftBlog(data: BlogData, uuid: string) {
   try {
-    await prisma.blog.update({
+    const blog = await prisma.blog.update({
       where: { uuid },
       data: { ...data, image: data.image as Prisma.InputJsonValue },
+      select: {
+        id: true,
+        path: true,
+        status: true,
+      },
     });
-    return { success: true, message: "Blog in sync with database" };
+    return {
+      success: true,
+      message: "Blog in sync with database",
+      data: blog,
+    };
   } catch (error) {
     console.error(error);
     return { success: false, message: "Something went wrong" };
@@ -90,7 +99,7 @@ export async function publishBlog(
     return {
       success: true,
       message: "Blog published successfully",
-      slug: blog.slug,
+      url: blog.path,
     };
     // eslint-disable-next-line
   } catch (error: any) {

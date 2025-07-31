@@ -2,7 +2,7 @@ export const blogSelect = {
   id: true,
   uuid: true,
   title: true,
-  slug: true,
+  path: true,
   tags: true,
   description: true,
   reading_time: true,

@@ -51,7 +51,7 @@ export function CommentCard({ comment, onDelete, onUpdate }: CommentCardProps) {
         <div className="flex items-center justify-between gap-3 mb-2">
           <div className="flex flex-1 items-center gap-2 min-w-0">
             <Link
-              href={`/blog/${comment.blog.slug}#comments`}
+              href={`/read/${comment.blog.path}#comments`}
               scroll={false}
               className="hover:underline hover:text-blue-500 font-semibold text-card-foreground sm:text-lg group-hover:text-primary transition-colors duration-200 line-clamp-1 "
               target="_blank"
@@ -71,7 +71,7 @@ export function CommentCard({ comment, onDelete, onUpdate }: CommentCardProps) {
               {canEdit && (
                 <DropdownMenuItem asChild>
                   <Link
-                    href={`/blog/${comment.blog.slug}#comments`}
+                    href={`/read/${comment.blog.path}#comments`}
                     scroll={false}
                     className="flex items-center gap-2 group focus:text-blue-500">
                     <Edit3 className="h-4 w-4 group-focus:text-blue-500" />

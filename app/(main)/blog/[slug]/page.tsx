@@ -123,7 +123,7 @@ export async function generateMetadata({
       ...metaobject.openGraph,
       title: `${blog.title} - Tech Tales`,
       description: blog.description ?? "This blog has not been updated yet",
-      url: `https://techtales.vercel.app/blog/${blog.slug}`,
+      url: `https://techtales.vercel.app/blog/${blog.path}`,
 
       images: [
         {

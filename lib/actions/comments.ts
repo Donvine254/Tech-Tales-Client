@@ -138,7 +138,7 @@ export async function getUserComments(userId: number) {
         blog: {
           select: {
             title: true,
-            slug: true,
+            path: true,
           },
         },
         _count: {

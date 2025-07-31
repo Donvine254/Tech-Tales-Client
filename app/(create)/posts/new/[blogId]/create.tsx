@@ -166,12 +166,12 @@ export default function Create({
     const res = await publishBlog(blogData, uuid);
     // dismiss the toast when done
     toast.dismiss(toastId);
-    if (res.success && res.slug) {
+    if (res.success && res.url) {
       toast.success(res.message || "Blog published!");
       finalizeSubmission(true);
       //  redirect to the blog
       setTimeout(() => {
-        router.push(`/blog/${res.slug}`);
+        router.push(`/read/${res.url}`);
       }, 800);
     } else {
       toast.error(res.message || "Failed to publish blog.");
@@ -181,15 +181,20 @@ export default function Create({
 
   // update blog data in the database
   async function updateBlog() {
+    // TODO: only redirect to blog page if the blog is published
     setFormStatus("loading");
     const toastId = toast.loading("Processing request");
     const res = await SaveDraftBlog(blogData, uuid);
     toast.dismiss(toastId);
-    if (res.success) {
+    if (res.success && res.data) {
       toast.success("Blog updated successfully");
       finalizeSubmission(true);
       setTimeout(() => {
-        router.push(`/blog/${blogData.slug}`);
+        if (res.data?.status === "PUBLISHED") {
+          router.push(`/read/${res.data?.path}`);
+        } else {
+          router.push(`/me/posts`);
+        }
       }, 800);
     } else {
       toast.error(res.message);
