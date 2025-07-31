@@ -11,6 +11,7 @@ export async function GET() {
         id: true,
         path: true,
         description: true,
+        image: true,
       },
     });
 

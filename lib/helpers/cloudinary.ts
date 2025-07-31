@@ -1,6 +1,6 @@
-import { CoverImage } from "@/types";
 import { toast } from "sonner";
 import { baseUrl } from "../utils";
+import { CoverImage } from "@/types";
 
 export async function uploadToCloudinary(image: File, folder: string) {
   const newImage = new FormData();
@@ -16,11 +16,14 @@ export async function uploadToCloudinary(image: File, folder: string) {
         body: newImage,
       }
     );
-    const data = (await response.json()) as CoverImage;
+    const res = await response.json();
     return {
       success: true,
       message: "Image uploaded successfully",
-      data,
+      data: {
+        secure_url: res.secure_url,
+        public_id: res.public_id,
+      } satisfies CoverImage,
     };
   } catch (error) {
     console.error("Error uploading image:", error);
