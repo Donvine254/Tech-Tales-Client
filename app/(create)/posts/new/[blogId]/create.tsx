@@ -124,16 +124,15 @@ export default function Create({
     const handleKeyDown = (e: KeyboardEvent) => {
       const isSaveShortcut =
         (e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s";
-      if (!hasEntries(blogData)) return;
-      if (isSaveShortcut) {
-        e.preventDefault();
-        e.stopPropagation();
-        const dataStr = JSON.stringify(blogData);
-        localStorage.setItem(`Draft-${uuid}`, dataStr);
-        setUpdatedAt(new Date());
-        localStorage.setItem("UpdatedAt", JSON.stringify(new Date()));
-        toast.success("Draft saved successfully");
-      }
+      if (!isSaveShortcut || !hasEntries(blogData)) return;
+      //prevent event default
+      e.preventDefault();
+      e.stopPropagation();
+      const dataStr = JSON.stringify(blogData);
+      localStorage.setItem(`Draft-${uuid}`, dataStr);
+      setUpdatedAt(new Date());
+      localStorage.setItem("UpdatedAt", JSON.stringify(new Date()));
+      toast.success("Draft saved successfully");
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => {
