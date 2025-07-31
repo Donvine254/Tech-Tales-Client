@@ -22,7 +22,6 @@ export async function generateStaticParams() {
     const pathArray = blogs.map((blog) => ({
       path: blog.path?.split("/") ?? [],
     }));
-    console.log(pathArray);
     return pathArray;
   } catch (error) {
     console.error("Error fetching blog data:", error);
