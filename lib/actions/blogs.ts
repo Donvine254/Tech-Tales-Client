@@ -76,13 +76,12 @@ export async function SaveDraftBlog(data: BlogData, uuid: string) {
             "Unique constraint violation. A blog with a similar title already exists.",
         };
       }
-    } else {
-      const e = error as Error;
-      return {
-        success: false,
-        message: e.message || "Something went wrong",
-      };
     }
+    const e = error as Error;
+    return {
+      success: false,
+      message: e.message || "Something went wrong",
+    };
   }
 }
 // function to publishblog
@@ -133,13 +132,12 @@ export async function publishBlog(
             "Unique constraint violation. A blog with a similar title already exists.",
         };
       }
-    } else {
-      const e = error as Error;
-      return {
-        success: false,
-        message: e.message || "Something went wrong",
-      };
     }
+    const e = error as Error;
+    return {
+      success: false,
+      message: e.message || "Something went wrong",
+    };
   } finally {
     await prisma.$disconnect();
   }
