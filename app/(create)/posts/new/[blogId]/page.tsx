@@ -4,6 +4,61 @@ import { redirect } from "next/navigation";
 import prisma from "@/prisma/prisma";
 import { getSession } from "@/lib/actions/session";
 import { BlogData, CoverImage } from "@/types";
+import { BlogStatus } from "@prisma/client";
+
+type BlogWithAuthor = {
+  uuid: string;
+  status: BlogStatus;
+  title: string | null;
+  body: string | null;
+  slug: string | null;
+  tags: string | null;
+  path: string | null;
+  image: Partial<{
+    secure_url: string;
+    public_id: string;
+  }>;
+  audio: string | null;
+  author: {
+    id: number;
+    handle: string;
+  };
+};
+
+async function getBlogData(uuid: string) {
+  try {
+    const blog = await prisma.blog.findUnique({
+      where: {
+        uuid: uuid,
+        status: {
+          notIn: ["ARCHIVED"],
+        },
+      },
+      select: {
+        uuid: true,
+        status: true,
+        title: true,
+        body: true,
+        slug: true,
+        tags: true,
+        image: true,
+        audio: true,
+        path: true,
+        author: {
+          select: {
+            id: true,
+            handle: true,
+          },
+        },
+      },
+    });
+    return blog;
+  } catch (error) {
+    const e = error as Error;
+    throw new Error(e.message);
+  }
+}
+
 export default async function page({
   params,
 }: {
@@ -15,41 +70,28 @@ export default async function page({
   if (!blogId || !session) {
     redirect("/");
   }
-  const blog = await prisma.blog.findUnique({
-    where: {
-      uuid: blogId,
-      status: {
-        notIn: ["ARCHIVED"],
-      },
-    },
-    select: {
-      title: true,
-      uuid: true,
-      status: true,
-      body: true,
-      slug: true,
-      tags: true,
-      image: true,
-      audio: true,
-      authorId: true,
-    },
-  });
+  const blog =
+    ((await getBlogData(blogId)) as unknown as BlogWithAuthor) || null;
   if (!blog) {
     redirect("/");
   }
-
-  const { authorId, uuid, status, image, ...rest } = blog;
+  const { image, uuid, status, author, ...rest } = blog;
   const blogData: BlogData = {
     ...rest,
     image: (image ?? { secure_url: "", public_id: "" }) as CoverImage,
   };
-  if (authorId !== session.userId && session.role !== "admin") {
+  if (author.id !== session.userId && session.role !== "admin") {
     redirect("/");
   }
   return (
     <div className="min-h-screen bg-muted">
       <Script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.2/tsparticles.confetti.bundle.min.js"></Script>
-      <Create initialData={blogData} uuid={uuid} status={status} />
+      <Create
+        initialData={blogData}
+        uuid={uuid}
+        status={status}
+        author={author}
+      />
     </div>
   );
 }

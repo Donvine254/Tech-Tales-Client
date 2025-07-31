@@ -61,13 +61,13 @@ export function validateEmail(email: string) {
   return emailRegex.test(email);
 }
 
-export async function handleSharing(title: string, slug: string) {
+export async function handleSharing(title: string, path: string) {
   if (navigator.share) {
     try {
       await navigator.share({
         title: `${title}`,
         text: "See this interesting blog i found on Techtales!",
-        url: `https://techtales.vercel.app/blogs/${slug}`,
+        url: `https://techtales.vercel.app/read/${path}`,
       });
     } catch (error) {
       toast.error("Something went wrong");
@@ -94,13 +94,11 @@ export function slugify(blogTitle: string) {
     .replace(/^-+|-+$/g, "");
 }
 // function to create  blog path
-export function createBlogPath(handle: string, slug: string): string {
-  if (!handle || !slug) {
-    throw new Error(
-      "Both handle and slug are required to generate a blog path."
-    );
+export function createBlogPath(handle: string, slug?: string): string {
+  if (!handle) {
+    return "";
   }
-  return `${handle}/${slug}`;
+  return `${handle}/${slug ?? ""}`;
 }
 export function generatePassword(length = 12): string {
   const minLength = 8;

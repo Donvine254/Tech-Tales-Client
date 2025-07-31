@@ -27,7 +27,7 @@ import { baseUrl } from "@/lib/utils";
 import Bookmark from "@/components/custom/bookmark";
 
 interface BlogCardDropdownProps {
-  slug: string;
+  path: string;
   blogId: number;
   blogAuthorId: number;
   uuid: string;
@@ -40,7 +40,7 @@ interface BlogCardDropdownProps {
 }
 
 export const BlogCardDropdown = ({
-  slug,
+  path,
   blogId,
   blogAuthorId,
   blogStatus,
@@ -58,7 +58,7 @@ export const BlogCardDropdown = ({
   const isOwner = isAuthor || isAdmin;
 
   const handleCopy = () => {
-    const blogUrl = `${baseUrl}/blog/${slug}`;
+    const blogUrl = `${baseUrl}/read/${path}`;
     navigator.clipboard.writeText(blogUrl);
     toast.success("Link copied to clipboard");
   };

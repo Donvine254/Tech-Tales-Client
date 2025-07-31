@@ -9,11 +9,11 @@ import {
 } from "@prisma/client";
 
 export interface BlogWithUser
-  extends Omit<Blog, "image" | "slug" | "tags" | "title" | "body"> {
+  extends Omit<Blog, "image" | "path" | "tags" | "title" | "body"> {
   tags: string;
   image: { secure_url: string };
   title: string;
-  slug: string;
+  path: string;
   description: string;
   author: Pick<User, "username" | "picture">;
 }
@@ -36,7 +36,7 @@ export interface BlogData {
   title: string | null;
   body: string | null;
   slug: string | null;
-  // TODO: Add path here optionally
+  path: string | null;
   tags: string | null;
   image: CoverImage;
   audio: string | null;
@@ -98,3 +98,21 @@ export interface UserProfileData {
   };
 }
 export type UserComments = Awaited<ReturnType<typeof getUserComments>>;
+
+export interface FullBlogData extends Omit<BlogWithUser, "_count" | "author"> {
+  title: string;
+  body: string;
+  path: string;
+  tags: string;
+  image: { secure_url: string };
+  author: {
+    username: string;
+    picture: string | null;
+    handle: string;
+    bio: string;
+    role: Role;
+    socials: SocialLink[];
+    branding: string;
+  };
+  comments: CommentData[];
+}

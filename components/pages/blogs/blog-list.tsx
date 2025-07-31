@@ -36,9 +36,9 @@ export default async function BlogListPage({ page }: BlogListPageProps) {
       <section className=" border-t border-border bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {blogs.slice(1).map((post, index) => (
-            <div key={index} className="relative">
+            <BlogCard blog={post} key={index}>
               {index < 4 && (
-                <div className="absolute -top-2 -right-2 z-20">
+                <div className="absolute top-1 right-1 z-20">
                   {page === "featured" ? (
                     <div className="bg-gradient-to-r from-yellow-600 to-orange-600 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center space-x-1">
                       <Crown className="h-4 w-4" />
@@ -51,8 +51,7 @@ export default async function BlogListPage({ page }: BlogListPageProps) {
                   )}
                 </div>
               )}
-              <BlogCard blog={post} />
-            </div>
+            </BlogCard>
           ))}
         </div>
       </section>

@@ -40,7 +40,7 @@ export default function HeroCard({
           </div>
           <div className="p-4 space-y-3">
             <h3 className="font-bold text-lg hover:underline leading-snug">
-              <Link href={`/blog/${post.slug}`}>{post.title}</Link>
+              <Link href={`/read/${post.path}`}>{post.title}</Link>
             </h3>
             <div className="flex items-center gap-3 text-sm text-gray-700 dark:text-gray-200">
               <div className="flex items-center gap-2">
@@ -101,7 +101,7 @@ export default function HeroCard({
               </Link>
             </Badge>
 
-            <Link href={`/blog/${post.slug}`}>
+            <Link href={`/read/${post.path}`}>
               <h3 className="font-sans line-clamp-2 drop-shadow-xl text-shadow-lg hover:underline tracking-normal mb-2 font-bold">
                 {post.title}
               </h3>
