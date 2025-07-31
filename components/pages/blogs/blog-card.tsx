@@ -35,7 +35,11 @@ const BlogCard = ({
       <div className="aspect-[16/9] bg-gradient-to-br from-cyan-100 to-blue-100 relative overflow-hidden">
         <Link href={`/read/${blog.path}`} className="group" title={blog.title}>
           <Image
-            src={blog.image.secure_url || "/placeholder-image.webp"}
+            src={
+              blog.image?.secure_url
+                ? blog.image.secure_url ?? "/placeholder.svg"
+                : "/placeholder.svg"
+            }
             alt={blog.title}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

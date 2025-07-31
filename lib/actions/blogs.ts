@@ -49,6 +49,7 @@ export async function SaveDraftBlog(data: BlogData, uuid: string) {
         status: true,
       },
     });
+    revalidateTag("user-blogs");
     return {
       success: true,
       message: "Blog in sync with database",
@@ -75,7 +76,6 @@ export async function publishBlog(
   }
   try {
     const blog = await prisma.blog.update({
-      // TODO: update to add the calculated reading time, description and path
       where: {
         uuid: uuid,
       },
@@ -86,11 +86,9 @@ export async function publishBlog(
         reading_time: calculateReadingTime(data.body || ""),
         image: data.image as Prisma.InputJsonValue,
       },
-      // TODO: Why am i selecting the user handle?
-      include: {
-        author: {
-          select: { handle: true },
-        },
+      select: {
+        id: true,
+        path: true,
       },
     });
     revalidateTag("user-blogs");
@@ -177,7 +175,7 @@ export async function deleteOrArchiveBlog(uuid: string) {
     await prisma.$disconnect();
   }
 }
-/*This function gets user blogs based on their handles or publish a blog*/
+/*This function gets user blogs based on their handles, used in the explore page. Should be refactored for single responsbility*/
 export const getUserAndBlogsByHandle = unstable_cache(
   async (handle: string) => {
     if (!handle) {

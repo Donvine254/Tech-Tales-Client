@@ -17,7 +17,7 @@ import {
   hasEntries,
   SaveDraft,
 } from "@/lib/helpers";
-import { slugify } from "@/lib/utils";
+import { createBlogPath, slugify } from "@/lib/utils";
 import { BlogData, FormStatus } from "@/types";
 import { BlogStatus } from "@prisma/client";
 import { useRouter } from "next/navigation";
@@ -32,10 +32,15 @@ export default function Create({
   initialData,
   uuid,
   status,
+  author,
 }: {
   initialData: BlogData;
   uuid: string;
   status: BlogStatus;
+  author: {
+    id: number;
+    handle: string;
+  };
 }) {
   const [blogData, setBlogData] = useState<BlogData>(initialData);
   const [formStatus, setFormStatus] = useState<FormStatus>("pending");
@@ -136,12 +141,14 @@ export default function Create({
     };
   }, [blogData, uuid]);
 
-  //function to create slug
+  // function to handle title changes
   const handleTitleChange = (value: string) => {
+    const newSlug = slugify(value);
     setBlogData((prevData) => ({
       ...prevData,
       title: value,
-      slug: slugify(value),
+      slug: newSlug,
+      path: createBlogPath(author.handle, newSlug),
     }));
   };
   //function to show preview modal

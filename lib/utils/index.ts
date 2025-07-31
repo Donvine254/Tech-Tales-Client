@@ -94,13 +94,11 @@ export function slugify(blogTitle: string) {
     .replace(/^-+|-+$/g, "");
 }
 // function to create  blog path
-export function createBlogPath(handle: string, slug: string): string {
-  if (!handle || !slug) {
-    throw new Error(
-      "Both handle and slug are required to generate a blog path."
-    );
+export function createBlogPath(handle: string, slug?: string): string {
+  if (!handle) {
+    return "";
   }
-  return `${handle}/${slug}`;
+  return `${handle}/${slug ?? ""}`;
 }
 export function generatePassword(length = 12): string {
   const minLength = 8;

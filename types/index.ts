@@ -36,7 +36,7 @@ export interface BlogData {
   title: string | null;
   body: string | null;
   slug: string | null;
-  // TODO: Add path here optionally
+  path: string | null;
   tags: string | null;
   image: CoverImage;
   audio: string | null;

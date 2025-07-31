@@ -9,6 +9,7 @@ export function emptyBlogData(): BlogData {
     body: null,
     slug: null,
     tags: null,
+    path: null,
     image: {
       secure_url: "",
       public_id: "",
@@ -23,6 +24,7 @@ interface BlogFields {
   title?: string | null;
   body?: string | null;
   slug?: string | null;
+  path?: string | null;
   tags?: string | null;
   image?: unknown;
 }
@@ -41,7 +43,7 @@ export function canPublishBlog(blog: BlogFields): {
       message: "Body must be at least 300 characters long.",
     };
   }
-  if (!blog.slug?.trim()) {
+  if (!blog.slug?.trim() || !blog.path?.trim()) {
     return { valid: false, message: "Slug is required." };
   }
   if (
