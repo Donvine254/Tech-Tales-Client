@@ -8,7 +8,7 @@ import { CoverImage, FullBlogData } from "@/types";
 
 export async function generateStaticParams() {
   try {
-    const slugs = await prisma.blog.findMany({
+    const blogs = await prisma.blog.findMany({
       where: {
         status: {
           notIn: ["DRAFT", "UNPUBLISHED"],
@@ -18,8 +18,8 @@ export async function generateStaticParams() {
         path: true,
       },
     });
-    const pathArray = slugs.map((pathObj) => ({
-      path: pathObj.slug,
+    const pathArray = blogs.map((pathObj) => ({
+      path: pathObj.path,
     }));
     return pathArray;
   } catch (error) {
@@ -96,7 +96,7 @@ export async function generateMetadata({
   params: Promise<{ path: string[] }>;
 }) {
   const { path } = await params;
-  const pathname = path.join("/");
+  const pathname = path?.join("/");
   const blog = (await getData(pathname)) as unknown as FullBlogData;
   if (!blog) {
     return {
@@ -148,7 +148,7 @@ export default async function page({
   params: Promise<{ path: string[] }>;
 }) {
   const { path } = await params;
-  const pathname = path.join("/");
+  const pathname = path?.join("/");
   const blog = await getData(pathname);
   if (!blog) {
     redirect("/not-found");
