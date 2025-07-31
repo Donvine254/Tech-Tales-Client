@@ -36,6 +36,7 @@ export interface BlogData {
   title: string | null;
   body: string | null;
   slug: string | null;
+  // TODO: Add path here optionally
   tags: string | null;
   image: CoverImage;
   audio: string | null;
@@ -78,6 +79,7 @@ export type Preferences = {
 
 export interface UserProfileData {
   id: number;
+  createdAt: Date;
   username: string;
   email: string;
   handle: string;
@@ -86,8 +88,13 @@ export interface UserProfileData {
   role: "admin" | "user";
   branding: string;
   skills: string;
+  socials: [];
   preferences: Preferences;
   keep_blogs_on_delete: boolean;
   keep_comments_on_delete: boolean;
+  _count: {
+    comments: number;
+    blogs: number;
+  };
 }
 export type UserComments = Awaited<ReturnType<typeof getUserComments>>;

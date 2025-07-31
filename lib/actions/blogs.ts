@@ -4,10 +4,11 @@ import prisma from "@/prisma/prisma";
 import { getSession } from "./session";
 import { BlogData } from "@/types";
 import { BlogStatus, Prisma } from "@prisma/client";
-import { canPublishBlog } from "../helpers";
+import { canPublishBlog, generateDescription } from "../helpers";
 import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { blogSelect } from "@/prisma/select";
+import { calculateReadingTime } from "../utils";
 // function to create a new blog
 
 export async function createNewBlog() {
@@ -72,6 +73,8 @@ export async function publishBlog(
       data: {
         ...data,
         status: "PUBLISHED",
+        description: generateDescription(data.body || ""),
+        reading_time: calculateReadingTime(data.body || ""),
         image: data.image as Prisma.InputJsonValue,
       },
       // TODO: Why am i selecting the user handle?

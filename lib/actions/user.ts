@@ -13,12 +13,17 @@ import {
 import { DELETED_USER_ID } from "../utils";
 import { blogSelect } from "@/prisma/select";
 
-// function to getAllUserBlogs
+// function to getAllUserBlogs. Used in app/(main)/me/posts
 export const getUserBlogs = unstable_cache(
-  async (userId: number) => {
+  async () => {
+    // check if user is verified
+    const session = await isVerifiedUser();
+    if (!session) {
+      redirect("/login");
+    }
     const blogs = await prisma.blog.findMany({
       where: {
-        authorId: userId,
+        authorId: Number(session.userId),
       },
       select: {
         authorId: true,
@@ -34,38 +39,16 @@ export const getUserBlogs = unstable_cache(
   ["user-blogs"],
   { revalidate: 600 }
 );
-// This function returns data for user profile. Just user information and top 5 blogs. Used in /me route and profile.ts component (app\(main)\me)
-export const getUserData = unstable_cache(
-  async (userId: number) => {
-    if (!userId) {
+// This function just user information and top 5 blogs. Used in /me route and profile.ts component (app\(main)\me)
+export const getUserTopBlogs = unstable_cache(
+  async () => {
+    const session = await isVerifiedUser();
+    if (!session) {
       redirect("/login");
     }
-    const user = await prisma.user.findUnique({
-      // do not return deactivated users data
-      where: { id: userId, deactivated: false },
-      select: {
-        id: true,
-        username: true,
-        handle: true,
-        picture: true,
-        bio: true,
-        role: true,
-        branding: true,
-        skills: true,
-        createdAt: true,
-        socials: true,
-        _count: {
-          select: {
-            comments: true,
-            blogs: true,
-          },
-        },
-      },
-    });
-
-    const blogs = await prisma.blog.findMany({
+    return prisma.blog.findMany({
       where: {
-        authorId: userId,
+        authorId: Number(session.userId),
         status: "PUBLISHED",
       },
       select: {
@@ -77,24 +60,21 @@ export const getUserData = unstable_cache(
       },
       take: 5,
     });
-
-    return { user, blogs };
   },
   ["user-blogs"],
-  {
-    revalidate: 600,
-    tags: ["user-blogs"],
-  }
+  { revalidate: 600 }
 );
-/*This function all user data associated with a given user for the settings page. Includes preferences*/
-export async function fetchProfileData() {
-  const session = await isVerifiedUser();
-  if (!session) {
-    redirect("/login");
-  }
-  try {
+// This function returns all user information
+
+export const getUserData = unstable_cache(
+  async () => {
+    const session = await isVerifiedUser();
+    if (!session) {
+      redirect("/login");
+    }
     const user = await prisma.user.findUnique({
-      where: { id: session.userId, deactivated: false },
+      // do not return deactivated users data
+      where: { id: Number(session.userId), deactivated: false },
       select: {
         id: true,
         username: true,
@@ -105,19 +85,28 @@ export async function fetchProfileData() {
         role: true,
         branding: true,
         skills: true,
+        createdAt: true,
+        socials: true,
         keep_blogs_on_delete: true,
         keep_comments_on_delete: true,
         preferences: true,
+        _count: {
+          select: {
+            comments: true,
+            blogs: true,
+          },
+        },
       },
     });
+
     return user;
-  } catch (error) {
-    console.log(error);
-    return [];
-  } finally {
-    await prisma.$disconnect();
+  },
+  ["user"],
+  {
+    revalidate: 600,
+    tags: ["user"],
   }
-}
+);
 
 /*This function only handles updating user social media links*/
 export async function updateSocials(data: SocialLink[]) {

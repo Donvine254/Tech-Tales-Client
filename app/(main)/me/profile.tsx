@@ -24,29 +24,25 @@ import { cn, formatDate, formatViews } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { getUserData } from "@/lib/actions/user";
 import { SocialLinks } from "@/components/custom/social-links";
 import UserBadges from "@/components/pages/profile/badge";
 import { Badge } from "@/components/ui/badge";
 import MinimalBlogCard from "@/components/pages/blogs/minimal-blog-card";
 import CreateButton from "@/components/pages/profile/create-button";
 import SocialMediaDialog from "@/components/pages/profile/social-media-dialog";
-import { SocialLink } from "@/types";
-
-type UserAndBlogs = Awaited<ReturnType<typeof getUserData>>;
+import { BlogWithComments, SocialLink, UserProfileData } from "@/types";
 
 export default function Profile({
-  data,
+  user,
   isTopAuthor = false,
+  blogs,
 }: {
-  data: UserAndBlogs;
+  user: UserProfileData;
   isTopAuthor?: boolean;
+  blogs: BlogWithComments[];
 }) {
   const { session } = useSession();
-  const { user, blogs } = data as {
-    user: NonNullable<typeof data.user>;
-    blogs: typeof data.blogs;
-  };
+
   const [socials, setSocials] = useState<SocialLink[]>(() => {
     try {
       const raw =
