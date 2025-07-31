@@ -18,9 +18,11 @@ export async function generateStaticParams() {
         path: true,
       },
     });
-    const pathArray = blogs.map((pathObj) => ({
-      path: pathObj.path,
+
+    const pathArray = blogs.map((blog) => ({
+      path: blog.path?.split("/") ?? [],
     }));
+    console.log(pathArray);
     return pathArray;
   } catch (error) {
     console.error("Error fetching blog data:", error);
@@ -96,7 +98,7 @@ export async function generateMetadata({
   params: Promise<{ path: string[] }>;
 }) {
   const { path } = await params;
-  const pathname = path?.join("/");
+  const pathname = path.join("/");
   const blog = (await getData(pathname)) as unknown as FullBlogData;
   if (!blog) {
     return {
@@ -148,7 +150,7 @@ export default async function page({
   params: Promise<{ path: string[] }>;
 }) {
   const { path } = await params;
-  const pathname = path?.join("/");
+  const pathname = path.join("/");
   const blog = await getData(pathname);
   if (!blog) {
     redirect("/not-found");
