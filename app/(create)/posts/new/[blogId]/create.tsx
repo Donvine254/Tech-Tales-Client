@@ -17,7 +17,7 @@ import {
   hasEntries,
   SaveDraft,
 } from "@/lib/helpers";
-import { slugify } from "@/lib/utils";
+import { createBlogPath, slugify } from "@/lib/utils";
 import { BlogData, FormStatus } from "@/types";
 import { BlogStatus } from "@prisma/client";
 import { useRouter } from "next/navigation";
@@ -32,10 +32,15 @@ export default function Create({
   initialData,
   uuid,
   status,
+  author,
 }: {
   initialData: BlogData;
   uuid: string;
   status: BlogStatus;
+  author: {
+    id: number;
+    handle: string;
+  };
 }) {
   const [blogData, setBlogData] = useState<BlogData>(initialData);
   const [formStatus, setFormStatus] = useState<FormStatus>("pending");
@@ -119,16 +124,15 @@ export default function Create({
     const handleKeyDown = (e: KeyboardEvent) => {
       const isSaveShortcut =
         (e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s";
-      if (!hasEntries(blogData)) return;
-      if (isSaveShortcut) {
-        e.preventDefault();
-        e.stopPropagation();
-        const dataStr = JSON.stringify(blogData);
-        localStorage.setItem(`Draft-${uuid}`, dataStr);
-        setUpdatedAt(new Date());
-        localStorage.setItem("UpdatedAt", JSON.stringify(new Date()));
-        toast.success("Draft saved successfully");
-      }
+      if (!isSaveShortcut || !hasEntries(blogData)) return;
+      //prevent event default
+      e.preventDefault();
+      e.stopPropagation();
+      const dataStr = JSON.stringify(blogData);
+      localStorage.setItem(`Draft-${uuid}`, dataStr);
+      setUpdatedAt(new Date());
+      localStorage.setItem("UpdatedAt", JSON.stringify(new Date()));
+      toast.success("Draft saved successfully");
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => {
@@ -136,12 +140,14 @@ export default function Create({
     };
   }, [blogData, uuid]);
 
-  //function to create slug
+  // function to handle title changes
   const handleTitleChange = (value: string) => {
+    const newSlug = slugify(value);
     setBlogData((prevData) => ({
       ...prevData,
       title: value,
-      slug: slugify(value),
+      slug: newSlug,
+      path: createBlogPath(author.handle, newSlug),
     }));
   };
   //function to show preview modal
@@ -166,12 +172,12 @@ export default function Create({
     const res = await publishBlog(blogData, uuid);
     // dismiss the toast when done
     toast.dismiss(toastId);
-    if (res.success && res.slug) {
+    if (res.success && res.url) {
       toast.success(res.message || "Blog published!");
       finalizeSubmission(true);
       //  redirect to the blog
       setTimeout(() => {
-        router.push(`/blog/${res.slug}`);
+        router.push(`/read/${res.url}`);
       }, 800);
     } else {
       toast.error(res.message || "Failed to publish blog.");
@@ -181,15 +187,20 @@ export default function Create({
 
   // update blog data in the database
   async function updateBlog() {
+    // TODO: only redirect to blog page if the blog is published
     setFormStatus("loading");
     const toastId = toast.loading("Processing request");
     const res = await SaveDraftBlog(blogData, uuid);
     toast.dismiss(toastId);
-    if (res.success) {
+    if (res.success && res.data) {
       toast.success("Blog updated successfully");
       finalizeSubmission(true);
       setTimeout(() => {
-        router.push(`/blog/${blogData.slug}`);
+        if (res.data?.status === "PUBLISHED") {
+          router.push(`/read/${res.data?.path}`);
+        } else {
+          router.push(`/me/posts`);
+        }
       }, 800);
     } else {
       toast.error(res.message);

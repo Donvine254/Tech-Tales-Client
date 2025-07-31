@@ -109,7 +109,7 @@ const ActionButtons: FC<ActionButtonsProps> = ({
       {/* Right side: actions */}
       <div className="flex items-center gap-2 xsm:gap-2 md:gap-4">
         <ShareModal
-          slug={blog.slug}
+          path={blog.path}
           title={blog.title}
           size={22}
           image={blog.image?.secure_url ?? "/placeholder.svg"}

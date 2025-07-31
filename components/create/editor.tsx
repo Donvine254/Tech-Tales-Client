@@ -101,18 +101,13 @@ export const EditorSection: React.FC<EditorSectionProps> = ({
           licenseKey="gpl"
           onInit={(evt, editor) => {
             editorRef.current = editor;
-            editor.shortcuts.add(
-              "meta+s",
-              "Save Content",
-              function (e: KeyboardEvent) {
-                e?.preventDefault?.();
-                if (editorRef.current) {
-                  const dataStr = JSON.stringify(data);
-                  localStorage.setItem(`Draft-${uuid}`, dataStr);
-                  toast.success("Draft saved successfully");
-                }
+            editor.shortcuts.add("meta+s", "Save Content", function () {
+              if (editorRef.current) {
+                const dataStr = JSON.stringify(data);
+                localStorage.setItem(`Draft-${uuid}`, dataStr);
+                toast.success("Draft saved successfully");
               }
-            );
+            });
           }}
           disabled={formStatus === "loading"}
           initialValue={data.body ?? ""}

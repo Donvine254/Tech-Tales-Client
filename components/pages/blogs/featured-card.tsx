@@ -21,7 +21,7 @@ export default function FeaturedCard({
       <div className="hidden md:flex overflow-hidden shadow-xl hover:shadow-2xl transition-shadow duration-300 rounded-lg border">
         {/* Left Image Section */}
         <div className="relative aspect-video w-1/2">
-          <Link href={`/blog/${blog.slug}`}>
+          <Link href={`/read/${blog.path}`}>
             <Image
               src={blog.image.secure_url ?? "/placeholder-image.webp"}
               alt={blog.title}
@@ -70,7 +70,7 @@ export default function FeaturedCard({
               </Link>
             </Badge>
             {/* Title */}
-            <Link href={`/blog/${blog.slug}`}>
+            <Link href={`/read/${blog.path}`}>
               <h2
                 className="font-bold drop-shadow-lg line-clamp-2 hover:underline hover:text-blue-500 hover:underline-offset-4 transition-all duration-300"
                 title={blog.title}>

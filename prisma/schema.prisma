@@ -61,7 +61,7 @@ model Blog {
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 
-  @@index([slug, authorId, uuid])
+  @@index([slug, path, authorId, uuid])
 }
 
 model Comment {

@@ -29,3 +29,22 @@ export async function getTopAuthor(userId: number): Promise<boolean> {
     return false;
   }
 }
+
+export async function updateBlogViews(blogId: number) {
+  try {
+    await prisma.blog.update({
+      where: {
+        id: blogId,
+      },
+      data: { views: { increment: 1 } },
+      select: {
+        id: true,
+      },
+    });
+    console.log("Analytics data sent");
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+}

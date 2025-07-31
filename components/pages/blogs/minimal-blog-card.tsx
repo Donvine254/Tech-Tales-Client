@@ -94,7 +94,7 @@ export default function MinimalBlogCard({
           {/* Title */}
           {blog.status === "PUBLISHED" ? (
             <Link
-              href={`/blog/${blog.slug}`}
+              href={`/read/${blog.path}`}
               className="group"
               title={blog.title ?? ""}>
               <h3 className="text-base sm:text-lg font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 leading-snug cursor-pointer">
@@ -137,7 +137,11 @@ export default function MinimalBlogCard({
         {/* Image */}
         <div className="relative hidden sm:flex sm:w-24 aspect-[3/2] md:w-42 lg:w-60 flex-shrink-0 rounded-lg overflow-hidden bg-muted order-2">
           <Image
-            src={image?.secure_url ?? "/placeholder.svg"}
+            src={
+              image?.secure_url
+                ? image.secure_url ?? "/placeholder.svg"
+                : "/placeholder.svg"
+            }
             alt={blog?.title || ""}
             fill
             sizes="(max-width: 768px) 100vw, 200px"
@@ -195,14 +199,14 @@ export default function MinimalBlogCard({
         <div className="flex items-center space-x-2">
           {blog.status === "PUBLISHED" && (
             <ShareModal
-              slug={blog?.slug ?? ""}
+              path={blog?.path ?? ""}
               title={blog?.title ?? ""}
               image={image?.secure_url ?? "/placeholder.svg"}
             />
           )}
           <BlogCardDropdown
             blogId={blog.id}
-            slug={blog.slug ?? ""}
+            path={blog.path ?? ""}
             blogAuthorId={blog.authorId}
             blogStatus={blog.status}
             uuid={blog.uuid}

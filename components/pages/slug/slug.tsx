@@ -184,7 +184,7 @@ export default function Slug({ blog }: Props) {
             </TooltipContent>
           </Tooltip>
           <ShareModal
-            slug={blog.slug}
+            path={blog.path}
             title={blog.title}
             image={blog.image?.secure_url ?? "/placeholder-image.webp"}
           />
