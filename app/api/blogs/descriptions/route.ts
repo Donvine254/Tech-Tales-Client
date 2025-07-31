@@ -1,5 +1,3 @@
-import { generateDescription } from "@/lib/helpers";
-import { calculateReadingTime } from "@/lib/utils";
 import prisma from "@/prisma/prisma";
 import { NextResponse } from "next/server";
 
@@ -10,19 +8,13 @@ export async function GET() {
         status: "PUBLISHED",
       },
       select: {
-        body: true,
         id: true,
+        path: true,
+        description: true,
       },
     });
 
-    const descriptions = blogs.map((blog) => ({
-      id: blog.id,
-      description: generateDescription(blog.body || ""),
-      reading_time: calculateReadingTime(blog.body || ""),
-    }));
-
-    return NextResponse.json(descriptions);
-    return NextResponse.json(descriptions);
+    return NextResponse.json(blogs);
   } catch (error) {
     console.error(error);
     return NextResponse.error();

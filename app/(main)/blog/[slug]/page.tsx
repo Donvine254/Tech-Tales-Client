@@ -106,13 +106,11 @@ export async function generateMetadata({
       description: "The requested blog post could not be found.",
     };
   }
-  const plainTextBody = blog?.body?.replace(/<[^>]*>/g, "") ?? "";
-  const description = `${plainTextBody.slice(0, 150)}... Read More`;
   const image = blog.image as CoverImage;
   return {
     ...metaobject,
     title: `${blog.title} - Tech Tales`,
-    description,
+    description: blog.description ?? "This blog has not been updated yet",
     keywords: blog.tags?.split(",") ?? metaobject.keywords,
     creator: blog.author.username,
     authors: [
@@ -124,7 +122,7 @@ export async function generateMetadata({
     openGraph: {
       ...metaobject.openGraph,
       title: `${blog.title} - Tech Tales`,
-      description,
+      description: blog.description ?? "This blog has not been updated yet",
       url: `https://techtales.vercel.app/blog/${blog.slug}`,
 
       images: [
@@ -139,7 +137,7 @@ export async function generateMetadata({
     twitter: {
       ...metaobject.twitter,
       title: `${blog.title} - Tech Tales`,
-      description,
+      description: blog.description ?? "This blog has not been updated yet",
       images: [image.secure_url || "https://techtales.vercel.app/logo.png"],
     },
   } satisfies Metadata;
