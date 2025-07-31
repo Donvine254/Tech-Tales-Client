@@ -1,3 +1,4 @@
+import { isVerifiedUser } from "@/dal/auth-check";
 import Posts from "./posts";
 import { getUserBlogs } from "@/lib/actions/user";
 import { Metadata } from "next";
@@ -8,7 +9,8 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  const blogs = await getUserBlogs();
+  const session = await isVerifiedUser();
+  const blogs = await getUserBlogs(session.userId);
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-accent">
       <Posts data={blogs} />
