@@ -44,7 +44,7 @@ model Blog {
   authorId      Int
   tags          String?
   body          String?
-  slug          String?    @unique
+  slug          String?
   description   String?
   reading_time  Int        @default(0)
   path          String?    @unique

@@ -46,8 +46,21 @@ export async function SaveDraftBlog(data: BlogData, uuid: string) {
     });
     return { success: true, message: "Blog in sync with database" };
   } catch (error) {
-    console.error(error);
-    return { success: false, message: "Something went wrong" };
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === "P2002") {
+        return {
+          success: false,
+          message:
+            "Unique constraint violation. A blog with a similar title already exists.",
+        };
+      }
+    } else {
+      const e = error as Error;
+      return {
+        success: false,
+        message: e.message || "Something went wrong",
+      };
+    }
   }
 }
 // function to publishblog
@@ -92,16 +105,21 @@ export async function publishBlog(
       message: "Blog published successfully",
       slug: blog.slug,
     };
-    // eslint-disable-next-line
-  } catch (error: any) {
-    // check unique constraint-violation
-    if (error.code === "P2002") {
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === "P2002") {
+        return {
+          success: false,
+          message:
+            "Unique constraint violation. A blog with a similar title already exists.",
+        };
+      }
+    } else {
+      const e = error as Error;
       return {
         success: false,
-        message: "A blog with a similar title already exists.",
+        message: e.message || "Something went wrong",
       };
-    } else {
-      return { success: false, message: "Something went wrong" };
     }
   } finally {
     await prisma.$disconnect();
