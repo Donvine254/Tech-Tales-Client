@@ -98,3 +98,21 @@ export interface UserProfileData {
   };
 }
 export type UserComments = Awaited<ReturnType<typeof getUserComments>>;
+
+export interface FullBlogData extends Omit<BlogWithUser, "_count" | "author"> {
+  title: string;
+  body: string;
+  path: string;
+  tags: string;
+  image: { secure_url: string };
+  author: {
+    username: string;
+    picture: string | null;
+    handle: string;
+    bio: string;
+    role: Role;
+    socials: SocialLink[];
+    branding: string;
+  };
+  comments: CommentData[];
+}
