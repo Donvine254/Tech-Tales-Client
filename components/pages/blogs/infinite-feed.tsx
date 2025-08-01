@@ -5,6 +5,7 @@ import { BlogWithComments } from "@/types";
 import { Button } from "@/components/ui/button";
 import BlogCard from "./blog-card";
 import { RefreshCcw, SearchX } from "lucide-react";
+import { BlogCardSkeleton } from "./blog-card-skeletons";
 type BlogResponse = {
   blogs: BlogWithComments[];
   nextPage: number | null;
@@ -32,6 +33,7 @@ export default function BlogInfiniteFeed({
     data,
     status,
     error,
+    isFetching,
   } = useInfiniteQuery<BlogResponse, Error>({
     queryKey: ["blogs"],
     initialPageParam: 1,
@@ -99,6 +101,17 @@ export default function BlogInfiniteFeed({
       </div>
     );
   }
+  //handle when the initial data is not available
+  const isInitialLoading = !initialData && isFetching && !data;
+  if (isInitialLoading)
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <BlogCardSkeleton key={i} />
+        ))}
+      </div>
+    );
+
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

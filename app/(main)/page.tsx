@@ -21,10 +21,14 @@ export default async function Home() {
       <section className="max-w-7xl mx-auto ">
         <CategoryFilters className="my-6 md:my-8" />
         <BlogInfiniteFeed
-          initialData={{
-            blogs: blogPosts,
-            nextPage: 2,
-          }}
+          initialData={
+            blogPosts && blogPosts.length > 0
+              ? {
+                  blogs: blogPosts,
+                  nextPage: 2,
+                }
+              : undefined
+          }
         />
       </section>
       {/* newsletter section */}
