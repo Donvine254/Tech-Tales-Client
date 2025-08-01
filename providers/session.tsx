@@ -26,7 +26,6 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (session?.userId) {
       updateUserActivityStatus(Number(session.userId), "ACTIVE");
-      console.log("user marked as active");
     }
   }, [session?.userId]);
 
