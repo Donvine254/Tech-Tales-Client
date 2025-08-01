@@ -41,6 +41,7 @@ export async function GET(req: Request) {
       }),
       skip,
       take: limit,
+      cacheStrategy: { ttl: 600 },
     });
     const nextPage = blogs.length === limit ? page + 1 : null;
     return NextResponse.json({ blogs, nextPage });

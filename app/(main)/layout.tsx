@@ -13,6 +13,7 @@ import { GoogleOneTapLogin } from "@/components/auth/google";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 import { Analytics } from "@vercel/analytics/react";
+import ReactQueryProvider from "@/providers/query-provider";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -43,14 +44,16 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange>
             <main>
-              <SessionProvider>
-                <GoogleOAuthProvider
-                  clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}>
-                  <GoogleOneTapLogin />
-                  <Navbar />
-                  {children}
-                </GoogleOAuthProvider>
-              </SessionProvider>
+              <ReactQueryProvider>
+                <SessionProvider>
+                  <GoogleOAuthProvider
+                    clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}>
+                    <GoogleOneTapLogin />
+                    <Navbar />
+                    {children}
+                  </GoogleOAuthProvider>
+                </SessionProvider>
+              </ReactQueryProvider>
             </main>
             <Footer />
             <CookieAlert />

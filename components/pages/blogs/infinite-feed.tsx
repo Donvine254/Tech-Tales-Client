@@ -3,9 +3,9 @@ import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { BlogWithComments } from "@/types";
 import { Button } from "@/components/ui/button";
-import { Loader2, RefreshCcw } from "lucide-react";
 import BlogCard from "./blog-card";
 import { BlogCardSkeleton } from "./blog-card-skeletons";
+import { RefreshCcw, SearchX } from "lucide-react";
 type BlogResponse = {
   blogs: BlogWithComments[];
   nextPage: number | null;
@@ -31,13 +31,15 @@ export default function BlogInfiniteFeed() {
     error,
   } = useInfiniteQuery<BlogResponse, Error>({
     queryKey: ["blogs"],
-    initialPageParam: 0,
+    initialPageParam: 1,
     queryFn: ({ pageParam = 1 }) =>
       fetchBlogs({ pageParam: pageParam as number }),
     getNextPageParam: (lastPage) => lastPage.nextPage,
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    gcTime: 1000 * 60 * 60, // 1 hr
   });
   const { ref } = useInView({
-    rootMargin: "200px",
+    rootMargin: "400px",
     threshold: 0,
     onChange: (inView) => {
       if (inView && hasNextPage && !isFetchingNextPage) {
@@ -63,19 +65,30 @@ export default function BlogInfiniteFeed() {
 
   if (status === "error") {
     return (
-      <div className="flex flex-col justify-center items-center text-red-600 py-8 space-y-4">
-        <p>{error.message ?? "Oops! Failed to load blogs."}</p>
+      <div className="flex flex-col items-center justify-center text-center py-16  space-y-4">
+        <SearchX className="w-12 h-12 mb-4 text-muted-foreground" />
+        <h2 className="text-xl md:text-2xl font-semibold text-destructive">
+          Well, this is awkward
+        </h2>
+        <p className="mt-2 text-xs sm:text-sm max-w-md text-muted-foreground">
+          We couldn&apos;t find any blogs in our server. The server responded
+          with the following error. {""}
+          <span className="mt-2 max-w-md">
+            Error: {error?.message || "Unknown"}
+          </span>
+        </p>
         <Button
+          variant="outline"
           onClick={() => {
             if (window && typeof window !== undefined) window.location.reload();
-          }}>
-          <RefreshCcw className="size-4" />
+          }}
+          className="hover:text-blue-500 group">
+          <RefreshCcw className="size-4 group-hover:animate-spin" />
           Try Again
         </Button>
       </div>
     );
   }
-
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -86,8 +99,8 @@ export default function BlogInfiniteFeed() {
           : content}
       </div>
       {isFetchingNextPage && (
-        <div className="flex items-center justify-center my-2">
-          <Loader2 className="size-4 animate-spin" />
+        <div className="flex items-center justify-center my-2 py-4">
+          <div className="w-8 h-8 border-3 text-blue-400 text-4xl animate-spin border-primary flex items-center justify-center border-t-blue-400 rounded-full"></div>
         </div>
       )}
     </>
