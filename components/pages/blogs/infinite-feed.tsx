@@ -16,7 +16,7 @@ const fetchBlogs = async ({
 }: {
   pageParam?: number;
 }): Promise<BlogResponse> => {
-  const res = await fetch(`/api/blogs?page=${pageParam}`);
+  const res = await fetch(`/api/blogs?page=${pageParam}&&orderBy=createdAt`);
   if (!res.ok) throw new Error("Failed to fetch blogs");
   return res.json();
 };
