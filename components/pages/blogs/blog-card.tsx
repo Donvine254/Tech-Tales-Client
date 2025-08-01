@@ -165,7 +165,7 @@ const BlogCard = ({
               title={blog.title}
               image={blog.image.secure_url ?? "/placeholder.svg"}
             />
-            <Bookmark blogId={blog.id} size={24} />
+            <Bookmark blogId={blog.id} size={18} />
           </div>
         </div>
       </div>
