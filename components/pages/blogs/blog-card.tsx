@@ -20,17 +20,16 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { formatViews } from "@/lib/utils";
-import { ReactNode } from "react";
+import { forwardRef, ReactNode } from "react";
 
-const BlogCard = ({
-  blog,
-  children,
-}: {
-  blog: BlogWithComments;
-  children?: ReactNode;
-}) => {
+const BlogCard = forwardRef<
+  HTMLDivElement,
+  { blog: BlogWithComments; children?: ReactNode }
+>(({ blog, children }, ref) => {
   return (
-    <article className="group bg-white dark:bg-accent rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden  hover:border-gray-200 hover:-translate-y-1 flex flex-col animate-fade-in-up relative">
+    <article
+      className="group bg-white dark:bg-accent rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden  hover:border-gray-200 hover:-translate-y-1 flex flex-col animate-fade-in-up relative"
+      ref={ref}>
       {children && <>{children}</>}
       <div className="aspect-[16/9] bg-gradient-to-br from-cyan-100 to-blue-100 relative overflow-hidden">
         <Link href={`/read/${blog.path}`} className="group" title={blog.title}>
@@ -171,6 +170,6 @@ const BlogCard = ({
       </div>
     </article>
   );
-};
-
+});
+BlogCard.displayName = "BlogCard";
 export default BlogCard;
