@@ -2,6 +2,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { Session } from "@/types";
 import { getSession } from "@/lib/actions/session";
+import { updateUserActivityStatus } from "@/lib/actions/analytics";
 
 const SessionContext = createContext<{
   session: Session | null;
@@ -21,6 +22,13 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
       setSession(session);
     })();
   }, []);
+  //Update user status, should only run once
+  useEffect(() => {
+    if (session?.userId) {
+      updateUserActivityStatus(Number(session.userId), "ACTIVE");
+      console.log("user marked as active");
+    }
+  }, [session?.userId]);
 
   return (
     <SessionContext.Provider value={{ session, setSession }}>

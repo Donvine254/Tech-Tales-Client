@@ -194,6 +194,7 @@ export async function deactivateUserAccount(
       data: {
         deactivated: true,
         deactivatedAt: new Date(),
+        status: "DEACTIVATED",
         keep_blogs_on_delete: keepBlogs,
         keep_comments_on_delete: keepComments,
       },

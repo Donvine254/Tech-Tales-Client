@@ -60,6 +60,9 @@ export async function updateUserActivityStatus(
       data: {
         status,
       },
+      select: {
+        id: true,
+      },
     });
   } catch (error) {
     console.log(error);

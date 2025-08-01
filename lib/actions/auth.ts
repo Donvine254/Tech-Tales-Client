@@ -173,6 +173,7 @@ export async function authenticateUserLogin(
     }
     //step-4: auth success: create cookie
     await createAndSetAuthTokenCookie(user);
+    //step-5: update user status as active
     return { success: true, message: "Logged in successfully 🎉" };
   } catch (error) {
     const e = error as Error;
