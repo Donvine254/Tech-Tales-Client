@@ -4,7 +4,6 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { BlogWithComments } from "@/types";
 import { Button } from "@/components/ui/button";
 import BlogCard from "./blog-card";
-import { BlogCardSkeleton } from "./blog-card-skeletons";
 import { RefreshCcw, SearchX } from "lucide-react";
 type BlogResponse = {
   blogs: BlogWithComments[];
@@ -21,7 +20,11 @@ const fetchBlogs = async ({
   return res.json();
 };
 
-export default function BlogInfiniteFeed() {
+export default function BlogInfiniteFeed({
+  initialData,
+}: {
+  initialData?: BlogResponse;
+}) {
   const {
     fetchNextPage, //function
     hasNextPage, // boolean
@@ -37,6 +40,13 @@ export default function BlogInfiniteFeed() {
     getNextPageParam: (lastPage) => lastPage.nextPage,
     staleTime: 1000 * 60 * 5, // 5 minutes
     gcTime: 1000 * 60 * 60, // 1 hr
+    //pass initial data
+    initialData: initialData
+      ? {
+          pages: [initialData],
+          pageParams: [1],
+        }
+      : undefined,
   });
   const { ref } = useInView({
     rootMargin: "400px",
@@ -92,11 +102,7 @@ export default function BlogInfiniteFeed() {
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {status === "pending"
-          ? Array.from({ length: 6 }).map((_, i) => (
-              <BlogCardSkeleton key={i} />
-            ))
-          : content}
+        {content}
       </div>
       {isFetchingNextPage && (
         <div className="flex items-center justify-center my-2 py-4">
