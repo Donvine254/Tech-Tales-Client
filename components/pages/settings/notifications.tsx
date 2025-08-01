@@ -78,7 +78,7 @@ export default function Notifications({
         {notificationOptions.map((option) => (
           <div
             key={option.key}
-            className="bg-card dark:bg-background border p-4 sm:p-6 rounded-lg border-border shadow-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 hover:shadow-md">
+            className="bg-card dark:bg-background border p-4 sm:p-6 rounded-lg border-border shadow-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 hover:shadow-md  has-[[aria-checked=true]]:border-blue-600 has-[[aria-checked=true]]:bg-blue-50 dark:has-[[aria-checked=true]]:border-blue-900 dark:has-[[aria-checked=true]]:bg-blue-950">
             <div className="flex items-start justify-between">
               <div className="flex-1 min-w-0">
                 <h3 className="text-lg font-medium text-gray-900 dark:text-white">

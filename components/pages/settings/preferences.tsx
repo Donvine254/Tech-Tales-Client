@@ -19,17 +19,25 @@ export default function PreferenceSettings() {
   const [settings, setSettings] = useState({
     cookies: true,
     language: "en",
-    timezone: "UTC-5",
+    timezone: "Africa/Nairobi",
   });
+  const [timeZones, setTimeZones] = useState<string[]>([]);
 
   useEffect(() => {
     const storedLanguage = getCookie("language");
     const storedTimezone = getCookie("timezone");
-
+    const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    if (typeof Intl.supportedValuesOf === "function") {
+      setTimeZones(
+        Intl.supportedValuesOf("timeZone").filter((tmz) =>
+          tmz.includes(userTimezone.split("/")[0])
+        )
+      );
+    }
     setSettings((prev) => ({
       ...prev,
       language: storedLanguage || prev.language,
-      timezone: storedTimezone || prev.timezone,
+      timezone: storedTimezone || prev.timezone || userTimezone,
     }));
   }, []);
   const handleToggle = (key: keyof typeof settings) => {
@@ -55,16 +63,6 @@ export default function PreferenceSettings() {
     { value: "pt", label: "Português" },
   ];
 
-  const timezones = [
-    { value: "UTC-12", label: "(UTC-12:00) International Date Line West" },
-    { value: "UTC-8", label: "(UTC-08:00) Pacific Time (US & Canada)" },
-    { value: "UTC-5", label: "(UTC-05:00) Eastern Time (US & Canada)" },
-    { value: "UTC+0", label: "(UTC+00:00) Greenwich Mean Time" },
-    { value: "UTC+1", label: "(UTC+01:00) Central European Time" },
-    { value: "UTC+8", label: "(UTC+08:00) China Standard Time" },
-    { value: "UTC+9", label: "(UTC+09:00) Japan Standard Time" },
-  ];
-
   const handleSubmit = () => {
     setCookie("language", settings.language, 365);
     setCookie("timezone", settings.timezone, 365);
@@ -84,7 +82,7 @@ export default function PreferenceSettings() {
 
       <div className="space-y-6">
         {/* Cookies Setting */}
-        <div className="bg-card dark:bg-background border p-4 sm:p-6 rounded-lg border-border shadow-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 hover:shadow-md">
+        <div className="bg-card  has-[[aria-checked=true]]:border-blue-600 has-[[aria-checked=true]]:bg-blue-50 dark:has-[[aria-checked=true]]:border-blue-900 dark:has-[[aria-checked=true]]:bg-blue-950 dark:bg-background border p-4 sm:p-6 rounded-lg border-border shadow-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 hover:shadow-md">
           <div className="flex items-start justify-between">
             <div className="flex-1">
               <h3 className="text-lg font-medium text-gray-900 dark:text-white">
@@ -151,9 +149,9 @@ export default function PreferenceSettings() {
               <SelectValue placeholder="Select a timezone" />
             </SelectTrigger>
             <SelectContent>
-              {timezones.map((tz) => (
-                <SelectItem key={tz.value} value={tz.value}>
-                  {tz.label}
+              {timeZones.map((tz, index) => (
+                <SelectItem key={index} value={tz}>
+                  {tz}
                 </SelectItem>
               ))}
             </SelectContent>
