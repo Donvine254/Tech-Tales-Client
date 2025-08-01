@@ -73,7 +73,7 @@ export default function BlogInfiniteFeed() {
         <p className="mt-2 text-xs sm:text-sm max-w-md text-muted-foreground">
           We couldn&apos;t find any blogs in our server. The server responded
           with the following error. {""}
-          <span className="mt-2 max-w-md">
+          <span className="mt-2 max-w-md text-destructive">
             Error: {error?.message || "Unknown"}
           </span>
         </p>
