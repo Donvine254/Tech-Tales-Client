@@ -291,12 +291,12 @@ const Terms = () => {
                     guarantee the accuracy, completeness, or reliability of any
                     content or service.
                   </p>
-                  <div className="bg-accent border border-border rounded-lg p-4 mb-4">
-                    <p className="text-foreground font-medium">
-                      <strong>Important:</strong> To the fullest extent
-                      permitted by law, Tech Tales shall not be liable for any
-                      indirect, incidental, special, consequential, or punitive
-                      damages.
+                  <div className="border border-blue-600 bg-blue-100 text-blue-900 dark:text-white dark:border-blue-500 dark:bg-blue-900/40 rounded-lg p-4 mb-4">
+                    <p className="font-medium">
+                      <span className="font-bold">Important:</span> To the
+                      fullest extent permitted by law, Tech Tales shall not be
+                      liable for any indirect, incidental, special,
+                      consequential, or punitive damages.
                     </p>
                   </div>
                   <h4 className="text-lg font-semibold mb-2 text-foreground">
@@ -346,11 +346,11 @@ const Terms = () => {
                     at any time. We will notify users of significant changes
                     through email or prominent notices on the platform.
                   </p>
-                  <div className="bg-blue-50 dark:bg-blue-500 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-4">
-                    <p className="text-blue-800 dark:text-blue-100">
-                      <strong>Your continued use</strong> of Tech Tales after
-                      changes are posted constitutes acceptance of the modified
-                      terms.
+                  <div className="border-amber-600 border bg-amber-100 text-amber-900 dark:text-amber-500 dark:border-amber-500 dark:bg-amber-900/20  rounded-lg p-4 mb-4">
+                    <p>
+                      <span className="font-bold">Your continued use</span> of
+                      Tech Tales after changes are posted constitutes acceptance
+                      of the modified terms.
                     </p>
                   </div>
                   <p>
