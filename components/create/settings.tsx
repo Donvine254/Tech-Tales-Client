@@ -165,7 +165,7 @@ export function BlogSettingsModal({
                             Add Audio Narration
                           </div>
                         </AccordionTrigger>
-                        <AccordionContent className="space-y-2">
+                        <AccordionContent className="space-y-2 sm:px-2">
                           <div className="space-y-3">
                             <Label htmlFor="audio-url">Audio URL</Label>
                             <Input
@@ -224,7 +224,7 @@ export function BlogSettingsModal({
                             <Globe className="size-5" /> SEO Options & Settings
                           </Label>
                         </AccordionTrigger>
-                        <AccordionContent className="sm:p-2">
+                        <AccordionContent className="sm:px-2">
                           <div className="space-y-2">
                             <Label
                               htmlFor="seo-description"
@@ -251,6 +251,7 @@ export function BlogSettingsModal({
                               onChange={(e) =>
                                 setSeoDescription(e.target.value)
                               }
+                              className="text-xs md:text-sm"
                               placeholder="Enter a brief description for search engines..."
                               maxLength={160}
                               minLength={150}
