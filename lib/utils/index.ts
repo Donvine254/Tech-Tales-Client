@@ -1,3 +1,4 @@
+import { CoverImage } from "@/types";
 import { clsx, type ClassValue } from "clsx";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
@@ -145,5 +146,21 @@ export const formatCommentDate = (date: Date) => {
     return `${Math.floor(diffInHours / 24)}d ago`;
   } else {
     return date.toLocaleDateString();
+  }
+};
+
+/* Function to optimize cloudinary images url*/
+export const imageUrlConstructor = (image: CoverImage) => {
+  const base = "https://res.cloudinary.com/dipkbpinx/image/upload";
+  const isCloudinaryUrl = image?.secure_url?.startsWith(base) ?? false;
+  const hasPublicId = !!image?.public_id;
+  if (!isCloudinaryUrl || !hasPublicId) {
+    return image.secure_url;
+  }
+  try {
+    return `${base}/${image.public_id}.avif`;
+  } catch (error) {
+    console.log(error);
+    return image.secure_url;
   }
 };
