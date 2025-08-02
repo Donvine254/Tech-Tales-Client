@@ -1,7 +1,7 @@
 import React from "react";
 import { Calendar, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { BlogWithUser } from "@/types";
+import { BlogWithUser, CoverImage } from "@/types";
 import Link from "next/link";
 import { formatDate } from "@/lib/utils";
 import BlogImage from "./blog-image";
@@ -13,8 +13,9 @@ export default function CarouselHeroCard({ post }: { post: BlogWithUser }) {
         <div className="aspect-video relative">
           <BlogImage
             src={post.image.secure_url}
-            title={post.title}
+            title={post.title || "Blog cover image"}
             alt={post.title}
+            image={post.image as CoverImage}
             fill
             className="object-cover transition-transform duration-300  group-hover:brightness-120 filter"
           />

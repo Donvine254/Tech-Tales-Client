@@ -6,7 +6,6 @@ import { CoverImage } from "@/types";
 interface BlogImageProps extends ImageProps {
   title?: string;
   image: CoverImage;
-  secure_rul: string;
 }
 export default function BlogImage({
   src,

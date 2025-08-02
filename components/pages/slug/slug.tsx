@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/tooltip";
 import { useSession } from "@/providers/session";
 import Comments from "../../comments";
-import { CommentData } from "@/types";
+import { CommentData, CoverImage } from "@/types";
 import UserCard from "./user-card";
 import ActionButtons from "./action-buttons";
 import BlogSummaryGenerator from "./summary";
@@ -61,6 +61,7 @@ export default function Slug({ blog }: Props) {
         src={blog.image.secure_url || "/placeholder.svg"}
         title={blog.title || "Untitled blog"}
         alt={blog.title || "Untitled blog"}
+        image={blog.image as CoverImage}
         height={720}
         width={1280}
         quality={100}

@@ -8,7 +8,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import parse from "html-react-parser";
-import { BlogWithComments } from "@/types";
+import { BlogWithComments, CoverImage } from "@/types";
 import Link from "next/link";
 import { ShareModal } from "@/components/modals/share-modal";
 import Bookmark from "@/components/custom/bookmark";
@@ -37,6 +37,7 @@ const BlogCard = forwardRef<
             src={blog.image?.secure_url ?? "/placeholder.svg"}
             alt={blog.title}
             title={blog.title}
+            image={blog.image as CoverImage}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             priority

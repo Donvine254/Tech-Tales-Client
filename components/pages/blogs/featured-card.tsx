@@ -1,12 +1,12 @@
 import React from "react";
-import { BlogWithComments } from "@/types";
-import Image from "next/image";
+import { BlogWithComments, CoverImage } from "@/types";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import parse from "html-react-parser";
 import { Calendar, Clock, Crown } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import BlogCard from "./blog-card";
+import BlogImage from "./blog-image";
 
 export default function FeaturedCard({
   blog,
@@ -22,9 +22,10 @@ export default function FeaturedCard({
         {/* Left Image Section */}
         <div className="relative aspect-video w-1/2">
           <Link href={`/read/${blog.path}`}>
-            <Image
+            <BlogImage
               src={blog.image.secure_url ?? "/placeholder-image.webp"}
-              alt={blog.title}
+              alt={blog.title || "blog cover image"}
+              image={blog.image as CoverImage}
               fill
               className="w-full h-full object-cover transition-transform duration-500"
             />

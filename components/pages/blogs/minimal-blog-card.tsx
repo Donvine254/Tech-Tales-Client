@@ -11,7 +11,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { BlogWithComments, CoverImage } from "@/types";
-import { cn, formatViews } from "@/lib/utils";
+import { cn, formatDate, formatViews } from "@/lib/utils";
 import { ShareModal } from "@/components/modals/share-modal";
 import { BlogCardDropdown } from "./blog-dropdown";
 import { Badge } from "@/components/ui/badge";
@@ -75,13 +75,7 @@ export default function MinimalBlogCard({
               <div className="flex items-center space-x-3 text-xs text-accent-foreground">
                 <div className="flex items-center whitespace-nowrap truncate space-x-1">
                   <Calendar className="h-3 w-3" />
-                  <span>
-                    {new Date(blog.createdAt).toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
-                  </span>
+                  <span>{formatDate(blog.createdAt)}</span>
                 </div>
                 <div className="flex items-center whitespace-nowrap truncate space-x-1">
                   <Clock className="h-3 w-3" />
@@ -142,6 +136,7 @@ export default function MinimalBlogCard({
                 ? image.secure_url ?? "/placeholder.svg"
                 : "/placeholder.svg"
             }
+            image={blog.image as CoverImage}
             title={blog.title || "Untitled blog"}
             alt={blog?.title || "blog cover image"}
             fill

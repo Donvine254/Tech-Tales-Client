@@ -1,9 +1,8 @@
 import React from "react";
 import { Calendar, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import Image from "next/image";
 import Link from "next/link";
-import { BlogWithUser } from "@/types";
+import { BlogWithUser, CoverImage } from "@/types";
 import { cn, formatDate } from "@/lib/utils";
 import parse from "html-react-parser";
 import BlogImage from "./blog-image";
@@ -27,6 +26,7 @@ export function HeroCardMobile({
             src={post.image.secure_url || "/placeholder-image.webp"}
             alt={post.title}
             title={post.title}
+            image={post.image as CoverImage}
             fill
             className="object-cover rounded-t-lg"
           />
@@ -84,9 +84,10 @@ export function HeroCardDesktop({
         className
       )}>
       <div className="aspect-video relative hidden md:block">
-        <Image
+        <BlogImage
           src={post.image.secure_url || "/placeholder-image.webp"}
           alt={post.title}
+          image={post.image as CoverImage}
           fill
           className="object-cover transition-transform duration-300 group-hover:brightness-120"
         />
