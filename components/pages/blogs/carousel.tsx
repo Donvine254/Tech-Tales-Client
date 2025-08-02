@@ -5,7 +5,6 @@ import { BlogWithUser } from "@/types";
 import { useIsMobile } from "@/hooks/use-mobile";
 import CarouselHeroCard from "./hero-card";
 import { HeroCardDesktop, HeroCardMobile } from "./carousel-card";
-import { BlogCardSkeleton, HeroCardSkeleton } from "./blog-card-skeletons";
 
 interface BlogCarouselProps {
   posts: BlogWithUser[];
@@ -62,24 +61,20 @@ export function BlogCarousel({ posts }: BlogCarouselProps) {
 
   return (
     <div className="max-w-7xl mx-auto min-h-max">
-      <div className="md:hidden relative" {...swipeHandlers}>
+      <div className="md:hidden relative" {...(isMounted ? swipeHandlers : {})}>
         <div className="overflow-hidden rounded-2xl">
           <div
             className="flex transition-transform  duration-500 ease-in-out"
-            style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
-            {!isMounted
-              ? Array.from({ length: 5 }).map((_, index) => (
-                  <div
-                    key={`skeleton-${index}`}
-                    className="w-full flex-shrink-0">
-                    <BlogCardSkeleton />
-                  </div>
-                ))
-              : posts.map((post) => (
-                  <div key={post.id} className="w-full flex-shrink-0">
-                    <HeroCardMobile post={post} />
-                  </div>
-                ))}
+            style={
+              isMounted
+                ? { transform: `translateX(-${currentIndex * 100}%)` }
+                : undefined
+            }>
+            {posts.map((post) => (
+              <div key={post.id} className="w-full flex-shrink-0">
+                <HeroCardMobile post={post} />
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -87,32 +82,27 @@ export function BlogCarousel({ posts }: BlogCarouselProps) {
       {/* LG view */}
 
       <div className="hidden md:block">
-        {!isMounted ? (
-          <HeroCardSkeleton />
-        ) : (
-          <div className="md:grid grid-cols-3 gap-0.5">
-            {" "}
-            {/* Featured Post - Takes up 2 columns */}
-            <div className="col-span-2">
-              <div className="transition-all duration-700 ease-in-out">
-                <CarouselHeroCard post={getFeaturedPost()} />
-              </div>
-            </div>
-            {/* Sidebar Posts */}
-            <div className="">
-              {getSidebarPosts().map((post, index) => (
-                <div
-                  key={`${post.id}-${currentIndex}`}
-                  className="transition-all duration-700 ease-in-out"
-                  style={{
-                    animationDelay: `${index * 100}ms`,
-                  }}>
-                  <HeroCardDesktop post={post} />
-                </div>
-              ))}
+        <div className="md:grid grid-cols-3 gap-0.5">
+          {/* Featured Post - Takes up 2 columns */}
+          <div className="col-span-2">
+            <div className="transition-all duration-700 ease-in-out">
+              <CarouselHeroCard post={getFeaturedPost()} />
             </div>
           </div>
-        )}
+          {/* Sidebar Posts */}
+          <div className="">
+            {getSidebarPosts().map((post, index) => (
+              <div
+                key={`${post.id}-${currentIndex}`}
+                className="transition-all duration-700 ease-in-out"
+                style={{
+                  animationDelay: `${index * 100}ms`,
+                }}>
+                <HeroCardDesktop post={post} />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
