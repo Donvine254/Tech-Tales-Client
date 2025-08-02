@@ -25,7 +25,6 @@ export default function BlogImage({
     !error && src && image.public_id ? imageUrlConstructor(image) : src;
   const keyStr =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-
   const triplet = (e1: number, e2: number, e3: number) =>
     keyStr.charAt(e1 >> 2) +
     keyStr.charAt(((e1 & 3) << 4) | (e2 >> 4)) +
