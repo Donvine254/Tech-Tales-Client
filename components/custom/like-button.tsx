@@ -79,8 +79,6 @@ export default function AnimatedLikeButton({
       })();
     }
   }, [session, blogId]);
-
-  // TODO: update favoriting functionality
   const handleToggle = async () => {
     if (!session) {
       toast.info("Login to add blog to favorites");

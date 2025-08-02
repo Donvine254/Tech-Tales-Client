@@ -80,7 +80,6 @@ export function CommentCard({ comment, onDelete, onUpdate }: CommentCardProps) {
                 </DropdownMenuItem>
               )}
               {comment.status === "ARCHIVED" && (
-                // TODO: Add functionality to restore the comment
                 <DropdownMenuItem
                   className="hover:bg-green-500 hover:text-white"
                   onClick={() => onUpdate(comment.id, comment.status)}>

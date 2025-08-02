@@ -145,7 +145,6 @@ const ActionButtons: FC<ActionButtonsProps> = ({
                     Edit Blog
                   </Link>
                 </DropdownMenuItem>
-                {/* TODO: Add functionality to lock and unlock discussion */}
                 {showComments ? (
                   <DropdownMenuItem onClick={() => onShowCommentsUpdate(false)}>
                     <LockIcon className="h-4 w-4" />

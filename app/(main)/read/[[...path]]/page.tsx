@@ -142,7 +142,7 @@ export async function generateMetadata({
     },
   } satisfies Metadata;
 }
-// TODO: Optimize seo images to avif format
+// TODO: Optimize seo images to avif format. AVIF not supported in most social media platforms
 
 export default async function page({
   params,

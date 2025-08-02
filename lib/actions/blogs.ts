@@ -39,7 +39,6 @@ export async function createNewBlog() {
 
 // function to save draft blog
 export async function SaveDraftBlog(data: BlogData, uuid: string) {
-  // TODO: update description, reading_time, path and slug if relevant data has changed
   let reading_time = 0;
   if (data.body) {
     reading_time = calculateReadingTime(data.body || "");
@@ -102,7 +101,7 @@ export async function publishBlog(
       message: validation.message,
     };
   }
-  //TODO: only create a description is none is present in the request data
+
   try {
     const blog = await prisma.blog.update({
       where: {

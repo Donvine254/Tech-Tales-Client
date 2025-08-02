@@ -97,7 +97,16 @@ export default function Comments({
       const res = await createComment(commentData);
       if (res.success && res.comment) {
         toast.success(res.message);
-        setComments((prev) => [...prev, res.comment]);
+        setComments((prev) => {
+          const updated = [res.comment, ...prev];
+          return [...updated].sort((a, b) =>
+            sortOrder === "newest"
+              ? new Date(b.createdAt).getTime() -
+                new Date(a.createdAt).getTime()
+              : new Date(a.createdAt).getTime() -
+                new Date(b.createdAt).getTime()
+          );
+        });
         setCommentBody("");
       } else {
         toast.error(res.message);

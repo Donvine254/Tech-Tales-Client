@@ -186,7 +186,6 @@ export default function Create({
 
   // update blog data in the database
   async function updateBlog() {
-    // TODO: only redirect to blog page if the blog is published
     setFormStatus("loading");
     const toastId = toast.loading("Processing request");
     const res = await SaveDraftBlog(blogData, uuid);
@@ -195,6 +194,7 @@ export default function Create({
       toast.success("Blog updated successfully");
       finalizeSubmission(true);
       setTimeout(() => {
+        //only redirect to blog page if the blog is published
         if (res.data?.status === "PUBLISHED") {
           router.push(`/read/${res.data?.path}`);
         } else {

@@ -127,8 +127,7 @@ const About = () => {
                   <p className="text-gray-600 dark:text-gray-300 text-sm mb-6">
                     Hi, I&apos;m Don, the founder of TechTales. I am a fullstack
                     developer and i created this community to help people from
-                    all backgrounds can share their tech stories and inspire
-                    others.
+                    all backgrounds share their tech stories and inspire others.
                   </p>
                   <p className="text-gray-600 dark:text-gray-300 text-sm mb-6">
                     As a developer, I&apos;ve experienced firsthand the
