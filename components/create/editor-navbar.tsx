@@ -23,6 +23,7 @@ import DeleteButton from "../modals/delete-dialog";
 import { BlogStatus } from "@prisma/client";
 import { FormStatus } from "@/types";
 import { useRouter } from "next/navigation";
+import { BlogSettingsModal } from "./settings";
 
 interface EditorNavbarProps {
   onPreview?: () => void;
@@ -94,6 +95,8 @@ export const EditorNavbar = ({
               <p>{lastSaved ? formatSaveTime(lastSaved) : "Just now"}</p>
             </TooltipContent>
           </Tooltip>
+          {/* Blog settings actions */}
+          <BlogSettingsModal />
         </div>
         {/* action buttons */}
         <div className="flex items-center gap-2">
@@ -142,7 +145,7 @@ export const EditorNavbar = ({
                   </DropdownMenuItem>
                 </>
               )}
-              {status !== "DRAFT" &&(
+              {status !== "DRAFT" && (
                 <DropdownMenuItem asChild>
                   <Button
                     className="w-full justify-start cursor-pointer hover:bg-blue-500 hover:text-white"

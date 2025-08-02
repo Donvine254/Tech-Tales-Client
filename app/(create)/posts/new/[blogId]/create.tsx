@@ -23,7 +23,6 @@ import { BlogStatus } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { toast } from "sonner";
-import { BlogSettingsModal } from "@/components/create/settings";
 
 const AUTO_SAVE_INTERVAL = 2000; //Auto-save after every 2 seconds
 // eslint-disable-next-line
@@ -343,7 +342,6 @@ export default function Create({
           blog={blogData}
         />
       </form>
-      <BlogSettingsModal/>
     </section>
   );
 }
