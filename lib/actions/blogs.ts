@@ -62,6 +62,9 @@ export async function SaveDraftBlog(data: BlogData, uuid: string) {
       },
     });
     revalidateTag("user-blogs");
+    if (data.path) {
+      revalidatePath(`/read/${data.path}`);
+    }
     return {
       success: true,
       message: "Blog in sync with database",
@@ -118,6 +121,9 @@ export async function publishBlog(
     revalidateTag("user-blogs");
     revalidateTag("blogs");
     revalidateTag("latest");
+    if (blog.path) {
+      revalidatePath(`/read/${blog.path}`);
+    }
     return {
       success: true,
       message: "Blog published successfully",

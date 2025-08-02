@@ -23,6 +23,7 @@ import { BlogStatus } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { toast } from "sonner";
+import AudioComponent from "@/components/create/audio";
 
 const AUTO_SAVE_INTERVAL = 2000; //Auto-save after every 2 seconds
 // eslint-disable-next-line
@@ -245,7 +246,7 @@ export default function Create({
     }
   }
   return (
-    <section>
+    <section className="relative">
       <EditorNavbar
         onPreview={handlePreview}
         onPublish={handleSubmit}
@@ -330,6 +331,12 @@ export default function Create({
                   setBlogData({ ...blogData, tags: tags.join(",") })
                 }
                 status={formStatus}
+              />
+              <AudioComponent
+                audio={blogData.audio}
+                onAudioUpload={(value) => {
+                  setBlogData({ ...blogData, audio: value });
+                }}
               />
               {/* Future: Audio input goes here */}
             </div>
