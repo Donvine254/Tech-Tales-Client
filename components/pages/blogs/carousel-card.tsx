@@ -6,6 +6,7 @@ import Link from "next/link";
 import { BlogWithUser } from "@/types";
 import { cn, formatDate } from "@/lib/utils";
 import parse from "html-react-parser";
+import BlogImage from "./blog-image";
 // This is the small card
 export function HeroCardMobile({
   post,
@@ -22,9 +23,10 @@ export function HeroCardMobile({
       )}>
       <div className="flex flex-col">
         <div className="relative w-full h-60 sm:h-72">
-          <Image
+          <BlogImage
             src={post.image.secure_url || "/placeholder-image.webp"}
             alt={post.title}
+            title={post.title}
             fill
             className="object-cover rounded-t-lg"
           />

@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import Script from "next/script";
 import parse from "html-react-parser";
-import BlogImage from "@/components/ui/blog-image";
 import { calculateReadingTime, formatViews } from "@/lib/utils";
 import {
   Calendar,
@@ -23,7 +22,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-
 import { useSession } from "@/providers/session";
 import Comments from "../../comments";
 import { CommentData } from "@/types";
@@ -34,6 +32,7 @@ import TrackBlogView from "./track-blog-view";
 import Recommendations from "./recommendations";
 import { toggleDiscussion } from "@/lib/actions/blogs";
 import { toast } from "sonner";
+import BlogImage from "../blogs/blog-image";
 type Props = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   blog: Record<string, any>;
@@ -58,7 +57,16 @@ export default function Slug({ blog }: Props) {
   return (
     <div className="w-full mx-auto m-2 min-h-[75%] px-4 md:px-8 xsm:px-4 max-w-4xl md:mt-4">
       <Script src="https://unpkg.com/ink-html/dist/index.js"></Script>
-      <BlogImage image={blog.image} title={blog.title} />
+      <BlogImage
+        src={blog.image.secure_url || "/placeholder.svg"}
+        title={blog.title || "Untitled blog"}
+        alt={blog.title || "Untitled blog"}
+        height={720}
+        width={1280}
+        quality={100}
+        className="object-fill italic h-auto max-h-[450px]  rounded-md w-full  mt-2 border-2 border-blue-500"
+        priority
+      />
       {/* Author Information - Moved to top */}
       <TooltipProvider>
         <div className="flex items-center space-x-3 mb-4 mt-4">

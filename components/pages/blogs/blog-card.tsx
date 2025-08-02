@@ -7,7 +7,6 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import Image from "next/image";
 import parse from "html-react-parser";
 import { BlogWithComments } from "@/types";
 import Link from "next/link";
@@ -21,6 +20,7 @@ import {
 } from "@/components/ui/tooltip";
 import { formatDate, formatViews } from "@/lib/utils";
 import { forwardRef, ReactNode } from "react";
+import BlogImage from "./blog-image";
 
 const BlogCard = forwardRef<
   HTMLDivElement,
@@ -33,13 +33,10 @@ const BlogCard = forwardRef<
       {children && <>{children}</>}
       <div className="aspect-[16/9] bg-gradient-to-br from-cyan-100 to-blue-100 relative overflow-hidden">
         <Link href={`/read/${blog.path}`} className="group" title={blog.title}>
-          <Image
-            src={
-              blog.image?.secure_url
-                ? blog.image.secure_url ?? "/placeholder.svg"
-                : "/placeholder.svg"
-            }
+          <BlogImage
+            src={blog.image?.secure_url ?? "/placeholder.svg"}
             alt={blog.title}
+            title={blog.title}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             priority

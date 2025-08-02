@@ -1,15 +1,22 @@
 "use client";
 import React, { useState } from "react";
-import Image from "next/image";
+import Image, { ImageProps } from "next/image";
+interface BlogImageProps extends ImageProps {
+  title?: string;
+}
 export default function BlogImage({
-  image,
+  src,
+  alt,
   title,
-}: {
-  image: { secure_url?: string; original_filename?: string };
-  title: string;
-}) {
+  ...props
+}: BlogImageProps) {
   const [error, setError] = useState<boolean>(false);
-  const fallbackSrc = `https://dummyimage.com/1280x720/cccccc/000000.png&text=${title}`;
+  const bgColor = "3399ff";
+  const textColor = "ffffff";
+
+  const fallbackSrc = `https://dummyimage.com/1280x720/${bgColor}/${textColor}.png&text=${encodeURIComponent(
+    title || "Image"
+  )}`;
   const keyStr =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 
@@ -24,14 +31,11 @@ export default function BlogImage({
     }/yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==`;
   return (
     <Image
-      src={error ? fallbackSrc : image.secure_url ?? fallbackSrc}
-      alt={image.original_filename ?? title}
-      height={720}
-      width={1280}
+      src={error ? fallbackSrc : src ?? fallbackSrc}
+      alt={alt || title || "blog image"}
       placeholder="blur"
       blurDataURL={rgbDataURL(204, 204, 204)}
       quality={100}
-      layout="responsive"
       priority
       style={{
         backgroundImage: "url('/placeholder.svg')",
@@ -39,9 +43,9 @@ export default function BlogImage({
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}
-      className="object-fill italic h-auto max-h-[450px]  rounded-md w-full  mt-2 border-2 border-blue-500"
       onContextMenu={(e) => e.preventDefault()}
       onError={() => setError(true)}
+      {...props}
     />
   );
 }

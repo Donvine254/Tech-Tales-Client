@@ -2,17 +2,18 @@ import React from "react";
 import { Calendar, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { BlogWithUser } from "@/types";
-import Image from "next/image";
 import Link from "next/link";
 import { formatDate } from "@/lib/utils";
+import BlogImage from "./blog-image";
 // This is the big card
 export default function CarouselHeroCard({ post }: { post: BlogWithUser }) {
   return (
     <div className="group block">
       <article className="relative overflow-hidden bg-card  shadow-lg hover:shadow-xl transition-all duration-300 group-hover:brightness-110 filter blog">
         <div className="aspect-video relative">
-          <Image
-            src={post.image.secure_url || "/placeholder-image.webp"}
+          <BlogImage
+            src={post.image.secure_url}
+            title={post.title}
             alt={post.title}
             fill
             className="object-cover transition-transform duration-300  group-hover:brightness-120 filter"

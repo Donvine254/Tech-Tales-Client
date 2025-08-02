@@ -13,13 +13,13 @@ import {
 import { BlogWithComments, CoverImage } from "@/types";
 import { cn, formatViews } from "@/lib/utils";
 import { ShareModal } from "@/components/modals/share-modal";
-import Image from "next/image";
 import { BlogCardDropdown } from "./blog-dropdown";
 import { Badge } from "@/components/ui/badge";
 import { getUserBlogs } from "@/lib/actions/user";
 import { BlogStatus } from "@prisma/client";
 import { useState } from "react";
 import { DeleteConfirmDialog } from "@/components/modals/delete-dialog";
+import BlogImage from "./blog-image";
 
 // check for image
 function isCoverImage(image: unknown): image is CoverImage {
@@ -136,13 +136,14 @@ export default function MinimalBlogCard({
         </div>
         {/* Image */}
         <div className="relative hidden sm:flex sm:w-24 aspect-[3/2] md:w-42 lg:w-60 flex-shrink-0 rounded-lg overflow-hidden bg-muted order-2">
-          <Image
+          <BlogImage
             src={
               image?.secure_url
                 ? image.secure_url ?? "/placeholder.svg"
                 : "/placeholder.svg"
             }
-            alt={blog?.title || ""}
+            title={blog.title || "Untitled blog"}
+            alt={blog?.title || "blog cover image"}
             fill
             sizes="(max-width: 768px) 100vw, 200px"
             className="object-cover transition-transform duration-300 group-hover:scale-105"
