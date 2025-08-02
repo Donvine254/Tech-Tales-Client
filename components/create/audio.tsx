@@ -44,6 +44,7 @@ export default function AudioComponent({
     onAudioUpload(audioUrl);
     setIsOpen(false);
   };
+  const isSubmissionDisabled = !audio && !audioUrl;
   return (
     <div className="bg-card rounded-2xl shadow-sm border border-border p-6 hover:shadow-md transition-all duration-300">
       <div className="flex items-center space-x-3 mb-4">
@@ -140,7 +141,7 @@ export default function AudioComponent({
               size="sm"
               type="button"
               onClick={handleSave}
-              disabled={!audioUrl || hasAudioError}
+              disabled={isSubmissionDisabled || hasAudioError}
               className="bg-blue-500 text-white hover:bg-blue-600 hover:text-white">
               Save Audio
             </Button>
