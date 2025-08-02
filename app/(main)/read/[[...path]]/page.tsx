@@ -142,6 +142,7 @@ export async function generateMetadata({
     },
   } satisfies Metadata;
 }
+// TODO: Optimize seo images to avif format
 
 export default async function page({
   params,

@@ -51,7 +51,7 @@ export const ResponseEditor: React.FC<ResponseEditorProps> = ({
       <div className="flex space-x-4">
         {/* User Avatar */}
         <div className="flex-shrink-0">
-          <Avatar className="h-8 w-8 ring-2 ring-cyan-500 ring-offset-2">
+          <Avatar className="h-6 w-6 ring-2 ring-cyan-500 ring-offset-2">
             <AvatarImage
               src={session?.picture ?? "/placeholder.svg"}
               alt={session?.username}

@@ -1,6 +1,5 @@
 "use client";
 import {
-  MessageSquareText,
   MoreHorizontal,
   Eye,
   Printer,
@@ -34,6 +33,8 @@ import BlogReportDialog from "@/components/modals/report-blog";
 import { CommentData, Session } from "@/types";
 import parse from "html-react-parser";
 import { BlogStatus } from "@prisma/client";
+import { MessagesOutline } from "@/assets/icons";
+import { formatDate } from "@/lib/utils";
 interface ActionButtonsProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   blog: Record<string, any>;
@@ -90,7 +91,7 @@ const ActionButtons: FC<ActionButtonsProps> = ({
               href="#comments"
               className="flex items-center space-x-1 hover:text-cyan-600 transition-colors cursor-pointer"
               title="Jump to comments">
-              <MessageSquareText className="h-4 w-4" />
+              <MessagesOutline className="h-5 w-5" />
               <span className="text-sm">{comments?.length ?? 0}</span>
             </a>
           </TooltipTrigger>
@@ -166,7 +167,14 @@ const ActionButtons: FC<ActionButtonsProps> = ({
             ) : (
               <>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => setIsOpen(true)}>
+                <DropdownMenuItem
+                  onClick={() => {
+                    if (!session) {
+                      toast.info("Login to report this blog");
+                      return;
+                    }
+                    setIsOpen(true);
+                  }}>
                   <ShieldBan className="h-4 w-4 text-destructive" />
                   <span className="text-red-500">Report Abuse</span>
                 </DropdownMenuItem>
@@ -185,12 +193,7 @@ const ActionButtons: FC<ActionButtonsProps> = ({
       <div id="print-div" style={{ display: "none" }} className="blog prose">
         <h1 className="text-xl font-bold">{blog.title}</h1>
         <p className="italic">
-          By {blog.author.username} published on{" "}
-          {new Date(blog.createdAt).toLocaleDateString("en-US", {
-            month: "short",
-            day: "numeric",
-            year: "numeric",
-          })}
+          By {blog.author.username} published on {formatDate(blog.createdAt)}
         </p>
         <div className="blog-body">{parse(blog.body)}</div>
       </div>

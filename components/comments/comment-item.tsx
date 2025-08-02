@@ -290,7 +290,7 @@ export const CommentItem: React.FC<Props> = ({
           <Avatar className="h-9 w-9 ring-2  ring-cyan-500 ring-offset-2">
             <AvatarImage
               src={comment.author.picture ?? "/placeholder.svg"}
-              alt={comment.author.username}
+              alt={comment.author.username.split(" ").slice(0, 2).join(" ")}
             />
             <AvatarFallback className="bg-gradient-to-r from-cyan-100 to-blue-100 text-cyan-700 text-sm">
               {comment.author.username

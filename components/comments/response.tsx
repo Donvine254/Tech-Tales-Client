@@ -45,7 +45,7 @@ export default function Response({
     <div key={response.id} className="flex space-x-4">
       {/* User Avatar */}
       <div className="flex-shrink-0 self-start mt-2">
-        <Avatar className="h-8 w-8 ring-2 ring-cyan-500 ring-offset-2">
+        <Avatar className="h-6 w-6 ring-2 ring-cyan-500 ring-offset-2">
           <AvatarImage
             src={response.author.picture ?? "/placeholder.svg"}
             alt={response.author.username}
@@ -66,7 +66,7 @@ export default function Response({
           <div className="flex items-center justify-between md:justify-start md:space-x-24 w-full gap-y-0">
             <div className="flex items-center space-x-2 overflow-x-hidden">
               <h5 className="font-semibold text-sm capitalize truncate text-ellipsis whitespace-nowrap">
-                {response.author.username}
+                {response.author.username.split(" ").slice(0, 2).join(" ")}
               </h5>
               {blogAuthorId === response.authorId ? (
                 <Badge

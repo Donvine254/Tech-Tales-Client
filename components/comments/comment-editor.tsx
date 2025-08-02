@@ -47,7 +47,7 @@ export const CommentEditor: React.FC<CommentEditorProps> = ({
       <div className="flex space-x-4">
         {/* User Avatar */}
         <div className="flex-shrink-0">
-          <Avatar className="h-12 w-12 ring-2 ring-cyan-500 ring-offset-2">
+          <Avatar className="h-8 w-8 ring-2 ring-cyan-500 ring-offset-2">
             <AvatarImage
               src={session.picture ?? "/placeholder.svg"}
               alt={session.username}
@@ -116,7 +116,7 @@ export const CommentEditor: React.FC<CommentEditorProps> = ({
                 <span
                   className={`${
                     length > 500 ? "text-red-500" : ""
-                  }text-xs md:text-sm`}>
+                  } text-xs md:text-sm`}>
                   {length}
                 </span>
                 <span className="text-xs md:text-sm text-muted-foreground">

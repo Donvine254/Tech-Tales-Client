@@ -201,3 +201,21 @@ export function FlagFilled(props: SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
+export function MessagesOutline(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width="24"
+      height="24"
+      {...props}>
+      <path
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1"
+        d="M9 17h6l3 3v-3h2V9h-2M4 4h11v8H9l-3 3v-3H4z"></path>
+    </svg>
+  );
+}
