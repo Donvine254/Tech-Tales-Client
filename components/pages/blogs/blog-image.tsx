@@ -1,13 +1,18 @@
 "use client";
 import React, { useState } from "react";
 import Image, { ImageProps } from "next/image";
+import { imageUrlConstructor } from "@/lib/utils";
+import { CoverImage } from "@/types";
 interface BlogImageProps extends ImageProps {
   title?: string;
+  image: CoverImage;
+  secure_rul: string;
 }
 export default function BlogImage({
   src,
   alt,
   title,
+  image,
   ...props
 }: BlogImageProps) {
   const [error, setError] = useState<boolean>(false);
@@ -17,6 +22,8 @@ export default function BlogImage({
   const fallbackSrc = `https://dummyimage.com/1280x720/${bgColor}/${textColor}.png&text=${encodeURIComponent(
     title || "Image"
   )}`;
+  const optimizedSrc =
+    !error && src && image.public_id ? imageUrlConstructor(image) : src;
   const keyStr =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 
@@ -31,7 +38,7 @@ export default function BlogImage({
     }/yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==`;
   return (
     <Image
-      src={error ? fallbackSrc : src ?? fallbackSrc}
+      src={error ? fallbackSrc : optimizedSrc ?? fallbackSrc}
       alt={alt || title || "blog image"}
       placeholder="blur"
       blurDataURL={rgbDataURL(204, 204, 204)}

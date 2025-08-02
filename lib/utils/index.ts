@@ -153,7 +153,9 @@ export const formatCommentDate = (date: Date) => {
 export const imageUrlConstructor = (image: CoverImage) => {
   const base = "https://res.cloudinary.com/dipkbpinx/image/upload";
   const isCloudinaryUrl = image?.secure_url?.startsWith(base) ?? false;
-  const hasPublicId = !!image?.public_id;
+  const hasPublicId =
+    !!image?.public_id && image.public_id.includes("tech-tales");
+
   if (!isCloudinaryUrl || !hasPublicId) {
     return image.secure_url;
   }
