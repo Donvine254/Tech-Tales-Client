@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 interface BlogSummaryGeneratorProps {
   title: string;
-  blogId: string;
+  blogId: number;
 }
 
 const extractPlainTextFromPrintDiv = () => {

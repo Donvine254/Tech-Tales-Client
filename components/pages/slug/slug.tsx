@@ -2,12 +2,11 @@
 import React, { useState } from "react";
 import Script from "next/script";
 import parse from "html-react-parser";
-import { calculateReadingTime, formatViews } from "@/lib/utils";
+import { formatDate, formatViews } from "@/lib/utils";
 import {
   Calendar,
   ChartNoAxesColumn,
   Clock,
-  Feather,
   Heart,
   MessageSquare,
 } from "lucide-react";
@@ -24,7 +23,7 @@ import {
 } from "@/components/ui/tooltip";
 import { useSession } from "@/providers/session";
 import Comments from "../../comments";
-import { CommentData, CoverImage } from "@/types";
+import { CommentData, CoverImage, FullBlogData } from "@/types";
 import UserCard from "./user-card";
 import ActionButtons from "./action-buttons";
 import BlogSummaryGenerator from "./summary";
@@ -33,9 +32,9 @@ import Recommendations from "./recommendations";
 import { toggleDiscussion } from "@/lib/actions/blogs";
 import { toast } from "sonner";
 import BlogImage from "../blogs/blog-image";
+import { Badge } from "@/components/ui/badge";
 type Props = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  blog: Record<string, any>;
+  blog: FullBlogData;
 };
 
 export default function Slug({ blog }: Props) {
@@ -54,6 +53,7 @@ export default function Slug({ blog }: Props) {
       toast.error(res.message);
     }
   }
+
   return (
     <div className="w-full mx-auto m-2 min-h-[75%] px-4 md:px-8 xsm:px-4 max-w-4xl md:mt-4">
       <Script src="https://unpkg.com/ink-html/dist/index.js"></Script>
@@ -75,28 +75,22 @@ export default function Slug({ blog }: Props) {
           <div className="flex flex-col">
             <div className="flex items-center space-x-2">
               <span className="font-bold text-accent-foreground text-base md:text-xl capitalize">
-                {blog.author.username}
+                {blog.author.username.split(" ").slice(0, 2).join(" ")}
               </span>
-              <div className="text-[#08a0f8] font-bold px-1 text-sm xsm:text-xs flex items-center">
-                <Feather className="h-4 w-4" />
+              <Badge
+                variant="secondary"
+                className="text-xs p-0.5 text-blue-500 font-medium bg-blue-900/20">
                 Author
-              </div>
+              </Badge>
             </div>
-            <div className="flex items-center space-x-3 text-sm md:text-base text-accent-foreground">
+            <div className="flex items-center space-x-3 text-xs sm:text-sm text-muted-foreground">
               <div className="flex items-center space-x-1">
                 <Calendar className="h-3 w-3 md:h-4 md:w-4" />
-                <span>
-                  {" "}
-                  {new Date(blog.createdAt).toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
-                </span>
+                <span> {formatDate(blog.createdAt)}</span>
               </div>
               <div className="flex items-center space-x-1 capitalize">
                 <Clock className="h-3 w-3 md:h-4 md:w-4" />
-                <span>{calculateReadingTime(blog.body)} min read</span>
+                <span>{blog.reading_time} min read</span>
               </div>
             </div>
           </div>
@@ -124,7 +118,7 @@ export default function Slug({ blog }: Props) {
             <></>
           )}
         </div>
-        {/* Actions buttons */}
+        {/* Top Actions buttons */}
         <div className="flex items-center justify-between xsm:gap-2 md:gap-4  py-2 border-y border-border my-2">
           <Tooltip>
             <TooltipTrigger asChild>
@@ -203,7 +197,7 @@ export default function Slug({ blog }: Props) {
         {/* Audio Player */}
         {showPlayButton && (
           <AudioPlayer
-            audioUrl={blog?.audio}
+            audioUrl={blog?.audio || ""}
             setShowPlayButton={setShowPlayButton}
           />
         )}
@@ -215,7 +209,7 @@ export default function Slug({ blog }: Props) {
           <PrismLoader />
           {blog.body ? parse(blog.body) : "Loading..."}
         </article>
-        {/* Bottom buttons */}
+        {/* Bottom Action buttons */}
         <ActionButtons
           blog={blog}
           comments={comments}

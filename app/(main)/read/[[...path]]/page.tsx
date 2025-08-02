@@ -150,13 +150,13 @@ export default async function page({
 }) {
   const { path } = await params;
   const pathname = path.join("/");
-  const blog = await getData(pathname);
+  const blog = (await getData(pathname)) as FullBlogData;
   if (!blog) {
     redirect("/not-found");
   }
   return (
     <section
-      className="@container bg-muted dark:bg-background min-h-screen"
+      className="@container bg-muted/50 dark:bg-background min-h-screen"
       suppressHydrationWarning>
       <Slug blog={blog} />
     </section>

@@ -17,7 +17,7 @@ interface SocialLink {
 interface Author {
   username: string;
   handle: string;
-  picture: string;
+  picture: string | null;
   bio?: string;
   branding?: string;
   role?: string;

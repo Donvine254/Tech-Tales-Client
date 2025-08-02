@@ -13,7 +13,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FC, useState } from "react";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -91,7 +90,7 @@ const ActionButtons: FC<ActionButtonsProps> = ({
               href="#comments"
               className="flex items-center space-x-1 hover:text-cyan-600 transition-colors cursor-pointer"
               title="Jump to comments">
-              <MessageSquareText className="h-6 w-6" />
+              <MessageSquareText className="h-4 w-4" />
               <span className="text-sm">{comments?.length ?? 0}</span>
             </a>
           </TooltipTrigger>
@@ -102,7 +101,7 @@ const ActionButtons: FC<ActionButtonsProps> = ({
         <AnimatedLikeButton
           initialLikes={blog.likes}
           blogId={blog.id}
-          size={40}
+          size={30}
         />
       </div>
 
@@ -111,21 +110,18 @@ const ActionButtons: FC<ActionButtonsProps> = ({
         <ShareModal
           path={blog.path}
           title={blog.title}
-          size={22}
           image={blog.image?.secure_url ?? "/placeholder.svg"}
         />
-        <Bookmark blogId={blog.id} size={24} />
+        <Bookmark blogId={blog.id} />
 
         {/* More Actions Dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="cursor-pointer"
+            <button
+              className="cursor-pointer bg-input/60 hover:bg-input/50 p-1 rounded-full"
               title="More actions">
-              <MoreHorizontal className="h-6 w-6" />
-            </Button>
+              <MoreHorizontal className="h-4 w-4" />
+            </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="bg-popover space-y-2">
             <DropdownMenuItem onClick={handlePrint}>
