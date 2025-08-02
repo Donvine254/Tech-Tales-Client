@@ -1,16 +1,16 @@
 "use client";
 import { useState } from "react";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogTrigger,
-  DialogOverlay,
-} from "../ui/dialog";
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogTrigger,
+  AlertDialogOverlay,
+} from "../ui/alert-dialog";
 import { Button } from "../ui/button";
-import { Mail } from "lucide-react";
+import { Mail, X } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 import { validateEmail } from "@/lib/utils";
@@ -37,26 +37,34 @@ const SubscriptionModal = () => {
       toast.error("Please enter a valid email address.");
     }
   };
+  const handleClose = () => {
+    setIsOpen(false);
+  };
 
   return (
-    <Dialog open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
-      <DialogOverlay className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm dark:bg-black/70 transition-all" />
-      <DialogTrigger asChild>
+    <AlertDialog open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
+      <AlertDialogOverlay className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm dark:bg-black/70 transition-all" />
+      <AlertDialogTrigger asChild>
         <Button variant="outline">
           Subscribe <span className="hidden sm:block">to Newsletter</span>
         </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-md container">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
+      </AlertDialogTrigger>
+      <AlertDialogContent className="space-y-3">
+        <AlertDialogTrigger
+          className="hover:text-red-500 absolute top-1.5 right-1.5"
+          onClick={handleClose}>
+          <X className="size-4" />
+        </AlertDialogTrigger>
+        <AlertDialogHeader>
+          <AlertDialogTitle className="flex items-center gap-2">
             <Mail className="h-5 w-5 text-cyan-600" />
             Subscribe to Newsletter
-          </DialogTitle>
-          <DialogDescription>
+          </AlertDialogTitle>
+          <AlertDialogDescription>
             Stay updated with the latest tech stories, insights, and community
             highlights.
-          </DialogDescription>
-        </DialogHeader>
+          </AlertDialogDescription>
+        </AlertDialogHeader>
         <form onSubmit={handleSubmit}>
           <ul className="space-y-3 text-xs sm:text-sm mb-4">
             <li className="flex items-start gap-2">
@@ -91,7 +99,9 @@ const SubscriptionModal = () => {
               minLength={5}
               required
             />
-            <Button type="submit" className="">
+            <Button
+              type="submit"
+              className="hover:bg-blue-600 hover:text-white">
               <span className="relative z-10">Subscribe</span>
             </Button>
           </div>
@@ -106,8 +116,8 @@ const SubscriptionModal = () => {
           </Link>
           . You can unsubscribe at any time.
         </div>
-      </DialogContent>
-    </Dialog>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };
 
