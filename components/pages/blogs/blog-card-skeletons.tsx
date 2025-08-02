@@ -154,3 +154,69 @@ export const MinimalBlogCardSkeleton = () => {
     </Card>
   );
 };
+
+export const HeroCardSkeleton = () => {
+  return (
+    <Card className="group  hover:shadow-medium transition-all duration-300 bg-card border p-0 w-full border-border overflow-hidden grid grid-cols-3 gap-0 h-96 ">
+      {/* Large card on the left - spans 2 columns */}
+      <div className="col-span-2 relative border-r border-border h-full">
+        {/* Content placeholders for the large card */}
+        <div className="absolute bottom-0 left-0 right-0 p-6 space-y-3">
+          {/* Title placeholder */}
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-4/5" />
+            <Skeleton className="h-4 w-3/4" />
+          </div>
+
+          {/* Metadata placeholder */}
+          <div className="flex items-center space-x-4">
+            <Skeleton className="h-4 w-20" />
+            <Skeleton className="h-4 w-16" />
+            <Skeleton className="h-4 w-16 rounded-full" />
+          </div>
+        </div>
+        {/* Trending badge placeholder */}
+        <div className="absolute top-4 left-4">
+          <Skeleton className="h-6 w-20 rounded-full animate-pulse" />
+        </div>
+      </div>
+
+      {/* Right column with two stacked cards */}
+      <div className="col-span-1 flex flex-col">
+        {/* Top card */}
+        <div className="flex-1 relative border-b border-border">
+          {/* Content placeholders for top card */}
+          <div className="absolute bottom-0 left-0 right-0 p-4 space-y-2">
+            {/* Title placeholder */}
+            <div className="space-y-2">
+              <Skeleton className="h-3 w-5/6" />
+              <Skeleton className="h-3 w-2/3" />
+            </div>
+            {/* Metadata placeholder */}
+            <div className="flex items-center space-x-3">
+              <Skeleton className="h-3 w-16" />
+              <Skeleton className="h-3 w-20 " />
+            </div>
+          </div>
+        </div>
+        {/* Bottom card */}
+        <div className="flex-1 relative">
+          {/* Content placeholders for bottom card */}
+          <div className="absolute bottom-0 left-0 right-0 p-4 space-y-2">
+            {/* Title placeholder */}
+            <div className="space-y-2">
+              <Skeleton className="h-3 w-4/5" />
+              <Skeleton className="h-3 w-3/5" />
+            </div>
+
+            {/* Metadata placeholder */}
+            <div className="flex items-center space-x-3">
+              <Skeleton className="h-3 w-16" />
+              <Skeleton className="h-3 w-16 rounded-full" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </Card>
+  );
+};

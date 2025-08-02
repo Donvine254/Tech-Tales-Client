@@ -5,6 +5,7 @@ import { BlogWithUser } from "@/types";
 import { useIsMobile } from "@/hooks/use-mobile";
 import CarouselHeroCard from "./hero-card";
 import { HeroCardDesktop, HeroCardMobile } from "./carousel-card";
+import { BlogCardSkeleton, HeroCardSkeleton } from "./blog-card-skeletons";
 
 interface BlogCarouselProps {
   posts: BlogWithUser[];
@@ -12,7 +13,16 @@ interface BlogCarouselProps {
 
 export function BlogCarousel({ posts }: BlogCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isMounted, setIsMounted] = useState(false);
   const isMobile = useIsMobile();
+
+  useEffect(() => {
+    setIsMounted(true);
+
+    return () => {
+      setIsMounted(false);
+    };
+  }, []);
 
   // Auto-advance carousel
   useEffect(() => {
@@ -52,25 +62,36 @@ export function BlogCarousel({ posts }: BlogCarouselProps) {
 
   return (
     <div className="max-w-7xl mx-auto min-h-max">
-      {isMobile ? (
-        <div>
-          <div className="relative" {...swipeHandlers}>
-            <div className="overflow-hidden rounded-2xl">
-              <div
-                className="flex transition-transform  duration-500 ease-in-out"
-                style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
-                {posts.map((post) => (
+      <div className="md:hidden relative" {...swipeHandlers}>
+        <div className="overflow-hidden rounded-2xl">
+          <div
+            className="flex transition-transform  duration-500 ease-in-out"
+            style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
+            {!isMounted
+              ? Array.from({ length: 5 }).map((_, index) => (
+                  <div
+                    key={`skeleton-${index}`}
+                    className="w-full flex-shrink-0">
+                    <BlogCardSkeleton />
+                  </div>
+                ))
+              : posts.map((post) => (
                   <div key={post.id} className="w-full flex-shrink-0">
                     <HeroCardMobile post={post} />
                   </div>
                 ))}
-              </div>
-            </div>
           </div>
         </div>
-      ) : (
-        <div className="">
-          <div className="grid grid-cols-3 gap-0.5">
+      </div>
+
+      {/* LG view */}
+
+      <div className="hidden md:block">
+        {!isMounted ? (
+          <HeroCardSkeleton />
+        ) : (
+          <div className="md:grid grid-cols-3 gap-0.5">
+            {" "}
             {/* Featured Post - Takes up 2 columns */}
             <div className="col-span-2">
               <div className="transition-all duration-700 ease-in-out">
@@ -91,8 +112,8 @@ export function BlogCarousel({ posts }: BlogCarouselProps) {
               ))}
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
