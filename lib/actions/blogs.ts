@@ -40,10 +40,8 @@ export async function createNewBlog() {
 // function to save draft blog
 export async function SaveDraftBlog(data: BlogData, uuid: string) {
   // TODO: update description, reading_time, path and slug if relevant data has changed
-  let description = "";
   let reading_time = 0;
   if (data.body) {
-    description = generateDescription(data.body || "");
     reading_time = calculateReadingTime(data.body || "");
   }
   try {
@@ -52,7 +50,9 @@ export async function SaveDraftBlog(data: BlogData, uuid: string) {
       data: {
         ...data,
         image: data.image as Prisma.InputJsonValue,
-        description,
+        description: data.description?.trim()
+          ? data.description
+          : generateDescription(data.body || ""),
         reading_time,
       },
       select: {
@@ -91,6 +91,7 @@ export async function SaveDraftBlog(data: BlogData, uuid: string) {
 export async function publishBlog(
   data: Required<Omit<BlogData, "audio">> & {
     audio?: string | null;
+    description?: string | null;
   },
   uuid: string
 ) {
@@ -101,6 +102,7 @@ export async function publishBlog(
       message: validation.message,
     };
   }
+  //TODO: only create a description is none is present in the request data
   try {
     const blog = await prisma.blog.update({
       where: {
@@ -109,7 +111,9 @@ export async function publishBlog(
       data: {
         ...data,
         status: "PUBLISHED",
-        description: generateDescription(data.body || ""),
+        description: data.description?.trim()
+          ? data.description
+          : generateDescription(data.body || ""),
         reading_time: calculateReadingTime(data.body || ""),
         image: data.image as Prisma.InputJsonValue,
       },
