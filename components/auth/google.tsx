@@ -77,10 +77,12 @@ const GoogleAuthButton = ({ origin_url, setStatus }: Props) => {
 };
 
 export default GoogleAuthButton;
-// This component is used to handle Google authentication in the login form.
-// It uses the `useGoogleLogin` hook from `@react-oauth/google` to initiate the login process.
+/*
+This component is used to handle Google authentication in the login form.
+It uses the `useGoogleLogin` hook from `@react-oauth/google` to initiate the login process. 
+*/
 export function GoogleOneTapLogin() {
-  const { session } = useSession();
+  const { session, loading } = useSession();
   const router = useRouter();
   useGoogleOneTapLogin({
     onSuccess: async (credentialResponse) => {
@@ -126,7 +128,7 @@ export function GoogleOneTapLogin() {
           "g_state=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       }
     },
-    disabled: !!session,
+    disabled: loading || !!session,
     promptMomentNotification: (notification) => {
       console.log("Prompt moment notification:", notification);
     },

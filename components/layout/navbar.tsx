@@ -13,7 +13,7 @@ import { useState } from "react";
 import { createNewBlog } from "@/lib/actions/blogs";
 
 const Navbar = () => {
-  const { session } = useSession();
+  const { session, loading } = useSession();
   // state for loading when creating blog
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -123,11 +123,10 @@ const Navbar = () => {
           <div className="flex items-center space-x-4">
             {/* Search icon - hidden on small screens */}
             <SearchBar className="hidden md:block" />
-            {session ? (
+            {!loading && session ? (
               // Logged in state
               <>
                 {/* Create Blog button - hidden on small screens */}
-
                 <Button
                   variant="secondary"
                   size="sm"
@@ -137,7 +136,6 @@ const Navbar = () => {
                   <Edit className="h-4 w-4 mr-2" />
                   Create Blog
                 </Button>
-
                 <UserDropdown
                   onLogout={handleLogout}
                   session={session}

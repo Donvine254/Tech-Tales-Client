@@ -7,19 +7,22 @@ import { updateUserActivityStatus } from "@/lib/actions/analytics";
 const SessionContext = createContext<{
   session: Session | null;
   setSession: (s: Session | null) => void;
+  loading: boolean;
 }>({
   session: null,
   setSession: () => {},
+  loading: true,
 });
 
 export function SessionProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
-
+  const [loading, setLoading] = useState(true);
   // Optional: fallback client fetch
   useEffect(() => {
     (async () => {
       const session = (await getSession()) as Session;
       setSession(session);
+      setLoading(false);
     })();
   }, []);
   //Update user status, should only run once
@@ -30,7 +33,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
   }, [session?.userId]);
 
   return (
-    <SessionContext.Provider value={{ session, setSession }}>
+    <SessionContext.Provider value={{ session, setSession, loading }}>
       {children}
     </SessionContext.Provider>
   );
