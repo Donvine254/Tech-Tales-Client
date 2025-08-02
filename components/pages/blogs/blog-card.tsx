@@ -19,7 +19,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { formatViews } from "@/lib/utils";
+import { formatDate, formatViews } from "@/lib/utils";
 import { forwardRef, ReactNode } from "react";
 
 const BlogCard = forwardRef<
@@ -78,14 +78,7 @@ const BlogCard = forwardRef<
             <div className="flex items-center space-x-3 text-xs text-accent-foreground">
               <div className="flex items-center space-x-1">
                 <Calendar className="h-3 w-3" />
-                <span>
-                  {" "}
-                  {new Date(blog.createdAt).toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
-                </span>
+                <span> {formatDate(blog.createdAt)}</span>
               </div>
               <div className="flex items-center space-x-1">
                 <Clock className="h-3 w-3" />
@@ -99,7 +92,7 @@ const BlogCard = forwardRef<
             {blog.title}
           </h3>
         </Link>
-        <article className="text-xs sm:text-sm mb-2 text-muted-foreground line-clamp-2 dark:text-gray-300 leading-relaxed overflow-hidden ">
+        <article className="text-xs sm:text-sm mb-2 text-muted-foreground line-clamp-2 dark:text-gray-300 leading-relaxed truncate ">
           {parse(blog.description ?? "")}
         </article>
         {/* Tags */}

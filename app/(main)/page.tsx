@@ -19,7 +19,7 @@ export default async function Home() {
         )}
       </section>
       <section className="max-w-7xl mx-auto ">
-        <CategoryFilters className="my-6 md:my-8" />
+        <CategoryFilters className="my-4 md:my-8" />
         <BlogInfiniteFeed
           initialData={
             blogPosts && blogPosts.length > 0

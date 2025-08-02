@@ -3,8 +3,8 @@ import { useState, useEffect, useCallback } from "react";
 import { useSwipeable } from "react-swipeable";
 import { BlogWithUser } from "@/types";
 import { useIsMobile } from "@/hooks/use-mobile";
-import BlogHero from "./blog-hero";
-import HeroCard from "./hero-card";
+import CarouselHeroCard from "./hero-card";
+import { HeroCardDesktop, HeroCardMobile } from "./carousel-card";
 
 interface BlogCarouselProps {
   posts: BlogWithUser[];
@@ -51,17 +51,17 @@ export function BlogCarousel({ posts }: BlogCarouselProps) {
   };
 
   return (
-    <div className="max-w-7xl mx-auto min-h-max]">
+    <div className="max-w-7xl mx-auto min-h-max">
       {isMobile ? (
         <div>
           <div className="relative" {...swipeHandlers}>
             <div className="overflow-hidden rounded-2xl">
               <div
-                className="flex transition-transform duration-500 ease-in-out"
+                className="flex transition-transform  duration-500 ease-in-out"
                 style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
                 {posts.map((post) => (
                   <div key={post.id} className="w-full flex-shrink-0">
-                    <HeroCard post={post} />
+                    <HeroCardMobile post={post} />
                   </div>
                 ))}
               </div>
@@ -74,7 +74,7 @@ export function BlogCarousel({ posts }: BlogCarouselProps) {
             {/* Featured Post - Takes up 2 columns */}
             <div className="col-span-2">
               <div className="transition-all duration-700 ease-in-out">
-                <BlogHero post={getFeaturedPost()} />
+                <CarouselHeroCard post={getFeaturedPost()} />
               </div>
             </div>
             {/* Sidebar Posts */}
@@ -86,7 +86,7 @@ export function BlogCarousel({ posts }: BlogCarouselProps) {
                   style={{
                     animationDelay: `${index * 100}ms`,
                   }}>
-                  <HeroCard post={post} />
+                  <HeroCardDesktop post={post} />
                 </div>
               ))}
             </div>
