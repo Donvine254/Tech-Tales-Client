@@ -14,6 +14,8 @@ type BlogWithAuthor = {
   slug: string | null;
   tags: string | null;
   path: string | null;
+  show_comments: boolean;
+  description: string | null;
   image: Partial<{
     secure_url: string;
     public_id: string;
@@ -44,6 +46,8 @@ async function getBlogData(uuid: string) {
         image: true,
         audio: true,
         path: true,
+        show_comments: true,
+        description: true,
         author: {
           select: {
             id: true,

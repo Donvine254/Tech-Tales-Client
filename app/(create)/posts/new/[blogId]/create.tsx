@@ -18,7 +18,7 @@ import {
   SaveDraft,
 } from "@/lib/helpers";
 import { createBlogPath, slugify } from "@/lib/utils";
-import { BlogData, FormStatus } from "@/types";
+import { BlogData, BlogSettings, FormStatus } from "@/types";
 import { BlogStatus } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useState, useRef, useEffect, useCallback } from "react";
@@ -139,7 +139,6 @@ export default function Create({
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [blogData, uuid]);
-
   // function to handle title changes
   const handleTitleChange = (value: string) => {
     const newSlug = slugify(value);
@@ -255,9 +254,20 @@ export default function Create({
         onDelete={handleBlogDeletion}
         disabled={!hasAllEntries(blogData)}
         formStatus={formStatus}
-        status={status}
+        blogStatus={status}
         onUpdate={updateBlog}
         uuid={uuid}
+        settingsData={{
+          show_comments: blogData.show_comments,
+          description: blogData.description,
+          audio: blogData.audio,
+        }}
+        onChangeHandler={(data: Partial<BlogSettings>) => {
+          setBlogData((prev) => ({
+            ...prev,
+            ...data,
+          }));
+        }}
       />
       <form className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-6">
         {/* Main responsive wrapper */}

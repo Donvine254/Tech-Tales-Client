@@ -2,6 +2,7 @@ import { BlogData } from "@/types";
 import { CoverImage } from "@/types";
 import { SaveDraftBlog } from "../actions/blogs";
 import { toast } from "sonner";
+import { removeHTMLTags } from "../utils";
 
 export function emptyBlogData(): BlogData {
   return {
@@ -10,6 +11,8 @@ export function emptyBlogData(): BlogData {
     slug: null,
     tags: null,
     path: null,
+    description: null,
+    show_comments: false,
     image: {
       secure_url: "",
       public_id: "",
@@ -27,20 +30,23 @@ interface BlogFields {
   path?: string | null;
   tags?: string | null;
   image?: unknown;
+  show_comments?: boolean;
+  description?: string | null;
 }
 
 export function canPublishBlog(blog: BlogFields): {
   valid: boolean;
   message?: string;
 } {
+  const bodyContent = removeHTMLTags(blog?.body ?? "");
   if (!blog.title?.trim()) {
     return { valid: false, message: "Title is required." };
   }
 
-  if (!blog.body?.trim() || blog.body?.length < 300) {
+  if (!blog.body?.trim() || bodyContent.length < 500) {
     return {
       valid: false,
-      message: "Body must be at least 300 characters long.",
+      message: "Body must be at least 500 characters long.",
     };
   }
   if (!blog.slug?.trim() || !blog.path?.trim()) {
@@ -102,29 +108,7 @@ export function generateDescription(body: string): string {
   if (!body) return "";
 
   const maxLength = 160;
-  // Step 1: Remove empty or whitespace-only tags
-  let text = body
-    .replace(/<p>(\s|&nbsp;|<br\s*\/?>)*<\/p>/gi, "")
-    .replace(/<div>(\s|&nbsp;|<br\s*\/?>)*<\/div>/gi, "");
-  // Step 2: Remove all remaining HTML tags
-  text = text.replace(/<[^>]*>/g, "");
-  // Step 3: Replace common HTML entities manually
-  text = text
-    .replace(/&nbsp;/gi, " ")
-    .replace(/&quot;/gi, '"')
-    .replace(/&rsquo;/gi, "'")
-    .replace(/&amp;/gi, "&")
-    .replace(/&lt;/gi, "<")
-    .replace(/&gt;/gi, ">")
-    .replace(/&apos;/gi, "'");
-  // Step 4: Normalize quotes and whitespace
-  text = text
-    .replace(/\u00a0/g, " ") // non-breaking space
-    .replace(/[“”‘’]/g, '"') // smart quotes to plain quotes
-    .replace(/['"]+/g, "") // remove all quotes
-    .replace(/\s+/g, " ") // collapse multiple spaces
-    .trim();
-
+  const text = removeHTMLTags(body);
   // Step 5: Truncate if necessary
   return text.length > maxLength
     ? text.slice(0, maxLength).trim() + "... Read More."

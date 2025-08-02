@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import DeleteButton from "../modals/delete-dialog";
 import { BlogStatus } from "@prisma/client";
-import { FormStatus } from "@/types";
+import { BlogSettings, FormStatus } from "@/types";
 import { useRouter } from "next/navigation";
 import { BlogSettingsModal } from "./settings";
 
@@ -33,10 +33,12 @@ interface EditorNavbarProps {
   hasEntries: boolean;
   onSync: () => void;
   onDelete: () => void;
-  status: BlogStatus;
+  blogStatus: BlogStatus;
   onUpdate: () => void;
   formStatus: FormStatus;
   uuid: string;
+  settingsData: BlogSettings;
+  onChangeHandler: (data: Partial<BlogSettings>) => void;
 }
 
 export const EditorNavbar = ({
@@ -47,10 +49,12 @@ export const EditorNavbar = ({
   hasEntries,
   onSync,
   onDelete,
-  status,
+  blogStatus,
   onUpdate,
   formStatus,
   uuid,
+  settingsData,
+  onChangeHandler,
 }: EditorNavbarProps) => {
   const formatSaveTime = (date: Date) => {
     return `Last saved: ${date.toLocaleTimeString([], {
@@ -59,7 +63,7 @@ export const EditorNavbar = ({
     })}`;
   };
 
-  const action = status === "PUBLISHED" ? "archive" : "delete";
+  const action = blogStatus === "PUBLISHED" ? "archive" : "delete";
   const router = useRouter();
   return (
     <TooltipProvider>
@@ -96,7 +100,10 @@ export const EditorNavbar = ({
             </TooltipContent>
           </Tooltip>
           {/* Blog settings actions */}
-          <BlogSettingsModal />
+          <BlogSettingsModal
+            settingsData={settingsData}
+            onChangeHandler={onChangeHandler}
+          />
         </div>
         {/* action buttons */}
         <div className="flex items-center gap-2">
@@ -123,7 +130,7 @@ export const EditorNavbar = ({
             </DropdownMenuTrigger>
             <DropdownMenuContent
               align="end"
-              className="bg-popover p-3 space-y-2">
+              className="bg-popover p-3 md:p-6 space-y-2">
               <DropdownMenuItem
                 onClick={onPreview}
                 disabled={formStatus === "loading"}
@@ -132,7 +139,7 @@ export const EditorNavbar = ({
                 <Eye className="w-4 h-4 mr-1" />
                 Preview
               </DropdownMenuItem>
-              {status === "DRAFT" && (
+              {blogStatus === "DRAFT" && (
                 <>
                   {" "}
                   <DropdownMenuItem
@@ -145,7 +152,7 @@ export const EditorNavbar = ({
                   </DropdownMenuItem>
                 </>
               )}
-              {status !== "DRAFT" && (
+              {blogStatus !== "DRAFT" && (
                 <DropdownMenuItem asChild>
                   <Button
                     className="w-full justify-start cursor-pointer hover:bg-blue-500 hover:text-white"
@@ -153,13 +160,14 @@ export const EditorNavbar = ({
                     onClick={onUpdate}
                     variant="outline"
                     type="submit"
+                    size="sm"
                     title="sync draft with database">
                     <RefreshCcw className="w-4 h-4" />
                     Update
                   </Button>
                 </DropdownMenuItem>
               )}
-              {status !== "PUBLISHED" && (
+              {blogStatus !== "PUBLISHED" && (
                 <DropdownMenuItem asChild>
                   <Button
                     type="submit"
@@ -169,6 +177,7 @@ export const EditorNavbar = ({
                     }}
                     disabled={disabled || formStatus === "loading"}
                     title="publish blog"
+                    size="sm"
                     className="w-full justify-start bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white cursor-pointer group hover:text-white">
                     <Sparkles className="w-4 h-4 text-white" />
                     <span className="group-hover:text-white">Publish</span>

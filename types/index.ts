@@ -40,7 +40,13 @@ export interface BlogData {
   tags: string | null;
   image: CoverImage;
   audio: string | null;
+  description: string | null;
+  show_comments: boolean;
 }
+export type BlogSettings = Pick<
+  BlogData,
+  "show_comments" | "description" | "audio"
+>;
 export interface CommentData extends Comment {
   author: {
     username: string;

@@ -13,7 +13,7 @@ export const baseUrl =
     : "https://techtales.vercel.app";
 export const DELETED_USER_ID = 49;
 
-export function calculateReadingTime(blog: string) {
+export const removeHTMLTags = (blog: string) => {
   // Step 1: Remove empty or whitespace-only tags
   let text = blog
     .replace(/<p>(\s|&nbsp;|<br\s*\/?>)*<\/p>/gi, "")
@@ -35,6 +35,11 @@ export function calculateReadingTime(blog: string) {
     .replace(/['"]+/g, "")
     .replace(/\s+/g, " ")
     .trim();
+  return text;
+};
+
+export function calculateReadingTime(blog: string) {
+  const text = removeHTMLTags(blog);
   const words = text.trim().split(/\s+/).length;
   const readingTime = Math.ceil(words / 265);
   return readingTime;

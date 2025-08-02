@@ -10,6 +10,7 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -33,54 +34,58 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
+import { BlogSettings } from "@/types";
+import { toast } from "sonner";
 
 interface BlogSettingsModalProps {
-  onSettingsChange?: (settings: BlogSettings) => void;
+  settingsData: BlogSettings;
+  onChangeHandler: (data: Partial<BlogSettings>) => void;
 }
 
-interface BlogSettings {
-  commentsEnabled: boolean;
-  audioUrl: string | null;
-  seoDescription: string;
-}
 /*
 This needs to know about the description, show_comments and audio fields from the blogs. It needs to mass update the blog page with these values if they change. Description and audio can be a string or null
  */
 
 export function BlogSettingsModal({
-  onSettingsChange,
+  settingsData,
+  onChangeHandler,
 }: BlogSettingsModalProps) {
   const [open, setOpen] = useState(false);
-  const [commentsEnabled, setCommentsEnabled] = useState<boolean>(true);
-  const [audioUrl, setAudioUrl] = useState<string>("");
-  const [seoDescription, setSeoDescription] = useState<string>("");
+  const [formData, setFormData] = useState<BlogSettings>(settingsData);
   const [hasAudioError, setHasAudioError] = useState(false);
   const [audioKey, setAudioKey] = useState(0);
 
-  const handleUrlChange = (url: string) => {
-    setAudioUrl(url);
-    setAudioKey((prev) => prev + 1);
-    setHasAudioError(false);
+  const updateField = <K extends keyof BlogSettings>(
+    key: K,
+    value: BlogSettings[K]
+  ) => {
+    if (key === "audio") {
+      setAudioKey((prev) => prev + 1);
+    }
+    setFormData((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
   };
-
   const handleSave = () => {
-    const settings: BlogSettings = {
-      commentsEnabled,
-      audioUrl: audioUrl || null,
-      seoDescription,
-    };
-    onSettingsChange?.(settings);
-    setOpen(false);
+    onChangeHandler(formData);
+    setAudioKey(0);
+    toast.success("Changes saved!");
+    setTimeout(() => {
+      setOpen(false);
+    }, 1000);
   };
 
-  const getSeoLength = () => seoDescription.length;
+  const getSeoLength = () => formData.description?.length ?? 0;
   const getSeoStatus = () => {
     const length = getSeoLength();
     if (length < 150) return "text-yellow-600";
     if (length > 160) return "text-red-600";
     return "text-green-600";
   };
-  const isSubmissionDisabled = !hasAudioError && !audioUrl;
+  const isSubmissionDisabled =
+    (formData.audio && hasAudioError) ||
+    (formData.description?.trim() && getSeoLength() < 150);
   return (
     <>
       {/* Floating Settings Button */}
@@ -100,6 +105,7 @@ export function BlogSettingsModal({
               Post Settings
             </DialogTitle>
           </DialogHeader>
+          <DialogDescription />
           <TooltipProvider>
             <div className="overflow-y-auto flex-1 px-2 ">
               {/* Comments Section */}
@@ -111,9 +117,9 @@ export function BlogSettingsModal({
                         Allow comments from...
                       </p>
                       <RadioGroup
-                        value={commentsEnabled ? "everyone" : "none"}
-                        onValueChange={(value) =>
-                          setCommentsEnabled(value === "everyone")
+                        value={formData.show_comments ? "everyone" : "none"}
+                        onValueChange={(val) =>
+                          updateField("show_comments", val === "everyone")
                         }>
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="everyone" id="everyone" />
@@ -162,7 +168,7 @@ export function BlogSettingsModal({
                         <AccordionTrigger>
                           <div className="flex items-center gap-2">
                             <HeadphonesIcon className="size-4 mr-2" />
-                            Add Audio Narration
+                            {formData.audio ? "Edit" : "Add"} Audio Narration
                           </div>
                         </AccordionTrigger>
                         <AccordionContent className="space-y-2 sm:px-2">
@@ -171,8 +177,11 @@ export function BlogSettingsModal({
                             <Input
                               id="audio-url"
                               type="url"
-                              value={audioUrl}
-                              onChange={(e) => handleUrlChange(e.target.value)}
+                              name="audio"
+                              value={formData.audio || ""}
+                              onChange={(e) =>
+                                updateField("audio", e.target.value)
+                              }
                               placeholder="https://example.com/audio.mp3"
                               className={cn(
                                 hasAudioError &&
@@ -180,7 +189,7 @@ export function BlogSettingsModal({
                               )}
                             />
                           </div>
-                          {audioUrl && (
+                          {formData.audio && (
                             <>
                               <hr />
                               <Card className="p-0 bg-blue-200 dark:bg-blue-900/40">
@@ -192,10 +201,22 @@ export function BlogSettingsModal({
                                     key={audioKey}
                                     onError={() => setHasAudioError(true)}
                                     onCanPlay={() => setHasAudioError(false)}>
-                                    <source src={audioUrl} type="audio/ogg" />
-                                    <source src={audioUrl} type="audio/mp3" />
-                                    <source src={audioUrl} type="audio/wav" />
-                                    <source src={audioUrl} type="audio/m4a" />
+                                    <source
+                                      src={formData.audio}
+                                      type="audio/ogg"
+                                    />
+                                    <source
+                                      src={formData.audio}
+                                      type="audio/mp3"
+                                    />
+                                    <source
+                                      src={formData.audio}
+                                      type="audio/wav"
+                                    />
+                                    <source
+                                      src={formData.audio}
+                                      type="audio/m4a"
+                                    />
                                     Your browser does not support the audio
                                     element.
                                   </audio>
@@ -247,9 +268,10 @@ export function BlogSettingsModal({
                             </Label>
                             <Textarea
                               id="seo-description"
-                              value={seoDescription}
+                              name="description"
+                              value={formData.description || ""}
                               onChange={(e) =>
-                                setSeoDescription(e.target.value)
+                                updateField("description", e.target.value)
                               }
                               className="text-xs md:text-sm"
                               placeholder="Enter a brief description for search engines..."
@@ -275,8 +297,8 @@ export function BlogSettingsModal({
                     </Button>
                   </DialogClose>
                   <Button
+                    disabled={!!isSubmissionDisabled}
                     onClick={handleSave}
-                    disabled={isSubmissionDisabled || hasAudioError}
                     className="bg-blue-500 text-white hover:bg-blue-600 hover:text-white">
                     Save Settings
                   </Button>
