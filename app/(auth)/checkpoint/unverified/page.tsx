@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Loader2, ArrowLeft } from "lucide-react";
+import { Loader2, ArrowLeft, CheckCircle } from "lucide-react";
 import Image from "next/image";
 import { toast } from "sonner";
 import {
@@ -20,6 +20,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { validateEmail } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
+import { resendVerificationEmail } from "@/lib/actions/auth";
 type ResendStatus = "idle" | "loading" | "success" | "error";
 
 export default function VerifyEmail() {
@@ -54,16 +55,21 @@ export default function VerifyEmail() {
 
   const handleSubmit = async (data: { email: string }) => {
     setStatus("loading");
-    console.log("Submitting email:", data.email);
     try {
-      //TODO: Implement email resending Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      toast.success("Verification email sent!");
-      setStatus("success");
-      setCountdown(60);
+      const res = await resendVerificationEmail(data.email);
+      if (!res.success) {
+        setStatus("error");
+        setCountdown(60);
+        form.setError("email", {
+          type: "manual",
+          message: res.message,
+        });
+      } else {
+        setStatus("success");
+        toast.success(res.message);
+      }
     } catch (error) {
       const e = error as Error;
-      console.error("Resend error:", error);
       toast.error(e.message || "Failed to resend email");
       setStatus("error");
     }
@@ -72,7 +78,9 @@ export default function VerifyEmail() {
   const handleGoToLogin = () => {
     router.push("/login");
   };
-  const canResend = countdown === 0 && status !== "loading";
+  const canResend =
+    countdown === 0 && status !== "loading" && status !== "success";
+
   return (
     <div className="flex min-h-svh flex-col items-center justify-center p-4 sm:p-6 md:p-10 bg-muted">
       <div className="w-full max-w-md">
@@ -115,35 +123,53 @@ export default function VerifyEmail() {
                               {...field}
                               type="email"
                               placeholder="Enter your email"
-                              disabled={status === "loading"}
+                              disabled={
+                                status === "loading" || status === "success"
+                              }
                             />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                    <Button
-                      type="submit"
-                      className="w-full"
-                      disabled={!canResend}>
-                      {status === "loading" ? (
-                        <>
-                          <Loader2 className="animate-spin h-4 w-4 mr-2" />
-                          Sending...
-                        </>
-                      ) : countdown > 0 ? (
-                        `Resend in ${countdown}s`
-                      ) : (
-                        "Resend Verification Email"
-                      )}
-                    </Button>
+                    {/* success message */}
+                    {status === "success" ? (
+                      <div
+                        role="alert"
+                        className="relative w-full rounded-lg border px-4 py-3 text-sm grid has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] grid-cols-[0_1fr] has-[>svg]:gap-x-3 gap-y-0.5 items-start [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current animate-scale-in bg-green-500 text-white dark:bg-green-900/50">
+                        <CheckCircle />
+                        <div className="col-start-2 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed">
+                          <p>
+                            Verification email sent. Kindly check your email to
+                            continue.
+                          </p>
+                        </div>
+                      </div>
+                    ) : (
+                      <Button
+                        type="submit"
+                        className="w-full  bg-blue-500 hover:bg-blue-600 text-white"
+                        disabled={!canResend}>
+                        {status === "loading" ? (
+                          <>
+                            <Loader2 className="animate-spin h-4 w-4 mr-2" />
+                            Sending...
+                          </>
+                        ) : countdown > 0 ? (
+                          `Resend in ${countdown}s`
+                        ) : (
+                          "Resend Verification Email"
+                        )}
+                      </Button>
+                    )}
                   </form>
                 </Form>
 
                 <div className="text-center text-sm text-muted-foreground space-y-2">
                   <Button
                     onClick={handleGoToLogin}
-                    className="w-full bg-blue-500 hover:bg-blue-600 text-white">
+                    className="w-full"
+                    variant="link">
                     <ArrowLeft className="w-4 h-4 mr-2" />
                     Back to Login
                   </Button>

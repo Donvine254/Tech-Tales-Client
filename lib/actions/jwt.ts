@@ -61,7 +61,7 @@ export async function createAccountActionsToken(
   expiry: string | number
 ) {
   const token = await new jose.SignJWT({
-    id: user.id,
+    userId: user.id,
     email: user.email,
     username: user.username,
   })

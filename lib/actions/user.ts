@@ -13,7 +13,7 @@ import {
 import { DELETED_USER_ID } from "../utils";
 import { blogSelect } from "@/prisma/select";
 
-// function to getAllUserBlogs. Used in app/(main)/me/posts
+/* function to getAllUserBlogs. Used in app/(main)/me/posts */
 export const getUserBlogs = unstable_cache(
   async (userId: number) => {
     // check if user is verified
@@ -38,7 +38,7 @@ export const getUserBlogs = unstable_cache(
   ["user-blogs"],
   { revalidate: 600 }
 );
-// This function just user information and top 5 blogs. Used in /me route and profile.ts component (app\(main)\me)
+/* This function just user information and top 5 blogs. Used in /me route and profile.ts component (app\(main)\me) */
 export const getUserTopBlogs = async () => {
   const session = await isVerifiedUser();
   if (!session) {
@@ -59,8 +59,8 @@ export const getUserTopBlogs = async () => {
     take: 5,
   });
 };
-// This function returns all user information
 
+/* This function returns all user information */
 export const getUserData = async () => {
   const session = await isVerifiedUser();
   if (!session) {

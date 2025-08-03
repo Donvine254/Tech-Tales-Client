@@ -279,6 +279,7 @@ export async function VerifyEmail(token: string): Promise<{
     return { success: false, error: "error-token", message: "Token not found" };
   }
   const res = await verifyToken(token);
+  console.log(res);
   if (!res.valid || !res.payload) {
     return {
       success: false,
@@ -286,11 +287,11 @@ export async function VerifyEmail(token: string): Promise<{
       message: "Token is invalid or has expired",
     };
   }
-  const userId = Number(res.payload.id);
+  const userId = res.payload.userId;
   try {
     const user = await prisma.user.update({
       where: {
-        id: userId,
+        id: Number(userId),
       },
       data: {
         email_verified: true,
@@ -325,6 +326,67 @@ export async function VerifyEmail(token: string): Promise<{
   }
 }
 
+/*Function to resend email verification email to the user. Used in checkpoint/unverified/page.tsx */
+export async function resendVerificationEmail(email: string) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+      select: {
+        id: true,
+        email: true,
+        username: true,
+        email_verified: true,
+      },
+    });
+    // check if user exists
+    if (!user) {
+      return {
+        success: false,
+        message: "Account not found, kindly input a correct email address",
+      };
+    }
+    // check if user is already verified
+    if (user.email_verified) {
+      return {
+        success: true,
+        message: "Email already verified, proceed to login",
+      };
+    }
+    const token = await createAndSetEmailVerificationCookie({
+      id: user.id,
+      email: user.email,
+    });
+    await sendVerificationEmail(
+      user.email,
+      `${baseUrl}/checkpoint/verify?token=${token}`
+    );
+    return {
+      sucess: true,
+      message: "Email sent successfully, Kindly check your email",
+    };
+  } catch (error) {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2025"
+    ) {
+      return {
+        success: false,
+        error: "error-server",
+        message: "Account does not exist",
+      };
+    }
+    const e = error as Error;
+    return {
+      success: false,
+      error: "error-server",
+      message: e.message || "Something unexpected happened",
+    };
+  } finally {
+    await prisma.$disconnect();
+  }
+}
 /* function to change user password */
 export async function changeUserPassword(
   userId: number,
@@ -438,7 +500,7 @@ export async function handlePasswordResetRequest(email: string) {
   }
 }
 /*
-Function to reset the user email
+Function to reset user password in the account page (me)/settings/security.tsx
 */
 export async function resetPassword(userId: number, password: string) {
   const password_digest = await hashPassword(password);
