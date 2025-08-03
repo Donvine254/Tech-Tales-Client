@@ -21,7 +21,6 @@ import {
 } from "lucide-react";
 import parse from "html-react-parser";
 import PrismLoader from "../../custom/prism-loader";
-import { useSession } from "@/providers/session";
 import { calculateReadingTime, cn, formatDate } from "@/lib/utils";
 import { useState } from "react";
 import BlogImage from "../blogs/blog-image";
@@ -31,12 +30,19 @@ interface PreviewDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   blog: BlogData;
+  author: {
+    id: number;
+    handle: string;
+    username: string;
+    picture: string;
+  };
 }
 
 export const PreviewDialog = ({
   open,
   onOpenChange,
   blog,
+  author,
 }: PreviewDialogProps) => {
   const getCurrentTime = () => {
     return new Date().toLocaleTimeString([], {
@@ -45,7 +51,6 @@ export const PreviewDialog = ({
     });
   };
   const [activeTab, setActiveTab] = useState<"mobile" | "desktop">("mobile");
-  const { session } = useSession();
 
   const BlogBody = () => {
     return (
@@ -67,13 +72,13 @@ export const PreviewDialog = ({
           />
           {/* Author Info */}
           <div className="flex items-center space-x-3 my-4">
-            <Avatar className="h-12 w-12 ring-2 ring-offset-2 cursor-pointer">
+            <Avatar className="h-12 w-12 ring-2 ring-offset-2 ring-blue-500 cursor-pointer">
               <AvatarImage
-                src={session?.picture ?? "/placeholder.svg"}
-                alt={session?.username ?? "Author Name"}
+                src={author?.picture ?? "/placeholder.svg"}
+                alt={author?.username ?? "Author Name"}
               />
               <AvatarFallback className="bg-gradient-to-r from-cyan-100 to-blue-100 text-cyan-700 text-sm capitalize">
-                {session?.username
+                {author?.username
                   .split(" ")
                   .map((n) => n[0])
                   .join("")}
@@ -82,7 +87,7 @@ export const PreviewDialog = ({
             <div className="flex flex-col space-y-2">
               <div className="flex items-center space-x-2">
                 <span className="font-bold text-accent-foreground text-base md:text-xl capitalize">
-                  {session?.username.split(" ").slice(0, 2).join(" ") ??
+                  {author?.username.split(" ").slice(0, 2).join(" ") ??
                     "Author's Name"}
                 </span>
                 <Badge

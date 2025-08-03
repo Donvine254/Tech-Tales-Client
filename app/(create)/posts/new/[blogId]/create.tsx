@@ -40,6 +40,8 @@ export default function Create({
   author: {
     id: number;
     handle: string;
+    username: string;
+    picture: string;
   };
 }) {
   const [blogData, setBlogData] = useState<BlogData>(initialData);
@@ -350,6 +352,7 @@ export default function Create({
           open={previewOpen}
           onOpenChange={setPreviewOpen}
           blog={blogData}
+          author={author}
         />
       </form>
     </section>

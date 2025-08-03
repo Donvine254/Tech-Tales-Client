@@ -24,6 +24,8 @@ type BlogWithAuthor = {
   author: {
     id: number;
     handle: string;
+    picture: string;
+    username: string;
   };
 };
 
@@ -50,6 +52,8 @@ async function getBlogData(uuid: string) {
           select: {
             id: true,
             handle: true,
+            username: true,
+            picture: true,
           },
         },
       },
