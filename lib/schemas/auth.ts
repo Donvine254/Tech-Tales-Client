@@ -2,9 +2,13 @@ import { z } from "zod";
 import { validateEmail } from "../utils";
 
 export const loginSchema = z.object({
-  email: z.string().min(1, "Email is required").refine(validateEmail, {
-    message: "Please enter a valid email address",
-  }),
+  email: z
+    .string()
+    .min(1, "Email is required")
+    .transform((val) => val.toLowerCase())
+    .refine(validateEmail, {
+      message: "Please enter a valid email address",
+    }),
   password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
@@ -18,9 +22,13 @@ export const registerSchema = z.object({
       /^[a-zA-Z0-9_ ]+$/,
       "Username can only contain letters, numbers, and underscores"
     ),
-  email: z.string().min(1, "Email is required").refine(validateEmail, {
-    message: "Please enter a valid email address",
-  }),
+  email: z
+    .string()
+    .min(1, "Email is required")
+    .transform((val) => val.toLowerCase())
+    .refine(validateEmail, {
+      message: "Please enter a valid email address",
+    }),
   password: z
     .string()
     .min(8, "Password must be at least 8 characters")

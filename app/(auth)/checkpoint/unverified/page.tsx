@@ -63,11 +63,12 @@ export default function VerifyEmail() {
 
   const handleSubmit = async (data: { email: string }) => {
     setStatus("loading");
+    const normalizedEmail = data.email.toLowerCase();
     try {
       const ip = await fetch("https://api.ipify.org?format=json")
         .then((res) => res.json())
         .then((data) => data.ip);
-      const res = await resendVerificationEmail(data.email, ip);
+      const res = await resendVerificationEmail(normalizedEmail, ip);
       if (!res.success) {
         setStatus("error");
         form.setError("email", {
@@ -106,9 +107,13 @@ export default function VerifyEmail() {
                       priority
                     />
                   </div>
-                  <h1 className="text-2xl font-bold mb-3">
-                    Email not verified
-                  </h1>
+                  {status !== "success" ? (
+                    <h1 className="text-2xl font-bold mb-3">
+                      Email not verified
+                    </h1>
+                  ) : (
+                    <h1 className="text-2xl font-bold mb-3">Email Verified</h1>
+                  )}
                   <div className="text-xs sm:text-sm text-muted-foreground space-y-1 text-center">
                     <p className="text-xs sm:text-sm">
                       Verify your email address to access your account. If you
