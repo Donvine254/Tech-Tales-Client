@@ -1,10 +1,15 @@
 import {
   getEmailVerificationCookie,
   getEmailVerificationCookieData,
+  getSession,
 } from "@/lib/actions/session";
 import { redirect } from "next/navigation";
 import VerifyEmail from "./verify-page";
 export default async function Page() {
+  const session = await getSession();
+  if (session) {
+    redirect("/");
+  }
   const verification_token = (await getEmailVerificationCookie()) as
     | string
     | null;

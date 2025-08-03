@@ -42,7 +42,7 @@ export default function VerifyEmail({
     setResendStatus("loading");
     try {
       // Resend the email
-      await sendVerificationEmail(email, `${baseUrl}/verify?token=${token}`);
+      await sendVerificationEmail(email, `${baseUrl}/checkpoint/verify?token=${token}`);
       setIsOpen(true);
       setResendStatus("success");
       setCountdown(60);

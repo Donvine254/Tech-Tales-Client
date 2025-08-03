@@ -235,7 +235,7 @@ export async function registerUser(data: RegisterPayload) {
       setImmediate(() => {
         sendVerificationEmail(
           user.email,
-          `${baseUrl}/verify?token=${token}`
+          `${baseUrl}/checkpoint/verify?token=${token}`
         ).catch(console.error);
       });
     } else if (user.auth_provider !== "email") {
