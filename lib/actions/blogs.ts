@@ -61,7 +61,7 @@ export async function SaveDraftBlog(data: BlogData, uuid: string) {
       },
     });
     revalidateTag("user-blogs");
-    revalidatePath("/me/posts")
+    revalidatePath("/me/posts");
     if (data.path) {
       revalidatePath(`/read/${data.path}`);
     }
@@ -268,18 +268,47 @@ export const getUserAndBlogsByHandle = unstable_cache(
 /*This function only updates the blog status and can be used to archive or publish a blog*/
 export async function updateBlogStatus(status: BlogStatus, blogId: number) {
   try {
+    if (status === "PUBLISHED") {
+      const blog = await prisma.blog.findUnique({
+        where: { id: blogId },
+        select: {
+          title: true,
+          body: true,
+          slug: true,
+          path: true,
+          tags: true,
+          image: true,
+        },
+      });
+
+      if (!blog) {
+        return {
+          success: false,
+          message: "Blog not found.",
+        };
+      }
+
+      const validation = canPublishBlog(blog);
+      if (!validation.valid) {
+        return {
+          success: false,
+          message: validation.message ?? "Blog is not ready to be published.",
+        };
+      }
+    }
+
     await prisma.blog.update({
       where: { id: blogId },
-      data: {
-        status: status,
-      },
+      data: { status },
     });
+
     revalidateTag("user-blogs");
     revalidateTag("featured");
     revalidateTag("latest");
     revalidateTag("trending");
     revalidateTag("blogs");
     revalidatePath("/me/posts");
+
     return {
       success: true,
       message: "Blog status updated successfully",
@@ -288,7 +317,7 @@ export async function updateBlogStatus(status: BlogStatus, blogId: number) {
     console.error(error);
     return {
       success: false,
-      message: "Record to update not found",
+      message: "Error updating blog status",
     };
   } finally {
     await prisma.$disconnect();
