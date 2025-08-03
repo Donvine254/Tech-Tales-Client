@@ -8,11 +8,7 @@
     "start": "next start",
     "postinstall": "prisma generate --no-engine",
     "postbuild": "next-sitemap --config next-sitemap.config.js",
-    "lint": "next lint",
-    "db-seed": "prisma db seed"
-  },
-  "prisma": {
-    "seed": "tsx prisma/seed.ts"
+    "lint": "next lint"
   },
   "dependencies": {
     "@ai-sdk/google": "^1.2.22",

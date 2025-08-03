@@ -359,6 +359,7 @@ export async function resendVerificationEmail(email: string, ip: string) {
         message: "Email already verified, proceed to login",
       };
     }
+    // TODO: is this being executed?
     const token = await createAndSetEmailVerificationCookie({
       id: user.id,
       email: user.email,
@@ -368,7 +369,7 @@ export async function resendVerificationEmail(email: string, ip: string) {
       `${baseUrl}/checkpoint/verify?token=${token}`
     );
     return {
-      sucess: true,
+      success: true,
       message: "Email sent successfully, Kindly check your email",
     };
   } catch (error) {
