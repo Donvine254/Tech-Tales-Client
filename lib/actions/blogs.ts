@@ -61,6 +61,7 @@ export async function SaveDraftBlog(data: BlogData, uuid: string) {
       },
     });
     revalidateTag("user-blogs");
+    revalidatePath("/me/posts")
     if (data.path) {
       revalidatePath(`/read/${data.path}`);
     }
