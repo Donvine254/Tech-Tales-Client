@@ -33,9 +33,6 @@ async function getBlogData(uuid: string) {
     const blog = await prisma.blog.findUnique({
       where: {
         uuid: uuid,
-        status: {
-          notIn: ["ARCHIVED"],
-        },
       },
       select: {
         uuid: true,

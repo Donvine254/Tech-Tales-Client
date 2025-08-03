@@ -19,7 +19,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import DeleteButton from "../modals/delete-dialog";
+import DeleteButton from "../../modals/delete-dialog";
 import { BlogStatus } from "@prisma/client";
 import { BlogSettings, FormStatus } from "@/types";
 import { useRouter } from "next/navigation";

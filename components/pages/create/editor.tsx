@@ -14,7 +14,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useTheme } from "next-themes";
-import MonacoLoader from "../custom/monaco-loader";
+import MonacoLoader from "../../custom/monaco-loader";
 import { toast } from "sonner";
 interface EditorSectionProps {
   data: BlogData;

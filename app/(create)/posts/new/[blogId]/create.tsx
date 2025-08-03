@@ -1,10 +1,10 @@
 "use client";
-import { EditorSection } from "@/components/create/editor";
-import { CoverImageSection } from "@/components/create/image";
-import { PreviewDialog } from "@/components/create/preview-modal";
-import { TagsSection } from "@/components/create/tags";
-import { TitleSection } from "@/components/create/title";
-import { EditorNavbar } from "@/components/create/editor-navbar";
+import { EditorSection } from "@/components/pages/create/editor";
+import { CoverImageSection } from "@/components/pages/create/image";
+import { PreviewDialog } from "@/components/pages/create/preview-modal";
+import { TagsSection } from "@/components/pages/create/tags";
+import { TitleSection } from "@/components/pages/create/title";
+import { EditorNavbar } from "@/components/pages/create/editor-navbar";
 import {
   deleteOrArchiveBlog,
   publishBlog,

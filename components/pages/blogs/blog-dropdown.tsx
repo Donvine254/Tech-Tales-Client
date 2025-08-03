@@ -87,19 +87,18 @@ export const BlogCardDropdown = ({
         {/* Owner actions */}
         {showMoreActions && isOwner && (
           <>
-            {blogStatus !== "ARCHIVED" && (
-              <Link
-                href={`/posts/new/${uuid}`}
-                passHref
-                className="cursor-pointer">
-                <DropdownMenuItem asChild>
-                  <span className="flex items-center">
-                    <PencilLineIcon className="w-4 h-4 mr-2" />
-                    Edit
-                  </span>
-                </DropdownMenuItem>
-              </Link>
-            )}
+            <Link
+              href={`/posts/new/${uuid}`}
+              passHref
+              className="cursor-pointer">
+              <DropdownMenuItem asChild>
+                <span className="flex items-center">
+                  <PencilLineIcon className="w-4 h-4 mr-2" />
+                  Edit
+                </span>
+              </DropdownMenuItem>
+            </Link>
+
             {blogStatus === "PUBLISHED" &&
               (showComments ? (
                 <DropdownMenuItem

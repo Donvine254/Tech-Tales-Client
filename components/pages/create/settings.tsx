@@ -275,7 +275,7 @@ export function BlogSettingsModal({
                               }
                               className="text-xs md:text-sm"
                               placeholder="Enter a brief description for search engines..."
-                              maxLength={160}
+                              maxLength={170}
                               minLength={150}
                               rows={2}
                             />

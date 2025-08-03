@@ -10,7 +10,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BlogData } from "@/types";
 import { Calendar, Clock, LockIcon, Plus } from "lucide-react";
 import parse from "html-react-parser";
-import PrismLoader from "../custom/prism-loader";
+import PrismLoader from "../../custom/prism-loader";
 import Image from "next/image";
 import { useSession } from "@/providers/session";
 import { calculateReadingTime, cn } from "@/lib/utils";
