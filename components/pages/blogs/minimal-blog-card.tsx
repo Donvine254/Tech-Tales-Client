@@ -20,6 +20,7 @@ import { BlogStatus } from "@prisma/client";
 import { useState } from "react";
 import { DeleteConfirmDialog } from "@/components/modals/delete-dialog";
 import BlogImage from "./blog-image";
+import { canPublishBlog } from "@/lib/helpers";
 
 // check for image
 function isCoverImage(image: unknown): image is CoverImage {
@@ -86,12 +87,13 @@ export default function MinimalBlogCard({
           </div>
 
           {/* Title */}
-          {blog.status === "PUBLISHED" ? (
+          {blog.status === "PUBLISHED" ||
+          (blog.status === "ARCHIVED" && canPublishBlog(blog)) ? (
             <Link
               href={`/read/${blog.path}`}
               className="group"
               title={blog.title ?? ""}>
-              <h3 className="text-base sm:text-lg font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 leading-snug cursor-pointer">
+              <h3 className="text-base sm:text-lg font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 leading-snug cursor-pointer hover:underline">
                 {blog.title ?? ""}
               </h3>
             </Link>
