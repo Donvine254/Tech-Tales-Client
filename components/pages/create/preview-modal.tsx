@@ -8,13 +8,25 @@ import {
 } from "@/components/ui/dialog";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BlogData } from "@/types";
-import { Calendar, Clock, LockIcon, Plus } from "lucide-react";
+import {
+  BookmarkPlus,
+  Calendar,
+  ChartNoAxesColumn,
+  Clock,
+  Heart,
+  LockIcon,
+  MessageSquare,
+  Plus,
+  Share,
+} from "lucide-react";
 import parse from "html-react-parser";
 import PrismLoader from "../../custom/prism-loader";
-import Image from "next/image";
 import { useSession } from "@/providers/session";
-import { calculateReadingTime, cn } from "@/lib/utils";
+import { calculateReadingTime, cn, formatDate } from "@/lib/utils";
 import { useState } from "react";
+import BlogImage from "../blogs/blog-image";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 interface PreviewDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -32,106 +44,145 @@ export const PreviewDialog = ({
       minute: "2-digit",
     });
   };
-  const [activeTab, setActiveTab] = useState("mobile");
+  const [activeTab, setActiveTab] = useState<"mobile" | "desktop">("mobile");
   const { session } = useSession();
-  const isMobile = activeTab === "mobile";
 
   const BlogBody = () => {
     return (
-      <div className="w-full h-full pt-4 overflow-y-auto overflow-x-hidden">
-        <div className="p-2">
-          <article
-            className={cn(
-              "prose prose-slate dark:prose-invert max-w-none",
-              isMobile && "prose-sm"
-            )}
-            id="blog-body">
-            <PrismLoader />
-            {/* Blog Banner + Title */}
-            <div className="space-y-2">
-              <Image
-                src={blog.image?.secure_url || "/placeholder.svg"}
-                alt="Blog header"
-                width={800}
-                height={400}
-                className="w-full object-cover rounded-lg h-24"
+      <div
+        className={cn(
+          "w-full h-full overflow-y-auto overflow-x-hidden px-2",
+          activeTab === "mobile" ? "pt-14" : "pt-4"
+        )}>
+        {/* Blog Banner + Title */}
+        <div className="space-y-2 sm:mt-0">
+          <BlogImage
+            src={blog.image?.secure_url || "/placeholder.svg"}
+            alt="Blog header"
+            image={blog.image}
+            height={720}
+            width={1280}
+            quality={100}
+            className="object-fill italic h-auto max-h-[450px]  rounded-md w-full border-2 border-blue-500"
+          />
+          {/* Author Info */}
+          <div className="flex items-center space-x-3 my-4">
+            <Avatar className="h-12 w-12 ring-2 ring-offset-2 cursor-pointer">
+              <AvatarImage
+                src={session?.picture ?? "/placeholder.svg"}
+                alt={session?.username ?? "Author Name"}
               />
-              <h1
-                className={cn(
-                  "font-bold text-xl md:text-2xl lg:text-3xl",
-                  isMobile && "text-lg"
-                )}>
-                {blog.title?.trim() || "Your blog title goes here"}
-              </h1>
-
-              {/* Author Info */}
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-semibold capitalize">
-                  {session?.username
-                    .split(" ")
-                    .map((n: string) => n[0])
-                    .join("")}
+              <AvatarFallback className="bg-gradient-to-r from-cyan-100 to-blue-100 text-cyan-700 text-sm capitalize">
+                {session?.username
+                  .split(" ")
+                  .map((n) => n[0])
+                  .join("")}
+              </AvatarFallback>
+            </Avatar>
+            <div className="flex flex-col space-y-2">
+              <div className="flex items-center space-x-2">
+                <span className="font-bold text-accent-foreground text-base md:text-xl capitalize">
+                  {session?.username.split(" ").slice(0, 2).join(" ") ??
+                    "Author's Name"}
+                </span>
+                <Badge
+                  variant="secondary"
+                  className="text-xs p-0.5 text-blue-500 font-medium bg-blue-900/20">
+                  Author
+                </Badge>
+              </div>
+              <div className="flex items-center space-x-3 text-xs text-accent-foreground">
+                <div className="flex items-center whitespace-nowrap truncate space-x-1">
+                  <Calendar className="h-3 w-3" />
+                  <span>{formatDate(new Date())}</span>
                 </div>
-                <div className="flex flex-col">
-                  <span
-                    className={cn(
-                      "font-bold text-accent-foreground text-base capitalize",
-                      isMobile && "text-sm"
-                    )}>
-                    {session?.username ?? "Author Name"}
+                <div className="flex items-center whitespace-nowrap truncate space-x-1">
+                  <Clock className="h-3 w-3" />
+                  <span>
+                    {" "}
+                    {calculateReadingTime(blog?.body ?? "")} min read
                   </span>
-                  <div
-                    className={cn(
-                      "flex items-center space-x-3 text-sm text-accent-foreground",
-                      isMobile && "text-xs"
-                    )}>
-                    <div className="flex items-center space-x-1">
-                      <Calendar className="h-3 w-3 md:h-4 md:w-4" />
-                      <span>
-                        {new Date().toLocaleDateString("en-US", {
-                          month: "short",
-                          day: "numeric",
-                          year: "numeric",
-                        })}
-                      </span>
-                    </div>
-                    <div className="flex items-center space-x-1 capitalize">
-                      <Clock className="h-3 w-3 md:h-4 md:w-4" />
-                      <span>
-                        {calculateReadingTime(blog?.body ?? "")} min read
-                      </span>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
-
-            {/* Blog Tags */}
-            <div className="py-1">
-              {blog.tags ? (
-                <div className="flex text-xs gap-2 items-center flex-wrap">
-                  {blog.tags.split(",").map((tag, index) => (
-                    <span key={index} className="text-xs" title={tag}>
-                      <span className="text-blue-500">#</span>
-                      {tag.trim()}
-                    </span>
-                  ))}
-                </div>
-              ) : (
-                <span>No Tags Yet</span>
-              )}
-            </div>
-
-            {/* Blog Body */}
-            <div
-              className="min-h-[200px] max-w-max font-serif blog"
-              id="blog-body">
-              {blog.body
-                ? parse(blog.body)
-                : "Lorem Ipsum sample body: At vero eos et accusamus..."}
-            </div>
-          </article>
+          </div>
         </div>
+        {/* Blog Title */}
+        <h1 className="text-xl md:text-2xl lg:text-3xl font-bold mb-1">
+          {blog?.title?.trim() ?? "Untitled Blog Post"}
+        </h1>
+
+        {/* Blog Tags */}
+        <div className="py-1">
+          <div className="flex space-x-2 items-center flex-wrap">
+            {(blog.tags
+              ? blog.tags.split(",")
+              : ["Tag 1", "Tag 2", "Tag 3"]
+            ).map((tag: string, index: number) => {
+              const trimmedTag = tag.trim();
+              const commonClasses =
+                "md:px-2 md:py-0 text-blue-500 dark:text-cyan-500 md:bg-transparent md:border border-transparent md:rounded-full text-sm";
+              return blog.tags ? (
+                <span
+                  key={index}
+                  title={trimmedTag}
+                  className={`${commonClasses} highlight-link-${index}`}>
+                  <span>#</span>
+                  {trimmedTag}
+                </span>
+              ) : (
+                <span key={index} className={commonClasses}>
+                  <span>#</span>
+                  {trimmedTag}
+                </span>
+              );
+            })}
+          </div>
+        </div>
+        {/* Top actions */}
+        <div className="flex items-center justify-between xsm:gap-2 md:gap-4 py-2 border-y border-border my-2">
+          <div className="flex items-center space-x-1 text-muted-foreground">
+            <MessageSquare className="h-4 w-4" />
+            <span className="text-sm">0</span>
+          </div>
+
+          <div className="flex items-center space-x-1 text-muted-foreground">
+            <Heart className="h-4 w-4" />
+            <span className="text-sm">0</span>
+          </div>
+
+          <div className="flex items-center space-x-1 text-muted-foreground">
+            <ChartNoAxesColumn className="h-4 w-4" />
+            <span className="text-sm">0</span>
+          </div>
+          <div className="flex items-center space-x-1 text-muted-foreground">
+            <svg
+              fill="none"
+              viewBox="0 0 24 24"
+              height="1rem"
+              width="1rem"
+              className="h-4 w-4">
+              <path
+                fill="currentColor"
+                fillRule="evenodd"
+                d="M12 21a9 9 0 100-18 9 9 0 000 18zm0 2c6.075 0 11-4.925 11-11S18.075 1 12 1 1 5.925 1 12s4.925 11 11 11z"
+                clipRule="evenodd"
+              />
+              <path fill="currentColor" d="M16 12l-6 4.33V7.67L16 12z" />
+            </svg>
+          </div>
+          <Share className="text-muted-foreground size-4" />
+          <BookmarkPlus className="text-muted-foreground size-4" />
+        </div>
+        {/* Blog Body */}
+        <article
+          className="min-h-[800px] sm:min-h-full leading-8 prose lg:prose-lg prose-headings:mt-8 prose-p:mt-4 md:leading-10 subpixel-antialiased blog-body max-w-none mt-4 prose-slate dark:prose-invert prose-headings:font-semibold prose-headings:text-gray-900 dark:prose-headings:text-gray-50 prose-a:text-blue-600 hover:prose-a:text-blue-800 prose-a:underline-offset-4 prose-img:rounded-lg prose-img:shadow-lg prose-img:border prose-img:border-gray-200 dark:prose-img:border-gray-700 prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800 prose-pre:rounded-lg prose-pre:p-4 blog"
+          id="blog-body">
+          <PrismLoader />
+          {blog.body
+            ? parse(blog.body)
+            : "Your blog body will appear here. Continue editing to see the changes here.... "}
+        </article>
       </div>
     );
   };
@@ -165,12 +216,12 @@ export const PreviewDialog = ({
         {/* Content */}
         {/* Phone Frame */}
         {activeTab === "mobile" && (
-          <div className="flex-1 pt-2 items-center justify-center bg-muted hidden md:flex  w-full h-full overflow-hidden">
+          <div className="flex-1 pt-2 items-center justify-center bg-muted hidden md:flex w-full h-full overflow-hidden">
             <div className="w-[375px] h-[812px] mt-auto pb-auto bg-black rounded-[40px] p-2 shadow-2xl overflow-hidden mx-auto">
               {/* Screen */}
               <div className="w-full h-full bg-white dark:bg-accent/50 rounded-[32px] overflow-y-hidden relative">
                 {/* Status Bar */}
-                <div className="absolute top-0 left-0 right-0 h-11 bg-white dark:bg-accent shadow  z-10 flex items-center justify-between px-6 text-primary text-sm font-medium">
+                <div className="absolute top-0 left-0 right-0 h-11  bg-white dark:bg-accent shadow z-10 flex items-center justify-between px-6 text-primary text-sm font-medium">
                   <span>{getCurrentTime()}</span>
                   <div className="w-20 h-6 bg-black dark:bg-gray-950 rounded-full"></div>
                   <div className="flex items-center gap-x-1.5">
@@ -203,8 +254,7 @@ export const PreviewDialog = ({
                     </svg>
                   </div>
                 </div>
-                {/* Content Frame */}
-                <BlogBody />
+                {/* Content Frame */} <BlogBody />
               </div>
             </div>
           </div>
@@ -226,7 +276,7 @@ export const PreviewDialog = ({
                 <div className="flex-1 mx-4">
                   <div className="bg-white dark:bg-gray-600 border border-border rounded-md px-3 py-1.5 text-sm text-muted-foreground flex items-center gap-2 w-fit mx-auto">
                     <LockIcon className="h-4 w-4 text-muted-foreground" />
-                    <span className="whitespace-nowrap truncate text-ellipsis">{`https://techtales.vercel.app/blog/${blog?.slug}`}</span>
+                    <span className="whitespace-nowrap truncate text-ellipsis">{`https://techtales.vercel.app/read/${blog?.path}`}</span>
                   </div>
                 </div>
 
