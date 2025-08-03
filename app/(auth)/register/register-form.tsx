@@ -109,7 +109,9 @@ export default function RegisterForm() {
                 autoComplete="off">
                 <div className="flex flex-col gap-4">
                   <div className="flex flex-col items-center text-center">
-                    <h1 className="text-2xl font-bold">Welcome onboard</h1>
+                    <h1 className="text-xl sm:text-2xl font-bold text-muted-foreground">
+                      Welcome Onboard
+                    </h1>
                     <p className="text-balance text-muted-foreground">
                       Create an account to get started
                     </p>
