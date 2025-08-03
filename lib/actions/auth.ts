@@ -16,12 +16,13 @@ import {
   sendWelcomeEmail,
 } from "@/emails/mailer";
 
-// Function to hash passwords
+/* Function to hash passwords */
 const hashPassword = async (password: string) => {
   return await bcrypt.hash(password, 10);
 };
-// function to authenticate SSO login
-// This function is used for both Google and GitHub SSO logins
+/* function to authenticate SSO login
+This function is used for both Google and GitHub SSO logins
+*/
 export async function authenticateSSOLogin(
   userInfo: {
     email: string;
@@ -100,7 +101,7 @@ export async function authenticateSSOLogin(
     return { success: false, error: e.message || "Something went wrong" };
   }
 }
-// Login function for normal users
+/*Login function for normal users */
 export async function authenticateUserLogin(
   email: string,
   password: string,
@@ -184,7 +185,7 @@ export async function authenticateUserLogin(
   }
 }
 
-// register function for normal users & SSO users
+/* register function for normal users & SSO users */
 type RegisterData = {
   email: string;
   username: string;
@@ -268,8 +269,63 @@ export async function registerUser(data: RegisterPayload) {
     await prisma.$disconnect();
   }
 }
+/*Function to reset verify user email after registration and send welcome email */
+export async function VerifyEmail(token: string): Promise<{
+  success: boolean;
+  error?: "error-token" | "error-server";
+  message: string;
+}> {
+  if (!token) {
+    return { success: false, error: "error-token", message: "Token not found" };
+  }
+  const res = await verifyToken(token);
+  if (!res.valid || !res.payload) {
+    return {
+      success: false,
+      error: "error-token",
+      message: "Token is invalid or has expired",
+    };
+  }
+  const userId = Number(res.payload.id);
+  try {
+    const user = await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        email_verified: true,
+      },
+    });
 
-// function to change user password
+    setImmediate(async () => {
+      // send welcome email
+      await sendWelcomeEmail(user.email, user.username);
+    });
+    return { success: true, message: "Email verified successfully" };
+  } catch (error) {
+    console.error(error);
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2025"
+    ) {
+      return {
+        success: false,
+        error: "error-server",
+        message: "Account does not exist",
+      };
+    }
+    const e = error as Error;
+    return {
+      success: false,
+      error: "error-server",
+      message: e.message || "Something unexpected happened",
+    };
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+/* function to change user password */
 export async function changeUserPassword(
   userId: number,
   data: { current: string; newPwd: string },
@@ -404,7 +460,6 @@ export async function resetPassword(userId: number, password: string) {
 }
 
 /*function to restore user account */
-
 export async function restoreAccount(token: string): Promise<{
   success: boolean;
   error?: "error-token" | "error-server";
@@ -430,8 +485,10 @@ export async function restoreAccount(token: string): Promise<{
       data: {
         deactivated: false,
         deactivatedAt: null,
+        status: "INACTIVE",
       },
     });
+
     setImmediate(async () => {
       // Unarchive blog posts
       await prisma.blog.updateMany({
@@ -447,12 +504,23 @@ export async function restoreAccount(token: string): Promise<{
     // set immediate and restore comments and blogs
     return { success: true, message: "Account restored successfully" };
   } catch (error) {
+    // TODO:handle record to update not found
+    console.error(error);
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2025"
+    ) {
+      return {
+        success: false,
+        error: "error-server",
+        message: "Account does not exist",
+      };
+    }
     const e = error as Error;
-    console.log(e);
     return {
       success: false,
       error: "error-server",
-      message: e.message || "Something unexpected happenned",
+      message: e.message || "Something unexpected happened",
     };
   } finally {
     await prisma.$disconnect();

@@ -56,7 +56,7 @@ export default function VerifyEmail() {
     setStatus("loading");
     console.log("Submitting email:", data.email);
     try {
-      // Simulate API call
+      //TODO: Implement email resending Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 2000));
       toast.success("Verification email sent!");
       setStatus("success");
