@@ -64,14 +64,14 @@ export default function WarningDialog({
   return (
     <AlertDialog open={isOpen} onOpenChange={handleClose}>
       <AlertDialogOverlay className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm dark:bg-black/70 transition-all" />
-      <AlertDialogContent className="animate-fade-in-up">
-        <div className="flex justify-end items-start animate-scale-in">
+      <AlertDialogContent className="animate-fade-in-up p-2 sm:p-4">
+        <div className="flex p-1 justify-end items-start animate-scale-in">
           <AlertDialogTrigger
             className="hover:text-red-500 cursor-pointer"
             onClick={handleClose}
             title="close dialog"
             aria-labelledby="close dialog">
-            <X />
+            <X className="size-4" />
           </AlertDialogTrigger>
         </div>
         <AlertDialogHeader>
@@ -92,7 +92,7 @@ export default function WarningDialog({
           </AlertDialogDescription>
         </AlertDialogHeader>
         {children && <div className="">{children}</div>}
-        <AlertDialogFooter>
+        <AlertDialogFooter className="flex-row justify-end p-4">
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <Button
             onClick={handleConfirm}

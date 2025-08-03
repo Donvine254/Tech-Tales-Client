@@ -66,7 +66,7 @@ const DeleteButton = ({
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="py-6">
+      <DialogContent className="py-6 space-y-4">
         <DialogHeader>
           <DialogTitle
             className={isDelete ? "text-red-500" : "text-yellow-600"}>
@@ -77,7 +77,7 @@ const DeleteButton = ({
             {action === "delete" ? "delete" : "archive"} this {item}.
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="border-t border-border pt-4">
+        <DialogFooter className="border-t border-border pt-4 flex-row justify-end">
           <DialogClose asChild>
             <Button size="sm" variant="outline" disabled={loading}>
               Cancel
@@ -86,7 +86,6 @@ const DeleteButton = ({
           <Button
             size="sm"
             className={cn(
-              "w-24",
               isDelete
                 ? "bg-red-600 text-white hover:bg-red-700"
                 : "bg-yellow-500 text-white hover:bg-yellow-600"
@@ -95,7 +94,7 @@ const DeleteButton = ({
             disabled={loading}>
             {loading ? (
               <>
-                <Loader2 className="animate-spin mr-1" /> Deleting
+                <Loader2 className="animate-spin mr-1" /> Processing..
               </>
             ) : (
               actionLabel
