@@ -194,6 +194,14 @@ export const EditorSection: React.FC<EditorSectionProps> = ({
 
               input.click();
             },
+            // TODO: Fix why subsequent children added below the iframe takes the iframe-container class
+            iframe_template_callback: (data: {
+              title: string;
+              width: number;
+              height: number;
+              source: string;
+            }) =>
+              `<div class="iframe-container"><iframe title="${data.title}" width="${data.width}" height="${data.height}" src="${data.source}"></iframe></div>`,
             codesample_languages: codeSampleLanguages,
             codesample_global_prismjs: true,
           }}

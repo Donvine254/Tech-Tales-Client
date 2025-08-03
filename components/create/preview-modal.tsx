@@ -123,7 +123,9 @@ export const PreviewDialog = ({
             </div>
 
             {/* Blog Body */}
-            <div className="min-h-[200px] max-w-max font-serif">
+            <div
+              className="min-h-[200px] max-w-max font-serif blog"
+              id="blog-body">
               {blog.body
                 ? parse(blog.body)
                 : "Lorem Ipsum sample body: At vero eos et accusamus..."}
