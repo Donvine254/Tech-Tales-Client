@@ -8,7 +8,7 @@ import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Fuse from "fuse.js";
 const BLOGS_PER_PAGE = 6;
-
+// TODO: FIx fuzzy search
 export default function SearchPage({
   blogs,
 }: {
@@ -20,25 +20,38 @@ export default function SearchPage({
   const fuse = useMemo(() => {
     return new Fuse(blogs, {
       keys: [
-        { name: "title", weight: 0.6 },
+        { name: "title", weight: 0.7 },
         {
           name: "tags",
-          weight: 0.4,
+          weight: 0.3,
           getFn: (blog) =>
             blog.tags ? blog.tags.split(",").map((tag) => tag.trim()) : [],
         },
       ],
       threshold: 0.3, // smaller = stricter match
+      includeScore: true,
+      ignoreLocation: true,
+      shouldSort: true,
+      findAllMatches: true,
+      useExtendedSearch: true,
     });
   }, [blogs]);
 
   // Fuzzy filtered results
+  const normalizedQuery = query.trim().toLowerCase();
   const filteredBlogs = useMemo(() => {
     if (!query) return [];
     if (query === "all") return blogs;
-    const results = fuse.search(query);
-    return results.map((result) => result.item);
-  }, [query, fuse, blogs]);
+    const exactMatchQuery = `="${normalizedQuery}"`;
+
+    const results = fuse.search(normalizedQuery); // fuzzy
+    const exactMatches = fuse.search(exactMatchQuery); // exact
+
+    // Prioritize exact matches if they exist
+    return (exactMatches.length > 0 ? exactMatches : results).map(
+      (r) => r.item
+    );
+  }, [query, fuse, blogs, normalizedQuery]);
   //   add pagination
   const totalPages = Math.ceil(filteredBlogs.length / BLOGS_PER_PAGE);
   const paginatedBlogs = useMemo(() => {
