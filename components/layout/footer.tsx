@@ -11,12 +11,14 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Logo and Description */}
           <div className="col-span-1 md:col-span-2">
-            <div className="flex items-center space-x-2 mb-4">
-              <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-2 rounded-lg">
-                <BookOpen className="h-6 w-6 text-white" />
+            <Link href="/" className="flex items-center space-x-1 mb-4">
+              <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-1 rounded-sm">
+                <BookOpen className="h-4 w-4 text-white" />
               </div>
-              <h2 className="text-2xl font-bold">Tech Tales</h2>
-            </div>
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent focus:outline-none">
+                Techtales.
+              </h1>
+            </Link>
             <p className=" mb-6 max-w-md">
               Your go-to source for the latest in technology, web development,
               and digital innovation. Join our community of developers and tech
@@ -50,7 +52,7 @@ const Footer = () => {
                 prefetch={false}
                 target="_blank"
                 referrerPolicy="no-referrer">
-                <GithubIcon className="font-bold dark:text-white cursor-pointer h-6 w-6" />
+                <GithubIcon className=" text-black dark:text-white cursor-pointer h-6 w-6" />
               </Link>
               <Link
                 href="https://x.com/diamonddegesh"

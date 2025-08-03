@@ -109,7 +109,7 @@ function ErrorCard({ status }: { status: "error-token" | "error-server" }) {
         <Link href="/checkpoint/unverified">
           <Button className="w-full">
             <MoveLeft className="mr-2 h-4 w-4 animate-move hover:bg-blue-500 hover:text-white" />
-            Resend Link
+            Resend Verification Link
           </Button>
         </Link>
       </CardContent>

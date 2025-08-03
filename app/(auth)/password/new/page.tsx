@@ -265,7 +265,7 @@ export default function Page() {
           Need help?{" "}
           <Link
             href="/contact"
-            className="text-auth-blue hover:text-auth-blue-hover underline underline-offset-4">
+            className="hover:text-blue-500 underline underline-offset-4">
             Contact support
           </Link>
         </div>

@@ -183,7 +183,7 @@ export default function ResetPassword() {
           Need help? Contact our{" "}
           <Link
             href="/contact"
-            className="text-auth-blue hover:text-auth-blue-hover underline underline-offset-4">
+            className="hover:text-blue-500 underline underline-offset-4">
             support team
           </Link>
         </div>

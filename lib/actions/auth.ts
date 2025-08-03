@@ -359,7 +359,6 @@ export async function resendVerificationEmail(email: string, ip: string) {
         message: "Email already verified, proceed to login",
       };
     }
-    // TODO: is this being executed?
     const token = await createAndSetEmailVerificationCookie({
       id: user.id,
       email: user.email,

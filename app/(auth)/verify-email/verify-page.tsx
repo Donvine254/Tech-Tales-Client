@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -42,7 +41,10 @@ export default function VerifyEmail({
     setResendStatus("loading");
     try {
       // Resend the email
-      await sendVerificationEmail(email, `${baseUrl}/checkpoint/verify?token=${token}`);
+      await sendVerificationEmail(
+        email,
+        `${baseUrl}/checkpoint/verify?token=${token}`
+      );
       setIsOpen(true);
       setResendStatus("success");
       setCountdown(60);
@@ -122,7 +124,7 @@ export default function VerifyEmail({
                     Wrong email address?{" "}
                     <Link
                       href="/register"
-                      className="text-auth-blue hover:text-auth-blue-hover underline underline-offset-4">
+                      className="hover:text-blue-500 underline underline-offset-4">
                       Try again
                     </Link>
                   </p>
@@ -136,7 +138,7 @@ export default function VerifyEmail({
           Need help? Contact our{" "}
           <Link
             href="/contact"
-            className="text-auth-blue hover:text-auth-blue-hover underline underline-offset-4">
+            className="hover:text-blue-500 underline underline-offset-4">
             support team
           </Link>
         </div>

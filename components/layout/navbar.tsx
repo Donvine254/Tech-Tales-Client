@@ -77,16 +77,14 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-2 rounded-lg">
-              <BookOpen className="h-6 w-6 text-white" />
+          <Link href="/" className="flex items-center space-x-1">
+            <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-1 rounded-sm">
+              <BookOpen className="h-4 w-4 text-white" />
             </div>
-            <Link href="/">
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent focus:outline-none">
-                Tech Tales
-              </h1>
-            </Link>
-          </div>
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent focus:outline-none">
+              Techtales.
+            </h1>
+          </Link>
 
           {/* Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
