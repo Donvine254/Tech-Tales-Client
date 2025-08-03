@@ -49,6 +49,7 @@ export default function MinimalBlogCard({
 }: MinimalBlogCardProps) {
   const image = isCoverImage(blog.image) ? blog.image : null;
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const canPublish = canPublishBlog(blog).valid;
   return (
     <div className="group bg-card rounded-lg border border-border hover:border-border/60 transition-all duration-200 hover:shadow-sm p-4 md:p-6 space-y-4 flex flex-col animate-fade-in-up">
       {/* Top: Image + Content */}
@@ -88,7 +89,7 @@ export default function MinimalBlogCard({
 
           {/* Title */}
           {blog.status === "PUBLISHED" ||
-          (blog.status === "ARCHIVED" && canPublishBlog(blog)) ? (
+          (blog.status === "ARCHIVED" && canPublish) ? (
             <Link
               href={`/read/${blog.path}`}
               className="group"
@@ -213,6 +214,7 @@ export default function MinimalBlogCard({
             showMoreActions={showMoreActions}
             onUpdate={onUpdate}
             onDelete={() => setShowDeleteDialog(!showDeleteDialog)}
+            canPublish={canPublish}
           />
           <DeleteConfirmDialog
             open={showDeleteDialog}

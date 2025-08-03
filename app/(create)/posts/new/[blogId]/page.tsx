@@ -29,6 +29,7 @@ type BlogWithAuthor = {
 
 async function getBlogData(uuid: string) {
   try {
+    // TODO: Find why i am not allowing archived blogs to be edited.
     const blog = await prisma.blog.findUnique({
       where: {
         uuid: uuid,

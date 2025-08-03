@@ -37,6 +37,7 @@ interface BlogCardDropdownProps {
   onShowCommentsUpdate?: (blogId: number, show: boolean) => void;
   onUpdate: (status: BlogStatus, blogId: number) => void;
   onDelete: () => void;
+  canPublish: boolean;
 }
 
 export const BlogCardDropdown = ({
@@ -50,6 +51,7 @@ export const BlogCardDropdown = ({
   onShowCommentsUpdate,
   onUpdate,
   onDelete,
+  canPublish,
 }: BlogCardDropdownProps) => {
   const { session } = useSession();
 
@@ -72,15 +74,16 @@ export const BlogCardDropdown = ({
       </DropdownMenuTrigger>
       <DropdownMenuContent side="top" align="end" className="w-48 space-y-2">
         {/* Copy Link */}
-        {blogStatus === "PUBLISHED" && (
-          <>
-            <DropdownMenuItem onClick={handleCopy} className="cursor-copy">
-              <LinkIcon className="w-4 h-4 mr-2" />
-              Copy link
-            </DropdownMenuItem>
-            <Bookmark blogId={blogId} asDropdownItem />
-          </>
-        )}
+        {blogStatus === "PUBLISHED" ||
+          (blogStatus === "ARCHIVED" && canPublish && (
+            <>
+              <DropdownMenuItem onClick={handleCopy} className="cursor-copy">
+                <LinkIcon className="w-4 h-4 mr-2" />
+                Copy link
+              </DropdownMenuItem>
+              <Bookmark blogId={blogId} asDropdownItem />
+            </>
+          ))}
         {/* Owner actions */}
         {showMoreActions && isOwner && (
           <>
@@ -111,7 +114,7 @@ export const BlogCardDropdown = ({
                   Unlock Discussion
                 </DropdownMenuItem>
               ))}
-            {blogStatus === "UNPUBLISHED" && (
+            {canPublish && blogStatus !== "PUBLISHED" && (
               <DropdownMenuItem
                 onClick={() => {
                   onUpdate("PUBLISHED", blogId);
@@ -123,7 +126,8 @@ export const BlogCardDropdown = ({
             {blogStatus === "ARCHIVED" && (
               <DropdownMenuItem
                 onClick={() => {
-                  onUpdate("PUBLISHED", blogId);
+                  const status = canPublish ? "PUBLISHED" : "DRAFT";
+                  onUpdate(status, blogId);
                 }}>
                 <ArchiveRestore className="w-4 h-4 mr-2" />
                 Unarchive
