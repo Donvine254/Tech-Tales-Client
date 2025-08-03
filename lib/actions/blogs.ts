@@ -160,6 +160,7 @@ export async function deleteOrArchiveBlog(uuid: string) {
       where: { uuid },
       select: {
         status: true,
+        path: true,
         author: {
           select: { handle: true },
         },
@@ -199,6 +200,10 @@ export async function deleteOrArchiveBlog(uuid: string) {
     revalidateTag("latest");
     revalidateTag("trending");
     revalidateTag("blogs");
+    revalidateTag("user-blogs");
+    if (blog.path) {
+      revalidatePath(`/read/${blog.path}`);
+    }
     return {
       success: false,
       message: `No action taken for blog with status '${blog.status}'`,
