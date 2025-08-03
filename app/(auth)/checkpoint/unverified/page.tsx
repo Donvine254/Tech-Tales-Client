@@ -52,14 +52,24 @@ export default function VerifyEmail() {
       email: "",
     },
   });
+  useEffect(() => {
+    const subscription = form.watch((value, { name }) => {
+      if (name === "email") {
+        setStatus("idle");
+      }
+    });
+    return () => subscription.unsubscribe?.();
+  }, [form]);
 
   const handleSubmit = async (data: { email: string }) => {
     setStatus("loading");
     try {
-      const res = await resendVerificationEmail(data.email);
+      const ip = await fetch("https://api.ipify.org?format=json")
+        .then((res) => res.json())
+        .then((data) => data.ip);
+      const res = await resendVerificationEmail(data.email, ip);
       if (!res.success) {
         setStatus("error");
-        setCountdown(60);
         form.setError("email", {
           type: "manual",
           message: res.message,
@@ -78,8 +88,6 @@ export default function VerifyEmail() {
   const handleGoToLogin = () => {
     router.push("/login");
   };
-  const canResend =
-    countdown === 0 && status !== "loading" && status !== "success";
 
   return (
     <div className="flex min-h-svh flex-col items-center justify-center p-4 sm:p-6 md:p-10 bg-muted">
@@ -149,14 +157,12 @@ export default function VerifyEmail() {
                       <Button
                         type="submit"
                         className="w-full  bg-blue-500 hover:bg-blue-600 text-white"
-                        disabled={!canResend}>
+                        disabled={status === "loading"}>
                         {status === "loading" ? (
                           <>
                             <Loader2 className="animate-spin h-4 w-4 mr-2" />
                             Sending...
                           </>
-                        ) : countdown > 0 ? (
-                          `Resend in ${countdown}s`
                         ) : (
                           "Resend Verification Email"
                         )}

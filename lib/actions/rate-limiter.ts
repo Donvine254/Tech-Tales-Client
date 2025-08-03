@@ -7,10 +7,17 @@ const LIMIT = 3;
 const WINDOW_MS = 60 * 1000;
 const SUSPENSION_MS = 5 * 60 * 1000;
 
-export function rateLimitByIp(ip: string): {
+export function rateLimitByIp(ip?: string | null): {
   allowed: boolean;
   message?: string;
 } {
+  if (!ip) {
+    // If no IP, allow it but log or track anonymously
+    return {
+      allowed: true,
+      message: "IP not provided; skipping rate limit.",
+    };
+  }
   const now = Date.now();
   const ipData = rateLimitMap.get(ip) || {
     count: 0,

@@ -327,7 +327,12 @@ export async function VerifyEmail(token: string): Promise<{
 }
 
 /*Function to resend email verification email to the user. Used in checkpoint/unverified/page.tsx */
-export async function resendVerificationEmail(email: string) {
+export async function resendVerificationEmail(email: string, ip: string) {
+  // step 1: Block too many attempts
+  const rateCheck = rateLimitByIp(ip);
+  if (!rateCheck.allowed) {
+    return { success: false, message: rateCheck.message };
+  }
   try {
     const user = await prisma.user.findUnique({
       where: {
