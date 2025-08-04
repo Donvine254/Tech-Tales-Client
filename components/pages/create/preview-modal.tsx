@@ -50,7 +50,7 @@ export const PreviewDialog = ({
       minute: "2-digit",
     });
   };
-  const [activeTab, setActiveTab] = useState<"mobile" | "desktop">("mobile");
+  const [activeTab, setActiveTab] = useState<"mobile" | "desktop">("desktop");
 
   const BlogBody = () => {
     return (
@@ -113,7 +113,11 @@ export const PreviewDialog = ({
           </div>
         </div>
         {/* Blog Title */}
-        <h1 className="text-xl md:text-2xl lg:text-3xl font-bold mb-1">
+        <h1
+          className={cn(
+            "font-bold mb-1",
+            activeTab === "mobile" ? "text-xl" : "text-2xl lg:text-3xl"
+          )}>
           {blog?.title?.trim() ?? "Untitled Blog Post"}
         </h1>
 
@@ -181,7 +185,10 @@ export const PreviewDialog = ({
         </div>
         {/* Blog Body */}
         <article
-          className="min-h-[800px] sm:min-h-full leading-8 prose lg:prose-lg prose-headings:mt-8 prose-p:mt-4 md:leading-10 subpixel-antialiased blog-body max-w-none mt-4 prose-slate dark:prose-invert prose-headings:font-semibold prose-headings:text-gray-900 dark:prose-headings:text-gray-50 prose-a:text-blue-600 hover:prose-a:text-blue-800 prose-a:underline-offset-4 prose-img:rounded-lg prose-img:shadow-lg prose-img:border prose-img:border-gray-200 dark:prose-img:border-gray-700 prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800 prose-pre:rounded-lg prose-pre:p-4 blog"
+          className={cn(
+            "min-h-[800px] leading-8 prose lg:prose-lg prose-headings:mt-8 prose-p:mt-4 md:leading-10 subpixel-antialiased blog-body max-w-none mt-4 prose-slate dark:prose-invert prose-headings:font-semibold prose-headings:text-gray-900 dark:prose-headings:text-gray-50 prose-a:text-blue-600 hover:prose-a:text-blue-800 prose-a:underline-offset-4 prose-img:rounded-lg prose-img:shadow-lg prose-img:border prose-img:border-gray-200 dark:prose-img:border-gray-700 prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800 prose-pre:rounded-lg prose-pre:p-4 blog",
+            activeTab === "desktop" && "min-h-[1000px]"
+          )}
           id="blog-body">
           <PrismLoader />
           {blog.body
@@ -219,7 +226,7 @@ export const PreviewDialog = ({
             <TabsContent value="mobile" className="w-full">
               {" "}
               <div className="flex-1 pt-2 items-center justify-center bg-muted hidden md:flex w-full h-full overflow-hidden">
-                <div className="w-[375px] h-[812px] mt-auto pb-auto bg-black rounded-[40px] p-2 shadow-2xl overflow-hidden mx-auto">
+                <div className="w-[375px] h-[812px] mt-auto pb-auto bg-black rounded-[40px] p-2 shadow-2xl overflow-hidden mx-auto ">
                   {/* Screen */}
                   <div className="w-full h-full bg-white dark:bg-accent/50 rounded-[32px] overflow-y-hidden relative">
                     {/* Status Bar */}
