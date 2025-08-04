@@ -6,12 +6,12 @@ import { useSession } from "@/providers/session";
 
 const CookieAlert = () => {
   const [show, setShow] = useState(false);
-  const { session: user } = useSession();
+  const { session: user, loading } = useSession();
   useEffect(() => {
-    if (!getCookie("__accept_cookies")) {
+    if (!loading && !getCookie("__accept_cookies")) {
       setTimeout(() => setShow(true), 4000);
     }
-  }, []);
+  }, [loading]);
 
   const toggleClass = () => {
     setShow(false);
@@ -26,9 +26,9 @@ const CookieAlert = () => {
     toggleClass();
   };
 
-  if (user) {
+  if (!loading && user) {
     return null;
-    // All logged-in users will not see the cookie alert. They have already accepted cookies.
+    /* All logged-in users will not see the cookie alert. They have already accepted cookies. */
   }
 
   return (
