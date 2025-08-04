@@ -10,8 +10,8 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Logo and Description */}
-          <div className="col-span-1 md:col-span-2">
-            <Link href="/" className="flex items-center space-x-1 mb-4">
+          <div className="col-span-1 md:col-span-2 space-y-3">
+            <Link href="/" className="flex items-center space-x-1">
               <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-1 rounded-sm">
                 <BookOpen className="h-4 w-4 text-white" />
               </div>
@@ -19,7 +19,7 @@ const Footer = () => {
                 Techtales.
               </h1>
             </Link>
-            <p className=" mb-6 max-w-md">
+            <p className="max-w-md text-sm">
               Your go-to source for the latest in technology, web development,
               and digital innovation. Join our community of developers and tech
               enthusiasts.{" "}
@@ -35,7 +35,7 @@ const Footer = () => {
               </span>
             </p>
 
-            <div className="flex space-x-4 items-center justify-center sm:justify-start">
+            <div className="flex space-x-4 items-center justify-center sm:justify-start ">
               <Link
                 href="https://www.facebook.com"
                 className=""
@@ -68,7 +68,7 @@ const Footer = () => {
 
           <div className="text-center sm:text-start">
             <h3 className="font-semibold mb-4">Resources</h3>
-            <ul className="space-y-3 ">
+            <ul className="space-y-3 text-sm ">
               <li>
                 <Link
                   href="/about"
@@ -105,7 +105,7 @@ const Footer = () => {
           {/* Support */}
           <div className="text-center sm:text-start">
             <h3 className="font-semibold mb-4">Support</h3>
-            <ul className="space-y-3 ">
+            <ul className="space-y-3 text-sm">
               <li>
                 <Link
                   href="/privacy"
