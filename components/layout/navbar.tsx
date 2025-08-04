@@ -81,7 +81,7 @@ const Navbar = () => {
             <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-1 rounded-sm">
               <BookOpen className="h-4 w-4 text-white" />
             </div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent focus:outline-none">
+            <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-500 via-purple-500 dark:from-cyan-400 dark:to-blue-400 focus:outline-none">
               Techtales.
             </h1>
           </Link>

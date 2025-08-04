@@ -3,15 +3,29 @@ import { useState, useEffect } from "react";
 import { setCookie, getCookie } from "@/lib/cookie";
 import Image from "next/image";
 import { useSession } from "@/providers/session";
+import { Button } from "../ui/button";
+import { X } from "lucide-react";
 
 const CookieAlert = () => {
   const [show, setShow] = useState(false);
-  const { session: user, loading } = useSession();
+  const [mounted, setMounted] = useState(false);
+  const { session, loading } = useSession();
+
   useEffect(() => {
-    if (!loading && !getCookie("__accept_cookies")) {
-      setTimeout(() => setShow(true), 4000);
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted || loading || session) return;
+
+    const cookie = getCookie("__accept_cookies");
+    if (cookie === "") {
+      const timeout = setTimeout(() => setShow(true), 4000);
+      return () => clearTimeout(timeout);
+    } else {
+      console.log("Cookie notification skipped.");
     }
-  }, [loading]);
+  }, [mounted, loading, session]);
 
   const toggleClass = () => {
     setShow(false);
@@ -25,34 +39,18 @@ const CookieAlert = () => {
     setCookie("__accept_cookies", true, 60);
     toggleClass();
   };
-
-  if (!loading && user) {
-    return null;
-    /* All logged-in users will not see the cookie alert. They have already accepted cookies. */
-  }
+  if (!mounted || loading || session) return null;
 
   return (
     <div
-      className={`bg-gray-200 text-gray-800  text-sm shadow rounded-lg max-w-fit px-4 py-2 relative xsm:w-full sm:w-fit xs:bottom-0 xs:right-0 cookie-alert ${
+      className={`bg-card text-gray-800 dark:text-gray-200  text-sm shadow rounded-lg max-w-fit px-4 py-2 relative xsm:w-full sm:w-fit xs:bottom-0 xs:right-0 cookie-alert ${
         show ? "show" : ""
       }`}>
       <button
-        className="absolute top-2  right-2 hover:text-red-500 focus:outline-none"
-        onClick={toggleClass}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor">
-          <title>Close</title>
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M6 18L18 6M6 6l12 12"
-          />
-        </svg>
+        className="absolute top-2  right-2 hover:text-red-500 focus:outline-none cursor-pointer"
+        onClick={toggleClass}
+        title="close">
+        <X className="size-4" />
       </button>
       <div>
         <h1 className="text-base font-bold inline-flex items-center gap-1">
@@ -63,19 +61,22 @@ const CookieAlert = () => {
           We use cookies to ensure you get the best experience on our website.
         </p>
         <div className="flex justify-end mt-1 gap-2">
-          <a
-            href="http://cookiesandyou.com/"
-            target="_blank"
-            title="learn more about cookies"
-            className="text-blue-500 hover:underline px-4 py-1">
-            Learn more
-          </a>
-          <button
-            className="bg-blue-500 text-white px-4 py-1  rounded-md hover:bg-blue-600"
+          <Button variant="link" size="sm">
+            <a
+              href="http://cookiesandyou.com/"
+              target="_blank"
+              title="learn more about cookies"
+              className="text-blue-500 hover:underline px-4 py-1">
+              Learn more
+            </a>
+          </Button>
+          <Button
+            size="sm"
+            className="bg-blue-500 text-white hover:bg-blue-600"
             title="accept-cookies"
             onClick={acceptCookies}>
             Accept
-          </button>
+          </Button>
         </div>
       </div>
     </div>

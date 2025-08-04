@@ -134,7 +134,7 @@ export default function Profile({
             </p>
             <div className="flex md:hidden items-center justify-center gap-1 flex-1 p-1 rounded-md text-xs sm:text-sm font-serif text-primary/80 font-medium">
               <MailIcon className="h-3 w-3" />
-              <span className="truncate">{session?.email}</span>
+              <span className="truncate">{session?.email || user.email}</span>
             </div>
             {/* bio */}
             <p className="text-xs font-serif sm:text-sm text-center max-w-md mx-auto my-2">
@@ -153,7 +153,7 @@ export default function Profile({
               <div className="hidden md:flex items-center justify-center gap-1 flex-1 p-1 rounded-md text-xs sm:text-sm font-serif text-primary/80 font-medium overflow-hidden">
                 <MailIcon className="h-4 w-4" />
                 <span className="whitespace-nowrap truncate">
-                  {session?.email}
+                  {session?.email || user.email}
                 </span>
               </div>
               <Link

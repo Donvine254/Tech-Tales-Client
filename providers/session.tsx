@@ -20,8 +20,8 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
   // Optional: fallback client fetch
   useEffect(() => {
     (async () => {
-      const session = (await getSession()) as Session;
-      setSession(session);
+      const session = (await getSession()) as Session | null;
+      setSession(session ?? null);
       setLoading(false);
     })();
   }, []);
