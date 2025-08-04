@@ -6,14 +6,13 @@ import { Button } from "../ui/button";
 import { X } from "lucide-react";
 
 const CookieAlert = () => {
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
+  //TODO: Debug this component
   useEffect(() => {
     const timeout = setTimeout(() => {
       const cookie = getCookie("__accept_cookies");
       if (!cookie || cookie === "") {
         setShow(true);
-      } else {
-        console.log("Cookie notification skipped.");
       }
     }, 30000); //run after 30s
     return () => clearTimeout(timeout);
@@ -23,7 +22,7 @@ const CookieAlert = () => {
     setShow(false);
     const alert = document.getElementById("cookie-alert");
     if (alert) {
-      alert.classList.remove("open");
+      alert.classList.remove("show");
     }
   };
 
@@ -32,12 +31,12 @@ const CookieAlert = () => {
     toggleClass();
   };
 
-  if (!show) return null;
-
   return (
     <div
       id="cookie-alert"
-      className="bg-card text-gray-800 dark:text-gray-200  text-sm shadow rounded-lg max-w-fit px-4 py-2 relative xsm:w-full sm:w-fit xs:bottom-0 xs:right-0 cookie-alert show">
+      className={`bg-card text-gray-800 dark:text-gray-200  text-sm shadow rounded-lg max-w-fit px-4 py-2 relative w-full sm:w-fit bottom-0 right-0 cookie-alert  ${
+        show ? "show" : ""
+      }`}>
       <button
         className="absolute top-2  right-2 hover:text-red-500 focus:outline-none cursor-pointer"
         onClick={toggleClass}
