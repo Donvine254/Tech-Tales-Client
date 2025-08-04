@@ -159,21 +159,20 @@ export function BlogSettingsModal({
                             </Tooltip>
                           </Label>
                           <p className="text-sm text-muted-foreground">
-                            Upload or record a new voiceover: an audio version
-                            of your post. Right now, we only support adding a
-                            url to your cloud hosted audio file. Enter a direct
-                            link to your audio file (MP3, WAV, OGG, etc.)
+                            Upload a new voiceover: an audio version of your
+                            post. Enter a direct link to your audio file (MP3,
+                            WAV, OGG, etc.)
                           </p>
                         </div>
-                        <AccordionTrigger>
-                          <div className="flex items-center gap-2">
-                            <HeadphonesIcon className="size-4 mr-2" />
+                        <AccordionTrigger className="w-fit">
+                          <div className="flex font-medium items-center gap-2">
+                            <HeadphonesIcon className="size-4" />
                             {formData.audio ? "Edit" : "Add"} Audio Narration
                           </div>
                         </AccordionTrigger>
                         <AccordionContent className="space-y-2 sm:px-2">
                           <div className="space-y-3">
-                            <Label htmlFor="audio-url">Audio URL</Label>
+                            <Label htmlFor="audio-url">Audio URL *</Label>
                             <Input
                               id="audio-url"
                               type="url"

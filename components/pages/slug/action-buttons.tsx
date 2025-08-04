@@ -82,7 +82,7 @@ const ActionButtons: FC<ActionButtonsProps> = ({
   const isAdmin = session?.role === "admin";
 
   return (
-    <div className="flex items-center justify-between border-b border-border mb-4 mt-8 py-4">
+    <div className="flex items-center justify-between border-b border-border mb-4 mt-8 py-4 text-muted-foreground">
       {/* Left side: likes + comments */}
       <div className="flex items-center gap-2 xsm:gap-2 md:gap-4">
         <Tooltip>

@@ -7,7 +7,6 @@ import ScrollButton from "@/components/custom/scroll-button";
 import { Toaster } from "@/components/ui/sonner";
 import Navbar from "@/components/layout/navbar";
 import { metaobject } from "@/lib/metadata";
-import CookieAlert from "@/components/custom/cookie";
 import { SessionProvider } from "@/providers/session";
 import { GoogleOneTapLogin } from "@/components/auth/google";
 import { GoogleOAuthProvider } from "@react-oauth/google";
@@ -56,7 +55,6 @@ export default function RootLayout({
               </ReactQueryProvider>
             </main>
             <Footer />
-            <CookieAlert />
             <ScrollButton />
             <Toaster richColors closeButton />
           </ThemeProvider>
