@@ -17,7 +17,6 @@ const SessionContext = createContext<{
 export function SessionProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
-  // Optional: fallback client fetch
   useEffect(() => {
     (async () => {
       const session = (await getSession()) as Session | null;

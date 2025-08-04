@@ -2,30 +2,22 @@
 import { useState, useEffect } from "react";
 import { setCookie, getCookie } from "@/lib/cookie";
 import Image from "next/image";
-import { useSession } from "@/providers/session";
 import { Button } from "../ui/button";
 import { X } from "lucide-react";
 
 const CookieAlert = () => {
   const [show, setShow] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  const { session, loading } = useSession();
-
   useEffect(() => {
-    setMounted(true);
+    const timeout = setTimeout(() => {
+      const cookie = getCookie("__accept_cookies");
+      if (!cookie || cookie === "") {
+        setShow(true);
+      } else {
+        console.log("Cookie notification skipped.");
+      }
+    }, 30000); //run after 30s
+    return () => clearTimeout(timeout);
   }, []);
-
-  useEffect(() => {
-    if (!mounted || loading || session) return;
-
-    const cookie = getCookie("__accept_cookies");
-    if (cookie === "") {
-      const timeout = setTimeout(() => setShow(true), 4000);
-      return () => clearTimeout(timeout);
-    } else {
-      console.log("Cookie notification skipped.");
-    }
-  }, [mounted, loading, session]);
 
   const toggleClass = () => {
     setShow(false);
@@ -39,13 +31,13 @@ const CookieAlert = () => {
     setCookie("__accept_cookies", true, 60);
     toggleClass();
   };
-  if (!mounted || loading || session) return null;
+
+  if (!show) return null;
 
   return (
     <div
-      className={`bg-card text-gray-800 dark:text-gray-200  text-sm shadow rounded-lg max-w-fit px-4 py-2 relative xsm:w-full sm:w-fit xs:bottom-0 xs:right-0 cookie-alert ${
-        show ? "show" : ""
-      }`}>
+      id="cookie-alert"
+      className="bg-card text-gray-800 dark:text-gray-200  text-sm shadow rounded-lg max-w-fit px-4 py-2 relative xsm:w-full sm:w-fit xs:bottom-0 xs:right-0 cookie-alert show">
       <button
         className="absolute top-2  right-2 hover:text-red-500 focus:outline-none cursor-pointer"
         onClick={toggleClass}
