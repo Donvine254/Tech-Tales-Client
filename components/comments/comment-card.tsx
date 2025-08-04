@@ -168,7 +168,7 @@ const StatusBadge: FC<{ status: CommentStatus }> = ({ status }) => {
       return (
         <Badge
           variant="outline"
-          className="text-xs hidden md:block border-green-500 text-green-500 bg-green-100/20">
+          className="text-xs hidden md:inline-flex border-green-500 text-green-500 bg-green-100/20">
           Visible
         </Badge>
       );
@@ -176,7 +176,7 @@ const StatusBadge: FC<{ status: CommentStatus }> = ({ status }) => {
       return (
         <Badge
           variant="outline"
-          className="text-xs hidden md:block bg-amber-100/20 border-amber-300 text-amber-600">
+          className="text-xs hidden  md:inline-flex items-center gap-2 bg-amber-100/20 border-amber-300 text-amber-600">
           <FlagIcon className="size-3 text-destructive" /> Flagged
         </Badge>
       );
@@ -184,13 +184,13 @@ const StatusBadge: FC<{ status: CommentStatus }> = ({ status }) => {
       return (
         <Badge
           variant="outline"
-          className="text-xs hidden md:block border-destructive text-destructive bg-destructive/10">
+          className="text-xs hidden md:inline-flex border-destructive text-destructive bg-destructive/10">
           Hidden
         </Badge>
       );
     default:
       return (
-        <Badge variant="outline" className="text-xs hidden md:block">
+        <Badge variant="outline" className="text-xs hidden md:inline-flex">
           {status}
         </Badge>
       );
