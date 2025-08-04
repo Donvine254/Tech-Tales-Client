@@ -396,7 +396,7 @@ blockquote p {
   @apply text-pink-600;
 }
 /* styling for cookie card */
-.cookie-alert {
+#cookie-alert {
   position: fixed;
   bottom: 15px;
   right: 5px;
@@ -406,7 +406,7 @@ blockquote p {
   transition: all 500ms ease-out;
 }
 
-.cookie-alert.show {
+#cookie-alert.show {
   opacity: 1;
   transform: translateY(0%);
   transition-delay: 1000ms;
