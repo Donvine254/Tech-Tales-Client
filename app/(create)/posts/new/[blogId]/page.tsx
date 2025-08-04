@@ -79,7 +79,7 @@ export default async function page({
   const blog =
     ((await getBlogData(blogId)) as unknown as BlogWithAuthor) || null;
   if (!blog) {
-    redirect("/404");
+    redirect("/410");
   }
   const { image, uuid, status, author, ...rest } = blog;
   const blogData: BlogData = {

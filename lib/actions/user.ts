@@ -36,7 +36,7 @@ export const getUserBlogs = unstable_cache(
     return blogs;
   },
   ["user-blogs"],
-  { revalidate: 600 }
+  { revalidate: 600, tags: ["user-blogs"] }
 );
 /* This function just user information and top 5 blogs. Used in /me route and profile.ts component (app\(main)\me) */
 export const getUserTopBlogs = async () => {

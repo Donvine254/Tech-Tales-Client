@@ -151,9 +151,12 @@ export default async function page({
 }) {
   const { path } = await params;
   const pathname = path.join("/");
+  if (!pathname) {
+    redirect("not-found");
+  }
   const blog = (await getData(pathname)) as FullBlogData;
   if (!blog) {
-    redirect("/not-found");
+    redirect("/410");
   }
   return (
     <section

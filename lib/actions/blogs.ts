@@ -152,7 +152,7 @@ export async function publishBlog(
     await prisma.$disconnect();
   }
 }
-// function to delete blog post
+/* function to delete blog posts. Published blogs can only be archived */
 export async function deleteOrArchiveBlog(uuid: string) {
   try {
     // Fetch current blog status

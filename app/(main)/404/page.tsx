@@ -1,6 +1,12 @@
 import { buttonVariants } from "@/components/ui/button";
 import { CompassIcon, Home } from "lucide-react";
+import { Metadata } from "next";
 import Link from "next/link";
+export const metadata: Metadata = {
+  title: "404 Not Found – Page could not be found",
+  description:
+    "The blog post you’re looking for has been permanently deleted by the author. This page is no longer available.",
+};
 export default function Page() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-muted dark:bg-accent">
