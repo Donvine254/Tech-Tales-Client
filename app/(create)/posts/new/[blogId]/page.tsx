@@ -74,12 +74,12 @@ export default async function page({
   const session = await getSession();
   // Remember this is the blogUUID not the id
   if (!blogId || !session) {
-    redirect("/");
+    redirect("/404");
   }
   const blog =
     ((await getBlogData(blogId)) as unknown as BlogWithAuthor) || null;
   if (!blog) {
-    redirect("/");
+    redirect("/404");
   }
   const { image, uuid, status, author, ...rest } = blog;
   const blogData: BlogData = {
