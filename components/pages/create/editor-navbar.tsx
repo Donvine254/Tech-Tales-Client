@@ -41,21 +41,7 @@ interface EditorNavbarProps {
   onChangeHandler: (data: Partial<BlogSettings>) => void;
 }
 
-export const EditorNavbar = ({
-  onPreview,
-  onPublish,
-  lastSaved,
-  disabled,
-  hasEntries,
-  onSync,
-  onDelete,
-  blogStatus,
-  onUpdate,
-  formStatus,
-  uuid,
-  settingsData,
-  onChangeHandler,
-}: EditorNavbarProps) => {
+export const EditorNavbar = ({ ...props }: EditorNavbarProps) => {
   const formatSaveTime = (date: Date) => {
     return `Last saved: ${date.toLocaleTimeString([], {
       hour: "2-digit",
@@ -63,7 +49,7 @@ export const EditorNavbar = ({
     })}`;
   };
 
-  const action = blogStatus === "PUBLISHED" ? "archive" : "delete";
+  const action = props.blogStatus === "PUBLISHED" ? "archive" : "delete";
   const router = useRouter();
   return (
     <TooltipProvider>
@@ -75,9 +61,9 @@ export const EditorNavbar = ({
             variant="ghost"
             size="sm"
             className="gap-2"
-            disabled={formStatus === "loading"}
+            disabled={props.formStatus === "loading"}
             onClick={() => {
-              localStorage.removeItem(`Draft-${uuid}`);
+              localStorage.removeItem(`Draft-${props.uuid}`);
               localStorage.removeItem("updatedAt");
               router.back();
             }}>
@@ -96,13 +82,15 @@ export const EditorNavbar = ({
               </div>
             </TooltipTrigger>
             <TooltipContent>
-              <p>{lastSaved ? formatSaveTime(lastSaved) : "Just now"}</p>
+              <p>
+                {props.lastSaved ? formatSaveTime(props.lastSaved) : "Just now"}
+              </p>
             </TooltipContent>
           </Tooltip>
           {/* Blog settings actions */}
           <BlogSettingsModal
-            settingsData={settingsData}
-            onChangeHandler={onChangeHandler}
+            settingsData={props.settingsData}
+            onChangeHandler={props.onChangeHandler}
           />
         </div>
         {/* action buttons */}
@@ -112,8 +100,8 @@ export const EditorNavbar = ({
             size="sm"
             type="button"
             className="cursor-pointer hidden md:flex"
-            onClick={onPreview}
-            disabled={formStatus === "loading"}>
+            onClick={props.onPreview}
+            disabled={props.formStatus === "loading"}>
             <Eye className="w-4 h-4" />
             Preview
           </Button>
@@ -123,7 +111,7 @@ export const EditorNavbar = ({
                 size="sm"
                 type="button"
                 className="gap-2 cursor-pointer"
-                disabled={formStatus === "loading"}>
+                disabled={props.formStatus === "loading"}>
                 Continue
                 <ChevronRight className="h-4 w-4" />
               </Button>
@@ -132,32 +120,36 @@ export const EditorNavbar = ({
               align="end"
               className="bg-popover p-3 md:p-6 space-y-2">
               <DropdownMenuItem
-                onClick={onPreview}
-                disabled={formStatus === "loading"}
+                onClick={props.onPreview}
+                disabled={props.formStatus === "loading"}
                 className="cursor-pointer md:hidden bg-secondary">
                 {" "}
                 <Eye className="w-4 h-4 mr-1" />
                 Preview
               </DropdownMenuItem>
-              {blogStatus === "DRAFT" && (
+              {props.blogStatus === "DRAFT" && (
                 <>
                   {" "}
                   <DropdownMenuItem
                     className="cursor-pointer"
-                    disabled={!hasEntries || formStatus == "loading"}
-                    onClick={onSync}
+                    disabled={
+                      !props.hasEntries || props.formStatus == "loading"
+                    }
+                    onClick={props.onSync}
                     title="sync draft with database">
                     <RefreshCcw className="w-4 h-4 mr-1" />
                     Sync Draft
                   </DropdownMenuItem>
                 </>
               )}
-              {blogStatus !== "DRAFT" && (
+              {props.blogStatus !== "DRAFT" && (
                 <DropdownMenuItem asChild>
                   <Button
                     className="w-full justify-start cursor-pointer hover:bg-blue-500 hover:text-white"
-                    disabled={!hasEntries || formStatus === "loading"}
-                    onClick={onUpdate}
+                    disabled={
+                      !props.hasEntries || props.formStatus === "loading"
+                    }
+                    onClick={props.onUpdate}
                     variant="outline"
                     type="submit"
                     size="sm"
@@ -167,15 +159,15 @@ export const EditorNavbar = ({
                   </Button>
                 </DropdownMenuItem>
               )}
-              {blogStatus !== "PUBLISHED" && (
+              {props.blogStatus !== "PUBLISHED" && (
                 <DropdownMenuItem asChild>
                   <Button
                     type="submit"
                     onClick={(e) => {
                       e.preventDefault();
-                      onPublish();
+                      props.onPublish();
                     }}
-                    disabled={disabled || formStatus === "loading"}
+                    disabled={props.disabled || props.formStatus === "loading"}
                     title="publish blog"
                     size="sm"
                     className="w-full justify-start bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white cursor-pointer group hover:text-white">
@@ -191,7 +183,7 @@ export const EditorNavbar = ({
                   item="blog post"
                   text={`${action} Post`}
                   action={action}
-                  onDelete={onDelete}
+                  onDelete={props.onDelete}
                 />
               </DropdownMenuItem>
             </DropdownMenuContent>

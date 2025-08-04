@@ -201,6 +201,7 @@ export async function deleteOrArchiveBlog(uuid: string) {
     revalidateTag("trending");
     revalidateTag("blogs");
     revalidateTag("user-blogs");
+    revalidatePath("/me/posts");
     if (blog.path) {
       revalidatePath(`/read/${blog.path}`);
     }

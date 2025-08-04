@@ -186,7 +186,7 @@ export default function Create({
     }
   }
 
-  // update blog data in the database
+  /* update blog data in the database */
   async function updateBlog() {
     setFormStatus("loading");
     const toastId = toast.loading("Processing request");
@@ -208,7 +208,9 @@ export default function Create({
       setFormStatus("error");
     }
   }
-  // function to delete blog
+  /*
+   *** function to delete blog
+   */
   async function handleBlogDeletion() {
     try {
       setFormStatus("loading");
