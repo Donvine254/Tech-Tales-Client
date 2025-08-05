@@ -13,6 +13,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 import { Analytics } from "@vercel/analytics/react";
 import ReactQueryProvider from "@/providers/query-provider";
+import CookieConsentAlert from "@/components/custom/cookie-consent";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -50,6 +51,7 @@ export default function RootLayout({
                     <GoogleOneTapLogin />
                     <Navbar />
                     {children}
+                    <CookieConsentAlert />
                   </GoogleOAuthProvider>
                 </SessionProvider>
               </ReactQueryProvider>

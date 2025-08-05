@@ -4,21 +4,34 @@ import { setCookie, getCookie } from "@/lib/cookie";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { X } from "lucide-react";
+import { useSession } from "@/providers/session";
 
-const CookieAlert = () => {
+export default function CookieConsentAlert() {
   const [show, setShow] = useState(true);
-  //TODO: Debug this component
+  const { session, loading } = useSession();
+  const [cookieStatus, setCookieStatus] = useState<string>("");
+
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      const cookie = getCookie("__accept_cookies");
-      if (!cookie || cookie === "") {
-        setShow(true);
-      } else {
-        setShow(false);
-      }
-    }, 30000); //run after 30s
-    return () => clearTimeout(timeout);
+    const checkCookieStatus = () => {
+      const cookiesAccepted = getCookie("__accept_cookies");
+      setCookieStatus(cookiesAccepted);
+    };
+    checkCookieStatus();
   }, []);
+
+  useEffect(() => {
+    if (loading || cookieStatus === "") return;
+
+    console.log("Cookie status:", cookieStatus);
+    if (cookieStatus === "true") {
+      setShow(false);
+      return;
+    }
+    const timer = setTimeout(() => {
+      setShow(true);
+    }, 50000);
+    return () => clearTimeout(timer);
+  }, [cookieStatus, loading]);
 
   const toggleClass = () => {
     setShow(false);
@@ -32,9 +45,7 @@ const CookieAlert = () => {
     setCookie("__accept_cookies", true, 60);
     toggleClass();
   };
-  if (!show) {
-    return null;
-  }
+  if (loading || session || !show) return null;
   return (
     <div
       id="cookie-alert"
@@ -76,6 +87,4 @@ const CookieAlert = () => {
       </div>
     </div>
   );
-};
-
-export default CookieAlert;
+}
