@@ -152,6 +152,12 @@
   body {
     @apply bg-background text-foreground scroll-smooth;
   }
+  a {
+    overflow-wrap: break-word;
+  }
+  iframe{
+    max-width:100%
+  }
 }
 /* Keyframes for blog cards */
 @layer utilities {
