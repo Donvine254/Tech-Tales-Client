@@ -305,23 +305,18 @@
 }
 
 blockquote {
-  background: #f9f9f9;
-  border-left: 10px solid #ccc;
-  color: #000;
-  margin: 1.5em 10px;
-  padding: 0.5em 10px;
-  quotes: "\201C""\201D""\2018""\2019";
+  @apply text-muted-foreground border-l-4 border-l-muted-foreground   py-0.5 px-4 space-y-1;
+  quotes: none;
 }
-blockquote:before {
-  color: #ccc;
-  content: open-quote;
-  font-size: 4em;
-  line-height: 0.1em;
-  vertical-align: -0.4em;
+blockquote cite,
+blockquote span {
+  @apply italic font-medium;
 }
-blockquote p {
-  display: inline;
+blockquote::before,
+blockquote::after {
+  content: none;
 }
+
 #blog-body table {
   margin-top: 2px;
   border-radius: 5px !important;
@@ -423,7 +418,12 @@ blockquote p {
 .tox .tox-edit-area::before {
   border: 0 !important;
 }
-
+.tox-edit-area::before {
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+}
 .tox-promotion,
 .tox-statusbar__branding {
   display: none !important;
@@ -434,44 +434,7 @@ blockquote p {
 .modal {
   margin: auto auto;
 }
-/* styling to tinymce editor table of contents plugin */
-.mce-toc {
-  padding: 0.5rem;
-}
 
-.toc-wrapper {
-  @apply px-1 py-2  flex flex-col gap-0.5 rounded-lg shadow w-full bg-blue-100/20 dark:bg-blue-900/20 border border-blue-500;
-}
-.toc-item {
-  @apply text-xs sm:text-base font-serif font-normal;
-}
-.toc-item a {
-  @apply text-foreground hover:underline transition-colors hover:text-blue-500;
-}
-.toc-item,
-.toc-item a {
-  text-decoration: none !important;
-}
-.toc-h1 {
-  margin-left: 0;
-  font-weight: bold;
-}
-.toc-h2 {
-  margin-left: 1.5rem;
-}
-.toc-h3 {
-  margin-left: 3rem;
-  font-style: italic;
-}
-.toc-h4 {
-  margin-left: 4.5rem;
-}
-.toc-h5 {
-  margin-left: 6rem;
-}
-.toc-h6 {
-  margin-left: 7.5rem;
-}
 /* style for animated like button */
 .like-button-container svg {
   cursor: pointer;

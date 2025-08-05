@@ -1,0 +1,82 @@
+@import url("https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
+body {
+  font-family: "Spectral";
+  height: "auto";
+  overflow-x: "hidden";
+}
+.mce-toc {
+  padding: 1rem;
+}
+.mce-toc .toc-title {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+.toc-wrapper {
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.toc-h1 {
+  margin-left: 0;
+  font-weight: bold;
+}
+.toc-h2 {
+  margin-left: 1.5rem;
+}
+.toc-h3 {
+  margin-left: 3rem;
+  font-style: italic;
+}
+.toc-h4 {
+  margin-left: 4.5rem;
+}
+.toc-h5 {
+  margin-left: 6rem;
+}
+.toc-h6 {
+  margin-left: 7.5rem;
+}
+img,
+iframe {
+  max-width: 100% !important;
+  height: auto !important;
+}
+/* styling to tinymce editor table of contents plugin */
+.mce-toc {
+  padding: 0.5rem;
+}
+.toc-wrapper {
+  @apply px-1 py-2  flex flex-col gap-0.5 rounded-lg shadow w-full bg-blue-100/20 dark:bg-blue-900/20 border border-blue-500;
+}
+.toc-item {
+  @apply text-xs sm:text-base font-serif font-normal;
+}
+.toc-item a {
+  @apply text-foreground hover:underline transition-colors hover:text-blue-500;
+}
+.toc-item,
+.toc-item a {
+  text-decoration: none !important;
+}
+.toc-h1 {
+  margin-left: 0;
+  font-weight: bold;
+}
+.toc-h2 {
+  margin-left: 1.5rem;
+}
+.toc-h3 {
+  margin-left: 3rem;
+  font-style: italic;
+}
+.toc-h4 {
+  margin-left: 4.5rem;
+}
+.toc-h5 {
+  margin-left: 6rem;
+}
+.toc-h6 {
+  margin-left: 7.5rem;
+}

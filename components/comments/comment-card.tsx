@@ -120,7 +120,7 @@ export function CommentCard({ comment, onDelete, onUpdate }: CommentCardProps) {
                 <Info className="size-4 " />
               </div>
               <div className="flex-1 px-1 py-1.5 leading-0 font-medium items-center gap-1 text-destructive-foreground">
-                <span className="text-xs sm:text-sm">
+                <span className="text-xs italic sm:text-sm">
                   {comment.status === CommentStatus.FLAGGED
                     ? "This comment has been flagged due to inappropriate content."
                     : "This comment has been hidden due to inappropriate content."}{" "}
@@ -128,7 +128,7 @@ export function CommentCard({ comment, onDelete, onUpdate }: CommentCardProps) {
                   <Link
                     href="/community"
                     prefetch={false}
-                    className="underline ">
+                    className="underline hover:text-blue-500 ">
                     {""}Learn more
                   </Link>
                 </span>
