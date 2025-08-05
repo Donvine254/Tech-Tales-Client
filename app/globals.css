@@ -236,6 +236,10 @@
   font-kerning: auto;
   font-weight: 600;
 }
+#blog-body {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
 #blog-body p {
   font-size: var(--fs-p);
   line-height: var(--lh-p);
