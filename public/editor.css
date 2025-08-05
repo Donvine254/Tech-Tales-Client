@@ -38,10 +38,16 @@ body {
 .toc-h6 {
   margin-left: 7.5rem;
 }
-img,
-iframe {
+img {
   max-width: 100% !important;
   height: auto !important;
+}
+iframe {
+  max-width: 100% !important;
+}
+.iframe-container {
+  max-width: 100% !important;
+  overflow-x: scroll;
 }
 /* styling to tinymce editor table of contents plugin */
 .mce-toc {

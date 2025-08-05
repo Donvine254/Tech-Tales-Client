@@ -155,8 +155,9 @@
   a {
     overflow-wrap: break-word;
   }
-  iframe{
-    max-width:100%
+  iframe {
+    max-width: 100%;
+    overflow-y: auto;
   }
 }
 /* Keyframes for blog cards */

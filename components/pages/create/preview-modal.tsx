@@ -56,8 +56,10 @@ export const PreviewDialog = ({
     return (
       <div
         className={cn(
-          "w-full h-full overflow-y-auto overflow-x-hidden px-2",
-          activeTab === "mobile" ? "pt-14" : "pt-4"
+          "w-full h-full  px-2",
+          activeTab === "mobile"
+            ? "pt-14 overflow-y-auto overflow-x-hidden"
+            : "pt-4"
         )}>
         {/* Blog Banner + Title */}
         <div className="space-y-2 sm:mt-0">
