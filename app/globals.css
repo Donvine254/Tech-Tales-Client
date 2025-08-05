@@ -229,16 +229,16 @@
   font-kerning: auto;
   font-weight: 600;
 }
-.blog-body p {
+#blog-body p {
   font-size: var(--fs-p);
   line-height: var(--lh-p);
   font-family: var(--font-serif);
   font-weight: 400;
   font-kerning: auto;
 }
-.blog-body ol,
-.blog-body ul,
-.blog-body table {
+#blog-body ol,
+#blog-body ul,
+#blog-body table {
   font-family: var(--font-serif);
   font-weight: 400;
   font-kerning: auto;
@@ -252,7 +252,7 @@
   text-decoration-line: none !important;
   font-size: 14px !important;
 }
-.blog-body a {
+#blog-body a {
   color: #06b6d4;
   text-decoration-line: underline;
 }
@@ -342,13 +342,13 @@ blockquote::after {
   top: 0;
   left: 0;
   width: 100%;
+  max-width: 100%;
   height: 100%;
   border: none;
   border-radius: 8px;
   display: block;
 }
 /* style for blog tag */
-
 .highlight-link-0 {
   @apply md:hover:bg-purple-50 md:hover:border-purple-400;
 }
@@ -407,7 +407,6 @@ blockquote::after {
   transition-delay: 1000ms;
 }
 
-/* styling for tinymce editor */
 /* hide toolbar in small devices */
 @media screen and (max-width: 680px) {
   .tox-menubar {

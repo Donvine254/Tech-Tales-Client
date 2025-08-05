@@ -60,23 +60,3 @@ iframe {
 .toc-item a {
   text-decoration: none !important;
 }
-.toc-h1 {
-  margin-left: 0;
-  font-weight: bold;
-}
-.toc-h2 {
-  margin-left: 1.5rem;
-}
-.toc-h3 {
-  margin-left: 3rem;
-  font-style: italic;
-}
-.toc-h4 {
-  margin-left: 4.5rem;
-}
-.toc-h5 {
-  margin-left: 6rem;
-}
-.toc-h6 {
-  margin-left: 7.5rem;
-}

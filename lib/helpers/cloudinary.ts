@@ -30,7 +30,40 @@ export async function uploadToCloudinary(image: File, folder: string) {
     return { success: false, message: "Something went wrong" };
   }
 }
+// TODO: Create function to upload audio filed to cloudinary under folder name tech-tales/blog-audio
+export async function uploadAudioToCloudinary(audio: File) {
+  const formData = new FormData();
+  formData.append("file", audio);
+  formData.append("cloud_name", "dipkbpinx");
+  formData.append("upload_preset", "ml_default"); // make sure preset allows audio
+  // formData.append("folder", "tech-tales/blog-audio");
 
+  try {
+    const response = await fetch(
+      "https://api.cloudinary.com/v1_1/dipkbpinx/video/upload",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+
+    const res = await response.json();
+
+    return {
+      success: true,
+      message: "Audio uploaded successfully",
+      data: {
+        secure_url: res.secure_url,
+        public_id: res.public_id,
+      },
+    };
+  } catch (error) {
+    console.error("Error uploading audio:", error);
+    return { success: false, message: "Something went wrong" };
+  }
+}
+
+/*Function to delete files from cloudinary, helps save storage space for unnecessary assets*/
 export async function deleteCloudinaryImage(publicId: string) {
   try {
     await fetch(`${baseUrl}/api/cloudinary`, {
