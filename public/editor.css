@@ -47,7 +47,7 @@ iframe {
 }
 .iframe-container {
   max-width: 100% !important;
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 /* styling to tinymce editor table of contents plugin */
 .mce-toc {
