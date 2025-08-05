@@ -117,6 +117,7 @@ export const EditorSection: React.FC<EditorSectionProps> = ({
             menubar: true,
             min_height: 500,
             resize: true,
+            fullscreen_native: true,
             autocomplete: true,
             toolbar_sticky: true,
             toolbar_sticky_offset: 75,
@@ -158,9 +159,10 @@ export const EditorSection: React.FC<EditorSectionProps> = ({
               "code",
               "codesample",
               "tableofcontents",
+              "fullscreen",
             ],
             toolbar:
-              "undo redo| blocks | bold italic forecolor underline| align numlist bullist indent| link image table media pageembed| backcolor  emoticons advcodesample blockquote| code ai importword removeformat",
+              "undo redo| blocks | bold italic forecolor underline| align numlist bullist indent| link image table media pageembed| backcolor  emoticons advcodesample blockquote| code ai importword removeformat fullscreen",
             menu: {
               tools: {
                 title: "Tools",

@@ -2,6 +2,7 @@ import {
   ArrowLeft,
   ChevronRight,
   Eye,
+  Focus,
   RefreshCcw,
   Sparkles,
 } from "lucide-react";
@@ -47,6 +48,11 @@ export const EditorNavbar = ({ ...props }: EditorNavbarProps) => {
       hour: "2-digit",
       minute: "2-digit",
     })}`;
+  };
+  const handleFocus = () => {
+    // eslint-ignore-next-line
+    //@ts-expect-error tinymce not found
+    tinymce?.activeEditor?.execCommand("mceFullScreen");
   };
 
   const action = props.blogStatus === "PUBLISHED" ? "archive" : "delete";
@@ -126,6 +132,16 @@ export const EditorNavbar = ({ ...props }: EditorNavbarProps) => {
                 {" "}
                 <Eye className="w-4 h-4 mr-1" />
                 Preview
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={handleFocus}
+                className="cursor-pointer bg-secondary">
+                {" "}
+                <Focus className="w-4 h-4 mr-1" />
+                Focus Mode
+                <span className="sr-only">
+                  {navigator.platform.includes("Mac") ? "⌘⇧F" : "Ctrl+Shift+F"}
+                </span>
               </DropdownMenuItem>
               {props.blogStatus === "DRAFT" && (
                 <>
