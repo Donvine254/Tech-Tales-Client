@@ -57,17 +57,19 @@ export default function Slug({ blog }: Props) {
   return (
     <div className="w-full mx-auto m-2 min-h-[75%] px-4 md:px-8 xsm:px-4 max-w-4xl md:mt-4">
       <Script src="https://unpkg.com/ink-html/dist/index.js"></Script>
-      <BlogImage
-        src={blog.image.secure_url || "/placeholder.svg"}
-        title={blog.title || "Untitled blog"}
-        alt={blog.title || "Untitled blog"}
-        image={blog.image as CoverImage}
-        height={720}
-        width={1280}
-        quality={100}
-        className="object-fill italic h-auto max-h-[450px]  rounded-md w-full  mt-2 border-2 border-blue-500"
-        priority
-      />
+      <div className="p-[3px]  bg-gradient-to-br from-blue-500 via-purple-500 to-yellow-500  mt-2 rounded-md">
+        <BlogImage
+          src={blog.image.secure_url || "/placeholder.svg"}
+          title={blog.title || "Untitled blog"}
+          alt={blog.title || "Untitled blog"}
+          image={blog.image as CoverImage}
+          height={720}
+          width={1280}
+          quality={100}
+          className="object-fill italic h-auto max-h-[450px] rounded-md w-full"
+          priority
+        />
+      </div>
       {/* Author Information - Moved to top */}
       <TooltipProvider>
         <div className="flex items-center space-x-3 mb-4 mt-4">
