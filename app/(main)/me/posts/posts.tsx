@@ -71,6 +71,8 @@ export default function Posts({ data }: { data: BlogsType }) {
           return (
             new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
           );
+        case "popular":
+          return b.views - a.views;
         default:
           return 0;
       }
@@ -380,6 +382,7 @@ export default function Posts({ data }: { data: BlogsType }) {
               <SelectItem value="newest">Newest First</SelectItem>
               <SelectItem value="oldest">Oldest First</SelectItem>
               <SelectItem value="lastEdited">Last Edited</SelectItem>
+              <SelectItem value="popular">Most Popular</SelectItem>
             </SelectContent>
           </Select>
         </div>

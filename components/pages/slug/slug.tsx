@@ -81,8 +81,8 @@ export default function Slug({ blog }: Props) {
               </span>
               <Badge
                 variant="secondary"
-                className="text-xs p-0.5 text-blue-500 font-medium bg-blue-900/20">
-                Author
+                className="text-xs p-0.5 text-yellow-500 font-medium bg-yellow-100 dark:bg-yellow-900/20 border-yellow-500">
+                ✨ Author
               </Badge>
             </div>
             <div className="flex items-center space-x-3 text-xs sm:text-sm text-muted-foreground">

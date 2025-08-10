@@ -17,9 +17,7 @@ import {
   ChevronDown,
   ChevronUp,
   CircleQuestionMark,
-  Crown,
   Edit2,
-  Feather,
   Flag,
   FlagOffIcon,
   Info,
@@ -313,16 +311,14 @@ export const CommentItem: React.FC<Props> = ({
                 {blogAuthorId === comment.authorId ? (
                   <Badge
                     title="author"
-                    className="bg-blue-100 font-semibold truncate text-blue-500 text-xs">
-                    <Feather className="h-2 w-2" />
-                    Author
+                    className="text-xs p-0.5 text-yellow-500 font-medium bg-yellow-200 dark:bg-yellow-900/20 ">
+                    ✨Author
                   </Badge>
                 ) : comment.author.role === "admin" ? (
                   <Badge
-                    className="bg-purple-100 font-semibold text-purple-500 text-xs"
+                    className="text-xs p-0.5 text-purple-500 font-medium bg-purple-900/20"
                     title="admin">
-                    <Crown className="h-2 w-2 truncate" />
-                    Admin
+                    ★Admin★
                   </Badge>
                 ) : null}
               </div>

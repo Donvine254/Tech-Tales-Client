@@ -9,11 +9,18 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { CommentData, Session } from "@/types";
 import {
   ArchiveIcon,
-  ArrowUpDown,
   CircleUserRound,
+  ListFilterIcon,
   LockIcon,
 } from "lucide-react";
 import Link from "next/link";
@@ -42,7 +49,9 @@ export default function Comments({
   showComments,
   blogId,
 }: Props) {
-  const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
+  const [sortOrder, setSortOrder] = useState<"relevant" | "newest" | "oldest">(
+    "relevant"
+  );
   const [isMounted, setIsMounted] = useState(false);
   // state for comment body
   const [commentBody, setCommentBody] = useState<string>("");
@@ -53,29 +62,43 @@ export default function Comments({
 
   const pathname = usePathname();
   const router = useRouter();
-  const toggleSortOrder = () => {
-    const newOrder = sortOrder === "newest" ? "oldest" : "newest";
-    const sorted = [...comments].sort((a, b) =>
-      newOrder === "newest"
-        ? new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        : new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-    );
-    setSortOrder(newOrder);
-    setComments(sorted);
-  };
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
   // redirect user back to the page after login
-
   function handleLogin() {
     setCookie("post_login_redirect", pathname, 1);
     router.push("/login");
   }
   if (!isMounted) {
     return false;
+  }
+  /* Function to sort comments*/
+
+  function sortComments(order: "relevant" | "newest" | "oldest") {
+    setComments((prev) => {
+      return [...prev].sort((a, b) => {
+        switch (order) {
+          case "relevant":
+            return (
+              (b.responses?.length ?? 0) - (a.responses?.length ?? 0) ||
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            );
+          case "newest":
+            return (
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            );
+          case "oldest":
+            return (
+              new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+            );
+          default:
+            return 0;
+        }
+      });
+    });
   }
 
   // function to handleComment Submission
@@ -261,15 +284,24 @@ export default function Comments({
       {/* Add a sort button here */}
       <div className="space-y-4 border-b flex items-center justify-end py-2 my-4 border-border">
         {comments && comments.length > 0 && (
-          <Button
-            onClick={toggleSortOrder}
-            variant="ghost"
-            className="hover:bg-blue-500 hover:text-white">
-            <ArrowUpDown className="h-4 w-4" />
-            <span>
-              {sortOrder === "newest" ? "Newest First" : "Oldest First"}
-            </span>
-          </Button>
+          <Select
+            value={sortOrder}
+            onValueChange={(val) => {
+              setSortOrder(val as "relevant" | "newest" | "oldest");
+              sortComments(val as "relevant" | "newest" | "oldest");
+            }}>
+            <SelectTrigger className="w-min cursor-pointer sm:w-48">
+              <ListFilterIcon className="h-4 w-4" />
+              <span className="hidden sm:inline">
+                <SelectValue placeholder="Sort by" />
+              </span>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="relevant">Most Relevant</SelectItem>
+              <SelectItem value="newest">Newest First</SelectItem>
+              <SelectItem value="oldest">Oldest First</SelectItem>
+            </SelectContent>
+          </Select>
         )}
       </div>
       <div className="space-y-2 divide-y-1 divide-border">
