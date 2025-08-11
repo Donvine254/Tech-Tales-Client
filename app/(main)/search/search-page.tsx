@@ -6,63 +6,42 @@ import { BlogWithComments } from "@/types";
 import { SearchX, ChevronLeft, ChevronRight } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import Fuse from "fuse.js";
+import { useQuery } from "@tanstack/react-query";
+import Loading from "./loading";
 const BLOGS_PER_PAGE = 6;
-// TODO: FIx fuzzy search
-export default function SearchPage({
-  blogs,
-}: {
-  blogs: BlogWithComments[] | [];
-}) {
+// TODO: Add pagination with useQuery
+async function fetchBlogs(query: string) {
+  const res = await fetch(
+    `/api/search?q=${encodeURIComponent(query.toLowerCase())}`
+  );
+  if (!res.ok) throw new Error("Failed to fetch blogs");
+  const data = (await res.json()) as BlogWithComments[];
+  return data;
+}
+
+export default function SearchPage() {
   const searchParams = useSearchParams();
   const query = searchParams.get("q") || "";
   const [currentPage, setCurrentPage] = useState(1);
-  const fuse = useMemo(() => {
-    return new Fuse(blogs, {
-      keys: [
-        { name: "title", weight: 0.7 },
-        {
-          name: "tags",
-          weight: 0.3,
-          getFn: (blog) =>
-            blog.tags ? blog.tags.split(",").map((tag) => tag.trim()) : [],
-        },
-      ],
-      threshold: 0.3, // smaller = stricter match
-      includeScore: true,
-      ignoreLocation: true,
-      shouldSort: true,
-      findAllMatches: true,
-      useExtendedSearch: true,
-    });
-  }, [blogs]);
 
-  // Fuzzy filtered results
-  const normalizedQuery = query.trim().toLowerCase();
-  const filteredBlogs = useMemo(() => {
-    if (!query) return [];
-    if (query === "all") return blogs;
-    const exactMatchQuery = `="${normalizedQuery}"`;
+  const { data = [], isLoading } = useQuery({
+    queryKey: ["searchBlogs", query],
+    queryFn: () => fetchBlogs(query),
+    enabled: !!query, // don't run if query is empty
+    staleTime: 1000 * 60, // 1 minute cache
+  });
 
-    const results = fuse.search(normalizedQuery); // fuzzy
-    const exactMatches = fuse.search(exactMatchQuery); // exact
-
-    // Prioritize exact matches if they exist
-    return (exactMatches.length > 0 ? exactMatches : results).map(
-      (r) => r.item
-    );
-  }, [query, fuse, blogs, normalizedQuery]);
-  //   add pagination
-  const totalPages = Math.ceil(filteredBlogs.length / BLOGS_PER_PAGE);
+  const totalPages = Math.ceil(data?.length / BLOGS_PER_PAGE);
   const paginatedBlogs = useMemo(() => {
     const start = (currentPage - 1) * BLOGS_PER_PAGE;
-    return filteredBlogs.slice(start, start + BLOGS_PER_PAGE);
-  }, [filteredBlogs, currentPage]);
+    return data?.slice(start, start + BLOGS_PER_PAGE);
+  }, [data, currentPage]);
 
-  const handlePrev = () =>
-    setCurrentPage((prev: number) => Math.max(prev - 1, 1));
-  const handleNext = () =>
-    setCurrentPage((prev: number) => Math.min(prev + 1, totalPages));
+  const handlePrev = () => setCurrentPage((p) => Math.max(p - 1, 1));
+  const handleNext = () => setCurrentPage((p) => Math.min(p + 1, totalPages));
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:p-8">
       {/* Header section */}
@@ -74,7 +53,7 @@ export default function SearchPage({
       </div>
       <CategoryFilters className="my-8" query={query} />
       {/* search results */}
-      {paginatedBlogs.length > 0 ? (
+      {paginatedBlogs && paginatedBlogs.length > 0 ? (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {paginatedBlogs.map((post, index) => (

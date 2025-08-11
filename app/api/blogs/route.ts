@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/prisma/prisma";
+import { blogSelect } from "@/prisma/select";
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_LIMIT = 18;
@@ -32,10 +33,7 @@ export async function GET(req: Request) {
   try {
     const blogs = await prisma.blog.findMany({
       where: { status: "PUBLISHED" },
-      include: {
-        author: { select: { username: true, picture: true } },
-        _count: { select: { comments: true } },
-      },
+      select: blogSelect,
       ...(orderByField && {
         orderBy: { [orderByField]: "desc" },
       }),
