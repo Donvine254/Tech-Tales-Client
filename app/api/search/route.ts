@@ -42,10 +42,9 @@ export async function GET(req: Request) {
       distance: 100,
     });
     const results = fuse.search(query, { limit: 50 }).map((r) => r.item);
-
     return NextResponse.json(results);
   } catch (error) {
     console.log(error);
-    return [];
+    return NextResponse.json([], { status: 500 });
   }
 }
