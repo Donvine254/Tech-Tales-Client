@@ -32,8 +32,6 @@ export async function createNewBlog() {
   } catch (error) {
     console.error(error);
     return { success: true, message: "something went wrong" };
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
@@ -148,8 +146,6 @@ export async function publishBlog(
       success: false,
       message: e.message || "Something went wrong",
     };
-  } finally {
-    await prisma.$disconnect();
   }
 }
 /* function to delete blog posts. Published blogs can only be archived */
@@ -215,8 +211,6 @@ export async function deleteOrArchiveBlog(uuid: string) {
       success: false,
       message: "Failed to delete or archive blog",
     };
-  } finally {
-    await prisma.$disconnect();
   }
 }
 /*This function gets user blogs based on their handles, used in the explore page. Should be refactored for single responsbility*/
@@ -325,8 +319,6 @@ export async function updateBlogStatus(status: BlogStatus, blogId: number) {
       success: false,
       message: "Error updating blog status",
     };
-  } finally {
-    await prisma.$disconnect();
   }
 }
 /*This function only updates locks or unlocks the blog conversations to either allow or disallow commenting, existing comments will remain visible*/

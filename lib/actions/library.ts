@@ -47,7 +47,5 @@ export async function getBlogsByIds(blogIds: number[]) {
   } catch (error) {
     console.error("Failed to fetch bookmarked blogs:", error);
     return [];
-  } finally {
-    await prisma.$disconnect();
   }
 }

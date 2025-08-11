@@ -36,8 +36,6 @@ export async function generateStaticParams() {
   } catch (error) {
     console.error("Error fetching blog authors:", error);
     return [];
-  } finally {
-    await prisma.$disconnect();
   }
 }
 

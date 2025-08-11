@@ -39,8 +39,6 @@ export async function createResponse(
   } catch (error) {
     console.error("Failed to create response:", error);
     return { success: false, message: "Failed to create response." };
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
@@ -84,8 +82,6 @@ export async function updateResponse({
   } catch (error) {
     console.error("Error updating response:", error);
     return { success: false, message: "Failed to update response." };
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
@@ -102,7 +98,5 @@ export async function deleteResponse(id: number) {
   } catch (error) {
     console.error("Failed to delete response:", error);
     return { success: false, message: "Failed to delete response." };
-  } finally {
-    await prisma.$disconnect();
   }
 }

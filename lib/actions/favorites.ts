@@ -12,8 +12,6 @@ export async function getFavoriteBlogs(userId: number) {
   } catch (error) {
     console.log(error);
     return [];
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
@@ -59,7 +57,5 @@ export async function handleBlogLiking(
       message: "An error occurred while updating likes",
       error: error.message,
     };
-  } finally {
-    await prisma.$disconnect();
   }
 }

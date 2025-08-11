@@ -47,8 +47,6 @@ export async function createComment(
   } catch (error) {
     console.error("Failed to create comment:", error);
     return { success: false, message: "Failed to create comment." };
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
@@ -98,8 +96,6 @@ export async function updateComment({
   } catch (error) {
     console.error("Error updating comment:", error);
     return { success: false, message: "Failed to update comment." };
-  } finally {
-    await prisma.$disconnect();
   }
 }
 /*This function allows users to delete comments. Can be used by both users and admins*/
@@ -121,8 +117,6 @@ export async function deleteComment(id: number) {
   } catch (error) {
     console.error("Failed to delete comment:", error);
     return { success: false, message: "Failed to delete comment." };
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
@@ -153,8 +147,6 @@ export async function getUserComments(userId: number) {
   } catch (error) {
     console.error("Error fetching user comments:", error);
     return [];
-  } finally {
-    await prisma.$disconnect();
   }
 }
 /*This function only updates the comment status and can be used to archive or flag a comment*/
@@ -171,7 +163,5 @@ export async function updateCommentStatus(id: number, status: CommentStatus) {
   } catch (error) {
     console.error("Error updating comment status:", error);
     return { success: false, message: "Failed to update comment status" };
-  } finally {
-    await prisma.$disconnect();
   }
 }

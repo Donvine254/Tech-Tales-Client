@@ -47,7 +47,5 @@ export async function GET(req: Request) {
   } catch (error) {
     console.log(error);
     return [];
-  } finally {
-    await prisma.$disconnect();
   }
 }

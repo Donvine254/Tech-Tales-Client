@@ -265,8 +265,6 @@ export async function registerUser(data: RegisterPayload) {
       success: false,
       message: (error as Error).message || "An error occurred",
     };
-  } finally {
-    await prisma.$disconnect();
   }
 }
 /*Function to reset verify user email after registration and send welcome email */
@@ -321,8 +319,6 @@ export async function VerifyEmail(token: string): Promise<{
       error: "error-server",
       message: e.message || "Something unexpected happened",
     };
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
@@ -388,8 +384,6 @@ export async function resendVerificationEmail(email: string, ip: string) {
       error: "error-server",
       message: e.message || "Something unexpected happened",
     };
-  } finally {
-    await prisma.$disconnect();
   }
 }
 /* function to change user password */
@@ -500,8 +494,6 @@ export async function handlePasswordResetRequest(email: string) {
       success: false,
       message: "Failed to process password reset request",
     };
-  } finally {
-    await prisma.$disconnect();
   }
 }
 /*
@@ -589,7 +581,5 @@ export async function restoreAccount(token: string): Promise<{
       error: "error-server",
       message: e.message || "Something unexpected happened",
     };
-  } finally {
-    await prisma.$disconnect();
   }
 }

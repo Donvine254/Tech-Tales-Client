@@ -173,8 +173,6 @@ export async function updateUserDetails(data: Partial<UpdateData>) {
   } catch (error) {
     console.error(error);
     return { success: false, message: "Could not update user." };
-  } finally {
-    await prisma.$disconnect();
   }
 }
 /* function to deactivate user account and make it possible for users to restore their accounts within 30 days */
@@ -234,8 +232,6 @@ export async function deactivateUserAccount(
       success: false,
       message: e.message || "Something unexpected happened",
     };
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
@@ -300,7 +296,5 @@ export async function deleteUserAccount(
       success: false,
       message: e.message || "Something unexpected happened",
     };
-  } finally {
-    await prisma.$disconnect();
   }
 }

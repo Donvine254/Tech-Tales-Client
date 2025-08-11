@@ -26,8 +26,6 @@ export async function generateStaticParams() {
   } catch (error) {
     console.error("Error fetching blog data:", error);
     return [];
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
@@ -86,8 +84,6 @@ async function getData(path: string) {
   } catch (error) {
     console.error(error);
     return null;
-  } finally {
-    await prisma.$disconnect();
   }
 }
 // Function to generate MetaData
