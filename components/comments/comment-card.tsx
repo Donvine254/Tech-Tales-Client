@@ -101,7 +101,7 @@ export function CommentCard({ comment, onDelete, onUpdate }: CommentCardProps) {
         </div>
         <div className="space-y-2">
           <div className="border-l-4 p-2 border-primary/50 bg-muted/80">
-            <CommentBody body={comment.body} status={comment.status} />
+            <CommentBody body={comment.body} />
           </div>
           {(comment.status === CommentStatus.FLAGGED ||
             comment.status === CommentStatus.HIDDEN) && (
