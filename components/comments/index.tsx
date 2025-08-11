@@ -62,7 +62,7 @@ export default function Comments({
 
   const pathname = usePathname();
   const router = useRouter();
-
+  // TODO: do not show the whole comments
   useEffect(() => {
     setIsMounted(true);
   }, []);

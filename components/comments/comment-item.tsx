@@ -23,8 +23,8 @@ import {
   Info,
   MoreHorizontal,
   Reply,
+  ShieldCheckIcon,
   Trash2,
-  TriangleAlert,
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { FlagFilled } from "@/assets/icons";
@@ -318,7 +318,7 @@ export const CommentItem: React.FC<Props> = ({
                   <Badge
                     className="text-xs p-0.5 text-purple-500 font-medium bg-purple-900/20"
                     title="admin">
-                    ★Admin★
+                    ★Admin
                   </Badge>
                 ) : null}
               </div>
@@ -467,25 +467,16 @@ export const CommentItem: React.FC<Props> = ({
 
           {/* Comment Body */}
           {comment.status === "HIDDEN" && !showHidden ? (
-            <div className="flex items-start px-3 py-2 rounded-r-xl rounded-bl-xl border shadow bg-card text-xs md:text-sm mb-1 max-w-max font-serif mt-1 animate-scale-in duration-700 transition-all">
-              <Info className="w-4 h-4 text-muted-foreground mt-0.5 mr-2 flex-shrink-0" />
+            <div className="flex items-start px-3 py-2 rounded-r-xl rounded-bl-xl border shadow bg-card text-xs mb-1 max-w-max font-serif mt-1 animate-scale-in duration-700 transition-all">
+              <Info className="size-3 text-muted-foreground mt-0.5 mr-2 flex-shrink-0" />
               <div>
-                <p className="text-muted-foreground">
+                <p className="text-muted-foreground text-xs">
                   This comment has been hidden by a moderator.
                 </p>
-                <button
-                  className="text-sm cursor-pointer text-blue-500 font-medium hover:underline hover:underline-offset-2"
-                  onClick={() => setShowHidden(true)}>
-                  Show Comment
-                </button>
               </div>
             </div>
           ) : (
-            <CommentBody
-              body={comment.body}
-              status={comment.status}
-              hideComment={() => setShowHidden(false)}
-            />
+            <CommentBody body={comment.body} />
           )}
           {/* Action Buttons Row */}
           <div className="flex items-center mb-4">
@@ -554,12 +545,13 @@ export const CommentItem: React.FC<Props> = ({
                 <FlagFilled className="size-4 fill-red-500" /> Flagged
               </Badge>
             )}
-            {comment.status === "HIDDEN" && (
-              <Badge className="text-red-500 text-xs bg-background">
-                <TriangleAlert className="size-4 text-red-500" />{" "}
-                <span className="hidden sm:block">Marked as offensive</span>
-                <span className="sm:hidden">Offensive</span>
-              </Badge>
+            {comment.status === "HIDDEN" && !showHidden && (
+              <button
+                className="text-xs inline-flex gap-2 items-center bg-background hover:text-blue-500 text-muted-foreground cursor-pointer"
+                title="show hidden comment"
+                onClick={() => setShowHidden(true)}>
+                <ShieldCheckIcon className="size-3" /> Unhide
+              </button>
             )}
           </div>
         </div>

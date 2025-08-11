@@ -1,16 +1,8 @@
 import Image from "next/image";
 import React from "react";
 import parse from "html-react-parser";
-import { CommentStatus } from "@prisma/client";
-export default function CommentBody({
-  body,
-  hideComment,
-  status,
-}: {
-  body: string;
-  hideComment?: () => void;
-  status?: CommentStatus;
-}) {
+
+export default function CommentBody({ body }: { body: string }) {
   const parseCommentBody = (htmlString: string) => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlString, "text/html");
@@ -45,13 +37,6 @@ export default function CommentBody({
           id="comment-body">
           {" "}
           {parse(textHtml)}
-          {status && status === "HIDDEN" && (
-            <button
-              className="text-sm cursor-pointer text-blue-500 font-medium hover:underline hover:underline-offset-2"
-              onClick={hideComment}>
-              Hide Comment
-            </button>
-          )}
         </article>
       )}
 

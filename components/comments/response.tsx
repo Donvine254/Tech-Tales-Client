@@ -7,14 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import {
-  Crown,
-  Edit2,
-  Feather,
-  Flag,
-  MoreHorizontal,
-  Trash2,
-} from "lucide-react";
+import { Edit2, Flag, MoreHorizontal, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { formatDate } from "@/lib/utils";
 import { ResponseData, Session } from "@/types";
@@ -71,16 +64,14 @@ export default function Response({
               {blogAuthorId === response.authorId ? (
                 <Badge
                   title="author"
-                  className="bg-blue-100 text-xs font-semibold text-blue-500">
-                  <Feather className="size-2" />
-                  Author
+                  className="text-xs p-0.5 text-yellow-500 font-medium bg-yellow-200 dark:bg-yellow-900/20 ">
+                  ✨Author
                 </Badge>
               ) : response.author.role === "admin" ? (
                 <Badge
-                  className="bg-purple-100 text-xs font-semibold text-purple-500"
+                  className="text-xs p-0.5 text-purple-500 font-medium bg-purple-900/20"
                   title="admin">
-                  <Crown className="size-2" />
-                  Admin
+                  ★Admin
                 </Badge>
               ) : null}
             </div>
