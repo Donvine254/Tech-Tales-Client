@@ -15,6 +15,7 @@ import {
   sendVerificationEmail,
   sendWelcomeEmail,
 } from "@/emails/mailer";
+import { getClientIP } from "../helpers/user-ip";
 
 /* Function to hash passwords */
 const hashPassword = async (password: string) => {
@@ -102,13 +103,10 @@ export async function authenticateSSOLogin(
   }
 }
 /*Login function for normal users */
-export async function authenticateUserLogin(
-  email: string,
-  password: string,
-  ip: string
-) {
+export async function authenticateUserLogin(email: string, password: string) {
   try {
     // step-1: check the login attempts
+    const ip = await getClientIP();
     const rateCheck = rateLimitByIp(ip);
     if (!rateCheck.allowed) {
       return { success: false, message: rateCheck.message, field: "password" };
@@ -323,8 +321,9 @@ export async function VerifyEmail(token: string): Promise<{
 }
 
 /*Function to resend email verification email to the user. Used in checkpoint/unverified/page.tsx */
-export async function resendVerificationEmail(email: string, ip: string) {
+export async function resendVerificationEmail(email: string) {
   // step 1: Block too many attempts
+  const ip = await getClientIP();
   const rateCheck = rateLimitByIp(ip);
   if (!rateCheck.allowed) {
     return { success: false, message: rateCheck.message };
@@ -389,14 +388,14 @@ export async function resendVerificationEmail(email: string, ip: string) {
 /* function to change user password */
 export async function changeUserPassword(
   userId: number,
-  data: { current: string; newPwd: string },
-  ip: string
+  data: { current: string; newPwd: string }
 ) {
   const { current, newPwd } = data;
   const hashedPassword = await hashPassword(newPwd);
 
   try {
     // step 1: check the attempts
+    const ip = await getClientIP();
     const rateCheck = rateLimitByIp(ip);
     if (!rateCheck.allowed) {
       return {

@@ -39,7 +39,7 @@ function removeFromCache(blogId: number) {
   const current = getCachedFavorites() || [];
   setCachedFavorites(current.filter((id) => id !== blogId));
 }
-
+// TODO: fix when blogs liked by other users appear to be liked by a new user who logs in in the same computer. Fix: Add user id identifier to the cache
 export default function AnimatedLikeButton({
   initialLikes = 0,
   blogId,

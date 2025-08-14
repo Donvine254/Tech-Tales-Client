@@ -62,14 +62,10 @@ export function LoginForm({
     }
     setStatus("loading");
     try {
-      // Get IP address from external API
-      const ip = await fetch("https://api.ipify.org?format=json")
-        .then((res) => res.json())
-        .then((data) => data.ip);
       const response = await authenticateUserLogin(
         data.email,
         data.password,
-        ip
+    
       );
 
       if (!response.success) {

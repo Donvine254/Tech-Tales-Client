@@ -71,17 +71,10 @@ export default function SecurityAccount({
     const toastId = toast.loading("Processing request..");
     try {
       setIsSubmitting(true);
-      const ip = await fetch("https://api.ipify.org?format=json")
-        .then((res) => res.json())
-        .then((data) => data.ip);
-      const res = await changeUserPassword(
-        userId,
-        {
-          current: passwords.current,
-          newPwd: passwords.new,
-        },
-        ip
-      );
+      const res = await changeUserPassword(userId, {
+        current: passwords.current,
+        newPwd: passwords.new,
+      });
       if (res.success) {
         toast.success(res.message);
       } else {

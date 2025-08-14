@@ -11,7 +11,7 @@ export function rateLimitByIp(ip?: string | null): {
   allowed: boolean;
   message?: string;
 } {
-  if (!ip) {
+  if (!ip || ip === "Unknown") {
     // If no IP, allow it but log or track anonymously
     return {
       allowed: true,

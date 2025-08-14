@@ -65,10 +65,7 @@ export default function VerifyEmail() {
     setStatus("loading");
     const normalizedEmail = data.email.toLowerCase();
     try {
-      const ip = await fetch("https://api.ipify.org?format=json")
-        .then((res) => res.json())
-        .then((data) => data.ip);
-      const res = await resendVerificationEmail(normalizedEmail, ip);
+      const res = await resendVerificationEmail(normalizedEmail);
       if (!res.success) {
         setStatus("error");
         form.setError("email", {
