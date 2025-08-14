@@ -16,7 +16,7 @@ import { handleBlogLiking } from "@/lib/actions/favorites";
 import { fetchBookmarks } from "@/lib/helpers/fetch-bookmarks";
 import { cn } from "@/lib/utils";
 import { BlogWithComments } from "@/types";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   BookmarkIcon,
   ChevronLeft,
@@ -49,26 +49,30 @@ export default function Library({
   const [activeTab, setActiveTab] = useState("bookmarks");
   //   loading state for unfavorite button
   const [loading, setLoading] = useState<number | null>(null);
-  // fetch bookmarks
-  const {
-    data: bookmarks = [],
-    isLoading,
-    refetch,
-  } = useQuery({
+  const queryClient = useQueryClient();
+  // fetch user bookmarks
+  const { data: bookmarks = [], isLoading } = useQuery({
     queryKey: ["bookmarkedBlogs"],
     queryFn: fetchBookmarks,
     staleTime: 0, // No Caching
+    refetchOnWindowFocus: true,
+    refetchOnMount: true,
   });
   // 🟢 Listen for bookmark removal
   useEffect(() => {
-    const handleBookmarkRemoved = () => {
-      refetch();
+    const handleBookmarkRemoved = (e: Event) => {
+      const blogId = (e as CustomEvent<number>).detail;
+      queryClient.setQueryData(
+        ["bookmarkedBlogs"],
+        (old: BlogWithComments[] = []) =>
+          old.filter((blog) => blog.id !== blogId)
+      );
     };
     window.addEventListener("bookmark-removed", handleBookmarkRemoved);
     return () => {
       window.removeEventListener("bookmark-removed", handleBookmarkRemoved);
     };
-  }, [refetch]);
+  }, [queryClient]);
   //   reset current page when active tab, search query, or sort order changes
   useEffect(() => {
     setCurrentPage(1);

@@ -27,50 +27,48 @@ import MinimalBlogCard from "@/components/pages/blogs/minimal-blog-card";
 import Link from "next/link";
 import Image from "next/image";
 import { toast } from "sonner";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 const BLOGS_PER_PAGE = 5;
+
+async function fetchHistoryBlogs() {
+  const readingHistory = getCookie("history");
+  if (!readingHistory) return [];
+  try {
+    const historyArray: number[] = JSON.parse(readingHistory);
+    if (Array.isArray(historyArray) && historyArray.length > 0) {
+      return (await getBlogsByIds(historyArray)) as BlogWithComments[];
+    }
+    return [];
+  } catch {
+    return [];
+  }
+}
 
 export default function History() {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("newest");
-  const [isLoading, setIsLoading] = useState(true);
-  const [blogs, setBlogs] = useState<BlogWithComments[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  //   useEffect to fetch history data
-  useEffect(() => {
-    const fetchHistory = async () => {
-      const readingHistory = getCookie("history");
-
-      if (!readingHistory) {
-        setIsLoading(false);
-        return;
-      }
-      try {
-        const historyArray: number[] = JSON.parse(readingHistory);
-        if (Array.isArray(historyArray) && historyArray.length > 0) {
-          const res = (await getBlogsByIds(historyArray)) as BlogWithComments[];
-          setBlogs(res);
-        }
-      } catch (err) {
-        console.error("Failed to fetch history:", err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchHistory();
-  }, []);
-
-  //   reset on page change
+  const queryClient = useQueryClient();
+  //  fetch history data
+  const { data: blogs = [], isLoading } = useQuery({
+    queryKey: ["historyBlogs"],
+    queryFn: fetchHistoryBlogs,
+    staleTime: 0,
+    refetchOnWindowFocus: true,
+    refetchOnMount: true,
+  });
+  // reset on page change
   useEffect(() => {
     setCurrentPage(1);
   }, [searchQuery, sortBy]);
   //   function to clear history
   const clearHistory = () => {
     setCookie("history", JSON.stringify([]), -1);
-    setBlogs([]);
+    queryClient.setQueryData(["historyBlogs"], []);
     toast.success("Reading history cleared");
   };
+  // Remove all blogs from history
   function handleClearHistory() {
     toast.custom(
       (t) => (
@@ -118,8 +116,11 @@ export default function History() {
     if (index !== -1) {
       historySet.splice(index, 1);
     }
+
     setCookie("history", JSON.stringify(historySet), 30);
-    setBlogs(() => blogs.filter((item) => item.id !== id));
+    queryClient.setQueryData<BlogWithComments[]>(["historyBlogs"], (old) =>
+      old ? old.filter((blog) => blog.id !== id) : []
+    );
     toast.success("Blog removed from history");
   }
   // 🔍 Search + Filtered Blogs (memoized)
