@@ -138,12 +138,13 @@ export default function Slug({ blog }: Props) {
           </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>
-              <button
+              <a
+                href="#comments"
                 className="flex items-center space-x-1 hover:text-red-500 transition-colors cursor-pointer group"
                 title="blog likes">
                 <Heart className="h-4 w-4 group-hover:fill-red-500" />
                 <span className="text-sm">{blog.likes}</span>
-              </button>
+              </a>
             </TooltipTrigger>
             <TooltipContent className="max-w-72 text-sm" side="bottom">
               <p>{blog.likes} Likes</p>

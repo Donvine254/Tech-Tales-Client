@@ -24,6 +24,17 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
       setLoading(false);
     })();
   }, []);
+
+  useEffect(() => {
+    // When the user logs out (session becomes null)
+    if (!session) {
+      Object.keys(localStorage).forEach((key) => {
+        if (key.startsWith("user-") && key.endsWith("-favorite-blogs")) {
+          localStorage.removeItem(key);
+        }
+      });
+    }
+  }, [session]);
   //Update user status, should only run once
   useEffect(() => {
     if (session?.userId) {

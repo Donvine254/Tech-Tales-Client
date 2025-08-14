@@ -16,28 +16,34 @@ interface AnimatedLikeButtonProps {
   size?: number;
   onLikeChange?: (liked: boolean, likes: number) => void;
 }
-const FAVORITES_KEY = "user-favorite-blogs";
 
-function getCachedFavorites(): number[] | null {
-  const raw =
-    typeof window !== "undefined" && localStorage.getItem(FAVORITES_KEY);
+function getCacheKey(userId?: string | number) {
+  return `user-${userId ?? "guest"}-favorite-blogs`;
+}
+
+function getCachedFavorites(userId?: string | number): number[] | null {
+  if (typeof window === "undefined") return null;
+  const raw = localStorage.getItem(getCacheKey(userId));
   return raw ? JSON.parse(raw) : null;
 }
 
-function setCachedFavorites(favs: number[]) {
-  localStorage.setItem(FAVORITES_KEY, JSON.stringify(favs));
+function setCachedFavorites(favs: number[], userId?: string | number) {
+  localStorage.setItem(getCacheKey(userId), JSON.stringify(favs));
 }
 
-function addToCache(blogId: number) {
-  const current = getCachedFavorites() || [];
+function addToCache(blogId: number, userId?: string | number) {
+  const current = getCachedFavorites(userId) || [];
   if (!current.includes(blogId)) {
-    setCachedFavorites([...current, blogId]);
+    setCachedFavorites([...current, blogId], userId);
   }
 }
 
-function removeFromCache(blogId: number) {
-  const current = getCachedFavorites() || [];
-  setCachedFavorites(current.filter((id) => id !== blogId));
+function removeFromCache(blogId: number, userId?: string | number) {
+  const current = getCachedFavorites(userId) || [];
+  setCachedFavorites(
+    current.filter((id) => id !== blogId),
+    userId
+  );
 }
 // TODO: fix when blogs liked by other users appear to be liked by a new user who logs in in the same computer. Fix: Add user id identifier to the cache
 export default function AnimatedLikeButton({
@@ -63,7 +69,7 @@ export default function AnimatedLikeButton({
   useEffect(() => {
     if (!session) return;
 
-    const cached = getCachedFavorites();
+    const cached = getCachedFavorites(session.userId);
     if (cached) {
       setLiked(cached.includes(blogId));
     } else {
@@ -71,7 +77,7 @@ export default function AnimatedLikeButton({
         try {
           const result = await getFavoriteBlogs(session.userId); // should return Favorite[] or blog IDs
           const ids = result.map((f: Favorite) => f.blogId);
-          setCachedFavorites(ids);
+          setCachedFavorites(ids, session.userId);
           setLiked(ids.includes(blogId));
         } catch (err) {
           console.error("Failed to load favorite blogs", err);
@@ -99,7 +105,7 @@ export default function AnimatedLikeButton({
         await handleBlogLiking(blogId, session.userId, "LIKE");
       } else {
         toast.info("Blog removed from favorites");
-        removeFromCache(blogId);
+        removeFromCache(blogId, session.userId);
         await handleBlogLiking(blogId, session.userId, "DISLIKE");
       }
     } catch (error) {
