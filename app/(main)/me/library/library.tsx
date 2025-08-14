@@ -290,7 +290,7 @@ export default function Library({
                 <button
                   type="button"
                   disabled={loading === blog.id}
-                  title="click to remove course from wishlist"
+                  title="click to remove blog from favorites"
                   onClick={() => {
                     removeFromFavorites(blog.id);
                   }}
