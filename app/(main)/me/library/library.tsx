@@ -13,9 +13,10 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { handleBlogLiking } from "@/lib/actions/favorites";
-import { getBlogsByIds } from "@/lib/actions/library";
+import { fetchBookmarks } from "@/lib/helpers/fetch-bookmarks";
 import { cn } from "@/lib/utils";
 import { BlogWithComments } from "@/types";
+import { useQuery } from "@tanstack/react-query";
 import {
   BookmarkIcon,
   ChevronLeft,
@@ -42,56 +43,32 @@ export default function Library({
 }: SavedBlogsPageProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("newest");
-  const [isLoading, setIsLoading] = useState(true);
-  const [bookmarks, setBookmarks] = useState<BlogWithComments[]>([]);
   const [favorites, setFavorites] =
     useState<BlogWithComments[]>(initialFavorites);
   const [currentPage, setCurrentPage] = useState(1);
   const [activeTab, setActiveTab] = useState("bookmarks");
   //   loading state for unfavorite button
   const [loading, setLoading] = useState<number | null>(null);
-  //fetch bookmarks
+  // fetch bookmarks
+  const {
+    data: bookmarks = [],
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["bookmarkedBlogs"],
+    queryFn: fetchBookmarks,
+    staleTime: 0, // No Caching
+  });
+  // 🟢 Listen for bookmark removal
   useEffect(() => {
-    const fetchBookmarks = async () => {
-      try {
-        const cachedBookmarks = localStorage.getItem("bookmarked_blogs");
-        if (!cachedBookmarks) {
-          setIsLoading(false);
-          return;
-        }
-        const bookmarkedBlogs = cachedBookmarks
-          ? JSON.parse(cachedBookmarks)
-          : {};
-        const bookmarkedBlogIds = Object.keys(bookmarkedBlogs)
-          .filter((id) => bookmarkedBlogs[id])
-          .map((id) => Number(id));
-
-        if (bookmarkedBlogIds.length > 0) {
-          const res = (await getBlogsByIds(
-            bookmarkedBlogIds
-          )) as BlogWithComments[];
-          setBookmarks(res);
-        }
-      } catch (error) {
-        console.error("Error fetching bookmarked blogs:", error);
-      } finally {
-        setIsLoading(false);
-      }
+    const handleBookmarkRemoved = () => {
+      refetch();
     };
-
-    fetchBookmarks();
-    // 🟢 Listen for bookmark removal
-    const handleBookmarkRemoved = (e: Event) => {
-      const blogId = (e as CustomEvent<number>).detail;
-      setBookmarks((prev) => prev.filter((blog) => blog.id !== blogId));
-    };
-
     window.addEventListener("bookmark-removed", handleBookmarkRemoved);
-
     return () => {
       window.removeEventListener("bookmark-removed", handleBookmarkRemoved);
     };
-  }, []);
+  }, [refetch]);
   //   reset current page when active tab, search query, or sort order changes
   useEffect(() => {
     setCurrentPage(1);

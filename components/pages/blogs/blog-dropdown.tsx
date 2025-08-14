@@ -62,7 +62,6 @@ export const BlogCardDropdown = ({
     navigator.clipboard.writeText(blogUrl);
     toast.success("Link copied to clipboard");
   };
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -72,16 +71,15 @@ export const BlogCardDropdown = ({
       </DropdownMenuTrigger>
       <DropdownMenuContent side="top" align="end" className="w-48 space-y-2">
         {/* Copy Link */}
-        {blogStatus === "PUBLISHED" ||
-          (blogStatus === "ARCHIVED" && (
-            <>
-              <DropdownMenuItem onClick={handleCopy} className="cursor-copy">
-                <LinkIcon className="w-4 h-4 mr-2" />
-                Copy link
-              </DropdownMenuItem>
-              <Bookmark blogId={blogId} asDropdownItem />
-            </>
-          ))}
+        {(blogStatus === "PUBLISHED" || blogStatus === "ARCHIVED") && (
+          <>
+            <DropdownMenuItem onClick={handleCopy} className="cursor-copy">
+              <LinkIcon className="w-4 h-4 mr-2" />
+              Copy link
+            </DropdownMenuItem>
+            <Bookmark blogId={blogId} asDropdownItem />
+          </>
+        )}
         {/* Owner actions */}
         {showMoreActions && isOwner && (
           <>
