@@ -114,3 +114,11 @@ export function generateDescription(body: string): string {
     ? text.slice(0, maxLength).trim() + "... Read More."
     : text;
 }
+
+export function clearUserFavorites() {
+  Object.keys(localStorage).forEach((key) => {
+    if (key.startsWith("user-") && key.endsWith("-favorite-blogs")) {
+      localStorage.removeItem(key);
+    }
+  });
+}

@@ -11,6 +11,7 @@ import { setCookie } from "@/lib/cookie";
 import SearchBar from "../custom/search";
 import { useState } from "react";
 import { createNewBlog } from "@/lib/actions/blogs";
+import { clearUserFavorites } from "@/lib/helpers";
 
 const Navbar = () => {
   const { session, loading } = useSession();
@@ -36,7 +37,12 @@ const Navbar = () => {
             <Button variant="ghost" size="sm" onClick={() => toast.dismiss(t)}>
               Cancel
             </Button>
-            <Link href="/api/auth/logout" passHref>
+            <Link
+              href="/api/auth/logout"
+              passHref
+              onNavigate={() => {
+                clearUserFavorites();
+              }}>
               <Button
                 variant="destructive"
                 size="sm"

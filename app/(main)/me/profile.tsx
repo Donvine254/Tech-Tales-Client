@@ -31,6 +31,7 @@ import MinimalBlogCard from "@/components/pages/blogs/minimal-blog-card";
 import CreateButton from "@/components/pages/profile/create-button";
 import SocialMediaDialog from "@/components/pages/profile/social-media-dialog";
 import { BlogWithComments, SocialLink, UserProfileData } from "@/types";
+import { clearUserFavorites } from "@/lib/helpers";
 
 export default function Profile({
   user,
@@ -451,7 +452,10 @@ export const MenuList = ({ isAdmin }: { isAdmin: boolean }) => {
                 )}
                 target={item.target}
                 title={item.label}
-                prefetch={false}>
+                prefetch={false}
+                {...(isDestructive && {
+                  onNavigate: () => clearUserFavorites(),
+                })}>
                 <Icon className="size-4" />
                 <span>{item.label}</span>
               </Link>

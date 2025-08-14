@@ -22,6 +22,7 @@ import { deactivateUserAccount, deleteUserAccount } from "@/lib/actions/user";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import SuccessDialog from "@/components/modals/success-dialog";
 import Link from "next/link";
+import { clearUserFavorites } from "@/lib/helpers";
 
 export default function SecurityAccount({
   userId,
@@ -377,7 +378,10 @@ const DeactivateButton = ({ router }: { router: AppRouterInstance }) => {
         isOpen={open}
         setIsOpen={setOpen}
         title="Account deactivated successfully"
-        onClose={() => router.push("/api/auth/logout")}
+        onClose={() => {
+          clearUserFavorites();
+          router.push("/api/auth/logout");
+        }}
         description="Your account has been deleted. A recovery link has been sent to your email incase you change your mind."
       />
     </>
@@ -464,7 +468,10 @@ const DeleteAccountButton = ({ router }: { router: AppRouterInstance }) => {
         isOpen={open}
         setIsOpen={setOpen}
         title="Account deleted successfully"
-        onClose={() => router.push("/api/auth/logout")}
+        onClose={() => {
+          clearUserFavorites();
+          router.push("/api/auth/logout");
+        }}
         description="Your account has been deleted. There is no turning back now."
       />
     </>
