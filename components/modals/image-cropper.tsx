@@ -15,6 +15,8 @@ import { Slider } from "@/components/ui/slider";
 import { createCroppedImage } from "@/lib/helpers/image-cropper";
 import { Crop, Loader2 } from "lucide-react";
 import { Label } from "../ui/label";
+import { validateImage } from "@/lib/helpers/cloudinary";
+import { toast } from "sonner";
 
 interface CropModalProps {
   open: boolean;
@@ -53,6 +55,12 @@ export const ImageCropModal: React.FC<CropModalProps> = ({
         file.type,
         file.name
       );
+      const result = await validateImage(croppedFile);
+      if (!result.isValid) {
+        toast.info("Cropped image still does not meet requirements");
+        setIsProcessing(false);
+        return;
+      }
 
       onCropComplete(croppedFile);
       onOpenChange(false);
