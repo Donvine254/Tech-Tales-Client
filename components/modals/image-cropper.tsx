@@ -8,11 +8,13 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
+  DialogOverlay,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { createCroppedImage } from "@/lib/helpers/image-cropper";
 import { Crop, Loader2 } from "lucide-react";
+import { Label } from "../ui/label";
 
 interface CropModalProps {
   open: boolean;
@@ -65,12 +67,12 @@ export const ImageCropModal: React.FC<CropModalProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[90vh] flex flex-col">
+      <DialogOverlay className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm dark:bg-black/70 transition-all" />
+      <DialogContent className="max-w-6xl w-full max-h-[90vh] flex flex-col">
         <DialogHeader>
           <DialogTitle>Crop Image to 16:9 Aspect Ratio</DialogTitle>
         </DialogHeader>
-
-        <div className="relative flex-1 min-h-[300px] bg-muted rounded-lg overflow-hidden">
+        <div className="relative flex-1 min-h-[50vh] bg-muted rounded-lg overflow-hidden ">
           <Cropper
             image={URL.createObjectURL(file)}
             crop={crop}
@@ -81,23 +83,26 @@ export const ImageCropModal: React.FC<CropModalProps> = ({
             onZoomChange={setZoom}
             cropShape="rect"
             showGrid={true}
+            objectFit="cover"
+            zoomSpeed={0.05}
             style={{
               containerStyle: {
                 background: "hsl(var(--muted))",
+                width: "100%",
+                height: "100%",
               },
             }}
           />
         </div>
-
         <div className="space-y-4 p-4 flex-shrink-0">
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Zoom</label>
+          <div className="space-y-4">
+            <Label className="text-sm font-medium">Zoom</Label>
             <Slider
               value={[zoom]}
               onValueChange={(value) => setZoom(value[0])}
               min={1}
               max={3}
-              step={0.1}
+              step={0.05}
               className="w-full"
             />
           </div>
@@ -112,6 +117,7 @@ export const ImageCropModal: React.FC<CropModalProps> = ({
           </Button>
           <Button
             onClick={handleCropConfirm}
+            className="bg-blue-500 text-white hover:bg-blue-600 hover:text-white"
             disabled={isProcessing || !croppedAreaPixels}>
             {isProcessing ? (
               <>

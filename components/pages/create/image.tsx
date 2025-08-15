@@ -123,7 +123,7 @@ export const CoverImageSection: React.FC<CoverImageProps> = ({
           onClick={() => fileInputRef.current?.click()}
           className="border-2 border-dashed border-border rounded-xl p-6 text-center hover:border-blue-300 hover:bg-blue-50 dark:hover:bg-blue-500 dark:hover:border-blue-100 transition-all duration-200 cursor-pointer group min-h-48">
           <div className="p-3 bg-gray-100 group-hover:bg-blue-100 rounded-full w-fit mx-auto mb-3 transition-colors">
-            <Upload className="h-6 w-6 text-gray-400 group-hover:text-cyan-500 transition-colors" />
+            <Upload className="h-6 w-6 text-gray-400 group-hover:text-cyan-500 hover:!text-cyan-500 transition-colors" />
           </div>
           <p className="text-sm font-medium text-primary/80 mb-2">
             Select Cover Image
