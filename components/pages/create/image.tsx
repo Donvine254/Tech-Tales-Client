@@ -14,6 +14,7 @@ import {
   validateImage,
 } from "@/lib/helpers/cloudinary";
 import { cn } from "@/lib/utils";
+import { ImageCropModal } from "@/components/modals/image-cropper";
 
 interface CoverImageProps {
   image: CoverImage;
@@ -25,12 +26,24 @@ export const CoverImageSection: React.FC<CoverImageProps> = ({
   onImageChange,
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [fileToCrop, setFileToCrop] = useState<File | null>(null);
+  const [showCropModal, setShowCropModal] = useState<boolean>(false);
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     const result = await validateImage(file);
-    if (!result.isValid) return;
+    console.log(result);
+    if (!result.isSizeValid || !result.isDimensionValid) return;
+
+    // If dimensions OK but aspect ratio is wrong → open crop modal
+    if (!result.isAspectRatioValid) {
+      setFileToCrop(file);
+      setShowCropModal(true);
+
+      return;
+    }
+
     const url = URL.createObjectURL(file);
     onImageChange({
       secure_url: url,
@@ -39,7 +52,16 @@ export const CoverImageSection: React.FC<CoverImageProps> = ({
     // Upload the image here
     handleFileUpload(file);
   };
+  // Function to crop images
 
+  const handleCropComplete = (croppedFile: File) => {
+    const url = URL.createObjectURL(croppedFile);
+    onImageChange({
+      secure_url: url,
+      public_id: crypto.randomUUID(),
+    });
+    handleFileUpload(croppedFile);
+  };
   const handleRemoveImage = async () => {
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
@@ -152,6 +174,12 @@ export const CoverImageSection: React.FC<CoverImageProps> = ({
         accept="image/jpeg,image/png,image/webp,image/avif"
         onChange={handleFileChange}
         className="hidden"
+      />
+      <ImageCropModal
+        open={showCropModal}
+        onOpenChange={setShowCropModal}
+        file={fileToCrop}
+        onCropComplete={handleCropComplete}
       />
     </div>
   );
