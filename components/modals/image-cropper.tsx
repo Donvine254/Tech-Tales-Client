@@ -76,11 +76,11 @@ export const ImageCropModal: React.FC<CropModalProps> = ({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogOverlay className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm dark:bg-black/70 transition-all" />
-      <DialogContent className="max-w-6xl w-full max-h-[90vh] flex flex-col">
+      <DialogContent className="max-w-6xl max-h-[90vh] flex flex-col">
         <DialogHeader>
           <DialogTitle>Crop Image to 16:9 Aspect Ratio</DialogTitle>
         </DialogHeader>
-        <div className="relative flex-1 min-h-[50vh] bg-muted rounded-lg overflow-hidden ">
+        <div className="relative flex-1 min-h-[50vh] bg-muted rounded-lg overflow-hidden p-4 ">
           <Cropper
             image={URL.createObjectURL(file)}
             crop={crop}
@@ -91,13 +91,10 @@ export const ImageCropModal: React.FC<CropModalProps> = ({
             onZoomChange={setZoom}
             cropShape="rect"
             showGrid={true}
-            objectFit="cover"
             zoomSpeed={0.05}
             style={{
               containerStyle: {
                 background: "hsl(var(--muted))",
-                width: "100%",
-                height: "100%",
               },
             }}
           />
