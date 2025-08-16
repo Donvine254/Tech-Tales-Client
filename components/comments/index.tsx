@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { CommentItem } from "@/components/comments/comment-item";
 import { CommentEditor } from "@/components/comments/comment-editor";
 import { Button } from "@/components/ui/button";
@@ -30,20 +30,23 @@ import { usePathname, useRouter } from "next/navigation";
 import { BlogStatus } from "@prisma/client";
 import { toast } from "sonner";
 import { createComment, updateComment } from "@/lib/actions/comments";
+import { commentsFetcher } from "@/lib/actions/comments";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Card } from "../ui/card";
 type Props = {
   blogId: number;
   blogAuthorId: number;
   blogStatus: BlogStatus;
   showComments: boolean;
-  setComments: React.Dispatch<React.SetStateAction<CommentData[]>>;
-  comments: CommentData[] | [];
+  initialComments: CommentData[];
+  setCommentsCount: React.Dispatch<React.SetStateAction<number>>;
   session: Session | null;
 };
 
 export default function Comments({
-  comments = [],
   session,
-  setComments,
+  setCommentsCount,
+  initialComments,
   blogAuthorId,
   blogStatus,
   showComments,
@@ -52,55 +55,68 @@ export default function Comments({
   const [sortOrder, setSortOrder] = useState<"relevant" | "newest" | "oldest">(
     "relevant"
   );
-  const [isMounted, setIsMounted] = useState(false);
-  // state for comment body
   const [commentBody, setCommentBody] = useState<string>("");
   const [isEditing, setIsEditing] = useState(false);
   const [editingComment, setEditingComment] = useState<CommentData | null>(
     null
   );
-
+  const queryClient = useQueryClient();
   const pathname = usePathname();
   const router = useRouter();
-  // TODO: do not show the whole comments
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
-  // redirect user back to the page after login
+  const { data: comments = [], isFetching } = useQuery<CommentData[]>({
+    queryKey: ["comments", blogId],
+    initialData: initialComments,
+    queryFn: () => commentsFetcher(blogId),
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
+  });
+  /* redirect user back to the page after login */
   function handleLogin() {
     setCookie("post_login_redirect", pathname, 1);
     router.push("/login");
   }
-  if (!isMounted) {
-    return false;
-  }
-  /* Function to sort comments*/
+  /* Function to update comments */
+  const setComments = (updater: (old: CommentData[]) => CommentData[]) => {
+    queryClient.setQueryData<CommentData[]>(
+      ["comments", blogId],
+      (old = []) => {
+        const updated = updater(old);
+        setCommentsCount(updated.length);
+        return updated;
+      }
+    );
+  };
 
-  function sortComments(order: "relevant" | "newest" | "oldest") {
-    setComments((prev) => {
-      return [...prev].sort((a, b) => {
-        switch (order) {
-          case "relevant":
-            return (
-              (b.responses?.length ?? 0) - (a.responses?.length ?? 0) ||
-              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-            );
-          case "newest":
-            return (
-              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-            );
-          case "oldest":
-            return (
-              new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-            );
-          default:
-            return 0;
-        }
-      });
+  /* Function to sort comments*/
+  function sortComments(
+    list: CommentData[],
+    order: "relevant" | "newest" | "oldest"
+  ) {
+    return [...list].sort((a, b) => {
+      switch (order) {
+        case "relevant":
+          return (
+            (b.responses?.length ?? 0) - (a.responses?.length ?? 0) ||
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+        case "newest":
+          return (
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+        case "oldest":
+          return (
+            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+          );
+        default:
+          return 0;
+      }
     });
   }
-
+  const sortedComments: CommentData[] = useMemo(
+    () => sortComments(comments, sortOrder),
+    [sortOrder, comments]
+  );
   // function to handleComment Submission
   async function handleCommentSubmit() {
     // Logic to submit or respond
@@ -191,7 +207,7 @@ export default function Comments({
     <div className="my-2" id="comments">
       <div className="py-2 md:py-4 flex items-center justify-between gap-4">
         <h3 className="text-lg md:text-2xl font-semibold  font-sans">
-          Responses ({comments?.length ?? 0})
+          Responses ({comments.length ?? 0})
         </h3>
         <TooltipProvider>
           <Tooltip>
@@ -288,7 +304,6 @@ export default function Comments({
             value={sortOrder}
             onValueChange={(val) => {
               setSortOrder(val as "relevant" | "newest" | "oldest");
-              sortComments(val as "relevant" | "newest" | "oldest");
             }}>
             <SelectTrigger className="w-min cursor-pointer sm:w-48">
               <ListFilterIcon className="h-4 w-4" />
@@ -304,9 +319,14 @@ export default function Comments({
           </Select>
         )}
       </div>
-      <div className="space-y-2 divide-y-1 divide-border">
-        {comments && comments.length > 0 ? (
-          comments.map((c) => (
+      <div className="space-y-2 divide-y divide-border">
+        {isFetching ? (
+          <Card className="w-full flex items-center justify-center h-48">
+            <div className="w-8 h-8 border-3 text-blue-400 text-4xl animate-spin border-primary flex items-center justify-center border-t-blue-400 rounded-full"></div>
+            <p className="text-sm text-muted-foreground">Loading Comments...</p>
+          </Card>
+        ) : sortedComments && sortedComments.length > 0 ? (
+          sortedComments.map((c) => (
             <CommentItem
               key={c.id}
               blogStatus={blogStatus}

@@ -5,6 +5,7 @@ import Slug from "@/components/pages/slug/slug";
 import { metaobject } from "@/lib/metadata";
 import { Metadata } from "next";
 import { CoverImage, FullBlogData } from "@/types";
+import { commentsFetcher } from "@/lib/actions/comments";
 
 export async function generateStaticParams() {
   try {
@@ -34,7 +35,7 @@ async function getData(path: string) {
   try {
     const blog = await prisma.blog.findUnique({
       where: {
-        path: path,
+        path,
         status: {
           notIn: ["DRAFT", "UNPUBLISHED"],
         },
@@ -51,32 +52,8 @@ async function getData(path: string) {
             branding: true,
           },
         },
-        comments: {
-          where: { show: true, status: { not: "ARCHIVED" } },
-          include: {
-            author: {
-              select: {
-                username: true,
-                picture: true,
-                role: true,
-                status: true,
-              },
-            },
-            responses: {
-              include: {
-                author: {
-                  select: {
-                    username: true,
-                    picture: true,
-                    role: true,
-                  },
-                },
-              },
-            },
-          },
-          orderBy: {
-            createdAt: "desc",
-          },
+        _count: {
+          select: { comments: true },
         },
       },
     });
@@ -86,6 +63,7 @@ async function getData(path: string) {
     return null;
   }
 }
+
 // Function to generate MetaData
 export async function generateMetadata({
   params,
@@ -154,11 +132,12 @@ export default async function page({
   if (!blog) {
     redirect("/410");
   }
+  const initialComments = await commentsFetcher(blog.id);
   return (
     <section
       className="@container bg-muted/50 dark:bg-background min-h-screen"
       suppressHydrationWarning>
-      <Slug blog={blog} />
+      <Slug blog={blog} initialComments={initialComments} />
     </section>
   );
 }

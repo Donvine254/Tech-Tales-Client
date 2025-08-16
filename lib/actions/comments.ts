@@ -119,6 +119,45 @@ export async function deleteComment(id: number) {
     return { success: false, message: "Failed to delete comment." };
   }
 }
+/* This function returns all comments associated with a blog*/
+export const commentsFetcher = async (blogId: number) => {
+  try {
+    const comments = await prisma.comment.findMany({
+      where: {
+        blogId: Number(blogId),
+        show: true,
+        status: { not: "ARCHIVED" },
+      },
+      include: {
+        author: {
+          select: {
+            username: true,
+            picture: true,
+            role: true,
+            status: true,
+          },
+        },
+        responses: {
+          include: {
+            author: {
+              select: {
+                username: true,
+                picture: true,
+                role: true,
+              },
+            },
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+    return comments as CommentData[];
+  } catch {
+    return [];
+  }
+};
 
 /*This function returns all comments associated with the user*/
 export async function getUserComments(userId: number) {

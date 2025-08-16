@@ -120,5 +120,7 @@ export interface FullBlogData extends Omit<BlogWithUser, "_count" | "author"> {
     socials: SocialLink[];
     branding: string;
   };
-  comments: CommentData[];
+  _count: {
+    comments: number;
+  };
 }

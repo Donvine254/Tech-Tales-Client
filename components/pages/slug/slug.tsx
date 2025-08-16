@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Script from "next/script";
+import dynamic from "next/dynamic";
 import parse from "html-react-parser";
 import { formatDate, formatViews } from "@/lib/utils";
 import {
@@ -22,7 +23,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useSession } from "@/providers/session";
-import Comments from "../../comments";
+
 import { CommentData, CoverImage, FullBlogData } from "@/types";
 import UserCard from "./user-card";
 import ActionButtons from "./action-buttons";
@@ -35,13 +36,17 @@ import BlogImage from "../blogs/blog-image";
 import { Badge } from "@/components/ui/badge";
 type Props = {
   blog: FullBlogData;
+  initialComments: CommentData[];
 };
+const CommentsComponent = dynamic(() => import("../../comments"), {
+  ssr: false,
+});
 
-export default function Slug({ blog }: Props) {
+export default function Slug({ blog, initialComments }: Props) {
   const { session } = useSession();
   const [showPlayButton, setShowPlayButton] = useState(false);
   const [showComments, setShowComments] = useState(blog.show_comments);
-  const [comments, setComments] = useState<CommentData[]>(blog?.comments ?? []);
+  const [commentsCount, setCommentsCount] = useState(blog._count.comments);
   // state for reporting dialog
   async function handleToggleComments(show: boolean) {
     setShowComments(show);
@@ -129,11 +134,11 @@ export default function Slug({ blog }: Props) {
                 className="flex items-center space-x-1 hover:text-cyan-600 transition-colors cursor-pointer"
                 title="jump to comments">
                 <MessageSquare className="h-4 w-4" />
-                <span className="text-sm">{comments?.length ?? 0}</span>
+                <span className="text-sm">{commentsCount}</span>
               </a>
             </TooltipTrigger>
             <TooltipContent className="max-w-72 text-sm" side="bottom">
-              <p>{comments.length ?? 0} Comments</p>
+              <p>{commentsCount} Comments</p>
             </TooltipContent>
           </Tooltip>
           <Tooltip>
@@ -215,16 +220,16 @@ export default function Slug({ blog }: Props) {
         {/* Bottom Action buttons */}
         <ActionButtons
           blog={blog}
-          comments={comments}
+          commentsCount={commentsCount}
           session={session}
           showComments={showComments}
           onShowCommentsUpdate={handleToggleComments}
         />
         {/* comments section */}
-        <Comments
-          comments={comments}
+        <CommentsComponent
           session={session}
-          setComments={setComments}
+          initialComments={initialComments}
+          setCommentsCount={setCommentsCount}
           blogId={blog.id}
           blogAuthorId={blog.authorId}
           blogStatus={blog.status}

@@ -30,7 +30,7 @@ import { ShareModal } from "@/components/modals/share-modal";
 import Bookmark from "@/components/custom/bookmark";
 import DeleteButton from "@/components/modals/delete-dialog";
 import BlogReportDialog from "@/components/modals/report-blog";
-import { CommentData, Session } from "@/types";
+import { Session } from "@/types";
 import parse from "html-react-parser";
 import { BlogStatus } from "@prisma/client";
 import { MessagesOutline } from "@/assets/icons";
@@ -39,7 +39,7 @@ interface ActionButtonsProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   blog: Record<string, any>;
   session: Session | null;
-  comments: CommentData[];
+  commentsCount: number;
   showComments: boolean;
   onShowCommentsUpdate: (show: boolean) => void;
 }
@@ -47,7 +47,7 @@ interface ActionButtonsProps {
 const ActionButtons: FC<ActionButtonsProps> = ({
   blog,
   session,
-  comments,
+  commentsCount,
   showComments,
   onShowCommentsUpdate,
 }) => {
@@ -92,11 +92,11 @@ const ActionButtons: FC<ActionButtonsProps> = ({
               className="flex items-center space-x-1 hover:text-cyan-600 transition-colors cursor-pointer"
               title="Jump to comments">
               <MessagesOutline className="h-5 w-5" />
-              <span className="text-sm">{comments?.length ?? 0}</span>
+              <span className="text-sm">{commentsCount}</span>
             </a>
           </TooltipTrigger>
           <TooltipContent className="max-w-72 text-sm" side="bottom">
-            <p>{comments?.length ?? 0} Comments</p>
+            <p>{commentsCount} Comments</p>
           </TooltipContent>
         </Tooltip>
         <AnimatedLikeButton

@@ -47,7 +47,7 @@ type Props = {
   blogAuthorId: number;
   blogStatus: BlogStatus;
   onEdit: (comment: CommentData) => void;
-  setComments: React.Dispatch<React.SetStateAction<CommentData[]>>;
+  setComments: (updater: (old: CommentData[]) => CommentData[]) => void;
 };
 export const CommentItem: React.FC<Props> = ({
   comment,

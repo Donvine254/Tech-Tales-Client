@@ -28,6 +28,7 @@ export const blogFetcher = (
 
 // return random featured blogs
 export const getRandomBlogs = async () => {
+  "use server";
   const blogs = await prisma.$queryRaw<BlogWithUser[]>`
   SELECT b.*, json_build_object('username', u.username, 'picture', u.picture) AS author
   FROM "Blog" b

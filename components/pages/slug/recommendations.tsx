@@ -19,6 +19,7 @@ type Props = {
   };
   tags: string[];
 };
+// TODO: Change this to use useinview and react-query
 export default function Recommendations({ blogId, author, tags }: Props) {
   const [isLoading, setIsLoading] = useState(true);
   const [show, setShow] = useState(false);
