@@ -70,6 +70,7 @@ export default function Comments({
     queryFn: () => commentsFetcher(blogId),
     refetchOnMount: true,
     refetchOnWindowFocus: false,
+    staleTime: 0, //no-caching for comments
   });
   /* redirect user back to the page after login */
   function handleLogin() {
