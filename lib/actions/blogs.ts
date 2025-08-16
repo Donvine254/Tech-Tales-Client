@@ -9,6 +9,7 @@ import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { blogSelect } from "@/prisma/select";
 import { calculateReadingTime } from "../utils";
+import { revalidateBlog } from "./cache";
 // function to create a new blog
 
 export async function createNewBlog() {
@@ -120,12 +121,7 @@ export async function publishBlog(
         path: true,
       },
     });
-    revalidateTag("user-blogs");
-    revalidateTag("blogs");
-    revalidateTag("latest");
-    if (blog.path) {
-      revalidatePath(`/read/${blog.path}`);
-    }
+    revalidateBlog(blog.path);
     return {
       success: true,
       message: "Blog published successfully",
@@ -192,15 +188,7 @@ export async function deleteOrArchiveBlog(uuid: string) {
         message: "Published blog archived successfully",
       };
     }
-    revalidateTag("featured");
-    revalidateTag("latest");
-    revalidateTag("trending");
-    revalidateTag("blogs");
-    revalidateTag("user-blogs");
-    revalidatePath("/me/posts");
-    if (blog.path) {
-      revalidatePath(`/read/${blog.path}`);
-    }
+    revalidateBlog(blog.path);
     return {
       success: false,
       message: `No action taken for blog with status '${blog.status}'`,
@@ -267,9 +255,10 @@ export const getUserAndBlogsByHandle = unstable_cache(
 );
 /*This function only updates the blog status and can be used to archive or publish a blog*/
 export async function updateBlogStatus(status: BlogStatus, blogId: number) {
+  let blog;
   try {
     if (status === "PUBLISHED") {
-      const blog = await prisma.blog.findUnique({
+      blog = await prisma.blog.findUnique({
         where: { id: blogId },
         select: {
           title: true,
@@ -297,18 +286,15 @@ export async function updateBlogStatus(status: BlogStatus, blogId: number) {
       }
     }
 
-    await prisma.blog.update({
+    blog = await prisma.blog.update({
       where: { id: blogId },
       data: { status },
+      select: {
+        path: true,
+      },
     });
 
-    revalidateTag("user-blogs");
-    revalidateTag("featured");
-    revalidateTag("latest");
-    revalidateTag("trending");
-    revalidateTag("blogs");
-    revalidatePath("/me/posts");
-
+    revalidateBlog(blog.path);
     return {
       success: true,
       message: "Blog status updated successfully",
@@ -325,18 +311,16 @@ export async function updateBlogStatus(status: BlogStatus, blogId: number) {
 
 export async function toggleDiscussion(id: number, show: boolean) {
   try {
-    await prisma.blog.update({
+    const blog = await prisma.blog.update({
       where: { id },
       data: {
         show_comments: show,
       },
+      select: {
+        path: true,
+      },
     });
-    revalidateTag("user-blogs");
-    revalidateTag("featured");
-    revalidateTag("latest");
-    revalidateTag("trending");
-    revalidateTag("blogs");
-    revalidatePath("/me/posts");
+    revalidateBlog(blog.path);
     return {
       success: true,
       message: `Blog discussion ${show ? "unlocked" : "locked"} successfully`,

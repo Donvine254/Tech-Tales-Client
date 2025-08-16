@@ -19,7 +19,7 @@ export default function page() {
             This page is no longer here.
           </h2>
           <p className="text-muted-foreground mb-8">
-            The author has deleted this blog page.It&apos;s permanently gone and
+            The author has deleted this blog page. It&apos;s permanently gone and
             can&apos;t be recovered
           </p>
         </div>
