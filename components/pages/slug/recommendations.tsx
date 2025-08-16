@@ -3,12 +3,13 @@ import { getBlogsByIds } from "@/lib/actions/library";
 import { recommendBlogs } from "@/lib/actions/recommendations";
 import { getCookie } from "@/lib/cookie";
 import { BlogWithComments } from "@/types";
-import { useState, useEffect, useRef } from "react";
+import { useInView } from "react-intersection-observer";
 import MinimalBlogCard from "../blogs/minimal-blog-card";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { SearchX } from "lucide-react";
 import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
 
 type Props = {
   blogId: number;
@@ -19,72 +20,62 @@ type Props = {
   };
   tags: string[];
 };
+/*
+ *** function to fetch recommended blogs
+ */
+async function fetchRecommendations({
+  blogId,
+  authorId,
+  tags,
+}: {
+  blogId: number;
+  authorId: number;
+  tags: string[];
+}): Promise<BlogWithComments[]> {
+  const history = getCookie("history");
+  const historyArray: number[] = history ? JSON.parse(history) : [];
+
+  const cachedBookmarks = localStorage.getItem("bookmarked_blogs");
+  const bookmarkedBlogs = cachedBookmarks ? JSON.parse(cachedBookmarks) : {};
+  const bookmarkedBlogIds: number[] = Object.keys(bookmarkedBlogs)
+    .filter((id) => bookmarkedBlogs[id])
+    .map((id) => Number(id));
+
+  const blogIds = await recommendBlogs({
+    blogId,
+    tags,
+    authorId,
+    history: historyArray,
+    bookmarks: bookmarkedBlogIds,
+  });
+
+  return (await getBlogsByIds(blogIds)) as BlogWithComments[];
+}
+
 // TODO: Change this to use useinview and react-query
 export default function Recommendations({ blogId, author, tags }: Props) {
-  const [isLoading, setIsLoading] = useState(true);
-  const [show, setShow] = useState(false);
-  const [blogs, setBlogs] = useState<BlogWithComments[]>([]);
-  const containerRef = useRef<HTMLDivElement | null>(null);
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    rootMargin: "500px",
+  });
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setShow(true);
-          observer.disconnect();
-        }
-      },
-      {
-        rootMargin: "200px",
-      }
-    );
-
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
   //   get history and bookmarks
-  useEffect(() => {
-    if (!show) return;
-    async function getData() {
-      const history = getCookie("history");
-      const historyArray: number[] = history ? JSON.parse(history) : [];
-
-      const cachedBookmarks = localStorage.getItem("bookmarked_blogs");
-      const bookmarkedBlogs = cachedBookmarks
-        ? JSON.parse(cachedBookmarks)
-        : {};
-      const bookmarkedBlogIds: number[] = Object.keys(bookmarkedBlogs)
-        .filter((id) => bookmarkedBlogs[id])
-        .map((id) => Number(id));
-
-      const blogIds = await recommendBlogs({
-        blogId,
-        tags,
-        authorId: author.id,
-        history: historyArray,
-        bookmarks: bookmarkedBlogIds,
-      });
-
-      const data = (await getBlogsByIds(blogIds)) as BlogWithComments[];
-      setBlogs(data);
-      setIsLoading(false);
-    }
-
-    getData();
-  }, [show, author.id, tags, blogId]);
+  const { data: blogs, isFetching } = useQuery({
+    queryKey: ["recommendations", blogId, author.id, tags],
+    queryFn: () => fetchRecommendations({ blogId, authorId: author.id, tags }),
+    enabled: inView && typeof window !== "undefined",
+    staleTime: 1000 * 60 * 5,
+  });
 
   return (
-    <div className="my-2 py-4 border-t border-border" ref={containerRef}>
-      {show && (
+    <div className="my-2 py-4 border-t border-border" ref={ref}>
+      {inView && (
         <>
           {" "}
           <h2 className="text-lg md:text-2xl font-bold text-foreground mb-4">
             Recommended for you
           </h2>
-          {isLoading ? (
+          {isFetching ? (
             <Card className="w-full flex items-center justify-center h-48">
               <div className="w-8 h-8 border-3 text-blue-400 text-4xl animate-spin border-primary flex items-center justify-center border-t-blue-400 rounded-full"></div>
             </Card>
