@@ -57,10 +57,10 @@ export default function ContactForm() {
     setIsSubmitting(false);
     if (result.success) {
       setShowDialog(true);
+      form.reset();
     } else {
       toast.error("Something unexpected happened, try again later");
     }
-    form.reset();
   };
   return (
     <>
