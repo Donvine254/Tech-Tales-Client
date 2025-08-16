@@ -321,7 +321,7 @@ export default function Comments({
         )}
       </div>
       <div className="space-y-2 divide-y divide-border">
-        {isLoading ? (
+        {isLoading && !initialComments ? (
           <Card className="w-full flex items-center justify-center h-48">
             <div className="w-8 h-8 border-3 text-blue-400 text-4xl animate-spin border-primary flex items-center justify-center border-t-blue-400 rounded-full"></div>
             <p className="text-sm text-muted-foreground">Loading Comments...</p>
