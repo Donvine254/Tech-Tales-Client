@@ -35,7 +35,13 @@ export const registerSchema = z.object({
     .regex(simplePasswordRegex, "Password must contain at least one number"),
 });
 export const contactSchema = z.object({
-  username: z.string().min(2, "Username must be at least 2 characters"),
+  username: z
+    .string()
+    .min(2, "Username must be at least 2 characters")
+    .regex(
+      /^[a-zA-Z0-9_ ]+$/,
+      "Username can only contain letters, numbers, and underscores"
+    ),
   email: z
     .string()
     .min(4, "Email is required")

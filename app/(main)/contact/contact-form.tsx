@@ -23,6 +23,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Loader2 } from "lucide-react";
 import SuccessDialog from "@/components/modals/success-dialog";
+import { toast } from "sonner";
 
 export default function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -37,13 +38,29 @@ export default function ContactForm() {
   });
   const onSubmit = async (data: ContactForm) => {
     setIsSubmitting(true);
-    console.log(data);
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    setShowDialog(true);
-    form.reset();
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        access_key: "c0376663-dd70-4ab4-ba1b-e849ba57eecc",
+        username: data.username,
+        email: data.email,
+        message: data.message,
+        from_name: "Techtales",
+        subject: "You have a new message at Techtales.",
+      }),
+    });
+    const result = await response.json();
     setIsSubmitting(false);
+    if (result.success) {
+      setShowDialog(true);
+    } else {
+      toast.error("Something unexpected happened, try again later");
+    }
+    form.reset();
   };
   return (
     <>
