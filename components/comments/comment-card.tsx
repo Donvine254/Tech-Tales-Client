@@ -83,7 +83,7 @@ export function CommentCard({ comment, onDelete, onUpdate }: CommentCardProps) {
                 <DropdownMenuItem
                   className="hover:bg-green-500 hover:text-white"
                   onClick={() => onUpdate(comment.id, comment.status)}>
-                  <ArchiveRestoreIcon className="size-4 mr-2" />
+                  <ArchiveRestoreIcon className="size-4" />
                   Restore Comment
                 </DropdownMenuItem>
               )}
@@ -93,7 +93,7 @@ export function CommentCard({ comment, onDelete, onUpdate }: CommentCardProps) {
                   onDelete(comment.id);
                 }}
                 className="text-destructive focus:text-destructive">
-                <Trash2 className="h-4 w-4 mr-2 text-destructive" />
+                <Trash2 className="h-4 w-4 text-destructive" />
                 Delete Comment
               </DropdownMenuItem>
             </DropdownMenuContent>
