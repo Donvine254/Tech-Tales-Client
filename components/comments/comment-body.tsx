@@ -14,7 +14,9 @@ export default function CommentBody({ body }: { body: string }) {
         width={160}
         height={90}
         layout="intrinsic"
-        className="my-1 rounded-md"
+        loading="lazy"
+        unoptimized
+        className="my-1 rounded-md italic align-middle bg-muted"
         alt={img.alt || "comment image"}
       />
     ));
