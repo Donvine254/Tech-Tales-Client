@@ -81,11 +81,74 @@ export async function deleteCloudinaryImage(publicId: string) {
 
 interface ImageValidation {
   isValid: boolean;
+  isSizeValid: boolean;
+  isDimensionValid: boolean;
+  isAspectRatioValid: boolean;
   width: number;
   height: number;
   size: number;
   aspectRatio: number;
 }
+
+// export const validateImage = (file: File): Promise<ImageValidation> => {
+//   return new Promise((resolve) => {
+//     const img = new window.Image();
+//     const url = URL.createObjectURL(file);
+
+//     img.onload = () => {
+//       const width = img.naturalWidth;
+//       const height = img.naturalHeight;
+//       const size = file.size;
+//       const aspectRatio = width / height;
+
+//       let isValid = true;
+
+//       // Check size
+//       if (size > 5 * 1024 * 1024) {
+//         toast.error("Image must be less than 5MB");
+//         isValid = false;
+//       }
+
+//       // Check minimum dimensions
+//       if (width < 1280 || height < 720) {
+//         toast.error("Image must be at least 1280x720px");
+//         isValid = false;
+//       }
+
+//       // Check aspect ratio (16:9)
+//       const targetRatio = 16 / 9;
+//       const tolerance = 0.1;
+//       if (Math.abs(aspectRatio - targetRatio) > tolerance) {
+//         toast.error("Image should have approximately 16:9 aspect ratio");
+//         isValid = false;
+//       }
+
+//       URL.revokeObjectURL(url);
+
+//       resolve({
+//         isValid,
+//         width,
+//         height,
+//         size,
+//         aspectRatio,
+//       });
+//     };
+
+//     img.onerror = () => {
+//       URL.revokeObjectURL(url);
+//       toast.error("Invalid image file");
+//       resolve({
+//         isValid: false,
+//         width: 0,
+//         height: 0,
+//         size: 0,
+//         aspectRatio: 0,
+//       });
+//     };
+
+//     img.src = url;
+//   });
+// };
 
 export const validateImage = (file: File): Promise<ImageValidation> => {
   return new Promise((resolve) => {
@@ -98,32 +161,48 @@ export const validateImage = (file: File): Promise<ImageValidation> => {
       const size = file.size;
       const aspectRatio = width / height;
 
-      let isValid = true;
-
-      // Check size
-      if (size > 5 * 1024 * 1024) {
-        toast.error("Image must be less than 5MB");
-        isValid = false;
-      }
-
-      // Check minimum dimensions
-      if (width < 1280 || height < 720) {
-        toast.error("Image must be at least 1280x720px");
-        isValid = false;
-      }
-
-      // Check aspect ratio (16:9)
+      const sizeLimit = 5 * 1024 * 1024; // 5MB
+      const minWidth = 1280;
+      const minHeight = 720;
       const targetRatio = 16 / 9;
       const tolerance = 0.1;
-      if (Math.abs(aspectRatio - targetRatio) > tolerance) {
-        toast.error("Image should have approximately 16:9 aspect ratio");
-        isValid = false;
+
+      // Check file size first
+      if (size > sizeLimit) {
+        toast.error("Image must be less than 5MB");
+        URL.revokeObjectURL(url);
+        resolve({
+          isValid: false,
+          isSizeValid: false,
+          isDimensionValid: false,
+          isAspectRatioValid: false,
+          width,
+          height,
+          size,
+          aspectRatio,
+        });
+        return; // stop here
       }
+
+      // Check dimensions
+      const isDimensionValid = width >= minWidth && height >= minHeight;
+      if (!isDimensionValid) {
+        toast.error("Image must be at least 1280x720px");
+      }
+
+      // Check aspect ratio
+      const isAspectRatioValid =
+        Math.abs(aspectRatio - targetRatio) <= tolerance;
+
+      const isValid = isDimensionValid && isAspectRatioValid;
 
       URL.revokeObjectURL(url);
 
       resolve({
         isValid,
+        isSizeValid: true,
+        isDimensionValid,
+        isAspectRatioValid,
         width,
         height,
         size,
@@ -136,6 +215,9 @@ export const validateImage = (file: File): Promise<ImageValidation> => {
       toast.error("Invalid image file");
       resolve({
         isValid: false,
+        isSizeValid: false,
+        isDimensionValid: false,
+        isAspectRatioValid: false,
         width: 0,
         height: 0,
         size: 0,

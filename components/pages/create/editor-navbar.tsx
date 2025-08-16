@@ -140,7 +140,10 @@ export const EditorNavbar = ({ ...props }: EditorNavbarProps) => {
                 <Focus className="w-4 h-4 mr-1" />
                 Focus Mode
                 <span className="sr-only">
-                  {navigator.platform.includes("Mac") ? "⌘⇧F" : "Ctrl+Shift+F"}
+                  {typeof navigator !== "undefined" &&
+                  navigator?.platform?.includes("Mac")
+                    ? "⌘⇧F"
+                    : "Ctrl+Shift+F"}
                 </span>
               </DropdownMenuItem>
               {props.blogStatus === "DRAFT" && (
