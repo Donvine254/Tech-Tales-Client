@@ -1,7 +1,7 @@
 "use server";
 import { revalidatePath, revalidateTag } from "next/cache";
 
-export function revalidateBlog(blogPath?: string | null) {
+export async function revalidateBlog(blogPath?: string | null) {
   revalidateTag("user-blogs");
   revalidateTag("featured");
   revalidateTag("latest");
