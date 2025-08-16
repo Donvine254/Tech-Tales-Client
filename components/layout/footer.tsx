@@ -38,7 +38,6 @@ const Footer = () => {
             <div className="flex space-x-4 items-center justify-center sm:justify-start ">
               <Link
                 href="https://www.facebook.com"
-                className=""
                 target="_blank"
                 title="facebook"
                 prefetch={false}
