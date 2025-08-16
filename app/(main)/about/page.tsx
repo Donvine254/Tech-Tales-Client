@@ -12,6 +12,11 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import SubscriptionModal from "@/components/modals/subscription-modal";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About Us - Tech Tales",
+};
 
 const About = () => {
   const values = [

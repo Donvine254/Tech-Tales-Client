@@ -34,6 +34,18 @@ export const registerSchema = z.object({
     .min(8, "Password must be at least 8 characters")
     .regex(simplePasswordRegex, "Password must contain at least one number"),
 });
+export const contactSchema = z.object({
+  username: z.string().min(2, "Username must be at least 2 characters"),
+  email: z
+    .string()
+    .min(4, "Email is required")
+    .transform((val) => val.toLowerCase())
+    .refine(validateEmail, {
+      message: "Please enter a valid email address",
+    }),
+  message: z.string().trim().min(10, { message: "Please type in a message" }),
+});
 
 export type LoginFormData = z.infer<typeof loginSchema>;
 export type RegisterFormData = z.infer<typeof registerSchema>;
+export type ContactForm = z.infer<typeof contactSchema>;
