@@ -90,7 +90,7 @@ const BlogCard = forwardRef<
             {blog.title}
           </h3>
         </Link>
-        <article className="text-xs sm:text-sm mb-2 text-muted-foreground line-clamp-2 dark:text-gray-300 leading-relaxed truncate ">
+        <article className="text-xs sm:text-sm mb-2 text-muted-foreground line-clamp-2 dark:text-gray-300 leading-relaxed">
           {parse(blog.description ?? "")}
         </article>
         {/* Tags */}
