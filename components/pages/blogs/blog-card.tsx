@@ -48,7 +48,7 @@ const BlogCard = forwardRef<
         <div className="absolute top-2 left-2">
           <Link href={`/search?q=${blog.tags?.split(",")[0]}`}>
             {" "}
-            <span className="px-3 py-1 bg-blue-500 backdrop-blur-sm text-white text-xs font-semibold rounded-full hover:underline transition-colors capitalize">
+            <span className="px-3 py-1 bg-blue-500 backdrop-blur-sm text-white text-xs font-semibold rounded-full hover:underline transition-colors lowercase">
               # {blog?.tags?.split(",")[0] || "General"}
             </span>
           </Link>
@@ -95,14 +95,17 @@ const BlogCard = forwardRef<
         </article>
         {/* Tags */}
         <div className="inline-flex flex-wrap gap-2 mb-4">
-          {blog?.tags?.split(",").map((tag: string, index: number) => (
-            <Badge
-              key={index}
-              variant="secondary"
-              className={`text-xs bg-blue-100 text-blue-700 hover:bg-cyan-100 cursor-pointer transition-colors hover:underline capitalize highlight-link-${index}`}>
-              <Link href={`/search?q=${tag.toLowerCase()}`}># {tag}</Link>
-            </Badge>
-          ))}
+          {blog?.tags
+            ?.split(",")
+            .slice(1)
+            .map((tag: string, index: number) => (
+              <Badge
+                key={index}
+                variant="secondary"
+                className={`text-xs bg-blue-100 text-blue-700 hover:bg-cyan-100 cursor-pointer transition-colors hover:underline lowercase  highlight-link-${index}`}>
+                <Link href={`/search?q=${tag.toLowerCase()}`}># {tag}</Link>
+              </Badge>
+            ))}
         </div>
         {/* Action Buttons */}
         <div className="mt-auto pt-4 border-t border-gray-300 dark:border-gray-500 flex items-center justify-between text-accent-foreground">

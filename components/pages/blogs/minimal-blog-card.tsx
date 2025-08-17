@@ -118,7 +118,7 @@ export default function MinimalBlogCard({
               <Badge
                 key={index}
                 variant="secondary"
-                className="text-xs bg-gray-200 text-blue-700 hover:bg-cyan-100 cursor-pointer transition-colors hover:underline capitalize">
+                className="text-xs bg-gray-200 text-blue-700 hover:bg-cyan-100 cursor-pointer transition-colors hover:underline lowercase">
                 {blog?.tags?.trim() ? (
                   <Link href={`/search?q=${tag.toLowerCase()}`}># {tag}</Link>
                 ) : (
