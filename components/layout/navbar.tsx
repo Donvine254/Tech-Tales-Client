@@ -19,6 +19,9 @@ const Navbar = () => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+  const isActive = (path: string) => {
+    return pathname.includes(path);
+  };
   function handleLogout() {
     toast.custom(
       (t) => (
@@ -98,7 +101,7 @@ const Navbar = () => {
               href="/latest"
               className={cn(
                 "text-gray-700 dark:text-accent-foreground  hover:text-blue-600 transition-colors font-medium",
-                pathname.startsWith("/latest") &&
+                isActive("/latest") &&
                   "text-blue-600 dark:text-blue-500 underline underline-offset-4 font-bold"
               )}>
               Latest
@@ -107,7 +110,7 @@ const Navbar = () => {
               href="/trending"
               className={cn(
                 "text-gray-700 dark:text-accent-foreground  hover:text-blue-600 transition-colors font-medium",
-                pathname.startsWith("/trending") &&
+                isActive("/trending") &&
                   "text-blue-600 dark:text-blue-500 underline underline-offset-4 font-bold"
               )}>
               Trending
@@ -116,7 +119,7 @@ const Navbar = () => {
               href="/featured"
               className={cn(
                 "text-gray-700 dark:text-accent-foreground  hover:text-blue-600 transition-colors font-medium",
-                pathname.startsWith("/featured") &&
+                isActive("/featured") &&
                   "text-blue-600 dark:text-blue-500 underline underline-offset-4 font-bold"
               )}>
               Featured
@@ -145,6 +148,7 @@ const Navbar = () => {
                   session={session}
                   createBlog={createBlog}
                   loading={isLoading}
+                  pathname={pathname}
                 />
               </>
             ) : (
@@ -167,6 +171,7 @@ const Navbar = () => {
                     session={session}
                     createBlog={createBlog}
                     loading={isLoading}
+                    pathname={pathname}
                   />
                 </div>
               </>
