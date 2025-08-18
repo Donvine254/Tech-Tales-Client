@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 import { Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -34,10 +35,10 @@ export default function CodeBlock({
   return (
     <div
       className={cn(
-        "relative rounded-lg border bg-[#272822] dark:bg-gray-900 overflow-hidden"
+        "relative rounded-lg p-0 border bg-[#272822] dark:bg-gray-900 overflow-hidden"
       )}>
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-2 border-b bg-muted/80">
+      <div className="flex items-center justify-between px-4 py-2 border-b bg-muted/85 dark:bg-muted/50">
         <span className="text-sm font-medium text-muted-foreground">
           {getLanguageDisplayName(language)}
         </span>
@@ -55,7 +56,7 @@ export default function CodeBlock({
       </div>
 
       {/* Code */}
-      <pre className={`language-${language}`}>
+      <pre className={`language-${language} max-h-[450px] overflow-y-auto  `}>
         <code dangerouslySetInnerHTML={{ __html: code }} />
       </pre>
     </div>

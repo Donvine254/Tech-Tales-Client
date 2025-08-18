@@ -36,13 +36,10 @@ export function BlogBody({ body }: { body: string }) {
 
   return (
     <article
-      className="leading-8 prose lg:prose-lg prose-headings:mt-8 prose-p:mt-4 md:leading-10 
-      subpixel-antialiased blog-body max-w-none mt-4 prose-slate dark:prose-invert 
-      prose-headings:font-semibold prose-headings:text-gray-900 dark:prose-headings:text-gray-50 
-      prose-a:text-blue-600 hover:prose-a:text-blue-800 prose-a:underline-offset-4 
-      prose-img:rounded-lg prose-img:shadow-lg prose-img:border prose-img:border-gray-200 
+      className="leading-8 prose lg:prose-lg prose-headings:mt-8 prose-p:mt-4 md:leading-10 subpixel-antialiased  max-w-none mt-4 prose-slate dark:prose-invert prose-headings:font-semibold prose-headings:text-gray-900 dark:prose-headings:text-gray-50 
+      prose-a:text-blue-600 hover:prose-a:text-blue-800 prose-a:underline-offset-4 prose-img:rounded-lg prose-img:shadow-lg prose-img:border prose-img:border-gray-200 
       dark:prose-img:border-gray-700 prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800 
-      blog prose-pre:rounded-lg prose-pre:p-4 blog line-numbers"
+      blog prose-pre:rounded-lg prose-pre:p-4 blog blog-body"
       id="blog-body">
       {body ? parse(body, options) : "Loading..."}
     </article>

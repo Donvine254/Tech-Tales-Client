@@ -261,7 +261,7 @@
   color: #fb2c36;
   padding: 0px 5px;
   text-decoration-line: none !important;
-  font-size: 14px !important;
+  font-size: 15px !important;
 }
 #blog-body a {
   color: #06b6d4;
@@ -269,12 +269,18 @@
 }
 
 .blog-body pre code {
-  line-height: normal;
-  font-size: 14px !important;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  font-family: monospace;
+  white-space: pre-wrap;
+}
+.blog-body pre[class*="language-"] > code {
+  position: relative;
+  display: block;
 }
 /* Styles for pre elements that contain code */
 .blog-body pre:has(code) {
-  @apply rounded-lg w-full overflow-x-auto leading-normal tracking-tight;
+  @apply rounded-lg w-full overflow-x-auto leading-normal;
 }
 
 .dark .blog-body pre:has(code) {
@@ -283,11 +289,14 @@
 
 /* Styles for pre elements that do NOT contain code */
 .blog-body pre:not(:has(code)) {
-  @apply w-full whitespace-pre-wrap leading-normal text-black text-[14px] bg-gray-100 p-4  border-gray-300;
+  @apply w-full whitespace-pre-wrap  text-black text-sm bg-gray-100 p-4  border-gray-300;
 }
 
 .dark .blog-body pre:not(:has(code)) {
   @apply text-gray-100 bg-gray-900;
+}
+.line-numbers {
+  @apply text-gray-100 bg-blue-400;
 }
 
 #blog-body ul,
