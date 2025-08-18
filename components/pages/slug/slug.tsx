@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import Script from "next/script";
 import dynamic from "next/dynamic";
-import parse from "html-react-parser";
 import { formatDate, formatViews } from "@/lib/utils";
 import {
   Calendar,
@@ -13,7 +12,6 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { ShareModal } from "@/components/modals/share-modal";
-import PrismLoader from "@/components/custom/prism-loader";
 import Bookmark from "@/components/custom/bookmark";
 import AudioPlayer from "@/components/custom/audio-player";
 import {
@@ -34,6 +32,8 @@ import { toggleDiscussion } from "@/lib/actions/blogs";
 import { toast } from "sonner";
 import BlogImage from "../blogs/blog-image";
 import { Badge } from "@/components/ui/badge";
+import { BlogBody } from "./blog-body";
+import PrismLoader from "@/components/custom/prism-loader";
 type Props = {
   blog: FullBlogData;
   initialComments: CommentData[];
@@ -61,6 +61,7 @@ export default function Slug({ blog, initialComments }: Props) {
 
   return (
     <div className="w-full mx-auto m-2 min-h-[75%] px-4 md:px-8 xsm:px-4 max-w-4xl md:mt-4">
+      <PrismLoader />
       <Script src="https://unpkg.com/ink-html/dist/index.js"></Script>
       <div className="p-[3px]  bg-gradient-to-br from-blue-500 via-purple-500 to-yellow-500  mt-2 rounded-md">
         <BlogImage
@@ -211,12 +212,7 @@ export default function Slug({ blog, initialComments }: Props) {
         )}
         <BlogSummaryGenerator title={blog.title} blogId={blog.id} />
         {/* blog body */}
-        <article
-          className="leading-8 prose lg:prose-lg prose-headings:mt-8 prose-p:mt-4 md:leading-10 subpixel-antialiased blog-body max-w-none mt-4 prose-slate dark:prose-invert prose-headings:font-semibold prose-headings:text-gray-900 dark:prose-headings:text-gray-50 prose-a:text-blue-600 hover:prose-a:text-blue-800 prose-a:underline-offset-4 prose-img:rounded-lg prose-img:shadow-lg prose-img:border prose-img:border-gray-200 dark:prose-img:border-gray-700 prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800 blog prose-pre:rounded-lg prose-pre:p-4 blog"
-          id="blog-body">
-          <PrismLoader />
-          {blog.body ? parse(blog.body) : "Loading..."}
-        </article>
+        <BlogBody body={blog.body} />
         {/* Bottom Action buttons */}
         <ActionButtons
           blog={blog}
