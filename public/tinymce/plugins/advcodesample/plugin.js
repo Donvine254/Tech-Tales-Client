@@ -1,8 +1,10 @@
 const languages = [
   { text: "HTML/XML", value: "html" },
   { text: "CSS", value: "css" },
-  { text: "JavaScript", value: "javascript" },
+  { text: "Javascript", value: "javascript" },
+  { text: "React (JSX)", value: "jsx" },
   { text: "TypeScript", value: "typescript" },
+  { text: "React (TSX)", value: "tsx" },
   { text: "JSON", value: "json" },
   { text: "PHP", value: "php" },
   { text: "Python", value: "python" },
@@ -69,34 +71,34 @@ tinymce.PluginManager.add("advcodesample", (editor) => {
           endColumn: position.column,
         });
         const tag = codePre.match(/.*<(\w+)>$/)?.[1];
-         const isSelfClosing = (tag) =>
-      [
-        "area",
-        "base",
-        "br",
-        "col",
-        "command",
-        "embed",
-        "hr",
-        "img",
-        "input",
-        "keygen",
-        "link",
-        "meta",
-        "param",
-        "source",
-        "track",
-        "wbr",
-        "circle",
-        "ellipse",
-        "line",
-        "path",
-        "polygon",
-        "polyline",
-        "rect",
-        "stop",
-        "use",
-      ].includes(tag);
+        const isSelfClosing = (tag) =>
+          [
+            "area",
+            "base",
+            "br",
+            "col",
+            "command",
+            "embed",
+            "hr",
+            "img",
+            "input",
+            "keygen",
+            "link",
+            "meta",
+            "param",
+            "source",
+            "track",
+            "wbr",
+            "circle",
+            "ellipse",
+            "line",
+            "path",
+            "polygon",
+            "polyline",
+            "rect",
+            "stop",
+            "use",
+          ].includes(tag);
         if (!tag || isSelfClosing(tag)) {
           return;
         }
@@ -197,17 +199,17 @@ tinymce.PluginManager.add("advcodesample", (editor) => {
       }
     });
 
-   // Add click event listener for undo button
-   undoBtn.addEventListener("click", () => {
-    if (monacoEditor.getModel().canUndo()) {
-      monacoEditor.trigger("keyboard", "undo", null);
-    }
-  });
-  redoBtn.addEventListener("click", () => {
-    if (monacoEditor.getModel().canRedo()) {
-      monacoEditor.trigger("keyboard", "redo", null);
-    }
-  });
+    // Add click event listener for undo button
+    undoBtn.addEventListener("click", () => {
+      if (monacoEditor.getModel().canUndo()) {
+        monacoEditor.trigger("keyboard", "undo", null);
+      }
+    });
+    redoBtn.addEventListener("click", () => {
+      if (monacoEditor.getModel().canRedo()) {
+        monacoEditor.trigger("keyboard", "redo", null);
+      }
+    });
     //save code
 
     function escapeHTML(html) {

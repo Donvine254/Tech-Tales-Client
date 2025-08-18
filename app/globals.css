@@ -295,10 +295,11 @@
 .dark .blog-body pre:not(:has(code)) {
   @apply text-gray-100 bg-gray-900;
 }
-.line-numbers {
-  @apply text-gray-100 bg-blue-400;
+/* wrap long tailwind css classes: does not maintain code indentation */
+.token.attr-value {
+  white-space: pre-wrap;
+  word-break: break-word;
 }
-
 #blog-body ul,
 #blog-body ol {
   @apply pl-4;
