@@ -5,6 +5,8 @@ import Prism from "prismjs";
 import "prismjs/themes/prism-okaidia.css";
 import "prismjs/components/prism-markup-templating.js";
 import "prismjs/components/prism-typescript";
+import "prismjs/components/prism-jsx.js";
+import "prismjs/components/prism-tsx.js";
 import "prismjs/components/prism-java";
 import "prismjs/components/prism-python";
 import "prismjs/components/prism-css";

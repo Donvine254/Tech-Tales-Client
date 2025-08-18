@@ -103,8 +103,9 @@ export const options = [
 
 export const codeSampleLanguages = [
   { text: "HTML/XML", value: "haml" },
-  { text: "JavaScript", value: "javascript" },
+  { text: "React (JSX)", value: "jsx" },
   { text: "TypeScript", value: "typescript" },
+  { text: "React (TSX)", value: "tsx" },
   { text: "Json", value: "json" },
   { text: "CSS", value: "css" },
   { text: "Bash", value: "bash" },
