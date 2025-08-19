@@ -26,3 +26,32 @@ export async function createBlogVersion(blogId: number, note?: string) {
     console.error("Failed to create blog version:", error);
   }
 }
+
+/*
+ ** Helper function to fetch blog version information
+ */
+export async function getBlogVersions(blogId: number) {
+  try {
+    const versions = await prisma.blogVersion.findMany({
+      where: {
+        blogId,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: {
+        editor: {
+          select: {
+            username: true,
+            picture: true,
+          },
+        },
+      },
+    });
+
+    return versions;
+  } catch (error) {
+    console.error("Failed to fetch blog versions:", error);
+    return [];
+  }
+}

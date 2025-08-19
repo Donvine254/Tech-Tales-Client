@@ -19,13 +19,13 @@ import {
   PencilLineIcon,
   LockIcon,
   LockOpenIcon,
-  FileClockIcon,
 } from "lucide-react";
 import { BlogStatus } from "@prisma/client";
 import { useSession } from "@/providers/session";
 import { toast } from "sonner";
 import { baseUrl } from "@/lib/utils";
 import Bookmark from "@/components/custom/bookmark";
+import RevisionHistoryDialog from "@/components/modals/revision-history-dialog";
 
 interface BlogCardDropdownProps {
   path: string;
@@ -33,6 +33,7 @@ interface BlogCardDropdownProps {
   blogAuthorId: number;
   uuid: string;
   blogStatus: BlogStatus;
+  blogTitle?: string;
   showMoreActions?: boolean;
   showComments: boolean;
   onShowCommentsUpdate?: (blogId: number, show: boolean) => void;
@@ -51,6 +52,7 @@ export const BlogCardDropdown = ({
   onShowCommentsUpdate,
   onUpdate,
   onDelete,
+  blogTitle = "Untitled Blog",
 }: BlogCardDropdownProps) => {
   const { session } = useSession();
 
@@ -95,17 +97,7 @@ export const BlogCardDropdown = ({
                 </span>
               </DropdownMenuItem>
             </Link>
-            <Link
-              href={`/posts/${uuid}/history`}
-              passHref
-              className="cursor-pointer">
-              <DropdownMenuItem asChild>
-                <span className="flex items-center">
-                  <FileClockIcon className="w-4 h-4 mr-2" />
-                  Revision History
-                </span>
-              </DropdownMenuItem>
-            </Link>
+            <RevisionHistoryDialog blogId={blogId} blogTitle={blogTitle} />
             {/* TODO: Add view version history to the blog */}
 
             {blogStatus === "PUBLISHED" &&

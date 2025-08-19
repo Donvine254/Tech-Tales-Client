@@ -133,7 +133,7 @@ export default function MinimalBlogCard({
           <BlogImage
             src={
               image?.secure_url
-                ? image.secure_url ?? "/placeholder.svg"
+                ? (image.secure_url ?? "/placeholder.svg")
                 : "/placeholder.svg"
             }
             image={blog.image as CoverImage}
@@ -206,6 +206,7 @@ export default function MinimalBlogCard({
             blogAuthorId={blog.authorId}
             blogStatus={blog.status}
             uuid={blog.uuid}
+            blogTitle={blog.title ?? ""}
             showComments={blog.show_comments}
             onShowCommentsUpdate={onShowCommentsUpdate}
             showMoreActions={showMoreActions}
