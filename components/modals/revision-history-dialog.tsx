@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Calendar, FileText, FileClockIcon } from "lucide-react";
+import { Calendar, FileText, FileClockIcon, X } from "lucide-react";
 import {
   Dialog,
   DialogClose,
@@ -16,22 +16,12 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Button } from "../ui/button";
 import { getBlogVersions } from "@/lib/actions/blog-version";
 import { useQuery } from "@tanstack/react-query";
+import { formatDate } from "@/lib/utils";
 
 interface RevisionHistoryProps {
   blogId: number;
   blogTitle?: string;
 }
-
-const formatDate = (dateString: Date | string) => {
-  const date = new Date(dateString);
-  return date.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-};
 
 const RevisionHistoryDialog = ({ blogId, blogTitle }: RevisionHistoryProps) => {
   const [open, setOpen] = useState(false);
@@ -42,13 +32,14 @@ const RevisionHistoryDialog = ({ blogId, blogTitle }: RevisionHistoryProps) => {
   } = useQuery({
     queryKey: ["blogVersions", blogId],
     queryFn: () => getBlogVersions(blogId),
-    enabled: !!blogId, // prevents query from running if blogId is undefined
+    enabled: !!blogId,
+    staleTime: 60 * 5 * 1000, //cache for 5 minutes
   });
 
   const getRoleBadgeColor = (role: string) => {
     switch (role.toLowerCase()) {
       case "admin":
-        return "bg-red-50 text-red-600 border-red-200";
+        return "bg-purple-50 text-purple-600 border-purple-200";
       case "author":
         return "bg-green-50 text-green-600 border-green-200";
 
@@ -67,8 +58,8 @@ const RevisionHistoryDialog = ({ blogId, blogTitle }: RevisionHistoryProps) => {
           Revision History
         </button>
       </DialogTrigger>
-      <DialogContent className="min-w-full h-full overflow-hidden flex flex-col p-0">
-        <DialogHeader className="px-6 py-4 border-b flex-shrink-0">
+      <DialogContent className="min-w-full h-full overflow-hidden flex flex-col p-0 bg-muted ">
+        <DialogHeader className="px-6 py-4 border-b flex-shrink-0 bg-background">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-primary/10 rounded-lg">
@@ -88,14 +79,15 @@ const RevisionHistoryDialog = ({ blogId, blogTitle }: RevisionHistoryProps) => {
         <ScrollArea className="flex-1 min-h-0 ">
           <div className="px-6 py-4 space-y-6 max-w-5xl mx-auto">
             {isFetching && (
-              <div className="flex flex-col items-center justify-center py-10 text-muted-foreground">
+              <div className="flex flex-col items-center justify-center py-10 text-muted-foreground md:mt-20">
                 <div className="w-8 h-8 border-3 text-blue-400 text-4xl animate-spin border-primary flex items-center justify-center border-t-blue-400 rounded-full mb-2"></div>
                 <p>Fetching blog versions...</p>
               </div>
             )}
 
             {error && (
-              <div className="flex items-center justify-center py-10 text-red-500">
+              <div className="flex flex-col items-center justify-center py-10 text-red-500">
+                <X className="size-8 fill-red-500 mb-2" />
                 <p>Failed to load blog versions. Please try again later.</p>
               </div>
             )}
@@ -149,12 +141,15 @@ const RevisionHistoryDialog = ({ blogId, blogTitle }: RevisionHistoryProps) => {
 
                             <div className="flex items-center gap-1 text-xs text-muted-foreground mb-3">
                               <Calendar className="h-3 w-3" />
-                              <span>{formatDate(revision.createdAt)}</span>
+                              <span>
+                                {formatDate(revision.createdAt, true)}
+                              </span>
                             </div>
 
                             {revision.note && (
-                              <div className="bg-muted/50 rounded-lg p-3">
-                                <p className="text-sm text-foreground leading-relaxed">
+                              <div className="bg-green-100 dark:bg-green-900/20 rounded-lg p-3">
+                                <p className="text-sm leading-relaxed text-green-500">
+                                  +{" "}
                                   {revision.note ?? "This revision has no note"}
                                 </p>
                               </div>
@@ -166,9 +161,13 @@ const RevisionHistoryDialog = ({ blogId, blogTitle }: RevisionHistoryProps) => {
                   </div>
                 ))
               ) : (
-                <div className="flex items-center justify-center py-10 text-muted-foreground">
-                  <p>
+                <div className="flex flex-col items-center justify-center py-10 text-muted-foreground">
+                  <span className="text-6xl mb-3 text-muted-foreground/70">
+                    🔍
+                  </span>
+                  <p className="max-w-xl text-center">
                     This is the only version — no new revisions have been made.
+                    Your revisions will show here.
                   </p>
                 </div>
               ))}
@@ -176,7 +175,7 @@ const RevisionHistoryDialog = ({ blogId, blogTitle }: RevisionHistoryProps) => {
           <ScrollBar orientation="vertical" />
         </ScrollArea>
 
-        <div className="px-6 py-4 border-t bg-muted/20 flex-shrink-0">
+        <div className="px-6 py-4 border-t bg-background flex-shrink-0">
           <div className="flex items-center justify-between">
             <p className="text-sm text-muted-foreground">
               Showing {versions?.length ?? 0} revisions

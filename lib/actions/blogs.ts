@@ -8,7 +8,7 @@ import { canPublishBlog, generateDescription } from "../helpers";
 import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { blogSelect } from "@/prisma/select";
-import { calculateReadingTime } from "../utils";
+import { calculateReadingTime, formatDate } from "../utils";
 import { revalidateBlog } from "./cache";
 import { createBlogVersion } from "./blog-version";
 // function to create a new blog
@@ -309,7 +309,7 @@ export async function updateBlogStatus(status: BlogStatus, blogId: number) {
     setImmediate(() => {
       createBlogVersion(
         blogId,
-        `Updated blog status to ${status} at ${new Date().toISOString()}`
+        `Updated blog status to ${status.toLowerCase()} at ${formatDate(new Date(), true)}`
       );
     });
     return {

@@ -84,12 +84,24 @@ export async function handleSharing(title: string, path: string) {
   }
 }
 
-export const formatDate = (dateString: string | Date) => {
-  return new Date(dateString).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
+export const formatDate = (
+  dateString: string | Date,
+  full: boolean = false
+) => {
+  if (full) {
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  } else
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
 };
 
 export function slugify(blogTitle: string) {
