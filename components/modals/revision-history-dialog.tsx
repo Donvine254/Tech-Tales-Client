@@ -123,15 +123,15 @@ const RevisionHistoryDialog = ({ blogId, blogTitle }: RevisionHistoryProps) => {
                           <div className="flex-1">
                             <div className="flex items-center gap-2 mb-1">
                               <h4 className="font-medium text-foreground">
-                                Version {revision.id}
+                                Version{" "}
+                                {`Rev-${String(versions.length - index).padStart(4, "0")}`}
                               </h4>
                               <Badge
                                 variant="outline"
-                                className={`text-xs ${getRoleBadgeColor(revision.role)}`}>
+                                className={`text-xs capitalize ${getRoleBadgeColor(revision.role)}`}>
                                 {revision.role}
                               </Badge>
                             </div>
-
                             <p className="text-sm text-muted-foreground mb-2">
                               Edited by{" "}
                               <span className="font-medium text-foreground">
