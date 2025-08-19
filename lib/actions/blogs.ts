@@ -10,6 +10,7 @@ import { redirect } from "next/navigation";
 import { blogSelect } from "@/prisma/select";
 import { calculateReadingTime } from "../utils";
 import { revalidateBlog } from "./cache";
+import { createBlogVersion } from "./blog-version";
 // function to create a new blog
 
 export async function createNewBlog() {
@@ -42,6 +43,7 @@ export async function SaveDraftBlog(data: BlogData, uuid: string) {
   if (data.body) {
     reading_time = calculateReadingTime(data.body || "");
   }
+  // TODO: call function to update blog status
   try {
     const blog = await prisma.blog.update({
       where: { uuid },
@@ -64,6 +66,9 @@ export async function SaveDraftBlog(data: BlogData, uuid: string) {
     if (data.path) {
       revalidatePath(`/read/${data.path}`);
     }
+    setImmediate(() => {
+      createBlogVersion(blog.id);
+    });
     return {
       success: true,
       message: "Blog in sync with database",
@@ -122,6 +127,12 @@ export async function publishBlog(
       },
     });
     revalidateBlog(blog.path);
+    setImmediate(() => {
+      createBlogVersion(
+        blog.id,
+        "Updated blog status to published. No information on detailed changes available"
+      );
+    });
     return {
       success: true,
       message: "Blog published successfully",
@@ -295,6 +306,12 @@ export async function updateBlogStatus(status: BlogStatus, blogId: number) {
     });
 
     revalidateBlog(blog.path);
+    setImmediate(() => {
+      createBlogVersion(
+        blogId,
+        `Updated blog status to ${status} at ${new Date().toISOString()}`
+      );
+    });
     return {
       success: true,
       message: "Blog status updated successfully",
