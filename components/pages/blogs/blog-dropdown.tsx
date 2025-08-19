@@ -72,20 +72,20 @@ export const BlogCardDropdown = ({
           <MoreHorizontal className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent side="top" align="end" className="w-48 space-y-2">
+      <DropdownMenuContent side="top" align="end" className="w-48">
         {/* Copy Link */}
         {(blogStatus === "PUBLISHED" || blogStatus === "ARCHIVED") && (
-          <>
-            <DropdownMenuItem onClick={handleCopy} className="cursor-copy">
+          <div className="flex flex-col gap-1">
+            <DropdownMenuItem onClick={handleCopy} className="cursor-copy mb-0">
               <LinkIcon className="w-4 h-4 mr-2" />
               Copy link
             </DropdownMenuItem>
             <Bookmark blogId={blogId} asDropdownItem />
-          </>
+          </div>
         )}
         {/* Owner actions */}
         {showMoreActions && isOwner && (
-          <>
+          <div className="flex flex-col gap-1 mt-1">
             <Link
               href={`/posts/new/${uuid}`}
               passHref
@@ -162,7 +162,7 @@ export const BlogCardDropdown = ({
               <Trash className="w-4 h-4 mr-2 text-destructive" />
               Delete
             </DropdownMenuItem>
-          </>
+          </div>
         )}
       </DropdownMenuContent>
     </DropdownMenu>
