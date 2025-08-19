@@ -326,7 +326,7 @@
 }
 
 blockquote {
-  @apply text-muted-foreground border-l-4 border-l-muted-foreground   py-0.5 px-4 space-y-1;
+  @apply text-muted-foreground border-l-4 border-l-muted-foreground py-0.5 px-4 space-y-1;
   quotes: none;
 }
 blockquote cite,

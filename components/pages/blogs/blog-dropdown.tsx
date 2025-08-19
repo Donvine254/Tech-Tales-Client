@@ -19,6 +19,7 @@ import {
   PencilLineIcon,
   LockIcon,
   LockOpenIcon,
+  FileClockIcon,
 } from "lucide-react";
 import { BlogStatus } from "@prisma/client";
 import { useSession } from "@/providers/session";
@@ -94,6 +95,18 @@ export const BlogCardDropdown = ({
                 </span>
               </DropdownMenuItem>
             </Link>
+            <Link
+              href={`/posts/${uuid}/history`}
+              passHref
+              className="cursor-pointer">
+              <DropdownMenuItem asChild>
+                <span className="flex items-center">
+                  <FileClockIcon className="w-4 h-4 mr-2" />
+                  Revision History
+                </span>
+              </DropdownMenuItem>
+            </Link>
+            {/* TODO: Add view version history to the blog */}
 
             {blogStatus === "PUBLISHED" &&
               (showComments ? (
