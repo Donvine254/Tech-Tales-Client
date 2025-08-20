@@ -340,14 +340,19 @@ blockquote::after {
 
 #blog-body table {
   margin-top: 2px;
-  border-radius: 5px !important;
-  display: block;
+  display: table;
+  table-layout: fixed;
   width: 100% !important;
   max-width: 100% !important;
   overflow-x: auto;
+  border-collapse: collapse;
   -webkit-overflow-scrolling: touch;
 }
-/* Target iframe inside your blog body */
+#blog-body table th,
+#blog-body table td {
+  width: auto !important; /* kill the inline widths */
+}
+/* Target iframe inside blog body */
 #blog-body .iframe-container {
   position: relative;
   padding-bottom: 56.25%; /* 16:9 aspect ratio */
@@ -355,7 +360,6 @@ blockquote::after {
   overflow: hidden;
   border-radius: 8px;
   margin-top: 1rem;
-  background: #000; /* fallback bg if iframe fails to load */
 }
 
 #blog-body .iframe-container iframe {
