@@ -2,6 +2,17 @@ import { NextResponse } from "next/server";
 import prisma from "@/prisma/prisma";
 import Fuse from "fuse.js";
 import { blogSelect } from "@/prisma/select";
+import { tagCategoryMap } from "@/constants";
+
+function expandQuery(query: string): string[] {
+  const normalized = query.toLowerCase();
+  const category = tagCategoryMap[normalized];
+  if (!category) return [normalized]; // no mapping, just return original
+  // get all tags that map to this category
+  return Object.keys(tagCategoryMap).filter(
+    (tag) => tagCategoryMap[tag] === category
+  );
+}
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -22,6 +33,7 @@ export async function GET(req: Request) {
     if (query === "all") {
       return NextResponse.json(blogs);
     }
+    const queries = expandQuery(query);
     // start fuzzy search here
     const fuse = new Fuse(blogs, {
       keys: [
@@ -41,8 +53,12 @@ export async function GET(req: Request) {
       minMatchCharLength: 2,
       distance: 100,
     });
-    const results = fuse.search(query, { limit: 50 }).map((r) => r.item);
-    return NextResponse.json(results);
+    const results = queries.flatMap((q) =>
+      fuse.search(q, { limit: 50 }).map((r) => r.item)
+    );
+    const unique = Array.from(new Map(results.map((b) => [b.id, b])).values());
+
+    return NextResponse.json(unique);
   } catch (error) {
     console.log(error);
     return NextResponse.json([], { status: 500 });

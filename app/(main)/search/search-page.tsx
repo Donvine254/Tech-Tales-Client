@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import BlogCard from "@/components/pages/blogs/blog-card";
 import CategoryFilters from "@/components/pages/blogs/category-filters";
 import { BlogWithComments } from "@/types";
@@ -28,8 +28,12 @@ export default function SearchPage() {
     queryKey: ["searchBlogs", query],
     queryFn: () => fetchBlogs(query),
     enabled: !!query, // don't run if query is empty
-    staleTime: 1000 * 60, // 1 minute cache
+    staleTime: 1000 * 60 * 5, // 5 minute cache
   });
+  // reset page when query changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [query]);
 
   const totalPages = Math.ceil(data?.length / BLOGS_PER_PAGE);
   const paginatedBlogs = useMemo(() => {
