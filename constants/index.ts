@@ -8,7 +8,7 @@ export const categories = [
   { value: "backend", label: "Backend & APIs" },
   { value: "web workers", label: "Architecture" },
   { value: "typography", label: "Typography" },
-  { value: "rails&ruby", label: "Ruby on Rails" },
+  { value: "ruby/rails", label: "Ruby on Rails" },
   { value: "nextjs", label: "Next.js" },
   { value: "remix", label: "Remix" },
   { value: "tailwind", label: "Tailwind CSS" },
@@ -40,7 +40,7 @@ export const tagCategoryMap: Record<string, string> = {
   "ai video": "ai",
   chatgpt: "ai",
   gemini: "ai",
-  "machine learning": "ai",
+  "machine learning": "ai, ml, python",
 
   // --- Web Development ---
   webdev: "webdev",
@@ -140,6 +140,9 @@ export const tagCategoryMap: Record<string, string> = {
   // --- Beginners ---
   beginners: "beginners",
   beginner: "beginners",
+  // --- Beginners ---
+  machine: "machine learning",
+  "python programming": "python/machine learning",
 };
 
 export const codeSampleLanguages = [
