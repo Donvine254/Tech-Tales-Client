@@ -96,7 +96,7 @@ const UserDropdown = ({
                 Create Blog
               </DropdownMenuItem>
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-1">
               <Link href="/featured" passHref>
                 <DropdownMenuItem
                   className={cn(
@@ -195,14 +195,14 @@ const UserDropdown = ({
                   <span>Settings</span>
                 </DropdownMenuItem>
               </Link>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                className="cursor-pointer text-red-500 hover:bg-destructive/90 focus:bg-destructive/90 hover:text-white group"
-                onClick={onLogout}>
-                <LogOut className="mr-2 h-4 w-4 text-red-500 group-hover:text-white" />
-                <span className="group-hover:text-white">Sign Out</span>
-              </DropdownMenuItem>
             </div>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              className="cursor-pointer text-red-500 hover:bg-destructive/90 focus:bg-destructive/90 hover:text-white group"
+              onClick={onLogout}>
+              <LogOut className="mr-2 h-4 w-4 text-red-500 group-hover:text-white" />
+              <span className="group-hover:text-white">Sign Out</span>
+            </DropdownMenuItem>
           </>
         ) : (
           // Logged out dropdown content (mobile menu)
@@ -211,7 +211,7 @@ const UserDropdown = ({
             <SearchBar className="md:hidden p-2" />
             <DropdownMenuSeparator />
 
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-1">
               {/* Navigation items for mobile */}
               <Link href="/featured" passHref>
                 <DropdownMenuItem
@@ -259,7 +259,7 @@ const UserDropdown = ({
             {/* Sign in button */}
             {/* Add link to login page */}
             <DropdownMenuItem
-              className="cursor-pointer  font-medium text-center flex items-center justify-center gap-2 w-full my-2 border border-blue-200 dark:border-none rounded-lg bg-gradient-to-r from-cyan-600 via-purple-600 to-blue-600 text-white  hover:from-blue-600 hover:to-cyan-600"
+              className="cursor-pointer  font-medium text-center flex items-center justify-center gap-1 w-full my-2 border border-blue-200 dark:border-none rounded-lg bg-gradient-to-r from-cyan-600 via-purple-600 to-blue-600 text-white  hover:from-blue-600 hover:to-cyan-600"
               onClick={onLogin}>
               <CircleUserRound className="h-4 w-4 text-blue-500 dark:text-white " />
               <span>Login/Register</span>
