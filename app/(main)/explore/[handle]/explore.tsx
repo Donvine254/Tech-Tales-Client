@@ -1,5 +1,4 @@
 import { SocialLinks } from "@/components/custom/social-links";
-import { getUserAndBlogsByHandle } from "@/lib/actions/blogs";
 import { formatDate, formatViews } from "@/lib/utils";
 import { getTopAuthor } from "@/lib/actions/analytics";
 import {
@@ -14,6 +13,7 @@ import UserBlogs from "./user-blogs";
 import { BlogWithComments } from "@/types";
 import UserBadges from "@/components/pages/profile/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getUserAndBlogsByHandle } from "@/lib/actions/explore";
 type UserAndBlogs = Awaited<ReturnType<typeof getUserAndBlogsByHandle>>;
 
 export default async function ExplorePage({ data }: { data: UserAndBlogs }) {
