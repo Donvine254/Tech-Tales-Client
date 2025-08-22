@@ -264,8 +264,7 @@
   font-size: 15px !important;
 }
 #blog-body a {
-  color: #06b6d4;
-  text-decoration-line: underline;
+  @apply text-cyan-500 cursor-pointer underline break-words whitespace-pre-wrap;
 }
 
 .blog-body pre code {
@@ -317,7 +316,7 @@
   @apply !pl-4 sm:!pl-6 md:!pl-8;
 }
 #comment-body a {
-  @apply text-cyan-500 cursor-pointer hover:underline break-words whitespace-pre-wrap;
+  @apply text-cyan-500 cursor-pointer underline break-words whitespace-pre-wrap;
 }
 
 #blog-body img {
