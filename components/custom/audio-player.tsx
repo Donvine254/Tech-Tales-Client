@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef, SetStateAction, Dispatch } from "react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { Play, Pause, RotateCcw, RotateCw, X } from "lucide-react";
+import { Play, Pause, RotateCcw, RotateCw, XIcon } from "lucide-react";
 
 interface AudioPlayerProps {
   audioUrl?: string;
@@ -135,36 +135,35 @@ export default function AudioPlayer({
   };
 
   return (
-    <div className="w-full bg-card dark:bg-accent border border-border rounded-lg shadow relative overflow-hidden">
+    <div className="w-full bg-card dark:bg-accent border border-border rounded-lg shadow relative overflow-hidden mb-2">
       {/* close button */}
-      <X
-        className="h-4 w-4 absolute top-0.5 right-0.5 text-muted-foreground hover:text-red-500 cursor-pointer"
+      <button
+        type="button"
+        title="click to close player"
         onClick={() => setShowPlayButton(false)}
-      />
+        className="absolute top-0 right-0.5 z-20 p-0.5 bg-card border border-border hover:shadow hover:scale-110 transition-all duration-700 rounded-full cursor-pointer text-primary/80 hover:text-destructive">
+        <XIcon className="size-3.5" />
+      </button>
 
       {/* Main player controls */}
-      <div className="flex items-center justify-between gap-4 p-2">
+      <div className="flex items-center justify-between gap-4 px-2 py-3">
         {/* Play/Pause button */}
         <Button
           variant="ghost"
           size="icon"
           onClick={togglePlayPause}
-          className="h-12 w-12 rounded-full hover:bg-gray-100 dark:hover:bg-gray-400 dark:hover:text-gray-950">
+          className="h-8 w-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-400 dark:hover:text-gray-950">
           {isPlaying ? (
-            <Pause className="h-10 w-10 fill-current" />
+            <Pause className="fill-current ml-1" />
           ) : (
-            <Play className="h-10 w-10 fill-current ml-1" />
+            <Play className="fill-current ml-1" />
           )}
         </Button>
-
         {/* Sound wave */}
         <SoundWave />
-
         {/* Title */}
         <div className="hidden md:block flex-1 text-center">
-          <span className="text-muted-foreground font-medium">
-            Listen to article
-          </span>
+          <span className="text-primary/80 font-medium">Listen to article</span>
         </div>
 
         {/* Speed control */}
@@ -172,27 +171,30 @@ export default function AudioPlayer({
           variant="ghost"
           size="sm"
           onClick={toggleSpeed}
-          className="text-primary cursor-pointer hover:bg-accent/90 px-3 py-1 rounded-full ">
+          title="Change Playback Speed"
+          className="text-primary/80 cursor-pointer hover:bg-accent/90 px-3 py-1 rounded-full ">
           {playbackSpeed}x
         </Button>
 
         {/* Skip backward 10s */}
         <div
           onClick={skipBackward}
-          className="h-10 w-10 rounded-full hover:bg-accent/90 flex items-center justify-center cursor-pointer relative">
+          className="h-6 w-6 rounded-full hover:bg-accent/90 flex items-center justify-center text-primary/80 hover:text-primary  cursor-pointer relative"
+          title="Rewind 10 seconds">
           <RotateCcw className="h-8 w-8" strokeWidth={1} />
-          <span className="absolute text-xs font-bold text-primary">10</span>
+          <span className="absolute text-[8px] font-medium">10</span>
         </div>
 
         {/* Skip forward 30s */}
         <div
           onClick={skipForward}
-          className="h-10 w-10 rounded-full hover:bg-accent/90 flex items-center justify-center cursor-pointer relative">
+          className="h-6 w-6 rounded-full hover:bg-accent/90 text-primary/80 hover:text-primary flex items-center justify-center cursor-pointer relative"
+          title="Skip Forward 30s">
           <RotateCw className="h-8 w-8" strokeWidth={1} />
-          <span className="absolute text-xs font-bold text-primary">30</span>
+          <span className="absolute text-[8px] font-medium">30</span>
         </div>
         {/* Time display */}
-        <div className="text-primary font-medium min-w-[3rem]">
+        <div className="text-primary/80 font-medium min-w-[3rem]">
           {formatTime(currentTime)}
         </div>
       </div>

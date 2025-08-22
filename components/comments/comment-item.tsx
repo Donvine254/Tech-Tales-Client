@@ -311,12 +311,12 @@ export const CommentItem: React.FC<Props> = ({
                 {blogAuthorId === comment.authorId ? (
                   <Badge
                     title="author"
-                    className="text-xs p-0.5 text-yellow-500 font-medium bg-yellow-200 dark:bg-yellow-900/20 ">
+                    className="text-xs p-0.5 text-yellow-500 font-medium bg-inherit dark:bg-yellow-900/20 ">
                     ✨Author
                   </Badge>
                 ) : comment.author.role === "admin" ? (
                   <Badge
-                    className="text-xs p-0.5 text-purple-500 font-medium bg-purple-900/20"
+                    className="text-xs p-0.5 text-purple-500 font-medium bg-inherit dark:bg-purple-900/20"
                     title="admin">
                     ★Admin
                   </Badge>
