@@ -1,12 +1,11 @@
 "use server";
-import { revalidatePath, unstable_cache } from "next/cache";
+import { revalidatePath } from "next/cache";
 import prisma from "@/prisma/prisma";
 import { BlogData } from "@/types";
 import { BlogStatus, Prisma } from "@prisma/client";
 import { canPublishBlog, generateDescription } from "../helpers";
 import { revalidateTag } from "next/cache";
-import { redirect } from "next/navigation";
-import { blogSelect } from "@/prisma/select";
+
 import { calculateReadingTime, formatDate } from "../utils";
 import { revalidateBlog } from "./cache";
 import { createBlogVersion } from "./blog-version";
@@ -215,58 +214,7 @@ export async function deleteOrArchiveBlog(uuid: string) {
     };
   }
 }
-/*This function gets user blogs based on their handles, used in the explore page. Should be refactored for single responsbility*/
-export const getUserAndBlogsByHandle = unstable_cache(
-  async (handle: string) => {
-    if (!handle) {
-      throw new Error("Kindly provide a handle first");
-    }
-    const user = await prisma.user.findFirst({
-      where: { handle, deactivated: false },
-      select: {
-        id: true,
-        username: true,
-        handle: true,
-        picture: true,
-        bio: true,
-        role: true,
-        branding: true,
-        skills: true,
-        createdAt: true,
-        socials: true,
-        _count: {
-          select: {
-            comments: true,
-            blogs: true,
-          },
-        },
-      },
-    });
-    if (!user) {
-      redirect("/404");
-    }
-    const blogs = await prisma.blog.findMany({
-      where: {
-        authorId: user.id,
-        status: "PUBLISHED",
-      },
-      select: {
-        status: true,
-        ...blogSelect,
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
 
-    return { user, blogs };
-  },
-  ["user-blogs"],
-  {
-    revalidate: 6000,
-    tags: ["user-blogs"],
-  }
-);
 /*This function only updates the blog status and can be used to archive or publish a blog*/
 export async function updateBlogStatus(status: BlogStatus, blogId: number) {
   let blog;

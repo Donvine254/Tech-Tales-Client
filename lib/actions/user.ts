@@ -15,7 +15,9 @@ import { blogSelect } from "@/prisma/select";
 import { cachedCall } from "./cache";
 
 /* function to getAllUserBlogs. Used in app/(main)/me/posts */
-export const getUserBlogs = async (userId: number) => {
+export const getUserBlogs = async () => {
+  const user = await isVerifiedUser();
+  const userId = Number(user.userId);
   return cachedCall(
     [userId],
     `user-${userId}-blogs`,
@@ -76,49 +78,51 @@ export const getUserTopBlogs = async () => {
 
 /* This function returns all user information */
 export const getUserData = async () => {
-  const session = await isVerifiedUser();
-  if (!session) {
-    redirect("/login");
-  }
-  const user = await prisma.user.findUnique({
-    // do not return deactivated users data
-    where: { id: Number(session.userId), deactivated: false },
-    select: {
-      id: true,
-      username: true,
-      email: true,
-      handle: true,
-      picture: true,
-      bio: true,
-      role: true,
-      branding: true,
-      skills: true,
-      createdAt: true,
-      socials: true,
-      keep_blogs_on_delete: true,
-      keep_comments_on_delete: true,
-      preferences: true,
-      _count: {
+  const user = await isVerifiedUser();
+  return cachedCall(
+    [user.userId],
+    `user:${user.userId}:data`, // 👈 unique per-user cache key
+    async (id) => {
+      return prisma.user.findUnique({
+        where: { id: Number(id), deactivated: false },
         select: {
-          comments: true,
-          blogs: true,
+          id: true,
+          username: true,
+          email: true,
+          handle: true,
+          picture: true,
+          bio: true,
+          role: true,
+          branding: true,
+          skills: true,
+          createdAt: true,
+          socials: true,
+          keep_blogs_on_delete: true,
+          keep_comments_on_delete: true,
+          preferences: true,
+          _count: {
+            select: {
+              comments: true,
+              blogs: true,
+            },
+          },
         },
-      },
+      });
     },
-  });
-
-  return user;
+    {
+      tags: [`user:${user.userId}:data`], // revalidate only when profile updates
+      revalidate: 600, // revalidate every 10 minutes
+    }
+  );
 };
 
 /*This function only handles updating user social media links*/
 export async function updateSocials(data: SocialLink[]) {
   const session = await isVerifiedUser();
-  if (!session) {
-    redirect("/login");
-  }
+  const userId = Number(session.userId);
   try {
     const user = await prisma.user.update({
-      where: { id: Number(session.userId) },
+      where: { id: userId },
       data: {
         socials: data as unknown as Prisma.InputJsonValue, // ✅ fix type error
       },
@@ -127,7 +131,9 @@ export async function updateSocials(data: SocialLink[]) {
       },
     });
 
-    revalidateTag(`user-${session.userId}-blogs`);
+    revalidateTag(`user-${userId}-blogs`);
+    revalidateTag(`user:${userId}:data`);
+    revalidateTag(`author-${userId}:data`);
     return {
       success: true,
       socials: user.socials,
@@ -160,10 +166,8 @@ type UpdateData = {
 };
 
 export async function updateUserDetails(data: Partial<UpdateData>) {
+  // auth check
   const session = await isVerifiedUser();
-  if (!session) {
-    redirect("/login");
-  }
   try {
     const updatedUser = await prisma.user.update({
       where: {
@@ -179,6 +183,9 @@ export async function updateUserDetails(data: Partial<UpdateData>) {
       },
     });
     await createAndSetAuthTokenCookie(updatedUser);
+    revalidateTag(`user:${session.userId}:data`);
+    revalidateTag(`author-${session.userId}:data`);
+    // revalidate user data cache
     return {
       success: true,
       message: "user details updated successfully",
@@ -195,13 +202,11 @@ export async function deactivateUserAccount(
   keepComments: boolean
 ) {
   const session = await isVerifiedUser();
-  if (!session) {
-    redirect("/login");
-  }
+  const userId = Number(session.userId);
   try {
     const user = await prisma.user.update({
       where: {
-        id: Number(session.userId),
+        id: userId,
       },
       data: {
         deactivated: true,
@@ -239,6 +244,7 @@ export async function deactivateUserAccount(
         keepComments
       );
     });
+    revalidateTag(`author-${userId}:data`);
     return { success: true, message: "User account deleted successfully" };
   } catch (error) {
     const e = error as Error;
@@ -255,9 +261,6 @@ export async function deleteUserAccount(
   keepComments: boolean
 ) {
   const session = await isVerifiedUser();
-  if (!session) {
-    redirect("/login");
-  }
   try {
     const user = await prisma.user.findUnique({
       where: { id: Number(session.userId) },
@@ -302,7 +305,7 @@ export async function deleteUserAccount(
     await prisma.user.delete({
       where: { id: user.id },
     });
-
+    revalidateTag(`author-${user.id}:data`);
     return { success: true, message: "User account deleted successfully" };
   } catch (error) {
     const e = error as Error;

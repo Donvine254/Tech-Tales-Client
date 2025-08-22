@@ -12,6 +12,7 @@ export async function revalidateBlog(
   userId?: number
 ) {
   revalidateTag(`user-${userId}-blogs`);
+  revalidateTag(`author-${userId}:data`);
   revalidateTag("featured");
   revalidateTag("latest");
   revalidateTag("trending");

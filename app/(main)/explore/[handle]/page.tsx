@@ -1,7 +1,10 @@
-import { getUserAndBlogsByHandle } from "@/lib/actions/blogs";
 import ExplorePage from "./explore";
 import { redirect } from "next/navigation";
 import prisma from "@/prisma/prisma";
+import {
+  getUserAndBlogsByHandle,
+  getUserIdByHandle,
+} from "@/lib/actions/explore";
 export const metadata = {
   title: "Explore Author Blogs - Tech Tales",
 };
@@ -45,8 +48,9 @@ export default async function Page({
   params: Promise<{ handle: string }>;
 }) {
   const { handle } = await params;
-  const data = await getUserAndBlogsByHandle(handle);
-  if (!handle || !data) {
+  const userId = await getUserIdByHandle(handle);
+  const data = await getUserAndBlogsByHandle(userId);
+  if (!data) {
     redirect("/");
   }
   return (
