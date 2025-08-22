@@ -1,7 +1,6 @@
 "use server";
 import { revalidatePath, unstable_cache } from "next/cache";
 import prisma from "@/prisma/prisma";
-import { getSession } from "./session";
 import { BlogData } from "@/types";
 import { BlogStatus, Prisma } from "@prisma/client";
 import { canPublishBlog, generateDescription } from "../helpers";
@@ -11,22 +10,21 @@ import { blogSelect } from "@/prisma/select";
 import { calculateReadingTime, formatDate } from "../utils";
 import { revalidateBlog } from "./cache";
 import { createBlogVersion } from "./blog-version";
+import { isVerifiedUser } from "@/dal/auth-check";
 // function to create a new blog
 
 export async function createNewBlog() {
-  const session = await getSession();
-  if (!session || !session.userId) {
-    return { success: false, message: "user id is required" };
-  }
+  const user = await isVerifiedUser();
   try {
     const blog = await prisma.blog.create({
       data: {
-        authorId: Number(session.userId),
+        authorId: Number(user.userId),
         title: "Untitled Blog",
         status: "DRAFT",
       },
     });
     if (blog) {
+      revalidateTag(`user-${user.userId}-blogs`);
       return { success: true, data: blog };
     } else {
       return { success: true, message: "blog creation failed" };
@@ -39,6 +37,8 @@ export async function createNewBlog() {
 
 // function to save draft blog
 export async function SaveDraftBlog(data: BlogData, uuid: string) {
+  // Auth check
+  const user = await isVerifiedUser();
   let reading_time = 0;
   if (data.body) {
     reading_time = calculateReadingTime(data.body || "");
@@ -61,8 +61,7 @@ export async function SaveDraftBlog(data: BlogData, uuid: string) {
         status: true,
       },
     });
-    revalidateTag("user-blogs");
-    revalidatePath("/me/posts");
+    revalidateTag(`user-${user.userId}-blogs`);
     if (data.path) {
       revalidatePath(`/read/${data.path}`);
     }
@@ -99,6 +98,8 @@ export async function publishBlog(
   },
   uuid: string
 ) {
+  // auth check
+  const user = await isVerifiedUser();
   const validation = canPublishBlog(data);
   if (!validation.valid) {
     return {
@@ -126,7 +127,7 @@ export async function publishBlog(
         path: true,
       },
     });
-    revalidateBlog(blog.path);
+    revalidateBlog(blog.path, user.userId);
     setImmediate(() => {
       createBlogVersion(
         blog.id,
@@ -157,6 +158,8 @@ export async function publishBlog(
 }
 /* function to delete blog posts. Published blogs can only be archived */
 export async function deleteOrArchiveBlog(uuid: string) {
+  // auth check
+  const user = await isVerifiedUser();
   try {
     // Fetch current blog status
     const blog = await prisma.blog.findUnique({
@@ -199,7 +202,7 @@ export async function deleteOrArchiveBlog(uuid: string) {
         message: "Published blog archived successfully",
       };
     }
-    revalidateBlog(blog.path);
+    revalidateBlog(blog.path, user.userId);
     return {
       success: false,
       message: `No action taken for blog with status '${blog.status}'`,
@@ -267,6 +270,8 @@ export const getUserAndBlogsByHandle = unstable_cache(
 /*This function only updates the blog status and can be used to archive or publish a blog*/
 export async function updateBlogStatus(status: BlogStatus, blogId: number) {
   let blog;
+  // auth check
+  const user = await isVerifiedUser();
   try {
     if (status === "PUBLISHED") {
       blog = await prisma.blog.findUnique({
@@ -305,11 +310,14 @@ export async function updateBlogStatus(status: BlogStatus, blogId: number) {
       },
     });
 
-    revalidateBlog(blog.path);
+    revalidateBlog(blog.path, user.userId);
     setImmediate(() => {
       createBlogVersion(
         blogId,
-        `Updated blog status to ${status.toLowerCase()} at ${formatDate(new Date(), true)}`
+        `Updated blog status to ${status.toLowerCase()} at ${formatDate(
+          new Date(),
+          true
+        )}`
       );
     });
     return {
@@ -327,6 +335,8 @@ export async function updateBlogStatus(status: BlogStatus, blogId: number) {
 /*This function only updates locks or unlocks the blog conversations to either allow or disallow commenting, existing comments will remain visible*/
 
 export async function toggleDiscussion(id: number, show: boolean) {
+  // auth check
+  const user = await isVerifiedUser();
   try {
     const blog = await prisma.blog.update({
       where: { id },
@@ -337,7 +347,7 @@ export async function toggleDiscussion(id: number, show: boolean) {
         path: true,
       },
     });
-    revalidateBlog(blog.path);
+    revalidateBlog(blog.path, user.userId);
     return {
       success: true,
       message: `Blog discussion ${show ? "unlocked" : "locked"} successfully`,

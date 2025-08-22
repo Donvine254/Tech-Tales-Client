@@ -1,16 +1,23 @@
 import { revalidatePath, revalidateTag } from "next/cache";
-
-export async function revalidateBlog(blogPath?: string | null) {
-  revalidateTag("user-blogs");
+import { unstable_cache } from "next/cache";
+/*
+ * Revalidates the blog and user blogs cache tags.
+ * This function is used to ensure that the cache is updated when a blog is created, updated, or deleted.
+ *
+ * @param blogPath - The path of the blog to revalidate.
+ * @param userId - The ID of the user whose blogs need to be revalidated.
+ */
+export async function revalidateBlog(
+  blogPath?: string | null,
+  userId?: number
+) {
+  revalidateTag(`user-${userId}-blogs`);
   revalidateTag("featured");
   revalidateTag("latest");
   revalidateTag("trending");
   revalidateTag("blogs");
-  revalidatePath("/me/posts");
   revalidatePath(`/read/${blogPath}`);
 }
-
-import { unstable_cache } from "next/cache";
 
 /**
  * A utility function that wraps unstable_cache to cache the result of any callback function
