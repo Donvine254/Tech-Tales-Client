@@ -24,7 +24,6 @@ import {
   CompassIcon,
   HeartIcon,
   ListFilterIcon,
-  Loader2,
   Search,
   XIcon,
 } from "lucide-react";
@@ -47,10 +46,11 @@ export default function Library({
     useState<BlogWithComments[]>(initialFavorites);
   const [currentPage, setCurrentPage] = useState(1);
   const [activeTab, setActiveTab] = useState("bookmarks");
-  //   loading state for unfavorite button
-  const [loading, setLoading] = useState<number | null>(null);
   const queryClient = useQueryClient();
-  // fetch user bookmarks
+  /*
+   *** Function to fetch bookmarked blogs using React Query
+   *** This replaces the initial server-side fetched bookmarks
+   */
   const { data: bookmarks = [], isLoading } = useQuery({
     queryKey: ["bookmarkedBlogs"],
     queryFn: fetchBookmarks,
@@ -80,7 +80,6 @@ export default function Library({
 
   //   function to remove blog from favorites
   const removeFromFavorites = async (blogId: number) => {
-    setLoading(blogId);
     const favoriteToRemove = favorites.find((blog) => blog.id === blogId);
     setFavorites((prev) => prev.filter((blog) => blog.id !== blogId));
     try {
@@ -99,8 +98,6 @@ export default function Library({
         setFavorites((prev) => [favoriteToRemove, ...prev]);
       }
       toast.error("Failed to remove blog from favorites");
-    } finally {
-      setLoading(null);
     }
   };
 
@@ -270,17 +267,12 @@ export default function Library({
               <div key={blog.id} className="relative">
                 <button
                   type="button"
-                  disabled={loading === blog.id}
                   title="click to remove blog from favorites"
                   onClick={() => {
                     removeFromFavorites(blog.id);
                   }}
                   className="absolute top-2 right-2 md:-top-1 md:-right-1 z-20 p-1 bg-card border border-border hover:shadow hover:scale-110 transition-all duration-700 rounded-full cursor-pointer text-sm">
-                  {loading === blog.id ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  ) : (
-                    <XIcon className="size-4 fill-red-500 text-red-500" />
-                  )}
+                  <XIcon className="size-4 fill-red-500 text-red-500" />
                 </button>
                 <MinimalBlogCard
                   blog={blog}
