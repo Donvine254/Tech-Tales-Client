@@ -41,30 +41,37 @@ export const getUserBlogs = async (userId: number) => {
     },
     {
       tags: [`user-${userId}-blogs`, "blogs"],
-      revalidate: 60, // revalidate every 60 seconds
+      revalidate: 600, // revalidate every 10 minutes
     }
   );
 };
 /* This function just user information and top 5 blogs. Used in /me route and profile.ts component (app\(main)\me) */
 export const getUserTopBlogs = async () => {
-  const session = await isVerifiedUser();
-  if (!session) {
-    redirect("/login");
-  }
-  return prisma.blog.findMany({
-    where: {
-      authorId: Number(session.userId),
-      status: "PUBLISHED",
+  const user = await isVerifiedUser();
+  return cachedCall(
+    [],
+    `user-${user.userId}-top`,
+    async () => {
+      return prisma.blog.findMany({
+        where: {
+          authorId: Number(user.userId),
+          status: "PUBLISHED",
+        },
+        select: {
+          status: true,
+          ...blogSelect,
+        },
+        orderBy: {
+          views: "desc",
+        },
+        take: 5,
+      });
     },
-    select: {
-      status: true,
-      ...blogSelect,
-    },
-    orderBy: {
-      views: "desc",
-    },
-    take: 5,
-  });
+    {
+      tags: [`user-${user.userId}-top`],
+      revalidate: 600, // revalidate every 600 seconds
+    }
+  );
 };
 
 /* This function returns all user information */
