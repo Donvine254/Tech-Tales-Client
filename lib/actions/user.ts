@@ -1,5 +1,5 @@
 "use server";
-import { revalidateTag, unstable_cache } from "next/cache";
+import { revalidateTag } from "next/cache";
 import prisma from "@/prisma/prisma";
 import { Preferences, SocialLink } from "@/types";
 import { Prisma, UserStatus } from "@prisma/client";
@@ -12,32 +12,39 @@ import {
 } from "@/emails/mailer";
 import { DELETED_USER_ID } from "../utils";
 import { blogSelect } from "@/prisma/select";
+import { cachedCall } from "./cache";
 
 /* function to getAllUserBlogs. Used in app/(main)/me/posts */
-export const getUserBlogs = unstable_cache(
-  async (userId: number) => {
-    // check if user is verified
-    if (!userId) {
-      redirect("/login");
-    }
-    const blogs = await prisma.blog.findMany({
-      where: {
-        authorId: userId,
-      },
-      select: {
-        authorId: true,
-        updatedAt: true,
-        status: true,
-        show_comments: true,
-        ...blogSelect,
-      },
-    });
+export const getUserBlogs = async (userId: number) => {
+  return cachedCall(
+    [userId],
+    `user-${userId}-blogs`,
+    async (userId: number) => {
+      // check if user is verified
+      if (!userId) {
+        redirect("/login");
+      }
+      const blogs = await prisma.blog.findMany({
+        where: {
+          authorId: userId,
+        },
+        select: {
+          authorId: true,
+          updatedAt: true,
+          status: true,
+          show_comments: true,
+          ...blogSelect,
+        },
+      });
 
-    return blogs;
-  },
-  ["user-blogs"],
-  { revalidate: 600, tags: ["user-blogs"] }
-);
+      return blogs;
+    },
+    {
+      tags: [`user-${userId}-blogs`, "blogs"],
+      revalidate: 60, // revalidate every 60 seconds
+    }
+  );
+};
 /* This function just user information and top 5 blogs. Used in /me route and profile.ts component (app\(main)\me) */
 export const getUserTopBlogs = async () => {
   const session = await isVerifiedUser();
@@ -113,7 +120,7 @@ export async function updateSocials(data: SocialLink[]) {
       },
     });
 
-    revalidateTag("user-blogs");
+    revalidateTag(`user-${session.userId}-blogs`);
     return {
       success: true,
       socials: user.socials,
