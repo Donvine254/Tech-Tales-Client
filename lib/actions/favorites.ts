@@ -1,5 +1,6 @@
 "use server";
 import prisma from "@/prisma/prisma";
+import { revalidateTag } from "next/cache";
 
 export async function getFavoriteBlogs(userId: number) {
   try {
@@ -44,7 +45,7 @@ export async function handleBlogLiking(
       await prisma.favorite.deleteMany({
         where: { blogId, userId },
       });
-
+      revalidateTag(`user-${userId}:favorites`);
       return { success: true, disliked: true };
     }
 

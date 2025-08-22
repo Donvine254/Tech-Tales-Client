@@ -1,28 +1,44 @@
 "use server";
 import prisma from "@/prisma/prisma";
 import { blogSelect } from "@/prisma/select";
+import { cachedCall } from "./cache";
+import { isVerifiedUser } from "@/dal/auth-check";
 
-export async function getUserFavorites(userId: number) {
-  const favorites = await prisma.favorite.findMany({
-    where: {
-      userId,
-      blog: {
-        status: "PUBLISHED",
-      },
-    },
-    select: {
-      blog: {
-        select: {
-          status: true,
-          ...blogSelect,
+export async function getUserFavorites() {
+  const user = await isVerifiedUser();
+  const userId = Number(user.userId);
+  return cachedCall(
+    [userId],
+    `user-${userId}:favorites`,
+    async (userId: number) => {
+      const favorites = await prisma.favorite.findMany({
+        where: {
+          userId,
+          blog: {
+            status: "PUBLISHED",
+          },
         },
-      },
+        select: {
+          blog: {
+            select: {
+              status: true,
+              ...blogSelect,
+            },
+          },
+        },
+      });
+
+      if (!favorites) {
+        return [];
+      }
+
+      return favorites.map((fav) => fav.blog);
     },
-  });
-  if (!favorites) {
-    return [];
-  }
-  return favorites.map((fav) => fav.blog);
+    {
+      tags: [`user-${userId}:favorites`, "favorites"],
+      revalidate: 600, // 10 minutes
+    }
+  );
 }
 
 // function to fetch bookmarked blogs

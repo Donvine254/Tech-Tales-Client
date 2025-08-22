@@ -14,9 +14,7 @@ export default async function Page() {
   if (!session) {
     redirect("/");
   }
-  const favorites = (await getUserFavorites(
-    session.userId
-  )) as BlogWithComments[];
+  const favorites = (await getUserFavorites()) as BlogWithComments[];
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-accent">
