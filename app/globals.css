@@ -458,6 +458,23 @@ blockquote::after {
   display: none !important;
   opacity: 0 !important;
 }
+/* Base checklist item */
+.tox-checklist > li:not(.tox-checklist--hidden) {
+  @apply relative list-none my-1;
+}
+
+/* Checkbox icon (unchecked by default) */
+.tox-checklist > li:not(.tox-checklist--hidden)::before {
+  content: "";
+  @apply absolute w-4 h-4 -ml-6 mt-2 cursor-pointer border border-gray-600 rounded;
+}
+
+/* Checked state */
+.tox-checklist > li:not(.tox-checklist--hidden).tox-checklist--checked::before {
+  content: "✔";
+  @apply flex items-center  justify-center text-xs text-white bg-blue-500;
+}
+
 #advcodesample,
 #modal,
 .modal {

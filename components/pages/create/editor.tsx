@@ -160,13 +160,14 @@ export const EditorSection: React.FC<EditorSectionProps> = ({
               "codesample",
               "tableofcontents",
               "fullscreen",
+              "checklist",
             ],
             toolbar:
-              "undo redo| blocks | bold italic forecolor underline| align numlist bullist indent| link image table media pageembed| backcolor  emoticons advcodesample blockquote| code ai importword removeformat fullscreen",
+              "undo redo| blocks | bold italic forecolor underline| align indent numlist bullist | link image table media pageembed| backcolor  emoticons advcodesample blockquote| code ai importword removeformat fullscreen",
             menu: {
               tools: {
                 title: "Tools",
-                items: "ai advcodesample wordcount help",
+                items: "ai advcodesample checklist wordcount help",
               },
             },
             image_advtab: true,
