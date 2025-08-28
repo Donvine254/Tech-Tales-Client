@@ -170,7 +170,8 @@ export const EditorSection: React.FC<EditorSectionProps> = ({
               },
             },
             image_advtab: true,
-
+            quickbars_insert_toolbar:
+              "quickimage quicktable  quicklink advcodesample",
             images_upload_handler: handleImageUpload,
             file_picker_types: "image",
             file_picker_callback: (
