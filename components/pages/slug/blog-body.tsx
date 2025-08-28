@@ -28,7 +28,7 @@ export function BlogBody({ body }: { body: string }) {
           const grammar = Prism.languages[language] || Prism.languages.text;
           const highlighted = Prism.highlight(codeHtml, grammar, language);
           // Important: keep as innerHTML so JSX doesn’t execute
-          return <CodeBlock code={highlighted} language={language} />;
+          return <CodeBlock code={codeHtml} highlightedCode={highlighted} language={language} />;
         }
       }
     },

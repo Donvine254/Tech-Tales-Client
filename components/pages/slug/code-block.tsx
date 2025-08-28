@@ -11,9 +11,11 @@ function getLanguageDisplayName(language: string) {
 export default function CodeBlock({
   code,
   language,
+  highlightedCode,
 }: {
   code: string;
   language: string;
+  highlightedCode: string;
 }) {
   const [hasMounted, setHasMounted] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -57,7 +59,7 @@ export default function CodeBlock({
 
       {/* Code */}
       <pre className={`language-${language} max-h-[450px] overflow-y-auto  `}>
-        <code dangerouslySetInnerHTML={{ __html: code }} />
+        <code dangerouslySetInnerHTML={{ __html: highlightedCode }} />
       </pre>
     </div>
   );
