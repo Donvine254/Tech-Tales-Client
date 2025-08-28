@@ -20,6 +20,19 @@ export default function AudioPlayer({
   const [blogText, setBlogText] = useState("");
   const audioRef = useRef<HTMLAudioElement>(null);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
+
+  useEffect(() => {
+    const loadVoices = () => {
+      const v = speechSynthesis.getVoices();
+      if (v.length > 0) {
+        setVoices(v);
+      }
+    };
+
+    loadVoices();
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+  }, []);
 
   useEffect(() => {
     const blogElement = document.getElementById("blog-body");
@@ -74,6 +87,8 @@ export default function AudioPlayer({
         const utterance = new SpeechSynthesisUtterance(blogText);
         utterance.lang = "en-US";
         utterance.rate = playbackSpeed;
+        utterance.voice =
+          voices.find((v) => v.lang.startsWith("en")) || voices[0];
         utterance.onend = () => setIsPlaying(false);
         utterance.onerror = () => setIsPlaying(false);
         utteranceRef.current = utterance;
