@@ -254,44 +254,48 @@
   font-weight: 400;
   font-kerning: auto;
 }
-.blog-body p code {
-  background-color: #f5f2f0;
-  font-family: monospace;
-  border-radius: 5px;
-  color: #fb2c36;
-  padding: 0px 5px;
-  text-decoration-line: none !important;
-  font-size: 15px !important;
+#blog-body :not(pre) > code {
+  @apply bg-cyan-50 text-cyan-500 font-mono rounded px-1 py-0.5 font-medium dark:font-extralight  dark:bg-cyan-900/30 dark:text-cyan-400  !no-underline;
+  font-size: calc(1em * 0.75);
 }
+/* Add custom “ticks” */
+.blog-body :not(pre) > code::before {
+  content: "“";
+  color: inherit;
+  opacity: 0.7;
+}
+.blog-body :not(pre) > code::after {
+  content: "”";
+  color: inherit;
+  opacity: 0.7;
+}
+
 #blog-body a {
   @apply text-cyan-500 cursor-pointer underline break-words whitespace-pre-wrap;
 }
 
-.blog-body pre code {
-  font-size: 0.875rem;
-  line-height: 1.5;
-  font-family: monospace;
-  white-space: pre-wrap;
+#blog-body pre code {
+  @apply text-xs leading-loose sm:text-sm  whitespace-pre-wrap;
 }
-.blog-body pre[class*="language-"] > code {
+#blog-body pre[class*="language-"] > code {
   position: relative;
   display: block;
 }
 /* Styles for pre elements that contain code */
-.blog-body pre:has(code) {
+#blog-body pre:has(code) {
   @apply rounded-lg w-full overflow-x-auto leading-normal;
 }
 
-.dark .blog-body pre:has(code) {
+.dark #blog-body pre:has(code) {
   @apply bg-gray-900 text-gray-100;
 }
 
 /* Styles for pre elements that do NOT contain code */
-.blog-body pre:not(:has(code)) {
+#blog-body pre:not(:has(code)) {
   @apply w-full whitespace-pre-wrap  text-black text-sm bg-gray-100 p-4  border-gray-300;
 }
 
-.dark .blog-body pre:not(:has(code)) {
+.dark #blog-body pre:not(:has(code)) {
   @apply text-gray-100 bg-gray-900;
 }
 /* wrap long tailwind css classes: does not maintain code indentation */

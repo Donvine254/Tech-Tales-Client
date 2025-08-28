@@ -62,6 +62,7 @@ export default function Slug({ blog, initialComments }: Props) {
   return (
     <div className="w-full mx-auto m-2 min-h-[75%] px-4 md:px-8 xsm:px-4 max-w-4xl md:mt-4">
       <PrismLoader />
+      {/* Script for ink-html used to print the blog body */}
       <Script src="https://unpkg.com/ink-html/dist/index.js"></Script>
       <div className="p-[3px]  bg-gradient-to-br from-blue-500 via-purple-500 to-yellow-500  mt-2 rounded-md">
         <BlogImage
