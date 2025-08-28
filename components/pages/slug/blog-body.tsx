@@ -1,8 +1,10 @@
 import parse, { Element, HTMLReactParserOptions } from "html-react-parser";
 import CodeBlock from "./code-block";
 import Prism from "prismjs";
+import { useFullscreenImages } from "@/hooks/use-fullscreen";
 
 export function BlogBody({ body }: { body: string }) {
+  useFullscreenImages();
   const options: HTMLReactParserOptions = {
     replace: (node) => {
       if (
@@ -28,7 +30,13 @@ export function BlogBody({ body }: { body: string }) {
           const grammar = Prism.languages[language] || Prism.languages.text;
           const highlighted = Prism.highlight(codeHtml, grammar, language);
           // Important: keep as innerHTML so JSX doesn’t execute
-          return <CodeBlock code={codeHtml} highlightedCode={highlighted} language={language} />;
+          return (
+            <CodeBlock
+              code={codeHtml}
+              highlightedCode={highlighted}
+              language={language}
+            />
+          );
         }
       }
     },

@@ -47,6 +47,8 @@ export default function CodeBlock({
         <Button
           variant="ghost"
           size="sm"
+          type="button"
+          title="copy code"
           onClick={copyToClipboard}
           className="h-8 w-8 p-0 hover:bg-muted">
           {copied ? (
