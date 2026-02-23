@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
 
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({
-      model: "gemini-2.0-flash-lite",
+      model: "gemini-2.5-flash-lite",
       systemInstruction: systemPrompt,
     });
     const result = await model.generateContent([message]);
@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.error(error);
     return NextResponse.json(
-      { error: "Something went wrong" },
+      { error: "Something went wrong", message: error.message || 'No message'},
       { status: 503 }
     );
   }
