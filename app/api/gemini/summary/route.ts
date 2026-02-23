@@ -17,7 +17,7 @@ export async function POST(req: Request) {
     try {
       // Try with explicit API key configuration
       const result = await streamText({
-        model: google("gemini-2.0-flash-lite"),
+        model: google("gemini-2.5-flash-lite"),
         system: systemPrompt,
         prompt: userPrompt,
         maxTokens: 500,
