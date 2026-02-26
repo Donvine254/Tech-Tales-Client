@@ -15,6 +15,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {Chatgpt} from "@/assets/icons";
 import { handleSharing } from "@/lib/utils";
 import { BookOpen, Share } from "lucide-react";
 import { useState } from "react";
@@ -110,7 +111,14 @@ export function ShareModal({
       toast.error("Failed to copy link to clipboard");
     }
   };
-
+//function to share with ChatGPT
+const shareOnChatGPT = () => {
+    const prompt = `Please read this recipe: ${blogUrl} and give me more details, tips, variations, and nutritional information.`;
+    const chatUrl = `https://chat.openai.com/?hints=search&q=${encodeURIComponent(
+      prompt
+    )}`;
+    window.open(chatUrl, "_blank", "noopener,noreferrer");
+  };
   const generateQRCode = async () => {
     const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(
       blogUrl
@@ -389,7 +397,18 @@ export function ShareModal({
             </button>
             <small>Email</small>
           </div>
-
+           {/* ChatGPT */}
+              <div className="flex flex-col items-center">
+                <button
+                  onClick={shareOnChatGPT}
+                  className="w-12 h-12 bg-stone-200 text-gray-950 dark:bg-gray-950 dark:text-white rounded-xl flex items-center justify-center transition-all duration-200 hover:shadow-lg hover:scale-105 cursor-pointer"
+                  title="share with chatgpt">
+                  <Chatgpt className="w-7 h-7" />
+                </button>
+                <span className="text-xs text-muted-foreground mt-1">
+                  ChatGPT
+                </span>
+              </div>
           {/* QR Code Generator */}
           <div className="flex flex-col items-center">
             <button
