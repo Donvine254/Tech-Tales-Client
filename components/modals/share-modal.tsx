@@ -113,7 +113,7 @@ export function ShareModal({
   };
 //function to share with ChatGPT
 const shareOnChatGPT = () => {
-    const prompt = `Please read this recipe: ${blogUrl} and give me more details, tips, variations, and nutritional information.`;
+    const prompt = `Please read this blog: ${blogUrl} and give me a detailed summary and any other views on the topic.`;
     const chatUrl = `https://chat.openai.com/?hints=search&q=${encodeURIComponent(
       prompt
     )}`;
@@ -402,7 +402,7 @@ const shareOnChatGPT = () => {
                 <button
                   onClick={shareOnChatGPT}
                   className="w-12 h-12 bg-stone-200 text-gray-950 dark:bg-gray-950 dark:text-white rounded-xl flex items-center justify-center transition-all duration-200 hover:shadow-lg hover:scale-105 cursor-pointer"
-                  title="share with chatgpt">
+                  title="summarize with chatgpt">
                   <Chatgpt className="w-7 h-7" />
                 </button>
                 <span className="text-xs text-muted-foreground mt-1">
