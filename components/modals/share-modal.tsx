@@ -401,9 +401,9 @@ const shareOnChatGPT = () => {
               <div className="flex flex-col items-center">
                 <button
                   onClick={shareOnChatGPT}
-                  className="w-12 h-12 bg-stone-200 text-gray-950 dark:bg-gray-950 dark:text-white rounded-xl flex items-center justify-center transition-all duration-200 hover:shadow-lg hover:scale-105 cursor-pointer"
+                  className="w-12 h-12  text-gray-950 dark:bg-white dark:text-white rounded-xl flex items-center justify-center transition-all duration-200 hover:shadow-lg hover:scale-105 cursor-pointer"
                   title="summarize with chatgpt">
-                  <Chatgpt className="w-7 h-7" />
+                  <Chatgpt className="size-12" />
                 </button>
                 <span className="text-xs text-muted-foreground mt-1">
                   ChatGPT
