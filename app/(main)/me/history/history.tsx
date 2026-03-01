@@ -31,6 +31,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 const BLOGS_PER_PAGE = 5;
 
+//TODO: Store history in DB for logged in users and sync with cookie for guests. This way we can provide a more seamless experience across devices and sessions, while still allowing guests to have a temporary history without needing an account.
 async function fetchHistoryBlogs() {
   const readingHistory = getCookie("history");
   if (!readingHistory) return [];
