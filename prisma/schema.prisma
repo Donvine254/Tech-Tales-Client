@@ -31,6 +31,7 @@ model User {
   auth_provider           AuthProvider  @default(email)
   keep_blogs_on_delete    Boolean       @default(false)
   keep_comments_on_delete Boolean       @default(false)
+  sessions      Session[]
   blogs                   Blog[]
   comments                Comment[]
   favorites               Favorite[]
@@ -40,6 +41,19 @@ model User {
   @@index([handle, email, username])
 }
 
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime
+  updatedAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([token])
+  @@map("session")
+}
 model Blog {
   id            Int           @id @default(autoincrement())
   title         String?
