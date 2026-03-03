@@ -2,40 +2,43 @@
 
 import { headers } from "next/headers";
 
+// In development, real proxy headers don't exist so we just return localhost
+const isDev = process.env.NODE_ENV === "development";
+
 export async function getClientIP(): Promise<string> {
+  if (isDev) return "127.0.0.1";
+
   const headersList = await headers();
 
-  // Priority order for getting the real IP
   const ipHeaders = [
-    "x-forwarded-for",
-    "x-real-ip",
-    "cf-connecting-ip", // Cloudflare
+    "cf-connecting-ip",      // Cloudflare — most trustworthy if you use it
+    "x-real-ip",             // Nginx
+    "x-forwarded-for",       // Standard proxy header (may contain a list)
     "x-client-ip",
     "x-cluster-client-ip",
-    "forwarded-for",
     "forwarded",
   ];
 
   for (const header of ipHeaders) {
     const value = headersList.get(header);
-    if (value) {
-      const ip = value.split(",")[0]?.trim();
-      if (ip && ip.toLowerCase() !== "unknown") {
-        return ip;
-      }
-    }
+    if (!value) continue;
+
+    // x-forwarded-for can be "client, proxy1, proxy2" — first is the real client
+    const ip = value.split(",")[0].trim();
+
+    if (ip && isValidIP(ip)) return ip;
   }
 
-  // Fallback: fetch from external service
-  try {
-    const res = await fetch("https://api.ipify.org?format=json");
-    if (res.ok) {
-      const data = await res.json();
-      if (data?.ip) return data.ip;
-    }
-  } catch (error) {
-    console.error("Failed to fetch fallback IP:", error);
-  }
+  return "unknown";
+}
 
-  return "Unknown";
+function isValidIP(ip: string): boolean {
+  if (!ip || ip.toLowerCase() === "unknown") return false;
+
+  // IPv4
+  const ipv4 = /^(\d{1,3}\.){3}\d{1,3}$/;
+  // IPv6
+  const ipv6 = /^[\da-f:]+$/i;
+
+  return ipv4.test(ip) || ipv6.test(ip);
 }
