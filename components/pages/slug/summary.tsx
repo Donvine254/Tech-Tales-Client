@@ -185,13 +185,14 @@ export default function BlogSummaryGenerator({
       <div className="flex items-center justify-between">
         <button
           onClick={handleGenerateSummary}
+          title="Generate a summary of this blog"
           className={cn(
             "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium cursor-pointer disabled:pointer-events-none disabled:opacity-50 has-[>svg]:px-3 text-xs md:text-sm mt-2 transition-all duration-200 w-full sm:max-w-max",
             isExpanded
               ? "text-green-500 bg-none mb-2"
-              : "text-green-500 px-4 py-1 h-9  bg-green-100 dark:bg-green-900/20 border border-green-500 hover:bg-green-500 shadow-xs hover:text-white"
+              : "text-green-500 px-4 py-1 h-9 bg-green-100 dark:bg-green-900/20 border border-green-500 hover:bg-green-500 shadow-xs hover:text-white"
           )}>
-          ✨ Generate a summary of this story
+          <span className="animate-pulse">✨</span> Generate blog summary
         </button>
         {isExpanded && (
           <Button
@@ -248,7 +249,7 @@ export default function BlogSummaryGenerator({
                   </svg>
                   Here is a fact-based summary of the blog contents:
                 </h3>
-                <small className="text-xs md:text-sm">{summary}</small>
+                <p className="text-sm">{summary}</p>
                 {isGenerating && (
                   <span className="inline-block w-2 h-4 bg-green-400 ml-1 animate-pulse"></span>
                 )}
