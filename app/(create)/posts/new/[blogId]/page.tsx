@@ -2,9 +2,9 @@ import Script from "next/script";
 import Create from "./create";
 import { redirect } from "next/navigation";
 import prisma from "@/prisma/prisma";
-import { getSession } from "@/lib/actions/session";
 import { BlogData, CoverImage } from "@/types";
 import { BlogStatus } from "@prisma/client";
+import { getSession } from "@/lib/actions/session-utils";
 
 type BlogWithAuthor = {
   uuid: string;

@@ -1,6 +1,6 @@
-import { getSession } from "@/lib/actions/session";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/prisma";
+import { getSession } from "@/lib/actions/session-utils";
 export async function GET(req: NextRequest) {
   const session = await getSession();
   if (!session || !session.userId) {

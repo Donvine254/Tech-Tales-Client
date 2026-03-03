@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSession } from "@/lib/actions/session";
 import prisma from "@/prisma/prisma";
 import { PassThrough, Readable } from "stream";
 import archiver from "archiver";
+import { getSession } from "@/lib/actions/session-utils";
 
 export async function GET(req: NextRequest) {
   const session = await getSession();

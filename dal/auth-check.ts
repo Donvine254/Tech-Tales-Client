@@ -1,4 +1,4 @@
-import { getSession } from "@/lib/actions/session";
+import { getSession } from "@/lib/actions/session-utils";
 import { Session } from "@/types";
 import { redirect } from "next/navigation";
 import { cache } from "react";

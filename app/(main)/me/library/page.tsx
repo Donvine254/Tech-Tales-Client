@@ -1,9 +1,9 @@
 import { getUserFavorites } from "@/lib/actions/library";
-import { getSession } from "@/lib/actions/session";
 import { BlogWithComments, Session } from "@/types";
 import { redirect } from "next/navigation";
 import Library from "./library";
 import { Metadata } from "next";
+import { getSession } from "@/lib/actions/session-utils";
 
 export const metadata: Metadata = {
   title: "Reading List - Tech Tales",

@@ -1,7 +1,7 @@
 "use server";
 import prisma from "@/prisma/prisma";
-import { getSession } from "./session";
 import { formatDate } from "../utils";
+import { getSession } from "./session-utils";
 
 /*
  ***This function creates a new blog version entry each time a blog is updated

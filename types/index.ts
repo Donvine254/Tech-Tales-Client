@@ -1,4 +1,5 @@
 import { getUserComments } from "@/lib/actions/comments";
+import { getSession } from "@/lib/actions/session-utils";
 import {
   Blog,
   Comment,
@@ -18,14 +19,7 @@ export interface BlogWithUser
   author: Pick<User, "username" | "picture">;
 }
 // TODO: update the session to reflect db session storage.
-export type Session = {
-  email: string;
-  exp: number;
-  picture: string;
-  role: string;
-  userId: number;
-  username: string;
-};
+export type Session = NonNullable<Awaited<ReturnType<typeof getSession>>>;
 
 export type AuthUser = {
   id: number;       // Int to match schema
