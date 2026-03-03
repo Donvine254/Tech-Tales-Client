@@ -16,6 +16,7 @@ import {
   sendWelcomeEmail,
 } from "@/emails/mailer";
 import { getClientIP } from "../helpers/user-ip";
+import { createSession } from "./session-utils";
 
 /* Function to hash passwords */
 const hashPassword = async (password: string) => {
@@ -95,7 +96,13 @@ export async function authenticateSSOLogin(
         field: "email",
       };
     }
-    await createAndSetAuthTokenCookie(user);
+    await createSession({
+      id: user.id,       // Int
+      email: user.email,
+      role: user.role,
+      username: user.username,
+      picture: user.picture,
+    });
     return { success: true, message: "Logged in successfully 🎉" };
   } catch (error) {
     const e = error as Error;
@@ -170,8 +177,14 @@ export async function authenticateUserLogin(email: string, password: string) {
         field: "password",
       };
     }
-    //step-4: auth success: create cookie
-    await createAndSetAuthTokenCookie(user);
+    //step-4: auth success: createSession handles JWT + cookie + DB
+    await createSession({
+      id: user.id,       // Int
+      email: user.email,
+      role: user.role,
+      username: user.username,
+      picture: user.picture,
+    });
     //step-5: update user status as active
     return { success: true, message: "Logged in successfully 🎉" };
   } catch (error) {

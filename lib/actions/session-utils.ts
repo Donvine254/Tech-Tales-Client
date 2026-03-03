@@ -4,6 +4,7 @@ import * as jose from "jose";
 import prisma from "@/prisma/prisma";
 import { getCachedSession } from "./session-cache";
 import { AuthUser } from "@/types";
+import { getClientIP } from "../helpers/user-ip";
 
 
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
@@ -13,10 +14,7 @@ const SESSION_DURATION_MS = 8 * 60 * 60 * 1000; // 8 hours
 
 async function getRequestMeta() {
   const headerStore = await headers();
-  const ip =
-    headerStore.get("x-forwarded-for")?.split(",")[0].trim() ??
-    headerStore.get("x-real-ip") ??
-    "unknown";
+  const ip = await getClientIP()
   const userAgent = headerStore.get("user-agent") ?? "unknown";
   return { ip, userAgent };
 }
