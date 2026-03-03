@@ -8,11 +8,11 @@ export async function POST(req: Request) {
     let systemPrompt = "";
     let userPrompt = "";
 
-    systemPrompt =
-      "You are a helpful assistant helping provide summaries for a blog. Create concise, fact-based summaries that capture the key points and main ideas. Focus on accuracy and clarity. Return your response in a single paragraph plain text, limit your words to 350 and do not repeat the title of the blog since the user can already see the it.";
-    userPrompt = `Please provide a comprehensive summary of the following content, highlighting the key points, take aways and main ideas:\n\n${
-      title ? `Title: ${title}\n\n` : ""
-    }${content}`;
+  systemPrompt = 
+  "You are an expert Editorial Strategist. Create a high-density, fact-based summary of the provided blog content. Output MUST be a single paragraph of plain text under 250 words. Do not include introductory phrases like 'This article discusses' or 'The author suggests'; jump immediately into the core insights. Do not repeat the blog title. Focus on the primary thesis, supporting evidence, and final conclusions.";
+  userPrompt = `Extract the essential arguments and actionable takeaways from the following content for a comprehensive summary:\n\n${
+  title ? `Title: ${title}\n\n` : ""
+}${content}`;
 
     try {
       // Try with explicit API key configuration
@@ -20,8 +20,8 @@ export async function POST(req: Request) {
         model: google("gemini-2.5-flash-lite"),
         system: systemPrompt,
         prompt: userPrompt,
-        maxTokens: 500,
-        temperature: 0.7,
+        maxTokens: 400,
+        temperature: 0.5,
         onError: (error) => {
           console.error("[SERVER] streamText onError callback:", error);
         },
@@ -44,7 +44,7 @@ export async function POST(req: Request) {
           return new Response(
             JSON.stringify({
               error:
-                "Invalid API key. Please check your GOOGLE_GENERATIVE_AI_API_KEY.",
+                "Invalid API key. Please check your  API Key.",
             }),
             {
               status: 401,
