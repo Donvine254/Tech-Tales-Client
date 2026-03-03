@@ -1,7 +1,7 @@
 import {
   getEmailVerificationCookie,
   getEmailVerificationCookieData,
-} from "@/lib/actions/session";
+} from "@/lib/actions/verification-cookie";
 import { redirect } from "next/navigation";
 import VerifyEmail from "./verify-page";
 import { getSession } from "@/lib/actions/session-utils";

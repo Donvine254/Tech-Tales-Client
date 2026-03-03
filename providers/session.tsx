@@ -1,8 +1,8 @@
 "use client";
 import { createContext, useContext, useState, useEffect } from "react";
 import { Session } from "@/types";
-import { getSession } from "@/lib/actions/session";
 import { updateUserActivityStatus } from "@/lib/actions/analytics";
+import { getSession } from "@/lib/actions/session-utils";
 
 const SessionContext = createContext<{
   session: Session | null;
