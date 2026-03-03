@@ -27,7 +27,7 @@ interface UserDropdownProps {
   onLogin?: () => void;
   session: Session | null;
   createBlog: () => void;
-  loading: boolean;
+  disabled: boolean;
   pathname: string;
 }
 
@@ -36,7 +36,7 @@ const UserDropdown = ({
   onLogin,
   session,
   createBlog,
-  loading,
+  disabled,
   pathname,
 }: UserDropdownProps) => {
   const isActive = (path: string, exact: boolean = false) => {
@@ -52,7 +52,7 @@ const UserDropdown = ({
           // Logged in state - show avatar and chevron
           <>
             <Avatar className="h-8 w-8 ring-2 ring-cyan-500 ring-offset-2 cursor-pointer">
-              <AvatarImage src={session.picture} alt={session.username} />
+              <AvatarImage src={session.picture ??""} alt={session.username} />
               <AvatarFallback className="capitalize">
                 {session.username
                   .split(" ")
@@ -91,7 +91,7 @@ const UserDropdown = ({
               <DropdownMenuItem
                 className="cursor-pointer hover:text-blue-500 dark:hover:bg-blue-500 dark:hover:text-white group"
                 onClick={createBlog}
-                disabled={loading}>
+                disabled={disabled}>
                 <FeatherIcon className="mr-2 h-4 w-4 text-blue-500 group-hover:text-white" />
                 Create Blog
               </DropdownMenuItem>

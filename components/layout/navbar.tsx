@@ -9,14 +9,10 @@ import { toast } from "sonner";
 import { useSession } from "@/providers/session";
 import { setCookie } from "@/lib/cookie";
 import SearchBar from "../custom/search";
-import { useState } from "react";
-import { createNewBlog } from "@/lib/actions/blogs";
 import { clearUserFavorites } from "@/lib/helpers";
 
 const Navbar = () => {
   const { session, loading } = useSession();
-  // state for loading when creating blog
-  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const isActive = (path: string) => {
@@ -69,16 +65,8 @@ const Navbar = () => {
   }
 
   async function createBlog() {
-    setIsLoading(true);
-    const toastId = toast.loading("processing request");
-    const res = await createNewBlog();
-    if (res.success && res.data) {
-      router.replace(`/posts/new/${res.data.uuid}`);
-    } else {
-      toast.error(res.message);
-    }
-    setIsLoading(false);
-    toast.dismiss(toastId);
+    const uuid = crypto.randomUUID();
+      router.replace(`/posts/new/${uuid}`);
   }
 
   return (
@@ -136,10 +124,11 @@ const Navbar = () => {
                 {/* Create Blog button - hidden on small screens */}
                 <Button
                   variant="secondary"
+                   disabled={pathname.includes("/posts/new")}
                   size="sm"
                   onClick={createBlog}
                   className="hidden md:flex bg-gradient-to-r from-cyan-600 to-blue-600 text-white cursor-pointer "
-                  disabled={isLoading}>
+                  >
                   <Edit className="h-4 w-4 mr-2" />
                   Create Blog
                 </Button>
@@ -147,7 +136,7 @@ const Navbar = () => {
                   onLogout={handleLogout}
                   session={session}
                   createBlog={createBlog}
-                  loading={isLoading}
+                  disabled={pathname.includes("/posts/new")}
                   pathname={pathname}
                 />
               </>
@@ -170,7 +159,7 @@ const Navbar = () => {
                     onLogin={handleLogin}
                     session={session}
                     createBlog={createBlog}
-                    loading={isLoading}
+                    disabled={pathname.includes("/posts/new")}
                     pathname={pathname}
                   />
                 </div>
