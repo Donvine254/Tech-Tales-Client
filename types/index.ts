@@ -17,6 +17,7 @@ export interface BlogWithUser
   description: string;
   author: Pick<User, "username" | "picture">;
 }
+// TODO: update the session to reflect db session storage.
 export type Session = {
   email: string;
   exp: number;
@@ -25,6 +26,15 @@ export type Session = {
   userId: number;
   username: string;
 };
+
+export type AuthUser = {
+  id: number;       // Int to match schema
+  email: string;
+  role: string;
+  username: string;
+  picture: string | null;
+};
+
 export type FormStatus = "pending" | "loading" | "success" | "error";
 
 export type CoverImage = {

@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import * as jose from "jose";
 
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
-
+// TODO: Remove this function
 export const getSession = async () => {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
