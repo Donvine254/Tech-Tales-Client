@@ -1,5 +1,4 @@
 "use client";
-import { validateEmail } from "@/lib/utils";
 import { Mail } from "lucide-react";
 import Link from "next/link";
 import React from "react";
@@ -62,6 +61,7 @@ export default function Newsletter() {
               <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               <Input
                 type="email"
+                  disabled={isSubmitting || submitted}
                 placeholder="Enter your email.."
                 autoComplete="email"
                  {...register("email")}
@@ -73,6 +73,7 @@ export default function Newsletter() {
             </div>
             <Button
               type="submit"
+                disabled={isSubmitting || submitted}
               title="Subscribe to our newsletter"
               className="ml-2 shrink-0 text-white transition-all duration-200 hover:scale-105 hover:shadow-lg bg-gradient-to-r from-cyan-600 to-blue-600 before:absolute before:inset-0 before:bg-gradient-to-r before:from-cyan-400 before:via-blue-500 before:to-purple-600 before:opacity-0 before:transition-opacity before:duration-300 hover:before:opacity-100 before:animate-[gradient-flow_3s_linear_infinite] cursor-pointer">
              {isSubmitting ? "Subscribing..." : "Subscribe"}
