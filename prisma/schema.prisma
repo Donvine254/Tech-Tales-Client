@@ -31,7 +31,7 @@ model User {
   auth_provider           AuthProvider  @default(email)
   keep_blogs_on_delete    Boolean       @default(false)
   keep_comments_on_delete Boolean       @default(false)
-  sessions      Session[]
+  sessions                Session[]
   blogs                   Blog[]
   comments                Comment[]
   favorites               Favorite[]
@@ -51,9 +51,11 @@ model Session {
   userAgent String?
   userId    Int
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@unique([token])
   @@map("session")
 }
+
 model Blog {
   id            Int           @id @default(autoincrement())
   title         String?
@@ -168,3 +170,5 @@ enum AuthProvider {
   github
   meta
 }
+
+// TODO: add verification, preferences and history table

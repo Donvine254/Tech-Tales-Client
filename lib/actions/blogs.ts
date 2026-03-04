@@ -48,11 +48,11 @@ export async function createNewBlog(uuid?: string) {
       revalidateTag(`user-${user.userId}-blogs`);
       return { success: true, data: blog };
     } else {
-      return { success: true, message: "blog creation failed" };
+      return { success: false, message: "blog creation failed" };
     }
   } catch (error) {
     console.error(error);
-    return { success: true, message: "something went wrong" };
+    return { success: false, message: "something went wrong" };
   }
 }
 
