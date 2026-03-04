@@ -5,6 +5,10 @@ import prisma from "@/prisma/prisma";
 import { BlogData, CoverImage } from "@/types";
 import { BlogStatus } from "@prisma/client";
 import { getSession } from "@/lib/actions/session-utils";
+import { z } from "zod";
+import { createNewBlog } from "@/lib/actions/blogs";
+
+const uuidSchema = z.string().uuid();
 
 type BlogWithAuthor = {
   uuid: string;
@@ -29,66 +33,70 @@ type BlogWithAuthor = {
   };
 };
 
-async function getBlogData(uuid: string) {
-  try {
-    // TODO: Find why i am not allowing archived blogs to be edited.
-    const blog = await prisma.blog.findUnique({
-      where: {
-        uuid: uuid,
-      },
-      select: {
-        uuid: true,
-        status: true,
-        title: true,
-        body: true,
-        slug: true,
-        tags: true,
-        image: true,
-        audio: true,
-        path: true,
-        show_comments: true,
-        description: true,
-        author: {
-          select: {
-            id: true,
-            handle: true,
-            username: true,
-            picture: true,
-          },
-        },
-      },
-    });
-    return blog;
-  } catch (error) {
-    const e = error as Error;
-    throw new Error(e.message);
-  }
-}
-
 export default async function page({
   params,
 }: {
   params: Promise<{ blogId: string }>;
 }) {
   const { blogId } = await params;
+
+  // validate UUID format with zod before any database work
+  const parsed = uuidSchema.safeParse(blogId);
+  if (!parsed.success) {
+    redirect("/404?error=invalid-blog-id");
+  }
+
   const session = await getSession();
-  // Remember this is the blogUUID not the id
-  if (!blogId || !session) {
+  if (!session) {
     redirect("/404");
   }
-  const blog =
-    ((await getBlogData(blogId)) as unknown as BlogWithAuthor) || null;
-  if (!blog) {
-    redirect("/410");
+
+  let blog = (await prisma.blog.findUnique({
+    where: { uuid: blogId },
+    select: {
+      uuid: true,
+      status: true,
+      title: true,
+      body: true,
+      slug: true,
+      tags: true,
+      image: true,
+      audio: true,
+      path: true,
+      show_comments: true,
+      description: true,
+      author: {
+        select: {
+          id: true,
+          handle: true,
+          username: true,
+          picture: true,
+        },
+      },
+    },
+  })) as BlogWithAuthor | null;
+
+  if (blog && blog.author.id !== session.userId && session.role !== "admin") {
+    redirect("/401?error=unauthorized-request");
   }
-  const { image, uuid, status, author, ...rest } = blog;
+
+  if (!blog) {
+  const  res = await createNewBlog(blogId)
+  if(res.success && res.data){
+    blog = res.data as unknown as BlogWithAuthor;
+  }
+  else{
+    redirect("/401?error=unable-to-create-blog")
+  }
+
+  }
+
+  const { image, uuid, status, author, ...rest } = blog as BlogWithAuthor;
   const blogData: BlogData = {
     ...rest,
     image: (image ?? { secure_url: "", public_id: "" }) as CoverImage,
   };
-  if (author.id !== session.userId && session.role !== "admin") {
-    redirect("/");
-  }
+
   return (
     <div className="min-h-screen bg-muted">
       <Script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.2/tsparticles.confetti.bundle.min.js"></Script>

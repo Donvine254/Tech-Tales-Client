@@ -12,14 +12,36 @@ import { createBlogVersion } from "./blog-version";
 import { isVerifiedUser } from "@/dal/auth-check";
 // function to create a new blog
 
-export async function createNewBlog() {
+export async function createNewBlog(uuid?: string) {
   const user = await isVerifiedUser();
   try {
     const blog = await prisma.blog.create({
       data: {
+        ...(uuid && { uuid }),
         authorId: Number(user.userId),
         title: "Untitled Blog",
         status: "DRAFT",
+      },
+      select: {
+        uuid: true,
+        status: true,
+        title: true,
+        body: true,
+        slug: true,
+        tags: true,
+        image: true,
+        audio: true,
+        path: true,
+        show_comments: true,
+        description: true,
+        author: {
+          select: {
+            id: true,
+            handle: true,
+            username: true,
+            picture: true,
+          },
+        },
       },
     });
     if (blog) {
