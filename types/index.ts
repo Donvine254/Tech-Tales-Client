@@ -37,7 +37,7 @@ export type CoverImage = {
   secure_url: string;
   public_id: string;
 };
-
+export type CommentStatus = "VISIBLE" | "FLAGGED" | "HIDDEN" | "ARCHIVED";
 export interface BlogData {
   title: string | null;
   body: string | null;

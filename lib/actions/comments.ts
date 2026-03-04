@@ -1,8 +1,7 @@
 "use server";
 import { isVerifiedUser } from "@/dal/auth-check";
 import prisma from "@/prisma/prisma";
-import { CommentStatus } from "@/src/generated/prisma/client";
-import { CommentData } from "@/types";
+import type { CommentData, CommentStatus } from "@/types";
 import { redirect } from "next/navigation";
 
 type CommentBody = {
@@ -11,7 +10,7 @@ type CommentBody = {
   body: string;
 };
 export async function createComment(
-  data: CommentBody
+  data: CommentBody,
 ): Promise<
   | { success: true; comment: CommentData; message: string }
   | { success: false; message: string }
