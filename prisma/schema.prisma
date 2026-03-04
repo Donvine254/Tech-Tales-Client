@@ -79,7 +79,7 @@ model Blog {
   updatedAt     DateTime      @updatedAt
   versions      BlogVersion[]
 
-  @@index([slug, path, authorId, uuid])
+  @@index([slug, authorId])
 }
 
 model BlogVersion {
