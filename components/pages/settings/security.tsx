@@ -127,10 +127,7 @@ export default function SecurityAccount({
           onSubmit={handlePasswordSubmit}
           id="password-form"
           className="space-y-4">
-          {["current", "new", "confirm"].map((field) => {
-            const isMismatchField =
-              newMismatch && (field === "new" || field === "confirm");
-            const isNewOrConfirm = field === "new" || field === "confirm";
+          {["current", "new"].map((field) => {
             return (
               <div key={field}>
                 <Label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-200 capitalize">
@@ -146,11 +143,11 @@ export default function SecurityAccount({
                     name={field}
                     data-field={`password-${field}`}
                     autoComplete="new-password"
-                    minLength={isNewOrConfirm ? 8 : undefined}
-                    maxLength={isNewOrConfirm ? 64 : undefined}
-                    pattern={isNewOrConfirm ? `^(?=.*\\d).{8,}$` : undefined}
+                    minLength={field === "new" ? 8 : undefined}
+                    maxLength={field === "new" ? 64 : undefined}
+                    pattern={field === "new" ? `^(?=.*\\d).{8,}$` : undefined}
                     title={
-                      isNewOrConfirm
+                      field === "new"
                         ? "Password must be eight characters in length and include at least one number"
                         : "Enter your current password"
                     }
@@ -162,9 +159,7 @@ export default function SecurityAccount({
                         ? "Confirm new password"
                         : `Enter ${field} password`
                     }
-                    className={`mb-1 user-invalid:border-red-500 user-invalid:focus:ring-red-500 ${
-                      isMismatchField ? "border-red-500 focus:ring-red-500" : ""
-                    }`}
+                    className="mb-1 user-invalid:border-red-500 user-invalid:focus:ring-red-500"
                   />
                   <button
                     type="button"
@@ -179,11 +174,6 @@ export default function SecurityAccount({
                     )}
                   </button>
                 </div>
-                {isMismatchField && (
-                  <p className="text-xs text-red-500">
-                    Passwords do not match.
-                  </p>
-                )}
               </div>
             );
           })}
