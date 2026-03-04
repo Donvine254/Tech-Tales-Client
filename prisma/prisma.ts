@@ -26,11 +26,8 @@ type ExtendedPrismaClient = typeof client;
 declare global {
   var prisma: ExtendedPrismaClient | undefined;
 }
-
+// biome-ignore lint/suspicious/noRedeclare: singleton
 const prisma = globalThis.prisma ?? client;
-
-if (process.env.NODE_ENV !== "production") {
-  globalThis.prisma = prisma;
-}
+globalThis.prisma = prisma;
 
 export default prisma as ExtendedPrismaClient;
