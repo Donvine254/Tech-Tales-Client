@@ -95,6 +95,15 @@ export default function MinimalBlogCard({
                 {blog.title ?? ""}
               </h3>
             </Link>
+          ) : blog.status === "DRAFT" ? (
+            <Link
+              href={`/posts/new/${blog.uuid}`}
+              className="group"
+              title={blog.title ?? ""}>
+              <h3 className="text-base sm:text-lg font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 leading-snug cursor-pointer hover:underline">
+                {blog.title ?? "Untitled Post"}
+              </h3>
+            </Link>
           ) : (
             <h3 className="text-base sm:text-lg font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 leading-snug ">
               {blog.title ?? "Untitled Post"}

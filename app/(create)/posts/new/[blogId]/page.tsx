@@ -81,14 +81,12 @@ export default async function page({
   }
 
   if (!blog) {
-  const  res = await createNewBlog(blogId)
-  if(res.success && res.data){
-    blog = res.data as unknown as BlogWithAuthor;
-  }
-  else{
-    redirect("/401?error=unable-to-create-blog")
-  }
-
+    const res = await createNewBlog(blogId);
+    if (res.success && res.data) {
+      blog = res.data as unknown as BlogWithAuthor;
+    } else {
+      redirect("/401?error=unable-to-create-blog");
+    }
   }
 
   const { image, uuid, status, author, ...rest } = blog as BlogWithAuthor;
