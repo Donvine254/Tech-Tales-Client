@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "prisma generate && next build",
+    "postinstall": "prisma generate",
     "start": "next start",
     "postbuild": "next-sitemap --config next-sitemap.config.js",
     "lint": "biome lint ./src",

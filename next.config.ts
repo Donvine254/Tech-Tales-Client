@@ -11,9 +11,10 @@ const nextConfig: NextConfig = {
       },
     ],
   },
- 
-    serverExternalPackages: ["@prisma/client"],
-  
+
+  turbopack: {
+    resolveAlias: { "@prisma/client/index-browser": "@prisma/client" },
+  },
 };
 
 export default nextConfig;
