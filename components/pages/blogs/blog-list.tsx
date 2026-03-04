@@ -19,7 +19,7 @@ const fieldMap: Record<PageType, "views" | "createdAt" | "likes"> = {
 export default async function BlogListPage({ page }: BlogListPageProps) {
   //fetch blogs
   const getBlogs = blogFetcher(fieldMap[page], page);
-  const blogs = (await getBlogs()) as BlogWithComments[];
+  const blogs = (await getBlogs()) as unknown as BlogWithComments[];
 
   if (!blogs || blogs.length === 0) {
     return (
@@ -36,7 +36,7 @@ export default async function BlogListPage({ page }: BlogListPageProps) {
       <section className=" border-t border-border bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {blogs.slice(1).map((post, index) => (
-            <BlogCard blog={post} key={index}>
+            <BlogCard blog={post} key={post.id}>
               {index < 4 && (
                 <div className="absolute top-1 right-1 z-20">
                   {page === "featured" ? (

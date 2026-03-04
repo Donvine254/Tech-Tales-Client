@@ -1,4 +1,4 @@
-import React from "react";
+
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import Link from "next/link";
 import { categories } from "@/constants";

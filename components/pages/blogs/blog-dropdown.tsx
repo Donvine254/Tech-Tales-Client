@@ -20,12 +20,12 @@ import {
   LockIcon,
   LockOpenIcon,
 } from "lucide-react";
-import { BlogStatus } from "@prisma/client";
 import { useSession } from "@/providers/session";
 import { toast } from "sonner";
 import { baseUrl } from "@/lib/utils";
 import Bookmark from "@/components/custom/bookmark";
 import RevisionHistoryDialog from "@/components/modals/revision-history-dialog";
+import { BlogStatus } from "@/src/generated/prisma/enums";
 
 interface BlogCardDropdownProps {
   path: string;
