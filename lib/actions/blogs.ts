@@ -117,7 +117,7 @@ export async function publishBlog(
     audio?: string | null;
     description?: string | null;
   },
-  uuid: string
+  uuid: string,
 ) {
   // auth check
   const user = await isVerifiedUser();
@@ -152,7 +152,7 @@ export async function publishBlog(
     setImmediate(() => {
       createBlogVersion(
         blog.id,
-        "Updated blog status to published. No information on detailed changes available"
+        "Updated blog status to published. No information on detailed changes available",
       );
     });
     return {
@@ -203,7 +203,7 @@ export async function deleteOrArchiveBlog(uuid: string) {
       await prisma.blog.delete({
         where: { uuid },
       });
-
+      revalidateTag(`user-${user.userId}-blogs`);
       return {
         success: true,
         message: "Draft blog deleted successfully",
@@ -224,6 +224,7 @@ export async function deleteOrArchiveBlog(uuid: string) {
       };
     }
     revalidateBlog(blog.path, user.userId);
+
     return {
       success: false,
       message: `No action taken for blog with status '${blog.status}'`,
@@ -286,8 +287,8 @@ export async function updateBlogStatus(status: BlogStatus, blogId: number) {
         blogId,
         `Updated blog status to ${status.toLowerCase()} at ${formatDate(
           new Date(),
-          true
-        )}`
+          true,
+        )}`,
       );
     });
     return {
