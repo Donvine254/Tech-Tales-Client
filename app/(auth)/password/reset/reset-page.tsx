@@ -25,7 +25,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { validateEmail } from "@/lib/utils";
 import { z } from "zod";
-import { Loader2, MailIcon } from "lucide-react";
+import { Loader2, Mail } from "lucide-react";
 import { validateRecaptcha } from "@/lib/actions/captcha";
 import { handlePasswordResetRequest } from "@/lib/actions/auth";
 import SuccessDialog from "@/components/modals/success-dialog";
@@ -50,7 +50,7 @@ export default function ResetPassword() {
         email: z.string().min(1, "Email is required").refine(validateEmail, {
           message: "Please enter a valid email address",
         }),
-      })
+      }),
     ),
     defaultValues: {
       email: "",
@@ -114,14 +114,14 @@ export default function ResetPassword() {
                         <FormItem>
                           <FormLabel>Email Address</FormLabel>
                           <FormControl>
-                            <div className="relative">
+                            <div className="relative flex-grow">
+                              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                               <Input
                                 {...field}
                                 type="email"
                                 placeholder="Enter your email address"
-                                className="pl-8 py-2"
+                                className="pl-10 pr-4"
                               />
-                              <MailIcon className="size-4 absolute top-1/2 left-2 -translate-y-1/2 text-muted-foreground" />
                             </div>
                           </FormControl>
                           <FormMessage />
@@ -194,7 +194,7 @@ export default function ResetPassword() {
         onClose={() => router.push("/login")}
         title="Email Sent Successfully"
         description={`We have sent password reset instructions to ${form.getValues(
-          "email"
+          "email",
         )}. Kindly check your email to reset your password.`}
       />
     </div>

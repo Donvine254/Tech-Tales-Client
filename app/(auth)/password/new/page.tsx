@@ -47,7 +47,13 @@ type AuthUser = {
   username?: string;
   email: string;
 };
-
+// shape of the JWT payload produced by createAccountActionsToken
+// (contains `userId` rather than `id`)
+type TokenPayload = {
+  userId: number;
+  email: string;
+  username?: string;
+};
 export default function Page() {
   const [showPassword, setShowPassword] = useState(false);
   const [status, setStatus] = useState<FormStatus>("error");
@@ -76,12 +82,14 @@ export default function Page() {
     }
     async function verify() {
       const res = await verifyToken(auth_token);
-      if (!res.valid) {
+      if (!res.valid || !res.payload) {
         setUser(null);
         setVerificationStatus("invalid");
       } else {
         setVerificationStatus("valid");
-        setUser(res.payload as AuthUser);
+        // payload is untyped so we assert the known shape
+        const { userId, email, username } = res.payload as TokenPayload;
+        setUser({ id: Number(userId), email, username });
       }
     }
     verify();
@@ -107,11 +115,17 @@ export default function Page() {
       toast.error("Kindly complete the reCAPTCHA challenge");
       return;
     }
+
     setStatus("loading");
-    const res = await resetPassword(user?.id, data.password);
+    const userId = Number(user.id); // ← coerce here
+    if (isNaN(userId)) {
+      toast.error("Invalid user session");
+      return;
+    }
+    const res = await resetPassword(userId, data.password);
     if (res.success) {
       setStatus("success");
-      //   revoke the token
+      // revoke the token
       setIsOpen(true);
     } else {
       setStatus("error");

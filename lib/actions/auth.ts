@@ -31,7 +31,7 @@ export async function authenticateSSOLogin(
     username: string;
     picture?: string;
   },
-  provider: "google" | "github"
+  provider: "google" | "github",
 ) {
   try {
     const user = await prisma.user.findUnique({
@@ -97,7 +97,7 @@ export async function authenticateSSOLogin(
       };
     }
     await createSession({
-      id: user.id,       // Int
+      id: user.id, // Int
       email: user.email,
       role: user.role,
       username: user.username,
@@ -168,7 +168,7 @@ export async function authenticateUserLogin(email: string, password: string) {
     //step-3: validate passwords
     const isPasswordValid = await bcrypt.compare(
       password,
-      user.password_digest
+      user.password_digest,
     );
     if (!isPasswordValid) {
       return {
@@ -179,7 +179,7 @@ export async function authenticateUserLogin(email: string, password: string) {
     }
     //step-4: auth success: createSession handles JWT + cookie + DB
     await createSession({
-      id: user.id,       // Int
+      id: user.id, // Int
       email: user.email,
       role: user.role,
       username: user.username,
@@ -247,7 +247,7 @@ export async function registerUser(data: RegisterPayload) {
       setImmediate(() => {
         sendVerificationEmail(
           user.email,
-          `${baseUrl}/checkpoint/verify?token=${token}`
+          `${baseUrl}/checkpoint/verify?token=${token}`,
         ).catch(console.error);
       });
     } else if (user.auth_provider !== "email") {
@@ -367,13 +367,14 @@ export async function resendVerificationEmail(email: string) {
         message: "Email already verified, proceed to login",
       };
     }
+    // TODO: Save verification details in database
     const token = await createAndSetEmailVerificationCookie({
       id: user.id,
       email: user.email,
     });
     await sendVerificationEmail(
       user.email,
-      `${baseUrl}/checkpoint/verify?token=${token}`
+      `${baseUrl}/checkpoint/verify?token=${token}`,
     );
     return {
       success: true,
@@ -401,7 +402,7 @@ export async function resendVerificationEmail(email: string) {
 /* function to change user password */
 export async function changeUserPassword(
   userId: number,
-  data: { current: string; newPwd: string }
+  data: { current: string; newPwd: string },
 ) {
   const { current, newPwd } = data;
   const hashedPassword = await hashPassword(newPwd);
@@ -513,6 +514,7 @@ Function to reset user password in the account page (me)/settings/security.tsx
 */
 export async function resetPassword(userId: number, password: string) {
   const password_digest = await hashPassword(password);
+  console.log(userId);
   try {
     const user = await prisma.user.update({
       where: { id: userId },

@@ -6,7 +6,6 @@ import { getCachedSession } from "./session-cache";
 import { AuthUser } from "@/types";
 import { getClientIP } from "../helpers/user-ip";
 
-
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
 const SESSION_DURATION_MS = 8 * 60 * 60 * 1000; // 8 hours
 
@@ -14,7 +13,7 @@ const SESSION_DURATION_MS = 8 * 60 * 60 * 1000; // 8 hours
 
 async function getRequestMeta() {
   const headerStore = await headers();
-  const ip = await getClientIP()
+  const ip = await getClientIP();
   const userAgent = headerStore.get("user-agent") ?? "unknown";
   return { ip, userAgent };
 }
@@ -111,8 +110,9 @@ export async function getSession() {
       username: user.username,
       picture: user.picture,
     };
-  } catch (error: any) {
-    console.error("[session:get] Invalid token:", error.message);
+  } catch (error) {
+    const e = error as Error;
+    console.error("[session:get] Invalid token:", e.message);
     cookieStore.delete("token");
     return null;
   }
@@ -132,11 +132,9 @@ export async function deleteSession(): Promise<void> {
 
   if (!token) return;
 
-  await prisma.session
-    .delete({ where: { token } })
-    .catch((err) => {
-      if (err?.code !== "P2025") {
-        console.error("[session:delete] Unexpected error:", err);
-      }
-    });
+  await prisma.session.delete({ where: { token } }).catch((err) => {
+    if (err?.code !== "P2025") {
+      console.error("[session:delete] Unexpected error:", err);
+    }
+  });
 }
