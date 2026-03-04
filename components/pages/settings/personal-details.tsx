@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import ColorPicker from "./color-picker";
 import { Textarea } from "@/components/ui/textarea";
 import { convertToHandle } from "@/lib/utils";
-import { Session, UserProfileData } from "@/types";
+import { UserProfileData } from "@/types";
 import { toast } from "sonner";
 import { updateUserDetails } from "@/lib/actions/user";
 import { useSession } from "@/providers/session";
