@@ -21,13 +21,12 @@ type ProfileImageUploaderProps = {
 export default function ProfileImageUploader({
   currentPicture,
   onImageUpload,
-  userId,
 }: ProfileImageUploaderProps) {
   const imageInputRef = useRef<HTMLInputElement>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const { setSession, session } = useSession();
+  const { setSession } = useSession();
   //   triggered on file select
   const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

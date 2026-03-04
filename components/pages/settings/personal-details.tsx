@@ -27,7 +27,7 @@ export default function PersonalDetails({
   const [formData, setFormData] = useState(initialData);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { setSession, session } = useSession();
+  const { setSession } = useSession();
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
