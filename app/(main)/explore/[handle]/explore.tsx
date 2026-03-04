@@ -170,7 +170,7 @@ export default async function ExplorePage({ data }: { data: UserAndBlogs }) {
           {/* second child */}
           <hr className="block md:hidden border border-border my-2" />
           <div className="md:w-2/3">
-            <UserBlogs blogs={blogs as BlogWithComments[]} />
+            <UserBlogs blogs={blogs as unknown as BlogWithComments[]} />
           </div>
         </div>
       </div>
