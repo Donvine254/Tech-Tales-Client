@@ -1,361 +1,364 @@
 "use client";
-import React, { useMemo, useState } from "react";
+import { useState } from "react";
 import { CommentItem } from "@/components/comments/comment-item";
 import { CommentEditor } from "@/components/comments/comment-editor";
 import { Button } from "@/components/ui/button";
 import {
-  TooltipProvider,
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
+	TooltipProvider,
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
 } from "@/components/ui/tooltip";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
 } from "@/components/ui/select";
-import { CommentData, Session } from "@/types";
+import type { CommentData, Session } from "@/types";
 import {
-  ArchiveIcon,
-  CircleUserRound,
-  ListFilterIcon,
-  LockIcon,
+	ArchiveIcon,
+	CircleUserRound,
+	ListFilterIcon,
+	LockIcon,
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { setCookie } from "@/lib/cookie";
 import { usePathname, useRouter } from "next/navigation";
-import { BlogStatus } from "@prisma/client";
 import { toast } from "sonner";
 import { createComment, updateComment } from "@/lib/actions/comments";
 import { commentsFetcher } from "@/lib/actions/comments";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Card } from "../ui/card";
+import type { BlogStatus } from "@/src/generated/prisma/client";
 type Props = {
-  blogId: number;
-  blogAuthorId: number;
-  blogStatus: BlogStatus;
-  showComments: boolean;
-  initialComments: CommentData[];
-  setCommentsCount: React.Dispatch<React.SetStateAction<number>>;
-  session: Session | null;
+	blogId: number;
+	blogAuthorId: number;
+	blogStatus: BlogStatus;
+	showComments: boolean;
+	initialComments: CommentData[];
+	setCommentsCount: React.Dispatch<React.SetStateAction<number>>;
+	session: Session | null;
 };
 
 export default function Comments({
-  session,
-  setCommentsCount,
-  initialComments,
-  blogAuthorId,
-  blogStatus,
-  showComments,
-  blogId,
+	session,
+	setCommentsCount,
+	initialComments,
+	blogAuthorId,
+	blogStatus,
+	showComments,
+	blogId,
 }: Props) {
-  const [sortOrder, setSortOrder] = useState<"relevant" | "newest" | "oldest">(
-    "relevant"
-  );
-  const [commentBody, setCommentBody] = useState<string>("");
-  const [isEditing, setIsEditing] = useState(false);
-  const [editingComment, setEditingComment] = useState<CommentData | null>(
-    null
-  );
-  const queryClient = useQueryClient();
-  const pathname = usePathname();
-  const router = useRouter();
+	const [sortOrder, setSortOrder] = useState<"relevant" | "newest" | "oldest">(
+		"relevant",
+	);
+	const [commentBody, setCommentBody] = useState<string>("");
+	const [isEditing, setIsEditing] = useState(false);
+	const [editingComment, setEditingComment] = useState<CommentData | null>(
+		null,
+	);
+	const queryClient = useQueryClient();
+	const pathname = usePathname();
+	const router = useRouter();
 
-  const { data: comments = [], isLoading } = useQuery<CommentData[]>({
-    queryKey: ["comments", blogId],
-    initialData: initialComments,
-    queryFn: () => commentsFetcher(blogId),
-    refetchOnMount: true,
-    refetchOnWindowFocus: false,
-    staleTime: 0, //no-caching for comments
-  });
-  /* redirect user back to the page after login */
-  function handleLogin() {
-    setCookie("post_login_redirect", pathname, 1);
-    router.push("/login");
-  }
-  /* Function to update comments */
-  const setComments = (updater: (old: CommentData[]) => CommentData[]) => {
-    queryClient.setQueryData<CommentData[]>(
-      ["comments", blogId],
-      (old = []) => {
-        const updated = updater(old);
-        setCommentsCount(updated.length);
-        return updated;
-      }
-    );
-  };
+	const { data: comments = [], isLoading } = useQuery<CommentData[]>({
+		queryKey: ["comments", blogId],
+		initialData: initialComments,
+		queryFn: () => commentsFetcher(blogId),
+		refetchOnMount: true,
+		refetchOnWindowFocus: false,
+		staleTime: 0, //no-caching for comments
+	});
+	/* redirect user back to the page after login */
+	function handleLogin() {
+		setCookie("post_login_redirect", pathname, 1);
+		router.push("/login");
+	}
+	/* Function to update comments */
+	const setComments = (updater: (old: CommentData[]) => CommentData[]) => {
+		queryClient.setQueryData<CommentData[]>(
+			["comments", blogId],
+			(old = []) => {
+				const updated = updater(old);
+				setCommentsCount(updated.length);
+				return updated;
+			},
+		);
+	};
 
-  /* Function to sort comments*/
-  function sortComments(
-    list: CommentData[],
-    order: "relevant" | "newest" | "oldest"
-  ) {
-    return [...list].sort((a, b) => {
-      switch (order) {
-        case "relevant":
-          return (
-            (b.responses?.length ?? 0) - (a.responses?.length ?? 0) ||
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-          );
-        case "newest":
-          return (
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-          );
-        case "oldest":
-          return (
-            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-          );
-        default:
-          return 0;
-      }
-    });
-  }
-  const sortedComments: CommentData[] = useMemo(
-    () => sortComments(comments, sortOrder),
-    [sortOrder, comments]
-  );
-  // function to handleComment Submission
-  async function handleCommentSubmit() {
-    // Logic to submit or respond
-    if (!session) {
-      toast.error("Login required");
-      return;
-    }
-    const toastId = toast.loading("Processing Request...", {
-      position: "bottom-center",
-    });
-    try {
-      const commentData = {
-        authorId: session.userId!,
-        blogId: blogId,
-        body: commentBody,
-      };
-      const res = await createComment(commentData);
-      if (res.success && res.comment) {
-        toast.success(res.message);
-        setComments((prev) => {
-          const updated = [res.comment, ...prev];
-          return [...updated].sort((a, b) =>
-            sortOrder === "newest"
-              ? new Date(b.createdAt).getTime() -
-                new Date(a.createdAt).getTime()
-              : new Date(a.createdAt).getTime() -
-                new Date(b.createdAt).getTime()
-          );
-        });
-        setCommentBody("");
-      } else {
-        toast.error(res.message);
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("something went wrong");
-    } finally {
-      toast.dismiss(toastId);
-    }
-  }
-  // function to edit comment
-  function handleEdit(comment: CommentData) {
-    setIsEditing(true);
-    setEditingComment(comment);
-    setCommentBody(comment.body);
-    // filter the comments to remove the comment being edited
-    setComments((prev) => prev.filter((c) => c.id !== comment.id));
-    // begin editing
-  }
-  async function handleEditSubmit() {
-    if (!editingComment) return;
-    const updatedComment = {
-      ...editingComment,
-      body: commentBody,
-    };
-    const toastId = toast.loading("Updating comment...");
-    try {
-      setComments((prev) => [...prev, updatedComment]);
-      const res = await updateComment({
-        id: editingComment.id,
-        body: commentBody,
-      });
-      if (res.success && res.comment) {
-        toast.success(res.message);
-      } else {
-        setComments((prev) => [...prev, editingComment]);
-        toast.error(res.message);
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong");
-    } finally {
-      setIsEditing(false);
-      setEditingComment(null);
-      setCommentBody("");
-      toast.dismiss(toastId);
-    }
-  }
+	/* Function to sort comments*/
+	function sortComments(
+		list: CommentData[],
+		order: "relevant" | "newest" | "oldest",
+	) {
+		return [...list].sort((a, b) => {
+			switch (order) {
+				case "relevant":
+					return (
+						(b.responses?.length ?? 0) - (a.responses?.length ?? 0) ||
+						new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+					);
+				case "newest":
+					return (
+						new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+					);
+				case "oldest":
+					return (
+						new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+					);
+				default:
+					return 0;
+			}
+		});
+	}
+	const sortedComments: CommentData[] = sortComments(comments, sortOrder);
+	// function to handleComment Submission
+	async function handleCommentSubmit() {
+		// Logic to submit or respond
+		if (!session) {
+			toast.error("Login required");
+			return;
+		}
+		const toastId = toast.loading("Processing Request...", {
+			position: "bottom-center",
+		});
+		try {
+			const commentData = {
+				authorId: session.userId!,
+				blogId: blogId,
+				body: commentBody,
+			};
+			const res = await createComment(commentData);
+			if (res.success && res.comment) {
+				toast.success(res.message);
+				setComments((prev) => {
+					const updated = [res.comment, ...prev];
+					return [...updated].sort((a, b) =>
+						sortOrder === "newest"
+							? new Date(b.createdAt).getTime() -
+								new Date(a.createdAt).getTime()
+							: new Date(a.createdAt).getTime() -
+								new Date(b.createdAt).getTime(),
+					);
+				});
+				setCommentBody("");
+			} else {
+				toast.error(res.message);
+			}
+		} catch (error) {
+			console.log(error);
+			toast.error("something went wrong");
+		} finally {
+			toast.dismiss(toastId);
+		}
+	}
+	// function to edit comment
+	function handleEdit(comment: CommentData) {
+		setIsEditing(true);
+		setEditingComment(comment);
+		setCommentBody(comment.body);
+		// filter the comments to remove the comment being edited
+		setComments((prev) => prev.filter((c) => c.id !== comment.id));
+		// begin editing
+	}
+	async function handleEditSubmit() {
+		if (!editingComment) return;
+		const updatedComment = {
+			...editingComment,
+			body: commentBody,
+		};
+		const toastId = toast.loading("Updating comment...");
+		try {
+			setComments((prev) => [...prev, updatedComment]);
+			const res = await updateComment({
+				id: editingComment.id,
+				body: commentBody,
+			});
+			if (res.success && res.comment) {
+				toast.success(res.message);
+			} else {
+				setComments((prev) => [...prev, editingComment]);
+				toast.error(res.message);
+			}
+		} catch (error) {
+			console.log(error);
+			toast.error("Something went wrong");
+		} finally {
+			setIsEditing(false);
+			setEditingComment(null);
+			setCommentBody("");
+			toast.dismiss(toastId);
+		}
+	}
 
-  async function handleSubmit() {
-    if (isEditing && editingComment) {
-      await handleEditSubmit();
-    } else {
-      await handleCommentSubmit();
-    }
-  }
-  return (
-    <div className="my-2" id="comments">
-      <div className="py-2 md:py-4 flex items-center justify-between gap-4">
-        <h3 className="text-lg md:text-2xl font-semibold  font-sans">
-          Responses ({comments.length ?? 0})
-        </h3>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link
-                href="/community"
-                target="_blank"
-                className="hover:text-cyan-600 transition-colors cursor-pointer">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  width="1.5rem"
-                  height="1.5rem"
-                  className="h-6 w-6">
-                  <g fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <path d="M3 10.417c0-3.198 0-4.797.378-5.335c.377-.537 1.88-1.052 4.887-2.081l.573-.196C10.405 2.268 11.188 2 12 2s1.595.268 3.162.805l.573.196c3.007 1.029 4.51 1.544 4.887 2.081C21 5.62 21 7.22 21 10.417v1.574c0 5.638-4.239 8.375-6.899 9.536C13.38 21.842 13.02 22 12 22s-1.38-.158-2.101-.473C7.239 20.365 3 17.63 3 11.991z"></path>
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M16 11.55L12.6 9a1 1 0 0 0-1.2 0L8 11.55m6 2.5l-2-1.5l-2 1.5"></path>
-                  </g>
-                </svg>
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent className="max-w-72 text-sm" side="bottom">
-              View community guidelines
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      </div>
-      {blogStatus == "ARCHIVED" || !showComments ? (
-        <div className="flex flex-col items-center justify-center gap-4 border rounded-xl h-fit min-h-16 px-6 py-8 my-4 bg-muted shadow-lg dark:shadow-gray-900/20">
-          {/* Archive Icon */}
-          <div className="p-3 rounded-full bg-yellow-100 dark:bg-yellow-500/20">
-            {blogStatus === "ARCHIVED" ? (
-              <ArchiveIcon className="text-yellow-600 dark:text-yellow-300" />
-            ) : (
-              <LockIcon className="text-yellow-600 dark:text-yellow-300" />
-            )}
-          </div>
-          {/* Heading + Message */}
-          <div className="text-center space-y-2">
-            <h2 className="font-bold text-xl md:text-2xl text-gray-900 dark:text-white">
-              {blogStatus === "ARCHIVED"
-                ? "This Blog is Archived"
-                : "Discussion Locked"}
-            </h2>
-            <p className="text-muted-foreground text-sm max-w-2xl mx-auto">
-              {blogStatus === "ARCHIVED"
-                ? "Comments are disabled because this blog has been archived. You can still read the content, but interaction is no longer available."
-                : "The author has disabled commenting for this blog. You can still read the content, but replies and interaction are not allowed."}
-            </p>
-          </div>
-        </div>
-      ) : session ? (
-        <CommentEditor
-          session={session}
-          initialData={commentBody}
-          onEditorChange={setCommentBody}
-          isEditing={isEditing}
-          onSubmit={handleSubmit}
-        />
-      ) : (
-        <div className="flex flex-col items-center justify-center gap-4 border rounded-xl h-fit min-h-16 px-6 py-8 my-4 bg-card shadow-lg dark:shadow-gray-900/20">
-          {/* Lock Icon with improved styling */}
-          <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-500/50">
-            <LockIcon />
-          </div>
-          {/* Heading with better typography */}
-          <div className="text-center space-y-2">
-            <h2 className="font-bold text-xl md:text-2xl text-gray-900 dark:text-white">
-              Login Required
-            </h2>
-            <p className="text-muted-foreground text-sm max-w-2xl">
-              Login to share your thoughts, ask questions, and engage with other
-              readers in the comments.
-            </p>
-          </div>
+	async function handleSubmit() {
+		if (isEditing && editingComment) {
+			await handleEditSubmit();
+		} else {
+			await handleCommentSubmit();
+		}
+	}
+	return (
+		<div className="my-2" id="comments">
+			<div className="py-2 md:py-4 flex items-center justify-between gap-4">
+				<h3 className="text-lg md:text-2xl font-semibold  font-sans">
+					Responses ({comments.length ?? 0})
+				</h3>
+				<TooltipProvider>
+					<Tooltip>
+						<TooltipTrigger asChild>
+							<Link
+								href="/community"
+								target="_blank"
+								className="hover:text-cyan-600 transition-colors cursor-pointer"
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 24 24"
+									width="1.5rem"
+									height="1.5rem"
+									className="h-6 w-6"
+								>
+									<title>community shield icon</title>
+									<g fill="none" stroke="currentColor" strokeWidth="1.5">
+										<path d="M3 10.417c0-3.198 0-4.797.378-5.335c.377-.537 1.88-1.052 4.887-2.081l.573-.196C10.405 2.268 11.188 2 12 2s1.595.268 3.162.805l.573.196c3.007 1.029 4.51 1.544 4.887 2.081C21 5.62 21 7.22 21 10.417v1.574c0 5.638-4.239 8.375-6.899 9.536C13.38 21.842 13.02 22 12 22s-1.38-.158-2.101-.473C7.239 20.365 3 17.63 3 11.991z"></path>
+										<path
+											strokeLinecap="round"
+											strokeLinejoin="round"
+											d="M16 11.55L12.6 9a1 1 0 0 0-1.2 0L8 11.55m6 2.5l-2-1.5l-2 1.5"
+										></path>
+									</g>
+								</svg>
+							</Link>
+						</TooltipTrigger>
+						<TooltipContent className="max-w-72 text-sm" side="bottom">
+							View community guidelines
+						</TooltipContent>
+					</Tooltip>
+				</TooltipProvider>
+			</div>
+			{blogStatus === "ARCHIVED" || !showComments ? (
+				<div className="flex flex-col items-center justify-center gap-4 border rounded-xl h-fit min-h-16 px-6 py-8 my-4 bg-muted shadow-lg dark:shadow-gray-900/20">
+					{/* Archive Icon */}
+					<div className="p-3 rounded-full bg-yellow-100 dark:bg-yellow-500/20">
+						{blogStatus === "ARCHIVED" ? (
+							<ArchiveIcon className="text-yellow-600 dark:text-yellow-300" />
+						) : (
+							<LockIcon className="text-yellow-600 dark:text-yellow-300" />
+						)}
+					</div>
+					{/* Heading + Message */}
+					<div className="text-center space-y-2">
+						<h2 className="font-bold text-xl md:text-2xl text-gray-900 dark:text-white">
+							{blogStatus === "ARCHIVED"
+								? "This Blog is Archived"
+								: "Discussion Locked"}
+						</h2>
+						<p className="text-muted-foreground text-sm max-w-2xl mx-auto">
+							{blogStatus === "ARCHIVED"
+								? "Comments are disabled because this blog has been archived. You can still read the content, but interaction is no longer available."
+								: "The author has disabled commenting for this blog. You can still read the content, but replies and interaction are not allowed."}
+						</p>
+					</div>
+				</div>
+			) : session ? (
+				<CommentEditor
+					session={session}
+					initialData={commentBody}
+					onEditorChange={setCommentBody}
+					isEditing={isEditing}
+					onSubmit={handleSubmit}
+				/>
+			) : (
+				<div className="flex flex-col items-center justify-center gap-4 border rounded-xl h-fit min-h-16 px-6 py-8 my-4 bg-card shadow-lg dark:shadow-gray-900/20">
+					{/* Lock Icon with improved styling */}
+					<div className="p-3 rounded-full bg-blue-100 dark:bg-blue-500/50">
+						<LockIcon />
+					</div>
+					{/* Heading with better typography */}
+					<div className="text-center space-y-2">
+						<h2 className="font-bold text-xl md:text-2xl text-gray-900 dark:text-white">
+							Login Required
+						</h2>
+						<p className="text-muted-foreground text-sm max-w-2xl">
+							Login to share your thoughts, ask questions, and engage with other
+							readers in the comments.
+						</p>
+					</div>
 
-          {/* Single Login Button */}
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={handleLogin}
-            className="flex gap-1 items-center bg-gradient-to-r from-cyan-600 to-blue-600 text-white">
-            <CircleUserRound className="h-4 w-4 " /> Login/Register
-          </Button>
-        </div>
-      )}
-      {/* Add a sort button here */}
-      <div className="space-y-4 border-b flex items-center justify-end py-2 my-4 border-border">
-        {comments && comments.length > 0 && (
-          <Select
-            value={sortOrder}
-            onValueChange={(val) => {
-              setSortOrder(val as "relevant" | "newest" | "oldest");
-            }}>
-            <SelectTrigger className="w-min cursor-pointer sm:w-48">
-              <ListFilterIcon className="h-4 w-4" />
-              <span className="hidden sm:inline">
-                <SelectValue placeholder="Sort by" />
-              </span>
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="relevant">Most Relevant</SelectItem>
-              <SelectItem value="newest">Newest First</SelectItem>
-              <SelectItem value="oldest">Oldest First</SelectItem>
-            </SelectContent>
-          </Select>
-        )}
-      </div>
-      <div className="space-y-2 divide-y divide-border">
-        {isLoading && !initialComments ? (
-          <Card className="w-full flex items-center justify-center h-48">
-            <div className="w-8 h-8 border-3 text-blue-400 text-4xl animate-spin border-primary flex items-center justify-center border-t-blue-400 rounded-full"></div>
-            <p className="text-sm text-muted-foreground">Loading Comments...</p>
-          </Card>
-        ) : sortedComments && sortedComments.length > 0 ? (
-          sortedComments.map((c) => (
-            <CommentItem
-              key={c.id}
-              blogStatus={blogStatus}
-              comment={c}
-              setComments={setComments}
-              onEdit={handleEdit}
-              session={session}
-              blogAuthorId={blogAuthorId}
-            />
-          ))
-        ) : showComments ? (
-          <div className="flex flex-col items-center justify-center gap-1 p-2 my-2">
-            <Image
-              src="/conversation.svg"
-              alt="conversation starter"
-              height={150}
-              width={150}
-              className="italic w-auto max-w-[150px]"
-            />
-            <p className="font-semibold md:text-lg">
-              This thread is open for discussion
-            </p>
-            <p className="text-xs text-muted-foreground">
-              ✨ Be the first to comment ✨
-            </p>
-          </div>
-        ) : null}
-      </div>
-    </div>
-  );
+					{/* Single Login Button */}
+					<Button
+						variant="secondary"
+						size="sm"
+						onClick={handleLogin}
+						className="flex gap-1 items-center bg-gradient-to-r from-cyan-600 to-blue-600 text-white"
+					>
+						<CircleUserRound className="h-4 w-4 " /> Login/Register
+					</Button>
+				</div>
+			)}
+			{/* Add a sort button here */}
+			<div className="space-y-4 border-b flex items-center justify-end py-2 my-4 border-border">
+				{comments && comments.length > 0 && (
+					<Select
+						value={sortOrder}
+						onValueChange={(val) => {
+							setSortOrder(val as "relevant" | "newest" | "oldest");
+						}}
+					>
+						<SelectTrigger className="w-min cursor-pointer sm:w-48">
+							<ListFilterIcon className="h-4 w-4" />
+							<span className="hidden sm:inline">
+								<SelectValue placeholder="Sort by" />
+							</span>
+						</SelectTrigger>
+						<SelectContent>
+							<SelectItem value="relevant">Most Relevant</SelectItem>
+							<SelectItem value="newest">Newest First</SelectItem>
+							<SelectItem value="oldest">Oldest First</SelectItem>
+						</SelectContent>
+					</Select>
+				)}
+			</div>
+			<div className="space-y-2 divide-y divide-border">
+				{isLoading && !initialComments ? (
+					<Card className="w-full flex items-center justify-center h-48">
+						<div className="w-8 h-8 border-3 text-blue-400 text-4xl animate-spin border-primary flex items-center justify-center border-t-blue-400 rounded-full"></div>
+						<p className="text-sm text-muted-foreground">Loading Comments...</p>
+					</Card>
+				) : sortedComments && sortedComments.length > 0 ? (
+					sortedComments.map((c) => (
+						<CommentItem
+							key={c.id}
+							blogStatus={blogStatus}
+							comment={c}
+							setComments={setComments}
+							onEdit={handleEdit}
+							session={session}
+							blogAuthorId={blogAuthorId}
+						/>
+					))
+				) : showComments ? (
+					<div className="flex flex-col items-center justify-center gap-1 p-2 my-2">
+						<Image
+							src="/conversation.svg"
+							alt="conversation starter"
+							height={150}
+							width={150}
+							className="italic w-auto max-w-[150px]"
+						/>
+						<p className="font-semibold md:text-lg">
+							This thread is open for discussion
+						</p>
+						<p className="text-xs text-muted-foreground">
+							✨ Be the first to comment ✨
+						</p>
+					</div>
+				) : null}
+			</div>
+		</div>
+	);
 }

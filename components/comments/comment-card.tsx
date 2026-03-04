@@ -17,12 +17,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { UserComments } from "@/types";
-import { CommentStatus } from "@prisma/client";
+import type { UserComments } from "@/types";
 import { formatCommentDate } from "@/lib/utils";
 import Link from "next/link";
 import CommentBody from "./comment-body";
 import { Skeleton } from "../ui/skeleton";
+import { CommentStatus } from "@/src/generated/prisma/client";
 
 interface CommentCardProps {
   comment: UserComments[number];
