@@ -20,13 +20,13 @@ export async function POST(req: Request) {
         model: google("gemini-2.5-flash-lite"),
         system: systemPrompt,
         prompt: userPrompt,
-        maxTokens: 400,
+        maxOutputTokens: 400,
         temperature: 0.5,
         onError: (error) => {
           console.error("[SERVER] streamText onError callback:", error);
         },
       });
-      return result.toDataStreamResponse();
+      return result.toTextStreamResponse();
     } catch (aiError) {
       console.error("[SERVER] AI SDK Error details:", {
         message: aiError instanceof Error ? aiError.message : "Unknown error",
