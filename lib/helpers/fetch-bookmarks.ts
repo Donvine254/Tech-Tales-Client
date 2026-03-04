@@ -1,4 +1,4 @@
-import { BlogWithComments } from "@/types";
+import type { BlogWithComments } from "@/types";
 import { getBlogsByIds } from "../actions/library";
 
 export const fetchBookmarks = async (): Promise<BlogWithComments[]> => {
@@ -12,5 +12,7 @@ export const fetchBookmarks = async (): Promise<BlogWithComments[]> => {
 
   if (bookmarkedBlogIds.length === 0) return [];
 
-  return await getBlogsByIds(bookmarkedBlogIds) as BlogWithComments[];
+  return (await getBlogsByIds(
+    bookmarkedBlogIds,
+  )) as unknown as BlogWithComments[];
 };
