@@ -2,7 +2,6 @@
 import prisma from "@/prisma/prisma";
 import * as bcrypt from "bcrypt";
 import {
-  createAndSetAuthTokenCookie,
   createAndSetEmailVerificationCookie,
   createAccountActionsToken,
   verifyToken,
@@ -26,15 +25,11 @@ const hashPassword = async (password: string) => {
 This function is used for both Google and GitHub SSO logins
 */
 export async function authenticateSSOLogin(
-  userInfo: {
-    email: string;
-    username: string;
-    picture?: string;
-  },
+  userInfo: { email: string; username: string; picture?: string },
   provider: "google" | "github",
 ) {
   try {
-    const user = await prisma.user.findUnique({
+    let user = await prisma.user.findUnique({
       where: { email: userInfo.email },
       select: {
         id: true,
@@ -46,16 +41,31 @@ export async function authenticateSSOLogin(
         status: true,
       },
     });
+
+    if (user?.status === "SUSPENDED") {
+      return {
+        success: false,
+        message: "Your account has been suspended, contact support.",
+      };
+    }
+    if (user?.deactivated) {
+      return {
+        success: false,
+        message:
+          "Your account has been deactivated, check your email to restore it.",
+      };
+    }
+
+    // Create account if first SSO login
     if (!user) {
       const password_digest = await hashPassword(generatePassword());
-      // if user not found, create a new user
-      const newUser = await prisma.user.create({
+      user = await prisma.user.create({
         data: {
           email: userInfo.email.toLowerCase(),
           username: userInfo.username.toLowerCase(),
           password_digest,
           picture:
-            userInfo.picture ||
+            userInfo.picture ??
             `https://ui-avatars.com/api/?background=random&name=${userInfo.username}`,
           handle: convertToHandle(userInfo.username),
           auth_provider: provider,
@@ -67,42 +77,20 @@ export async function authenticateSSOLogin(
           username: true,
           picture: true,
           role: true,
+          deactivated: true,
+          status: true,
         },
       });
-      if (!newUser) {
-        return {
-          success: false,
-          error: "SSO registration failed, please try again",
-        };
-      }
-      await createAndSetAuthTokenCookie(newUser);
-      return {
-        success: true,
-        message: "Registered and logged in successfully 🎉",
-      };
     }
-    if (user.status === "SUSPENDED") {
-      return {
-        successs: false,
-        message: "Your account has been suspended, contact support.",
-        field: "email",
-      };
-    }
-    if (user.deactivated) {
-      return {
-        successs: false,
-        message:
-          "Your account has been deactivated, check your email to restore your account",
-        field: "email",
-      };
-    }
+
     await createSession({
-      id: user.id, // Int
+      id: user.id,
       email: user.email,
       role: user.role,
       username: user.username,
       picture: user.picture,
     });
+
     return { success: true, message: "Logged in successfully 🎉" };
   } catch (error) {
     const e = error as Error;

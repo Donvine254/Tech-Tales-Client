@@ -9,7 +9,7 @@ import { unstable_cache } from "next/cache";
  */
 export async function revalidateBlog(
   blogPath?: string | null,
-  userId?: number
+  userId?: number,
 ) {
   revalidateTag(`user-${userId}-blogs`);
   revalidateTag(`author-${userId}:data`);
@@ -37,7 +37,7 @@ export async function cachedCall<T extends unknown[], R>(
   options?: {
     tags?: string[];
     revalidate?: number | false;
-  }
+  },
 ): Promise<R> {
   // Create a wrapper function that calls the callback with the provided args
   const wrappedCallback = async () => {
@@ -51,4 +51,9 @@ export async function cachedCall<T extends unknown[], R>(
   });
 
   return await cachedFunction();
+}
+
+// Invalidate session cache after changing user details
+export async function invalidateSessionCache() {
+  revalidateTag("session-lookup");
 }

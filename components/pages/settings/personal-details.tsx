@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { updateUserDetails } from "@/lib/actions/user";
 import { useSession } from "@/providers/session";
 import ProfileImageUploader from "./profile-image";
+import { getSession } from "@/lib/actions/session-utils";
 
 export default function PersonalDetails({
   initialData,
@@ -28,7 +29,7 @@ export default function PersonalDetails({
 
   const { setSession, session } = useSession();
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
 
@@ -54,13 +55,8 @@ export default function PersonalDetails({
     setIsSubmitting(false);
     if (res.success && res.user) {
       toast.success(res.message);
-      const newSession: Session = {
-        ...res.user,
-        userId: userId,
-        picture: res.user.picture as string,
-        exp: session?.exp ?? Math.floor(Date.now() / 1000) + 60 * 60 * 8,
-      };
-      setSession(newSession);
+      const updatedSession = await getSession();
+      setSession(updatedSession);
     } else {
       toast.error(res.message);
     }

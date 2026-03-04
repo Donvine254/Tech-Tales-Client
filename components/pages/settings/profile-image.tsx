@@ -1,5 +1,4 @@
 "use client";
-
 import { useRef, useState } from "react";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
@@ -10,8 +9,8 @@ import {
   uploadToCloudinary,
 } from "@/lib/helpers/cloudinary";
 import { useSession } from "@/providers/session";
-import { Session } from "@/types";
 import { updateUserDetails } from "@/lib/actions/user";
+import { getSession } from "@/lib/actions/session-utils";
 
 type ProfileImageUploaderProps = {
   currentPicture: string | null;
@@ -54,7 +53,7 @@ export default function ProfileImageUploader({
 
     const res = await uploadToCloudinary(
       selectedFile,
-      "tech-tales/profile-pictures"
+      "tech-tales/profile-pictures",
     );
 
     toast.dismiss(toastId);
@@ -67,17 +66,13 @@ export default function ProfileImageUploader({
     const imageUrl = res.data.secure_url;
     toast.success("Image uploaded successfully");
     onImageUpload(imageUrl);
-    const userUpdateRes = await updateUserDetails( {
+    const userUpdateRes = await updateUserDetails({
       picture: imageUrl,
     });
     if (userUpdateRes.success && userUpdateRes.user) {
       toast.success(userUpdateRes.message);
-      setSession({
-        ...userUpdateRes.user,
-        userId,
-        picture: imageUrl,
-        exp: session?.exp ?? Math.floor(Date.now() / 1000) + 60 * 60 * 8,
-      } as Session);
+      const updatedSession = await getSession();
+      setSession(updatedSession);
     }
     if (imageInputRef.current) imageInputRef.current.value = "";
     setSelectedFile(null);

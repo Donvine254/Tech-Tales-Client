@@ -3,7 +3,6 @@ import { revalidateTag } from "next/cache";
 import prisma from "@/prisma/prisma";
 import { Preferences, SocialLink } from "@/types";
 import { Prisma, UserStatus } from "@prisma/client";
-import { createAndSetAuthTokenCookie } from "./jwt";
 import { redirect } from "next/navigation";
 import { isVerifiedUser } from "@/dal/auth-check";
 import {
@@ -44,7 +43,7 @@ export const getUserBlogs = async () => {
     {
       tags: [`user-${userId}-blogs`, "blogs"],
       revalidate: 600, // revalidate every 10 minutes
-    }
+    },
   );
 };
 /* This function just user information and top 5 blogs. Used in /me route and profile.ts component (app\(main)\me) */
@@ -72,7 +71,7 @@ export const getUserTopBlogs = async () => {
     {
       tags: [`user-${user.userId}-top`],
       revalidate: 600, // revalidate every 600 seconds
-    }
+    },
   );
 };
 
@@ -112,7 +111,7 @@ export const getUserData = async () => {
     {
       tags: [`user:${user.userId}:data`], // revalidate only when profile updates
       revalidate: 600, // revalidate every 10 minutes
-    }
+    },
   );
 };
 
@@ -182,7 +181,7 @@ export async function updateUserDetails(data: Partial<UpdateData>) {
         role: true,
       },
     });
-    await createAndSetAuthTokenCookie(updatedUser);
+    revalidateTag("session-lookup");
     revalidateTag(`user:${session.userId}:data`);
     revalidateTag(`author-${session.userId}:data`);
     // revalidate user data cache
@@ -199,7 +198,7 @@ export async function updateUserDetails(data: Partial<UpdateData>) {
 /* function to deactivate user account and make it possible for users to restore their accounts within 30 days */
 export async function deactivateUserAccount(
   keepBlogs: boolean,
-  keepComments: boolean
+  keepComments: boolean,
 ) {
   const session = await isVerifiedUser();
   const userId = Number(session.userId);
@@ -241,7 +240,7 @@ export async function deactivateUserAccount(
         user.email,
         user.id,
         keepBlogs,
-        keepComments
+        keepComments,
       );
     });
     revalidateTag(`author-${userId}:data`);
@@ -258,7 +257,7 @@ export async function deactivateUserAccount(
 /* function to permanently delete user account and associated data */
 export async function deleteUserAccount(
   keepBlogs: boolean,
-  keepComments: boolean
+  keepComments: boolean,
 ) {
   const session = await isVerifiedUser();
   try {
@@ -298,7 +297,7 @@ export async function deleteUserAccount(
         user.username,
         user.email,
         keepBlogs,
-        keepComments
+        keepComments,
       );
     });
     // Finally, delete the user account
