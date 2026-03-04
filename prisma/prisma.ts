@@ -1,11 +1,24 @@
-import { PrismaClient } from "@prisma/client/edge";
+import { PrismaClient } from "../src/generated/prisma/client";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { readReplicas } from "@prisma/extension-read-replicas";
+import { PrismaPg } from "@prisma/adapter-pg";
 
-const client = new PrismaClient().$extends(withAccelerate()).$extends(
+// Main client (Accelerate)
+const mainClient = new PrismaClient({
+  accelerateUrl: process.env.DATABASE_URL!,
+}).$extends(withAccelerate());
+
+// Replica client using your replica URL via the pg adapter
+const replicaAdapter = new PrismaPg({
+  connectionString: process.env.DATABASE_REPLICA_URL!,
+});
+const replicaClient = new PrismaClient({ adapter: replicaAdapter });
+
+// Extend main client with read replicas
+const client = mainClient.$extends(
   readReplicas({
-    url: process.env.DATABASE_REPLICA_URL as string,
-  })
+    replicas: [replicaClient],
+  }),
 );
 
 type ExtendedPrismaClient = typeof client;
