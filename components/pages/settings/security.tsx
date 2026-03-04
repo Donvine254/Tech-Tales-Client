@@ -12,6 +12,7 @@ import Link from "next/link";
 import { clearUserFavorites } from "@/lib/helpers";
 import ChangePassword from "./change-password";
 import { useRouter } from "next/navigation";
+import ActiveSessions from "./active-sessions";
 
 export default function SecurityAccount({
 	userId,
@@ -51,6 +52,8 @@ export default function SecurityAccount({
 					</Link>
 				</p>
 				<ChangePassword userId={userId} />
+				<hr />
+				<ActiveSessions userId={userId} />
 				<hr />
 				{/* Export data actions */}
 				<div className="space-y-4">

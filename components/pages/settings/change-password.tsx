@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { Save, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -14,6 +13,7 @@ import { Form } from "@/components/ui/form";
 import { PasswordField } from "@/components/forms/password-input";
 import { PasswordStrengthMeter } from "./password-strength";
 import { changeUserPassword } from "@/lib/actions/auth";
+import { logoutOtherSessions } from "@/lib/actions/manage-sessions";
 
 // ── Schema ────────────────────────────────────────────────────────────────────
 
@@ -44,25 +44,31 @@ export default function ChangePassword({ userId }: { userId: number }) {
 	const { isSubmitting, isDirty } = form.formState;
 
 	const handleSubmit = async (values: ChangePasswordForm) => {
-		const toastId = toast.loading("Processing request...");
 		try {
+			// Step 1: Change password
 			const res = await changeUserPassword(userId, {
 				current: values.currentPassword,
 				newPwd: values.newPassword,
 			});
 
-			if (res.success) {
-				toast.success(res.message);
-				form.reset();
-				setRevokeOtherSessions(false);
-			} else {
+			if (!res.success) {
 				toast.error(res.message);
+				return;
 			}
+
+			// Step 2: Fire-and-forget session revocation — only if password changed successfully
+			if (revokeOtherSessions) {
+				logoutOtherSessions(userId).catch((err) => {
+					console.error(err);
+				});
+			}
+
+			toast.success(res.message);
+			form.reset();
+			setRevokeOtherSessions(false);
 		} catch (err) {
 			console.error(err);
 			toast.error("Something went wrong");
-		} finally {
-			toast.dismiss(toastId);
 		}
 	};
 	return (
@@ -94,9 +100,7 @@ export default function ChangePassword({ userId }: { userId: number }) {
 				{/* Revoke sessions checkbox */}
 				<Label
 					htmlFor="revoke-other-sessions"
-					className="hover:bg-accent/50 flex items-start gap-3 rounded-lg border p-3 cursor-pointer
-            has-[[aria-checked=true]]:border-blue-600 has-[[aria-checked=true]]:bg-blue-50
-            dark:has-[[aria-checked=true]]:border-blue-900 dark:has-[[aria-checked=true]]:bg-blue-950"
+					className="hover:bg-accent/50 flex items-start gap-3 rounded-lg border p-3 cursor-pointer has-[[aria-checked=true]]:border-blue-600 has-[[aria-checked=true]]:bg-blue-50 dark:has-[[aria-checked=true]]:border-blue-900 dark:has-[[aria-checked=true]]:bg-blue-950"
 				>
 					<Checkbox
 						id="revoke-other-sessions"
@@ -105,9 +109,7 @@ export default function ChangePassword({ userId }: { userId: number }) {
 						onCheckedChange={(checked) =>
 							setRevokeOtherSessions(Boolean(checked))
 						}
-						className="data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600
-              border-blue-600 data-[state=checked]:text-white
-              dark:data-[state=checked]:border-blue-700 dark:data-[state=checked]:bg-blue-700"
+						className="data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600 border-blue-600 data-[state=checked]:text-white dark:data-[state=checked]:border-blue-700 dark:data-[state=checked]:bg-blue-700"
 					/>
 					<div className="grid gap-1.5 font-normal">
 						<p className="text-sm leading-none font-medium">
@@ -137,13 +139,12 @@ export default function ChangePassword({ userId }: { userId: number }) {
 						type="submit"
 						variant="ghost"
 						disabled={!isDirty || isSubmitting}
-						className="bg-gradient-to-tr from-blue-500 to-blue-600 text-white hover:text-white
-              hover:shadow-md hover:scale-[1.02] transition-all duration-200 ease-in-out"
+						className="bg-gradient-to-tr from-blue-500 to-blue-600 text-white hover:text-white hover:shadow-md hover:scale-[1.02] transition-all duration-200 ease-in-out"
 					>
 						{isSubmitting ? (
 							<>
 								<Loader2 className="h-4 w-4 animate-spin" />
-								Saving...
+								Updating...
 							</>
 						) : (
 							<>

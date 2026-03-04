@@ -29,9 +29,10 @@ export async function logoutOtherSessions(userId: number) {
   const token = await getCurrentToken();
   if (!token) return;
 
-  await prisma.session.deleteMany({
+  const res = await prisma.session.deleteMany({
     where: { userId, NOT: { token } },
   });
+  console.log(res);
 }
 
 // ── Logout a specific session by ID (from "Manage Devices" UI) ────────────
