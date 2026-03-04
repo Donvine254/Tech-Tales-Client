@@ -15,7 +15,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import {Chatgpt} from "@/assets/icons";
+import { Chatgpt } from "@/assets/icons";
 import { handleSharing } from "@/lib/utils";
 import { BookOpen, Share } from "lucide-react";
 import { useState } from "react";
@@ -50,7 +50,7 @@ export function ShareModal({
   // Function to share on WhatsApp
   const shareOnWhatsApp = () => {
     const whatsappUrl = `whatsapp://send?text=${encodeURIComponent(
-      `See this article i found on techtales: ${blogUrl}`
+      `See this article i found on techtales: ${blogUrl}`,
     )}`;
     window.open(whatsappUrl);
   };
@@ -68,16 +68,16 @@ export function ShareModal({
   //function to share on instapaper
   const shareOnInstapaper = () => {
     const instapaperUrl = `https://www.instapaper.com/edit?url=${encodeURIComponent(
-      blogUrl
+      blogUrl,
     )}&title=${encodeURIComponent(title)}`;
     window.open(instapaperUrl, "_blank", "width=600,height=400");
   };
   // Function to share on Pinterest
   const shareOnPinterest = () => {
     const pinterestUrl = `https://www.pinterest.com/pin/create/button/?url=${encodeURIComponent(
-      blogUrl
+      blogUrl,
     )}&media=${encodeURIComponent(image)}&description=${encodeURIComponent(
-      title
+      title,
     )}`;
 
     window.open(pinterestUrl, "_blank", "width=600,height=400");
@@ -93,7 +93,7 @@ export function ShareModal({
     const emailSubject = `Check out this article on Techtales: ${title}`;
     const emailBody = `I found this interesting article on Techtales: ${blogUrl}`;
     const mailtoUrl = `mailto:?subject=${encodeURIComponent(
-      emailSubject
+      emailSubject,
     )}&body=${encodeURIComponent(emailBody)}`;
     window.open(mailtoUrl, "_self");
   };
@@ -112,17 +112,17 @@ export function ShareModal({
       toast.error("Failed to copy link to clipboard");
     }
   };
-//function to share with ChatGPT
-const shareOnChatGPT = () => {
+  //function to share with ChatGPT
+  const shareOnChatGPT = () => {
     const prompt = `Please read this blog: ${blogUrl} and give me a detailed summary and any other views on the topic.`;
     const chatUrl = `https://chat.openai.com/?hints=search&q=${encodeURIComponent(
-      prompt
+      prompt,
     )}`;
     window.open(chatUrl, "_blank", "noopener,noreferrer");
   };
   const generateQRCode = async () => {
     const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(
-      blogUrl
+      blogUrl,
     )}`;
     setQrCode(qrCodeUrl);
     setShowQrModal(true); // Show QR modal
@@ -168,6 +168,7 @@ const shareOnChatGPT = () => {
             </span>
           </p>
           <button
+            type="button"
             className="flex items-center justify-center w-6 h-6 text-xs sm:text-sm hover:bg-accent cursor-pointer dark:hover:text-gray-900 bg-muted rounded-sm shadow-sm hover:shadow-md transition-colors duration-200 ease-in-out"
             title="copy link"
             onClick={copyBlogLink}>
@@ -181,6 +182,7 @@ const shareOnChatGPT = () => {
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round">
+                <title>copied!</title>
                 <circle cx="12" cy="12" r="10" />
                 <path d="m9 12 2 2 4-4" />
               </svg>
@@ -207,6 +209,7 @@ const shareOnChatGPT = () => {
           {/* Facebook */}
           <div className="flex flex-col items-center">
             <button
+              type="button"
               className="flex cursor-pointer items-center justify-center rounded-xl bg-[#3B5998] w-12 h-12 text-white hover:shadow-blue-600 hover:shadow-2xl "
               onClick={shareOnFacebook}>
               <svg
@@ -224,6 +227,7 @@ const shareOnChatGPT = () => {
           {/* Twitter */}
           <div className="flex flex-col items-center">
             <button
+              type="button"
               onClick={shareOnTwitter}
               title="twitter/x"
               className="flex cursor-pointer items-center justify-center rounded-xl bg-gray-100  hover:bg-gray-200 w-12 h-12 ">
@@ -245,6 +249,7 @@ const shareOnChatGPT = () => {
           {/* WhatsApp */}
           <div className="flex flex-col items-center">
             <button
+              type="button"
               onClick={shareOnWhatsApp}
               title="share on whatsapp"
               className="flex cursor-pointer items-center justify-center rounded-xl w-12 h-12 bg-green-500 text-white hover:shadow-green-500 hover:shadow-2xl">
@@ -253,6 +258,7 @@ const shareOnChatGPT = () => {
                 viewBox="0 0 258 256"
                 width="1.875rem"
                 height="1.875rem">
+                <title>share on whatsapp</title>
                 <defs>
                   <linearGradient
                     id="logosWhatsappIcon0"
@@ -290,6 +296,7 @@ const shareOnChatGPT = () => {
           <div className="flex flex-col items-center">
             <button
               onClick={shareOnTelegram}
+              type="button"
               title="share on telegram"
               className="flex cursor-pointer items-center justify-center rounded-xl w-12 h-12 bg-[#24A2E0] text-white hover:shadow-[#24A2E0] hover:shadow-2xl">
               <svg
@@ -297,6 +304,7 @@ const shareOnChatGPT = () => {
                 fill="currentColor"
                 height="30"
                 width="30">
+                <title>share on telegram</title>
                 <path d="M20.665 3.717l-17.73 6.837c-1.21.486-1.203 1.161-.222 1.462l4.552 1.42 10.532-6.645c.498-.303.953-.14.579.192l-8.533 7.701h-.002l.002.001-.314 4.692c.46 0 .663-.211.921-.46l2.211-2.15 4.599 3.397c.848.467 1.457.227 1.668-.785l3.019-14.228c.309-1.239-.473-1.8-1.282-1.434z" />
               </svg>
             </button>
@@ -307,12 +315,14 @@ const shareOnChatGPT = () => {
             <button
               onClick={shareOnReddit}
               title="share on reddit"
+              type="button"
               className="flex cursor-pointer items-center justify-center rounded-xl w-12 h-12 bg-[#FF4500] text-white hover:shadow-[#FF4500] hover:shadow-2xl ">
               <svg
                 viewBox="0 0 512 512"
                 fill="currentColor"
                 height="30"
                 width="30">
+                <title>share on reddit</title>
                 <path d="M324 256a36 36 0 1036 36 36 36 0 00-36-36z" />
                 <path
                   transform="rotate(-22.5 187.997 291.992)"
@@ -327,6 +337,7 @@ const shareOnChatGPT = () => {
           {/* linkedin */}
           <div className="flex flex-col items-center">
             <button
+              type="button"
               className="flex cursor-pointer items-center justify-center rounded-xl bg-[#0077B5] w-12 h-12 text-white hover:shadow-[#0077B5] hover:shadow-2xl"
               title="share on linkedin"
               onClick={shareOnLinkedIn}>
@@ -335,6 +346,7 @@ const shareOnChatGPT = () => {
                 fill="currentColor"
                 height="30"
                 width="30">
+                <title>linkedin icon</title>
                 <path fill="none" d="M0 0h24v24H0z" />
                 <path d="M6.94 5a2 2 0 11-4-.002 2 2 0 014 .002zM7 8.48H3V21h4V8.48zm6.32 0H9.34V21h3.94v-6.57c0-3.66 4.77-4 4.77 0V21H22v-7.93c0-6.17-7.06-5.94-8.72-2.91l.04-1.68z" />
               </svg>
@@ -346,12 +358,14 @@ const shareOnChatGPT = () => {
             <button
               className="flex cursor-pointer items-center justify-center rounded-xl bg-gray-800 w-12 h-12 text-white hover:shadow-gray-900 hover:shadow-2xl"
               title="share on instapaper"
+              type="button"
               onClick={shareOnInstapaper}>
               <svg
                 viewBox="0 0 24 24"
                 fill="currentColor"
                 height="30"
                 width="30">
+                <title>instapaper icon</title>
                 <path d="M14.766 20.259c0 1.819.271 2.089 2.934 2.292V24H6.301v-1.449c2.666-.203 2.934-.473 2.934-2.292V3.708c0-1.784-.27-2.089-2.934-2.292V0h11.398v1.416c-2.662.203-2.934.506-2.934 2.292v16.551z" />
               </svg>
             </button>
@@ -360,6 +374,7 @@ const shareOnChatGPT = () => {
           {/* pinterest */}
           <div className="flex flex-col items-center">
             <button
+              type="button"
               className="flex cursor-pointer items-center justify-center rounded-xl bg-[#E60023] w-12 h-12 text-white hover:shadow-[#E60023] hover:shadow-2xl"
               title="share on pinterest"
               onClick={shareOnPinterest}>
@@ -368,6 +383,7 @@ const shareOnChatGPT = () => {
                 fill="currentColor"
                 height="30"
                 width="30">
+                <title>pinterest icon</title>
                 <path d="M5.077 9.457c0-.778.136-1.513.404-2.199a5.63 5.63 0 011.121-1.802 7.614 7.614 0 011.644-1.329 7.513 7.513 0 012.002-.844 8.57 8.57 0 012.185-.281c1.139 0 2.199.241 3.182.721a6.021 6.021 0 012.391 2.094c.614.915.919 1.95.919 3.104 0 .692-.068 1.369-.207 2.031a8.28 8.28 0 01-.646 1.913 6.605 6.605 0 01-1.082 1.617 4.723 4.723 0 01-1.568 1.114 4.962 4.962 0 01-2.045.417c-.489 0-.977-.115-1.459-.346-.482-.23-.828-.546-1.036-.951-.073.281-.173.687-.306 1.218-.128.53-.214.872-.252 1.027-.04.154-.114.411-.222.767a5.183 5.183 0 01-.281.769l-.344.674a7.98 7.98 0 01-.498.838c-.181.262-.405.575-.672.935l-.149.053-.099-.108c-.107-1.133-.162-1.811-.162-2.035 0-.663.079-1.407.235-2.233.153-.825.395-1.862.72-3.109.325-1.246.511-1.979.561-2.196-.229-.467-.345-1.077-.345-1.827 0-.599.187-1.16.562-1.688.376-.526.851-.789 1.427-.789.441 0 .783.146 1.028.439.246.292.366.66.366 1.109 0 .476-.158 1.165-.476 2.066-.318.902-.476 1.575-.476 2.022 0 .453.162.832.486 1.129a1.68 1.68 0 001.179.449c.396 0 .763-.09 1.104-.271a2.46 2.46 0 00.849-.733 6.123 6.123 0 001.017-2.225c.096-.422.17-.823.216-1.2.049-.379.07-.737.07-1.077 0-1.247-.396-2.219-1.183-2.915-.791-.696-1.821-1.042-3.088-1.042-1.441 0-2.646.466-3.611 1.401-.966.932-1.452 2.117-1.452 3.554 0 .317.048.623.139.919.089.295.186.53.291.704.104.171.202.338.291.492.09.154.137.264.137.33 0 .202-.053.465-.16.79-.111.325-.242.487-.4.487-.015 0-.077-.011-.185-.034a2.21 2.21 0 01-.979-.605 3.17 3.17 0 01-.659-1.022 6.986 6.986 0 01-.352-1.169 4.884 4.884 0 01-.132-1.153z" />
               </svg>
             </button>
@@ -377,6 +393,7 @@ const shareOnChatGPT = () => {
           <div className="flex flex-col items-center">
             <button
               className="flex cursor-pointer items-center justify-center rounded-xl  w-12 h-12 bg-gray-700 hover:bg-gray-600  text-white"
+              type="button"
               title="share via email"
               onClick={shareViaEmail}>
               <svg
@@ -384,27 +401,28 @@ const shareOnChatGPT = () => {
                 fill="currentColor"
                 height="30"
                 width="30">
+                <title>email icon</title>
                 <path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6m-2 0l-8 5-8-5h16m0 12H4V8l8 5 8-5v10z" />
               </svg>
             </button>
             <small className="mt-1">Email</small>
           </div>
-           {/* ChatGPT */}
-              <div className="flex flex-col items-center">
-                <button
-                  onClick={shareOnChatGPT}
-                  className="w-12 h-12  text-gray-950 dark:bg-white dark:text-white rounded-xl flex items-center justify-center transition-all duration-200 hover:shadow-lg hover:scale-105 cursor-pointer"
-                  title="summarize with chatgpt">
-                  <Chatgpt className="size-12" />
-                </button>
-                <small className="mt-1">
-                  ChatGPT
-                </small>
-              </div>
+          {/* ChatGPT */}
+          <div className="flex flex-col items-center">
+            <button
+              onClick={shareOnChatGPT}
+              type="button"
+              className="w-12 h-12  text-gray-950 dark:bg-white dark:text-white rounded-xl flex items-center justify-center transition-all duration-200 hover:shadow-lg hover:scale-105 cursor-pointer"
+              title="summarize with chatgpt">
+              <Chatgpt className="size-12" />
+            </button>
+            <small className="mt-1">ChatGPT</small>
+          </div>
           {/* QR Code Generator */}
           <div className="flex flex-col items-center">
             <button
               onClick={generateQRCode}
+              type="button"
               className="flex cursor-pointer items-center justify-center rounded-xl w-12 h-12 bg-gray-200 hover:bg-gray-100 dark:text-gray-900"
               title="generate QR code">
               <svg
@@ -426,11 +444,13 @@ const shareOnChatGPT = () => {
           {/* open webshare API */}
           <div className="flex flex-col items-center">
             <button
+              type="button"
               className="p-2 flex cursor-pointer items-center justify-center hover:bg-gray-100 rounded-xl w-12 h-12 bg-gray-200 dark:text-gray-800 border-none outline-none"
               onClick={() => {
                 handleSharing(title, path);
               }}>
               <svg fill="none" viewBox="0 0 15 15" height="30" width="30">
+                <title>more icon</title>
                 <path
                   stroke="currentColor"
                   d="M3 7.5a.5.5 0 11-1 0 .5.5 0 011 0zM8 7.5a.5.5 0 11-1 0 .5.5 0 011 0zM13 7.5a.5.5 0 11-1 0 .5.5 0 011 0z"
@@ -456,6 +476,7 @@ const shareOnChatGPT = () => {
               />
               <button
                 onClick={closeQrModal}
+                type="button"
                 title="cancel"
                 className="bg-gray-200 hover:bg-gray-100 dark:text-gray-900 hover:text-red-500 px-6 py-1 rounded-md">
                 Cancel
