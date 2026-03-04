@@ -2,11 +2,21 @@
 import prisma from "@/prisma/prisma";
 import { formatDate } from "../utils";
 import { getSession } from "./session-utils";
+import type { Prisma } from "@/src/generated/prisma/client";
 
 /*
  ***This function creates a new blog version entry each time a blog is updated
  */
-
+export type BlogVersionWithEditor = Prisma.BlogVersionGetPayload<{
+  include: {
+    editor: {
+      select: {
+        username: true;
+        picture: true;
+      };
+    };
+  };
+}>;
 export async function createBlogVersion(blogId: number, note?: string) {
   const session = await getSession();
   if (!session || !session.userId) {
@@ -38,7 +48,7 @@ export async function createBlogVersion(blogId: number, note?: string) {
           note ??
           `Edited by ${session.username} at ${formatDate(
             new Date(),
-            true
+            true,
           )}. User did not add any comments on what was changed`,
       },
     });
@@ -72,7 +82,7 @@ export async function getBlogVersions(blogId: number) {
       },
     });
 
-    return versions;
+    return versions as BlogVersionWithEditor[];
   } catch (error) {
     console.error("Failed to fetch blog versions:", error);
     return [];

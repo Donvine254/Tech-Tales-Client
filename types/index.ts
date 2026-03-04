@@ -1,6 +1,6 @@
-import { getUserComments } from "@/lib/actions/comments";
-import { getSession } from "@/lib/actions/session-utils";
-import {
+import type { getUserComments } from "@/lib/actions/comments";
+import type { getSession } from "@/lib/actions/session-utils";
+import type {
   User,
   Blog,
   Comment,

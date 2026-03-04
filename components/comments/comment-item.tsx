@@ -1,4 +1,3 @@
-
 import { CommentData, ResponseData, Session } from "@/types";
 import React, { useState } from "react";
 import { Badge } from "../ui/badge";
@@ -338,6 +337,7 @@ export const CommentItem: React.FC<Props> = ({
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button
+                  type="button"
                   className="cursor-pointer bg-input/60 hover:bg-input/50 p-1 rounded-full"
                   title="More Actions">
                   <MoreHorizontal className="h-4 w-4" />
@@ -547,6 +547,7 @@ export const CommentItem: React.FC<Props> = ({
             )}
             {comment.status === "HIDDEN" && !showHidden && (
               <button
+                type="button"
                 className="text-xs inline-flex gap-2 items-center bg-background hover:text-blue-500 text-muted-foreground cursor-pointer"
                 title="show hidden comment"
                 onClick={() => setShowHidden(true)}>
