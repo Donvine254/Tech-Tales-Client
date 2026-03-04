@@ -1,8 +1,7 @@
 "use server";
-import { revalidateTag } from "next/cache";
+import { revalidateTag, updateTag } from "next/cache";
 import prisma from "@/prisma/prisma";
 import { Preferences, SocialLink } from "@/types";
-import { Prisma, UserStatus } from "@prisma/client";
 import { redirect } from "next/navigation";
 import { isVerifiedUser } from "@/dal/auth-check";
 import {
@@ -12,6 +11,7 @@ import {
 import { DELETED_USER_ID } from "../utils";
 import { blogSelect } from "@/prisma/select";
 import { cachedCall } from "./cache";
+import { Prisma, UserStatus } from "@/src/generated/prisma/client";
 
 /* function to getAllUserBlogs. Used in app/(main)/me/posts */
 export const getUserBlogs = async () => {
@@ -130,9 +130,9 @@ export async function updateSocials(data: SocialLink[]) {
       },
     });
 
-    revalidateTag(`user-${userId}-blogs`);
-    revalidateTag(`user:${userId}:data`);
-    revalidateTag(`author-${userId}:data`);
+    revalidateTag(`user-${userId}-blogs`, "max");
+    updateTag(`user:${userId}:data`);
+    updateTag(`author-${userId}:data`);
     return {
       success: true,
       socials: user.socials,
@@ -181,9 +181,8 @@ export async function updateUserDetails(data: Partial<UpdateData>) {
         role: true,
       },
     });
-    revalidateTag("session-lookup");
-    revalidateTag(`user:${session.userId}:data`);
-    revalidateTag(`author-${session.userId}:data`);
+    updateTag(`user:${session.userId}:data`);
+    revalidateTag(`author-${session.userId}:data`, "max");
     // revalidate user data cache
     return {
       success: true,
@@ -243,7 +242,7 @@ export async function deactivateUserAccount(
         keepComments,
       );
     });
-    revalidateTag(`author-${userId}:data`);
+    revalidateTag(`author-${userId}:data`, "max");
     return { success: true, message: "User account deleted successfully" };
   } catch (error) {
     const e = error as Error;
@@ -304,7 +303,7 @@ export async function deleteUserAccount(
     await prisma.user.delete({
       where: { id: user.id },
     });
-    revalidateTag(`author-${user.id}:data`);
+    revalidateTag(`author-${user.id}:data`, "max");
     return { success: true, message: "User account deleted successfully" };
   } catch (error) {
     const e = error as Error;

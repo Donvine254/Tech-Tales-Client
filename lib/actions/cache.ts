@@ -1,4 +1,4 @@
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag, updateTag } from "next/cache";
 import { unstable_cache } from "next/cache";
 /*
  * Revalidates the blog and user blogs cache tags.
@@ -11,12 +11,12 @@ export async function revalidateBlog(
   blogPath?: string | null,
   userId?: number,
 ) {
-  revalidateTag(`user-${userId}-blogs`);
-  revalidateTag(`author-${userId}:data`);
-  revalidateTag("featured");
-  revalidateTag("latest");
-  revalidateTag("trending");
-  revalidateTag("blogs");
+  revalidateTag(`user-${userId}-blogs`, "max");
+  revalidateTag(`author-${userId}:data`, "max");
+  updateTag("featured");
+  updateTag("latest");
+  updateTag("trending");
+  updateTag("blogs");
   revalidatePath(`/read/${blogPath}`);
 }
 
@@ -51,9 +51,4 @@ export async function cachedCall<T extends unknown[], R>(
   });
 
   return await cachedFunction();
-}
-
-// Invalidate session cache after changing user details
-export async function invalidateSessionCache() {
-  revalidateTag("session-lookup");
 }

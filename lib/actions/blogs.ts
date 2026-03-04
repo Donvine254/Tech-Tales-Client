@@ -1,8 +1,7 @@
 "use server";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import prisma from "@/prisma/prisma";
 import { BlogData } from "@/types";
-import { BlogStatus, Prisma } from "@prisma/client";
 import { canPublishBlog, generateDescription } from "../helpers";
 import { revalidateTag } from "next/cache";
 
@@ -10,6 +9,7 @@ import { calculateReadingTime, formatDate } from "../utils";
 import { revalidateBlog } from "./cache";
 import { createBlogVersion } from "./blog-version";
 import { isVerifiedUser } from "@/dal/auth-check";
+import { BlogStatus, Prisma } from "@/src/generated/prisma/client";
 // function to create a new blog
 
 export async function createNewBlog(uuid?: string) {
@@ -45,7 +45,7 @@ export async function createNewBlog(uuid?: string) {
       },
     });
     if (blog) {
-      revalidateTag(`user-${user.userId}-blogs`);
+      updateTag(`user-${user.userId}-blogs`);
       return { success: true, data: blog };
     } else {
       return { success: false, message: "blog creation failed" };
@@ -82,7 +82,7 @@ export async function SaveDraftBlog(data: BlogData, uuid: string) {
         status: true,
       },
     });
-    revalidateTag(`user-${user.userId}-blogs`);
+    updateTag(`user-${user.userId}-blogs`);
     if (data.path) {
       revalidatePath(`/read/${data.path}`);
     }
@@ -203,7 +203,7 @@ export async function deleteOrArchiveBlog(uuid: string) {
       await prisma.blog.delete({
         where: { uuid },
       });
-      revalidateTag(`user-${user.userId}-blogs`);
+      revalidateTag(`user-${user.userId}-blogs`, "max");
       return {
         success: true,
         message: "Draft blog deleted successfully",
