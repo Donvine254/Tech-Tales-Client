@@ -4,50 +4,52 @@ import * as jose from "jose";
 
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
 
+const PROTECTED = ["/me", "/posts", "/api", "/admin"];
+const PUBLIC_ONLY = ["/login", "/register"];
+
+function isProtected(path: string) {
+  return PROTECTED.some((p) => path.startsWith(p));
+}
+
+function isPublicOnly(path: string) {
+  return PUBLIC_ONLY.some((p) => path.startsWith(p));
+}
+
+function redirectToLogin(request: NextRequest, path: string) {
+  const response = NextResponse.redirect(new URL("/login", request.url));
+  response.cookies.set("post_login_redirect", path, {
+    httpOnly: true,
+    sameSite: "lax",
+    maxAge: 60 * 5,
+    path: "/",
+  });
+  return response;
+}
+
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
+  const token = request.cookies.get("token")?.value;
 
-  const isProtectedPath =
-    path.startsWith("/me") ||
-    path.startsWith("/posts") ||
-    path.startsWith("/api");
-
-  const isPublicPath =
-    path.startsWith("/login") || path.startsWith("/register");
-
-  const token = request.cookies.get("token");
-  try {
-    if (token) {
-      await jose.jwtVerify(token.value, JWT_SECRET);
-
-      if (isPublicPath) {
-        return NextResponse.redirect(new URL("/", request.url));
-      }
-    } else if (isProtectedPath) {
-      const response = NextResponse.redirect(new URL("/login", request.url));
-      response.cookies.set("post_login_redirect", path, {
-        httpOnly: true,
-        sameSite: "lax",
-        path: "/",
-      });
-      return response;
-    }
-  } catch (error) {
-    const e = error as Error;
-    console.warn("Invalid token", e.message);
-    if (isProtectedPath) {
-      const response = NextResponse.redirect(new URL("/login", request.url));
-      response.cookies.set("post_login_redirect", path, {
-        httpOnly: true,
-        sameSite: "lax",
-        path: "/",
-      });
-      return response;
-    }
+  if (!token) {
+    if (isProtected(path)) return redirectToLogin(request, path);
+    return NextResponse.next();
   }
 
-  return NextResponse.next();
+  try {
+    await jose.jwtVerify(token, JWT_SECRET);
+    if (isPublicOnly(path))
+      return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.next();
+  } catch {
+    const response = isProtected(path)
+      ? redirectToLogin(request, path)
+      : NextResponse.next();
+
+    response.cookies.delete("token");
+    return response;
+  }
 }
+
 export const config = {
   matcher: [
     "/",
@@ -55,7 +57,6 @@ export const config = {
     "/register",
     "/posts/new",
     "/posts/:path*",
-    "/register",
     "/callback",
     "/api",
     "/api/me",
