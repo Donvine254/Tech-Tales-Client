@@ -32,12 +32,17 @@ export async function getUserFavorites() {
         return [];
       }
 
-      return favorites.map((fav) => fav.blog);
+      return (
+        favorites
+          // @ts-expect-error - blog relation may be typed as nullable
+          .map((fav) => fav.blog)
+          .filter((blog): blog is NonNullable<typeof blog> => blog !== null)
+      );
     },
     {
       tags: [`user-${userId}:favorites`, "favorites"],
       revalidate: 600, // 10 minutes
-    }
+    },
   );
 }
 

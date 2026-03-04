@@ -27,10 +27,10 @@ import {
   CommentCard,
   SkeletonComment,
 } from "@/components/comments/comment-card";
-import { CommentStatus } from "@prisma/client";
 import { UserComments } from "@/types";
 import { toast } from "sonner";
 import { updateCommentStatus } from "@/lib/actions/comments";
+import { CommentStatus } from "@/src/generated/prisma/client";
 
 const COMMENTS_PER_PAGE = 10;
 

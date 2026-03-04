@@ -1,4 +1,4 @@
-import React from "react";
+
 import prisma from "@/prisma/prisma";
 import { redirect } from "next/navigation";
 import Slug from "@/components/pages/slug/slug";
@@ -128,7 +128,7 @@ export default async function page({
   if (!pathname) {
     redirect("not-found");
   }
-  const blog = (await getData(pathname)) as FullBlogData;
+  const blog = (await getData(pathname)) as unknown as FullBlogData;
   if (!blog) {
     redirect("/410");
   }

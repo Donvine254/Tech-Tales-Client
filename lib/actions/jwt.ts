@@ -1,7 +1,7 @@
 "use server";
+import { User } from "@/src/generated/prisma/client";
 import * as jose from "jose";
 import { cookies } from "next/headers";
-import { User } from "@prisma/client";
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
 
 // function to create and set email verification cookie; Change this to store in database

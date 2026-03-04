@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default async function page() {
   const user = await isVerifiedUser();
   const data = (await getUserData()) as UserProfileData;
-  const blogs = (await getUserTopBlogs()) as BlogWithComments[];
+  const blogs = (await getUserTopBlogs()) as unknown as BlogWithComments[];
   const isTopAuthor = await getTopAuthor(user.userId);
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-accent">

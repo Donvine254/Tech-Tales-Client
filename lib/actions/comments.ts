@@ -1,8 +1,8 @@
 "use server";
 import { isVerifiedUser } from "@/dal/auth-check";
 import prisma from "@/prisma/prisma";
+import { CommentStatus } from "@/src/generated/prisma/client";
 import { CommentData } from "@/types";
-import { CommentStatus } from "@prisma/client";
 import { redirect } from "next/navigation";
 
 type CommentBody = {
@@ -37,7 +37,7 @@ export async function createComment(
         },
         responses: true,
       },
-    })) as CommentData;
+    })) as unknown as CommentData;
 
     return {
       success: true,
@@ -86,7 +86,7 @@ export async function updateComment({
         },
         responses: true,
       },
-    })) as CommentData;
+    })) as unknown as CommentData;
 
     return {
       success: true,
@@ -153,7 +153,7 @@ export const commentsFetcher = async (blogId: number) => {
         createdAt: "desc",
       },
     });
-    return comments as CommentData[];
+    return comments as unknown as CommentData[];
   } catch {
     return [];
   }

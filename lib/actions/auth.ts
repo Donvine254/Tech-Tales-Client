@@ -7,7 +7,6 @@ import {
   verifyToken,
 } from "./jwt";
 import { rateLimitByIp } from "./rate-limiter";
-import { Prisma } from "@prisma/client/edge";
 import { baseUrl, convertToHandle, generatePassword } from "../utils";
 import {
   sendPasswordResetEmail,
@@ -16,6 +15,7 @@ import {
 } from "@/emails/mailer";
 import { getClientIP } from "../helpers/user-ip";
 import { createSession } from "./session-utils";
+import { Prisma } from "@/src/generated/prisma/client";
 
 /* Function to hash passwords */
 const hashPassword = async (password: string) => {

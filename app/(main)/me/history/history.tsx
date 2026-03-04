@@ -38,7 +38,7 @@ async function fetchHistoryBlogs() {
   try {
     const historyArray: number[] = JSON.parse(readingHistory);
     if (Array.isArray(historyArray) && historyArray.length > 0) {
-      return (await getBlogsByIds(historyArray)) as BlogWithComments[];
+      return (await getBlogsByIds(historyArray)) as unknown as BlogWithComments[];
     }
     return [];
   } catch {

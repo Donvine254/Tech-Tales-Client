@@ -8,7 +8,7 @@ import { BlogWithComments } from "@/types";
 export default async function Home() {
   const featuredBlogs = await getRandomBlogs();
   const getBlogs = blogFetcher("createdAt", "blogs", 18);
-  const blogPosts = (await getBlogs()) as BlogWithComments[];
+  const blogPosts = (await getBlogs()) as unknown as BlogWithComments[];
   return (
     <div className="min-h-screen p-2 md:p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)] bg-muted/90 dark:bg-gray-900/90">
       <section className="w-full max-w-7xl mx-auto  mb-4">

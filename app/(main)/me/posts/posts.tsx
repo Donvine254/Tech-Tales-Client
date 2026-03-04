@@ -18,8 +18,7 @@ import {
   ListFilterIcon,
   Search,
 } from "lucide-react";
-import React, { useEffect, useState } from "react";
-import { BlogStatus } from "@prisma/client";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { getUserBlogs } from "@/lib/actions/user";
 import {
@@ -36,6 +35,7 @@ import {
   toggleDiscussion,
   updateBlogStatus,
 } from "@/lib/actions/blogs";
+import { BlogStatus } from "@/src/generated/prisma/client";
 
 const BLOGS_PER_PAGE = 5;
 type BlogsType = Awaited<ReturnType<typeof getUserBlogs>>;
