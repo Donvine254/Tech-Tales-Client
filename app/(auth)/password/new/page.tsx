@@ -20,7 +20,7 @@ import { CircleX, Eye, EyeOff, Loader2, MoveLeft, Wand2 } from "lucide-react";
 import { simplePasswordRegex } from "@/lib/schemas/auth";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import { FormStatus } from "@/types";
-import PasswordStrengthMeter from "@/components/pages/settings/password-strength";
+import {PasswordStrengthMeter} from "@/components/pages/settings/password-strength";
 import { generatePassword } from "@/lib/utils";
 import { toast } from "sonner";
 import { validateRecaptcha } from "@/lib/actions/captcha";

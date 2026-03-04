@@ -64,7 +64,8 @@
     "sonner": "^2.0.5",
     "tailwind-merge": "^3.3.1",
     "tinymce": "^8.0.1",
-    "zod": "^3.25.76"
+    "zod": "^3.25.76",
+    "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -77,6 +78,7 @@
     "@types/prismjs": "^1.26.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/zxcvbn": "^4.4.5",
     "eslint": "^9",
     "eslint-config-next": "15.3.4",
     "prisma": "^6.13.0",

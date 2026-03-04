@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { generatePassword } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import PasswordStrengthMeter from "./password-strength";
+import {PasswordStrengthMeter} from "./password-strength";
 import { changeUserPassword } from "@/lib/actions/auth";
 import { toast } from "sonner";
 import WarningDialog from "@/components/modals/warning-dialog";
@@ -34,9 +34,8 @@ export default function SecurityAccount({
   const [passwords, setPasswords] = useState({
     current: "",
     new: "",
-    confirm: "",
   });
-
+  const [revokeOtherSessions, setRevokeOtherSessions] = useState(false);
   const [showPassword, setShowPassword] = useState({
     current: false,
     new: false,
@@ -90,11 +89,8 @@ export default function SecurityAccount({
     }
   }
   const hasChanges =
-    passwords.current.trim() !== "" ||
-    passwords.new.trim() !== "" ||
-    passwords.confirm.trim() !== "";
-  const newMismatch =
-    passwords.new && passwords.confirm && passwords.new !== passwords.confirm;
+    passwords.current.trim() !== "" || passwords.new.trim() !== "";
+
   return (
     <div className="py-4 sm:p-6 lg:p-8 space-y-6">
       <div className="mb-8">
@@ -185,14 +181,35 @@ export default function SecurityAccount({
             <span>Suggest a strong password</span>
           </button>
           <PasswordStrengthMeter password={passwords.new} />
+          <Label
+            htmlFor="revoke-other-sessions"
+            className="hover:bg-accent/50 flex items-start gap-3 rounded-lg border p-3 cursor-pointer 
+                 has-[[aria-checked=true]]:border-blue-600 has-[[aria-checked=true]]:bg-blue-50
+                 dark:has-[[aria-checked=true]]:border-blue-900 dark:has-[[aria-checked=true]]:bg-blue-950">
+            <Checkbox
+              id="revoke-other-sessions"
+              checked={revokeOtherSessions}
+              disabled={isSubmitting}
+              onCheckedChange={(checked) =>
+                setRevokeOtherSessions(Boolean(checked))
+              }
+              className="data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600 border-blue-600 data-[state=checked]:text-white dark:data-[state=checked]:border-blue-700  dark:data-[state=checked]:bg-blue-700 "
+            />
+            <div className="grid gap-1.5 font-normal">
+              <p className="text-sm leading-none font-medium">
+                Revoke other sessions
+              </p>
+              <p className="text-muted-foreground text-sm">
+                All other active sessions (browsers/devices) will be logged out.
+              </p>
+            </div>
+          </Label>
           <div className="flex space-x-2 md:space-x-4 justify-between sm:justify-end">
             <Button
               variant="outline"
               type="reset"
               disabled={!hasChanges || isSubmitting}
-              onClick={() =>
-                setPasswords({ current: "", new: "", confirm: "" })
-              }>
+              onClick={() => setPasswords({ current: "", new: "" })}>
               Cancel
             </Button>
             <Button
@@ -208,7 +225,7 @@ export default function SecurityAccount({
               ) : (
                 <>
                   <Save className="w-4 h-4" />
-                  <span>Save Changes</span>
+                  <span>Change Password</span>
                 </>
               )}
             </Button>
