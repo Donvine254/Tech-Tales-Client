@@ -1,6 +1,6 @@
+
 import { CommentData, ResponseData, Session } from "@/types";
 import React, { useState } from "react";
-import { CommentStatus } from "@prisma/client";
 import { Badge } from "../ui/badge";
 import {
   DropdownMenu,
@@ -31,7 +31,6 @@ import { FlagFilled } from "@/assets/icons";
 import Response from "./response";
 import { toast } from "sonner";
 import CommentBody from "./comment-body";
-import { BlogStatus } from "@prisma/client";
 import { deleteComment, updateCommentStatus } from "@/lib/actions/comments";
 import { ResponseEditor } from "./response-editor";
 import {
@@ -40,6 +39,7 @@ import {
   updateResponse,
 } from "@/lib/actions/responses";
 import { cn, formatCommentDate } from "@/lib/utils";
+import { BlogStatus, CommentStatus } from "@/src/generated/prisma/client";
 
 type Props = {
   comment: CommentData;
@@ -62,7 +62,7 @@ export const CommentItem: React.FC<Props> = ({
   const [isEditing, setIsEditing] = useState(false);
   const [showHidden, setShowHidden] = useState(false);
   const [editingResponse, setEditingResponse] = useState<ResponseData | null>(
-    null
+    null,
   );
   const [isReplying, setIsReplying] = useState(false);
   // check if current user is author or admin
@@ -74,7 +74,7 @@ export const CommentItem: React.FC<Props> = ({
   const handleEditing = (response: ResponseData) => {
     setIsEditing(true);
     setEditingResponse(response);
-    setResponseBody(editingResponse?.body ?? response.body);
+    setResponseBody(editingResponse?.body ?? response?.body);
     // remove the response from state
     setComments((prevComments) =>
       prevComments.map((c) =>
@@ -83,8 +83,8 @@ export const CommentItem: React.FC<Props> = ({
               ...c,
               responses: c.responses.filter((r) => r.id !== response.id),
             }
-          : c
-      )
+          : c,
+      ),
     );
   };
   // function to handle updating comment status
@@ -92,7 +92,7 @@ export const CommentItem: React.FC<Props> = ({
     // optimistically update the comment status and set it in state
     const previousStatus = comment.status;
     setComments((prevComments) =>
-      prevComments.map((c) => (c.id === comment.id ? { ...c, status } : c))
+      prevComments.map((c) => (c.id === comment.id ? { ...c, status } : c)),
     );
     const res = await updateCommentStatus(comment.id, status);
     if (!res.success) {
@@ -100,8 +100,8 @@ export const CommentItem: React.FC<Props> = ({
       // revert the changes if the update fails
       setComments((prevComments) =>
         prevComments.map((c) =>
-          c.id === comment.id ? { ...c, status: previousStatus } : c
-        )
+          c.id === comment.id ? { ...c, status: previousStatus } : c,
+        ),
       );
     }
   }
@@ -132,8 +132,8 @@ export const CommentItem: React.FC<Props> = ({
                   ...c,
                   responses: [...c.responses, res.response],
                 }
-              : c
-          )
+              : c,
+          ),
         );
         // Optionally reset editor
         setResponseBody("");
@@ -165,8 +165,8 @@ export const CommentItem: React.FC<Props> = ({
                 ...c,
                 responses: [...c.responses, updatedResponse],
               }
-            : c
-        )
+            : c,
+        ),
       );
       const res = await updateResponse({
         id: editingResponse.id,
@@ -180,8 +180,8 @@ export const CommentItem: React.FC<Props> = ({
                   ...c,
                   responses: [...c.responses, editingResponse], // Add back original
                 }
-              : c
-          )
+              : c,
+          ),
         );
         toast.error(res.message);
       }
@@ -194,8 +194,8 @@ export const CommentItem: React.FC<Props> = ({
                 ...c,
                 responses: [...c.responses, editingResponse], // Add back original
               }
-            : c
-        )
+            : c,
+        ),
       );
       toast.error("Something went wrong");
     } finally {
@@ -260,8 +260,8 @@ export const CommentItem: React.FC<Props> = ({
                   ...c,
                   responses: c.responses.filter((r) => r.id !== id),
                 }
-              : c
-          )
+              : c,
+          ),
         );
         toast.success(res.message || "Comment deleted", { id: toastId });
       } else {
@@ -452,7 +452,7 @@ export const CommentItem: React.FC<Props> = ({
                         disabled={comment.status === "HIDDEN"}
                         onClick={() =>
                           toast.info(
-                            "Thank you for helping keep our community safe"
+                            "Thank you for helping keep our community safe",
                           )
                         }>
                         <Flag className="h-4 w-4 text-red-500" />
@@ -498,11 +498,11 @@ export const CommentItem: React.FC<Props> = ({
                     "cursor-pointer text-muted-foreground text-xs hover:text-red-500 group",
                     comment.responses &&
                       comment.responses.length > 0 &&
-                      "hidden sm:inline-flex"
+                      "hidden sm:inline-flex",
                   )}
                   onClick={() =>
                     toast.success(
-                      "Report received. Thank you for helping keep our community safe"
+                      "Report received. Thank you for helping keep our community safe",
                     )
                   }
                   disabled={!session || blogStatus !== "PUBLISHED"}>

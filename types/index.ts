@@ -1,16 +1,18 @@
 import { getUserComments } from "@/lib/actions/comments";
 import { getSession } from "@/lib/actions/session-utils";
 import {
+  User,
   Blog,
   Comment,
-  Response,
   Role,
-  User,
   UserStatus,
-} from "@prisma/client";
+  Response,
+} from "@/src/generated/prisma/client";
 
-export interface BlogWithUser
-  extends Omit<Blog, "image" | "path" | "tags" | "title" | "body"> {
+export interface BlogWithUser extends Omit<
+  Blog,
+  "image" | "path" | "tags" | "title" | "body"
+> {
   tags: string;
   image: { secure_url: string };
   title: string;
@@ -22,7 +24,7 @@ export interface BlogWithUser
 export type Session = NonNullable<Awaited<ReturnType<typeof getSession>>>;
 
 export type AuthUser = {
-  id: number;       // Int to match schema
+  id: number; // Int to match schema
   email: string;
   role: string;
   username: string;
