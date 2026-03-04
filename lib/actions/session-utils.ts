@@ -2,9 +2,12 @@
 import { cookies, headers } from "next/headers";
 import * as jose from "jose";
 import prisma from "@/prisma/prisma";
-import { getCachedSession } from "./session-cache";
 import { AuthUser } from "@/types";
 import { getClientIP } from "../helpers/user-ip";
+import { redirect } from "next/navigation";
+import { cache } from "react";
+import { isRedirectError } from "next/dist/client/components/redirect-error";
+import { getSessionData } from "./session";
 
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
 const SESSION_DURATION_MS = 8 * 60 * 60 * 1000; // 8 hours
@@ -77,29 +80,24 @@ export async function createSession(user: AuthUser): Promise<void> {
  * Verifies JWT then confirms session exists in DB (cached 60s).
  * Returns fresh user data from DB — not stale JWT claims.
  */
-export async function getSession() {
+export const getSession = cache(async () => {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
   if (!token) return null;
 
   try {
-    // Step 1: verify JWT — cheap crypto, no DB
     await jose.jwtVerify(token, JWT_SECRET);
 
-    // Step 2: confirm session exists and pull fresh user data
-    const session = await getCachedSession(token);
+    const session = await getSessionData(token);
 
     if (!session || session.expiresAt < new Date()) {
-      cookieStore.delete("token");
-      return null;
+      redirect("/api/auth/logout");
     }
 
     const { user } = session;
 
-    // Guard: suspended or deactivated users get bounced even with valid session
     if (user.status === "SUSPENDED" || user.deactivated) {
-      cookieStore.delete("token");
-      return null;
+      redirect("/api/auth/logout");
     }
 
     return {
@@ -111,15 +109,15 @@ export async function getSession() {
       picture: user.picture,
     };
   } catch (error) {
+    // Let Next.js redirect errors propagate
+    if (isRedirectError(error)) throw error;
+
     const e = error as Error;
     console.error("[session:get] Invalid token:", e.message);
     cookieStore.delete("token");
     return null;
   }
-}
-
-// ─── Delete Session ───────────────────────────────────────────────────────────
-
+});
 /**
  * Clears cookie and removes session from DB.
  * P2025 (record not found) is silently ignored — safe for concurrent logouts.
