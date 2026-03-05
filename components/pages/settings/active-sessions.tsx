@@ -54,21 +54,22 @@ function formatSessionDate(dateString: Date | string) {
 		);
 	}
 }
+// TODO: Debug why refreshing logouts the user but can still see all sessions
 export default function ActiveSessions({ userId }: { userId: number }) {
 	const { isLoading, refetch, sessions } = useListSessions();
 	const [showWarningDialog, setShowWarningDialog] = useState(false);
 	const { replace } = useRouter();
 
-	//  function to revoke sessions
+	//  Function to revoke sessions: Why does this not work?
 	const handleRevokeSession = async (sessionId: string) => {
-		await logoutSessionById(sessionId, userId);
+		await logoutSessionById(sessionId, Number(userId));
 		toast.success("session revoked successfully");
 		refetch();
 	};
 	const handleRevokeAllSessions = async () => {
 		await logoutAllSessions(userId);
-		replace("/api/auth/logout");
 		setShowWarningDialog(false);
+		replace("/api/auth/logout");
 	};
 	//function to parse user agent information
 	const parseUserAgent = (userAgent: string) => {
@@ -186,6 +187,7 @@ export default function ActiveSessions({ userId }: { userId: number }) {
 											asChild
 											variant="outline"
 											size="sm"
+											title="logout session"
 											className="hover:bg-destructive hover:text-destructive-foreground border-destructive/20 text-destructive"
 										>
 											<Link href="/api/auth/logout">Logout</Link>
@@ -194,6 +196,7 @@ export default function ActiveSessions({ userId }: { userId: number }) {
 										<Button
 											variant="outline"
 											size="sm"
+											title="revoke session"
 											onClick={() => handleRevokeSession(session.id)}
 											className="hover:bg-destructive hover:text-destructive-foreground border-destructive/20 text-destructive"
 										>
@@ -225,6 +228,8 @@ export default function ActiveSessions({ userId }: { userId: number }) {
 			<WarningDialog
 				isOpen={showWarningDialog}
 				title="Are You Absolutely Sure?"
+				variant="destructive"
+				onClose={() => setShowWarningDialog(!showWarningDialog)}
 				setIsOpen={setShowWarningDialog}
 				description="You will be logged out across all devices, including the current one. Please make sure you do not have any unsaved changes."
 				onConfirm={handleRevokeAllSessions}

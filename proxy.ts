@@ -8,6 +8,7 @@ const PROTECTED = ["/me", "/posts", "/api", "/admin"];
 const PUBLIC_ONLY = ["/login", "/register"];
 
 function isProtected(path: string) {
+  if (path === "/api/auth/logout") return false;
   return PROTECTED.some((p) => path.startsWith(p));
 }
 

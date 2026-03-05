@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "@/providers/session";
 import { getActiveSessions } from "@/lib/actions/manage-sessions";
 
@@ -39,12 +39,12 @@ interface UseSessionsResult {
 
 export function useListSessions(): UseSessionsResult {
 	const { session } = useSession();
-
+	const queryClient = useQueryClient();
 	const query = useQuery<RawSession[], Error>({
 		queryKey: ["sessionsList", session?.userId],
 		queryFn: () => fetchSessions(session!.userId),
 		enabled: !!session?.userId, // don't fetch if no session
-		staleTime: 5 * 60 * 1000,
+		staleTime: 0,
 	});
 
 	return {
@@ -52,6 +52,7 @@ export function useListSessions(): UseSessionsResult {
 		isLoading: query.isLoading,
 		isError: query.isError,
 		error: query.error ?? null,
-		refetch: () => query.refetch(),
+		refetch: () =>
+			queryClient.invalidateQueries({ queryKey: ["sessionsList"] }),
 	};
 }

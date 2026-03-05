@@ -2,7 +2,7 @@
 import { cookies, headers } from "next/headers";
 import * as jose from "jose";
 import prisma from "@/prisma/prisma";
-import { AuthUser } from "@/types";
+import type { AuthUser } from "@/types";
 import { getClientIP } from "../helpers/user-ip";
 import { redirect } from "next/navigation";
 import { cache } from "react";
@@ -91,13 +91,19 @@ export const getSession = cache(async () => {
     const session = await getSessionData(token);
 
     if (!session || session.expiresAt < new Date()) {
-      redirect("/api/auth/logout");
+      cookieStore.delete("token");
+      if (session) {
+        await prisma.session.delete({ where: { token } }).catch(() => {});
+      }
+      return null;
     }
 
     const { user } = session;
 
     if (user.status === "SUSPENDED" || user.deactivated) {
-      redirect("/api/auth/logout");
+      cookieStore.delete("token");
+      await prisma.session.delete({ where: { token } }).catch(() => {});
+      return null;
     }
 
     return {
@@ -115,6 +121,7 @@ export const getSession = cache(async () => {
     const e = error as Error;
     console.error("[session:get] Invalid token:", e.message);
     cookieStore.delete("token");
+    await prisma.session.delete({ where: { token } }).catch(() => {});
     return null;
   }
 });

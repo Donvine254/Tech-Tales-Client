@@ -2,7 +2,6 @@
 import prisma from "@/prisma/prisma";
 import * as bcrypt from "bcrypt";
 import {
-  createAndSetEmailVerificationCookie,
   createAccountActionsToken,
   verifyToken,
 } from "./jwt";

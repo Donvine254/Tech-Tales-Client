@@ -18,30 +18,51 @@ export async function logout() {
 // ── Logout all sessions including current ─────────────────────────────────
 
 export async function logoutAllSessions(userId: number) {
-  await prisma.session.deleteMany({ where: { userId } });
-  const cookieStore = await cookies();
-  cookieStore.delete("token");
-}
+  try {
+    const result = await prisma.session.deleteMany({ where: { userId } });
 
+    if (result.count === 0) {
+      throw new Error(
+        `No sessions deleted for userId: ${userId} — check type or existing records`,
+      );
+    }
+    return { success: true, deleted: result.count };
+  } catch (error) {
+    console.error("[logoutAllSessions]", error);
+    throw error;
+  }
+}
 // ── Logout all OTHER devices, keep current alive ───────────────────────────
 
 export async function logoutOtherSessions(userId: number) {
   const token = await getCurrentToken();
   if (!token) return;
 
-  const res = await prisma.session.deleteMany({
+  await prisma.session.deleteMany({
     where: { userId, NOT: { token } },
   });
-  console.log(res);
 }
 
 // ── Logout a specific session by ID (from "Manage Devices" UI) ────────────
 
 export async function logoutSessionById(sessionId: string, userId: number) {
-  // userId scope prevents a user from deleting another user's session
-  await prisma.session.deleteMany({
-    where: { id: sessionId, userId },
-  });
+  try {
+    const result = await prisma.session.deleteMany({
+      where: { id: sessionId, userId },
+    });
+
+    // Return count so the client knows if it actually deleted something
+    if (result.count === 0) {
+      throw new Error(
+        `No session deleted — sessionId: ${sessionId}, userId: ${userId} — possible type mismatch or record not found`,
+      );
+    }
+
+    return { success: true, deleted: result.count };
+  } catch (error) {
+    console.error("[logoutSessionById]", error);
+    throw error; // re-throw so the client catches it
+  }
 }
 
 // ── Get all active sessions (for "Manage Devices" UI) ─────────────────────
