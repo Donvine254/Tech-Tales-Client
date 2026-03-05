@@ -52,3 +52,8 @@ export type Response = Prisma.ResponseModel
  * 
  */
 export type Favorite = Prisma.FavoriteModel
+/**
+ * Model Verification
+ * 
+ */
+export type Verification = Prisma.VerificationModel

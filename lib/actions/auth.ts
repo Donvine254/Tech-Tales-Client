@@ -16,6 +16,7 @@ import {
 import { getClientIP } from "../helpers/user-ip";
 import { createSession } from "./session-utils";
 import { Prisma } from "@/src/generated/prisma/client";
+import { createVerificationToken } from "./verification";
 
 /* Function to hash passwords */
 const hashPassword = async (password: string) => {
@@ -227,9 +228,13 @@ export async function registerUser(data: RegisterPayload) {
       },
     });
     if (!user.email_verified && user.auth_provider === "email") {
-      const token = await createAndSetEmailVerificationCookie({
-        id: user.id,
-        email: user.email,
+      const token = await createVerificationToken({
+        identifier: user.email,
+        type: "EMAIL_VERIFICATION",
+        expiresInMinutes: 60 * 24, //24 hours
+        value: {
+          userId: user.id,
+        },
       });
       // send welcome email if provider is email
       setImmediate(() => {
@@ -266,127 +271,7 @@ export async function registerUser(data: RegisterPayload) {
     };
   }
 }
-/*Function to reset verify user email after registration and send welcome email */
-export async function VerifyEmail(token: string): Promise<{
-  success: boolean;
-  error?: "error-token" | "error-server";
-  message: string;
-}> {
-  if (!token) {
-    return { success: false, error: "error-token", message: "Token not found" };
-  }
-  const res = await verifyToken(token);
-  console.log(res);
-  if (!res.valid || !res.payload) {
-    return {
-      success: false,
-      error: "error-token",
-      message: "Token is invalid or has expired",
-    };
-  }
-  const userId = res.payload.userId;
-  try {
-    const user = await prisma.user.update({
-      where: {
-        id: Number(userId),
-      },
-      data: {
-        email_verified: true,
-      },
-    });
 
-    setImmediate(async () => {
-      // send welcome email
-      await sendWelcomeEmail(user.email, user.username);
-    });
-    return { success: true, message: "Email verified successfully" };
-  } catch (error) {
-    console.error(error);
-    if (
-      error instanceof Prisma.PrismaClientKnownRequestError &&
-      error.code === "P2025"
-    ) {
-      return {
-        success: false,
-        error: "error-server",
-        message: "Account does not exist",
-      };
-    }
-    const e = error as Error;
-    return {
-      success: false,
-      error: "error-server",
-      message: e.message || "Something unexpected happened",
-    };
-  }
-}
-
-/*Function to resend email verification email to the user. Used in checkpoint/unverified/page.tsx */
-export async function resendVerificationEmail(email: string) {
-  // step 1: Block too many attempts
-  const ip = await getClientIP();
-  const rateCheck = rateLimitByIp(ip);
-  if (!rateCheck.allowed) {
-    return { success: false, message: rateCheck.message };
-  }
-  try {
-    const user = await prisma.user.findUnique({
-      where: {
-        email,
-      },
-      select: {
-        id: true,
-        email: true,
-        username: true,
-        email_verified: true,
-      },
-    });
-    // check if user exists
-    if (!user) {
-      return {
-        success: false,
-        message: "Account not found, kindly input a correct email address",
-      };
-    }
-    // check if user is already verified
-    if (user.email_verified) {
-      return {
-        success: true,
-        message: "Email already verified, proceed to login",
-      };
-    }
-    // TODO: Save verification details in database
-    const token = await createAndSetEmailVerificationCookie({
-      id: user.id,
-      email: user.email,
-    });
-    await sendVerificationEmail(
-      user.email,
-      `${baseUrl}/checkpoint/verify?token=${token}`,
-    );
-    return {
-      success: true,
-      message: "Email sent successfully, Kindly check your email",
-    };
-  } catch (error) {
-    if (
-      error instanceof Prisma.PrismaClientKnownRequestError &&
-      error.code === "P2025"
-    ) {
-      return {
-        success: false,
-        error: "error-server",
-        message: "Account does not exist",
-      };
-    }
-    const e = error as Error;
-    return {
-      success: false,
-      error: "error-server",
-      message: e.message || "Something unexpected happened",
-    };
-  }
-}
 /* function to change user password */
 export async function changeUserPassword(
   userId: number,

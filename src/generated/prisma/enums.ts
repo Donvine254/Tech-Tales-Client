@@ -56,3 +56,13 @@ export const AuthProvider = {
 } as const
 
 export type AuthProvider = (typeof AuthProvider)[keyof typeof AuthProvider]
+
+
+export const VerificationType = {
+  EMAIL_VERIFICATION: 'EMAIL_VERIFICATION',
+  PASSWORD_RESET: 'PASSWORD_RESET',
+  MAGIC_LINK: 'MAGIC_LINK',
+  WEBAUTHN_CHALLENGE: 'WEBAUTHN_CHALLENGE'
+} as const
+
+export type VerificationType = (typeof VerificationType)[keyof typeof VerificationType]

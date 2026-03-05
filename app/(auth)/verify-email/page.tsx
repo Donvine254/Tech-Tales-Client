@@ -1,28 +1,23 @@
-import {
-  getEmailVerificationCookie,
-  getEmailVerificationCookieData,
-} from "@/lib/actions/verification-cookie";
 import { redirect } from "next/navigation";
 import VerifyEmail from "./verify-page";
 import { getSession } from "@/lib/actions/session-utils";
-export default async function Page() {
-  const session = await getSession();
-  if (session) {
-    redirect("/");
-  }
-  const verification_token = (await getEmailVerificationCookie()) as
-    | string
-    | null;
-  const data = (await getEmailVerificationCookieData()) as {
-    userId: number;
-    email: string;
-  } | null;
-  if (!verification_token || !data) {
-    redirect("/checkpoint/unverified?error=invalid-verification-token");
-  }
-  return (
-    <section>
-      <VerifyEmail email={data.email} token={verification_token} />
-    </section>
-  );
+
+export default async function Page({
+	searchParams,
+}: {
+	searchParams: { email?: string };
+}) {
+	const session = await getSession();
+	if (session) {
+		redirect("/");
+	}
+	const email = searchParams.email;
+	if (!email) {
+		redirect("/checkpoint/unverified?error=invalid-verification-token");
+	}
+	return (
+		<section>
+			<VerifyEmail email={email} />
+		</section>
+	);
 }
