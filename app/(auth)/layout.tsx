@@ -1,47 +1,49 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
+import { Analytics } from "@vercel/analytics/react";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/sonner";
 import { metaobject } from "@/lib/metadata";
 import { GoogleContextProviders } from "@/providers/google";
-import { Analytics } from "@vercel/analytics/react";
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+	variable: "--font-geist-sans",
+	subsets: ["latin"],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+	variable: "--font-geist-mono",
+	subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  ...metaobject,
+	...metaobject,
 };
 
 export default function AuthLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased `}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange>
-          <main>
-            <GoogleContextProviders>{children}</GoogleContextProviders>
-          </main>
-          <Toaster richColors closeButton />
-        </ThemeProvider>
-        <Analytics />
-      </body>
-    </html>
-  );
+	return (
+		<html lang="en" suppressHydrationWarning>
+			<body
+				className={`${geistSans.variable} ${geistMono.variable} antialiased `}
+			>
+				<ThemeProvider
+					attribute="class"
+					defaultTheme="system"
+					enableSystem
+					disableTransitionOnChange
+				>
+					<main>
+						<GoogleContextProviders>{children}</GoogleContextProviders>
+					</main>
+					<Toaster richColors closeButton />
+				</ThemeProvider>
+				<Analytics />
+			</body>
+		</html>
+	);
 }

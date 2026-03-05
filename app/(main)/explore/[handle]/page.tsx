@@ -1,61 +1,61 @@
-import ExplorePage from "./explore";
 import { redirect } from "next/navigation";
-import prisma from "@/prisma/prisma";
 import {
-  getUserAndBlogsByHandle,
-  getUserIdByHandle,
+	getUserAndBlogsByHandle,
+	getUserIdByHandle,
 } from "@/lib/actions/explore";
+import prisma from "@/prisma/prisma";
+import ExplorePage from "./explore";
 export const metadata = {
-  title: "Explore Author Blogs - Tech Tales",
+	title: "Explore Author Blogs - Tech Tales",
 };
 
 export async function generateStaticParams() {
-  try {
-    const blogs = await prisma.blog.findMany({
-      where: {
-        author: {
-          // ✅ Only include blogs with non-deactivated authors
-          is: {
-            deactivated: false,
-          },
-        },
-      },
-      select: {
-        author: {
-          select: {
-            handle: true,
-          },
-        },
-      },
-    });
+	try {
+		const blogs = await prisma.blog.findMany({
+			where: {
+				author: {
+					// ✅ Only include blogs with non-deactivated authors
+					is: {
+						deactivated: false,
+					},
+				},
+			},
+			select: {
+				author: {
+					select: {
+						handle: true,
+					},
+				},
+			},
+		});
 
-    const userHandlesSet = new Set();
-    for (const blog of blogs) {
-      if (blog.author) {
-        userHandlesSet.add(blog.author.handle);
-      }
-    }
-    return Array.from(userHandlesSet).map((handle) => ({ handle }));
-  } catch (error) {
-    console.error("Error fetching blog authors:", error);
-    return [];
-  }
+		const userHandlesSet = new Set();
+		for (const blog of blogs) {
+			if (blog.author) {
+				userHandlesSet.add(blog.author.handle);
+			}
+		}
+		return Array.from(userHandlesSet).map((handle) => ({ handle }));
+	} catch (error) {
+		console.error("Error fetching blog authors:", error);
+		return [];
+	}
 }
 
 export default async function Page({
-  params,
+	params,
 }: {
-  params: Promise<{ handle: string }>;
+	params: Promise<{ handle: string }>;
 }) {
-  const { handle } = await params;
-  const userId = await getUserIdByHandle(handle);
-  const data = await getUserAndBlogsByHandle(userId);
-  if (!data) {
-    redirect("/");
-  }
-  return (
-    <div className="min-h-screen bg-gray-100 dark:bg-accent">
-      <ExplorePage data={data} />
-    </div>
-  );
+	const { handle } = await params;
+	const userId = await getUserIdByHandle(handle);
+	const data = await getUserAndBlogsByHandle(userId);
+	if (!data) {
+		redirect("/");
+	}
+	return (
+		<div className="min-h-screen bg-gray-100 dark:bg-accent">
+			<ExplorePage data={data} />
+		</div>
+	);
 }

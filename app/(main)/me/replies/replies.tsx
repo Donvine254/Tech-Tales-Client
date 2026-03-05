@@ -1,14 +1,4 @@
 "use client";
-import { Suspense, useEffect, useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Input } from "@/components/ui/input";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
 import {
 	ArchiveIcon,
 	ChevronLeft,
@@ -20,16 +10,26 @@ import {
 	MessageSquare,
 	Search,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Button } from "@/components/ui/button";
+import { Suspense, useEffect, useState } from "react";
+import { toast } from "sonner";
 import {
 	CommentCard,
 	SkeletonComment,
 } from "@/components/comments/comment-card";
-import type { UserComments, CommentStatus } from "@/types";
-import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { updateCommentStatus } from "@/lib/actions/comments";
+import { cn } from "@/lib/utils";
+import type { CommentStatus, UserComments } from "@/types";
 
 const COMMENTS_PER_PAGE = 10;
 

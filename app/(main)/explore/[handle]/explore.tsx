@@ -1,6 +1,3 @@
-import { SocialLinks } from "@/components/custom/social-links";
-import { formatDate, formatViews } from "@/lib/utils";
-import { getTopAuthor } from "@/lib/actions/analytics";
 import {
 	BookOpenIcon,
 	CakeIcon,
@@ -9,11 +6,15 @@ import {
 	MessageSquarePlus,
 } from "lucide-react";
 import Image from "next/image";
-import UserBlogs from "./user-blogs";
-import type { BlogWithComments } from "@/types";
+import { SocialLinks } from "@/components/custom/social-links";
 import UserBadges from "@/components/pages/profile/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getTopAuthor } from "@/lib/actions/analytics";
 import type { getUserAndBlogsByHandle } from "@/lib/actions/explore";
+import { formatDate, formatViews } from "@/lib/utils";
+import type { BlogWithComments } from "@/types";
+import UserBlogs from "./user-blogs";
+
 type UserAndBlogs = Awaited<ReturnType<typeof getUserAndBlogsByHandle>>;
 
 export default async function ExplorePage({ data }: { data: UserAndBlogs }) {

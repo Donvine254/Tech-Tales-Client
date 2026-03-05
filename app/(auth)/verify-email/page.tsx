@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
-import VerifyEmail from "./verify-page";
 import { getSession } from "@/lib/actions/session-utils";
+import VerifyEmail from "./verify-page";
 
 export default async function Page({
 	searchParams,

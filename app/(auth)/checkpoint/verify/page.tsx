@@ -1,13 +1,13 @@
 "use client";
+import { CheckCircle2, CircleX, MoveLeft } from "lucide-react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { CheckCircle2, CircleX, MoveLeft } from "lucide-react";
-import Loading from "./loading";
 import { VerifyEmail } from "@/lib/actions/verification";
-import { toast } from "sonner";
+import Loading from "./loading";
 
 type Status = "loading" | "success" | "error-token" | "error-server";
 export default function EmailVerificationPage() {

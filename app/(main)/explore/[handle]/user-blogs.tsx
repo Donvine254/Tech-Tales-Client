@@ -1,9 +1,9 @@
 "use client";
-import MinimalBlogCard from "@/components/pages/blogs/minimal-blog-card";
-import { Button } from "@/components/ui/button";
-import { BlogWithComments } from "@/types";
 import { ArrowUpDown, ChevronLeft, ChevronRight } from "lucide-react";
 import React, { useMemo, useState } from "react";
+import MinimalBlogCard from "@/components/pages/blogs/minimal-blog-card";
+import { Button } from "@/components/ui/button";
+import type { BlogWithComments } from "@/types";
 
 type Props = {
 	blogs: BlogWithComments[];

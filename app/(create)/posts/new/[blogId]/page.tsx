@@ -1,12 +1,12 @@
-import Script from "next/script";
-import Create from "./create";
 import { redirect } from "next/navigation";
-import prisma from "@/prisma/prisma";
-import type { BlogData, CoverImage } from "@/types";
-import { getSession } from "@/lib/actions/session-utils";
+import Script from "next/script";
 import { z } from "zod";
 import { createNewBlog } from "@/lib/actions/blogs";
+import { getSession } from "@/lib/actions/session-utils";
+import prisma from "@/prisma/prisma";
 import type { BlogStatus } from "@/src/generated/prisma/client";
+import type { BlogData, CoverImage } from "@/types";
+import Create from "./create";
 
 const uuidSchema = z.string().uuid();
 

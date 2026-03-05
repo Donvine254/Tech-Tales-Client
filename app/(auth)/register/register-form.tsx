@@ -1,10 +1,19 @@
 "use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Eye, EyeOff, Loader2, Wand2 } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import { MetaIcon } from "@/assets/icons";
+import GithubButton from "@/components/auth/github";
+import GoogleAuthButton from "@/components/auth/google";
+import { PasswordStrength } from "@/components/auth/password-strength";
+import SuccessDialog from "@/components/modals/success-dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import {
 	Form,
 	FormControl,
@@ -13,20 +22,11 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
-import { Eye, EyeOff, Loader2, Wand2 } from "lucide-react";
-import { type RegisterFormData, registerSchema } from "@/lib/schemas/auth";
-import { useRouter } from "next/navigation";
-import { convertToHandle, generatePassword } from "@/lib/utils";
-import { toast } from "sonner";
-import Link from "next/link";
-import Image from "next/image";
-import { MetaIcon } from "@/assets/icons";
-import GithubButton from "@/components/auth/github";
-import GoogleAuthButton from "@/components/auth/google";
-import { getCookie } from "@/lib/cookie";
-import { PasswordStrength } from "@/components/auth/password-strength";
+import { Input } from "@/components/ui/input";
 import { registerUser } from "@/lib/actions/auth";
-import SuccessDialog from "@/components/modals/success-dialog";
+import { getCookie } from "@/lib/cookie";
+import { type RegisterFormData, registerSchema } from "@/lib/schemas/auth";
+import { convertToHandle, generatePassword } from "@/lib/utils";
 
 type FormStatus = "pending" | "loading" | "success" | "error";
 

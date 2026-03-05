@@ -1,10 +1,13 @@
 "use client";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 import { EditorSection } from "@/components/pages/create/editor";
+import { EditorNavbar } from "@/components/pages/create/editor-navbar";
 import { CoverImageSection } from "@/components/pages/create/image";
 import { PreviewDialog } from "@/components/pages/create/preview-modal";
 import { TagsSection } from "@/components/pages/create/tags";
 import { TitleSection } from "@/components/pages/create/title";
-import { EditorNavbar } from "@/components/pages/create/editor-navbar";
 import {
 	deleteOrArchiveBlog,
 	publishBlog,
@@ -18,11 +21,8 @@ import {
 	SaveDraft,
 } from "@/lib/helpers";
 import { createBlogPath, slugify } from "@/lib/utils";
-import type { BlogData, BlogSettings, FormStatus } from "@/types";
-import { useRouter } from "next/navigation";
-import { useState, useRef, useEffect, useCallback } from "react";
-import { toast } from "sonner";
 import type { BlogStatus } from "@/src/generated/prisma/client";
+import type { BlogData, BlogSettings, FormStatus } from "@/types";
 
 const AUTO_SAVE_INTERVAL = 2000; //Auto-save after every 2 seconds
 // eslint-disable-next-line

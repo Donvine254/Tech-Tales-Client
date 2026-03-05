@@ -1,12 +1,12 @@
 "use client";
+import { Bell, Settings as SettingsIcon, Shield, User } from "lucide-react";
 import { useState } from "react";
-import { User, Bell, Settings as SettingsIcon, Shield } from "lucide-react";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import PersonalDetails from "@/components/pages/settings/personal-details";
-import type { Preferences, UserProfileData } from "@/types";
 import Notifications from "@/components/pages/settings/notifications";
-import SecurityAccount from "@/components/pages/settings/security";
+import PersonalDetails from "@/components/pages/settings/personal-details";
 import PreferenceSettings from "@/components/pages/settings/preferences";
+import SecurityAccount from "@/components/pages/settings/security";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import type { Preferences, UserProfileData } from "@/types";
 
 const tabs = [
 	{

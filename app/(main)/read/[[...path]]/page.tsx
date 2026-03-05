@@ -1,11 +1,11 @@
-import prisma from "@/prisma/prisma";
-import { redirect } from "next/navigation";
-import Slug from "@/components/pages/slug/slug";
-import { metaobject } from "@/lib/metadata";
 import type { Metadata } from "next";
-import type { CoverImage, FullBlogData } from "@/types";
-import { commentsFetcher } from "@/lib/actions/comments";
+import { redirect } from "next/navigation";
 import { cache } from "react";
+import Slug from "@/components/pages/slug/slug";
+import { commentsFetcher } from "@/lib/actions/comments";
+import { metaobject } from "@/lib/metadata";
+import prisma from "@/prisma/prisma";
+import type { CoverImage, FullBlogData } from "@/types";
 export const fetchCache = "force-cache";
 export async function generateStaticParams() {
 	try {
