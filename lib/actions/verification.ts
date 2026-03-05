@@ -1,3 +1,4 @@
+"use server";
 import crypto from "crypto";
 import prisma from "@/prisma/prisma";
 import type { VerificationType } from "@/src/generated/prisma/enums";

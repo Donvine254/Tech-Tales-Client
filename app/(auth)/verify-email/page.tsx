@@ -1,3 +1,4 @@
+// app/(auth)/verify-email/page.tsx
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/actions/session-utils";
 import VerifyEmail from "./verify-page";
@@ -11,7 +12,8 @@ export default async function Page({
 	if (session) {
 		redirect("/");
 	}
-	const email = searchParams.email;
+	const params = await searchParams;
+	const email = params.email;
 	if (!email) {
 		redirect("/checkpoint/unverified?error=invalid-verification-token");
 	}
