@@ -20,16 +20,10 @@ export async function logout() {
 export async function logoutAllSessions(userId: number) {
   try {
     const result = await prisma.session.deleteMany({ where: { userId } });
-
-    if (result.count === 0) {
-      throw new Error(
-        `No sessions deleted for userId: ${userId} — check type or existing records`,
-      );
-    }
     return { success: true, deleted: result.count };
   } catch (error) {
     console.error("[logoutAllSessions]", error);
-    throw error;
+    return { success: false, message: `Error deleting sessions: ${error}` };
   }
 }
 // ── Logout all OTHER devices, keep current alive ───────────────────────────
@@ -37,31 +31,28 @@ export async function logoutAllSessions(userId: number) {
 export async function logoutOtherSessions(userId: number) {
   const token = await getCurrentToken();
   if (!token) return;
-
-  await prisma.session.deleteMany({
-    where: { userId, NOT: { token } },
-  });
+  try {
+    await prisma.session.deleteMany({
+      where: { userId, NOT: { token } },
+    });
+    return { success: true, message: "Logged out successfully" };
+  } catch (error) {
+    console.error("[logoutSessionById]", error);
+    return { success: false, message: `Error deleting sessions: ${error}` };
+  }
 }
 
 // ── Logout a specific session by ID (from "Manage Devices" UI) ────────────
 
 export async function logoutSessionById(sessionId: string, userId: number) {
   try {
-    const result = await prisma.session.deleteMany({
+    await prisma.session.delete({
       where: { id: sessionId, userId },
     });
-
-    // Return count so the client knows if it actually deleted something
-    if (result.count === 0) {
-      throw new Error(
-        `No session deleted — sessionId: ${sessionId}, userId: ${userId} — possible type mismatch or record not found`,
-      );
-    }
-
-    return { success: true, deleted: result.count };
+    return { success: true, message: "Session deleted successfully" };
   } catch (error) {
     console.error("[logoutSessionById]", error);
-    throw error; // re-throw so the client catches it
+    return { success: false, message: `Error deleting session: ${error}` };
   }
 }
 
@@ -69,7 +60,6 @@ export async function logoutSessionById(sessionId: string, userId: number) {
 
 export async function getActiveSessions(userId: number) {
   const token = await getCurrentToken();
-
   const sessions = await prisma.session.findMany({
     where: { userId, expiresAt: { gt: new Date() } },
     select: {
@@ -87,4 +77,21 @@ export async function getActiveSessions(userId: number) {
     ...s,
     isCurrentDevice: sessionToken === token,
   }));
+}
+
+
+export async function invalidateSession(): Promise<void> {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value;
+  cookieStore.delete("token");
+  if (!token) return;
+  try {
+    await prisma.session.delete({ where: { token } }).catch((err) => {
+    	if (err?.code !== "P2025") {
+    		console.error("[session:invalidate] Unexpected error:", err);
+    	}
+    });
+  } catch (error) {
+    console.error("[session:invalidate] Error deleting session:", error);
+  }
 }

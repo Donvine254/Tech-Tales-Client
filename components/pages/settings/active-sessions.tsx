@@ -62,14 +62,22 @@ export default function ActiveSessions({ userId }: { userId: number }) {
 
 	//  Function to revoke sessions: Why does this not work?
 	const handleRevokeSession = async (sessionId: string) => {
-		await logoutSessionById(sessionId, Number(userId));
-		toast.success("session revoked successfully");
-		refetch();
+		const res = await logoutSessionById(sessionId, Number(userId));
+		if (res.success) {
+			toast.success("session revoked successfully");
+			refetch();
+		} else {
+			toast.error(res.message);
+		}
 	};
 	const handleRevokeAllSessions = async () => {
-		await logoutAllSessions(userId);
-		setShowWarningDialog(false);
-		replace("/api/auth/logout");
+		const res = await logoutAllSessions(userId);
+		if (res.success) {
+			setShowWarningDialog(false);
+			replace("/api/auth/logout");
+		} else {
+			toast.error(res.message);
+		}
 	};
 	//function to parse user agent information
 	const parseUserAgent = (userAgent: string) => {
@@ -190,7 +198,9 @@ export default function ActiveSessions({ userId }: { userId: number }) {
 											title="logout session"
 											className="hover:bg-destructive hover:text-destructive-foreground border-destructive/20 text-destructive"
 										>
-											<Link href="/api/auth/logout">Logout</Link>
+											<Link href="/api/auth/logout" prefetch={false}>
+												Logout
+											</Link>
 										</Button>
 									) : (
 										<Button

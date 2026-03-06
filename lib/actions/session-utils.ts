@@ -4,7 +4,6 @@ import * as jose from "jose";
 import prisma from "@/prisma/prisma";
 import type { AuthUser } from "@/types";
 import { getClientIP } from "../helpers/user-ip";
-import { redirect } from "next/navigation";
 import { cache } from "react";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { getSessionData } from "./session";
@@ -84,28 +83,16 @@ export const getSession = cache(async () => {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
   if (!token) return null;
-
   try {
     await jose.jwtVerify(token, JWT_SECRET);
-
     const session = await getSessionData(token);
-
     if (!session || session.expiresAt < new Date()) {
-      cookieStore.delete("token");
-      if (session) {
-        await prisma.session.delete({ where: { token } }).catch(() => {});
-      }
       return null;
     }
-
     const { user } = session;
-
     if (user.status === "SUSPENDED" || user.deactivated) {
-      cookieStore.delete("token");
-      await prisma.session.delete({ where: { token } }).catch(() => {});
       return null;
     }
-
     return {
       sessionId: session.id,
       userId: user.id,
@@ -117,11 +104,8 @@ export const getSession = cache(async () => {
   } catch (error) {
     // Let Next.js redirect errors propagate
     if (isRedirectError(error)) throw error;
-
     const e = error as Error;
     console.error("[session:get] Invalid token:", e.message);
-    cookieStore.delete("token");
-    await prisma.session.delete({ where: { token } }).catch(() => {});
     return null;
   }
 });
