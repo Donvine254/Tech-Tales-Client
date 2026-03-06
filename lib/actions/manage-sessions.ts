@@ -1,4 +1,3 @@
-// actions/auth/manage-sessions.ts
 "use server";
 import { cookies } from "next/headers";
 import { deleteSession } from "./session-utils";

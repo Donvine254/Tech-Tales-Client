@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import * as jose from "jose";
+import { invalidateSession } from "./lib/actions/manage-sessions";
 
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
 
@@ -37,7 +38,10 @@ export async function proxy(request: NextRequest) {
   }
 
   try {
-    await jose.jwtVerify(token, JWT_SECRET);
+    const isValid = await jose.jwtVerify(token, JWT_SECRET);
+    if (!isValid) {
+      invalidateSession();
+    }
     if (isPublicOnly(path))
       return NextResponse.redirect(new URL("/", request.url));
     return NextResponse.next();
