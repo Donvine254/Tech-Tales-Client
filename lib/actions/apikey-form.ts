@@ -1,5 +1,4 @@
 "use server";
-import { isVerifiedUser } from "@/dal/auth-check";
 import { apiKeyFormSchema, type ApiKeyForm } from "@/lib/schemas/apikey";
 import { revalidatePath } from "next/cache";
 import { generateApiKey } from "./apikey";

@@ -86,3 +86,75 @@ export async function deleteApiKey(id: string) {
     return { success: false };
   }
 }
+
+// function to validate api key
+
+export async function validateApiKey(req: Request) {
+  // 1. Extract API key
+  const authHeader = req.headers.get("authorization");
+  let apiKey: string | null = null;
+
+  if (authHeader?.startsWith("Bearer ")) {
+    apiKey = authHeader.replace("Bearer ", "").trim();
+  } else {
+    const { searchParams } = new URL(req.url);
+    apiKey = searchParams.get("apiKey");
+  }
+
+  if (!apiKey) {
+    return { success: false, error: "Missing API key" };
+  }
+
+  // 2. Hash the incoming key and look it up
+  const hashedKey = crypto.createHash("sha256").update(apiKey).digest("hex");
+
+  try {
+    const record = await prisma.apiKey.findUnique({
+      where: { key: hashedKey },
+      select: {
+        id: true,
+        userId: true,
+        name: true,
+        enabled: true,
+        expiresAt: true,
+        requestCount: true,
+        remaining: true,
+        permissions: true,
+        prefix: true,
+        start: true,
+        createdAt: true,
+      },
+    });
+
+    if (!record) {
+      return { success: false, error: "Invalid API key" };
+    }
+
+    if (!record.enabled) {
+      return { success: false, error: "API key is disabled" };
+    }
+
+    if (record.expiresAt && record.expiresAt < new Date()) {
+      return { success: false, error: "API key has expired" };
+    }
+
+    // 3. Update usage tracking
+    await prisma.apiKey.update({
+      where: { id: record.id },
+      data: {
+        requestCount: { increment: 1 },
+        lastRequest: new Date(),
+      },
+    });
+
+    return {
+      success: true,
+      data: {
+        userId: record.userId,
+        keyData: record,
+      },
+    };
+  } catch (err) {
+    return { success: false, error: "Error verifying API key", details: err };
+  }
+}
