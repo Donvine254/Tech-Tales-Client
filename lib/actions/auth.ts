@@ -1,10 +1,7 @@
 "use server";
 import prisma from "@/prisma/prisma";
 import * as bcrypt from "bcrypt";
-import {
-  createAccountActionsToken,
-  verifyToken,
-} from "./jwt";
+import { verifyToken } from "./jwt";
 import { rateLimitByIp } from "./rate-limiter";
 import { baseUrl, convertToHandle, generatePassword } from "../utils";
 import {
@@ -18,7 +15,7 @@ import { Prisma } from "@/src/generated/prisma/client";
 import { createVerificationToken } from "./verification";
 
 /* Function to hash passwords */
-const hashPassword = async (password: string) => {
+export const hashPassword = async (password: string) => {
   return await bcrypt.hash(password, 10);
 };
 /* function to authenticate SSO login
@@ -359,7 +356,14 @@ export async function handlePasswordResetRequest(email: string) {
         };
       }
     }
-    const token = await createAccountActionsToken(user, "8h");
+    const token = await createVerificationToken({
+      identifier: user.email,
+      type: "PASSWORD_RESET",
+      value: {
+        userId: user.id,
+        expectedChallenge: crypto.randomUUID(),
+      },
+    });
     const link = `${baseUrl}/password/new?token=${token}`;
     const res = await sendPasswordResetEmail(user.username, user.email, link);
     if (res.success) {
@@ -385,18 +389,38 @@ export async function handlePasswordResetRequest(email: string) {
 Function to reset user password in the account page (me)/settings/security.tsx
 */
 export async function resetPassword(userId: number, password: string) {
-  const password_digest = await hashPassword(password);
-  console.log(userId);
   try {
+    const existingUser = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { password_digest: true },
+    });
+
+    if (!existingUser) {
+      return { success: false, message: "User not found!" };
+    }
+
+    const isSamePassword = await bcrypt.compare(
+      password,
+      existingUser.password_digest,
+    );
+    if (isSamePassword) {
+      return {
+        success: false,
+        message: "New password cannot be the same as the old password.",
+      };
+    }
+
+    const password_digest = await hashPassword(password);
+
     const user = await prisma.user.update({
       where: { id: userId },
-      data: {
-        password_digest,
-      },
+      data: { password_digest },
     });
+
     if (!user) {
       return { success: false, message: "User not found!" };
     }
+
     return { success: true, message: "Password reset successfully" };
   } catch (error) {
     const e = error as Error;
@@ -405,6 +429,7 @@ export async function resetPassword(userId: number, password: string) {
 }
 
 /*function to restore user account */
+// TODO: Update this to use verification table for token
 export async function restoreAccount(token: string): Promise<{
   success: boolean;
   error?: "error-token" | "error-server";

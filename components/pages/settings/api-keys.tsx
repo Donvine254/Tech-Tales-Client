@@ -18,9 +18,9 @@ export default function ApiKeysTab() {
           </p>
         </div>
         {isLoading ? (
-          <div className="flex flex-col gap-4 items-center py-8">
+          <div className="flex flex-col gap-4 items-center py-6">
             <Loader2 className="animate-spin" />
-            <p>Loading sessions..</p>
+            <p>Loading API Keys..</p>
           </div>
         ) : (
           apiKeys &&
