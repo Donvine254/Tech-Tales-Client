@@ -21,10 +21,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-// import { createApiKey, FormState } from "@/actions/apikey-form";
 import { Copy, Loader2 } from "lucide-react";
+import { createApiKey, type FormState } from "@/lib/actions/apikey-form";
 import { toast } from "sonner";
-import { FormState } from "react-hook-form";
+
 
 export default function ApiKeyForm() {
   const [state, formAction, isPending] = useActionState(
@@ -73,7 +73,7 @@ export default function ApiKeyForm() {
                 minLength={5}
                 maxLength={64}
                 required
-                placeholder="e.g., Recipe App, Mobile Integration"
+                placeholder="e.g., Production Key, Mobile Integration"
               />
               {state.errors?.name && (
                 <p className="text-sm text-red-600">{state.errors.name[0]}</p>
@@ -177,6 +177,3 @@ export default function ApiKeyForm() {
   );
 }
 
-function createApiKey(state: any) {
-    throw new Error("Function not implemented.");
-}

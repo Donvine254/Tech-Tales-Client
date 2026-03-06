@@ -81,3 +81,8 @@ export type Favorite = Prisma.FavoriteModel
  * 
  */
 export type Verification = Prisma.VerificationModel
+/**
+ * Model ApiKey
+ * 
+ */
+export type ApiKey = Prisma.ApiKeyModel

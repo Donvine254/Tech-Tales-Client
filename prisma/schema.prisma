@@ -75,6 +75,7 @@ model User {
   blogs                   Blog[]
   comments                Comment[]
   favorites               Favorite[]
+  apikeys                 ApiKey[]
   responses               Response[]
   BlogVersion             BlogVersion[]
 
@@ -191,4 +192,36 @@ model Verification {
   @@index([expiresAt])
 }
 
-// TODO: add verification, preferences and history table
+model ApiKey {
+  id                  String    @id @default(cuid())
+  userId              Int
+  name                String
+  start               String?
+  prefix              String?
+  key                 String    @unique
+  // Refill Logic
+  refillInterval      BigInt?
+  refillAmount        Int?
+  lastRefillAt        DateTime? @db.Timestamptz
+  // Status and Rate Limiting
+  enabled             Boolean   @default(true)
+  rateLimitEnabled    Boolean   @default(true)
+  rateLimitTimeWindow BigInt?
+  rateLimitMax        Int?
+  // Usage Tracking
+  requestCount        Int       @default(0)
+  remaining           Int?
+  lastRequest         DateTime?
+  // Metadata and Timestamps
+  expiresAt           DateTime?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  permissions         String?
+  metadata            Json?     @db.JsonB
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+// TODO: add preferences and history table
