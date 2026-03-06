@@ -17,14 +17,19 @@ import { logoutOtherSessions } from "@/lib/actions/manage-sessions";
 
 // ── Schema ────────────────────────────────────────────────────────────────────
 
-const changePasswordSchema = z.object({
-	currentPassword: z.string().min(1, "Current password is required"),
-	newPassword: z
-		.string()
-		.min(8, "Password must be at least 8 characters")
-		.max(64, "Password must be at most 64 characters")
-		.regex(/\d/, "Password must contain at least one number"),
-});
+const changePasswordSchema = z
+	.object({
+		currentPassword: z.string().min(1, "Current password is required"),
+		newPassword: z
+			.string()
+			.min(8, "Password must be at least 8 characters")
+			.max(64, "Password must be at most 64 characters")
+			.regex(/\d/, "Password must contain at least one number"),
+	})
+	.refine((data) => data.newPassword !== data.currentPassword, {
+		message: "New password cannot be the same as the old password",
+		path: ["newPassword"], // This ensures the error is associated with the newPassword field
+	});
 
 type ChangePasswordForm = z.infer<typeof changePasswordSchema>;
 
