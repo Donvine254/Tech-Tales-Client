@@ -14,6 +14,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { metaobject } from "@/lib/metadata";
 import ReactQueryProvider from "@/providers/query-provider";
 import { SessionProvider } from "@/providers/session";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -35,40 +36,39 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<>
-			<html lang="en" suppressHydrationWarning>
-				<body
-					className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+		<html lang="en" suppressHydrationWarning>
+			<body
+				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+			>
+				<ThemeProvider
+					attribute="class"
+					defaultTheme="system"
+					enableSystem
+					disableTransitionOnChange
 				>
-					<ThemeProvider
-						attribute="class"
-						defaultTheme="system"
-						enableSystem
-						disableTransitionOnChange
-					>
-						<main>
-							<ReactQueryProvider>
-								<SessionProvider>
-									<GoogleOAuthProvider
-										clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
-									>
-										<GoogleOneTapLogin />
-										<Navbar />
-										{children}
-										<CookieConsentAlert />
-									</GoogleOAuthProvider>
-								</SessionProvider>
-							</ReactQueryProvider>
-						</main>
-						<Footer />
-						<ScrollButton />
-						<Toaster richColors closeButton />
-					</ThemeProvider>
-					<GoogleAnalytics gaId="G-12QCPH9MS1" />
-					<GoogleTagManager gtmId="GTM-5QD9S2NG" />
-					<Analytics />
-				</body>
-			</html>
-		</>
+					<main>
+						<ReactQueryProvider>
+							<SessionProvider>
+								<GoogleOAuthProvider
+									clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
+								>
+									<GoogleOneTapLogin />
+									<Navbar />
+									{children}
+									<CookieConsentAlert />
+								</GoogleOAuthProvider>
+							</SessionProvider>
+						</ReactQueryProvider>
+					</main>
+					<Footer />
+					<ScrollButton />
+					<Toaster richColors closeButton />
+				</ThemeProvider>
+				<GoogleAnalytics gaId="G-12QCPH9MS1" />
+				<GoogleTagManager gtmId="GTM-5QD9S2NG" />
+				<Analytics />
+				<SpeedInsights />
+			</body>
+		</html>
 	);
 }
