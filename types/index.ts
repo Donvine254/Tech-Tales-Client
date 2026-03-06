@@ -130,3 +130,17 @@ export interface FullBlogData extends Omit<BlogWithUser, "_count" | "author"> {
     comments: number;
   };
 }
+
+export type ApiKey = {
+  id: string;
+  userId: string;
+  name: string | null;
+  start: string | null;
+  key: string;
+  permissions: unknown;
+  enabled: boolean;
+  expiresAt: Date | null;
+  createdAt: Date;
+  updatedAt: Date;
+  metadata: unknown;
+};

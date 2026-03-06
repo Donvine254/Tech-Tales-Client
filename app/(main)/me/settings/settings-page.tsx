@@ -1,5 +1,5 @@
 "use client";
-import { Bell, Settings as SettingsIcon, Shield, User } from "lucide-react";
+import { Bell, Key, Settings as SettingsIcon, Shield, User } from "lucide-react";
 import { useState } from "react";
 import Notifications from "@/components/pages/settings/notifications";
 import PersonalDetails from "@/components/pages/settings/personal-details";
@@ -7,6 +7,7 @@ import PreferenceSettings from "@/components/pages/settings/preferences";
 import SecurityAccount from "@/components/pages/settings/security";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import type { Preferences, UserProfileData } from "@/types";
+import ApiKeysTab from "@/components/pages/settings/api-keys";
 
 const tabs = [
 	{
@@ -23,6 +24,10 @@ const tabs = [
 		id: "preferences",
 		label: "Preferences",
 		icon: SettingsIcon,
+	},{
+		id: "apikeys",
+		label: "API Keys",
+		icon: Key,
 	},
 	{
 		id: "security",
@@ -68,6 +73,7 @@ export default function SettingsPage({ user }: { user: UserProfileData }) {
 			/>
 		),
 		security: <SecurityAccount userId={user.id} email={user.email} />,
+		apikeys:<ApiKeysTab/>,
 		preferences: <PreferenceSettings />,
 	};
 
