@@ -1,12 +1,10 @@
-
 import ApiKeyCard from "./apikey-card";
 import ApiKeyForm from "@/components/forms/apikey-form";
-import type { ApiKey } from "@/types";
-// import { listUserApiKeys } from "@/data/api-key";
+import { useListApiKeys } from "@/hooks/use-listApiKeys";
+import { Loader2 } from "lucide-react";
 
 export default function ApiKeysTab() {
-//   const data = await listUserApiKeys();
-const data = [] as ApiKey[]
+  const { isLoading, refetch, apiKeys } = useListApiKeys();
   return (
     <section>
       <div className="py-4 sm:p-6 lg:p-8 space-y-6">
@@ -19,10 +17,18 @@ const data = [] as ApiKey[]
             create, edit and delete blogs, or access private user information.
           </p>
         </div>
-        {/* Display for API Keys */}
-        {data &&
-          data?.length > 0 &&
-          data.map((apk) => <ApiKeyCard key={apk.id} apk={apk} />)}
+        {isLoading ? (
+          <div className="flex flex-col gap-4 items-center py-8">
+            <Loader2 className="animate-spin" />
+            <p>Loading sessions..</p>
+          </div>
+        ) : (
+          apiKeys &&
+          apiKeys.length > 0 &&
+          apiKeys.map((apk) => (
+            <ApiKeyCard key={apk.id} apk={apk} refetch={refetch} />
+          ))
+        )}
       </div>
       {/* Bottom-section */}
       <div className="bg-card sm:bg-muted sm:dark:bg-card px-2 md:bg-muted py-4 sm:p-6 lg:p-8 space-y-6  rounded-xl sm:rounded-t-none sm:rounded-b-xl">
@@ -31,7 +37,7 @@ const data = [] as ApiKey[]
           <p className="text-xs sm:text-sm">
             Generate API keys to access your account programmatically.
           </p>
-          <ApiKeyForm />
+          <ApiKeyForm refetch={refetch} />
         </div>
       </div>
     </section>

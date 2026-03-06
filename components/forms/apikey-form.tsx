@@ -1,5 +1,5 @@
 "use client";
-import  { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import {
   Dialog,
   DialogClose,
@@ -25,11 +25,10 @@ import { Copy, Loader2 } from "lucide-react";
 import { createApiKey, type FormState } from "@/lib/actions/apikey-form";
 import { toast } from "sonner";
 
-
-export default function ApiKeyForm() {
+export default function ApiKeyForm({ refetch }: { refetch: () => void }) {
   const [state, formAction, isPending] = useActionState(
     createApiKey,
-    {} as FormState
+    {} as FormState,
   );
   const [open, setOpen] = useState(false);
   const [showCopyDialog, setShowCopyDialog] = useState(false);
@@ -163,6 +162,7 @@ export default function ApiKeyForm() {
                 </Button>
                 <DialogClose asChild>
                   <Button
+                    onClick={refetch}
                     className="bg-card-foreground text-white dark:text-stone-900"
                     size="sm">
                     Done
@@ -176,4 +176,3 @@ export default function ApiKeyForm() {
     </>
   );
 }
-

@@ -2,6 +2,7 @@
 import { isVerifiedUser } from "@/dal/auth-check";
 import prisma from "@/prisma/prisma";
 import crypto from "crypto";
+import { revalidatePath } from "next/cache";
 
 type GenerateApiKeyParams = {
   body: {
@@ -39,5 +40,49 @@ export async function generateApiKey({ body }: GenerateApiKeyParams) {
   } catch (error) {
     console.log(error);
     return null;
+  }
+}
+
+// function to list user api keys
+
+export async function getApiKeys() {
+  const user = await isVerifiedUser();
+  if (!user) return null;
+
+  try {
+    const data = await prisma.apiKey.findMany({
+      where: {
+        userId: Number(user.userId),
+      },
+      select: {
+        id: true,
+        name: true,
+        start: true,
+        expiresAt: true,
+        createdAt: true,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.error("[error getting API keys", error);
+    return null;
+  }
+}
+
+export async function deleteApiKey(id: string) {
+  const user = await isVerifiedUser();
+  if (!user) return null;
+
+  try {
+    await prisma.apiKey.delete({
+      where: {
+        id,
+        userId: Number(user.userId),
+      },
+    });
+    revalidatePath("/me/settings");
+    return { success: true, message: "Key deleted successfully" };
+  } catch (error) {
+    return { success: false };
   }
 }

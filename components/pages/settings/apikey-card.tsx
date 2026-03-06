@@ -5,20 +5,22 @@ import { ApiKey } from "@/types";
 import { cn, formatDate } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-// import { deleteUserAPIKey } from "@/data/api-key";
+import { deleteApiKey } from "@/lib/actions/apikey";
 
 export default function ApiKeyCard({
   apk,
+  refetch,
 }: {
   apk: Pick<ApiKey, "name" | "expiresAt" | "id" | "start" | "createdAt">;
+  refetch: () => void;
 }) {
   const [isPending, setIsPending] = useState(false);
   const isExpired = apk.expiresAt && new Date(apk.expiresAt) < new Date();
   const handleDelete = async (id: string) => {
     setIsPending(true);
     try {
-      // await deleteUserAPIKey(id);
-      console.log("deleted")
+      await deleteApiKey(id);
+      refetch();
     } catch (error) {
       const e = error as Error;
       toast.error(e.message || "Something went wrong");
@@ -41,7 +43,7 @@ export default function ApiKeyCard({
       <div
         className={cn(
           "flex items-center gap-2 bg-stone-100 dark:bg-stone-700 p-2 rounded-md",
-          isExpired && "opacity-50"
+          isExpired && "opacity-50",
         )}>
         <KeyIcon className="size-4 sm:size-6 opacity-80" />
         <div className="flex flex-col text-sm flex-1">
@@ -49,24 +51,24 @@ export default function ApiKeyCard({
           <p
             className={cn(
               "text-muted-foreground",
-              isExpired && "text-red-500"
+              isExpired && "text-red-500",
             )}>
             {isExpired
               ? "Expired"
               : apk.expiresAt
-              ? `Expires ${formatDate(apk.expiresAt)}`
-              : "Never Expires"}
+                ? `Expires ${formatDate(apk.expiresAt)}`
+                : "Never Expires"}
           </p>
         </div>
 
         <Button
-          variant="outline"
           size="sm"
           type="button"
+          variant="destructive"
           title="delete api key"
           disabled={isPending}
           onClick={() => handleDelete(apk.id)}
-          className="cursor-pointer self-end hover:!bg-destructive  hover:text-destructive-foreground bg-black text-white dark:bg-white dark:text-black">
+          className="cursor-pointer self-end ">
           {isPending ? (
             <>
               {" "}
