@@ -38,14 +38,15 @@ export async function proxy(request: NextRequest) {
   }
 
   try {
-    const isValid = await jose.jwtVerify(token, JWT_SECRET);
-    if (!isValid) {
-      invalidateSession();
-    }
+    await jose.jwtVerify(token, JWT_SECRET);
+
     if (isPublicOnly(path))
       return NextResponse.redirect(new URL("/", request.url));
     return NextResponse.next();
-  } catch {
+  } catch (err) {
+    if (err instanceof jose.errors.JWTExpired) {
+      await invalidateSession(token);
+    }
     const response = isProtected(path)
       ? redirectToLogin(request, path)
       : NextResponse.next();

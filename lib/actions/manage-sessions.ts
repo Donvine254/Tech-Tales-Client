@@ -78,17 +78,14 @@ export async function getActiveSessions(userId: number) {
   }));
 }
 
-
-export async function invalidateSession(): Promise<void> {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
-  cookieStore.delete("token");
+export async function invalidateSession(token: string): Promise<void> {
+  // deletes session when token is expired
   if (!token) return;
   try {
     await prisma.session.delete({ where: { token } }).catch((err) => {
-    	if (err?.code !== "P2025") {
-    		console.error("[session:invalidate] Unexpected error:", err);
-    	}
+      if (err?.code !== "P2025") {
+        console.error("[session:invalidate] Unexpected error:", err);
+      }
     });
   } catch (error) {
     console.error("[session:invalidate] Error deleting session:", error);
