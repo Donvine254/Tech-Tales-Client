@@ -66,7 +66,7 @@ const GoogleAuthButton = ({ origin_url, setStatus }: Props) => {
   return (
     <Button
       variant="outline"
-      className="w-full bg-gray-950 text-white dark:bg-white/80 dark:text-primary"
+      className="w-full bg-gray-950 text-white font-bold dark:bg-white/90 dark:text-gray-950"
       title="login with google"
       onClick={() => handleGoogleLogin()}
       type="button">

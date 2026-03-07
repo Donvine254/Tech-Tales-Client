@@ -22,7 +22,7 @@ export default function GithubButton({ router, setStatus }: Props) {
   return (
     <Button
       variant="outline"
-      className="w-full bg-gray-950 text-white dark:bg-white/80 dark:text-primary"
+      className="w-full bg-gray-950 font-bold text-white dark:bg-white/90 dark:text-gray-950"
       title="login with github"
       type="button"
       onClick={loginWithGithub}>

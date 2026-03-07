@@ -9,7 +9,6 @@ import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { MetaIcon } from "@/assets/icons";
 import GithubButton from "@/components/auth/github";
 import GoogleAuthButton from "@/components/auth/google";
 import SuccessDialog from "@/components/modals/success-dialog";
@@ -29,6 +28,7 @@ import { validateRecaptcha } from "@/lib/actions/captcha";
 import { getCookie } from "@/lib/cookie";
 import { validateEmail } from "@/lib/utils";
 import type { FormStatus } from "@/types";
+import MagicLinkButton from "@/components/auth/magic-link";
 
 export default function ResetPassword() {
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null); //recaptcha token
@@ -143,7 +143,7 @@ export default function ResetPassword() {
                     </Button>
                   </form>
                 </Form>
-
+                <MagicLinkButton />
                 <GoogleReCaptcha
                   onVerify={(token) => {
                     setRecaptchaToken(token);
@@ -156,23 +156,12 @@ export default function ResetPassword() {
                     Or continue with
                   </span>
                 </div>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-2 gap-4">
                   <GoogleAuthButton
                     setStatus={setStatus}
                     origin_url={originUrl}
                   />
                   <GithubButton router={router} setStatus={setStatus} />
-                  <Button
-                    variant="outline"
-                    type="button"
-                    className="w-full hover:bg-blue-100 dark:hover:bg-white "
-                    title="login with meta"
-                    onClick={() => {
-                      toast.info("upcoming feature!");
-                    }}>
-                    <MetaIcon />
-                    <span className="sr-only">Login with Meta</span>
-                  </Button>
                 </div>
               </div>
             </div>

@@ -21,7 +21,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { resetPassword } from "@/lib/actions/auth";
 import { validateRecaptcha } from "@/lib/actions/captcha";
 import { simplePasswordRegex } from "@/lib/schemas/auth";
 import { generatePassword } from "@/lib/utils";
@@ -47,7 +46,7 @@ export default function Page() {
   const [status, setStatus] = useState<FormStatus>("error");
   const [verificationStatus, setVerificationStatus] = useState<
     "pending" | "verifying" | "valid" | "invalid"
-  >("pending");
+  >("valid");
   const [reCaptchaToken, setReCaptchaToken] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const searchParams = useSearchParams();

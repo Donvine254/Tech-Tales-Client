@@ -28,6 +28,7 @@ import { type LoginFormData, loginSchema } from "@/lib/schemas/auth";
 import { cn } from "@/lib/utils";
 import type { FormStatus } from "@/types";
 import { PasswordField } from "@/components/forms/password-input";
+import MagicLinkButton from "@/components/auth/magic-link";
 
 export function LoginForm({
   className,
@@ -89,7 +90,7 @@ export function LoginForm({
     }
   }
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <div className={cn("flex flex-col gap-4", className)} {...props}>
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
           <Form {...form}>
@@ -155,11 +156,7 @@ export function LoginForm({
                     "Login"
                   )}
                 </Button>
-                <button
-                  type="button"
-                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm transition-all cursor-pointer disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] h-9 px-4 py-2 has-[>svg]:px-3 bg-blue-200/40 dark:bg-blue-950/50 ">
-                  <Mail /> Sign in with Magic Link
-                </button>
+                <MagicLinkButton />
                 <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
                   <span className="relative z-10 bg-background  px-2 text-muted-foreground">
                     Or continue with
