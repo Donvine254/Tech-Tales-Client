@@ -20,7 +20,7 @@ export const registerSchema = z.object({
     .max(20, "Username must be at most 20 characters")
     .regex(
       /^[a-zA-Z0-9_ ]+$/,
-      "Username can only contain letters, numbers, and underscores"
+      "Username can only contain letters, numbers, and underscores",
     ),
   email: z
     .string()
@@ -40,7 +40,7 @@ export const contactSchema = z.object({
     .min(2, "Username must be at least 2 characters")
     .regex(
       /^[a-zA-Z0-9_ ]+$/,
-      "Username can only contain letters, numbers, and underscores"
+      "Username can only contain letters, numbers, and underscores",
     ),
   email: z
     .string()
@@ -51,7 +51,13 @@ export const contactSchema = z.object({
     }),
   message: z.string().trim().min(10, { message: "Please type in a message" }),
 });
-
+export const MagicLinkSchema = z.object({
+  email: z
+    .string() // string type
+    .email({ message: "Invalid type" })
+    .min(1, { message: "Email is required" }),
+});
 export type LoginFormData = z.infer<typeof loginSchema>;
 export type RegisterFormData = z.infer<typeof registerSchema>;
+export type MagicLinkLoginForm = z.infer<typeof MagicLinkSchema>;
 export type ContactForm = z.infer<typeof contactSchema>;

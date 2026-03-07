@@ -7,6 +7,7 @@ import {
   AdminRegistrationTemplate,
   PasswordResetTemplate,
   AccountDeactivationTemplate,
+  MagicLinkEmailTemplate,
 } from "./templates";
 import { createAccountActionsToken } from "@/lib/actions/jwt";
 
@@ -59,12 +60,25 @@ export const sendWelcomeEmail = async (email: string, name: string) => {
     return { message: "Email delivery failed" };
   }
 };
-
+export const sendMagicLinkEmail = async (email: string, link: string) => {
+  try {
+    await sendEmail({
+      subject: `Login to your Techtales Account`,
+      to: email,
+      from: sender,
+      html: MagicLinkEmailTemplate(link),
+    });
+    return { message: "Email sent successfully" };
+  } catch (error) {
+    console.error("Email delivery failed:", error);
+    return { message: "Email delivery failed" };
+  }
+};
 export const sendAdminRegistrationEmail = async (
   name: string,
   email: string,
   password: string,
-  role: string
+  role: string,
 ) => {
   try {
     await sendEmail({
@@ -85,7 +99,7 @@ export const sendDeactivationNotificationEmail = async (
   email: string,
   id: number,
   keepBlogs: boolean,
-  keepComments: boolean
+  keepComments: boolean,
 ) => {
   // create a restore token
   const token = await createAccountActionsToken(
@@ -94,7 +108,7 @@ export const sendDeactivationNotificationEmail = async (
       username: name,
       email: email,
     },
-    "30d"
+    "30d",
   );
   const link = `https://techtales.vercel.app/account/restore?token=${token}`;
   const secureLink = encodeURI(link);
@@ -108,7 +122,7 @@ export const sendDeactivationNotificationEmail = async (
         email,
         secureLink,
         keepBlogs,
-        keepComments
+        keepComments,
       ),
     });
     console.log("Email sent successfully");
@@ -122,7 +136,7 @@ export const sendDeleteNotificationEmail = async (
   name: string,
   email: string,
   keepBlogs: boolean,
-  keepComments: boolean
+  keepComments: boolean,
 ) => {
   // create a restore token
   try {
@@ -143,7 +157,7 @@ export const sendDeleteNotificationEmail = async (
 export const sendPasswordResetEmail = async (
   name: string,
   email: string,
-  link: string
+  link: string,
 ) => {
   try {
     await sendEmail({
