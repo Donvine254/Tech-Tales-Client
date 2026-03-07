@@ -55,10 +55,14 @@ export default function MagicLinkForm({
     setStatus("loading");
     try {
       const res = await sendMagicLink(data.email);
-      setStatus("success");
-      toast.success(res.message, {
-        position: "top-center",
-      });
+      if (res.success) {
+        setStatus("success");
+        toast.success(res.message, {
+          position: "top-center",
+        });
+      } else {
+        toast.error(res.message);
+      }
     } catch (error) {
       const e = error as Error;
       console.error("Magic Link error:", error);

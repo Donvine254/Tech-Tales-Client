@@ -3,10 +3,21 @@ import prisma from "@/prisma/prisma";
 import { createVerificationToken } from "./verification";
 import { sendMagicLinkEmail } from "@/emails/mailer";
 import { baseUrl } from "../utils";
+import { getClientIP } from "../helpers/user-ip";
+import { rateLimitByIp } from "./rate-limiter";
 
 export async function sendMagicLink(email: string) {
   try {
-    // Step 1: Check if user exists
+    // step 1: check the attempts
+    const ip = await getClientIP();
+    const rateCheck = rateLimitByIp(ip);
+    if (!rateCheck.allowed) {
+      return {
+        success: false,
+        message: "Too many requests, try again after 5 minutes",
+      };
+    }
+    // Step 2: Check if user exists
     const user = await prisma.user.findUnique({
       where: { email: email.toLowerCase() },
       select: {
@@ -21,7 +32,7 @@ export async function sendMagicLink(email: string) {
         message: "If an account exists, a magic link has been sent.",
       };
     }
-    // Step 2: Create verification token of type MAGIC_LINK
+    // Step 3: Create verification token of type MAGIC_LINK
     const token = await createVerificationToken({
       identifier: user.email,
       type: "MAGIC_LINK",
@@ -32,7 +43,7 @@ export async function sendMagicLink(email: string) {
       },
     });
 
-    // Step 3: Send the magic link email
+    // Step 4: Send the magic link email
     setImmediate(() => {
       sendMagicLinkEmail(
         user.email,
