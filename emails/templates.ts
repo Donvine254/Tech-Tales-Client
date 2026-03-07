@@ -56,3 +56,208 @@ export const AccountDeletionTemplate = (
       ? " As per your choice, all your responses have been anonymized and assigned to a deleted author. They remain publicly visible. All your indentifiable data has been removed."
       : " All of your responses have been permanently deleted and removed from our servers. This action cannot be undone.."
   }</li><li><strong>Bookmarks and Favorites:</strong> Your bookmarks and favorites have been permanently deleted and removed from our servers. </li></ul><p>If you deleted your account by mistake you can always create a new account with this email addres.</p><footer style="font-size:12px;background-color:#f3f4f5;padding:5px;margin:10px 0;text-align:center"><p style="text-align:center;width:80%;margin:5px auto">You have received this message because you have requested to delete your account. This is an automated message, please do not reply to this email.</p><table align=center style="margin:10px auto"><tr><td style="padding:0 5px"><a href=https://www.facebook.com/diamond.degesh.3 title=Facebook><img alt=Facebook src=https://res.cloudinary.com/dipkbpinx/image/upload/v1697311304/logos/facebook-logo-removebg-preview_k2pief.png width=30 height=30></a></td><td style="padding:0 5px"><a href=https://x.com/diamonddegesh title=Twitter><img alt=Twitter src=https://res.cloudinary.com/dipkbpinx/image/upload/v1697311304/logos/twitter-logo-removebg-preview_hc45pq.png width=30></a></td><td style="padding:0 5px"><a href=https://github.com/Donvine254 title=GitHub><img alt=GitHub src=https://res.cloudinary.com/dipkbpinx/image/upload/v1723321813/logos/d1hxxf2dtrw07h2jqsdw.png width=20></a></td></tr></table><p><a href=https://techtales.vercel.app/privacy>Privacy Policy</a> | <a href=https://techtales.vercel.app/contact>Contact Details</a></p></footer></div></div>`;
+
+export const MagicLinkEmailTemplate = (link: string) => `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Updated title for magic link login -->
+    <title>Login to your Techtales Account</title>
+   <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333333;
+            background-color: #f8f9fa;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            padding: 20px;
+            text-align: center;
+            justify-content:center;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+            
+        }
+        .heading {
+  font-weight: bold;
+  background: linear-gradient(to right, #06b6d4, #2563eb);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.heading:focus {
+  outline: none;
+}
+        .logo {
+            max-width: 30px;
+            height: auto;
+            border-radius: 10px
+        }
+        .header-text {
+            display: none;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .greeting {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 20px;
+        }
+        .message {
+            font-size: 16px;
+            color: #4a5568;
+            margin-bottom: 30px;
+            line-height: 1.7;
+        }
+        /* Updated button class name and styling for magic link */
+        .magic-link-button {
+            display: inline-block;
+            background-color: oklch(62.3% 0.214 259.815); !important;
+            color: #ffffff !important;
+            text-decoration: none !important;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 16px;
+            text-align: center;
+            margin: 20px 0;
+            transition: transform 0.2s ease;
+        }
+        .magic-link-button:hover {
+            background-color: #155dfc !important;
+            transform: translateY(-1px);
+        }
+        .button-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .alternative-link {
+            background-color: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        .alternative-link p {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #718096;
+        }
+        /* Added !important to override browser default blue links */
+        .alternative-link a {
+            color: oklch(62.3% 0.214 259.815) !important;
+            word-break: break-all;
+            font-size: 14px;
+            text-decoration: none !important;
+        }
+        .security-note {
+            background-color: #fef5e7;
+            border-left: 4px solid #f6ad55;
+            padding: 15px 20px;
+            margin: 30px 0;
+            border-radius: 0 6px 6px 0;
+        }
+        .security-note p {
+            margin: 0;
+            font-size: 14px;
+            color: #744210;
+        }
+        .footer {
+            background-color: #f7fafc;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #e2e8f0;
+        }
+        .footer p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #718096;
+        }
+        /* Added !important to footer links to override browser defaults */
+        .footer a {
+            color: oklch(62.3% 0.214 259.815) !important;
+            text-decoration: none !important;
+        }
+        .social-links {
+            margin: 20px 0;
+        }
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            color: #718096;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        @media only screen and (max-width: 600px) {
+            .email-container {
+                margin: 0;
+                border-radius: 0;
+            }
+            .content {
+                padding: 30px 20px;
+            }
+            .header {
+                padding: 30px 20px;
+            }
+            .magic-link-button {
+                display: block;
+                width: 100%;
+                box-sizing: border-box;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header with Logo -->
+        <div class="header">
+            <img src="https://res.cloudinary.com/dipkbpinx/image/upload/v1753723016/tech-tales/profile-pictures/akaochvmlgkm24dvc0lf.png" alt="Kitchenly Logo" class="logo">
+            <h2 class="heading">Techtales.</h2>
+        </div>
+        <!-- Main Content -->
+        <div class="content">
+            <div class="greeting">Hello there,</div> 
+            <!-- Updated message for magic link login -->
+            <div class="message">
+                Click the button below to securely log in to your Techtales account.
+            </div>
+            <!-- Updated button text and link for magic link -->
+            <div class="button-container">
+                <a href=${link} class="magic-link-button">Log In to Techtales</a>
+            </div>
+            <!-- Updated alternative link section for magic link -->
+            <div class="alternative-link">
+                <p><strong>Button not working?</strong> Copy and paste this link to yout browser:</p>
+                <a href=${link}>${link}</a>
+            </div>
+            <!-- Updated security note with 5-minute expiration -->
+            <div class="security-note">
+                <p><strong>Note:</strong> This magic link expires in 5 minutes for your security. This is an automated message, please do not reply to this email.</p>
+            </div>
+        </div>
+        <!-- Footer -->
+        <div class="footer">
+           <footer>
+            <h2 class="heading">Techtales.</h2>
+            <p>A Community Code Tutorials, AI Guides & Dev Tips</p>
+            <table align=center style="margin:10px auto"><tr><td style="padding:0 5px"><a href=https://www.facebook.com/diamond.degesh.3 title=Facebook><img alt=Facebook src=https://res.cloudinary.com/dipkbpinx/image/upload/v1697311304/logos/facebook-logo-removebg-preview_k2pief.png width=30 height=30></a></td><td style="padding:0 5px"><a href=https://x.com/diamonddegesh title=Twitter><img alt=Twitter src=https://res.cloudinary.com/dipkbpinx/image/upload/v1697311304/logos/twitter-logo-removebg-preview_hc45pq.png width=30></a></td><td style="padding:0 5px"><a href=https://github.com/Donvine254 title=GitHub><img alt=GitHub src=https://res.cloudinary.com/dipkbpinx/image/upload/v1723321813/logos/d1hxxf2dtrw07h2jqsdw.png width=20></a></td></tr></table><p><a href=https://techtales.vercel.app/privacy>Privacy Policy</a> | <a href=https://techtales.vercel.app/contact>Contact Details</a></p></footer>
+        </div>
+    </div>
+</body>
+</html>
+`;
