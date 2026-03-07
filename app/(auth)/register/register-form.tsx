@@ -95,7 +95,7 @@ export default function RegisterForm() {
                 className="p-4 sm:p-6"
                 onSubmit={form.handleSubmit(handleSubmit)}
                 autoComplete="off">
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-6">
                   <div className="flex flex-col items-center text-center">
                     <h1 className="text-xl sm:text-2xl font-bold text-muted-foreground">
                       Welcome Onboard
