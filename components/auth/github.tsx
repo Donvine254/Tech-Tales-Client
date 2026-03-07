@@ -16,17 +16,17 @@ export default function GithubButton({ router, setStatus }: Props) {
     toast.loading("Processing github auth..");
     setStatus("loading");
     router.replace(
-      `https://github.com/login/oauth/authorize?client_id=${clientID}&redirect_uri=${baseUrl}/api/auth/callback&scope=read:user user:email`
+      `https://github.com/login/oauth/authorize?client_id=${clientID}&redirect_uri=${baseUrl}/api/auth/callback&scope=read:user user:email`,
     );
   };
   return (
     <Button
       variant="outline"
-      className="w-full hover:bg-black hover:text-white dark:hover:text-black dark:hover:bg-white"
+      className="w-full bg-gray-950 text-white dark:bg-white/80 dark:text-primary"
       title="login with github"
       type="button"
       onClick={loginWithGithub}>
-      <GithubIcon />
+      <GithubIcon /> Github
       <span className="sr-only">Login with Github</span>
     </Button>
   );

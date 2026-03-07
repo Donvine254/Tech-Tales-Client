@@ -24,7 +24,7 @@ const GoogleAuthButton = ({ origin_url, setStatus }: Props) => {
           headers: {
             Authorization: `Bearer ${access_token}`,
           },
-        }
+        },
       );
       const userInfo = await response.json();
       const result = await authenticateSSOLogin(
@@ -33,7 +33,7 @@ const GoogleAuthButton = ({ origin_url, setStatus }: Props) => {
           username: userInfo.name || userInfo.email.split("@")[0],
           picture: userInfo.picture,
         },
-        "google"
+        "google",
       );
       if (result.success) {
         toast.success("Logged in successfully", {
@@ -66,11 +66,11 @@ const GoogleAuthButton = ({ origin_url, setStatus }: Props) => {
   return (
     <Button
       variant="outline"
-      className="w-full hover:bg-blue-100 dark:hover:bg-white"
+      className="w-full bg-gray-950 text-white dark:bg-white/80 dark:text-primary"
       title="login with google"
       onClick={() => handleGoogleLogin()}
       type="button">
-      <GoogleIcon />
+      <GoogleIcon /> Google
       <span className="sr-only">Login with Google</span>
     </Button>
   );
@@ -88,7 +88,7 @@ export function GoogleOneTapLogin() {
     onSuccess: async (credentialResponse) => {
       try {
         const response = await fetch(
-          `https://oauth2.googleapis.com/tokeninfo?id_token=${credentialResponse.credential}`
+          `https://oauth2.googleapis.com/tokeninfo?id_token=${credentialResponse.credential}`,
         );
         const userInfo = await response.json();
         const result = await authenticateSSOLogin(
@@ -97,7 +97,7 @@ export function GoogleOneTapLogin() {
             username: userInfo.name || userInfo.email.split("@")[0],
             picture: userInfo.picture,
           },
-          "google"
+          "google",
         );
         if (result.success) {
           toast.success("Logged in successfully", {
@@ -111,7 +111,7 @@ export function GoogleOneTapLogin() {
           if (result.error === "User not found") {
             toast.error(result.error);
             router.replace(
-              `/login/?action=login&token=${credentialResponse.credential}`
+              `/login/?action=login&token=${credentialResponse.credential}`,
             );
           }
           toast.error(result.error);
