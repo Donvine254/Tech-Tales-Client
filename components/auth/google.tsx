@@ -52,10 +52,9 @@ const GoogleAuthButton = ({
         toast.error(result.message);
         return false;
       }
-      // eslint-disable-next-line
-    } catch (error: any) {
-      console.error(error);
-      toast.error(error.message || "something went wrong");
+    } catch (error) {
+      const e= error as Error
+      toast.error(e.message || "something went wrong");
     }
   }
   //function to handle google login button click
@@ -65,7 +64,6 @@ const GoogleAuthButton = ({
       loginGoogleUsers(tokenResponse.access_token);
     },
     onError: (error) => {
-      console.error("Login Failed:", error);
       toast.error(error.error_description || "Something went wrong");
     },
   });

@@ -39,7 +39,6 @@ export default function RegisterForm() {
   //useEffect to read the cookie
   useEffect(() => {
     setOriginUrl(getCookie("post_login_redirect"));
-    document.cookie = "post_login_redirect=; Max-Age=0; path=/; SameSite=Lax";
   }, []);
 
   const form = useForm<RegisterFormData>({
