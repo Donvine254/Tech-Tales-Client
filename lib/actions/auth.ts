@@ -13,6 +13,7 @@ import { createSession } from "./session-utils";
 import { Prisma } from "@/src/generated/prisma/client";
 import { createVerificationToken } from "./verification";
 import { setLastLoginMethod } from "./login-method";
+import { cookies } from "next/headers";
 
 /* Function to hash passwords */
 export const hashPassword = async (password: string) => {
@@ -25,6 +26,7 @@ export async function authenticateSSOLogin(
   userInfo: { email: string; username: string; picture?: string },
   provider: "google" | "github",
 ) {
+  const cookieStore = await cookies();
   try {
     let user = await prisma.user.findUnique({
       where: { email: userInfo.email },
@@ -99,6 +101,7 @@ export async function authenticateSSOLogin(
 }
 /*Login function for normal users */
 export async function authenticateUserLogin(email: string, password: string) {
+  const cookieStore = await cookies();
   try {
     // step-1: check the login attempts
     const ip = await getClientIP();
