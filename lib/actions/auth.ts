@@ -129,8 +129,7 @@ export async function authenticateUserLogin(email: string, password: string) {
     if (!user) {
       return {
         success: false,
-        message: "No matching user found!",
-        field: "email",
+        message: "Wrong email or password",
       };
     }
     if (user.status === "SUSPENDED") {
@@ -144,7 +143,7 @@ export async function authenticateUserLogin(email: string, password: string) {
       return {
         successs: false,
         message:
-          "Your account has been deleted, check your email to restore your account",
+          "Your account has been deactivated, check your email to restore your account.",
         field: "email",
       };
     }
@@ -164,8 +163,7 @@ export async function authenticateUserLogin(email: string, password: string) {
     if (!isPasswordValid) {
       return {
         success: false,
-        message: "Wrong password, try again",
-        field: "password",
+        message: "Wrong email or password, try again",
       };
     }
     //step-4: auth success: createSession handles JWT + cookie + DB

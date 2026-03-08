@@ -74,7 +74,14 @@ export function LoginForm({
             type: "manual",
             message: response.message,
           });
+        } else {
+          form.setError("email", { type: "manual", message: "" });
+          form.setError("password", {
+            type: "manual",
+            message: "",
+          });
         }
+
         if (response.redirect) {
           setTimeout(() => {
             router.replace(response.redirect!);
