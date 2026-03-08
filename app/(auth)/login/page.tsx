@@ -1,8 +1,10 @@
 import { BookOpen } from "lucide-react";
 import Link from "next/link";
 import { LoginForm } from "./login-form";
+import { getLastLoginMethod } from "@/lib/actions/login-method";
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  const lastLoginMethod = await getLastLoginMethod();
   return (
     <div className="flex min-h-svh flex-col items-center justify-center p-4 sm:p-6 bg-muted">
       <div className="w-full max-w-sm md:max-w-4xl">
@@ -16,7 +18,7 @@ export default function LoginPage() {
             Techtales.
           </h1>
         </Link>
-        <LoginForm />
+        <LoginForm lastLoginMethod={lastLoginMethod} />
       </div>
     </div>
   );

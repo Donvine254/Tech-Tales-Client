@@ -6,13 +6,20 @@ import { authenticateSSOLogin } from "@/lib/actions/auth";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { useSession } from "@/providers/session";
+import { type LoginMethod } from "@/lib/actions/login-method";
+import { Badge } from "../ui/badge";
 
 type Props = {
   origin_url: string;
   setStatus: React.Dispatch<React.SetStateAction<FormStatus>>;
+  lastLoginMethod?: LoginMethod | null;
 };
 type FormStatus = "pending" | "loading" | "success" | "error";
-const GoogleAuthButton = ({ origin_url, setStatus }: Props) => {
+const GoogleAuthButton = ({
+  origin_url,
+  setStatus,
+  lastLoginMethod,
+}: Props) => {
   const router = useRouter();
   //function to login google users
   async function loginGoogleUsers(access_token: string) {
@@ -66,12 +73,19 @@ const GoogleAuthButton = ({ origin_url, setStatus }: Props) => {
   return (
     <Button
       variant="outline"
-      className="w-full bg-gray-950 text-white font-bold dark:bg-white/90 dark:text-gray-950"
+      className="w-full bg-gray-950 text-white font-bold dark:bg-white/90 dark:text-gray-950 relative"
       title="login with google"
       onClick={() => handleGoogleLogin()}
       type="button">
       <GoogleIcon /> Google
       <span className="sr-only">Login with Google</span>
+      {lastLoginMethod === "google" && (
+        <Badge
+          variant="category"
+          className="absolute -top-2 -right-1 rounded-full border-none shadow">
+          Last
+        </Badge>
+      )}
     </Button>
   );
 };

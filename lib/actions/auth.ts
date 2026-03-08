@@ -13,6 +13,7 @@ import { getClientIP } from "../helpers/user-ip";
 import { createSession } from "./session-utils";
 import { Prisma } from "@/src/generated/prisma/client";
 import { createVerificationToken } from "./verification";
+import { setLastLoginMethod } from "./login-method";
 
 /* Function to hash passwords */
 export const hashPassword = async (password: string) => {
@@ -92,6 +93,8 @@ export async function authenticateSSOLogin(
   } catch (error) {
     const e = error as Error;
     return { success: false, error: e.message || "Something went wrong" };
+  } finally {
+    await setLastLoginMethod(provider);
   }
 }
 /*Login function for normal users */
@@ -178,6 +181,8 @@ export async function authenticateUserLogin(email: string, password: string) {
       success: false,
       message: e.message || "Unexpected error occured!",
     };
+  } finally {
+    await setLastLoginMethod("email");
   }
 }
 

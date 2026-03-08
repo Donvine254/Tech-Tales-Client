@@ -29,11 +29,18 @@ import { cn } from "@/lib/utils";
 import type { FormStatus } from "@/types";
 import { PasswordField } from "@/components/forms/password-input";
 import MagicLinkButton from "@/components/auth/magic-link";
+import { Badge } from "@/components/ui/badge";
+import { type LoginMethod } from "@/lib/actions/login-method";
+
+interface LoginFormProps extends React.ComponentProps<"div"> {
+  lastLoginMethod?: LoginMethod | null;
+}
 
 export function LoginForm({
   className,
+  lastLoginMethod,
   ...props
-}: React.ComponentProps<"div">) {
+}: LoginFormProps) {
   const [status, setStatus] = useState<FormStatus>("pending");
   const [token, setToken] = useState<string | null>(null);
   const router = useRouter();
@@ -148,12 +155,19 @@ export function LoginForm({
 
                 <Button
                   type="submit"
-                  className="w-full hover:bg-blue-500 hover:text-white"
+                  className="w-full hover:bg-blue-500 hover:text-white relative"
                   disabled={status === "loading"}>
                   {status === "loading" ? (
                     <Loader2 className="animate-spin h-4 w-4" />
                   ) : (
                     "Login"
+                  )}
+                  {lastLoginMethod === "email" && (
+                    <Badge
+                      variant="category"
+                      className="absolute -top-2 -right-1 rounded-full border-none shadow">
+                      Last
+                    </Badge>
                   )}
                 </Button>
                 <MagicLinkButton />
@@ -166,8 +180,13 @@ export function LoginForm({
                   <GoogleAuthButton
                     setStatus={setStatus}
                     origin_url={originUrl}
+                    lastLoginMethod={lastLoginMethod}
                   />
-                  <GithubButton router={router} setStatus={setStatus} />
+                  <GithubButton
+                    router={router}
+                    setStatus={setStatus}
+                    lastLoginMethod={lastLoginMethod}
+                  />
                 </div>
                 <div className="text-center text-sm">
                   Don&apos;t have an account?{" "}

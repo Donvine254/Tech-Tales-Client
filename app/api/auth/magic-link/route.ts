@@ -2,6 +2,7 @@
 import prisma from "@/prisma/prisma";
 import { type NextRequest, NextResponse } from "next/server";
 import { createSession } from "@/lib/actions/session-utils";
+import { setLastLoginMethod } from "@/lib/actions/login-method";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -86,5 +87,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(
       new URL("/checkpoint/magic-link?error=error-server", request.url),
     );
+  } finally {
+    await setLastLoginMethod("email");
   }
 }
