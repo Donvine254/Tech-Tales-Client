@@ -28,7 +28,7 @@ const updateBlogSchema = z.object({
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: Promise<{ id: number }> },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
   const blogId = Number(id);
@@ -179,7 +179,7 @@ export async function PATCH(
 //*Function to delete blogs belonging to a user*//
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: Promise<{ id: number }> },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
   const blogId = Number(id);
