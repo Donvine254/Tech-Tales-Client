@@ -8,10 +8,12 @@ import {
   sendDeactivationNotificationEmail,
   sendDeleteNotificationEmail,
 } from "@/emails/mailer";
-import { DELETED_USER_ID } from "../utils";
+import { baseUrl, DELETED_USER_ID } from "../utils";
 import { blogSelect } from "@/prisma/select";
 import { cachedCall } from "./cache";
 import { Prisma, UserStatus } from "@/src/generated/prisma/client";
+import { deleteSession } from "./session-utils";
+import { createVerificationToken } from "./verification";
 
 /* function to getAllUserBlogs. Used in app/(main)/me/posts */
 export const getUserBlogs = async () => {
@@ -194,7 +196,7 @@ export async function updateUserDetails(data: Partial<UpdateData>) {
     return { success: false, message: "Could not update user." };
   }
 }
-/* function to deactivate user account and make it possible for users to restore their accounts within 30 days */
+/*----------function to deactivate user account and archive their blogs---------*/
 export async function deactivateUserAccount(
   keepBlogs: boolean,
   keepComments: boolean,
@@ -202,48 +204,75 @@ export async function deactivateUserAccount(
   const session = await isVerifiedUser();
   const userId = Number(session.userId);
   try {
-    const user = await prisma.user.update({
-      where: {
-        id: userId,
-      },
-      data: {
-        deactivated: true,
-        deactivatedAt: new Date(),
-        status: "DEACTIVATED",
-        keep_blogs_on_delete: keepBlogs,
-        keep_comments_on_delete: keepComments,
-      },
-      select: {
-        id: true,
-        email: true,
-        username: true,
-      },
-    });
+    // Capture IDs to archive BEFORE the transaction so the snapshot is consistent
+    const [blogsToArchive, commentsToHide] = await Promise.all([
+      !keepBlogs
+        ? prisma.blog.findMany({
+            where: { authorId: userId, status: "PUBLISHED" },
+            select: { id: true },
+          })
+        : [],
+      !keepComments
+        ? prisma.comment.findMany({
+            where: { authorId: userId },
+            select: { id: true },
+          })
+        : [],
+    ]);
+
+    const [user] = await prisma.$transaction([
+      prisma.user.update({
+        where: { id: userId },
+        data: {
+          deactivated: true,
+          deactivatedAt: new Date(),
+          status: "DEACTIVATED",
+          keep_blogs_on_delete: keepBlogs,
+          keep_comments_on_delete: keepComments,
+        },
+        select: { id: true, email: true, username: true },
+      }),
+      prisma.session.deleteMany({ where: { userId } }),
+    ]);
+
     setImmediate(async () => {
-      // Archive blog posts
-      if (!keepBlogs) {
-        await prisma.blog.updateMany({
-          where: { authorId: user.id, status: "PUBLISHED" },
-          data: { status: "ARCHIVED" },
-        });
-      }
-      // Archive comments
-      if (!keepComments) {
-        await prisma.comment.updateMany({
-          where: { authorId: user.id },
-          data: { show: false },
-        });
-      }
+      await Promise.all([
+        blogsToArchive.length > 0 &&
+          prisma.blog.updateMany({
+            where: { id: { in: blogsToArchive.map((b) => b.id) } },
+            data: { status: "ARCHIVED" },
+          }),
+        commentsToHide.length > 0 &&
+          prisma.comment.updateMany({
+            where: { id: { in: commentsToHide.map((c) => c.id) } },
+            data: { show: false },
+          }),
+      ]);
+
+      const token = await createVerificationToken({
+        identifier: user.email,
+        type: "ACCOUNT_RESTORE",
+        expiresInMinutes: 60 * 24 * 30, // 30 days,
+        value: {
+          userId: user.id,
+          expectedChallenge: crypto.randomUUID(),
+          archivedBlogIds: blogsToArchive.map((b) => b.id),
+          hiddenCommentIds: commentsToHide.map((c) => c.id),
+        },
+      });
+
       await sendDeactivationNotificationEmail(
         user.username,
         user.email,
-        user.id,
         keepBlogs,
         keepComments,
+        `${baseUrl}/account/restore?token=${token}`,
       );
     });
+
     revalidateTag(`author-${userId}:data`, "max");
-    return { success: true, message: "User account deleted successfully" };
+    deleteSession();
+    return { success: true, message: "User account deactivated successfully" };
   } catch (error) {
     const e = error as Error;
     return {
@@ -252,58 +281,54 @@ export async function deactivateUserAccount(
     };
   }
 }
-
 /* function to permanently delete user account and associated data */
 export async function deleteUserAccount(
   keepBlogs: boolean,
   keepComments: boolean,
 ) {
   const session = await isVerifiedUser();
-  try {
-    const user = await prisma.user.findUnique({
-      where: { id: Number(session.userId) },
-      select: {
-        id: true,
-        email: true,
-        username: true,
-      },
-    });
-    // This protects from accidentally deleting the user with id 49
-    if (!user || user.id === 49) {
-      return { success: false, message: "User not found" };
-    }
-    // Reassign content if user choses to keep them as per GDPR/CCPA rules. We reassign to a deleted user in the database with ID of 49.
-    if (keepBlogs) {
-      await prisma.blog.updateMany({
-        where: { authorId: user.id },
-        data: { authorId: DELETED_USER_ID },
-      });
-    }
+  const userId = Number(session.userId);
 
-    if (keepComments) {
-      await prisma.comment.updateMany({
-        where: { authorId: user.id },
-        data: { authorId: DELETED_USER_ID },
-      });
-      await prisma.response.updateMany({
-        where: { authorId: user.id },
-        data: { authorId: DELETED_USER_ID },
-      });
-    }
-    // send deletion notification email after returning
+  // Guard against accidentally deleting the deleted-user placeholder
+  if (!userId || userId === DELETED_USER_ID) {
+    return { success: false, message: "User not found" };
+  }
+
+  try {
+    // Reassign content in parallel before deletion if user opts to keep them
+    await Promise.all([
+      keepBlogs &&
+        prisma.blog.updateMany({
+          where: { authorId: userId },
+          data: { authorId: DELETED_USER_ID },
+        }),
+      keepComments &&
+        prisma.comment.updateMany({
+          where: { authorId: userId },
+          data: { authorId: DELETED_USER_ID },
+        }),
+      keepComments &&
+        prisma.response.updateMany({
+          where: { authorId: userId },
+          data: { authorId: DELETED_USER_ID },
+        }),
+    ]);
+    await prisma.$transaction([
+      prisma.verification.deleteMany({ where: { identifier: session.email } }),
+      prisma.user.delete({ where: { id: userId } }),
+    ]);
+    // Fire-and-forget notification email after successful deletion
     setImmediate(async () => {
       await sendDeleteNotificationEmail(
-        user.username,
-        user.email,
+        session.username,
+        session.email,
         keepBlogs,
         keepComments,
-      );
+      ).catch(console.error);
     });
-    // Finally, delete the user account
-    await prisma.user.delete({
-      where: { id: user.id },
-    });
-    revalidateTag(`author-${user.id}:data`, "max");
+
+    revalidateTag(`author-${userId}:data`, "max");
+    deleteSession();
     return { success: true, message: "User account deleted successfully" };
   } catch (error) {
     const e = error as Error;

@@ -8,7 +8,6 @@ import {
   AccountDeactivationTemplate,
   MagicLinkEmailTemplate,
 } from "./templates";
-import { createAccountActionsToken } from "@/lib/actions/jwt";
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -75,20 +74,10 @@ export const sendMagicLinkEmail = async (email: string, link: string) => {
 export const sendDeactivationNotificationEmail = async (
   name: string,
   email: string,
-  id: number,
   keepBlogs: boolean,
   keepComments: boolean,
+  link:string,
 ) => {
-  // create a restore token
-  const token = await createAccountActionsToken(
-    {
-      id: id,
-      username: name,
-      email: email,
-    },
-    "30d",
-  );
-  const link = `https://techtales.vercel.app/account/restore?token=${token}`;
   const secureLink = encodeURI(link);
   try {
     await sendEmail({

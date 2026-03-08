@@ -1,53 +1,6 @@
 "use server";
-import { User } from "@/src/generated/prisma/client";
 import * as jose from "jose";
-import { cookies } from "next/headers";
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
-
-// function to create and set email verification cookie; Change this to store in database
-// this is used to verify the email after registration
-export async function createAndSetEmailVerificationCookie(payload: {
-  id: number;
-  email: string;
-}) {
-  const cookieStore = await cookies();
-  const token = await new jose.SignJWT({
-    userId: payload.id,
-    email: payload.email,
-  })
-    .setProtectedHeader({ alg: "HS256" })
-    .setExpirationTime("8h")
-    .sign(JWT_SECRET);
-
-  cookieStore.set("verify_email_token", token, {
-    httpOnly: true,
-    maxAge: 8 * 60 * 60,
-    sameSite: "strict",
-    secure: process.env.NODE_ENV === "production",
-    path: "/",
-  });
-
-  return token;
-}
-
-/**
- * Create a password reset token for a given user.
- */
-export async function createAccountActionsToken(
-  user: Pick<User, "id" | "email" | "username">,
-  expiry: string | number
-) {
-  const token = await new jose.SignJWT({
-    userId: user.id,
-    email: user.email,
-    username: user.username,
-  })
-    .setProtectedHeader({ alg: "HS256" })
-    .setExpirationTime(expiry) // token expires in 30 minutes
-    .sign(JWT_SECRET);
-
-  return token;
-}
 
 /*
 Validate tokens with jwt

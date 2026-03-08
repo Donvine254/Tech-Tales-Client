@@ -434,7 +434,6 @@ export async function resetPassword(userId: number, password: string) {
 }
 
 /*function to restore user account */
-// TODO: Update this to use verification table for token
 export async function restoreAccount(token: string): Promise<{
   success: boolean;
   error?: "error-token" | "error-server";
@@ -443,43 +442,76 @@ export async function restoreAccount(token: string): Promise<{
   if (!token) {
     return { success: false, error: "error-token", message: "Token not found" };
   }
-  const res = await verifyToken(token);
-  if (!res.valid || !res.payload) {
-    return {
-      success: false,
-      error: "error-token",
-      message: "Token is invalid or has expired",
-    };
-  }
-  const userId = res.payload.id;
   try {
-    await prisma.user.update({
-      where: {
-        id: Number(userId),
-      },
-      data: {
-        deactivated: false,
-        deactivatedAt: null,
-        status: "INACTIVE",
-      },
+    // Step 1: Look up the token in the verification table
+    const verification = await prisma.verification.findUnique({
+      where: { token },
     });
-
-    setImmediate(async () => {
-      // Unarchive blog posts
-      await prisma.blog.updateMany({
-        where: { authorId: Number(userId), status: "ARCHIVED" },
-        data: { status: "PUBLISHED" },
-      });
-      // Unarchive comments
-      await prisma.comment.updateMany({
-        where: { authorId: Number(userId) },
-        data: { show: true },
-      });
-    });
-    // set immediate and restore comments and blogs
+    if (!verification) {
+      return {
+        success: false,
+        error: "error-token",
+        message: "Token is invalid or does not exist",
+      };
+    }
+    // Step 2: Check expiry — delete and reject if expired
+    if (verification.expiresAt < new Date()) {
+      await prisma.verification.delete({ where: { id: verification.id } });
+      return {
+        success: false,
+        error: "error-token",
+        message:
+          "Token has expired. Please contact support to restore your account.",
+      };
+    }
+    // Step 3: Validate token type and shape
+    const value = verification.value as {
+      userId: string;
+      expectedChallenge: string;
+      archivedBlogIds: number[];
+      hiddenCommentIds: number[];
+    };
+    if (!value?.userId || verification.type !== "ACCOUNT_RESTORE") {
+      return {
+        success: false,
+        error: "error-token",
+        message: "Token validation failed",
+      };
+    }
+    const userId = Number(value.userId);
+    // Step 4: Restore content + user + consume token all atomically
+    await prisma.$transaction([
+      // Restore blogs that were archived at deactivation time using the saved IDs
+      ...(value.archivedBlogIds.length > 0
+        ? [
+            prisma.blog.updateMany({
+              where: { id: { in: value.archivedBlogIds }, status: "ARCHIVED" },
+              data: { status: "PUBLISHED" },
+            }),
+          ]
+        : []),
+      // Restore comments that were hidden at deactivation time using the saved IDs
+      ...(value.hiddenCommentIds.length > 0
+        ? [
+            prisma.comment.updateMany({
+              where: { id: { in: value.hiddenCommentIds } },
+              data: { show: true },
+            }),
+          ]
+        : []),
+      prisma.user.update({
+        where: { id: userId },
+        data: {
+          deactivated: false,
+          deactivatedAt: null,
+          status: "INACTIVE",
+        },
+      }),
+      // Consume the token last so it's only deleted if everything above succeeded
+      prisma.verification.delete({ where: { id: verification.id } }),
+    ]);
     return { success: true, message: "Account restored successfully" };
   } catch (error) {
-    // TODO:handle record to update not found
     console.error(error);
     if (
       error instanceof Prisma.PrismaClientKnownRequestError &&
