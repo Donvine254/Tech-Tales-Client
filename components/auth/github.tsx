@@ -23,7 +23,7 @@ export default function GithubButton({
     toast.loading("Processing github auth..");
     setStatus("loading");
     router.replace(
-      `https://github.com/login/oauth/authorize?client_id=${clientID}&redirect_uri=${baseUrl}/api/auth/callback&scope=read:user user:email`,
+      `https://github.com/login/oauth/authorize?client_id=${clientID}&redirect_uri=${baseUrl}/api/auth/callback&scope=read:user%20user:email`,
     );
   };
   return (
