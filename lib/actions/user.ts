@@ -1,5 +1,5 @@
 "use server";
-import { revalidateTag, updateTag } from "next/cache";
+import { revalidatePath, revalidateTag, updateTag } from "next/cache";
 import prisma from "@/prisma/prisma";
 import { Preferences, SocialLink } from "@/types";
 import { redirect } from "next/navigation";
@@ -293,7 +293,17 @@ export async function deleteUserAccount(
   if (!userId || userId === DELETED_USER_ID) {
     return { success: false, message: "User not found" };
   }
-
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+    select: {
+      handle: true,
+    },
+  });
+  if (!user) {
+    return { success: false, message: "record to delete not found" };
+  }
   try {
     // Reassign content in parallel before deletion if user opts to keep them
     await Promise.all([
@@ -326,8 +336,14 @@ export async function deleteUserAccount(
         keepComments,
       ).catch(console.error);
     });
-
+    // update cache to reflect archived blogs
     revalidateTag(`author-${userId}:data`, "max");
+    revalidatePath(`/read/${user.handle}`);
+    updateTag(`user-${userId}-blogs`);
+    updateTag("featured");
+    updateTag("latest");
+    updateTag("trending");
+    updateTag("blogs");
     deleteSession();
     return { success: true, message: "User account deleted successfully" };
   } catch (error) {
