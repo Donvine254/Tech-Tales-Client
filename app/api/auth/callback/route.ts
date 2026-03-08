@@ -1,123 +1,83 @@
-import * as jose from "jose";
 import { type NextRequest, NextResponse } from "next/server";
 import { authenticateSSOLogin } from "@/lib/actions/auth";
-import { baseUrl } from "@/lib/utils";
-import prisma from "@/prisma/prisma";
 
 const CLIENT_ID = process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID!;
 const CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET!;
-const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
 
 export async function GET(req: NextRequest) {
-	const url = new URL(req.url);
-	const code = url.searchParams.get("code");
-	if (!code) {
-		return NextResponse.redirect(`/login?error=missing_token`);
-	}
-	const userInfo = await fetchUserInfo(code);
-	if (!userInfo) {
-		return NextResponse.redirect(
-			new URL("/login?error=missing_email", req.url),
-		);
-	}
-	//   step-1: find the user in db
-	const user = await prisma.user.findUnique({
-		where: {
-			email: userInfo.email,
-		},
-	});
-	if (!user) {
-		const result = await authenticateSSOLogin(
-			{
-				email: userInfo.email || userInfo.notification_email,
-				username: userInfo.name || userInfo.email.split("@")[0],
-				picture: userInfo.avatar_url,
-			},
-			"github",
-		);
-		if (!result.success) {
-			return NextResponse.redirect(
-				new URL(
-					`/login?error=${encodeURIComponent(
-						result?.error ?? "SSO registration failed",
-					)}`,
-					req.url,
-				),
-			);
-		}
+  const url = new URL(req.url);
+  const code = url.searchParams.get("code");
+  const postLoginRedirect = req.cookies.get("post_login_redirect")?.value;
 
-		return NextResponse.redirect(
-			new URL("/login?message=registered_and_logged_in", req.url),
-		);
-	}
-	//   step-2: set cookie and redirect
-	if (user) {
-		const token = await new jose.SignJWT({
-			userId: user.id,
-			email: user.email,
-			role: user.role,
-			username: user.username,
-			picture: user.picture,
-		})
-			.setProtectedHeader({ alg: "HS256" })
-			.setExpirationTime("8h")
-			.sign(JWT_SECRET);
+  if (!code) {
+    return NextResponse.redirect(
+      new URL("/login?error=missing_token", req.url),
+    );
+  }
 
-		const response = NextResponse.redirect(`${baseUrl}/login`);
+  const userInfo = await fetchUserInfo(code);
+  if (!userInfo) {
+    return NextResponse.redirect(
+      new URL("/login?error=missing_email", req.url),
+    );
+  }
+  // authenticateSSOLogin handles both new and existing users,
+  // and calls createSession internally — same as your Google flow
+  const result = await authenticateSSOLogin(
+    {
+      email: userInfo.email || userInfo.notification_email,
+      username: userInfo.name || userInfo.email?.split("@")[0],
+      picture: userInfo.avatar_url,
+    },
+    "github",
+  );
 
-		response.cookies.set("token", token, {
-			httpOnly: true,
-			maxAge: 8 * 60 * 60,
-			sameSite: "strict",
-			path: "/",
-			secure: process.env.NODE_ENV === "production", // always use secure in prod
-		});
-
-		return response;
-	} else {
-		// when there is no user
-		return NextResponse.redirect(`${baseUrl}/login?error=missing_user`);
-	}
+  if (!result.success) {
+    return NextResponse.redirect(
+      new URL(
+        `/login?error=${encodeURIComponent(result?.error ?? result?.message ?? "SSO login failed")}`,
+        req.url,
+      ),
+    );
+  }
+  // Session is already created by authenticateSSOLogin, just redirect
+  return NextResponse.redirect(new URL(postLoginRedirect ?? "/", req.url));
 }
 
 async function getAccessToken(code: string) {
-	try {
-		const tokenResponse = await fetch(
-			"https://github.com/login/oauth/access_token",
-			{
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					Accept: "application/json",
-				},
-				body: JSON.stringify({
-					client_id: CLIENT_ID,
-					client_secret: CLIENT_SECRET,
-					code,
-				}),
-			},
-		);
-		const tokenData = await tokenResponse.json();
-		const accessToken = tokenData.access_token;
-		return accessToken;
-	} catch (error) {
-		console.error(error);
-		return null;
-	}
+  try {
+    const tokenResponse = await fetch(
+      "https://github.com/login/oauth/access_token",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          client_id: CLIENT_ID,
+          client_secret: CLIENT_SECRET,
+          code,
+        }),
+      },
+    );
+    const tokenData = await tokenResponse.json();
+    return tokenData.access_token ?? null;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 }
 
 async function fetchUserInfo(code: string) {
-	const accessToken = await getAccessToken(code);
-	if (accessToken) {
-		const response = await fetch("https://api.github.com/user", {
-			headers: {
-				Authorization: `Bearer ${accessToken}`,
-			},
-		});
-		const userInfo = await response.json();
-		if (!userInfo || !userInfo.email) {
-			return null;
-		}
-		return userInfo;
-	}
+  const accessToken = await getAccessToken(code);
+  if (!accessToken) return null; // explicit null, not undefined
+  const response = await fetch("https://api.github.com/user", {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  const userInfo = await response.json();
+  if (!userInfo?.email) return null;
+  return userInfo;
 }

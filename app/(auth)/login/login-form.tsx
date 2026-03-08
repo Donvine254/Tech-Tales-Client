@@ -48,8 +48,6 @@ export function LoginForm({
   //useEffect to read the cookie
   useEffect(() => {
     setOriginUrl(getCookie("post_login_redirect"));
-    // delete the cookie
-    document.cookie = "post_login_redirect=; Max-Age=0; path=/; SameSite=Lax";
   }, []);
 
   const form = useForm<LoginFormData>({
@@ -146,13 +144,11 @@ export function LoginForm({
                     Forgot your password?
                   </Link>
                 </div>
-
                 <GoogleReCaptcha
                   onVerify={(token) => {
                     setToken(token);
                   }}
                 />
-
                 <Button
                   type="submit"
                   className="w-full hover:bg-blue-500 hover:text-white relative"

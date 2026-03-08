@@ -1,7 +1,6 @@
 "use server";
 import prisma from "@/prisma/prisma";
 import * as bcrypt from "bcrypt";
-import { verifyToken } from "./jwt";
 import { rateLimitByIp } from "./rate-limiter";
 import { baseUrl, convertToHandle, generatePassword } from "../utils";
 import {
@@ -95,6 +94,7 @@ export async function authenticateSSOLogin(
     return { success: false, error: e.message || "Something went wrong" };
   } finally {
     await setLastLoginMethod(provider);
+    await cookieStore.delete("post_login_redirect");
   }
 }
 /*Login function for normal users */
@@ -183,6 +183,7 @@ export async function authenticateUserLogin(email: string, password: string) {
     };
   } finally {
     await setLastLoginMethod("email");
+    await cookieStore.delete("post_login_redirect");
   }
 }
 
