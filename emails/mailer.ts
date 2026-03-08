@@ -2,10 +2,9 @@
 import nodemailer from "nodemailer";
 import {
   EmailVerificationTemplate,
-  WelcomeTemplate,
+  WelcomeEmailTemplate,
   AccountDeletionTemplate,
-  AdminRegistrationTemplate,
-  PasswordResetTemplate,
+  PasswordResetEmailTemplate,
   AccountDeactivationTemplate,
   MagicLinkEmailTemplate,
 } from "./templates";
@@ -33,12 +32,11 @@ export const sendEmail = async (emailOptions: {
 export const sendVerificationEmail = async (email: string, link: string) => {
   try {
     await sendEmail({
-      subject: `Verify your email address`,
+      subject: `Verify Your Email Address - Techtales`,
       to: email,
       from: sender,
       html: EmailVerificationTemplate(link),
     });
-    console.log("Email sent successfully");
     return { message: "Email sent successfully" };
   } catch (error) {
     console.error("Email delivery failed:", error);
@@ -51,9 +49,8 @@ export const sendWelcomeEmail = async (email: string, name: string) => {
       subject: "Welcome to TechTales 🎉",
       to: email,
       from: sender,
-      html: WelcomeTemplate(name),
+      html: WelcomeEmailTemplate(name),
     });
-    console.log("Email sent successfully");
     return { message: "Email sent successfully" };
   } catch (error) {
     console.error("Email delivery failed:", error);
@@ -74,26 +71,7 @@ export const sendMagicLinkEmail = async (email: string, link: string) => {
     return { message: "Email delivery failed" };
   }
 };
-export const sendAdminRegistrationEmail = async (
-  name: string,
-  email: string,
-  password: string,
-  role: string,
-) => {
-  try {
-    await sendEmail({
-      subject: "Welcome to TechTales 🎉",
-      to: email,
-      from: sender,
-      html: AdminRegistrationTemplate(name, email, password, role),
-    });
-    console.log("Email sent successfully");
-    return { message: "Email sent successfully" };
-  } catch (error) {
-    console.error("Email delivery failed:", error);
-    return { message: "Email delivery failed" };
-  }
-};
+
 export const sendDeactivationNotificationEmail = async (
   name: string,
   email: string,
@@ -164,9 +142,8 @@ export const sendPasswordResetEmail = async (
       subject: "Important: Reset your account password",
       to: email,
       from: sender,
-      html: PasswordResetTemplate(name, link),
+      html: PasswordResetEmailTemplate(name, link),
     });
-    console.log("Email sent successfully");
     return { success: true, message: "Email sent successfully" };
   } catch (error) {
     console.error("Email delivery failed:", error);
