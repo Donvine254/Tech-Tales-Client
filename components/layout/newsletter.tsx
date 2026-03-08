@@ -1,7 +1,6 @@
 "use client";
 import { Mail } from "lucide-react";
 import Link from "next/link";
-import React from "react";
 import { toast } from "sonner";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
@@ -23,6 +22,7 @@ export default function Newsletter() {
     reset,
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
+    shouldFocusError: false,
   });
 
   const onSubmit = async (data: FormData) => {
@@ -34,7 +34,7 @@ export default function Newsletter() {
         "Thank you for subscribing, kindly check your email to confirm",
         {
           position: "bottom-center",
-        }
+        },
       );
       reset();
     } catch (err) {
@@ -56,35 +56,35 @@ export default function Newsletter() {
           <form
             className="flex flex-col gap-2 w-full space-y-2"
             onSubmit={handleSubmit(onSubmit)}>
-               <div className="flex w-full max-w-md mx-auto">
-            <div className="relative flex-grow">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-              <Input
-                type="email"
+            <div className="flex w-full max-w-md mx-auto">
+              <div className="relative flex-grow">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                <Input
+                  type="email"
                   disabled={isSubmitting || submitted}
-                placeholder="Enter your email.."
-                autoComplete="email"
-                 {...register("email")}
-                pattern="^[A-Za-z0- 9._+\-']+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$"
-                className="[&:not(:placeholder-shown):invalid]:border-destructive flex-1 pl-10 pr-4"
-                minLength={5}
-                required
-              />
-            </div>
-            <Button
-              type="submit"
+                  placeholder="Enter your email.."
+                  autoComplete="email"
+                  {...register("email")}
+                  className="[&:not(:placeholder-shown):invalid]:border-destructive flex-1 pl-10 pr-4"
+                  minLength={5}
+                />
+              </div>
+              <Button
+                type="submit"
                 disabled={isSubmitting || submitted}
-              title="Subscribe to our newsletter"
-              className="ml-2 shrink-0 text-white transition-all duration-200 hover:scale-105 hover:shadow-lg bg-gradient-to-r from-cyan-600 to-blue-600 before:absolute before:inset-0 before:bg-gradient-to-r before:from-cyan-400 before:via-blue-500 before:to-purple-600 before:opacity-0 before:transition-opacity before:duration-300 hover:before:opacity-100 before:animate-[gradient-flow_3s_linear_infinite] cursor-pointer">
-             {isSubmitting ? "Subscribing..." : "Subscribe"}
-            </Button>
-          </div>
-          {/* error message for email validation */}
-          {errors.email && (
-                <p className="text-sm text-red-500 w-full">{errors.email.message}</p>
-              )}
+                title="Subscribe to our newsletter"
+                className="ml-2 shrink-0 text-white transition-all duration-200 hover:scale-105 hover:shadow-lg bg-gradient-to-r from-cyan-600 to-blue-600 before:absolute before:inset-0 before:bg-gradient-to-r before:from-cyan-400 before:via-blue-500 before:to-purple-600 before:opacity-0 before:transition-opacity before:duration-300 hover:before:opacity-100 before:animate-[gradient-flow_3s_linear_infinite] cursor-pointer">
+                {isSubmitting ? "Subscribing..." : "Subscribe"}
+              </Button>
+            </div>
+            {/* error message for email validation */}
+            {errors.email && (
+              <p className="text-sm text-red-500 w-full">
+                {errors.email.message}
+              </p>
+            )}
           </form>
-          
+
           <div
             role="alert"
             className="relative w-full px-4 py-2 grid has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] grid-cols-[0_1fr] has-[>svg]:gap-x-6 gap-y-0.5 [&>svg]:translate-y-0.5 [&>svg]:text-current items-start mt-4 mx-auto max-w-md">
