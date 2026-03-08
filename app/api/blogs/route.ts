@@ -18,14 +18,14 @@ export async function GET(req: Request) {
 	// Use fallback limit
 	const limit = (() => {
 		const parsed = parseInt(limitParam ?? "", 10);
-		return isNaN(parsed) || parsed <= 0 ? DEFAULT_LIMIT : parsed;
+		return Number.isNaN(parsed) || parsed <= 0 ? DEFAULT_LIMIT : parsed;
 	})();
 
 	const pageParam = searchParams.get("page");
 	// use fallback page
 	const page = (() => {
 		const parsed = parseInt(pageParam ?? "", 10);
-		return isNaN(parsed) || parsed < 1 ? DEFAULT_PAGE : parsed;
+		return Number.isNaN(parsed) || parsed < 1 ? DEFAULT_PAGE : parsed;
 	})();
 
 	const skip = (page - 1) * limit;

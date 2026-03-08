@@ -240,7 +240,7 @@ export async function deleteOrArchiveBlog(uuid: string) {
 
 /*This function only updates the blog status and can be used to archive or publish a blog*/
 export async function updateBlogStatus(status: BlogStatus, blogId: number) {
-  let blog;
+  let blog: any;
   // auth check
   const user = await isVerifiedUser();
   try {
