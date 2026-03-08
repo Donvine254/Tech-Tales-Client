@@ -69,7 +69,7 @@ export default function SecurityAccount({
             representing that you have all necessary rights and permissions to
             receive the content included in the file.
           </p>
-          <Link passHref href="/api/user/export-data" download>
+          <Link passHref href="/api/v1/user/export-data" download>
             <Button
               className="bg-blue-500 text-white hover:bg-blue-600 hover:text-white"
               onClick={() => toast.success("Processing export data")}>
