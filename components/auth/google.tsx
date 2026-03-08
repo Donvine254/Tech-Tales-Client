@@ -49,7 +49,7 @@ const GoogleAuthButton = ({
         router.replace(origin_url);
       } else {
         setStatus("error");
-        toast.error(result.error);
+        toast.error(result.message);
         return false;
       }
       // eslint-disable-next-line
