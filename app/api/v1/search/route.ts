@@ -21,12 +21,10 @@ function expandQuery(query: string): string[] {
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-
   const parsed = searchSchema.safeParse({
     q: searchParams.get("q") ?? undefined,
     limit: searchParams.get("limit") ?? undefined,
   });
-
   if (!parsed.success) {
     return NextResponse.json(
       {
@@ -36,17 +34,13 @@ export async function GET(req: NextRequest) {
       { status: 422 },
     );
   }
-
   const { q, limit } = parsed.data;
-
   // No query — return nothing, let the UI handle the empty state
   if (!q) {
     return NextResponse.json({ data: [], meta: { total: 0 } });
   }
-
   try {
     const queries = expandQuery(q);
-
     // Pre-filter in Postgres first — only pull blogs that have a chance of
     // matching before handing off to Fuse. This keeps the in-memory set small.
     const candidates = await prisma.blog.findMany({
@@ -70,7 +64,7 @@ export async function GET(req: NextRequest) {
     });
 
     if (candidates.length === 0) {
-      return NextResponse.json({ data: [], meta: { total: 0 } });
+      return NextResponse.json({ data: [], meta: { total: 0,message:"Please enter a search param in the query paramaters" } });
     }
 
     // Run Fuse only on the pre-filtered candidate set
