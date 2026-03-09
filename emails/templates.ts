@@ -69,7 +69,7 @@ export const EmailVerificationTemplate = (link: string) => `<!DOCTYPE html>
           <tr>
             <td style="background-color:#f7fafc;padding:30px;text-align:center;border-top:1px solid #e2e8f0;">
               <p style="margin:0 0 4px 0;font-size:16px;font-weight:bold;color:#2563eb;">Techtales.</p>
-              <p style="margin:0 0 16px 0;font-size:14px;color:#718096;">A Community of Code Tutorials, AI Guides &amp; Dev Tips</p>
+              <p style="margin:0 0 16px 0;font-size:14px;color:#718096;">Your go-to source for the latest in technology, web development, and digital innovation.</p>
 
               <!-- Social icons -->
               <table align="center" cellpadding="0" cellspacing="0" border="0" style="margin:10px auto 16px auto;">
@@ -188,7 +188,7 @@ export const WelcomeEmailTemplate = (name: string) => `<!DOCTYPE html>
           <tr>
             <td style="background-color:#f7fafc;padding:30px;text-align:center;border-top:1px solid #e2e8f0;">
               <p style="margin:0 0 4px 0;font-size:16px;font-weight:bold;color:#2563eb;">Techtales.</p>
-              <p style="margin:0 0 16px 0;font-size:14px;color:#718096;">A Community of Code Tutorials, AI Guides &amp; Dev Tips</p>
+              <p style="margin:0 0 16px 0;font-size:14px;color:#718096;">Your go-to source for the latest in technology, web development, and digital innovation.</p>
 
               <!-- Social icons -->
               <table align="center" cellpadding="0" cellspacing="0" border="0" style="margin:10px auto 16px auto;">
@@ -363,7 +363,7 @@ export const AccountDeactivationTemplate = (
           <tr>
             <td style="background-color:#f7fafc;padding:30px;text-align:center;border-top:1px solid #e2e8f0;">
               <p style="margin:0 0 4px 0;font-size:16px;font-weight:bold;color:#2563eb;">Techtales.</p>
-              <p style="margin:0 0 16px 0;font-size:14px;color:#718096;">A Community of Code Tutorials, AI Guides &amp; Dev Tips</p>
+              <p style="margin:0 0 16px 0;font-size:14px;color:#718096;">Your go-to source for the latest in technology, web development, and digital innovation.</p>
 
               <!-- Social icons -->
               <table align="center" cellpadding="0" cellspacing="0" border="0" style="margin:10px auto 16px auto;">
@@ -496,7 +496,7 @@ export const PasswordResetEmailTemplate = (
           <tr>
             <td style="background-color:#f7fafc;padding:30px;text-align:center;border-top:1px solid #e2e8f0;">
               <p style="margin:0 0 4px 0;font-size:16px;font-weight:bold;color:#2563eb;">Techtales.</p>
-              <p style="margin:0 0 16px 0;font-size:14px;color:#718096;">A Community of Code Tutorials, AI Guides &amp; Dev Tips</p>
+              <p style="margin:0 0 16px 0;font-size:14px;color:#718096;">Your go-to source for the latest in technology, web development, and digital innovation.</p>
 
               <!-- Social icons -->
               <table align="center" cellpadding="0" cellspacing="0" border="0" style="margin:10px auto 16px auto;">
@@ -670,8 +670,7 @@ export const AccountDeletionTemplate = (
           <tr>
             <td style="background-color:#f7fafc;padding:30px;text-align:center;border-top:1px solid #e2e8f0;">
               <p style="margin:0 0 4px 0;font-size:16px;font-weight:bold;color:#2563eb;">Techtales.</p>
-              <p style="margin:0 0 16px 0;font-size:14px;color:#718096;">A Community of Code Tutorials, AI Guides &amp; Dev Tips</p>
-
+              <p style="margin:0 0 16px 0;font-size:14px;color:#718096;">Your go-to source for the latest in technology, web development, and digital innovation.</p>
               <!-- Social icons -->
               <table align="center" cellpadding="0" cellspacing="0" border="0" style="margin:10px auto 16px auto;">
                 <tr>
@@ -783,7 +782,7 @@ export const MagicLinkEmailTemplate = (link: string) => `<!DOCTYPE html>
           <tr>
             <td style="background-color:#f7fafc;padding:30px;text-align:center;border-top:1px solid #e2e8f0;">
               <p style="margin:0 0 4px 0;font-size:16px;font-weight:bold;color:#2563eb;">Techtales.</p>
-              <p style="margin:0 0 16px 0;font-size:14px;color:#718096;">A Community of Code Tutorials, AI Guides &amp; Dev Tips</p>
+              <p style="margin:0 0 16px 0;font-size:14px;color:#718096;">Your go-to source for the latest in technology, web development, and digital innovation.</p>
 
               <!-- Social icons -->
               <table align="center" cellpadding="0" cellspacing="0" border="0" style="margin:10px auto 16px auto;">

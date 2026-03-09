@@ -4,31 +4,31 @@ export async function GET() {
 		version: "1.0.0",
 		endpoints: [
 			{
-				path: "/api/blogs",
+				path: "/api/v1/blogs",
 				method: "GET/POST",
 				description: "Retrieve or create blog posts",
 				required: "POST requires authentication",
 			},
 			{
-				path: "/api/blogs/tags",
+				path: "/api/v1/blogs/tags",
 				method: "GET",
 				description: "Get available blog tags",
 				required: "None",
 			},
 			{
-				path: "/api/new",
+				path: "/api/v1/me/blogs",
 				method: "POST",
 				description: "Create new content",
 				required: "Authentication",
 			},
 			{
-				path: "/api/search",
+				path: "/api/v1/search",
 				method: "GET",
 				description: "Search blogs and content",
 				required: "Query parameters",
 			},
 			{
-				path: "/api/user/export-data",
+				path: "/api/me/export-data",
 				method: "GET",
 				description: "Export user data",
 				required: "Valid user session",

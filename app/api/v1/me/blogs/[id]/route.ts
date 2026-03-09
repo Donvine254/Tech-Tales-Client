@@ -2,7 +2,6 @@ import { isVerifiedUser } from "@/dal/auth-check";
 import { validateApiKey } from "@/lib/actions/apikey";
 import { createBlogVersion } from "@/lib/actions/blog-version";
 import { revalidateBlog } from "@/lib/actions/cache";
-import { baseUrl } from "@/lib/utils";
 import prisma from "@/prisma/prisma";
 import { blogSelect } from "@/prisma/select";
 import { Prisma } from "@/src/generated/prisma/client";
