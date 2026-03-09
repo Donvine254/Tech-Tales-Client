@@ -45,7 +45,7 @@ export default function SearchPage() {
 
   const handlePrev = () => setCurrentPage((p) => Math.max(p - 1, 1));
   const handleNext = () => setCurrentPage((p) => Math.min(p + 1, totalPages));
-  if (!isLoading) {
+  if (isLoading) {
     return <Loading />;
   }
   return (
@@ -62,8 +62,8 @@ export default function SearchPage() {
       {paginatedBlogs && paginatedBlogs.length > 0 ? (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {paginatedBlogs.map((post, index) => (
-              <BlogCard key={index} blog={post} />
+            {paginatedBlogs.map((post) => (
+              <BlogCard key={post.id} blog={post} />
             ))}
           </div>
 
