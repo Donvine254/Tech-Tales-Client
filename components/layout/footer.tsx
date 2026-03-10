@@ -122,7 +122,7 @@ const Footer = () => {
               <li>
                 <Link
                   prefetch={false}
-                  href="/api"
+                  href="/docs/api"
                   className="hover:text-blue-500 hover:underline transition-colors">
                   API
                 </Link>

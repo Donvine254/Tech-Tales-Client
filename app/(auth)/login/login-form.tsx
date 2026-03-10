@@ -136,7 +136,6 @@ export function LoginForm({
                     </FormItem>
                   )}
                 />
-
                 <div>
                   <PasswordField
                     name="password"
@@ -169,7 +168,7 @@ export function LoginForm({
                     <Badge
                       variant="category"
                       className="absolute -top-2 -right-1 rounded-full border-none shadow">
-                      Last
+                      Last used
                     </Badge>
                   )}
                 </Button>
