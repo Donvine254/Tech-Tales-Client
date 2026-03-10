@@ -14,7 +14,7 @@ function stripHtml(html: string): string {
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: Promise<{ id: number }> },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
   const blogId = Number(id);
