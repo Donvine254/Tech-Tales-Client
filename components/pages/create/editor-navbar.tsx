@@ -1,223 +1,215 @@
 import {
-	ArrowLeft,
-	ChevronRight,
-	Eye,
-	Focus,
-	RefreshCcw,
-	Sparkles,
+  ArrowLeft,
+  ChevronRight,
+  Eye,
+  Focus,
+  RefreshCcw,
+  Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
-	Tooltip,
-	TooltipContent,
-	TooltipProvider,
-	TooltipTrigger,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
 } from "@/components/ui/tooltip";
 import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import DeleteButton from "../../modals/delete-dialog";
 import type { BlogSettings, FormStatus } from "@/types";
 import { useRouter } from "next/navigation";
 import { BlogSettingsModal } from "./settings";
-import { BlogStatus } from "@/src/generated/prisma/enums";
+import type { BlogStatus } from "@/src/generated/prisma/enums";
 
 interface EditorNavbarProps {
-	onPreview?: () => void;
-	onPublish: () => void;
-	lastSaved: Date | null;
-	disabled: boolean;
-	hasEntries: boolean;
-	onSync: () => void;
-	onDelete: () => void;
-	blogStatus: BlogStatus;
-	onUpdate: () => void;
-	formStatus: FormStatus;
-	uuid: string;
-	settingsData: BlogSettings;
-	onChangeHandler: (data: Partial<BlogSettings>) => void;
+  onPreview?: () => void;
+  onPublish: () => void;
+  lastSaved: Date | null;
+  disabled: boolean;
+  hasEntries: boolean;
+  onSync: () => void;
+  onDelete: () => void;
+  blogStatus: BlogStatus;
+  onUpdate: () => void;
+  formStatus: FormStatus;
+  uuid: string;
+  settingsData: BlogSettings;
+  onChangeHandler: (data: Partial<BlogSettings>) => void;
+  focusMode: boolean;
+  onFocusMode: () => void;
 }
 
 export const EditorNavbar = ({ ...props }: EditorNavbarProps) => {
-	const formatSaveTime = (date: Date) => {
-		return `Last saved: ${date.toLocaleTimeString([], {
-			hour: "2-digit",
-			minute: "2-digit",
-		})}`;
-	};
-	const handleFocus = () => {
-		// eslint-ignore-next-line
-		//@ts-expect-error tinymce not found
-		tinymce?.activeEditor?.execCommand("mceFullScreen");
-	};
+  const formatSaveTime = (date: Date) => {
+    return `Last saved: ${date.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    })}`;
+  };
+  const handleFocus = () => {
+    props.onFocusMode();
+  };
 
-	const action = props.blogStatus === "PUBLISHED" ? "archive" : "delete";
-	const router = useRouter();
-	return (
-		<TooltipProvider>
-			<nav className="flex items-center justify-between px-4 py-2 bg-white/90 dark:bg-gray-950 border-b border-border backdrop-blur-2xl sticky top-0 z-50">
-				{/* Left side */}
-				<div className="flex items-center gap-4">
-					{/* Back button */}
-					<Button
-						variant="ghost"
-						size="sm"
-						className="gap-2"
-						disabled={props.formStatus === "loading"}
-						onClick={() => {
-							localStorage.removeItem(`Draft-${props.uuid}`);
-							localStorage.removeItem("updatedAt");
-							router.back();
-						}}
-					>
-						<ArrowLeft className="h-4 w-4" />
-						Back
-					</Button>
-					{/* Draft status */}
-					<Tooltip>
-						<TooltipTrigger asChild>
-							<div className="flex items-center gap-2 text-sm text-muted-foreground cursor-pointer">
-								<div className="relative">
-									<div className="w-2 h-2 bg-green-500 rounded-full"></div>
-									<div className="absolute inset-0 w-2 h-2 bg-green-500 rounded-full animate-ping opacity-75"></div>
-								</div>
-								<span>Draft</span>
-							</div>
-						</TooltipTrigger>
-						<TooltipContent>
-							<p>
-								{props.lastSaved ? formatSaveTime(props.lastSaved) : "Just now"}
-							</p>
-						</TooltipContent>
-					</Tooltip>
-					{/* Blog settings actions */}
-					<BlogSettingsModal
-						settingsData={props.settingsData}
-						onChangeHandler={props.onChangeHandler}
-					/>
-				</div>
-				{/* action buttons */}
-				<div className="flex items-center gap-2">
-					<Button
-						variant="outline"
-						size="sm"
-						type="button"
-						className="cursor-pointer hidden md:flex"
-						onClick={props.onPreview}
-						disabled={props.formStatus === "loading"}
-					>
-						<Eye className="w-4 h-4" />
-						Preview
-					</Button>
-					<DropdownMenu>
-						<DropdownMenuTrigger asChild>
-							<Button
-								size="sm"
-								type="button"
-								className="gap-2 cursor-pointer"
-								disabled={props.formStatus === "loading"}
-							>
-								Continue
-								<ChevronRight className="h-4 w-4" />
-							</Button>
-						</DropdownMenuTrigger>
-						<DropdownMenuContent
-							align="end"
-							className="bg-popover p-3 md:p-6 space-y-2"
-						>
-							<DropdownMenuItem
-								onClick={props.onPreview}
-								disabled={props.formStatus === "loading"}
-								className="cursor-pointer md:hidden bg-secondary"
-							>
-								{" "}
-								<Eye className="w-4 h-4 mr-1" />
-								Preview
-							</DropdownMenuItem>
-							<DropdownMenuItem
-								onClick={handleFocus}
-								className="cursor-pointer bg-secondary"
-							>
-								{" "}
-								<Focus className="w-4 h-4 mr-1" />
-								Focus Mode
-								<span className="sr-only">
-									{typeof navigator !== "undefined" &&
-									navigator?.platform?.includes("Mac")
-										? "⌘⇧F"
-										: "Ctrl+Shift+F"}
-								</span>
-							</DropdownMenuItem>
-							{props.blogStatus === "DRAFT" && (
-								<>
-									{" "}
-									<DropdownMenuItem
-										className="cursor-pointer"
-										disabled={
-											!props.hasEntries || props.formStatus === "loading"
-										}
-										onClick={props.onSync}
-										title="sync draft with database"
-									>
-										<RefreshCcw className="w-4 h-4 mr-1" />
-										Sync Draft
-									</DropdownMenuItem>
-								</>
-							)}
-							{props.blogStatus !== "DRAFT" && (
-								<DropdownMenuItem asChild>
-									<Button
-										className="w-full justify-start cursor-pointer hover:bg-blue-500 hover:text-white"
-										disabled={
-											!props.hasEntries || props.formStatus === "loading"
-										}
-										onClick={props.onUpdate}
-										variant="outline"
-										type="submit"
-										size="sm"
-										title="sync draft with database"
-									>
-										<RefreshCcw className="w-4 h-4" />
-										Update
-									</Button>
-								</DropdownMenuItem>
-							)}
-							{props.blogStatus !== "PUBLISHED" && (
-								<DropdownMenuItem asChild>
-									<Button
-										type="submit"
-										onClick={(e) => {
-											e.preventDefault();
-											props.onPublish();
-										}}
-										disabled={props.disabled || props.formStatus === "loading"}
-										title="publish blog"
-										size="sm"
-										className="w-full justify-start bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white cursor-pointer group hover:text-white"
-									>
-										<Sparkles className="w-4 h-4 text-white" />
-										<span className="group-hover:text-white">Publish</span>
-									</Button>
-								</DropdownMenuItem>
-							)}
+  const action = props.blogStatus === "PUBLISHED" ? "archive" : "delete";
+  const router = useRouter();
+  return (
+    <TooltipProvider>
+      <nav className="flex items-center justify-between px-4 py-2 bg-white/90 dark:bg-gray-950 border-b border-border backdrop-blur-2xl sticky top-0 z-50">
+        {/* Left side */}
+        <div className="flex items-center gap-4">
+          {/* Back button */}
+          <Button
+            variant="ghost"
+            size="sm"
+            className="gap-2"
+            disabled={props.formStatus === "loading"}
+            onClick={() => {
+              localStorage.removeItem(`Draft-${props.uuid}`);
+              localStorage.removeItem("updatedAt");
+              router.back();
+            }}>
+            <ArrowLeft className="h-4 w-4" />
+            Back
+          </Button>
+          {/* Draft status */}
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground cursor-pointer">
+                <div className="relative">
+                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <div className="absolute inset-0 w-2 h-2 bg-green-500 rounded-full animate-ping opacity-75"></div>
+                </div>
+                <span>Draft</span>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>
+                {props.lastSaved ? formatSaveTime(props.lastSaved) : "Just now"}
+              </p>
+            </TooltipContent>
+          </Tooltip>
+          {/* Blog settings actions */}
+          <BlogSettingsModal
+            settingsData={props.settingsData}
+            onChangeHandler={props.onChangeHandler}
+          />
+        </div>
+        {/* action buttons */}
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            type="button"
+            className="cursor-pointer hidden md:flex"
+            onClick={props.onPreview}
+            disabled={props.formStatus === "loading"}>
+            <Eye className="w-4 h-4" />
+            Preview
+          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                size="sm"
+                type="button"
+                className="gap-2 cursor-pointer"
+                disabled={props.formStatus === "loading"}>
+                Continue
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align="end"
+              className="bg-popover p-3 md:p-6 space-y-2">
+              <DropdownMenuItem
+                onClick={props.onPreview}
+                disabled={props.formStatus === "loading"}
+                className="cursor-pointer md:hidden bg-secondary">
+                {" "}
+                <Eye className="w-4 h-4 mr-1" />
+                Preview
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={handleFocus}
+                className="cursor-pointer bg-secondary"
+                title="Ctrl+Shift+F">
+                {" "}
+                <Focus className="w-4 h-4 mr-1" />
+                {props.focusMode ? "Exit Focus" : "Focus Mode"}
+                <span className="sr-only">
+                  {typeof navigator !== "undefined" &&
+                  navigator?.platform?.includes("Mac")
+                    ? "⌘⇧F"
+                    : "Ctrl+Shift+F"}
+                </span>
+              </DropdownMenuItem>
+              {props.blogStatus === "DRAFT" && (
+                <>
+                  {" "}
+                  <DropdownMenuItem
+                    className="cursor-pointer"
+                    disabled={
+                      !props.hasEntries || props.formStatus === "loading"
+                    }
+                    onClick={props.onSync}
+                    title="sync draft with database">
+                    <RefreshCcw className="w-4 h-4 mr-1" />
+                    Sync Draft
+                  </DropdownMenuItem>
+                </>
+              )}
+              {props.blogStatus !== "DRAFT" && (
+                <DropdownMenuItem asChild>
+                  <Button
+                    className="w-full justify-start cursor-pointer hover:bg-blue-500 hover:text-white"
+                    disabled={
+                      !props.hasEntries || props.formStatus === "loading"
+                    }
+                    onClick={props.onUpdate}
+                    variant="outline"
+                    type="submit"
+                    size="sm"
+                    title="sync draft with database">
+                    <RefreshCcw className="w-4 h-4" />
+                    Update
+                  </Button>
+                </DropdownMenuItem>
+              )}
+              {props.blogStatus !== "PUBLISHED" && (
+                <DropdownMenuItem asChild>
+                  <Button
+                    type="submit"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      props.onPublish();
+                    }}
+                    disabled={props.disabled || props.formStatus === "loading"}
+                    title="publish blog"
+                    size="sm"
+                    className="w-full justify-start bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white cursor-pointer group hover:text-white">
+                    <Sparkles className="w-4 h-4 text-white" />
+                    <span className="group-hover:text-white">Publish</span>
+                  </Button>
+                </DropdownMenuItem>
+              )}
 
-							<DropdownMenuSeparator />
-							<DropdownMenuItem asChild>
-								<DeleteButton
-									item="blog post"
-									text={`${action} Post`}
-									action={action}
-									onDelete={props.onDelete}
-								/>
-							</DropdownMenuItem>
-						</DropdownMenuContent>
-					</DropdownMenu>
-				</div>
-			</nav>
-		</TooltipProvider>
-	);
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <DeleteButton
+                  item="blog post"
+                  text={`${action} Post`}
+                  action={action}
+                  onDelete={props.onDelete}
+                />
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </nav>
+    </TooltipProvider>
+  );
 };
