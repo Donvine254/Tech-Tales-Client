@@ -45,7 +45,9 @@ export const TagsSection: React.FC<TagsSectionProps> = ({
         .split(",")
         .map((tag) => tag.toLowerCase().trim())
         .filter((tag) => tag);
-      newTags.forEach((tag) => addTag(tag));
+      for (const tag of newTags) {
+        addTag(tag);
+      }
       setCurrentTag("");
     } else {
       setCurrentTag(value);

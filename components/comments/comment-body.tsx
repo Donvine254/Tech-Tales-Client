@@ -6,9 +6,9 @@ export default function CommentBody({ body }: { body: string }) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlString, "text/html");
     // Extract all images
-    const images = Array.from(doc.images).map((img, index) => (
+    const images = Array.from(doc.images).map((img) => (
       <Image
-        key={index}
+        key={Math.random()}
         src={img.src}
         width={160}
         height={90}
@@ -21,7 +21,9 @@ export default function CommentBody({ body }: { body: string }) {
     ));
 
     // Remove all images from body
-    doc.querySelectorAll("img").forEach((img) => img.remove());
+    for (const img of doc.querySelectorAll("img")) {
+      img.remove();
+    }
     const textHtml = doc.body.innerHTML;
     return { textHtml, images };
   };

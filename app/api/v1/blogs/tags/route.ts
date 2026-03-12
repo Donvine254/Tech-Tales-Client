@@ -18,7 +18,9 @@ export async function GET() {
         .map((tag: string) => tag.trim())
         .filter((tag) => tag.length > 0); // remove empty tags
 
-      tagsArray.forEach((tag: string) => uniqueTags.add(tag.toLowerCase()));
+      for (const tag of tagsArray) {
+        uniqueTags.add(tag.toLowerCase());
+      }
     });
 
     const tagsList = Array.from(uniqueTags).sort();
