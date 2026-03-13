@@ -1184,7 +1184,9 @@ export const BlogScalarFieldEnum = {
   uuid: 'uuid',
   show_comments: 'show_comments',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  trendingScore: 'trendingScore',
+  featuredScore: 'featuredScore'
 } as const
 
 export type BlogScalarFieldEnum = (typeof BlogScalarFieldEnum)[keyof typeof BlogScalarFieldEnum]

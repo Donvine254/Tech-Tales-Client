@@ -121,8 +121,10 @@ model Blog {
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
   versions      BlogVersion[]
+  trendingScore Int           @default(0)
+  featuredScore Int           @default(0)
 
-  @@index([slug, authorId])
+  @@index([slug, authorId, trendingScore, featuredScore])
 }
 
 model BlogVersion {

@@ -1,7 +1,7 @@
 import BlogCard from "@/components/pages/blogs/blog-card";
 import FeaturedCard from "@/components/pages/blogs/featured-card";
 import { blogFetcher } from "@/lib/actions/fetcher";
-import { BlogWithComments } from "@/types";
+import type { BlogWithComments } from "@/types";
 import { Crown } from "lucide-react";
 
 type PageType = "trending" | "latest" | "featured";

@@ -32,6 +32,8 @@ export type BlogAvgAggregateOutputType = {
   reading_time: number | null
   likes: number | null
   views: number | null
+  trendingScore: number | null
+  featuredScore: number | null
 }
 
 export type BlogSumAggregateOutputType = {
@@ -40,6 +42,8 @@ export type BlogSumAggregateOutputType = {
   reading_time: number | null
   likes: number | null
   views: number | null
+  trendingScore: number | null
+  featuredScore: number | null
 }
 
 export type BlogMinAggregateOutputType = {
@@ -60,6 +64,8 @@ export type BlogMinAggregateOutputType = {
   show_comments: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  trendingScore: number | null
+  featuredScore: number | null
 }
 
 export type BlogMaxAggregateOutputType = {
@@ -80,6 +86,8 @@ export type BlogMaxAggregateOutputType = {
   show_comments: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  trendingScore: number | null
+  featuredScore: number | null
 }
 
 export type BlogCountAggregateOutputType = {
@@ -101,6 +109,8 @@ export type BlogCountAggregateOutputType = {
   show_comments: number
   createdAt: number
   updatedAt: number
+  trendingScore: number
+  featuredScore: number
   _all: number
 }
 
@@ -111,6 +121,8 @@ export type BlogAvgAggregateInputType = {
   reading_time?: true
   likes?: true
   views?: true
+  trendingScore?: true
+  featuredScore?: true
 }
 
 export type BlogSumAggregateInputType = {
@@ -119,6 +131,8 @@ export type BlogSumAggregateInputType = {
   reading_time?: true
   likes?: true
   views?: true
+  trendingScore?: true
+  featuredScore?: true
 }
 
 export type BlogMinAggregateInputType = {
@@ -139,6 +153,8 @@ export type BlogMinAggregateInputType = {
   show_comments?: true
   createdAt?: true
   updatedAt?: true
+  trendingScore?: true
+  featuredScore?: true
 }
 
 export type BlogMaxAggregateInputType = {
@@ -159,6 +175,8 @@ export type BlogMaxAggregateInputType = {
   show_comments?: true
   createdAt?: true
   updatedAt?: true
+  trendingScore?: true
+  featuredScore?: true
 }
 
 export type BlogCountAggregateInputType = {
@@ -180,6 +198,8 @@ export type BlogCountAggregateInputType = {
   show_comments?: true
   createdAt?: true
   updatedAt?: true
+  trendingScore?: true
+  featuredScore?: true
   _all?: true
 }
 
@@ -288,6 +308,8 @@ export type BlogGroupByOutputType = {
   show_comments: boolean
   createdAt: Date
   updatedAt: Date
+  trendingScore: number
+  featuredScore: number
   _count: BlogCountAggregateOutputType | null
   _avg: BlogAvgAggregateOutputType | null
   _sum: BlogSumAggregateOutputType | null
@@ -332,6 +354,8 @@ export type BlogWhereInput = {
   show_comments?: Prisma.BoolFilter<"Blog"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Blog"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Blog"> | Date | string
+  trendingScore?: Prisma.IntFilter<"Blog"> | number
+  featuredScore?: Prisma.IntFilter<"Blog"> | number
   author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   comments?: Prisma.CommentListRelationFilter
   Favorite?: Prisma.FavoriteListRelationFilter
@@ -357,6 +381,8 @@ export type BlogOrderByWithRelationInput = {
   show_comments?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  trendingScore?: Prisma.SortOrder
+  featuredScore?: Prisma.SortOrder
   author?: Prisma.UserOrderByWithRelationInput
   comments?: Prisma.CommentOrderByRelationAggregateInput
   Favorite?: Prisma.FavoriteOrderByRelationAggregateInput
@@ -385,6 +411,8 @@ export type BlogWhereUniqueInput = Prisma.AtLeast<{
   show_comments?: Prisma.BoolFilter<"Blog"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Blog"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Blog"> | Date | string
+  trendingScore?: Prisma.IntFilter<"Blog"> | number
+  featuredScore?: Prisma.IntFilter<"Blog"> | number
   author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   comments?: Prisma.CommentListRelationFilter
   Favorite?: Prisma.FavoriteListRelationFilter
@@ -410,6 +438,8 @@ export type BlogOrderByWithAggregationInput = {
   show_comments?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  trendingScore?: Prisma.SortOrder
+  featuredScore?: Prisma.SortOrder
   _count?: Prisma.BlogCountOrderByAggregateInput
   _avg?: Prisma.BlogAvgOrderByAggregateInput
   _max?: Prisma.BlogMaxOrderByAggregateInput
@@ -439,6 +469,8 @@ export type BlogScalarWhereWithAggregatesInput = {
   show_comments?: Prisma.BoolWithAggregatesFilter<"Blog"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Blog"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Blog"> | Date | string
+  trendingScore?: Prisma.IntWithAggregatesFilter<"Blog"> | number
+  featuredScore?: Prisma.IntWithAggregatesFilter<"Blog"> | number
 }
 
 export type BlogCreateInput = {
@@ -458,6 +490,8 @@ export type BlogCreateInput = {
   show_comments?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  trendingScore?: number
+  featuredScore?: number
   author: Prisma.UserCreateNestedOneWithoutBlogsInput
   comments?: Prisma.CommentCreateNestedManyWithoutBlogInput
   Favorite?: Prisma.FavoriteCreateNestedManyWithoutBlogInput
@@ -483,6 +517,8 @@ export type BlogUncheckedCreateInput = {
   show_comments?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  trendingScore?: number
+  featuredScore?: number
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutBlogInput
   Favorite?: Prisma.FavoriteUncheckedCreateNestedManyWithoutBlogInput
   versions?: Prisma.BlogVersionUncheckedCreateNestedManyWithoutBlogInput
@@ -505,6 +541,8 @@ export type BlogUpdateInput = {
   show_comments?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  trendingScore?: Prisma.IntFieldUpdateOperationsInput | number
+  featuredScore?: Prisma.IntFieldUpdateOperationsInput | number
   author?: Prisma.UserUpdateOneRequiredWithoutBlogsNestedInput
   comments?: Prisma.CommentUpdateManyWithoutBlogNestedInput
   Favorite?: Prisma.FavoriteUpdateManyWithoutBlogNestedInput
@@ -530,6 +568,8 @@ export type BlogUncheckedUpdateInput = {
   show_comments?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  trendingScore?: Prisma.IntFieldUpdateOperationsInput | number
+  featuredScore?: Prisma.IntFieldUpdateOperationsInput | number
   comments?: Prisma.CommentUncheckedUpdateManyWithoutBlogNestedInput
   Favorite?: Prisma.FavoriteUncheckedUpdateManyWithoutBlogNestedInput
   versions?: Prisma.BlogVersionUncheckedUpdateManyWithoutBlogNestedInput
@@ -554,6 +594,8 @@ export type BlogCreateManyInput = {
   show_comments?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  trendingScore?: number
+  featuredScore?: number
 }
 
 export type BlogUpdateManyMutationInput = {
@@ -573,6 +615,8 @@ export type BlogUpdateManyMutationInput = {
   show_comments?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  trendingScore?: Prisma.IntFieldUpdateOperationsInput | number
+  featuredScore?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type BlogUncheckedUpdateManyInput = {
@@ -594,6 +638,8 @@ export type BlogUncheckedUpdateManyInput = {
   show_comments?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  trendingScore?: Prisma.IntFieldUpdateOperationsInput | number
+  featuredScore?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type BlogListRelationFilter = {
@@ -625,6 +671,8 @@ export type BlogCountOrderByAggregateInput = {
   show_comments?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  trendingScore?: Prisma.SortOrder
+  featuredScore?: Prisma.SortOrder
 }
 
 export type BlogAvgOrderByAggregateInput = {
@@ -633,6 +681,8 @@ export type BlogAvgOrderByAggregateInput = {
   reading_time?: Prisma.SortOrder
   likes?: Prisma.SortOrder
   views?: Prisma.SortOrder
+  trendingScore?: Prisma.SortOrder
+  featuredScore?: Prisma.SortOrder
 }
 
 export type BlogMaxOrderByAggregateInput = {
@@ -653,6 +703,8 @@ export type BlogMaxOrderByAggregateInput = {
   show_comments?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  trendingScore?: Prisma.SortOrder
+  featuredScore?: Prisma.SortOrder
 }
 
 export type BlogMinOrderByAggregateInput = {
@@ -673,6 +725,8 @@ export type BlogMinOrderByAggregateInput = {
   show_comments?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  trendingScore?: Prisma.SortOrder
+  featuredScore?: Prisma.SortOrder
 }
 
 export type BlogSumOrderByAggregateInput = {
@@ -681,6 +735,8 @@ export type BlogSumOrderByAggregateInput = {
   reading_time?: Prisma.SortOrder
   likes?: Prisma.SortOrder
   views?: Prisma.SortOrder
+  trendingScore?: Prisma.SortOrder
+  featuredScore?: Prisma.SortOrder
 }
 
 export type BlogScalarRelationFilter = {
@@ -793,6 +849,8 @@ export type BlogCreateWithoutAuthorInput = {
   show_comments?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  trendingScore?: number
+  featuredScore?: number
   comments?: Prisma.CommentCreateNestedManyWithoutBlogInput
   Favorite?: Prisma.FavoriteCreateNestedManyWithoutBlogInput
   versions?: Prisma.BlogVersionCreateNestedManyWithoutBlogInput
@@ -816,6 +874,8 @@ export type BlogUncheckedCreateWithoutAuthorInput = {
   show_comments?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  trendingScore?: number
+  featuredScore?: number
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutBlogInput
   Favorite?: Prisma.FavoriteUncheckedCreateNestedManyWithoutBlogInput
   versions?: Prisma.BlogVersionUncheckedCreateNestedManyWithoutBlogInput
@@ -869,6 +929,8 @@ export type BlogScalarWhereInput = {
   show_comments?: Prisma.BoolFilter<"Blog"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Blog"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Blog"> | Date | string
+  trendingScore?: Prisma.IntFilter<"Blog"> | number
+  featuredScore?: Prisma.IntFilter<"Blog"> | number
 }
 
 export type BlogCreateWithoutVersionsInput = {
@@ -888,6 +950,8 @@ export type BlogCreateWithoutVersionsInput = {
   show_comments?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  trendingScore?: number
+  featuredScore?: number
   author: Prisma.UserCreateNestedOneWithoutBlogsInput
   comments?: Prisma.CommentCreateNestedManyWithoutBlogInput
   Favorite?: Prisma.FavoriteCreateNestedManyWithoutBlogInput
@@ -912,6 +976,8 @@ export type BlogUncheckedCreateWithoutVersionsInput = {
   show_comments?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  trendingScore?: number
+  featuredScore?: number
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutBlogInput
   Favorite?: Prisma.FavoriteUncheckedCreateNestedManyWithoutBlogInput
 }
@@ -949,6 +1015,8 @@ export type BlogUpdateWithoutVersionsInput = {
   show_comments?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  trendingScore?: Prisma.IntFieldUpdateOperationsInput | number
+  featuredScore?: Prisma.IntFieldUpdateOperationsInput | number
   author?: Prisma.UserUpdateOneRequiredWithoutBlogsNestedInput
   comments?: Prisma.CommentUpdateManyWithoutBlogNestedInput
   Favorite?: Prisma.FavoriteUpdateManyWithoutBlogNestedInput
@@ -973,6 +1041,8 @@ export type BlogUncheckedUpdateWithoutVersionsInput = {
   show_comments?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  trendingScore?: Prisma.IntFieldUpdateOperationsInput | number
+  featuredScore?: Prisma.IntFieldUpdateOperationsInput | number
   comments?: Prisma.CommentUncheckedUpdateManyWithoutBlogNestedInput
   Favorite?: Prisma.FavoriteUncheckedUpdateManyWithoutBlogNestedInput
 }
@@ -994,6 +1064,8 @@ export type BlogCreateWithoutCommentsInput = {
   show_comments?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  trendingScore?: number
+  featuredScore?: number
   author: Prisma.UserCreateNestedOneWithoutBlogsInput
   Favorite?: Prisma.FavoriteCreateNestedManyWithoutBlogInput
   versions?: Prisma.BlogVersionCreateNestedManyWithoutBlogInput
@@ -1018,6 +1090,8 @@ export type BlogUncheckedCreateWithoutCommentsInput = {
   show_comments?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  trendingScore?: number
+  featuredScore?: number
   Favorite?: Prisma.FavoriteUncheckedCreateNestedManyWithoutBlogInput
   versions?: Prisma.BlogVersionUncheckedCreateNestedManyWithoutBlogInput
 }
@@ -1055,6 +1129,8 @@ export type BlogUpdateWithoutCommentsInput = {
   show_comments?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  trendingScore?: Prisma.IntFieldUpdateOperationsInput | number
+  featuredScore?: Prisma.IntFieldUpdateOperationsInput | number
   author?: Prisma.UserUpdateOneRequiredWithoutBlogsNestedInput
   Favorite?: Prisma.FavoriteUpdateManyWithoutBlogNestedInput
   versions?: Prisma.BlogVersionUpdateManyWithoutBlogNestedInput
@@ -1079,6 +1155,8 @@ export type BlogUncheckedUpdateWithoutCommentsInput = {
   show_comments?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  trendingScore?: Prisma.IntFieldUpdateOperationsInput | number
+  featuredScore?: Prisma.IntFieldUpdateOperationsInput | number
   Favorite?: Prisma.FavoriteUncheckedUpdateManyWithoutBlogNestedInput
   versions?: Prisma.BlogVersionUncheckedUpdateManyWithoutBlogNestedInput
 }
@@ -1100,6 +1178,8 @@ export type BlogCreateWithoutFavoriteInput = {
   show_comments?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  trendingScore?: number
+  featuredScore?: number
   author: Prisma.UserCreateNestedOneWithoutBlogsInput
   comments?: Prisma.CommentCreateNestedManyWithoutBlogInput
   versions?: Prisma.BlogVersionCreateNestedManyWithoutBlogInput
@@ -1124,6 +1204,8 @@ export type BlogUncheckedCreateWithoutFavoriteInput = {
   show_comments?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  trendingScore?: number
+  featuredScore?: number
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutBlogInput
   versions?: Prisma.BlogVersionUncheckedCreateNestedManyWithoutBlogInput
 }
@@ -1161,6 +1243,8 @@ export type BlogUpdateWithoutFavoriteInput = {
   show_comments?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  trendingScore?: Prisma.IntFieldUpdateOperationsInput | number
+  featuredScore?: Prisma.IntFieldUpdateOperationsInput | number
   author?: Prisma.UserUpdateOneRequiredWithoutBlogsNestedInput
   comments?: Prisma.CommentUpdateManyWithoutBlogNestedInput
   versions?: Prisma.BlogVersionUpdateManyWithoutBlogNestedInput
@@ -1185,6 +1269,8 @@ export type BlogUncheckedUpdateWithoutFavoriteInput = {
   show_comments?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  trendingScore?: Prisma.IntFieldUpdateOperationsInput | number
+  featuredScore?: Prisma.IntFieldUpdateOperationsInput | number
   comments?: Prisma.CommentUncheckedUpdateManyWithoutBlogNestedInput
   versions?: Prisma.BlogVersionUncheckedUpdateManyWithoutBlogNestedInput
 }
@@ -1207,6 +1293,8 @@ export type BlogCreateManyAuthorInput = {
   show_comments?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  trendingScore?: number
+  featuredScore?: number
 }
 
 export type BlogUpdateWithoutAuthorInput = {
@@ -1226,6 +1314,8 @@ export type BlogUpdateWithoutAuthorInput = {
   show_comments?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  trendingScore?: Prisma.IntFieldUpdateOperationsInput | number
+  featuredScore?: Prisma.IntFieldUpdateOperationsInput | number
   comments?: Prisma.CommentUpdateManyWithoutBlogNestedInput
   Favorite?: Prisma.FavoriteUpdateManyWithoutBlogNestedInput
   versions?: Prisma.BlogVersionUpdateManyWithoutBlogNestedInput
@@ -1249,6 +1339,8 @@ export type BlogUncheckedUpdateWithoutAuthorInput = {
   show_comments?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  trendingScore?: Prisma.IntFieldUpdateOperationsInput | number
+  featuredScore?: Prisma.IntFieldUpdateOperationsInput | number
   comments?: Prisma.CommentUncheckedUpdateManyWithoutBlogNestedInput
   Favorite?: Prisma.FavoriteUncheckedUpdateManyWithoutBlogNestedInput
   versions?: Prisma.BlogVersionUncheckedUpdateManyWithoutBlogNestedInput
@@ -1272,6 +1364,8 @@ export type BlogUncheckedUpdateManyWithoutAuthorInput = {
   show_comments?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  trendingScore?: Prisma.IntFieldUpdateOperationsInput | number
+  featuredScore?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 
@@ -1342,6 +1436,8 @@ export type BlogSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   show_comments?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  trendingScore?: boolean
+  featuredScore?: boolean
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   comments?: boolean | Prisma.Blog$commentsArgs<ExtArgs>
   Favorite?: boolean | Prisma.Blog$FavoriteArgs<ExtArgs>
@@ -1368,6 +1464,8 @@ export type BlogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   show_comments?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  trendingScore?: boolean
+  featuredScore?: boolean
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["blog"]>
 
@@ -1390,6 +1488,8 @@ export type BlogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   show_comments?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  trendingScore?: boolean
+  featuredScore?: boolean
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["blog"]>
 
@@ -1412,9 +1512,11 @@ export type BlogSelectScalar = {
   show_comments?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  trendingScore?: boolean
+  featuredScore?: boolean
 }
 
-export type BlogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "authorId" | "tags" | "body" | "slug" | "description" | "reading_time" | "path" | "status" | "likes" | "views" | "audio" | "image" | "uuid" | "show_comments" | "createdAt" | "updatedAt", ExtArgs["result"]["blog"]>
+export type BlogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "authorId" | "tags" | "body" | "slug" | "description" | "reading_time" | "path" | "status" | "likes" | "views" | "audio" | "image" | "uuid" | "show_comments" | "createdAt" | "updatedAt" | "trendingScore" | "featuredScore", ExtArgs["result"]["blog"]>
 export type BlogInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   comments?: boolean | Prisma.Blog$commentsArgs<ExtArgs>
@@ -1456,6 +1558,8 @@ export type $BlogPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     show_comments: boolean
     createdAt: Date
     updatedAt: Date
+    trendingScore: number
+    featuredScore: number
   }, ExtArgs["result"]["blog"]>
   composites: {}
 }
@@ -1901,6 +2005,8 @@ export interface BlogFieldRefs {
   readonly show_comments: Prisma.FieldRef<"Blog", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Blog", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Blog", 'DateTime'>
+  readonly trendingScore: Prisma.FieldRef<"Blog", 'Int'>
+  readonly featuredScore: Prisma.FieldRef<"Blog", 'Int'>
 }
     
 
