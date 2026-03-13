@@ -77,7 +77,18 @@ export interface BlogWithComments extends BlogWithUser {
     comments: number;
   };
 }
-
+//used in blog infinite-feed fetcher
+export type BlogResponse = {
+  data: BlogWithComments[];
+  meta: {
+    page: number;
+    limit?: number;
+    total?: number;
+    totalPages?: number;
+    hasNextPage: boolean;
+    nextPage: number | null;
+  };
+};
 export interface SocialLink {
   platform: string;
   url: string;

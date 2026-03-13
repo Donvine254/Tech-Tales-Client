@@ -1,25 +1,14 @@
 "use client";
 import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import type { BlogWithComments } from "@/types";
 import { Button } from "@/components/ui/button";
 import BlogCard from "./blog-card";
 import { RefreshCcw, SearchX } from "lucide-react";
 import { BlogCardSkeleton } from "./blog-card-skeletons";
-type BlogResponse = {
-  blogs: BlogWithComments[];
-  nextPage: number | null;
-};
+import { BlogResponse } from "@/types";
+import { fetchBlogs } from "@/lib/helpers/blog-fetcher";
 
-const fetchBlogs = async ({
-  pageParam = 1,
-}: {
-  pageParam?: number;
-}): Promise<BlogResponse> => {
-  const res = await fetch(`/api/v1/blogs?page=${pageParam}`);
-  if (!res.ok) throw new Error("Failed to fetch blogs");
-  return res.json();
-};
+
 
 export default function BlogInfiniteFeed({
   initialData,
@@ -39,7 +28,7 @@ export default function BlogInfiniteFeed({
     initialPageParam: 1,
     queryFn: ({ pageParam = 1 }) =>
       fetchBlogs({ pageParam: pageParam as number }),
-    getNextPageParam: (lastPage) => lastPage.nextPage,
+    getNextPageParam: (lastPage) => lastPage.meta.nextPage,
     staleTime: 1000 * 60 * 5, // 5 minutes
     gcTime: 1000 * 60 * 60, // 1 hr
     //pass initial data
@@ -60,14 +49,14 @@ export default function BlogInfiniteFeed({
     },
   });
   const content = data?.pages.flatMap((pg, pageIndex) =>
-    pg.blogs.map((post, i, arr) => {
+    pg.data.map((post, i, arr) => {
       const isLastCard =
         pageIndex === data.pages.length - 1 &&
         i === arr.length - 1 &&
         hasNextPage;
       return (
         <BlogCard
-          key={post.id}
+          key={post.uuid}
           blog={post}
           ref={isLastCard ? ref : undefined}
         />
@@ -107,8 +96,8 @@ export default function BlogInfiniteFeed({
   if (isInitialLoading)
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {Array.from({ length: 6 }).map((_) => (
-          <BlogCardSkeleton key={crypto.randomUUID()} />
+        {Array.from({ length: 6 }).map((_, i) => (
+          <BlogCardSkeleton key={`skeleton-${i}`} />
         ))}
       </div>
     );
