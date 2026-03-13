@@ -1,12 +1,17 @@
 import { unstable_cache } from "next/cache";
 import prisma from "@/prisma/prisma";
 import { blogSelect } from "@/prisma/select";
-import { BlogWithUser } from "@/types";
+import type { BlogWithUser } from "@/types";
 // function to fetch blogs based on the order by field
 export const blogFetcher = (
-  orderByField: "createdAt" | "views" | "likes",
+  orderByField:
+    | "createdAt"
+    | "views"
+    | "likes"
+    | "trendingScore"
+    | "featuredScore",
   cacheKey: string,
-  take: number = 10
+  take: number = 10,
 ) =>
   unstable_cache(
     async () => {
@@ -23,7 +28,7 @@ export const blogFetcher = (
       });
     },
     [cacheKey],
-    { revalidate: 600 }
+    { revalidate: 600 },
   );
 
 // return random featured blogs

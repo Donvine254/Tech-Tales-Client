@@ -17,7 +17,7 @@ export function calcTrendingScore(
     (Date.now() - createdAt.getTime()) / (1000 * 60 * 60 * 24);
   const engagement = favoriteCount * 3 + commentCount * 2 + views * 0.1;
   const decay = Math.pow(daysSincePost + 1, 1.5);
-  return engagement / decay;
+  return Math.round((engagement / decay) * 100);
 }
 
 /**
@@ -25,6 +25,7 @@ export function calcTrendingScore(
  * Tweak the weights here independently from trending.
  * score = (favorites * 5 + comments * 2 + views * 0.05 + reading_time * 0.5) / (daysSincePost + 1)^0.8
  */
+
 export function calcFeaturedScore(
   views: number,
   commentCount: number,
@@ -34,12 +35,11 @@ export function calcFeaturedScore(
 ): number {
   const daysSincePost =
     (Date.now() - createdAt.getTime()) / (1000 * 60 * 60 * 24);
-  const quality =
-    favoriteCount * 5 + commentCount * 2 + views * 0.05 + readingTime * 0.5;
+  const engagement = favoriteCount * 5 + commentCount * 3 + views * 0.1;
+  const depthMultiplier = 1 + Math.log1p(readingTime) * 0.1;
   const decay = Math.pow(daysSincePost + 1, 0.8);
-  return quality / decay;
+  return Math.round(((engagement * depthMultiplier) / decay) * 100);
 }
-
 // ---------------------------------------------------------------------------
 // Single-blog update  (call this on view / comment / favorite events)
 // ---------------------------------------------------------------------------

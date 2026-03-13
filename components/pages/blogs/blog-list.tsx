@@ -10,12 +10,14 @@ interface BlogListPageProps {
   page: PageType;
 }
 
-const fieldMap: Record<PageType, "views" | "createdAt" | "likes"> = {
-  trending: "views",
+const fieldMap: Record<
+  PageType,
+  "views" | "createdAt" | "likes" | "trendingScore" | "featuredScore"
+> = {
+  trending: "trendingScore",
   latest: "createdAt",
-  featured: "likes",
+  featured: "featuredScore",
 };
-
 export default async function BlogListPage({ page }: BlogListPageProps) {
   //fetch blogs
   const getBlogs = blogFetcher(fieldMap[page], page);
@@ -24,7 +26,7 @@ export default async function BlogListPage({ page }: BlogListPageProps) {
   if (!blogs || blogs.length === 0) {
     return (
       <div className="text-center text-gray-500">
-        No trending articles available at the moment.
+        No ${page} articles available at the moment.
       </div>
     );
   }
