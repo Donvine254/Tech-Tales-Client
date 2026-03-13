@@ -28,7 +28,8 @@ export async function GET(request: NextRequest) {
           views: true,
           createdAt: true,
           reading_time: true,
-          _count: { select: { comments: true, Favorite: true } },
+          likes: true,
+          _count: { select: { comments: true } },
         },
         take: BATCH_SIZE,
         ...(cursor ? { skip: 1, cursor: { id: cursor } } : {}),
@@ -42,13 +43,13 @@ export async function GET(request: NextRequest) {
           const trending = calcTrendingScore(
             blog.views,
             blog._count.comments,
-            blog._count.Favorite,
+            blog.likes,
             blog.createdAt,
           );
           const featured = calcFeaturedScore(
             blog.views,
             blog._count.comments,
-            blog._count.Favorite,
+            blog.likes,
             blog.reading_time,
             blog.createdAt,
           );

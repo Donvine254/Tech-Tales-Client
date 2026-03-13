@@ -8,12 +8,12 @@
 export function calcTrendingScore(
   views: number,
   commentCount: number,
-  favoriteCount: number,
+  likes: number,
   createdAt: Date,
 ): number {
   const daysSincePost =
     (Date.now() - createdAt.getTime()) / (1000 * 60 * 60 * 24);
-  const engagement = favoriteCount * 3 + commentCount * 2 + views * 0.1;
+  const engagement = likes * 3 + commentCount * 2 + views * 0.1;
   const decay = Math.pow(daysSincePost + 1, 1.5);
   return Math.round((engagement / decay) * 100);
 }
@@ -27,13 +27,13 @@ export function calcTrendingScore(
 export function calcFeaturedScore(
   views: number,
   commentCount: number,
-  favoriteCount: number,
+  likes: number,
   readingTime: number,
   createdAt: Date,
 ): number {
   const daysSincePost =
     (Date.now() - createdAt.getTime()) / (1000 * 60 * 60 * 24);
-  const engagement = favoriteCount * 5 + commentCount * 3 + views * 0.1;
+  const engagement = likes * 5 + commentCount * 3 + views * 0.1;
   const depthMultiplier = 1 + Math.log1p(readingTime) * 0.1;
   const decay = Math.pow(daysSincePost + 1, 0.8);
   return Math.round(((engagement * depthMultiplier) / decay) * 100);
