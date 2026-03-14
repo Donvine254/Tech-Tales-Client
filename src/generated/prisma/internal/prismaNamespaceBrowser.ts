@@ -52,6 +52,7 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
+  UserPreferences: 'UserPreferences',
   Session: 'Session',
   Blog: 'Blog',
   BlogVersion: 'BlogVersion',
@@ -111,6 +112,22 @@ export const RelationLoadStrategy = {
 } as const
 
 export type RelationLoadStrategy = (typeof RelationLoadStrategy)[keyof typeof RelationLoadStrategy]
+
+
+export const UserPreferencesScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  cookies: 'cookies',
+  analytics: 'analytics',
+  email_notifications: 'email_notifications',
+  newsletter_subscription: 'newsletter_subscription',
+  keep_blogs_on_delete: 'keep_blogs_on_delete',
+  keep_comments_on_delete: 'keep_comments_on_delete',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserPreferencesScalarFieldEnum = (typeof UserPreferencesScalarFieldEnum)[keyof typeof UserPreferencesScalarFieldEnum]
 
 
 export const SessionScalarFieldEnum = {

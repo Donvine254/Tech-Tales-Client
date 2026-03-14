@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
@@ -15,6 +15,7 @@ import {
 import { getCookie, setCookie } from "@/lib/cookie";
 import { toast } from "sonner";
 
+// This information is not being used for anything and should be removed. Alternatively consider saving changes to db, although it will not help in user experience so its redudant.
 export default function PreferenceSettings() {
   const [settings, setSettings] = useState({
     cookies: true,
@@ -30,8 +31,8 @@ export default function PreferenceSettings() {
     if (typeof Intl.supportedValuesOf === "function") {
       setTimeZones(
         Intl.supportedValuesOf("timeZone").filter((tmz) =>
-          tmz.includes(userTimezone.split("/")[0])
-        )
+          tmz.includes(userTimezone.split("/")[0]),
+        ),
       );
     }
     setSettings((prev) => ({
@@ -89,7 +90,11 @@ export default function PreferenceSettings() {
                 Enable Cookies
               </h3>
               <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
-                We use cookies to provide you with the best experience.
+                We use cookies to provide you with the best experience. Cookies
+                are enabled by default as per our{" "}
+                <a href="/privacy" className="underline">
+                  privacy policy
+                </a>
               </p>
             </div>
             <Switch
@@ -118,9 +123,9 @@ export default function PreferenceSettings() {
 
         {/* Language Selector */}
         <div>
-          <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-200">
+          <p className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-200">
             Language
-          </label>
+          </p>
           <Select
             value={settings.language}
             onValueChange={(value) => handleSelectChange("language", value)}>
@@ -139,9 +144,9 @@ export default function PreferenceSettings() {
 
         {/* Timezone Selector */}
         <div>
-          <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-200">
+          <p className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-200">
             Timezone
-          </label>
+          </p>
           <Select
             value={settings.timezone}
             onValueChange={(value) => handleSelectChange("timezone", value)}>
@@ -149,8 +154,8 @@ export default function PreferenceSettings() {
               <SelectValue placeholder="Select a timezone" />
             </SelectTrigger>
             <SelectContent>
-              {timeZones.map((tz, index) => (
-                <SelectItem key={index} value={tz}>
+              {timeZones.map((tz) => (
+                <SelectItem key={tz} value={tz}>
                   {tz}
                 </SelectItem>
               ))}

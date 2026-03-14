@@ -7,6 +7,7 @@ import type {
   Role,
   UserStatus,
   Response,
+  UserPreferences,
 } from "@/src/generated/prisma/client";
 
 export interface BlogWithUser extends Omit<
@@ -93,12 +94,6 @@ export interface SocialLink {
   platform: string;
   url: string;
 }
-export type Preferences = {
-  newsletter_subscription: boolean;
-  cookies: boolean;
-  analytics: boolean;
-  email_notifications: boolean;
-};
 
 export interface UserProfileData {
   id: number;
@@ -112,16 +107,14 @@ export interface UserProfileData {
   branding: string;
   skills: string;
   socials: [];
-  preferences: Preferences;
-  keep_blogs_on_delete: boolean;
-  keep_comments_on_delete: boolean;
+  userPreferences: Omit<UserPreferences, "createdAt" | "updatedAt">;
   _count: {
     comments: number;
     blogs: number;
   };
 }
 export type UserComments = Awaited<ReturnType<typeof getUserComments>>;
-
+export type Preferences = Omit<UserPreferences, "createdAt" | "updatedAt">;
 export interface FullBlogData extends Omit<BlogWithUser, "_count" | "author"> {
   title: string;
   body: string;

@@ -51,27 +51,24 @@ enum VerificationType {
 }
 
 model User {
-  id                      Int           @id @default(autoincrement())
-  username                String        @unique
-  email                   String        @unique
+  id                      Int              @id @default(autoincrement())
+  username                String           @unique
+  email                   String           @unique
   password_digest         String
-  role                    Role          @default(user)
-  createdAt               DateTime      @default(now())
-  updatedAt               DateTime      @updatedAt
+  role                    Role             @default(user)
+  createdAt               DateTime         @default(now())
+  updatedAt               DateTime         @updatedAt
   picture                 String?
-  bio                     String?       @default("This user has no bio")
-  handle                  String        @unique
-  status                  UserStatus    @default(ACTIVE)
+  bio                     String?          @default("This user has no bio")
+  handle                  String           @unique
+  status                  UserStatus       @default(ACTIVE)
   deactivatedAt           DateTime?
-  deactivated             Boolean       @default(false)
-  socials                 Json?         @default("[]")
-  preferences             Json?         @default("{\"cookies\": true, \"analytics\": false, \"email_notifications\": false, \"newsletter_subscription\": false}")
-  branding                String?       @default("#01142d")
-  skills                  String?       @default("Just surfing the web")
-  email_verified          Boolean       @default(false)
-  auth_provider           AuthProvider  @default(email)
-  keep_blogs_on_delete    Boolean       @default(false)
-  keep_comments_on_delete Boolean       @default(false)
+  deactivated             Boolean          @default(false)
+  socials                 Json?            @default("[]")
+  branding                String?          @default("#01142d")
+  skills                  String?          @default("Just surfing the web")
+  email_verified          Boolean          @default(false)
+  auth_provider           AuthProvider     @default(email)
   sessions                Session[]
   blogs                   Blog[]
   comments                Comment[]
@@ -79,8 +76,23 @@ model User {
   apikeys                 ApiKey[]
   responses               Response[]
   BlogVersion             BlogVersion[]
+  userPreferences         UserPreferences?
 
   @@index([handle, email, username])
+}
+
+model UserPreferences {
+  id                      String   @id @default(uuid()) @db.Uuid
+  userId                  Int      @unique
+  user                    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cookies                 Boolean  @default(true)
+  analytics               Boolean  @default(false)
+  email_notifications     Boolean  @default(false)
+  newsletter_subscription Boolean  @default(false)
+  keep_blogs_on_delete    Boolean  @default(false)
+  keep_comments_on_delete Boolean  @default(false)
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
 }
 
 model Session {

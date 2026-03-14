@@ -98,13 +98,20 @@ export const getUserData = async () => {
           skills: true,
           createdAt: true,
           socials: true,
-          keep_blogs_on_delete: true,
-          keep_comments_on_delete: true,
-          preferences: true,
           _count: {
             select: {
               comments: true,
               blogs: true,
+            },
+          },
+          userPreferences: {
+            select: {
+              cookies: true,
+              analytics: true,
+              email_notifications: true,
+              newsletter_subscription: true,
+              keep_blogs_on_delete: true,
+              keep_comments_on_delete: true,
             },
           },
         },
@@ -157,13 +164,10 @@ type UpdateData = {
   skills?: string | null;
   branding: string | null;
   picture?: string | null;
-  preferences?: Preferences;
   deactivatedAt?: Date;
   email_verified?: boolean;
   deleted?: boolean;
   status?: UserStatus;
-  keep_blogs_on_delete?: boolean;
-  keep_comments_on_delete?: boolean;
 };
 
 export async function updateUserDetails(data: Partial<UpdateData>) {
@@ -194,6 +198,30 @@ export async function updateUserDetails(data: Partial<UpdateData>) {
   } catch (error) {
     console.error(error);
     return { success: false, message: "Could not update user." };
+  }
+}
+
+/* **Function to update user preferences, only updates few properties */
+export async function updateUserPreferences(
+  data: Omit<Partial<Preferences>, "cookies">,
+) {
+  const session = await isVerifiedUser();
+  try {
+    await prisma.userPreferences.update({
+      where: { userId: Number(session.userId) },
+      data, // 👈 was incorrectly wrapped in an object
+      select: {
+        id: true,
+      },
+    });
+    updateTag(`user:${session.userId}:data`);
+    return {
+      success: true,
+      message: "user details updated successfully",
+    };
+  } catch (error) {
+    console.error(error);
+    return { success: false, message: "Could not update user preferences." };
   }
 }
 /*----------function to deactivate user account and archive their blogs---------*/

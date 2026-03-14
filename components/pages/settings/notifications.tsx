@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Loader2, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { Preferences } from "@/types";
-import { updateUserDetails } from "@/lib/actions/user";
+import { updateUserPreferences } from "@/lib/actions/user";
 import { toast } from "sonner";
+import type { Preferences } from "@/types";
 
 export default function Notifications({
   initialData,
@@ -52,11 +52,13 @@ export default function Notifications({
       return;
     }
     setIsSubmitting(true);
-    const toastId = toast.loading("Processing request..");
-    const res = await updateUserDetails({ preferences: preferences });
-    toast.dismiss(toastId);
+    const res = await updateUserPreferences({
+      analytics: preferences.analytics,
+      email_notifications: preferences.email_notifications,
+      newsletter_subscription: preferences.newsletter_subscription,
+    });
     setIsSubmitting(false);
-    if (res.success && res.user) {
+    if (res.success) {
       toast.success(res.message);
     } else {
       toast.error(res.message);
@@ -105,7 +107,7 @@ export default function Notifications({
           variant="outline"
           type="reset"
           disabled={!hasChanges || isSubmitting}
-          onClick={() => setPreferences(preferences)}>
+          onClick={() => setPreferences(initialData)}>
           Cancel
         </Button>
         <Button
