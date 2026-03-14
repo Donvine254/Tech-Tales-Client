@@ -76,7 +76,13 @@ export default function SettingsPage({ user }: { user: UserProfileData }) {
     notifications: (
       <Notifications initialData={user.userPreferences} userId={user.id} />
     ),
-    security: <SecurityAccount userId={user.id} email={user.email} />,
+    security: (
+      <SecurityAccount
+        userId={user.id}
+        email={user.email}
+        preferences={user.userPreferences}
+      />
+    ),
     apikeys: <ApiKeysTab />,
     preferences: <PreferenceSettings />,
   };

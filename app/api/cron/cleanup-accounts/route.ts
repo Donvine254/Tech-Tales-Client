@@ -4,7 +4,6 @@ import prisma from "@/prisma/prisma";
 import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-  // Verify the request is from Vercel cron and not a random caller
   const authHeader = request.headers.get("authorization");
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -14,7 +13,6 @@ export async function GET(request: NextRequest) {
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-    // Find all accounts deactivated more than 30 days ago
     const expiredAccounts = await prisma.user.findMany({
       where: {
         deactivated: true,
@@ -24,8 +22,13 @@ export async function GET(request: NextRequest) {
         id: true,
         email: true,
         username: true,
-        keep_blogs_on_delete: true,
-        keep_comments_on_delete: true,
+        userPreferences: {
+          select: {
+            // 👈 was missing select
+            keep_blogs_on_delete: true,
+            keep_comments_on_delete: true,
+          },
+        },
       },
     });
 
@@ -33,17 +36,21 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ message: "No expired accounts found" });
     }
 
-    // Process each account using the same logic as deleteUserAccount
     const results = await Promise.allSettled(
       expiredAccounts.map(async (user) => {
+        // 👇 destructure from userPreferences with safe fallbacks
+        const keepBlogs = user.userPreferences?.keep_blogs_on_delete ?? false;
+        const keepComments =
+          user.userPreferences?.keep_comments_on_delete ?? false;
+
         await Promise.all([
-          user.keep_blogs_on_delete
+          keepBlogs
             ? prisma.blog.updateMany({
                 where: { authorId: user.id },
                 data: { authorId: DELETED_USER_ID },
               })
             : prisma.blog.deleteMany({ where: { authorId: user.id } }),
-          user.keep_comments_on_delete
+          keepComments
             ? prisma.comment.updateMany({
                 where: { authorId: user.id },
                 data: { authorId: DELETED_USER_ID },
@@ -51,6 +58,7 @@ export async function GET(request: NextRequest) {
             : prisma.comment.deleteMany({ where: { authorId: user.id } }),
         ]);
 
+        // UserPreferences is handled automatically by onDelete: Cascade
         await prisma.$transaction([
           prisma.verification.deleteMany({ where: { identifier: user.email } }),
           prisma.user.delete({ where: { id: user.id } }),
@@ -61,7 +69,6 @@ export async function GET(request: NextRequest) {
     const succeeded = results.filter((r) => r.status === "fulfilled").length;
     const failed = results.filter((r) => r.status === "rejected").length;
 
-    // Log failures for investigation
     results.forEach((result, i) => {
       if (result.status === "rejected") {
         console.error(

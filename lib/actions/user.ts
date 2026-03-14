@@ -255,11 +255,18 @@ export async function deactivateUserAccount(
           deactivated: true,
           deactivatedAt: new Date(),
           status: "DEACTIVATED",
-          keep_blogs_on_delete: keepBlogs,
-          keep_comments_on_delete: keepComments,
         },
         select: { id: true, email: true, username: true },
       }),
+      //update user preferences
+      prisma.userPreferences.update({
+        where: { userId },
+        data: {
+          keep_blogs_on_delete: keepBlogs,
+          keep_comments_on_delete: keepComments,
+        },
+      }),
+      // Logout user in all sessions
       prisma.session.deleteMany({ where: { userId } }),
     ]);
 

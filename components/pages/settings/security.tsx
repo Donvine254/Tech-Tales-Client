@@ -13,13 +13,16 @@ import { clearUserFavorites } from "@/lib/helpers";
 import ChangePassword from "./change-password";
 import { useRouter } from "next/navigation";
 import ActiveSessions from "./active-sessions";
+import { Preferences } from "@/types";
 
 export default function SecurityAccount({
   userId,
   email,
+  preferences,
 }: {
   userId: number;
   email: string;
+  preferences: Preferences;
 }) {
   const router = useRouter();
   return (
@@ -107,7 +110,7 @@ export default function SecurityAccount({
                 days.
               </p>
             </div>
-            <DeactivateButton router={router} />
+            <DeactivateButton router={router} preferences={preferences} />
           </div>
 
           {/* Delete */}
@@ -118,7 +121,7 @@ export default function SecurityAccount({
                 Permanently delete your account and all associated data.
               </p>
             </div>
-            <DeleteAccountButton router={router} />
+            <DeleteAccountButton router={router} preferences={preferences} />
           </div>
         </div>
       </div>
@@ -126,13 +129,22 @@ export default function SecurityAccount({
   );
 }
 
-const DeactivateButton = ({ router }: { router: AppRouterInstance }) => {
+const DeactivateButton = ({
+  router,
+  preferences,
+}: {
+  router: AppRouterInstance;
+  preferences: Preferences;
+}) => {
   const [showDeactivateModal, setShowDeactivateModal] = useState(false);
   const [open, setOpen] = useState(false);
-  const [keepBlogs, setKeepBlogs] = useState(true);
-  const [keepComments, setKeepComments] = useState(false);
+  const [keepBlogs, setKeepBlogs] = useState(preferences.keep_blogs_on_delete);
+  const [keepComments, setKeepComments] = useState(
+    preferences.keep_comments_on_delete,
+  );
 
   async function handleAccountDeactivation() {
+    // TODO update the function to handle user preferences
     const res = await deactivateUserAccount(keepBlogs, keepComments);
     if (res.success) {
       setOpen(true);
@@ -159,8 +171,7 @@ const DeactivateButton = ({ router }: { router: AppRouterInstance }) => {
         title="Deactivate Account"
         description="Deactivating your account will temporarily disable it. You can reactivate your account by logging in within 30 days. After 30 days, your account and all associated data will be permanently deleted."
         buttonText="Deactivate"
-        disabled={false} // to disable the button while submitting
-      >
+        disabled={false}>
         <div className="space-y-4 px-2">
           <div className="flex flex-col gap-4">
             <Label
@@ -217,11 +228,19 @@ const DeactivateButton = ({ router }: { router: AppRouterInstance }) => {
   );
 };
 
-const DeleteAccountButton = ({ router }: { router: AppRouterInstance }) => {
+const DeleteAccountButton = ({
+  router,
+  preferences,
+}: {
+  router: AppRouterInstance;
+  preferences: Preferences;
+}) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [open, setOpen] = useState(false);
-  const [keepBlogs, setKeepBlogs] = useState(true); // ✅ default: checked
-  const [keepComments, setKeepComments] = useState(false);
+  const [keepBlogs, setKeepBlogs] = useState(preferences.keep_blogs_on_delete);
+  const [keepComments, setKeepComments] = useState(
+    preferences.keep_comments_on_delete,
+  );
 
   async function handleAccountDeletion() {
     const res = await deleteUserAccount(keepBlogs, keepComments);
