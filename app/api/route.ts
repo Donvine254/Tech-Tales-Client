@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   return NextResponse.json({
-	message:"Welcome to techtales API",
+    message: "Welcome to techtales API",
     version: "v1",
     baseUrl: "https://techtales.vercel.app/api/v1",
     docs: "https://techtales.vercel.app/api/docs",
@@ -64,13 +64,13 @@ export async function GET() {
             skills: "string | null (max 200)",
             branding: "string | null — hex color e.g. #01142d",
             picture: "string | null — valid URL",
-            keep_blogs_on_delete: "boolean",
-            keep_comments_on_delete: "boolean",
-            preferences: {
+            userPreferences: {
               cookies: "boolean",
               analytics: "boolean",
               email_notifications: "boolean",
               newsletter_subscription: "boolean",
+              keep_blogs_on_delete: "boolean",
+              keep_comments_on_delete: "boolean",
             },
           },
         },

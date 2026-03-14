@@ -58,16 +58,6 @@ const updateUserSchema = z.object({
     .nullable()
     .optional(),
   picture: z.string().url("Must be a valid URL").nullable().optional(),
-  keep_blogs_on_delete: z.boolean().optional(),
-  keep_comments_on_delete: z.boolean().optional(),
-  preferences: z
-    .object({
-      cookies: z.boolean().optional(),
-      analytics: z.boolean().optional(),
-      email_notifications: z.boolean().optional(),
-      newsletter_subscription: z.boolean().optional(),
-    })
-    .optional(),
 });
 export async function PATCH(req: NextRequest) {
   // Step 1: Try session first

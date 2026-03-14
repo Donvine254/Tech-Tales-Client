@@ -1207,13 +1207,10 @@ export const UserScalarFieldEnum = {
   deactivatedAt: 'deactivatedAt',
   deactivated: 'deactivated',
   socials: 'socials',
-  preferences: 'preferences',
   branding: 'branding',
   skills: 'skills',
   email_verified: 'email_verified',
-  auth_provider: 'auth_provider',
-  keep_blogs_on_delete: 'keep_blogs_on_delete',
-  keep_comments_on_delete: 'keep_comments_on_delete'
+  auth_provider: 'auth_provider'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]

@@ -52,8 +52,6 @@ export type UserMinAggregateOutputType = {
   skills: string | null
   email_verified: boolean | null
   auth_provider: $Enums.AuthProvider | null
-  keep_blogs_on_delete: boolean | null
-  keep_comments_on_delete: boolean | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -74,8 +72,6 @@ export type UserMaxAggregateOutputType = {
   skills: string | null
   email_verified: boolean | null
   auth_provider: $Enums.AuthProvider | null
-  keep_blogs_on_delete: boolean | null
-  keep_comments_on_delete: boolean | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -93,13 +89,10 @@ export type UserCountAggregateOutputType = {
   deactivatedAt: number
   deactivated: number
   socials: number
-  preferences: number
   branding: number
   skills: number
   email_verified: number
   auth_provider: number
-  keep_blogs_on_delete: number
-  keep_comments_on_delete: number
   _all: number
 }
 
@@ -130,8 +123,6 @@ export type UserMinAggregateInputType = {
   skills?: true
   email_verified?: true
   auth_provider?: true
-  keep_blogs_on_delete?: true
-  keep_comments_on_delete?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -152,8 +143,6 @@ export type UserMaxAggregateInputType = {
   skills?: true
   email_verified?: true
   auth_provider?: true
-  keep_blogs_on_delete?: true
-  keep_comments_on_delete?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -171,13 +160,10 @@ export type UserCountAggregateInputType = {
   deactivatedAt?: true
   deactivated?: true
   socials?: true
-  preferences?: true
   branding?: true
   skills?: true
   email_verified?: true
   auth_provider?: true
-  keep_blogs_on_delete?: true
-  keep_comments_on_delete?: true
   _all?: true
 }
 
@@ -282,13 +268,10 @@ export type UserGroupByOutputType = {
   deactivatedAt: Date | null
   deactivated: boolean
   socials: runtime.JsonValue | null
-  preferences: runtime.JsonValue | null
   branding: string | null
   skills: string | null
   email_verified: boolean
   auth_provider: $Enums.AuthProvider
-  keep_blogs_on_delete: boolean
-  keep_comments_on_delete: boolean
   _count: UserCountAggregateOutputType | null
   _avg: UserAvgAggregateOutputType | null
   _sum: UserSumAggregateOutputType | null
@@ -329,13 +312,10 @@ export type UserWhereInput = {
   deactivatedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   deactivated?: Prisma.BoolFilter<"User"> | boolean
   socials?: Prisma.JsonNullableFilter<"User">
-  preferences?: Prisma.JsonNullableFilter<"User">
   branding?: Prisma.StringNullableFilter<"User"> | string | null
   skills?: Prisma.StringNullableFilter<"User"> | string | null
   email_verified?: Prisma.BoolFilter<"User"> | boolean
   auth_provider?: Prisma.EnumAuthProviderFilter<"User"> | $Enums.AuthProvider
-  keep_blogs_on_delete?: Prisma.BoolFilter<"User"> | boolean
-  keep_comments_on_delete?: Prisma.BoolFilter<"User"> | boolean
   sessions?: Prisma.SessionListRelationFilter
   blogs?: Prisma.BlogListRelationFilter
   comments?: Prisma.CommentListRelationFilter
@@ -361,13 +341,10 @@ export type UserOrderByWithRelationInput = {
   deactivatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   deactivated?: Prisma.SortOrder
   socials?: Prisma.SortOrderInput | Prisma.SortOrder
-  preferences?: Prisma.SortOrderInput | Prisma.SortOrder
   branding?: Prisma.SortOrderInput | Prisma.SortOrder
   skills?: Prisma.SortOrderInput | Prisma.SortOrder
   email_verified?: Prisma.SortOrder
   auth_provider?: Prisma.SortOrder
-  keep_blogs_on_delete?: Prisma.SortOrder
-  keep_comments_on_delete?: Prisma.SortOrder
   sessions?: Prisma.SessionOrderByRelationAggregateInput
   blogs?: Prisma.BlogOrderByRelationAggregateInput
   comments?: Prisma.CommentOrderByRelationAggregateInput
@@ -396,13 +373,10 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   deactivatedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   deactivated?: Prisma.BoolFilter<"User"> | boolean
   socials?: Prisma.JsonNullableFilter<"User">
-  preferences?: Prisma.JsonNullableFilter<"User">
   branding?: Prisma.StringNullableFilter<"User"> | string | null
   skills?: Prisma.StringNullableFilter<"User"> | string | null
   email_verified?: Prisma.BoolFilter<"User"> | boolean
   auth_provider?: Prisma.EnumAuthProviderFilter<"User"> | $Enums.AuthProvider
-  keep_blogs_on_delete?: Prisma.BoolFilter<"User"> | boolean
-  keep_comments_on_delete?: Prisma.BoolFilter<"User"> | boolean
   sessions?: Prisma.SessionListRelationFilter
   blogs?: Prisma.BlogListRelationFilter
   comments?: Prisma.CommentListRelationFilter
@@ -428,13 +402,10 @@ export type UserOrderByWithAggregationInput = {
   deactivatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   deactivated?: Prisma.SortOrder
   socials?: Prisma.SortOrderInput | Prisma.SortOrder
-  preferences?: Prisma.SortOrderInput | Prisma.SortOrder
   branding?: Prisma.SortOrderInput | Prisma.SortOrder
   skills?: Prisma.SortOrderInput | Prisma.SortOrder
   email_verified?: Prisma.SortOrder
   auth_provider?: Prisma.SortOrder
-  keep_blogs_on_delete?: Prisma.SortOrder
-  keep_comments_on_delete?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
@@ -460,13 +431,10 @@ export type UserScalarWhereWithAggregatesInput = {
   deactivatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   deactivated?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   socials?: Prisma.JsonNullableWithAggregatesFilter<"User">
-  preferences?: Prisma.JsonNullableWithAggregatesFilter<"User">
   branding?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   skills?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   email_verified?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   auth_provider?: Prisma.EnumAuthProviderWithAggregatesFilter<"User"> | $Enums.AuthProvider
-  keep_blogs_on_delete?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
-  keep_comments_on_delete?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
 }
 
 export type UserCreateInput = {
@@ -483,13 +451,10 @@ export type UserCreateInput = {
   deactivatedAt?: Date | string | null
   deactivated?: boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: string | null
   skills?: string | null
   email_verified?: boolean
   auth_provider?: $Enums.AuthProvider
-  keep_blogs_on_delete?: boolean
-  keep_comments_on_delete?: boolean
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
@@ -515,13 +480,10 @@ export type UserUncheckedCreateInput = {
   deactivatedAt?: Date | string | null
   deactivated?: boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: string | null
   skills?: string | null
   email_verified?: boolean
   auth_provider?: $Enums.AuthProvider
-  keep_blogs_on_delete?: boolean
-  keep_comments_on_delete?: boolean
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
@@ -546,13 +508,10 @@ export type UserUpdateInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   skills?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email_verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   auth_provider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
-  keep_blogs_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  keep_comments_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
@@ -578,13 +537,10 @@ export type UserUncheckedUpdateInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   skills?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email_verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   auth_provider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
-  keep_blogs_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  keep_comments_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
@@ -610,13 +566,10 @@ export type UserCreateManyInput = {
   deactivatedAt?: Date | string | null
   deactivated?: boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: string | null
   skills?: string | null
   email_verified?: boolean
   auth_provider?: $Enums.AuthProvider
-  keep_blogs_on_delete?: boolean
-  keep_comments_on_delete?: boolean
 }
 
 export type UserUpdateManyMutationInput = {
@@ -633,13 +586,10 @@ export type UserUpdateManyMutationInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   skills?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email_verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   auth_provider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
-  keep_blogs_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  keep_comments_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -657,13 +607,10 @@ export type UserUncheckedUpdateManyInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   skills?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email_verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   auth_provider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
-  keep_blogs_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  keep_comments_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -681,13 +628,10 @@ export type UserCountOrderByAggregateInput = {
   deactivatedAt?: Prisma.SortOrder
   deactivated?: Prisma.SortOrder
   socials?: Prisma.SortOrder
-  preferences?: Prisma.SortOrder
   branding?: Prisma.SortOrder
   skills?: Prisma.SortOrder
   email_verified?: Prisma.SortOrder
   auth_provider?: Prisma.SortOrder
-  keep_blogs_on_delete?: Prisma.SortOrder
-  keep_comments_on_delete?: Prisma.SortOrder
 }
 
 export type UserAvgOrderByAggregateInput = {
@@ -712,8 +656,6 @@ export type UserMaxOrderByAggregateInput = {
   skills?: Prisma.SortOrder
   email_verified?: Prisma.SortOrder
   auth_provider?: Prisma.SortOrder
-  keep_blogs_on_delete?: Prisma.SortOrder
-  keep_comments_on_delete?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -734,8 +676,6 @@ export type UserMinOrderByAggregateInput = {
   skills?: Prisma.SortOrder
   email_verified?: Prisma.SortOrder
   auth_provider?: Prisma.SortOrder
-  keep_blogs_on_delete?: Prisma.SortOrder
-  keep_comments_on_delete?: Prisma.SortOrder
 }
 
 export type UserSumOrderByAggregateInput = {
@@ -913,13 +853,10 @@ export type UserCreateWithoutUserPreferencesInput = {
   deactivatedAt?: Date | string | null
   deactivated?: boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: string | null
   skills?: string | null
   email_verified?: boolean
   auth_provider?: $Enums.AuthProvider
-  keep_blogs_on_delete?: boolean
-  keep_comments_on_delete?: boolean
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
@@ -944,13 +881,10 @@ export type UserUncheckedCreateWithoutUserPreferencesInput = {
   deactivatedAt?: Date | string | null
   deactivated?: boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: string | null
   skills?: string | null
   email_verified?: boolean
   auth_provider?: $Enums.AuthProvider
-  keep_blogs_on_delete?: boolean
-  keep_comments_on_delete?: boolean
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
@@ -990,13 +924,10 @@ export type UserUpdateWithoutUserPreferencesInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   skills?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email_verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   auth_provider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
-  keep_blogs_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  keep_comments_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
@@ -1021,13 +952,10 @@ export type UserUncheckedUpdateWithoutUserPreferencesInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   skills?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email_verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   auth_provider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
-  keep_blogs_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  keep_comments_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
@@ -1051,13 +979,10 @@ export type UserCreateWithoutSessionsInput = {
   deactivatedAt?: Date | string | null
   deactivated?: boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: string | null
   skills?: string | null
   email_verified?: boolean
   auth_provider?: $Enums.AuthProvider
-  keep_blogs_on_delete?: boolean
-  keep_comments_on_delete?: boolean
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
@@ -1082,13 +1007,10 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   deactivatedAt?: Date | string | null
   deactivated?: boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: string | null
   skills?: string | null
   email_verified?: boolean
   auth_provider?: $Enums.AuthProvider
-  keep_blogs_on_delete?: boolean
-  keep_comments_on_delete?: boolean
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
@@ -1128,13 +1050,10 @@ export type UserUpdateWithoutSessionsInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   skills?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email_verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   auth_provider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
-  keep_blogs_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  keep_comments_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
@@ -1159,13 +1078,10 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   skills?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email_verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   auth_provider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
-  keep_blogs_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  keep_comments_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
@@ -1189,13 +1105,10 @@ export type UserCreateWithoutBlogsInput = {
   deactivatedAt?: Date | string | null
   deactivated?: boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: string | null
   skills?: string | null
   email_verified?: boolean
   auth_provider?: $Enums.AuthProvider
-  keep_blogs_on_delete?: boolean
-  keep_comments_on_delete?: boolean
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
@@ -1220,13 +1133,10 @@ export type UserUncheckedCreateWithoutBlogsInput = {
   deactivatedAt?: Date | string | null
   deactivated?: boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: string | null
   skills?: string | null
   email_verified?: boolean
   auth_provider?: $Enums.AuthProvider
-  keep_blogs_on_delete?: boolean
-  keep_comments_on_delete?: boolean
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
@@ -1266,13 +1176,10 @@ export type UserUpdateWithoutBlogsInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   skills?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email_verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   auth_provider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
-  keep_blogs_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  keep_comments_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
@@ -1297,13 +1204,10 @@ export type UserUncheckedUpdateWithoutBlogsInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   skills?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email_verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   auth_provider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
-  keep_blogs_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  keep_comments_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
@@ -1327,13 +1231,10 @@ export type UserCreateWithoutBlogVersionInput = {
   deactivatedAt?: Date | string | null
   deactivated?: boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: string | null
   skills?: string | null
   email_verified?: boolean
   auth_provider?: $Enums.AuthProvider
-  keep_blogs_on_delete?: boolean
-  keep_comments_on_delete?: boolean
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
@@ -1358,13 +1259,10 @@ export type UserUncheckedCreateWithoutBlogVersionInput = {
   deactivatedAt?: Date | string | null
   deactivated?: boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: string | null
   skills?: string | null
   email_verified?: boolean
   auth_provider?: $Enums.AuthProvider
-  keep_blogs_on_delete?: boolean
-  keep_comments_on_delete?: boolean
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
@@ -1404,13 +1302,10 @@ export type UserUpdateWithoutBlogVersionInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   skills?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email_verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   auth_provider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
-  keep_blogs_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  keep_comments_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
@@ -1435,13 +1330,10 @@ export type UserUncheckedUpdateWithoutBlogVersionInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   skills?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email_verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   auth_provider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
-  keep_blogs_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  keep_comments_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
@@ -1465,13 +1357,10 @@ export type UserCreateWithoutCommentsInput = {
   deactivatedAt?: Date | string | null
   deactivated?: boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: string | null
   skills?: string | null
   email_verified?: boolean
   auth_provider?: $Enums.AuthProvider
-  keep_blogs_on_delete?: boolean
-  keep_comments_on_delete?: boolean
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
@@ -1496,13 +1385,10 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   deactivatedAt?: Date | string | null
   deactivated?: boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: string | null
   skills?: string | null
   email_verified?: boolean
   auth_provider?: $Enums.AuthProvider
-  keep_blogs_on_delete?: boolean
-  keep_comments_on_delete?: boolean
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
@@ -1542,13 +1428,10 @@ export type UserUpdateWithoutCommentsInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   skills?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email_verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   auth_provider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
-  keep_blogs_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  keep_comments_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
@@ -1573,13 +1456,10 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   skills?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email_verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   auth_provider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
-  keep_blogs_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  keep_comments_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
@@ -1603,13 +1483,10 @@ export type UserCreateWithoutResponsesInput = {
   deactivatedAt?: Date | string | null
   deactivated?: boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: string | null
   skills?: string | null
   email_verified?: boolean
   auth_provider?: $Enums.AuthProvider
-  keep_blogs_on_delete?: boolean
-  keep_comments_on_delete?: boolean
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
@@ -1634,13 +1511,10 @@ export type UserUncheckedCreateWithoutResponsesInput = {
   deactivatedAt?: Date | string | null
   deactivated?: boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: string | null
   skills?: string | null
   email_verified?: boolean
   auth_provider?: $Enums.AuthProvider
-  keep_blogs_on_delete?: boolean
-  keep_comments_on_delete?: boolean
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
@@ -1680,13 +1554,10 @@ export type UserUpdateWithoutResponsesInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   skills?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email_verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   auth_provider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
-  keep_blogs_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  keep_comments_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
@@ -1711,13 +1582,10 @@ export type UserUncheckedUpdateWithoutResponsesInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   skills?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email_verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   auth_provider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
-  keep_blogs_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  keep_comments_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
@@ -1741,13 +1609,10 @@ export type UserCreateWithoutFavoritesInput = {
   deactivatedAt?: Date | string | null
   deactivated?: boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: string | null
   skills?: string | null
   email_verified?: boolean
   auth_provider?: $Enums.AuthProvider
-  keep_blogs_on_delete?: boolean
-  keep_comments_on_delete?: boolean
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
@@ -1772,13 +1637,10 @@ export type UserUncheckedCreateWithoutFavoritesInput = {
   deactivatedAt?: Date | string | null
   deactivated?: boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: string | null
   skills?: string | null
   email_verified?: boolean
   auth_provider?: $Enums.AuthProvider
-  keep_blogs_on_delete?: boolean
-  keep_comments_on_delete?: boolean
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
@@ -1818,13 +1680,10 @@ export type UserUpdateWithoutFavoritesInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   skills?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email_verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   auth_provider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
-  keep_blogs_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  keep_comments_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
@@ -1849,13 +1708,10 @@ export type UserUncheckedUpdateWithoutFavoritesInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   skills?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email_verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   auth_provider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
-  keep_blogs_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  keep_comments_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
@@ -1879,13 +1735,10 @@ export type UserCreateWithoutApikeysInput = {
   deactivatedAt?: Date | string | null
   deactivated?: boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: string | null
   skills?: string | null
   email_verified?: boolean
   auth_provider?: $Enums.AuthProvider
-  keep_blogs_on_delete?: boolean
-  keep_comments_on_delete?: boolean
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
@@ -1910,13 +1763,10 @@ export type UserUncheckedCreateWithoutApikeysInput = {
   deactivatedAt?: Date | string | null
   deactivated?: boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: string | null
   skills?: string | null
   email_verified?: boolean
   auth_provider?: $Enums.AuthProvider
-  keep_blogs_on_delete?: boolean
-  keep_comments_on_delete?: boolean
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
@@ -1956,13 +1806,10 @@ export type UserUpdateWithoutApikeysInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   skills?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email_verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   auth_provider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
-  keep_blogs_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  keep_comments_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
@@ -1987,13 +1834,10 @@ export type UserUncheckedUpdateWithoutApikeysInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   socials?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   branding?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   skills?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email_verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   auth_provider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
-  keep_blogs_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  keep_comments_on_delete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
@@ -2103,13 +1947,10 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   deactivatedAt?: boolean
   deactivated?: boolean
   socials?: boolean
-  preferences?: boolean
   branding?: boolean
   skills?: boolean
   email_verified?: boolean
   auth_provider?: boolean
-  keep_blogs_on_delete?: boolean
-  keep_comments_on_delete?: boolean
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   blogs?: boolean | Prisma.User$blogsArgs<ExtArgs>
   comments?: boolean | Prisma.User$commentsArgs<ExtArgs>
@@ -2136,13 +1977,10 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   deactivatedAt?: boolean
   deactivated?: boolean
   socials?: boolean
-  preferences?: boolean
   branding?: boolean
   skills?: boolean
   email_verified?: boolean
   auth_provider?: boolean
-  keep_blogs_on_delete?: boolean
-  keep_comments_on_delete?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -2160,13 +1998,10 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   deactivatedAt?: boolean
   deactivated?: boolean
   socials?: boolean
-  preferences?: boolean
   branding?: boolean
   skills?: boolean
   email_verified?: boolean
   auth_provider?: boolean
-  keep_blogs_on_delete?: boolean
-  keep_comments_on_delete?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -2184,16 +2019,13 @@ export type UserSelectScalar = {
   deactivatedAt?: boolean
   deactivated?: boolean
   socials?: boolean
-  preferences?: boolean
   branding?: boolean
   skills?: boolean
   email_verified?: boolean
   auth_provider?: boolean
-  keep_blogs_on_delete?: boolean
-  keep_comments_on_delete?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "email" | "password_digest" | "role" | "createdAt" | "updatedAt" | "picture" | "bio" | "handle" | "status" | "deactivatedAt" | "deactivated" | "socials" | "preferences" | "branding" | "skills" | "email_verified" | "auth_provider" | "keep_blogs_on_delete" | "keep_comments_on_delete", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "email" | "password_digest" | "role" | "createdAt" | "updatedAt" | "picture" | "bio" | "handle" | "status" | "deactivatedAt" | "deactivated" | "socials" | "branding" | "skills" | "email_verified" | "auth_provider", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   blogs?: boolean | Prisma.User$blogsArgs<ExtArgs>
@@ -2235,13 +2067,10 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     deactivatedAt: Date | null
     deactivated: boolean
     socials: runtime.JsonValue | null
-    preferences: runtime.JsonValue | null
     branding: string | null
     skills: string | null
     email_verified: boolean
     auth_provider: $Enums.AuthProvider
-    keep_blogs_on_delete: boolean
-    keep_comments_on_delete: boolean
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -2687,13 +2516,10 @@ export interface UserFieldRefs {
   readonly deactivatedAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly deactivated: Prisma.FieldRef<"User", 'Boolean'>
   readonly socials: Prisma.FieldRef<"User", 'Json'>
-  readonly preferences: Prisma.FieldRef<"User", 'Json'>
   readonly branding: Prisma.FieldRef<"User", 'String'>
   readonly skills: Prisma.FieldRef<"User", 'String'>
   readonly email_verified: Prisma.FieldRef<"User", 'Boolean'>
   readonly auth_provider: Prisma.FieldRef<"User", 'AuthProvider'>
-  readonly keep_blogs_on_delete: Prisma.FieldRef<"User", 'Boolean'>
-  readonly keep_comments_on_delete: Prisma.FieldRef<"User", 'Boolean'>
 }
     
 
