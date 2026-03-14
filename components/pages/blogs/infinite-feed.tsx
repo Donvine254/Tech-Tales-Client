@@ -5,10 +5,8 @@ import { Button } from "@/components/ui/button";
 import BlogCard from "./blog-card";
 import { RefreshCcw, SearchX } from "lucide-react";
 import { BlogCardSkeleton } from "./blog-card-skeletons";
-import { BlogResponse } from "@/types";
+import type { BlogResponse } from "@/types";
 import { fetchBlogs } from "@/lib/helpers/blog-fetcher";
-
-
 
 export default function BlogInfiniteFeed({
   initialData,
