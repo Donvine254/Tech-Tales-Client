@@ -26,7 +26,6 @@ import type { CommentData, CoverImage, FullBlogData } from "@/types";
 import UserCard from "./user-card";
 import ActionButtons from "./action-buttons";
 import BlogSummaryGenerator from "./summary";
-import TrackBlogView from "./track-blog-view";
 import Recommendations from "./recommendations";
 import { toggleDiscussion } from "@/lib/actions/blogs";
 import { toast } from "sonner";
@@ -34,6 +33,7 @@ import BlogImage from "../blogs/blog-image";
 import { Badge } from "@/components/ui/badge";
 import { BlogBody } from "./blog-body";
 import PrismLoader from "@/components/custom/prism-loader";
+import TrackBlogView from "./track-blog-view";
 type Props = {
   blog: FullBlogData;
   initialComments: CommentData[];
@@ -62,6 +62,7 @@ export default function Slug({ blog, initialComments }: Props) {
   return (
     <div className="w-full mx-auto m-2 min-h-[75%] px-4 md:px-8 xsm:px-4 max-w-4xl md:mt-4">
       <PrismLoader />
+      <TrackBlogView blogId={blog.id} tags={blog.tags} />
       {/* Script for ink-html used to print the blog body */}
       <Script src="https://unpkg.com/ink-html/dist/index.js"></Script>
       <div className="p-[3px]  bg-gradient-to-br from-blue-500 via-purple-500 to-yellow-500  mt-2 rounded-md">
@@ -243,9 +244,8 @@ export default function Slug({ blog, initialComments }: Props) {
           username: blog.author.username,
           handle: blog.author.handle,
         }}
-        tags={blog.tags.split(",")}
+        tags={blog.tags}
       />
-      <TrackBlogView blogId={blog.id} />
       {/* Add recommended blogs */}
     </div>
   );

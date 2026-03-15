@@ -2,13 +2,13 @@ import { rateLimitByIp } from "@/lib/actions/rate-limiter";
 import { getClientIP } from "@/lib/helpers/user-ip";
 import prisma from "@/prisma/prisma";
 import { blogSelect } from "@/prisma/select";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  // step-1: check the login attempts
+  // step-1: check the for rate limit
   const ip = await getClientIP();
   const rateCheck = rateLimitByIp(ip, {
     limit: 30,

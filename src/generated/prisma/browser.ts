@@ -33,6 +33,11 @@ export type UserPreferences = Prisma.UserPreferencesModel
  */
 export type Session = Prisma.SessionModel
 /**
+ * Model ReadHistory
+ * 
+ */
+export type ReadHistory = Prisma.ReadHistoryModel
+/**
  * Model Blog
  * 
  */

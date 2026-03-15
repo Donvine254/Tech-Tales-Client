@@ -387,6 +387,7 @@ export const ModelName = {
   User: 'User',
   UserPreferences: 'UserPreferences',
   Session: 'Session',
+  ReadHistory: 'ReadHistory',
   Blog: 'Blog',
   BlogVersion: 'BlogVersion',
   Comment: 'Comment',
@@ -409,7 +410,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "userPreferences" | "session" | "blog" | "blogVersion" | "comment" | "response" | "favorite" | "verification" | "apiKey"
+    modelProps: "user" | "userPreferences" | "session" | "readHistory" | "blog" | "blogVersion" | "comment" | "response" | "favorite" | "verification" | "apiKey"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -632,6 +633,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.SessionCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.SessionCountAggregateOutputType> | number
+        }
+      }
+    }
+    ReadHistory: {
+      payload: Prisma.$ReadHistoryPayload<ExtArgs>
+      fields: Prisma.ReadHistoryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ReadHistoryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReadHistoryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ReadHistoryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReadHistoryPayload>
+        }
+        findFirst: {
+          args: Prisma.ReadHistoryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReadHistoryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ReadHistoryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReadHistoryPayload>
+        }
+        findMany: {
+          args: Prisma.ReadHistoryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReadHistoryPayload>[]
+        }
+        create: {
+          args: Prisma.ReadHistoryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReadHistoryPayload>
+        }
+        createMany: {
+          args: Prisma.ReadHistoryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ReadHistoryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReadHistoryPayload>[]
+        }
+        delete: {
+          args: Prisma.ReadHistoryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReadHistoryPayload>
+        }
+        update: {
+          args: Prisma.ReadHistoryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReadHistoryPayload>
+        }
+        deleteMany: {
+          args: Prisma.ReadHistoryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ReadHistoryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ReadHistoryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReadHistoryPayload>[]
+        }
+        upsert: {
+          args: Prisma.ReadHistoryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReadHistoryPayload>
+        }
+        aggregate: {
+          args: Prisma.ReadHistoryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateReadHistory>
+        }
+        groupBy: {
+          args: Prisma.ReadHistoryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ReadHistoryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ReadHistoryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ReadHistoryCountAggregateOutputType> | number
         }
       }
     }
@@ -1254,6 +1329,21 @@ export const SessionScalarFieldEnum = {
 export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
 
 
+export const ReadHistoryScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  blogId: 'blogId',
+  timeOnPage: 'timeOnPage',
+  scrollDepth: 'scrollDepth',
+  completed: 'completed',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  tags: 'tags'
+} as const
+
+export type ReadHistoryScalarFieldEnum = (typeof ReadHistoryScalarFieldEnum)[keyof typeof ReadHistoryScalarFieldEnum]
+
+
 export const BlogScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -1688,6 +1778,7 @@ export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   userPreferences?: Prisma.UserPreferencesOmit
   session?: Prisma.SessionOmit
+  readHistory?: Prisma.ReadHistoryOmit
   blog?: Prisma.BlogOmit
   blogVersion?: Prisma.BlogVersionOmit
   comment?: Prisma.CommentOmit

@@ -11,6 +11,7 @@
 export type * from './models/User'
 export type * from './models/UserPreferences'
 export type * from './models/Session'
+export type * from './models/ReadHistory'
 export type * from './models/Blog'
 export type * from './models/BlogVersion'
 export type * from './models/Comment'

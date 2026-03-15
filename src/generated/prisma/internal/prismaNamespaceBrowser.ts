@@ -54,6 +54,7 @@ export const ModelName = {
   User: 'User',
   UserPreferences: 'UserPreferences',
   Session: 'Session',
+  ReadHistory: 'ReadHistory',
   Blog: 'Blog',
   BlogVersion: 'BlogVersion',
   Comment: 'Comment',
@@ -139,6 +140,21 @@ export const SessionScalarFieldEnum = {
 } as const
 
 export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
+
+
+export const ReadHistoryScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  blogId: 'blogId',
+  timeOnPage: 'timeOnPage',
+  scrollDepth: 'scrollDepth',
+  completed: 'completed',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  tags: 'tags'
+} as const
+
+export type ReadHistoryScalarFieldEnum = (typeof ReadHistoryScalarFieldEnum)[keyof typeof ReadHistoryScalarFieldEnum]
 
 
 export const BlogScalarFieldEnum = {
