@@ -45,13 +45,43 @@ export async function createNewBlog(uuid?: string) {
       },
     });
     if (blog) {
-      updateTag(`user-${user.userId}-blogs`);
       return { success: true, data: blog };
     } else {
       return { success: false, message: "blog creation failed" };
     }
   } catch (error) {
     console.error(error);
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error?.code === "P2002"
+    ) {
+      const existing = await prisma.blog.findUnique({
+        where: { uuid },
+        select: {
+          uuid: true,
+          status: true,
+          title: true,
+          body: true,
+          slug: true,
+          tags: true,
+          image: true,
+          audio: true,
+          path: true,
+          show_comments: true,
+          description: true,
+          author: {
+            select: {
+              id: true,
+              handle: true,
+              username: true,
+              picture: true,
+            },
+          },
+        },
+      });
+      if (existing) return { success: true, data: existing };
+    }
+
     return { success: false, message: "something went wrong" };
   }
 }
