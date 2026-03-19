@@ -19,7 +19,7 @@ export function BlogBody({ body }: { body: string }) {
             ?.replace("language-", "") || "text";
 
         const codeEl = (node.children as Element[]).find(
-          (child) => child.type === "tag" && child.name === "code"
+          (child) => child.type === "tag" && child.name === "code",
         ) as Element | undefined;
 
         if (codeEl) {

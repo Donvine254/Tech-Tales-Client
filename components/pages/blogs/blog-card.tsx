@@ -29,7 +29,7 @@ const BlogCard = forwardRef<
 >(({ blog, children }, ref) => {
   return (
     <article
-      className="group bg-white dark:bg-accent rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden  hover:border-gray-200 hover:-translate-y-1 flex flex-col animate-fade-in-up relative"
+      className="group bg-white dark:bg-accent  shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden  hover:border-gray-200 hover:-translate-y-1 flex flex-col animate-fade-in-up relative"
       ref={ref}>
       {children && <>{children}</>}
       <div className="aspect-[16/9] bg-gradient-to-br from-cyan-100 to-blue-100 relative overflow-hidden">
@@ -42,14 +42,14 @@ const BlogCard = forwardRef<
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             priority
-            className="w-full h-full object-cover transition-transform duration-500"
+            className="w-full h-full rounded-none object-cover transition-transform duration-500"
           />
         </Link>
 
         <div className="absolute top-2 left-2">
           <Link href={`/search?q=${blog.tags?.split(",")[0]}`}>
             {" "}
-            <span className="px-3 py-1 bg-blue-500 backdrop-blur-sm text-white text-xs font-semibold rounded-full hover:underline transition-colors lowercase">
+            <span className="px-3 py-1 bg-blue-500 backdrop-blur-sm text-white text-xs font-semibold rounded-full hover:underline transition-colors uppercase">
               # {blog?.tags?.split(",")[0] || "General"}
             </span>
           </Link>
@@ -81,7 +81,7 @@ const BlogCard = forwardRef<
               </div>
               <div className="flex items-center space-x-1">
                 <Clock className="h-3 w-3" />
-                <span>{blog.reading_time} min read</span>
+                <span>{blog.reading_time} Min Read</span>
               </div>
               {blog.audio && (
                 <div
@@ -97,7 +97,7 @@ const BlogCard = forwardRef<
           </div>
         </div>
         <Link href={`/read/${blog.path}`} className="group" title={blog.title}>
-          <h3 className="mb-2 md:text-lg font-sans tracking-normal font-bold group-hover:text-blue-500 transition-colors line-clamp-2 leading-tight hover:underline hover:underline-offset-4">
+          <h3 className="mb-2 font-grotesk tracking-normal font-bold group-hover:text-blue-500 transition-colors line-clamp-2 hover:underline hover:underline-offset-4">
             {blog.title}
           </h3>
         </Link>
@@ -119,7 +119,7 @@ const BlogCard = forwardRef<
             ))}
         </div>
         {/* Action Buttons */}
-        <div className="mt-auto pt-4 border-t border-gray-300 dark:border-gray-500 flex items-center justify-between text-accent-foreground">
+        <div className="mt-auto pt-4 border-t border-gray-300 dark:border-gray-500 flex items-center justify-between text-muted-foreground">
           <div className="flex items-center space-x-4">
             <TooltipProvider>
               <Tooltip>
