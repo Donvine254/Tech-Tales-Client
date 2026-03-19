@@ -10,6 +10,7 @@ export const blogSelect = {
   views: true,
   likes: true,
   image: true,
+  audio: true,
   author: {
     select: {
       username: true,
