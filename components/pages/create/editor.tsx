@@ -57,7 +57,8 @@ export const EditorSection: React.FC<EditorSectionProps> = ({
     <div className="bg-card rounded-2xl shadow-sm border border-border overflow-hidden hover:shadow-md transition-all duration-300">
       <Script
         src="https://unpkg.com/mammoth/mammoth.browser.min.js"
-        type="text/javascript"></Script>
+        type="text/javascript"
+        strategy="beforeInteractive"></Script>
       <div className="p-6 border-b border-border">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
@@ -122,10 +123,7 @@ export const EditorSection: React.FC<EditorSectionProps> = ({
             toolbar_sticky: true,
             toolbar_sticky_offset: 75,
             skin: theme === "dark" ? "oxide-dark" : "oxide",
-            content_css: [
-              theme === "dark" ? "dark" : "default",
-              "/editor.css", // Your custom CSS file
-            ],
+            content_css: [theme === "dark" ? "dark" : "default", "/editor.css"],
             placeholder: "Start by writing or pasting (Ctrl + V) text here....",
             browser_spellcheck: true,
             contextmenu: false,
@@ -163,7 +161,7 @@ export const EditorSection: React.FC<EditorSectionProps> = ({
               "checklist",
             ],
             toolbar:
-              "undo redo| blocks | bold italic forecolor underline| align indent numlist bullist | link image table media pageembed| backcolor  emoticons advcodesample blockquote| code ai importword removeformat fullscreen",
+              "undo redo| blocks | bold italic forecolor underline| advcodesample ai blockquote |align indent numlist bullist | link image table media pageembed| backcolor  emoticons code | importword removeformat fullscreen",
             menu: {
               tools: {
                 title: "Tools",

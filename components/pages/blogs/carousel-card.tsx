@@ -27,7 +27,7 @@ export function HeroCardMobile({
             title={post.title}
             image={post.image as CoverImage}
             fill
-            className="object-cover rounded-t-lg"
+            className="object-cover"
           />
           <span className="absolute top-4 left-4 px-3 py-1 bg-white/20 rounded-full text-sm font-medium backdrop-blur-2xl text-orange-600 dark:text-gray-50 shadow-lg">
             🔥 Trending
