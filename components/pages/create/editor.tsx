@@ -182,7 +182,6 @@ export const EditorSection: React.FC<EditorSectionProps> = ({
               input.addEventListener("change", (e: Event) => {
                 const target = e.target as HTMLInputElement;
                 if (!target.files || target.files.length === 0) return;
-
                 const file = target.files[0];
                 const reader = new FileReader();
                 reader.addEventListener("load", () => {
@@ -196,7 +195,6 @@ export const EditorSection: React.FC<EditorSectionProps> = ({
                 });
                 reader.readAsDataURL(file);
               });
-
               input.click();
             },
             // TODO: Fix why subsequent children added below the iframe takes the iframe-container class
