@@ -79,7 +79,7 @@ export default function GuidelinesCards() {
         Hover a card to see details
       </p>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {guidelines.map((g, index) => (
           <div
             key={g.title}
