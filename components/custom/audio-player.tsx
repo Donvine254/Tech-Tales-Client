@@ -150,14 +150,14 @@ export default function AudioPlayer({
   };
 
   return (
-    <div className="w-full bg-card dark:bg-accent border border-border rounded-lg shadow relative overflow-hidden mb-2">
+    <div className="w-full bg-card dark:bg-accent/50 border border-border  shadow relative overflow-hidden mb-2">
       {/* close button */}
       <button
         type="button"
         title="click to close player"
         onClick={() => setShowPlayButton(false)}
-        className="absolute top-0 right-0.5 z-20 p-0.5 bg-card border border-border hover:shadow hover:scale-110 transition-all duration-700 rounded-full cursor-pointer text-primary/80 hover:text-destructive">
-        <XIcon className="size-3.5" />
+        className="absolute top-0 right-1 z-20 p-0.5 cursor-pointer text-primary/80 hover:text-destructive">
+        <XIcon className="size-3.5 hover:text-destructive" />
       </button>
 
       {/* Main player controls */}
@@ -167,7 +167,8 @@ export default function AudioPlayer({
           variant="ghost"
           size="icon"
           onClick={togglePlayPause}
-          className="h-8 w-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-400 dark:hover:text-gray-950">
+          title={isPlaying ? "Pause" : "Play"}
+          className="h-8 w-8">
           {isPlaying ? (
             <Pause className="fill-current ml-1" />
           ) : (
@@ -187,33 +188,35 @@ export default function AudioPlayer({
           size="sm"
           onClick={toggleSpeed}
           title="Change Playback Speed"
-          className="text-primary/80 cursor-pointer hover:bg-accent/90 px-3 py-1 rounded-full ">
+          className="text-primary/80 cursor-pointer hover:bg-accent/90 px-3 py-1 w-10">
           {playbackSpeed}x
         </Button>
 
         {/* Skip backward 10s */}
-        <div
+        <button
           onClick={skipBackward}
+          type="button"
+          onKeyDown={skipBackward}
           className="h-6 w-6 rounded-full hover:bg-accent/90 flex items-center justify-center text-primary/80 hover:text-primary  cursor-pointer relative"
           title="Rewind 10 seconds">
           <RotateCcw className="h-8 w-8" strokeWidth={1} />
           <span className="absolute text-[8px] font-medium">10</span>
-        </div>
+        </button>
 
         {/* Skip forward 30s */}
-        <div
+        <button
           onClick={skipForward}
+          type="button"
           className="h-6 w-6 rounded-full hover:bg-accent/90 text-primary/80 hover:text-primary flex items-center justify-center cursor-pointer relative"
           title="Skip Forward 30s">
           <RotateCw className="h-8 w-8" strokeWidth={1} />
           <span className="absolute text-[8px] font-medium">30</span>
-        </div>
+        </button>
         {/* Time display */}
-        <div className="text-primary/80 font-medium min-w-[3rem]">
+        <div className="text-primary/80 font-medium min-w-[3rem] md:mr-2">
           {formatTime(currentTime)}
         </div>
       </div>
-
       {/* Progress bar */}
       <div>
         <Slider
@@ -244,6 +247,7 @@ export default function AudioPlayer({
           onPause={() => setIsPlaying(false)}
           onEnded={() => setIsPlaying(false)}>
           <source src={audioUrl} type="audio/x-m4a" />
+          <track kind="captions" />
         </audio>
       )}
     </div>

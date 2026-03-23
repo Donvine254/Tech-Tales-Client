@@ -46,7 +46,7 @@ function SectionNav() {
   };
 
   return (
-    <div className="hidden md:block md:sticky md:top-20 lg:top-24 bg-gray-200 dark:bg-blue-950/30 rounded-lg border border-border px-2 py-4 w-48 shrink-0">
+    <aside className="hidden md:block md:sticky md:top-20 lg:top-24 bg-gray-200 dark:bg-blue-950/30 rounded-lg border border-border px-2 py-4 w-48 shrink-0">
       <h3 className="text-lg font-semibold mb-2">On This Page</h3>
       <nav className="space-y-1">
         {sections.map((section, index) => (
@@ -59,20 +59,22 @@ function SectionNav() {
           </button>
         ))}
       </nav>
-    </div>
+    </aside>
   );
 }
 
 export default function DocsPage() {
   return (
     <div className="max-w-6xl mx-auto p-4 sm:px-6 lg:px-8 py-12">
-      <div className="flex items-start gap-6">
+      <article className="flex items-start gap-6 prose-headings:font-grotesk font-sans">
         <SectionNav />
         <div className="flex-1 min-w-0 space-y-6">
           {/* Overview */}
           <section id="overview" className="scroll-mt-20">
-            <h1 className="text-2xl lg:text-3xl font-bold mb-2">Overview</h1>
-            <p className="leading-relaxed text-base">
+            <h1 className="text-2xl lg:text-3xl font-bold mb-2 font-grotesk">
+              Overview
+            </h1>
+            <p className="leading-relaxed text-base font-sans">
               TechTales uses a rich-text editor (TinyMCE) with custom plugins to
               make writing and publishing blog posts effortless. Every post has
               5 main parts:{" "}
@@ -677,7 +679,7 @@ export default function DocsPage() {
             <CreateButton />
           </div>
         </div>
-      </div>
+      </article>
     </div>
   );
 }
