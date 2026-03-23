@@ -2,8 +2,8 @@
 import { useState, useEffect, useRef, SetStateAction, Dispatch } from "react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { Play, Pause, RotateCcw, RotateCw, XIcon, Mic } from "lucide-react";
-import { Select } from "../ui/select";
+import { Play, Pause, RotateCcw, RotateCw, XIcon } from "lucide-react";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
