@@ -16,21 +16,30 @@ interface AudioPlayerProps {
   audioUrl?: string;
   setShowPlayButton: Dispatch<SetStateAction<boolean>>;
 }
+
 const PREFERRED_VOICE_NAMES = [
-  // Microsoft Edge neural voices (online, very natural)
+  // Edge on Windows — best quality available in any browser
   "Microsoft Aria Online (Natural) - English (United States)",
-  "Microsoft Guy Online (Natural) - English (United States)",
   "Microsoft Jenny Online (Natural) - English (United States)",
-  "Microsoft Ana Online (Natural) - English (United States)",
-  // macOS / iOS high-quality voices
-  "Samantha", // macOS default, good quality
-  "Karen", // macOS Australian
-  "Daniel", // macOS UK
-  "Moira", // macOS Irish
-  // Google voices (Chrome on Android/desktop)
+  "Microsoft Guy Online (Natural) - English (United States)",
+  "Microsoft Natasha Online (Natural) - English (Australia)",
+  "Microsoft Libby Online (Natural) - English (United Kingdom)",
+
+  // Chrome / Android — Google voices are solid
   "Google US English",
   "Google UK English Female",
   "Google UK English Male",
+
+  // macOS / iOS — Apple neural voices
+  "Samantha", // macOS default, best local voice on Mac
+  "Karen", // macOS Australian
+  "Daniel", // macOS UK
+  "Moira", // macOS Irish
+  "Tessa", // macOS South African
+
+  // Android fallbacks — these appear on stock Android without Google TTS
+  "English United States",
+  "English (United States)",
 ];
 
 function getPreferredVoice(
@@ -38,28 +47,36 @@ function getPreferredVoice(
 ): SpeechSynthesisVoice | null {
   if (!voices.length) return null;
 
-  // 1. Exact name match against known good voices
+  // 1. Exact name match — covers Edge neural, Google, Apple named voices
   for (const name of PREFERRED_VOICE_NAMES) {
     const match = voices.find((v) => v.name === name);
     if (match) return match;
   }
 
-  // 2. Any online/remote English voice — these are pulled from the OS
-  //    neural TTS engine and sound much better than local voices
+  // 2. Any online/remote English voice — catches future neural voices
+  //    we haven't named yet (e.g. new Edge voices, future Chrome voices)
   const onlineEnglish = voices.find(
     (v) => v.lang.startsWith("en") && !v.localService,
   );
   if (onlineEnglish) return onlineEnglish;
 
-  // 3. Prefer en-US over other English locales
+  // 3. Android — Google TTS shows up with a name containing "google"
+  //    and is local (localService: true) but still higher quality than
+  //    the generic Android fallback engine
+  const googleVoice = voices.find(
+    (v) => v.lang.startsWith("en") && v.name.toLowerCase().includes("google"),
+  );
+  if (googleVoice) return googleVoice;
+
+  // 4. Prefer en-US over other English locales
   const enUS = voices.find((v) => v.lang === "en-US");
   if (enUS) return enUS;
 
-  // 4. Any English voice
+  // 5. Any English
   const anyEnglish = voices.find((v) => v.lang.startsWith("en"));
   if (anyEnglish) return anyEnglish;
 
-  // 5. Absolute fallback
+  // 6. Absolute fallback
   return voices[0];
 }
 
@@ -148,6 +165,7 @@ export default function AudioPlayer({
       } else {
         const utterance = new SpeechSynthesisUtterance(blogText);
         utterance.lang = "en-US";
+        setCurrentTime(0);
         utterance.rate = playbackSpeed;
         if (selectedVoice) {
           utterance.voice = selectedVoice;
@@ -161,14 +179,57 @@ export default function AudioPlayer({
     }
   };
 
-  const skipBackward = () => {
-    setCurrentTime((prev) => Math.max(0, prev - 10));
+  const skipTo = (newTime: number) => {
+    const clamped = Math.max(0, Math.min(duration, newTime));
+    setCurrentTime(clamped);
+
+    // If real audio is being used, just seek
+    if (audioUrl) {
+      if (audioRef.current) audioRef.current.currentTime = clamped;
+      return;
+    }
+
+    // TTS mode
+    if (!blogText) return;
+
+    const wasPlaying = isPlaying;
+
+    const wordsPerSecond = 150 / 60; // ~2.5 words/sec baseline
+    const wordIndex = Math.floor(clamped * wordsPerSecond * playbackSpeed);
+
+    const words = blogText.split(/\s+/);
+    const slicedText = words.slice(wordIndex).join(" ");
+
+    // Prevent cancel() from firing old onend handlers
+    if (utteranceRef.current) {
+      utteranceRef.current.onend = null;
+      utteranceRef.current.onerror = null;
+    }
+
+    speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(slicedText);
+    utterance.lang = "en-US";
+    utterance.rate = playbackSpeed;
+
+    if (selectedVoice) {
+      utterance.voice = selectedVoice;
+    }
+
+    utterance.onend = () => setIsPlaying(false);
+    utterance.onerror = () => setIsPlaying(false);
+
+    utteranceRef.current = utterance;
+
+    // Only resume speaking if it was playing before
+    if (wasPlaying) {
+      speechSynthesis.speak(utterance);
+      setIsPlaying(true);
+    }
   };
 
-  const skipForward = () => {
-    setCurrentTime((prev) => Math.min(duration, prev + 30));
-  };
-
+  const skipBackward = () => skipTo(currentTime - 10);
+  const skipForward = () => skipTo(currentTime + 30);
   const toggleSpeed = () => {
     const speeds = [1, 1.25, 1.5, 2];
     const currentIndex = speeds.indexOf(playbackSpeed);
@@ -184,10 +245,16 @@ export default function AudioPlayer({
 
   const handleProgressChange = (value: number[]) => {
     const newTime = value[0];
-    if (audioRef.current) {
-      audioRef.current.currentTime = newTime;
+
+    if (audioUrl) {
+      if (audioRef.current) {
+        audioRef.current.currentTime = newTime;
+      }
+      setCurrentTime(newTime);
+      return;
     }
-    setCurrentTime(newTime);
+    // TTS mode — reuse skip logic
+    skipTo(newTime);
   };
   // Voice selector — only shown in TTS mode (no audioUrl), and only once
   // voices have loaded. Shows top 5 English voices so the user can pick
@@ -203,7 +270,7 @@ export default function AudioPlayer({
       <div className="hidden sm:flex items-center gap-[3px] h-8">
         {delays.map((delay, i) => (
           <div
-            key={Math.random()}
+            key={i}
             className="w-[2.5px] rounded-full bg-cyan-500 self-center"
             style={
               isPlaying
