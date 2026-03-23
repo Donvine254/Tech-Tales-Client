@@ -2,11 +2,65 @@
 import { useState, useEffect, useRef, SetStateAction, Dispatch } from "react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { Play, Pause, RotateCcw, RotateCw, XIcon } from "lucide-react";
+import { Play, Pause, RotateCcw, RotateCw, XIcon, Mic } from "lucide-react";
+import { Select } from "../ui/select";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { Voice } from "@/assets/icons";
 
 interface AudioPlayerProps {
   audioUrl?: string;
   setShowPlayButton: Dispatch<SetStateAction<boolean>>;
+}
+const PREFERRED_VOICE_NAMES = [
+  // Microsoft Edge neural voices (online, very natural)
+  "Microsoft Aria Online (Natural) - English (United States)",
+  "Microsoft Guy Online (Natural) - English (United States)",
+  "Microsoft Jenny Online (Natural) - English (United States)",
+  "Microsoft Ana Online (Natural) - English (United States)",
+  // macOS / iOS high-quality voices
+  "Samantha", // macOS default, good quality
+  "Karen", // macOS Australian
+  "Daniel", // macOS UK
+  "Moira", // macOS Irish
+  // Google voices (Chrome on Android/desktop)
+  "Google US English",
+  "Google UK English Female",
+  "Google UK English Male",
+];
+
+function getPreferredVoice(
+  voices: SpeechSynthesisVoice[],
+): SpeechSynthesisVoice | null {
+  if (!voices.length) return null;
+
+  // 1. Exact name match against known good voices
+  for (const name of PREFERRED_VOICE_NAMES) {
+    const match = voices.find((v) => v.name === name);
+    if (match) return match;
+  }
+
+  // 2. Any online/remote English voice — these are pulled from the OS
+  //    neural TTS engine and sound much better than local voices
+  const onlineEnglish = voices.find(
+    (v) => v.lang.startsWith("en") && !v.localService,
+  );
+  if (onlineEnglish) return onlineEnglish;
+
+  // 3. Prefer en-US over other English locales
+  const enUS = voices.find((v) => v.lang === "en-US");
+  if (enUS) return enUS;
+
+  // 4. Any English voice
+  const anyEnglish = voices.find((v) => v.lang.startsWith("en"));
+  if (anyEnglish) return anyEnglish;
+
+  // 5. Absolute fallback
+  return voices[0];
 }
 
 export default function AudioPlayer({
@@ -21,17 +75,25 @@ export default function AudioPlayer({
   const audioRef = useRef<HTMLAudioElement>(null);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
-
+  const [voicesReady, setVoicesReady] = useState(false);
+  const [selectedVoice, setSelectedVoice] =
+    useState<SpeechSynthesisVoice | null>(null);
+  // function to load voices
   useEffect(() => {
-    const loadVoices = () => {
-      const v = speechSynthesis.getVoices();
-      if (v.length > 0) {
-        setVoices(v);
-      }
-    };
+    function loadVoices() {
+      const available = speechSynthesis.getVoices();
+      if (available.length === 0) return;
+      setVoices(available);
+      setSelectedVoice(getPreferredVoice(available));
+      setVoicesReady(true);
+    }
 
     loadVoices();
     window.speechSynthesis.onvoiceschanged = loadVoices;
+
+    return () => {
+      window.speechSynthesis.onvoiceschanged = null;
+    };
   }, []);
 
   useEffect(() => {
@@ -87,8 +149,9 @@ export default function AudioPlayer({
         const utterance = new SpeechSynthesisUtterance(blogText);
         utterance.lang = "en-US";
         utterance.rate = playbackSpeed;
-        utterance.voice =
-          voices.find((v) => v.lang.startsWith("en")) || voices[0];
+        if (selectedVoice) {
+          utterance.voice = selectedVoice;
+        }
         utterance.onend = () => setIsPlaying(false);
         utterance.onerror = () => setIsPlaying(false);
         utteranceRef.current = utterance;
@@ -126,25 +189,38 @@ export default function AudioPlayer({
     }
     setCurrentTime(newTime);
   };
-
+  // Voice selector — only shown in TTS mode (no audioUrl), and only once
+  // voices have loaded. Shows top 5 English voices so the user can pick
+  // if the auto-selected voice doesn't suit them.
+  const englishVoices = voices.filter((v) => v.lang.startsWith("en"));
   // Sound wave animation component
   const SoundWave = () => {
-    const bars = Array.from({ length: 5 }, (_, i) => i);
+    const delays = [
+      0, 0.07, 0.14, 0.21, 0.28, 0.35, 0.42, 0.49, 0.42, 0.35, 0.28, 0.21,
+    ];
+
     return (
-      <div className="hidden sm:flex items-center gap-1 h-8 overflow-hidden">
-        {bars.map((bar) => (
+      <div className="hidden sm:flex items-center gap-[3px] h-8">
+        {delays.map((delay, i) => (
           <div
-            key={bar}
-            className={`w-1 bg-primary rounded-full transition-all duration-150 ${
-              isPlaying ? "animate-pulse" : ""
-            }`}
-            style={{
-              height: isPlaying ? `${Math.random() * 20 + 10}px` : "8px",
-              animationDelay: `${bar * 100}ms`,
-              animationDuration: `${Math.random() * 500 + 300}ms`,
-            }}
+            key={Math.random()}
+            className="w-[2.5px] rounded-full bg-cyan-500 self-center"
+            style={
+              isPlaying
+                ? {
+                    animation: `eq 0.75s ease-in-out infinite`,
+                    animationDelay: `${delay}s`,
+                  }
+                : { height: "3px", opacity: 0.25 }
+            }
           />
         ))}
+        <style>{`
+        @keyframes eq {
+          0%, 100% { height: 3px; opacity: 0.3; }
+          50%       { height: 28px; opacity: 1; }
+        }
+      `}</style>
       </div>
     );
   };
@@ -191,7 +267,39 @@ export default function AudioPlayer({
           className="text-primary/80 cursor-pointer hover:bg-accent/90 px-3 py-1 w-10">
           {playbackSpeed}x
         </Button>
-
+        {/* Voice picker — TTS mode only, hidden when a real audioUrl is provided */}
+        {!audioUrl && voicesReady && englishVoices.length > 1 && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                type="button"
+                className="cursor-pointer flex items-center gap-1"
+                title="Select voice">
+                <Voice className="size-7" />
+                <span className="text-xs hidden md:block">Voice Options</span>
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="w-64">
+              {englishVoices.map((v) => (
+                <DropdownMenuItem
+                  key={v.name}
+                  onClick={() => {
+                    const voice =
+                      voices.find((voice) => voice.name === v.name) ?? null;
+                    setSelectedVoice(voice);
+                    if (isPlaying) {
+                      speechSynthesis.cancel();
+                      setIsPlaying(false);
+                      setCurrentTime(0);
+                    }
+                  }}
+                  className="text-sm text-sans">
+                  {v.name}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
         {/* Skip backward 10s */}
         <button
           onClick={skipBackward}
@@ -213,7 +321,7 @@ export default function AudioPlayer({
           <span className="absolute text-[8px] font-medium">30</span>
         </button>
         {/* Time display */}
-        <div className="text-primary/80 font-medium min-w-[3rem] md:mr-2">
+        <div className="text-primary/80 font-medium min-w-[3rem]">
           {formatTime(currentTime)}
         </div>
       </div>
@@ -224,7 +332,7 @@ export default function AudioPlayer({
           max={duration}
           step={1}
           onValueChange={handleProgressChange}
-          className="w-full [&>span:first-child]:h-1 [&>span:first-child]:bg-gray-500  [&_[role=slider]]:hidden  [&_[role=slider]]:w-3 [&_[role=slider]]:h-3 [&_[role=slider]]:border-0 [&>span:first-child_span]:bg-gray-900 dark:[&>span:first-child_span]:bg-cyan-500  [&_[role=slider]:focus-visible]:ring-0 [&_[role=slider]:focus-visible]:ring-offset-0"
+          className="w-full [&>span:first-child]:h-1 [&>span:first-child]:bg-gray-500  [&_[role=slider]]:hidden  [&_[role=slider]]:w-3 [&_[role=slider]]:h-3 [&_[role=slider]]:border-0 [&>span:first-child_span]:bg-cyan-500 dark:[&>span:first-child_span]:bg-cyan-500  [&_[role=slider]:focus-visible]:ring-0 [&_[role=slider]:focus-visible]:ring-offset-0"
         />
       </div>
 
