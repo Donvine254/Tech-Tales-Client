@@ -4,6 +4,7 @@ import Script from "next/script";
 import dynamic from "next/dynamic";
 import { formatDate, formatViews } from "@/lib/utils";
 import {
+  AudioLinesIcon,
   Calendar,
   ChartNoAxesColumn,
   Clock,
@@ -34,6 +35,7 @@ import { Badge } from "@/components/ui/badge";
 import { BlogBody } from "./blog-body";
 import PrismLoader from "@/components/custom/prism-loader";
 import TrackBlogView from "./track-blog-view";
+import { Voice } from "@/assets/icons";
 type Props = {
   blog: FullBlogData;
   initialComments: CommentData[];
@@ -180,27 +182,36 @@ export default function Slug({ blog, initialComments }: Props) {
                 <TooltipTrigger asChild>
                   <button
                     type="button"
-                    className="p-1 hover:text-cyan-600 transition-colors"
+                    className="p-1 hover:text-cyan-600 transition-colors cursor-pointer"
                     onClick={() => setShowPlayButton(!showPlayButton)}>
-                    <svg
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      height="1rem"
-                      width="1rem"
-                      className="fill-none  hover:-translate-y-1 transition-transform duration-300 h-4 w-4"
-                      data-tooltip-id="play-blog">
-                      <title>play icon</title>
-                      <path
-                        fill="currentColor"
-                        fillRule="evenodd"
-                        d="M12 21a9 9 0 100-18 9 9 0 000 18zm0 2c6.075 0 11-4.925 11-11S18.075 1 12 1 1 5.925 1 12s4.925 11 11 11z"
-                        clipRule="evenodd"
+                    {blog.audio ? (
+                      <svg
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        height="1rem"
+                        width="1rem"
+                        className="fill-none hover:-translate-y-1 transition-transform duration-300 h-4 w-4"
+                        data-tooltip-id="listen to blog narration">
+                        <title>play icon</title>
+                        <path
+                          fill="currentColor"
+                          fillRule="evenodd"
+                          d="M12 21a9 9 0 100-18 9 9 0 000 18zm0 2c6.075 0 11-4.925 11-11S18.075 1 12 1 1 5.925 1 12s4.925 11 11 11z"
+                          clipRule="evenodd"
+                        />
+                        <path
+                          fill="currentColor"
+                          d="M16 12l-6 4.33V7.67L16 12z"
+                        />
+                      </svg>
+                    ) : (
+                      <AudioLinesIcon
+                        height="1rem"
+                        width="1rem"
+                        className="hover:-translate-y-1 transition-transform duration-300 size-4"
+                        data-tooltip-id="turn on screenreader"
                       />
-                      <path
-                        fill="currentColor"
-                        d="M16 12l-6 4.33V7.67L16 12z"
-                      />
-                    </svg>
+                    )}
                   </button>
                 </TooltipTrigger>
                 <TooltipContent className="max-w-72 text-sm" side="bottom">
