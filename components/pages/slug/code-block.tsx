@@ -37,7 +37,7 @@ export default function CodeBlock({
   return (
     <div
       className={cn(
-        "relative rounded-lg p-0 border bg-[#272822] dark:bg-gray-900 overflow-hidden"
+        "relative rounded-lg p-0 border bg-[#272822] dark:bg-gray-900 overflow-hidden code-block",
       )}>
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-2 border-b bg-muted/85 dark:bg-muted/50">

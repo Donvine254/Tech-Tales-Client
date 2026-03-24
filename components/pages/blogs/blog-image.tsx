@@ -19,7 +19,7 @@ export default function BlogImage({
   const textColor = "ffffff";
 
   const fallbackSrc = `https://dummyimage.com/1280x720/${bgColor}/${textColor}.png&text=${encodeURIComponent(
-    title || "Image"
+    title || "Image",
   )}`;
   const optimizedSrc =
     !error && src && image.public_id ? imageUrlConstructor(image) : src;
@@ -36,11 +36,12 @@ export default function BlogImage({
     }/yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==`;
   return (
     <Image
-      src={error ? fallbackSrc : optimizedSrc ?? fallbackSrc}
+      src={error ? fallbackSrc : (optimizedSrc ?? fallbackSrc)}
       alt={alt || title || "blog image"}
       placeholder="blur"
       blurDataURL={rgbDataURL(204, 204, 204)}
-      quality={100}
+      quality={75}
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
       priority
       style={{
         backgroundImage: "url('/placeholder.svg')",

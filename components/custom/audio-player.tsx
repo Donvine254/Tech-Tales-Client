@@ -113,10 +113,46 @@ export default function AudioPlayer({
     };
   }, []);
 
+  //get the blog to be read and skip code samples
   useEffect(() => {
     const blogElement = document.getElementById("blog-body");
-    setBlogText(blogElement?.textContent ?? "");
+    if (!blogElement) {
+      return;
+    }
+    const clone = blogElement.cloneNode(true) as HTMLElement;
+    // Elements to strip before speaking
+    clone
+      .querySelectorAll(
+        [
+          "pre",
+          ".code-block",
+          "figure",
+          "figcaption",
+          "svg",
+          "[aria-hidden='true']",
+          ".embed",
+        ].join(","),
+      )
+      .forEach((el) => {
+        if (el.matches("pre, .code-block")) {
+          el.replaceWith("See code sample below.");
+        } else {
+          el.remove();
+        }
+      });
+    // Replace headings with a short pause cue so sections feel distinct
+    clone.querySelectorAll("h1,h2,h3,h4").forEach((el) => {
+      el.textContent = `. ${el.textContent} .`;
+    });
+
+    const text = clone.textContent?.trim() ?? "";
+    const resolved = text.length > 100 ? text : "";
+    setBlogText(resolved);
+
+    const wordCount = resolved.split(/\s+/).length;
+    setDuration(Math.round((wordCount / 150) * 60));
   }, []);
+
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.playbackRate = playbackSpeed;
