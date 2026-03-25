@@ -58,7 +58,7 @@ export function HeroCardMobile({
                 <Badge
                   key={tag}
                   variant="secondary"
-                  className="text-xs bg-blue-100 text-blue-500 dark:bg-blue-900/20 dark:text-blue-50 border border-blue-500 cursor-pointer transition-colors hover:underline capitalize">
+                  className="text-xs bg-blue-100 text-blue-500 dark:bg-blue-900/20 dark:text-blue-50 border border-blue-500 cursor-pointer transition-colors hover:underline uppercase">
                   <Link href={`/search?q=${tag}`}># {tag}</Link>
                 </Badge>
               ))}
@@ -105,7 +105,7 @@ export function HeroCardDesktop({
             </div>
             <Badge
               variant="secondary"
-              className="bg-blue-100 text-blue-500 dark:bg-blue-900/20 dark:text-blue-50 border border-blue-500 w-fit shadow-lg   hover:underline rounded-full backdrop-blur-sm text-xs">
+              className="bg-blue-100 text-blue-500 dark:bg-blue-900/20 dark:text-blue-50 border border-blue-500 w-fit shadow-lg   hover:underline rounded-full backdrop-blur-sm text-xs uppercase">
               <Link href={`/search?q=${post.tags?.split(",")[0]}`}>
                 # {post.tags?.split(",")[0] || "General"}
               </Link>
