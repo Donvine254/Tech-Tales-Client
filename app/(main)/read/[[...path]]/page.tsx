@@ -143,7 +143,7 @@ export default async function page({
     url: `https://techtales.vercel.app/read/${blog.path}`,
     image: {
       "@type": "ImageObject",
-      url: image?.secure_url ?? "https://techtales.vercel.app/og-image.png",
+      url: blog.image?.secure_url ?? "https://techtales.vercel.app/og-image.png",
       width: 1200,
       height: 630,
     },
@@ -154,7 +154,7 @@ export default async function page({
     },
     publisher: {
       "@type": "Organization",
-      name: "Tech Tales",
+      name: "Techtales",
       url: "https://techtales.vercel.app",
       logo: {
         "@type": "ImageObject",
