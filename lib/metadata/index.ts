@@ -78,7 +78,7 @@ export const metaobject: Metadata = {
       "max-snippet": -1,
     },
   },
-
+  manifest: "/webmanifest.json",
   // Format detection
   formatDetection: {
     email: false,
