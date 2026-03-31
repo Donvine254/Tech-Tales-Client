@@ -203,7 +203,7 @@ export type BlogVersionGroupByOutputType = {
   _max: BlogVersionMaxAggregateOutputType | null
 }
 
-type GetBlogVersionGroupByPayload<T extends BlogVersionGroupByArgs> = Prisma.PrismaPromise<
+export type GetBlogVersionGroupByPayload<T extends BlogVersionGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<BlogVersionGroupByOutputType, T['by']> &
       {
@@ -1337,6 +1337,11 @@ export type BlogVersionFindManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Skip the first `n` BlogVersions.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of BlogVersions.
+   */
   distinct?: Prisma.BlogVersionScalarFieldEnum | Prisma.BlogVersionScalarFieldEnum[]
   relationLoadStrategy?: Prisma.RelationLoadStrategy
 }

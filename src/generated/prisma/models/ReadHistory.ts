@@ -232,7 +232,7 @@ export type ReadHistoryGroupByOutputType = {
   _max: ReadHistoryMaxAggregateOutputType | null
 }
 
-type GetReadHistoryGroupByPayload<T extends ReadHistoryGroupByArgs> = Prisma.PrismaPromise<
+export type GetReadHistoryGroupByPayload<T extends ReadHistoryGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<ReadHistoryGroupByOutputType, T['by']> &
       {
@@ -1486,6 +1486,11 @@ export type ReadHistoryFindManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Skip the first `n` ReadHistories.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of ReadHistories.
+   */
   distinct?: Prisma.ReadHistoryScalarFieldEnum | Prisma.ReadHistoryScalarFieldEnum[]
   relationLoadStrategy?: Prisma.RelationLoadStrategy
 }

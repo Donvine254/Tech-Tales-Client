@@ -214,7 +214,7 @@ export type ResponseGroupByOutputType = {
   _max: ResponseMaxAggregateOutputType | null
 }
 
-type GetResponseGroupByPayload<T extends ResponseGroupByArgs> = Prisma.PrismaPromise<
+export type GetResponseGroupByPayload<T extends ResponseGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<ResponseGroupByOutputType, T['by']> &
       {
@@ -1377,6 +1377,11 @@ export type ResponseFindManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Skip the first `n` Responses.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of Responses.
+   */
   distinct?: Prisma.ResponseScalarFieldEnum | Prisma.ResponseScalarFieldEnum[]
   relationLoadStrategy?: Prisma.RelationLoadStrategy
 }

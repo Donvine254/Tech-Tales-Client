@@ -1,7 +1,7 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
   siteUrl: "https://techtales.vercel.app",
-  generateRobotsTxt: true,
+  generateRobotsTxt: false,
   exclude: [
     "/api/*",
     "/api",
