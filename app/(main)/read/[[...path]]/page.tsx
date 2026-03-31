@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { redirect } from "next/navigation";
 import { cache } from "react";
 import Slug from "@/components/pages/slug/slug";
@@ -131,10 +132,50 @@ export default async function page({
     redirect("/410");
   }
   const initialComments = await commentsFetcher(blog.id);
+  // Build JSON-LD
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "TechArticle", // more specific than Article for tech blogs
+    headline: blog.title,
+    description: blog.description ?? "",
+    datePublished: blog.createdAt, // ISO 8601 — e.g. "2024-03-15T10:00:00Z"
+    dateModified: blog.updatedAt ?? blog.createdAt,
+    url: `https://techtales.vercel.app/read/${blog.path}`,
+    image: {
+      "@type": "ImageObject",
+      url: image?.secure_url ?? "https://techtales.vercel.app/og-image.png",
+      width: 1200,
+      height: 630,
+    },
+    author: {
+      "@type": "Person",
+      name: blog.author.username,
+      url: `https://techtales.vercel.app/explore/${blog.author.handle}`,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Tech Tales",
+      url: "https://techtales.vercel.app",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://techtales.vercel.app/logo.png",
+        width: 60,
+        height: 60,
+      },
+    },
+    keywords: blog.tags ?? "",
+    articleSection: "Technology",
+    inLanguage: "en-US",
+  };
   return (
     <section
       className="@container bg-muted/50 dark:bg-background min-h-screen"
       suppressHydrationWarning>
+      <Script
+        id="blog-jsonld"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Slug blog={blog} initialComments={initialComments} />
     </section>
   );
