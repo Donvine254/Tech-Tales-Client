@@ -10,11 +10,13 @@ import { useSession } from "@/providers/session";
 import { setCookie } from "@/lib/cookie";
 import SearchBar from "../custom/search";
 import { clearUserFavorites } from "@/lib/helpers";
+import { useScrollNavbar } from "@/hooks/use-scrollNavbar";
 
 const Navbar = () => {
   const { session, loading } = useSession();
   const router = useRouter();
   const pathname = usePathname();
+  const isVisible = useScrollNavbar();
   const isActive = (path: string) => {
     return pathname.includes(path);
   };
@@ -23,6 +25,7 @@ const Navbar = () => {
       (t) => (
         <div className="bg-card  border border-border rounded-lg p-4 shadow flex flex-col gap-4 max-w-sm relative">
           <button
+            type="button"
             onClick={() => toast.dismiss(t)}
             className="absolute text-sm -top-2 -left-2 text-muted-foreground hover:text-destructive bg-inherit border border-border rounded-full p-1 shadow"
             aria-label="Close">
@@ -55,7 +58,7 @@ const Navbar = () => {
       {
         position: "top-center",
         duration: 10000,
-      }
+      },
     );
   }
   // trim the pathname
@@ -66,19 +69,23 @@ const Navbar = () => {
 
   async function createBlog() {
     const uuid = crypto.randomUUID();
-      router.replace(`/posts/new/${uuid}`);
+    router.replace(`/posts/new/${uuid}`);
   }
 
   return (
-    <header className="sticky top-0 z-50 bg-white/90 dark:bg-accent/80 backdrop-blur-md border-b border-gray-200/50 dark:border-gray-700/50 shadow-sm transition-all duration-300">
+    <header
+      className={cn(
+        "sticky top-0 z-50 bg-white/90 dark:bg-accent/80 backdrop-blur-md border-b border-gray-200/50 dark:border-gray-700/50 shadow-sm transition-all duration-300",
+        isVisible ? "translate-y-0" : "-translate-y-full",
+      )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-1">
-            <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-1 rounded-sm">
+            <div className="bg-linear-to-r from-blue-600 to-purple-600 p-1 rounded-sm">
               <BookOpen className="h-4 w-4 text-white" />
             </div>
-            <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-500 via-purple-500 dark:from-cyan-400 dark:to-blue-400 focus:outline-none">
+            <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-linear-to-r from-cyan-500 to-blue-500 via-purple-500 dark:from-cyan-400 dark:to-blue-400 focus:outline-none">
               Techtales.
             </h1>
           </Link>
@@ -90,7 +97,7 @@ const Navbar = () => {
               className={cn(
                 "text-gray-700 dark:text-accent-foreground  hover:text-blue-600 transition-colors font-medium",
                 isActive("/latest") &&
-                  "text-blue-600 dark:text-blue-500 underline underline-offset-4 font-bold"
+                  "text-blue-600 dark:text-blue-500 underline underline-offset-4 font-bold",
               )}>
               Latest
             </Link>
@@ -99,7 +106,7 @@ const Navbar = () => {
               className={cn(
                 "text-gray-700 dark:text-accent-foreground  hover:text-blue-600 transition-colors font-medium",
                 isActive("/trending") &&
-                  "text-blue-600 dark:text-blue-500 underline underline-offset-4 font-bold"
+                  "text-blue-600 dark:text-blue-500 underline underline-offset-4 font-bold",
               )}>
               Trending
             </Link>
@@ -108,7 +115,7 @@ const Navbar = () => {
               className={cn(
                 "text-gray-700 dark:text-accent-foreground  hover:text-blue-600 transition-colors font-medium",
                 isActive("/featured") &&
-                  "text-blue-600 dark:text-blue-500 underline underline-offset-4 font-bold"
+                  "text-blue-600 dark:text-blue-500 underline underline-offset-4 font-bold",
               )}>
               Featured
             </Link>
@@ -124,11 +131,10 @@ const Navbar = () => {
                 {/* Create Blog button - hidden on small screens */}
                 <Button
                   variant="secondary"
-                   disabled={pathname.includes("/posts/new")}
+                  disabled={pathname.includes("/posts/new")}
                   size="sm"
                   onClick={createBlog}
-                  className="hidden md:flex bg-gradient-to-r from-cyan-600 to-blue-600 text-white cursor-pointer "
-                  >
+                  className="hidden md:flex bg-gradient-to-r from-cyan-600 to-blue-600 text-white cursor-pointer ">
                   <Edit className="h-4 w-4 mr-2" />
                   Create Blog
                 </Button>

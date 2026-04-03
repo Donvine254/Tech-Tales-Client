@@ -14,6 +14,7 @@ import "prismjs/components/prism-c";
 import "prismjs/components/prism-cpp";
 import "prismjs/components/prism-csharp";
 import "prismjs/components/prism-ruby";
+import "prismjs/components/prism-rust";
 import "prismjs/components/prism-php";
 import "prismjs/components/prism-haml";
 import "prismjs/components/prism-markup";
