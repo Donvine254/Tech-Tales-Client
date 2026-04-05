@@ -40,7 +40,7 @@ export default function BlogImage({
       alt={alt || title || "blog image"}
       placeholder="blur"
       blurDataURL={rgbDataURL(204, 204, 204)}
-      quality={75}
+      quality={100}
       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
       priority
       style={{

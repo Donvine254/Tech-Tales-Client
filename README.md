@@ -19,7 +19,7 @@
 
 ## 🛠 Tech Stack
 
-- **Framework:** Next.js 14 (App Router)
+- **Framework:** Next.js 16 (App Router)
 - **Language:** TypeScript
 - **Styling:** Tailwind CSS, custom UI components
 - **Database:** Prisma (SQLite/PostgreSQL configurable)
@@ -30,7 +30,7 @@
 
 ## 🔧 Prerequisites
 
-- Node.js 18 or later
+- Node.js 20 or later
 - npm, Yarn, or pnpm
 - (Optional) Docker for containerized local development
 
@@ -121,7 +121,7 @@ Set the following env vars in `.env.local`:
 npm run dev        # Start dev server
 npm run build      # Build for production
 npm run start      # Run built app
-npm run lint       # Run ESLint
+npm run lint       # Run Biome
 npm run format     # Prettier format
 npm run prisma     # Shortcut for prisma commands
 ``` 
