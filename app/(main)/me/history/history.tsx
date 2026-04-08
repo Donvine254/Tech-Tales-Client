@@ -77,12 +77,17 @@ export default function History() {
             cannot be undone.
           </p>
           <div className="flex justify-end gap-2">
-            <Button variant="ghost" size="sm" onClick={() => toast.dismiss(t)}>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="cursor-pointer"
+              onClick={() => toast.dismiss(t)}>
               Cancel
             </Button>
             <Button
               variant="destructive"
               size="sm"
+              className="cursor-pointer"
               onClick={() => {
                 toast.dismiss(t);
                 clearHistory();
@@ -168,7 +173,7 @@ export default function History() {
             disabled={isLoading || blogs.length === 0}
             onClick={handleClearHistory}>
             <BrushCleaningIcon className="size-4" />
-            Clear History
+            Clear History ({blogs.length})
           </Button>
         </div>
       )}
@@ -189,7 +194,7 @@ export default function History() {
           {" "}
           <Select value={sortBy} onValueChange={setSortBy}>
             <SelectTrigger
-              className=" bg-white cursor-pointer dark:bg-gray-900 dark:hover:bg-gray-950 sm:w-48"
+              className="bg-white cursor-pointer dark:bg-gray-900 dark:hover:bg-gray-950 sm:w-48"
               title="filter blogs"
               disabled={isLoading || blogs.length === 0}>
               <ListFilterIcon className="h-4 w-4" />
