@@ -126,12 +126,13 @@ const UserCard: FC<UserCardProps> = ({ author }) => {
           ) : null}
         </div>
 
-        <Button asChild className="w-full" variant="secondary">
+        <Button asChild variant="secondary" className="w-full">
           <Link
             href={`/explore/${author.handle}`}
             prefetch
-            className="capitalize">
-            More from {author.username}
+            className="flex w-full items-center">
+            <span>More from</span>
+            <span className="truncate capitalize">{author.username}</span>
           </Link>
         </Button>
       </TooltipContent>
