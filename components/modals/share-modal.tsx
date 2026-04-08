@@ -4,6 +4,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogOverlay,
   DialogTitle,
@@ -17,9 +18,10 @@ import {
 } from "@/components/ui/tooltip";
 import { Chatgpt } from "@/assets/icons";
 import { handleSharing } from "@/lib/utils";
-import { BookOpen, Share } from "lucide-react";
+import { BookOpen, InfoIcon, MailIcon, QrCodeIcon, Share } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import Image from "next/image";
 export function ShareModal({
   path,
   title,
@@ -32,7 +34,7 @@ export function ShareModal({
   size?: number;
 }) {
   const [copied, setCopied] = useState(false);
-  const [showQrModal, setShowQrModal] = useState(false);
+  const [qrOpen, setQrOpen] = useState(false);
   const [qrCode, setQrCode] = useState("");
   const blogUrl = `https://techtales.vercel.app/read/${path}`;
   // Function to open the share dialog for Facebook
@@ -125,11 +127,8 @@ export function ShareModal({
       blogUrl,
     )}`;
     setQrCode(qrCodeUrl);
-    setShowQrModal(true); // Show QR modal
   };
-  const closeQrModal = () => {
-    setShowQrModal(false);
-  };
+
   return (
     <Dialog>
       <DialogOverlay className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm dark:bg-black/70 transition-all" />
@@ -150,12 +149,12 @@ export function ShareModal({
       </DialogTrigger>
       <DialogContent className="">
         <DialogHeader>
-          <DialogTitle className="text-start md:text-xl">
+          <DialogTitle className="text-start md:text-xl uppercase">
             Share Post
           </DialogTitle>
           <DialogDescription />
         </DialogHeader>
-        <div className="flex items-center justify-between  @container">
+        {/* <div className="flex items-center justify-between  @container">
           <p className="text-xs md:text-sm max-w-[75%]  flex items-center gap-2">
             <span className="bg-gradient-to-r from-blue-600 to-purple-600 p-1 rounded-lg">
               <BookOpen className="h-4 w-4 text-white" />
@@ -203,9 +202,81 @@ export function ShareModal({
               </svg>
             )}
           </button>
+        </div> */}
+        <div className="flex items-center justify-between @container bg-muted dark:bg-card p-2 rounded-b-sm">
+          <div className="text-xs md:text-sm max-w-[75%] flex items-center gap-2">
+            <div className="relative w-10.5 h-10.5 rounded-lg bg-[#12131a] flex items-center justify-center shrink-0 overflow-hidden">
+              <Image
+                src={image}
+                alt="blog image"
+                className="rounded-md object-cover"
+                fill
+              />
+            </div>
+
+            <div className="flex flex-col min-w-0">
+              <span
+                style={{ textOverflow: "ellipsis" }}
+                className="truncate font-medium"
+                title={title}>
+                {title}
+              </span>
+              <span
+                className="truncate text-muted-foreground text-xs"
+                title={blogUrl}>
+                {blogUrl}
+              </span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              className="flex items-center justify-center w-6 h-6 text-xs sm:text-sm hover:bg-accent cursor-pointer dark:hover:text-gray-900 bg-muted rounded-sm shadow-sm hover:shadow-md transition-colors duration-200 ease-in-out"
+              title="Generate QR Code"
+              onClick={generateQRCode}>
+              <QrCodeIcon className="h-4 w-4 text-blue-500 dark:text-white shrink-0" />
+            </button>
+            <button
+              type="button"
+              className="flex items-center justify-center w-6 h-6 text-xs sm:text-sm hover:bg-accent cursor-pointer dark:hover:text-gray-900 bg-muted rounded-sm shadow-sm hover:shadow-md transition-colors duration-200 ease-in-out"
+              title="copy link"
+              onClick={copyBlogLink}>
+              {copied ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4 text-green-500 shrink-0"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round">
+                  <title>copied!</title>
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="m9 12 2 2 4-4" />
+                </svg>
+              ) : (
+                <svg
+                  viewBox="0 0 512 512"
+                  fill="currentColor"
+                  className="h-4 w-4 text-blue-500 dark:text-white shrink-0">
+                  <title>Copy Link</title>
+                  <path
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={36}
+                    d="M208 352h-64a96 96 0 010-192h64M304 160h64a96 96 0 010 192h-64M163.29 256h187.42"
+                  />
+                </svg>
+              )}
+            </button>
+          </div>
         </div>
-        <hr />
-        <div className="py-4 grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-4 items-center outline shadow">
+        <p className="text-sm font-medium uppercase">Share on Social Media</p>
+        <div className="w-full py-4 grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-4 items-center shadow rounded-sm border">
           {/* Facebook */}
           <div className="flex flex-col items-center">
             <button
@@ -396,14 +467,7 @@ export function ShareModal({
               type="button"
               title="share via email"
               onClick={shareViaEmail}>
-              <svg
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                height="30"
-                width="30">
-                <title>email icon</title>
-                <path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6m-2 0l-8 5-8-5h16m0 12H4V8l8 5 8-5v10z" />
-              </svg>
+              <MailIcon height="30" width="30" />
             </button>
             <small className="mt-1">Email</small>
           </div>
@@ -419,28 +483,45 @@ export function ShareModal({
             <small className="mt-1">ChatGPT</small>
           </div>
           {/* QR Code Generator */}
-          <div className="flex flex-col items-center">
-            <button
-              onClick={generateQRCode}
-              type="button"
-              className="flex cursor-pointer items-center justify-center rounded-xl w-12 h-12 bg-gray-200 hover:bg-gray-100 dark:text-gray-900"
-              title="generate QR code">
-              <svg
-                viewBox="0 0 512 512"
-                fill="currentColor"
-                height="30"
-                width="30">
-                <title>Generate QR Code</title>
-                <path d="M344 336 H408 A8 8 0 0 1 416 344 V408 A8 8 0 0 1 408 416 H344 A8 8 0 0 1 336 408 V344 A8 8 0 0 1 344 336 z" />
-                <path d="M280 272 H328 A8 8 0 0 1 336 280 V328 A8 8 0 0 1 328 336 H280 A8 8 0 0 1 272 328 V280 A8 8 0 0 1 280 272 z" />
-                <path d="M424 416 H472 A8 8 0 0 1 480 424 V472 A8 8 0 0 1 472 480 H424 A8 8 0 0 1 416 472 V424 A8 8 0 0 1 424 416 z" />
-                <path d="M440 272 H472 A8 8 0 0 1 480 280 V312 A8 8 0 0 1 472 320 H440 A8 8 0 0 1 432 312 V280 A8 8 0 0 1 440 272 z" />
-                <path d="M280 432 H312 A8 8 0 0 1 320 440 V472 A8 8 0 0 1 312 480 H280 A8 8 0 0 1 272 472 V440 A8 8 0 0 1 280 432 z" />
-                <path d="M448 32H304a32 32 0 00-32 32v144a32 32 0 0032 32h144a32 32 0 0032-32V64a32 32 0 00-32-32zm-32 136a8 8 0 01-8 8h-64a8 8 0 01-8-8v-64a8 8 0 018-8h64a8 8 0 018 8zM208 32H64a32 32 0 00-32 32v144a32 32 0 0032 32h144a32 32 0 0032-32V64a32 32 0 00-32-32zm-32 136a8 8 0 01-8 8h-64a8 8 0 01-8-8v-64a8 8 0 018-8h64a8 8 0 018 8zM208 272H64a32 32 0 00-32 32v144a32 32 0 0032 32h144a32 32 0 0032-32V304a32 32 0 00-32-32zm-32 136a8 8 0 01-8 8h-64a8 8 0 01-8-8v-64a8 8 0 018-8h64a8 8 0 018 8z" />
-              </svg>
-            </button>
-            <small className="mt-1">QR Code</small>
-          </div>
+          <Dialog open={qrOpen} onOpenChange={setQrOpen}>
+            <DialogOverlay className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm dark:bg-black/70 transition-all" />
+            <DialogTrigger>
+              <div className="flex flex-col items-center">
+                <button
+                  onClick={generateQRCode}
+                  type="button"
+                  className="flex cursor-pointer items-center justify-center rounded-xl w-12 h-12 bg-gray-200 hover:bg-gray-100 dark:text-gray-900"
+                  title="generate QR code">
+                  <QrCodeIcon height="30" width="30" />
+                </button>
+                <small className="mt-1">QR Code</small>
+              </div>
+            </DialogTrigger>
+            <DialogContent className="w-76">
+              <DialogHeader>
+                <DialogTitle className="text-start uppercase">
+                  Scan QR Code
+                </DialogTitle>
+                <DialogDescription />
+              </DialogHeader>
+              <div className="flex items-center justify-center ">
+                <Image
+                  src={qrCode}
+                  alt="QR Code"
+                  height="200"
+                  width="200"
+                  className="border-none"
+                />
+              </div>
+              <DialogFooter>
+                <p className="text-xs opacity-80 text-center">
+                  To scan this code, you can use a QR scanner app on your phone,
+                  or some camera apps.
+                </p>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+
           {/* open webshare API */}
           <div className="flex flex-col items-center">
             <button
@@ -460,30 +541,6 @@ export function ShareModal({
             <small className="mt-1">More..</small>
           </div>
         </div>
-        {/* QR Code Modal */}
-        {showQrModal && (
-          <div
-            id="qrModal"
-            className="rounded-md bg-white h-fit absolute left-0 right-0 top-0 bottom-0 m-auto w-fit border z-50 shadow-gray-500 shadow-2xl ">
-            <h6 className="text-base px-4 pt-2">Scan QR Code</h6>
-            <div className="space-y-2 p-4 ">
-              <img
-                src={qrCode}
-                alt="QR Code"
-                height="250"
-                width="250"
-                className=""
-              />
-              <button
-                onClick={closeQrModal}
-                type="button"
-                title="cancel"
-                className="bg-gray-200 hover:bg-gray-100 dark:text-gray-900 hover:text-red-500 px-6 py-1 rounded-md">
-                Cancel
-              </button>
-            </div>
-          </div>
-        )}
       </DialogContent>
     </Dialog>
   );

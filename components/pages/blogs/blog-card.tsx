@@ -167,7 +167,7 @@ const BlogCard = forwardRef<
             <ShareModal
               path={blog.path}
               title={blog.title}
-              image={blog.image.secure_url ?? "/placeholder.svg"}
+              image={blog.image.secure_url ?? "/logo.png"}
             />
             <Bookmark blogId={blog.id} size={18} />
           </div>
