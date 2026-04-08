@@ -9,7 +9,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 const formSchema = z.object({
-  email: z.string().email("Please enter a valid email address"),
+  email: z.email("Please enter a valid email address"),
 });
 
 type FormData = z.infer<typeof formSchema>;

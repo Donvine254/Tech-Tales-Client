@@ -30,7 +30,7 @@ import type { FormStatus } from "@/types";
 import { PasswordField } from "@/components/forms/password-input";
 import MagicLinkButton from "@/components/auth/magic-link";
 import { Badge } from "@/components/ui/badge";
-import { type LoginMethod } from "@/lib/actions/login-method";
+import type { LoginMethod } from "@/lib/actions/login-method";
 
 interface LoginFormProps extends React.ComponentProps<"div"> {
   lastLoginMethod?: LoginMethod | null;
