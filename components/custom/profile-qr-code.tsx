@@ -26,7 +26,7 @@ export default function ProfileQRCode() {
   return (
     <Dialog>
       <DialogOverlay className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm dark:bg-black/70 transition-all" />
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <div className="flex flex-col items-center absolute right-1 top-[-1]">
           <button
             type="button"

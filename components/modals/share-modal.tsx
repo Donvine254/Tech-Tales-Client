@@ -154,55 +154,7 @@ export function ShareModal({
           </DialogTitle>
           <DialogDescription />
         </DialogHeader>
-        {/* <div className="flex items-center justify-between  @container">
-          <p className="text-xs md:text-sm max-w-[75%]  flex items-center gap-2">
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 p-1 rounded-lg">
-              <BookOpen className="h-4 w-4 text-white" />
-            </span>
-            <span
-              style={{ textOverflow: "ellipsis" }}
-              className="truncate"
-              title={title}>
-              {title}
-            </span>
-          </p>
-          <button
-            type="button"
-            className="flex items-center justify-center w-6 h-6 text-xs sm:text-sm hover:bg-accent cursor-pointer dark:hover:text-gray-900 bg-muted rounded-sm shadow-sm hover:shadow-md transition-colors duration-200 ease-in-out"
-            title="copy link"
-            onClick={copyBlogLink}>
-            {copied ? (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4 text-green-500 flex-shrink-0"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round">
-                <title>copied!</title>
-                <circle cx="12" cy="12" r="10" />
-                <path d="m9 12 2 2 4-4" />
-              </svg>
-            ) : (
-              <svg
-                viewBox="0 0 512 512"
-                fill="currentColor"
-                className="h-4 w-4 text-blue-500 flex-shrink-0">
-                <title>Copy Link</title>
-                <path
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={36}
-                  d="M208 352h-64a96 96 0 010-192h64M304 160h64a96 96 0 010 192h-64M163.29 256h187.42"
-                />
-              </svg>
-            )}
-          </button>
-        </div> */}
+
         <div className="flex items-center justify-between @container bg-muted dark:bg-card p-2 rounded-b-sm">
           <div className="text-xs md:text-sm max-w-[75%] flex items-center gap-2">
             <div className="relative w-10.5 h-10.5 rounded-lg bg-[#12131a] flex items-center justify-center shrink-0 overflow-hidden">
@@ -234,7 +186,10 @@ export function ShareModal({
               type="button"
               className="flex items-center justify-center w-6 h-6 text-xs sm:text-sm hover:bg-accent cursor-pointer dark:hover:text-gray-900 bg-muted rounded-sm shadow-sm hover:shadow-md transition-colors duration-200 ease-in-out"
               title="Generate QR Code"
-              onClick={generateQRCode}>
+              onClick={async () => {
+                await generateQRCode();
+                setQrOpen(true);
+              }}>
               <QrCodeIcon className="h-4 w-4 text-blue-500 dark:text-white shrink-0" />
             </button>
             <button
@@ -485,7 +440,7 @@ export function ShareModal({
           {/* QR Code Generator */}
           <Dialog open={qrOpen} onOpenChange={setQrOpen}>
             <DialogOverlay className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm dark:bg-black/70 transition-all" />
-            <DialogTrigger>
+            <DialogTrigger asChild>
               <div className="flex flex-col items-center">
                 <button
                   onClick={generateQRCode}
