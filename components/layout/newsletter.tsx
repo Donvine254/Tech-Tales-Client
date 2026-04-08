@@ -56,7 +56,7 @@ export default function Newsletter() {
             className="flex flex-col gap-2 w-full space-y-2"
             onSubmit={handleSubmit(onSubmit)}>
             <div className="flex w-full max-w-md mx-auto">
-              <div className="relative flex-grow">
+              <div className="relative grow">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                 <Input
                   type="email"
@@ -72,7 +72,14 @@ export default function Newsletter() {
                 type="submit"
                 disabled={isSubmitting || submitted}
                 title="Subscribe to our newsletter"
-                className="relative ml-2 shrink-0 text-white transition-all duration-200 hover:scale-105 hover:shadow-lg bg-gradient-to-r from-cyan-600 to-blue-600 before:absolute before:inset-0 before:bg-gradient-to-r before:from-cyan-400 before:via-blue-500 before:to-purple-600 before:opacity-0 before:transition-opacity before:duration-300 hover:before:opacity-100 before:animate-[gradient-flow_3s_linear_infinite] cursor-pointer">
+                className="relative ml-2 shrink-0 overflow-hidden rounded-lg text-white 
+  transition-all duration-200 hover:scale-105 hover:shadow-lg 
+  bg-linear-to-r from-cyan-600 to-blue-600 
+  before:absolute before:inset-0 before:-z-10 before:rounded-lg
+  before:bg-linear-to-r before:from-cyan-400 before:via-blue-500 before:to-purple-600
+  before:opacity-0 before:transition-opacity before:duration-300 
+  hover:before:opacity-100 before:animate-[gradient-flow_3s_linear_infinite] 
+  cursor-pointer">
                 {isSubmitting ? "Subscribing..." : "Subscribe"}
               </Button>
             </div>
@@ -86,7 +93,7 @@ export default function Newsletter() {
 
           <div
             role="alert"
-            className="relative w-full px-4 py-2 grid has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] grid-cols-[0_1fr] has-[>svg]:gap-x-6 gap-y-0.5 [&>svg]:translate-y-0.5 [&>svg]:text-current items-start mt-4 mx-auto max-w-md">
+            className="relative w-full px-4 py-2 grid has-[>svg]:grid-cols-[--spacing(4)_1fr] grid-cols-[0_1fr] has-[>svg]:gap-x-6 gap-y-0.5 [&>svg]:translate-y-0.5 [&>svg]:text-current items-start mt-4 mx-auto max-w-md">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 50 50"
