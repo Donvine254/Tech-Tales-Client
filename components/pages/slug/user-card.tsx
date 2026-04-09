@@ -73,7 +73,7 @@ const UserCard: FC<UserCardProps> = ({ author }) => {
               </AvatarFallback>
             </Avatar>
           </Link>
-          <div>
+          <div className="text-center ">
             <div className="w-full flex items-center gap-1">
               <Link
                 href={`/explore/${author.handle}`}
@@ -104,7 +104,7 @@ const UserCard: FC<UserCardProps> = ({ author }) => {
             </div>
             <Link
               href={`/explore/${author.handle}`}
-              className="font-normal text-xs sm:text-sm text-center lowercase dark:text-blue-500 leading-0">
+              className="font-normal text-xs sm:text-sm lowercase dark:text-blue-500 leading-0">
               @{author.handle}
             </Link>
           </div>
