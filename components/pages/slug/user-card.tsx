@@ -47,7 +47,7 @@ const UserCard: FC<UserCardProps> = ({ author }) => {
             src={author.picture ?? "/placeholder.svg"}
             alt={author.username}
           />
-          <AvatarFallback className="bg-gradient-to-r from-cyan-100 to-blue-100 text-cyan-700 text-sm">
+          <AvatarFallback className="bg-linear-to-r from-cyan-100 to-blue-100 text-cyan-700 text-sm">
             {author.username
               .split(" ")
               .map((n) => n[0])
@@ -73,9 +73,12 @@ const UserCard: FC<UserCardProps> = ({ author }) => {
               </AvatarFallback>
             </Avatar>
           </Link>
-          <div className="capitalize font-bold text-lg">
+          <div>
             <div className="w-full flex items-center gap-1">
-              <Link href={`/explore/${author.handle}`} prefetch>
+              <Link
+                href={`/explore/${author.handle}`}
+                prefetch
+                className="capitalize font-bold text-lg">
                 {author.username}
               </Link>
               {author.role === "admin" ? (
@@ -99,9 +102,11 @@ const UserCard: FC<UserCardProps> = ({ author }) => {
                 </svg>
               )}
             </div>
-            <p className="font-normal text-xs sm:text-sm text-center lowercase dark:text-blue-500">
+            <Link
+              href={`/explore/${author.handle}`}
+              className="font-normal text-xs sm:text-sm text-center lowercase dark:text-blue-500 leading-0">
               @{author.handle}
-            </p>
+            </Link>
           </div>
         </div>
         <div className="p-2">
@@ -126,13 +131,9 @@ const UserCard: FC<UserCardProps> = ({ author }) => {
           ) : null}
         </div>
 
-        <Button asChild variant="secondary" className="w-full">
-          <Link
-            href={`/explore/${author.handle}`}
-            prefetch
-            className="flex w-full items-center">
-            <span>More from</span>
-            <span className="truncate capitalize">{author.username}</span>
+        <Button asChild variant="secondary" className="w-full my-2">
+          <Link href={`/explore/${author.handle}`} prefetch>
+            View Profile
           </Link>
         </Button>
       </TooltipContent>

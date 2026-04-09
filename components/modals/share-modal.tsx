@@ -155,13 +155,14 @@ export function ShareModal({
           <DialogDescription />
         </DialogHeader>
 
-        <div className="flex items-center justify-between @container bg-muted dark:bg-card p-2 rounded-b-sm">
+        <div className="flex items-center justify-between @container bg-muted dark:bg-card p-2 gap-2 rounded-b-sm">
           <div className="text-xs md:text-sm max-w-[75%] flex items-center gap-2">
-            <div className="relative w-10.5 h-10.5 rounded-lg bg-[#12131a] flex items-center justify-center shrink-0 overflow-hidden">
+            <div className="relative aspect-video h-8 rounded-sm bg-[#12131a] flex items-center justify-center shrink-0 overflow-hidden  border">
               <Image
                 src={image}
                 alt="blog image"
-                className="rounded-md object-cover"
+                className=" object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 fill
               />
             </div>
