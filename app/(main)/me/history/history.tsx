@@ -178,35 +178,33 @@ export default function History() {
         </div>
       )}
       {/* Search and Sort Controls */}
-      <div className="flex flex-col sm:flex-row gap-4 mb-4">
-        <div className="relative w-full flex-1">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+      <div className="flex items-center gap-2 sm:gap-4 mb-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             type="search"
             placeholder="Search blogs..."
-            disabled={isLoading || blogs.length === 0}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 bg-white dark:bg-gray-900"
+            className="pl-8 bg-white dark:bg-gray-900"
           />
         </div>
-        <div className="flex items-center gap-2 w-full sm:w-auto">
-          {" "}
-          <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger
-              className="bg-white cursor-pointer dark:bg-gray-900 dark:hover:bg-gray-950 sm:w-48"
-              title="filter blogs"
-              disabled={isLoading || blogs.length === 0}>
-              <ListFilterIcon className="h-4 w-4" />
+        <Select value={sortBy} onValueChange={setSortBy}>
+          <SelectTrigger
+            className="flex items-center justify-center sm:justify-between w-14 sm:w-48 bg-white cursor-pointer dark:bg-gray-900 dark:hover:bg-gray-950"
+            title="filter blogs">
+            <ListFilterIcon className="h-4 w-4 shrink-0" />
+            <span className="hidden sm:inline ml-2">
               <SelectValue placeholder="Sort by" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="newest">Newest First</SelectItem>
-              <SelectItem value="oldest">Oldest First</SelectItem>
-              <SelectItem value="lastEdited">Last Edited</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+            </span>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="newest">Newest First</SelectItem>
+            <SelectItem value="oldest">Oldest First</SelectItem>
+            <SelectItem value="lastEdited">Last Edited</SelectItem>
+            <SelectItem value="popular">Most Popular</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
       {/* render blogs */}
       {isLoading ? (

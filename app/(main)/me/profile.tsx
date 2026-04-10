@@ -13,6 +13,7 @@ import {
   LogOutIcon,
   MailIcon,
   MessageSquarePlus,
+  PencilLineIcon,
   Settings,
   Shield,
   TrendingDown,
@@ -73,12 +74,12 @@ export default function Profile({
         }}></div>
       <div className="w-full min-h-100 mx-auto px-4 sm:px-6 lg:px-8 py-16 max-w-7xl">
         {/* user card */}
-        <div className="px-6 py-4 w-full relative -top-40 rounded-md bg-card shadow border">
+        <div className="px-6 py-4 w-full relative -top-34 md:-top-38 rounded-md bg-card shadow border">
           <Link
             href="/me/settings"
-            className="hidden md:inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all cursor-pointer md:absolute md:right-2 h-10 px-4 py-2 has-[>svg]:px-3 bg-blue-600 text-white top-2 hover:bg-blue-500">
-            <Settings className="h-4 w-4" />
-            Edit Profile
+            className="hidden md:inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all cursor-pointer md:absolute md:right-2 h-10 px-4 py-2 has-[>svg]:px-3 bg-blue-600 text-white top-2 hover:bg-blue-500 dark:bg-blue-900 dark:hover:bg-blue-600">
+            <PencilLineIcon className="h-4 w-4" />
+            <span>Edit Profile</span>
           </Link>
           {/* replace this with avatar */}
           <Avatar
@@ -138,7 +139,12 @@ export default function Profile({
             </p>
             <div className="flex md:hidden items-center justify-center gap-1 flex-1 p-1 rounded-md text-xs sm:text-sm font-serif text-primary/80 font-medium">
               <MailIcon className="h-3 w-3" />
-              <span className="truncate">{session?.email || user.email}</span>
+              <span className="truncate">
+                {(session?.email || user.email)?.replace(
+                  /(.{2}).+(@.+)/,
+                  "$1********$2",
+                )}
+              </span>
             </div>
             {/* bio */}
             <p className="text-xs font-serif sm:text-sm text-center max-w-md mx-auto my-2">
@@ -156,8 +162,11 @@ export default function Profile({
 
               <div className="hidden md:flex items-center justify-center gap-1 flex-1 p-1 rounded-md text-xs sm:text-sm font-serif text-primary/80 font-medium overflow-hidden">
                 <MailIcon className="h-4 w-4" />
-                <span className="whitespace-nowrap truncate">
-                  {session?.email || user.email}
+                <span className="whitespace-nowrap">
+                  {(session?.email || user.email)?.replace(
+                    /(.{2}).+(@.+)/,
+                    "$1******$2",
+                  )}
                 </span>
               </div>
               <Link
